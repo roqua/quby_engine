@@ -1,0 +1,7 @@
+%h1 
+  Answered 
+  = @questionnaire.class.to_s.demodulize.upcase
+
+- @questionnaire.script.each do |id|
+  %h2= @questionnaire.questions[id].str
+  %p= @questionnaire.questions[id].choices[ params[id].to_i ]
