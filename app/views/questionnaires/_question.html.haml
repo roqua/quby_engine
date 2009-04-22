@@ -1,6 +1,2 @@
 %div{:id => "question-#{id}", :class => "question"}
-  %strong= question.str
-  - question.choices.each do |choice_id, choice_str|
-    %p
-      = radio_button_tag(id, choice_id)
-      = label_tag("#{id}_#{choice_id}", choice_str)
+  = render_question(id, question)

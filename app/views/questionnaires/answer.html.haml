@@ -3,5 +3,10 @@
   = @questionnaire.class.to_s.demodulize.upcase
 
 - @questionnaire.script.each do |id|
-  %h2= @questionnaire.questions[id].str
-  %p= @questionnaire.questions[id].choices[ params[id].to_i ]
+  - question = @questionnaire.questions[id]
+  %h2= question.str
+  - case question.type
+  - when :open
+    %p= params[id]
+  - when :radio 
+    %p= question.choices[ params[id].to_i ]
