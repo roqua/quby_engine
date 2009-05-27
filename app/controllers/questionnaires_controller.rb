@@ -1,9 +1,17 @@
 class QuestionnairesController < ApplicationController
   def take
-    @questionnaire = "Questionnaires::#{params[:id].classify}".constantize.new
+    begin
+      @questionnaire = params[:id].classify.constantize.new
+    rescue NameError => e
+      render :text => "That's not a valid questionnaire."
+    end
   end
 
   def answer
-    @questionnaire = "Questionnaires::#{params[:id].classify}".constantize.new
+    @questionnaire = params[:id].classify.constantize.new(params[:questionnaire])
+    
+    if @questionnaire.save
+      redirect_to @questionnaire
+    end
   end
 end
