@@ -1,47 +1,41 @@
-module Questionnaires
+module Quby
 
-  def self.define_question(str, options = {})
-    @str = str
-    @type = options[:type]
- 
-    case @type
-    when :open
-      OpenQuestion.new(str, options)
-    when :radio
-      RadioQuestion.new(str, options)
+  class Questionnaire
+    attr_accessor :key
+    attr_accessor :questions
+    
+    def initialize(key, options = {})
+      @key = key
+      @questions = []
+    end
+
+    def to_json
+      # TODO
     end
   end
 
   class Question
-    attr_accessor :str
-    attr_accessor :type
-    attr_accessor :answer
+    attr_accessor :title
+    attr_accessor :description
+    attr_accessor :options
 
     def initialize(str, options = {})
       @str = str
       @type = options[:type]
+      @options = []
     end
   end
 
-  class OpenQuestion < Question
-    
+  class QuestionOption
+    attr_accessor :key
+    attr_accessor :value
+    attr_accessor :description
+
+    def initialize(key, options = {})
+      @key         = key
+      @value       = options[:value]
+      @description = options[:description]
+    end
   end
 
-  class RadioQuestion < Question
-
-    def choices
-      {
-        0 => "helemaal niet mee eens",
-        1 => "niet mee eens",
-        2 => "onverschillig",
-        3 => "mee eens",
-        4 => "helemaal mee eens"
-      }
-    end
-
-    def answer
-      choices[@answer]
-    end
-    
-  end
 end

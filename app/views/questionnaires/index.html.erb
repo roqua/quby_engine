@@ -1,0 +1,3 @@
+<% for q in @questionnaires %>
+<%= link_to q.to_s, :action => "take", :id => q.to_s %>
+<% end %>

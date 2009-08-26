@@ -1,4 +1,9 @@
 class QuestionnairesController < ApplicationController
+
+  def index
+    @questionnaires = [:honosca]
+  end
+
   def take
     begin
       @questionnaire = params[:id].classify.constantize.new
