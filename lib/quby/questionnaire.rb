@@ -3,9 +3,18 @@ module Quby
 
     class << self
       def define(key, &block)
-        true
+        qf = QuestionnaireFactory.new
+        qf.instance_eval block
+        return qf.generate_questionnaire
       end
     end
 
   end
+
+  class QuestionnaireFactory
+    def question(key, options)
+      @questions << 
+    end
+  end
+
 end
