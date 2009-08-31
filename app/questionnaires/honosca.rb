@@ -5,7 +5,7 @@ class Honosca < Quby::Questionnaire
 
   # Sectie A
 
-  question :q01, :type => :radio do |q|
+  question :q01, :type => :radio do
     title "Problemen met storend, antisociaal of agressief gedrag"
     description "<strong>Inclusief:</strong> gedrag dat gepaard gaat met een stoornis, zoals hyperkinesie, depressie, autisme, drugs of alcohol.<br/>
                    <strong>Inclusief:</strong> fysieke of verbale agressie (bijv. duwen, slaan, vandalisme, plagen), of mishandeling of seksueel misbruik van andere kinderen.<br/>
@@ -20,7 +20,7 @@ class Honosca < Quby::Questionnaire
     option :q01a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q02, :type => :radio do |q|
+  question :q02, :type => :radio do
     title "Problemen met hyperactiviteit, aandacht of concentratie"
     description "<strong>Inclusief:</strong> hyperactief gedrag, ongeacht de oorzaak zoals hyperkinesie, manie, of voortvloeiend uit drugsgebruik.<br/>
                    <strong>Inclusief:</strong> problemen met rusteloosheid, friemelen, gebrek aan aandacht of concentratie vanwege welke oorzaak dan ook, inclusief depressie."
@@ -33,7 +33,7 @@ class Honosca < Quby::Questionnaire
     option :q02a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q03, :type => :radio do |q|
+  question :q03, :type => :radio do
     title "Opzettelijke zelfverwonding"
     description "<strong>Inclusief:</strong> zelfbeschadiging zoals zichzelf slaan en snijden; suïcidepogingen, overdoses, ophanging, verdrinking, enzovoort.<br/>
                    <strong>Exclusief:</strong> krabben, pulken als direct gevolg van een fysieke aandoening, te scoren op schaal 6.<br/>
@@ -47,7 +47,7 @@ class Honosca < Quby::Questionnaire
     option :q03a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q04, :type => :radio do |q|
+  question :q04, :type => :radio do
     title "Problemen met alcohol, misbruik van (oplos)middelen"
     description "Inclusief:	problemen met alcohol, misbruik van (oplos)middelen met inachtneming van huidige leeftijd en maatschappelijke normen.
                    Exclusief:	agressief / storend gedrag vanwege alcohol- of drugsgebruik, te scoren op schaal 1; lichamelijke ziekte of handicap vanwege alcohol- of drugsgebruik, te scoren op schaal 6."
@@ -60,7 +60,7 @@ class Honosca < Quby::Questionnaire
     option :q04a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q05, :type => :radio do |q|
+  question :q05, :type => :radio do
     title "Problemen met leer- of taalvaardigheid"
     description "Inclusief:	problemen met lezen, spellen, wiskunde, spraak of taal, ongeacht het gepaard gaan met een bepaalde stoornis of probleem, zoals een specifiek ontwikkelingsprobleem, of een lichamelijke handicap zoals een gehoorprobleem.
                    Inclusief:	verminderde leerprestaties die gepaard gaan met emotionele of gedragsproblemen.
@@ -77,7 +77,7 @@ class Honosca < Quby::Questionnaire
 
 
 
-  question :q06, :type => :radio do |q|
+  question :q06, :type => :radio do
     title "Problemen vanwege een lichamelijke aandoening of handicap"
     description "Inclusief:	problemen met een lichamelijke aandoening of handicap die beweging beperken of onmogelijk maken, zien of horen beperken, of anderszins het persoonlijke functioneren belemmeren.
                    Inclusief:	bewegingsstoornis, bijwerkingen van medicatie, lichamelijke gevolgen van drugs- of alcoholgebruik, of lichamelijke complicaties bij psychologische stoornissen, zoals ernstig gewichtsverlies.
@@ -92,7 +92,7 @@ class Honosca < Quby::Questionnaire
     option :q06a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q07, :type => :radio do |q|
+  question :q07, :type => :radio do
     title "Problemen die gepaard gaan met hallucinaties, wanen of abnormale percepties"
     description "Inclusief:	hallucinaties, wanen of abnormale waarneming ongeacht diagnose.
                    Inclusief:	vreemd en bizar gedrag dat gepaard gaat met hallucinaties en wanen.
@@ -107,7 +107,7 @@ class Honosca < Quby::Questionnaire
     option :q07a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q08, :type => :radio do |q|
+  question :q08, :type => :radio do
     title "Problemen met niet-organische somatische symptomen"
     description "Inclusief:	problemen met gastro-enterologische symptomen zoals niet-organisch braken, of cardiovasculaire symptomen, of neurologische symptomen , of niet-organische enuresis, of slaapproblemen, of chronische vermoeidheid.
                    Exclusief:	beweginsstoornissen zoals tics, te scoren op schaal 6; lichamelijke aandoeningen die complicaties opleveren bij niet-organische somatische symptomen, te scoren op schaal 6."
@@ -120,7 +120,7 @@ class Honosca < Quby::Questionnaire
     option :q08a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q09, :type => :radio do |q|
+  question :q09, :type => :radio do
     title "Emotionele problemen en daarmee verband houdende symptomen"
     description "Scoor alleen het meest ernstige klinische probleem dat niet op voorafgaande schalen is beoordeeld.
                    Inclusief:	depressie, angst, piekeren, fobieën, obsessies of compulsies die hun oorzaak hebben in welke klinische conditie dan ook, inclusief eetstoornissen.
@@ -135,7 +135,7 @@ class Honosca < Quby::Questionnaire
     option :q09a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q10, :type => :radio do |q|
+  question :q10, :type => :radio do
     q.title "Problemen met relaties met leeftijdgenoten"
     description "Inclusief:	problemen met schoolgenoten en sociale netwerk. Problemen die gepaard gaan met zich actief of passief terugtrekken uit sociale relaties, of problemen met juist grenzeloos contact leggen / maken, of problemen met het vermogen om bevredigende relaties met leeftijdgenoten aan te gaan.
                    Inclusief:	sociale afwijzing ten gevolge van agressief gedrag of pesten.
@@ -149,7 +149,7 @@ class Honosca < Quby::Questionnaire
     option :q10a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q11, :type => :radio do |q|
+  question :q11, :type => :radio do
     title "Problemen met zelfverzorging en onafhankelijkheid"
     description "Scoor het algehele niveau van functioneren: bijv. problemen met basale zelfverzorgingsactiviteiten zoals eten, wassen, aankleden, toilet maken, alsmede complexe vaardigheden zoals met geld omgaan, zelfstandig reizen, boodschappen doen, enzovoort, met inachtneming van de norm voor de leeftijd en intelligentie van het kind.
                    Inclusief:	lage niveaus van functioneren die voortvloeien uit gebrek aan motivatie, stemming of enige andere stoornis.
@@ -163,7 +163,7 @@ class Honosca < Quby::Questionnaire
     option :q11a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q12, :type => :radio do |q|
+  question :q12, :type => :radio do
     title "Problemen met gezinsleven en relaties"
     description "Inclusief:	relatieproblemen tussen ouder en kind, en broers en zussen onderling.
                    Inclusief:	relaties met pleegouders, maatschappelijk werkers / leerkrachten bij uithuisplaatsing. Zowel relaties thuis als met gescheiden ouders of broers en zussen die elders wonen, moeten worden opgenomen. Persoonlijkheidsproblemen, geestesziekten, huwelijksproblemen van de ouders moeten hier alleen worden gescoord wanneer zij effect hebben op het kind.
@@ -181,7 +181,7 @@ class Honosca < Quby::Questionnaire
     option :q12a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q13, :type => :radio do |q|
+  question :q13, :type => :radio do
     title "Afwezigheid van school"
     description "Inclusief:	spijbelen, schoolweigering, afwezigheid of schorsing om welke reden dan ook.
                    Inclusief:	schoolgaan naar type school ten tijde van het scoren, bijv. ziekenhuisschool, thuisonderwijs, enzovoort."
@@ -197,7 +197,7 @@ class Honosca < Quby::Questionnaire
   # Sectie B
   # Schaal 14 en 15 gaan over problemen voor kind, ouder of verzorger met betrekking tot gebrek aan informatie over, of toegang tot hulpverlening. Dit zijn geen directe maten voor de geestelijke gezondheid van het kind, maar veranderingen hierin kunnen baat voor het kind op de lange termijn opleveren.
 
-  question :q14, :type => :radio do |q|
+  question :q14, :type => :radio do
     title "Problemen met kennis over of begrip van de aard van de problemen van het kind / de adolescent"
     description "Inclusief:	gebrek aan bruikbare informatie of gebrekkig begrip ter beschikking van kind / adolescent, ouders of verzorgers.
                    Inclusief:	gebrek aan uitleg over de diagnose of de oorzaak van het probleem of de prognose."
@@ -210,7 +210,7 @@ class Honosca < Quby::Questionnaire
     option :q14a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-  question :q15, :type => :radio do |q|
+  question :q15, :type => :radio do
     title "Probleem met gebrek aan informatie over hulpverlening of omgaan met de problemen van het kind / de adolescent"
     description "Inclusief:	gebrek aan nuttige informatie voor kind / adolescent, ouders verzorgers, of verwijzers.
                    Inclusief:	gebrek aan informatie over de meest geschikte manier van hulpverlening aan het kind zoals zorgregelingen, of plaatsing op een school, of opvang, of subsidieaanvragen."
