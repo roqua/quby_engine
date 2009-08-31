@@ -48,7 +48,7 @@ module Quby
       end
 
       def option(key, options = {})
-        @question.options = Quby::QuestionOption.new(key, options)
+        @question.options << Quby::QuestionOption.new(key, options)
       end
     end
 

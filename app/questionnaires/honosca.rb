@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 load File.join(RAILS_ROOT, "lib/quby/init.rb")
 
-Quby::Questionnaires.define :honosca do
+class Honosca < Quby::Questionnaire
+
+  # Sectie A
 
   question :q01, :type => :radio do |q|
     title "Problemen met storend, antisociaal of agressief gedrag"

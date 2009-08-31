@@ -1,19 +1,19 @@
+require File.join(RAILS_ROOT, "app", "questionnaires", "honosca")
+
+@@questionnaires = { :honosca => Honosca }
+
 class QuestionnairesController < ApplicationController
 
   def index
-    @questionnaires = [:honosca]
+    @questionnaires = @@questionnaires
   end
 
   def take
-    begin
-      @questionnaire = params[:id].classify.constantize.new
-    rescue NameError => e
-      render :text => "That's not a valid questionnaire."
-    end
+    @questionnaire = @@questionnaires[params[:id].to_sym].new
   end
 
   def answer
-    @questionnaire = params[:id].classify.constantize.new(params[:questionnaire])
+    @questionnaire = @@questionnaires[params[:id].to_sym].new(params[:questionnaire])
     
     if @questionnaire.save
       redirect_to @questionnaire

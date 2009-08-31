@@ -1,11 +1,10 @@
 %h1 
   Taking 
-  = @questionnaire.class.to_s.demodulize.upcase
+  = @questionnaire.key
 
-%form{:action => answer_questionnaire_path(@questionnaire.class.to_s.demodulize.downcase) , :method => "post"}
+%form{:action => answer_questionnaire_path(@questionnaire.class.to_s.downcase) , :method => "post"}
   = token_tag
-  - @questionnaire.script.each do |id|
-    - question = @questionnaire.questions[id]
+  - @questionnaire.class.questions.each do |question|
     = render :partial => "question", :object => question, :locals => { :id => id }
   
   = submit_tag
