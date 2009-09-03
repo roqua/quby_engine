@@ -5,18 +5,28 @@ require File.join(RAILS_ROOT, "app", "questionnaires", "honosca")
 class QuestionnairesController < ApplicationController
 
   def index
-    @questionnaires = @@questionnaires
+    @questionnaires = @@questionnaires.values
   end
 
-  def take
-    @questionnaire = @@questionnaires[params[:id].to_sym].new
+  def show
+    @questionnaire = Questionnaire.find(params[:id])
   end
 
-  def answer
-    @questionnaire = @@questionnaires[params[:id].to_sym].new(params[:questionnaire])
-    
-    if @questionnaire.save
-      redirect_to @questionnaire
-    end
+  def edit
+    @questionnaire = Questionnaire.find(params[:id])
   end
+
+  def create
+    @questionnaire = @@questionnaires[params[:id].to_sym]
+    @questionnaire.save
+  end
+
+  def update
+    @questionnaire.update_attributes(params[:id], params[:questionnaire])
+  end
+
+  def delete
+    @questionnaire.delete(params[:id])
+  end
+
 end

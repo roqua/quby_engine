@@ -5,6 +5,6 @@
 %form{:action => answer_questionnaire_path(@questionnaire.class.to_s.downcase) , :method => "post"}
   = token_tag
   - @questionnaire.class.questions.each do |question|
-    = render :partial => "question", :object => question, :locals => { :id => id }
+    = render :partial => "question", :object => question, :locals => { :id => question.key }
   
   = submit_tag

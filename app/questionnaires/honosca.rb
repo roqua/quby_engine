@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 load File.join(RAILS_ROOT, "lib/quby/init.rb")
 
-class Honosca < Quby::Questionnaire
+Honosca = Quby::QuestionnaireFactory.define do
 
   # Sectie A
 
@@ -75,8 +75,6 @@ class Honosca < Quby::Questionnaire
     option :q05a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
   end
 
-
-
   question :q06, :type => :radio do
     title "Problemen vanwege een lichamelijke aandoening of handicap"
     description "Inclusief:	problemen met een lichamelijke aandoening of handicap die beweging beperken of onmogelijk maken, zien of horen beperken, of anderszins het persoonlijke functioneren belemmeren.
@@ -136,7 +134,7 @@ class Honosca < Quby::Questionnaire
   end
 
   question :q10, :type => :radio do
-    q.title "Problemen met relaties met leeftijdgenoten"
+    title "Problemen met relaties met leeftijdgenoten"
     description "Inclusief:	problemen met schoolgenoten en sociale netwerk. Problemen die gepaard gaan met zich actief of passief terugtrekken uit sociale relaties, of problemen met juist grenzeloos contact leggen / maken, of problemen met het vermogen om bevredigende relaties met leeftijdgenoten aan te gaan.
                    Inclusief:	sociale afwijzing ten gevolge van agressief gedrag of pesten.
                    Exclusief:	agressief gedrag of pesten, te scoren op schaal 1; problemen met gezin of broers en zussen, te scoren op schaal 12."

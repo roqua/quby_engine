@@ -1,3 +1,2 @@
-<% for q in @questionnaires %>
-<%= link_to q.to_s, :action => "take", :id => q.to_s %>
-<% end %>
+- @questionnaires.each do |q|
+  = button_to q.to_s, :action => "create", :id => q.to_s.underscore
