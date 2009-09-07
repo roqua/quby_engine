@@ -8,9 +8,9 @@ Honosca = Quby::QuestionnaireFactory.define do
   question :q01, :type => :radio do
     title "Problemen met storend, antisociaal of agressief gedrag"
     description "<strong>Inclusief:</strong> gedrag dat gepaard gaat met een stoornis, zoals hyperkinesie, depressie, autisme, drugs of alcohol.<br/>
-                   <strong>Inclusief:</strong> fysieke of verbale agressie (bijv. duwen, slaan, vandalisme, plagen), of mishandeling of seksueel misbruik van andere kinderen.<br/>
-                   <strong>Inclusief:</strong> antisociaal gedrag (bijv. stelen, liegen, bedriegen) of oppositioneel gedrag (bijv. uitdagend gedrag, opstand tegen gezag, of driftbuien).<br/>
-                   <strong>Exclusief:</strong> hyperactiviteit, te scoren op schaal 2; spijbelen, te scoren op schaal 13; zelfbeschadiging, te scoren op schaal 3."
+                 <strong>Inclusief:</strong> fysieke of verbale agressie (bijv. duwen, slaan, vandalisme, plagen), of mishandeling of seksueel misbruik van andere kinderen.<br/>
+                 <strong>Inclusief:</strong> antisociaal gedrag (bijv. stelen, liegen, bedriegen) of oppositioneel gedrag (bijv. uitdagend gedrag, opstand tegen gezag, of driftbuien).<br/>
+                 <strong>Exclusief:</strong> hyperactiviteit, te scoren op schaal 2; spijbelen, te scoren op schaal 13; zelfbeschadiging, te scoren op schaal 3."
 
     option :q01a00, :value => 0, :description => "Geen problemen van deze aard gedurende de beoordeelde periode"
     option :q01a01, :value => 1, :description => "In geringe mate ruziemaken, veeleisend gedrag, overmatige irritatie, liegen, enzovoort."
@@ -23,7 +23,7 @@ Honosca = Quby::QuestionnaireFactory.define do
   question :q02, :type => :radio do
     title "Problemen met hyperactiviteit, aandacht of concentratie"
     description "<strong>Inclusief:</strong> hyperactief gedrag, ongeacht de oorzaak zoals hyperkinesie, manie, of voortvloeiend uit drugsgebruik.<br/>
-                   <strong>Inclusief:</strong> problemen met rusteloosheid, friemelen, gebrek aan aandacht of concentratie vanwege welke oorzaak dan ook, inclusief depressie."
+                 <strong>Inclusief:</strong> problemen met rusteloosheid, friemelen, gebrek aan aandacht of concentratie vanwege welke oorzaak dan ook, inclusief depressie."
 
     option :q02a00, :value => 0, :description => "Geen problemen van deze aard gedurende de beoordeelde periode"
     option :q02a01, :value => 1, :description => "Enige hyperactiviteit of geringe rusteloosheid, enzovoort."
@@ -36,8 +36,8 @@ Honosca = Quby::QuestionnaireFactory.define do
   question :q03, :type => :radio do
     title "Opzettelijke zelfverwonding"
     description "<strong>Inclusief:</strong> zelfbeschadiging zoals zichzelf slaan en snijden; suïcidepogingen, overdoses, ophanging, verdrinking, enzovoort.<br/>
-                   <strong>Exclusief:</strong> krabben, pulken als direct gevolg van een fysieke aandoening, te scoren op schaal 6.<br/>
-                   <strong>Exclusief:</strong> onopzettelijke zelfverwonding, bijvoorbeeld vanwege een ernstige leerstoornis of lichamelijke handicap, te scoren op schaal 6; ziekte of verwonding als direct gevolg van drugs- of alcoholgebruik, te scoren op schaal 6."
+                 <strong>Exclusief:</strong> krabben, pulken als direct gevolg van een fysieke aandoening, te scoren op schaal 6.<br/>
+                 <strong>Exclusief:</strong> onopzettelijke zelfverwonding, bijvoorbeeld vanwege een ernstige leerstoornis of lichamelijke handicap, te scoren op schaal 6; ziekte of verwonding als direct gevolg van drugs- of alcoholgebruik, te scoren op schaal 6."
                    
     option :q03a00, :value => 0, :description => "Geen problemen van deze aard gedurende de beoordeelde periode"
     option :q03a01, :value => 1, :description => "Af en toe gedachten over dood, of over zelfbeschadiging die niet leiden tot verwonding. Geen zelfbeschadiging of suïcidale gedachten."
@@ -49,8 +49,8 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q04, :type => :radio do
     title "Problemen met alcohol, misbruik van (oplos)middelen"
-    description "Inclusief:	problemen met alcohol, misbruik van (oplos)middelen met inachtneming van huidige leeftijd en maatschappelijke normen.
-                   Exclusief:	agressief / storend gedrag vanwege alcohol- of drugsgebruik, te scoren op schaal 1; lichamelijke ziekte of handicap vanwege alcohol- of drugsgebruik, te scoren op schaal 6."
+    description "<strong>Inclusief:</strong> problemen met alcohol, misbruik van (oplos)middelen met inachtneming van huidige leeftijd en maatschappelijke normen.
+                 <strong>Exclusief:</strong> agressief / storend gedrag vanwege alcohol- of drugsgebruik, te scoren op schaal 1; lichamelijke ziekte of handicap vanwege alcohol- of drugsgebruik, te scoren op schaal 6."
                    
     option :q04a00, :value => 0, :description => "Geen problemen van deze aard gedurende de beoordeelde periode"
     option :q04a01, :value => 1, :description => "Gering alcohol- of drugsgebruik, binnen de leeftijdsnormen."
@@ -62,10 +62,10 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q05, :type => :radio do
     title "Problemen met leer- of taalvaardigheid"
-    description "Inclusief:	problemen met lezen, spellen, wiskunde, spraak of taal, ongeacht het gepaard gaan met een bepaalde stoornis of probleem, zoals een specifiek ontwikkelingsprobleem, of een lichamelijke handicap zoals een gehoorprobleem.
-                   Inclusief:	verminderde leerprestaties die gepaard gaan met emotionele of gedragsproblemen.
-                   Exclusief:	tijdelijke problemen die uitsluitend voortvloeien uit gebrekkig onderwijs.
-                   Exclusief:	een algemeen leerprobleem, tenzij het kind onder het verwachte niveau functioneert."
+    description "<strong>Inclusief:</strong> problemen met lezen, spellen, wiskunde, spraak of taal, ongeacht het gepaard gaan met een bepaalde stoornis of probleem, zoals een specifiek ontwikkelingsprobleem, of een lichamelijke handicap zoals een gehoorprobleem.
+                 <strong>Inclusief:</strong> verminderde leerprestaties die gepaard gaan met emotionele of gedragsproblemen.
+                 <strong>Exclusief:</strong> tijdelijke problemen die uitsluitend voortvloeien uit gebrekkig onderwijs.
+                 <strong>Exclusief:</strong> een algemeen leerprobleem, tenzij het kind onder het verwachte niveau functioneert."
                    
     option :q05a00, :value => 0, :description => "Geen problemen van deze aard gedurende de beoordeelde periode"
     option :q05a01, :value => 1, :description => "Geringe beperking die niet past binnen het normale ontwikkelingsniveau."
@@ -77,10 +77,10 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q06, :type => :radio do
     title "Problemen vanwege een lichamelijke aandoening of handicap"
-    description "Inclusief:	problemen met een lichamelijke aandoening of handicap die beweging beperken of onmogelijk maken, zien of horen beperken, of anderszins het persoonlijke functioneren belemmeren.
-                   Inclusief:	bewegingsstoornis, bijwerkingen van medicatie, lichamelijke gevolgen van drugs- of alcoholgebruik, of lichamelijke complicaties bij psychologische stoornissen, zoals ernstig gewichtsverlies.
-                   Inclusief:	zelfbeschadiging vanwege een ernstige intelligentietekort of lichamelijke handicap, of ten gevolge van zelfbeschadiging zoals hoofdbonken.
-                   Exclusief:	somatische klachten die geen organische oorzaak hebben, te scoren op schaal 8."
+    description "<strong>Inclusief:</strong> problemen met een lichamelijke aandoening of handicap die beweging beperken of onmogelijk maken, zien of horen beperken, of anderszins het persoonlijke functioneren belemmeren.
+                 <strong>Inclusief:</strong> bewegingsstoornis, bijwerkingen van medicatie, lichamelijke gevolgen van drugs- of alcoholgebruik, of lichamelijke complicaties bij psychologische stoornissen, zoals ernstig gewichtsverlies.
+                 <strong>Inclusief:</strong> zelfbeschadiging vanwege een ernstige intelligentietekort of lichamelijke handicap, of ten gevolge van zelfbeschadiging zoals hoofdbonken.
+                 <strong>Exclusief:</strong> somatische klachten die geen organische oorzaak hebben, te scoren op schaal 8."
                    
     option :q06a00, :value => 0, :description => "Geen beperking vanwege een probleem met lichamelijke gezondheid tijdens de beoordeelde periode."
     option :q06a01, :value => 1, :description => "Geringe beperking vanwege een gezondheidsprobleem tijdens de periode (bijv. verkoudheid, niet ernstige val, enz.)."
@@ -92,10 +92,10 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q07, :type => :radio do
     title "Problemen die gepaard gaan met hallucinaties, wanen of abnormale percepties"
-    description "Inclusief:	hallucinaties, wanen of abnormale waarneming ongeacht diagnose.
-                   Inclusief:	vreemd en bizar gedrag dat gepaard gaat met hallucinaties en wanen.
-                   Inclusief:	problemen met andere abnormale waarneming zoals illusies of pseudo-hallucinaties, of waanachtige ideeën zoals een vertekend lichaamsbeeld, achterdochtige of paranoïde gedachten.
-                   Exclusief:	storend of agressief gedrag dat gepaard gaat met hallucinaties of wanen, te scoren op schaal 1; hyperactief gedrag dat gepaard gaat met hallucinaties of wanen, te scoren op schaal 2."
+    description "<strong>Inclusief:</strong> hallucinaties, wanen of abnormale waarneming ongeacht diagnose.
+                 <strong>Inclusief:</strong> vreemd en bizar gedrag dat gepaard gaat met hallucinaties en wanen.
+                 <strong>Inclusief:</strong> problemen met andere abnormale waarneming zoals illusies of pseudo-hallucinaties, of waanachtige ideeën zoals een vertekend lichaamsbeeld, achterdochtige of paranoïde gedachten.
+                 <strong>Exclusief:</strong> storend of agressief gedrag dat gepaard gaat met hallucinaties of wanen, te scoren op schaal 1; hyperactief gedrag dat gepaard gaat met hallucinaties of wanen, te scoren op schaal 2."
                    
     option :q07a00, :value => 0, :description => "Geen blijk van abnormale gedachten of waarnemingen tijdens de beoordeelde periode."
     option :q07a01, :value => 1, :description => "Enigszins vreemde of excentrieke opvattingen die niet stroken met culturele waarden."
@@ -107,8 +107,8 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q08, :type => :radio do
     title "Problemen met niet-organische somatische symptomen"
-    description "Inclusief:	problemen met gastro-enterologische symptomen zoals niet-organisch braken, of cardiovasculaire symptomen, of neurologische symptomen , of niet-organische enuresis, of slaapproblemen, of chronische vermoeidheid.
-                   Exclusief:	beweginsstoornissen zoals tics, te scoren op schaal 6; lichamelijke aandoeningen die complicaties opleveren bij niet-organische somatische symptomen, te scoren op schaal 6."
+    description "<strong>Inclusief:</strong> problemen met gastro-enterologische symptomen zoals niet-organisch braken, of cardiovasculaire symptomen, of neurologische symptomen , of niet-organische enuresis, of slaapproblemen, of chronische vermoeidheid.
+                 <strong>Exclusief:</strong> beweginsstoornissen zoals tics, te scoren op schaal 6; lichamelijke aandoeningen die complicaties opleveren bij niet-organische somatische symptomen, te scoren op schaal 6."
                    
     option :q08a00, :value => 0, :description => "Geen problemen van deze aard gedurende de beoordeelde periode"
     option :q08a01, :value => 1, :description => "Slechts geringe problemen, zoals af en toe urineverlies, geringe slaapproblemen, hoofdpijn of buikpijn zonder organische oorzaak."
@@ -121,9 +121,9 @@ Honosca = Quby::QuestionnaireFactory.define do
   question :q09, :type => :radio do
     title "Emotionele problemen en daarmee verband houdende symptomen"
     description "Scoor alleen het meest ernstige klinische probleem dat niet op voorafgaande schalen is beoordeeld.
-                   Inclusief:	depressie, angst, piekeren, fobieën, obsessies of compulsies die hun oorzaak hebben in welke klinische conditie dan ook, inclusief eetstoornissen.
-                   Exclusief:	agressief, destructief of hyperactief gedrag, dat wordt toegeschreven aan angsten en fobieën, te scoren op schaal 1.
-                   Exclusief:	lichamelijke complicaties bij psychologische stoornissen, zoals ernstig gewichtsverlies, te scoren op schaal 6."
+                 <strong>Inclusief:</strong> depressie, angst, piekeren, fobieën, obsessies of compulsies die hun oorzaak hebben in welke klinische conditie dan ook, inclusief eetstoornissen.
+                 <strong>Exclusief:</strong> agressief, destructief of hyperactief gedrag, dat wordt toegeschreven aan angsten en fobieën, te scoren op schaal 1.
+                 <strong>Exclusief:</strong> lichamelijke complicaties bij psychologische stoornissen, zoals ernstig gewichtsverlies, te scoren op schaal 6."
                    
     option :q09a00, :value => 0, :description => "Geen aanwijzingen voor dergelijke problemen tijdens de beoordeelde periode."
     option :q09a01, :value => 1, :description => "In geringe mate angstig, somber, of voorbijgaande stemmingswisselingen."
@@ -135,9 +135,9 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q10, :type => :radio do
     title "Problemen met relaties met leeftijdgenoten"
-    description "Inclusief:	problemen met schoolgenoten en sociale netwerk. Problemen die gepaard gaan met zich actief of passief terugtrekken uit sociale relaties, of problemen met juist grenzeloos contact leggen / maken, of problemen met het vermogen om bevredigende relaties met leeftijdgenoten aan te gaan.
-                   Inclusief:	sociale afwijzing ten gevolge van agressief gedrag of pesten.
-                   Exclusief:	agressief gedrag of pesten, te scoren op schaal 1; problemen met gezin of broers en zussen, te scoren op schaal 12."
+    description "<strong>Inclusief:</strong> problemen met schoolgenoten en sociale netwerk. Problemen die gepaard gaan met zich actief of passief terugtrekken uit sociale relaties, of problemen met juist grenzeloos contact leggen / maken, of problemen met het vermogen om bevredigende relaties met leeftijdgenoten aan te gaan.
+                 <strong>Inclusief:</strong> sociale afwijzing ten gevolge van agressief gedrag of pesten.
+                 <strong>Exclusief:</strong> agressief gedrag of pesten, te scoren op schaal 1; problemen met gezin of broers en zussen, te scoren op schaal 12."
                    
     option :q10a00, :value => 0, :description => "Geen significante problemen tijdens de beoordeelde periode."
     option :q10a01, :value => 1, :description => "Voorbijgaande ofwel geringe problemen, af en toe zich sociaal terugtrekken."
@@ -150,8 +150,8 @@ Honosca = Quby::QuestionnaireFactory.define do
   question :q11, :type => :radio do
     title "Problemen met zelfverzorging en onafhankelijkheid"
     description "Scoor het algehele niveau van functioneren: bijv. problemen met basale zelfverzorgingsactiviteiten zoals eten, wassen, aankleden, toilet maken, alsmede complexe vaardigheden zoals met geld omgaan, zelfstandig reizen, boodschappen doen, enzovoort, met inachtneming van de norm voor de leeftijd en intelligentie van het kind.
-                   Inclusief:	lage niveaus van functioneren die voortvloeien uit gebrek aan motivatie, stemming of enige andere stoornis.
-                   Exclusief:	het ontbreken van mogelijkheden om aanwezige vermogens en vaardigheden toe te passen, zoals kan voorkomen in een extreem streng gezin, te scoren op schaal 12: enuresis en encopresis, te scoren op schaal 8."
+                 <strong>Inclusief:</strong> lage niveaus van functioneren die voortvloeien uit gebrek aan motivatie, stemming of enige andere stoornis.
+                 <strong>Exclusief:</strong> het ontbreken van mogelijkheden om aanwezige vermogens en vaardigheden toe te passen, zoals kan voorkomen in een extreem streng gezin, te scoren op schaal 12: enuresis en encopresis, te scoren op schaal 8."
                    
     option :q11a00, :value => 0, :description => "Geen problemen tijdens de beoordeelde periode; goed vermogen om te functioneren op alle gebieden."
     option :q11a01, :value => 1, :description => "Slechts geringe problemen: bijv. slordig, ongeorganiseerd."
@@ -163,13 +163,13 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q12, :type => :radio do
     title "Problemen met gezinsleven en relaties"
-    description "Inclusief:	relatieproblemen tussen ouder en kind, en broers en zussen onderling.
-                   Inclusief:	relaties met pleegouders, maatschappelijk werkers / leerkrachten bij uithuisplaatsing. Zowel relaties thuis als met gescheiden ouders of broers en zussen die elders wonen, moeten worden opgenomen. Persoonlijkheidsproblemen, geestesziekten, huwelijksproblemen van de ouders moeten hier alleen worden gescoord wanneer zij effect hebben op het kind.
-                   Inclusief:	problemen met seksueel misbruik of mishandeling en emotionele mishandeling (zoals slechte communicatie, ruzies, verbale of fysieke vijandigheid, kritiek en denigrerende opmerkingen, verwaarlozing / afwijzing door de ouders en extreme strengheid).
-                   Inclusief:	jaloezie van broers / zussen, fysieke mishandeling of seksueel misbruik onder dwang door broer / zus.
-                   Inclusief:	problemen met verstrengeling en overprotectie.
-                   Inclusief:	problemen die gepaard gaan met overlijden van een gezinslid en leiden tot reorganisatie.
-                   Exclusief:	agressief gedrag van kind, te scoren op schaal 1."
+    description "<strong>Inclusief:</strong> relatieproblemen tussen ouder en kind, en broers en zussen onderling.
+                 <strong>Inclusief:</strong> relaties met pleegouders, maatschappelijk werkers / leerkrachten bij uithuisplaatsing. Zowel relaties thuis als met gescheiden ouders of broers en zussen die elders wonen, moeten worden opgenomen. Persoonlijkheidsproblemen, geestesziekten, huwelijksproblemen van de ouders moeten hier alleen worden gescoord wanneer zij effect hebben op het kind.
+                 <strong>Inclusief:</strong> problemen met seksueel misbruik of mishandeling en emotionele mishandeling (zoals slechte communicatie, ruzies, verbale of fysieke vijandigheid, kritiek en denigrerende opmerkingen, verwaarlozing / afwijzing door de ouders en extreme strengheid).
+                 <strong>Inclusief:</strong> jaloezie van broers / zussen, fysieke mishandeling of seksueel misbruik onder dwang door broer / zus.
+                 <strong>Inclusief:</strong> problemen met verstrengeling en overprotectie.
+                 <strong>Inclusief:</strong> problemen die gepaard gaan met overlijden van een gezinslid en leiden tot reorganisatie.
+                 <strong>Exclusief:</strong> agressief gedrag van kind, te scoren op schaal 1."
                    
     option :q12a00, :value => 0, :description => "Geen problemen tijdens de beoordeelde periode"
     option :q12a01, :value => 1, :description => "Geringe of voorbijgaande problemen."
@@ -181,8 +181,8 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q13, :type => :radio do
     title "Afwezigheid van school"
-    description "Inclusief:	spijbelen, schoolweigering, afwezigheid of schorsing om welke reden dan ook.
-                   Inclusief:	schoolgaan naar type school ten tijde van het scoren, bijv. ziekenhuisschool, thuisonderwijs, enzovoort."
+    description "<strong>Inclusief:</strong> spijbelen, schoolweigering, afwezigheid of schorsing om welke reden dan ook.
+                 <strong>Inclusief:</strong> schoolgaan naar type school ten tijde van het scoren, bijv. ziekenhuisschool, thuisonderwijs, enzovoort."
                    
     option :q13a00, :value => 0, :description => "Geen problemen van deze aard gedurende de beoordeelde periode"
     option :q13a01, :value => 1, :description => "Geringe problemen, bijv. te laat bij twee of meer lessen."
@@ -197,8 +197,8 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q14, :type => :radio do
     title "Problemen met kennis over of begrip van de aard van de problemen van het kind / de adolescent"
-    description "Inclusief:	gebrek aan bruikbare informatie of gebrekkig begrip ter beschikking van kind / adolescent, ouders of verzorgers.
-                   Inclusief:	gebrek aan uitleg over de diagnose of de oorzaak van het probleem of de prognose."
+    description "<strong>Inclusief:</strong> gebrek aan bruikbare informatie of gebrekkig begrip ter beschikking van kind / adolescent, ouders of verzorgers.
+                 <strong>Inclusief:</strong> gebrek aan uitleg over de diagnose of de oorzaak van het probleem of de prognose."
                    
     option :q14a00, :value => 0, :description => "Geen problemen tijdens de beoordeelde periode. Ouders / verzorgers zijn voldoende geïnformeerd over de problemen van het kind."
     option :q14a01, :value => 1, :description => "Slechts geringe problemen."
@@ -210,8 +210,8 @@ Honosca = Quby::QuestionnaireFactory.define do
 
   question :q15, :type => :radio do
     title "Probleem met gebrek aan informatie over hulpverlening of omgaan met de problemen van het kind / de adolescent"
-    description "Inclusief:	gebrek aan nuttige informatie voor kind / adolescent, ouders verzorgers, of verwijzers.
-                   Inclusief:	gebrek aan informatie over de meest geschikte manier van hulpverlening aan het kind zoals zorgregelingen, of plaatsing op een school, of opvang, of subsidieaanvragen."
+    description "<strong>Inclusief:</strong> gebrek aan nuttige informatie voor kind / adolescent, ouders verzorgers, of verwijzers.
+                 <strong>Inclusief:</strong> gebrek aan informatie over de meest geschikte manier van hulpverlening aan het kind zoals zorgregelingen, of plaatsing op een school, of opvang, of subsidieaanvragen."
                    
     option :q15a00, :value => 0, :description => "Geen problemen tijdens de beoordeelde periode. De behoefte aan alle hulp die noodzakelijk is wordt onderkend."
     option :q15a01, :value => 1, :description => "Slechts geringe problemen."
