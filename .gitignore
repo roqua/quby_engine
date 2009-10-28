@@ -2,3 +2,4 @@
 *.sqlite
 *.sqlite3
 database.yml
+/tmp/restart.txt

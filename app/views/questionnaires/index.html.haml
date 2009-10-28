@@ -1,2 +1,12 @@
 - @questionnaires.each do |q|
-  = button_to q.to_s, :action => "create", :id => q.to_s.underscore
+  = link_to q.key, :action => "show", :id => q.id
+
+= collection_table(@questionnaires, :id => 'questionnaires') do |t|
+  - t.header :id
+  - t.header :type
+  - t.header :created, 'Created'
+
+  - t.rows.alternate = :odd
+  - t.rows.each do |row, questionnaire, index|
+    - row.id      link_to(questionnaire.id.to_s, :action => :show, :id => questionnaire.id)
+    - row.created time_ago_in_words(questionnaire.created_at)

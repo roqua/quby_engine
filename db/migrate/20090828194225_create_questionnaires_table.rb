@@ -3,6 +3,7 @@ class CreateQuestionnairesTable < ActiveRecord::Migration
     create_table "questionnaires" do |t|
       t.string :key
       t.text   :value
+      t.string :type
     end
   end
 

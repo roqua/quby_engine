@@ -2,9 +2,13 @@
   Taking 
   = @questionnaire.key
 
-%form{:action => answer_questionnaire_path(@questionnaire.class.to_s.downcase) , :method => "post"}
-  = token_tag
-  - @questionnaire.class.questions.each do |question|
-    = render :partial => "question", :object => question, :locals => { :id => question.key }
-  
-  = submit_tag
+- semantic_form_for(@questionnaire, :url => "foo") do |form|
+  = form.inputs
+  = form.buttons
+
+/%form{:action => answer_questionnaire_path(@questionnaire.class.to_s.downcase) , :method => "post"}
+/  = token_tag
+/  - @questionnaire.class.questions.each do |question|
+/    = render :partial => "question", :object => question, :locals => { :id => question.key }
+/  
+/  = submit_tag

@@ -3,7 +3,8 @@ module Quby
     def self.define(key, options = {}, &block)
       qf = Quby::Factories::QuestionnaireFactory.new(key, options)
       qf.instance_eval(&block)
-      return qf.build
+      klass = qf.build
+      Object.const_set key.to_s.classify, klass
     end
   end
 
@@ -12,7 +13,8 @@ module Quby
       attr_reader :key
       
       def initialize(key, options = {})
-        @questionnaire = Questionnaire.new(key, options)
+        @questionnaire = Class.new(Quby::Questionnaire)
+        @questionnaire.key = key
       end
       
       def build
@@ -22,7 +24,7 @@ module Quby
       def question(key, options = {}, &block)
         q = Quby::Factories::QuestionFactory.new(key, options)
         q.instance_eval(&block)
-        @questionnaire.questions << q.build
+        @questionnaire.class_eval { @questions ||= []; @questions << q.build }
       end
     end
     

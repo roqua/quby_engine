@@ -1,10 +1,11 @@
-require File.join(RAILS_ROOT, "app", "questionnaires", "honosca")
-
-@@questionnaires = { :honosca => Honosca }
 
 class QuestionnairesController < ApplicationController
 
   def index
+    @questionnaires = Questionnaire.all
+  end
+
+  def new
     @questionnaires = @@questionnaires.values
   end
 
@@ -17,8 +18,11 @@ class QuestionnairesController < ApplicationController
   end
 
   def create
-    @questionnaire = @@questionnaires[params[:id].to_sym]
-    @questionnaire.save
+    key = params[:questionnaire][:key]
+    @questionnaire = @@questionnaires[key.to_sym].new
+    if @questionnaire.save
+      redirect_to :action => :show, :id => @questionnaire.id
+    end
   end
 
   def update

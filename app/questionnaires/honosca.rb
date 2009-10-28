@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 load File.join(RAILS_ROOT, "lib/quby/init.rb")
 
-Honosca = Quby::QuestionnaireFactory.define do
+Quby::Questionnaires.define(:honosca) do
 
   # Sectie A
 
