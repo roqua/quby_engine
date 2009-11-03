@@ -1,17 +1,12 @@
-# Just use gemcutter
 clear_sources
 source "http://gemcutter.org/"
 
-# Put them in my_gems for compatibility reasons
-bundle_path "vendor/my_gems"
-
-# Other stuff
-bin_path "script"
 disable_system_gems
 
-##################################################
+bundle_path "gems"
 
-gem "rails"
+gem "rails", "2.3.4"
+gem "ruby-debug", :except => :production
 
 gem "formtastic"
 gem "haml"
