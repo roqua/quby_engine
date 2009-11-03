@@ -2,4 +2,7 @@
 *.sqlite
 *.sqlite3
 database.yml
-/tmp/restart.txt
+tmp/restart.txt
+vendor/my_gems/specifications
+vendor/my_gems/doc
+vendor/my_gems/environment.rb

@@ -1,0 +1,3 @@
+#!/usr/bin/ruby1.8
+require File.join(File.dirname(__FILE__), "../vendor/my_gems/environment")
+load File.join(File.dirname(__FILE__), "../vendor/my_gems/gems/rspec-1.2.9/bin/spec")

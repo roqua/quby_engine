@@ -1,6 +1,3 @@
-- @questionnaires.each do |q|
-  = link_to q.key, :action => "show", :id => q.id
-
 = collection_table(@questionnaires, :id => 'questionnaires') do |t|
   - t.header :id
   - t.header :type
