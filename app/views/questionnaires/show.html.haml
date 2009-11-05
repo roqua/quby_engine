@@ -3,17 +3,23 @@
   = @questionnaire.class.to_s.demodulize.upcase
 
 %table
-  - @questionnaire.class.questions.each do |question|
+  %thead
     %tr
-      %td= question.key
-      %td= question.title
-      %td
-        - case question.type
-        - when :open
-          = @questionnaire.send(question.key)
-        - when :radio 
-          = question.options[ @questionnaire.send(question.key).to_i ]
-        - else
-          Unknown question type
-          = question.type.inspect
+      %th(style="width: 50px") ID
+      %th(style="min-width: 300px") Vraag
+      %th(style="min-width: 500px") Antwoord
+  %tbody
+    - @questionnaire.class.questions.each do |question|
+      %tr
+        %td= question.key
+        %td= question.title
+        %td
+          - case question.type
+          - when :open
+            = @questionnaire.send(question.key)
+          - when :radio 
+            = h(question.options[ @questionnaire.send(question.key).to_i ].description )
+          - else
+            Unknown question type
+            = question.type.inspect
 

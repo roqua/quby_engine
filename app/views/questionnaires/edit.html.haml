@@ -1,14 +1,14 @@
 %h1 
   Taking 
-  = @questionnaire.key
+  = @questionnaire.type
 
-- semantic_form_for(@questionnaire, :url => "foo") do |form|
-  = form.inputs
+- semantic_form_for(@questionnaire, questionnaire_path(@questionnaire) do |form|
+  - @questionnaire.class.questions.each do |question|
+    - case question.type
+    - when :open
+      = form.input question.key, :label => question.title, :as => :text
+    - when :radio
+      = form.input question.key, :label => question.title, :hint => question.description, :as => :radio, :collection => question.options, :label_method => :description, :value_method => :value
+          
+
   = form.buttons
-
-/%form{:action => answer_questionnaire_path(@questionnaire.class.to_s.downcase) , :method => "post"}
-/  = token_tag
-/  - @questionnaire.class.questions.each do |question|
-/    = render :partial => "question", :object => question, :locals => { :id => question.key }
-/  
-/  = submit_tag

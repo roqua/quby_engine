@@ -1,9 +1,22 @@
-= collection_table(@questionnaires, :id => 'questionnaires') do |t|
-  - t.header :id
-  - t.header :type
-  - t.header :created, 'Created'
+%table
+  %thead
+    %tr
+      %th(style="width: 50px") ID
+      %th Patient
+      %th(style="width: 100px") Type
+      %th(style="width: 150px") Created
+      %th(style="width: 150px") Updated
+      %th(style="width: 150px") Actions
+  %tbody
+    - @questionnaires.each do |questionnaire|
+      %tr
+        %td= questionnaire.id
+        %td Unknown
+        %td= questionnaire.type
+        %td= time_ago_in_words(questionnaire.created_at) + " ago"
+        %td= time_ago_in_words(questionnaire.updated_at) + " ago"
+        %td
+          = link_to "Show", :action => :show, :id => questionnaire.id
+          = link_to "Edit", :action => :edit, :id => questionnaire.id
+          = link_to "Destroy", :action => :destroy, :id => questionnaire.id, :method => :destroy
 
-  - t.rows.alternate = :odd
-  - t.rows.each do |row, questionnaire, index|
-    - row.id      link_to(questionnaire.id.to_s, :action => :show, :id => questionnaire.id)
-    - row.created time_ago_in_words(questionnaire.created_at)

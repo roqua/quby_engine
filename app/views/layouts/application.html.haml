@@ -6,13 +6,18 @@
   %title 
     Quby
     = " / " + yield(:title) if yield(:title)
+  = stylesheet_link_tag "reset"
   = stylesheet_link_tag "screen"
+  = stylesheet_link_tag "formtastic"
+  = stylesheet_link_tag "formtastic_changes"
   
   
   %body
     #masthead 
-      .inner
-      
+      #navigation
+        %ul
+          %li= link_to "Questionnaires", questionnaires_path
+    
     #content
       = yield
       

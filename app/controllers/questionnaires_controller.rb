@@ -25,7 +25,12 @@ class QuestionnairesController < ApplicationController
   end
 
   def update
-    @questionnaire.update_attributes(params[:id], params[:questionnaire])
+    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire.update_attributes(params[@questionnaire.class.to_s.underscore])
+
+    if @questionnaire.save
+      redirect_to questionnaire_path(@questionnaire)
+    end
   end
 
   def delete

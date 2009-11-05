@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
 load File.join(RAILS_ROOT, "lib/quby/init.rb")
 
 Quby::Questionnaires.define(:honosca) do
 
   # Sectie A
 
+  question :q00, :type => :open do
+    title "Wat is uw naam"
+  end
+  
   question :q01, :type => :radio do
     title "Problemen met storend, antisociaal of agressief gedrag"
     description "<strong>Inclusief:</strong> gedrag dat gepaard gaat met een stoornis, zoals hyperkinesie, depressie, autisme, drugs of alcohol.<br/>

@@ -24,7 +24,22 @@ module Quby
       def question(key, options = {}, &block)
         q = Quby::Factories::QuestionFactory.new(key, options)
         q.instance_eval(&block)
-        @questionnaire.class_eval { @questions ||= []; @questions << q.build }
+        
+        @questionnaire.class_eval do
+          @questions ||= []
+          @questions << q.build
+          
+          define_method(key) do
+            self.value ||= Hash.new
+            value[key]
+          end
+
+          define_method(key.to_s + "=") do |value|
+            self.value ||= Hash.new
+            self.value[key] = value
+          end
+          
+        end
       end
     end
     

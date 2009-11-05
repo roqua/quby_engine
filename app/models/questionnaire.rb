@@ -10,13 +10,6 @@ class Questionnaire < ActiveRecord::Base
     # TODO
   end
   
-  def self.question(key, options = {}, &block)
-    q = Quby::Factories::QuestionFactory.new(key, options)
-    q.instance_eval(&block)
-    @questions ||= []
-    @questions << q.build
-  end
-  
   def self.questions
     @questions
   end
