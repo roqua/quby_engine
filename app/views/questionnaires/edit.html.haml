@@ -2,13 +2,12 @@
   Taking 
   = @questionnaire.type
 
-- semantic_form_for(@questionnaire, questionnaire_path(@questionnaire) do |form|
+- semantic_form_for(@questionnaire, :url => questionnaire_path(@questionnaire)) do |form|
   - @questionnaire.class.questions.each do |question|
     - case question.type
     - when :open
       = form.input question.key, :label => question.title, :as => :text
     - when :radio
       = form.input question.key, :label => question.title, :hint => question.description, :as => :radio, :collection => question.options, :label_method => :description, :value_method => :value
-          
-
+  
   = form.buttons

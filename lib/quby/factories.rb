@@ -5,6 +5,8 @@ module Quby
       qf.instance_eval(&block)
       klass = qf.build
       Object.const_set key.to_s.classify, klass
+
+      ActionController::Routing::Routes.draw { |map| map.resources key, :controller => :questionnaires }
     end
   end
 
@@ -13,7 +15,7 @@ module Quby
       attr_reader :key
       
       def initialize(key, options = {})
-        @questionnaire = Class.new(Quby::Questionnaire)
+        @questionnaire = Class.new(Questionnaire)
         @questionnaire.key = key
       end
       

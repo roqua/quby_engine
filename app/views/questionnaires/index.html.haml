@@ -1,3 +1,8 @@
+%h1 Questionnaires
+
+#actions
+  = link_to "New", new_questionnaire_path
+
 %table
   %thead
     %tr
@@ -16,7 +21,7 @@
         %td= time_ago_in_words(questionnaire.created_at) + " ago"
         %td= time_ago_in_words(questionnaire.updated_at) + " ago"
         %td
-          = link_to "Show", :action => :show, :id => questionnaire.id
-          = link_to "Edit", :action => :edit, :id => questionnaire.id
-          = link_to "Destroy", :action => :destroy, :id => questionnaire.id, :method => :destroy
+          = link_to "Show", questionnaire
+          = link_to "Edit", edit_questionnaire_path(questionnaire)
+          = link_to "Destroy", questionnaire, :method => :destroy
 
