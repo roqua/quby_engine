@@ -1,6 +1,0 @@
-%h2= question.title
-= question.description
-- question.options.each do |option|
-  %p
-    = radio_button_tag(question.key, option.key)
-    = label_tag("#{question.key}_#{option.key}", option.description)

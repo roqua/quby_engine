@@ -6,7 +6,7 @@ module Quby
       klass = qf.build
       Object.const_set key.to_s.classify, klass
 
-      ActionController::Routing::Routes.draw { |map| map.resources key, :controller => :questionnaires }
+      ActionController::Routing::Routes.draw { |map| map.resources key, :controller => :answers }
     end
   end
 

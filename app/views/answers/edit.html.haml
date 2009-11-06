@@ -1,9 +1,9 @@
 %h1 
   Taking 
-  = @questionnaire.type
+  = @answer.type
 
-- semantic_form_for(@questionnaire, :url => questionnaire_path(@questionnaire)) do |form|
-  - @questionnaire.class.questions.each do |question|
+- semantic_form_for(@answer, :url => answer_path(@answer)) do |form|
+  - @answer.class.questions.each do |question|
     - case question.type
     - when :open
       = form.input question.key, :label => question.title, :as => :text

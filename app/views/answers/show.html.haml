@@ -1,6 +1,6 @@
 %h1 
   Answered 
-  = @questionnaire.class.to_s.demodulize.upcase
+  = @answer.class.to_s.demodulize.upcase
 
 %table
   %thead
@@ -9,16 +9,16 @@
       %th(style="min-width: 300px") Vraag
       %th(style="min-width: 500px") Antwoord
   %tbody
-    - @questionnaire.class.questions.each do |question|
+    - @answer.class.questions.each do |question|
       %tr
         %td= question.key
         %td= question.title
         %td
           - case question.type
           - when :open
-            = @questionnaire.send(question.key)
+            = @answer.send(question.key)
           - when :radio 
-            = h(question.options[ @questionnaire.send(question.key).to_i ].description )
+            = h(question.options[ @answer.send(question.key).to_i ].description )
           - else
             Unknown question type
             = question.type.inspect

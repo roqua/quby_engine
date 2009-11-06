@@ -1,0 +1,27 @@
+%h1 Answers
+
+#actions
+  = link_to "New", new_answer_path
+
+%table
+  %thead
+    %tr
+      %th(style="width: 50px") ID
+      %th Patient
+      %th(style="width: 100px") Type
+      %th(style="width: 150px") Created
+      %th(style="width: 150px") Updated
+      %th(style="width: 150px") Actions
+  %tbody
+    - @answers.each do |answer|
+      %tr
+        %td= answer.id
+        %td Unknown
+        %td= answer.type
+        %td= time_ago_in_words(answer.created_at) + " ago"
+        %td= time_ago_in_words(answer.updated_at) + " ago"
+        %td
+          = link_to "Show", answer
+          = link_to "Edit", edit_answer_path(answer)
+          = link_to "Destroy", answer, :method => :destroy
+

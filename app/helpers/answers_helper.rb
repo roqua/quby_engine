@@ -1,4 +1,4 @@
-module QuestionnairesHelper
+module AnswersHelper
   
   def render_question(id, question)
 #    case question.type
