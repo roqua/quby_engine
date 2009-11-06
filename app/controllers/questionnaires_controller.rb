@@ -4,8 +4,8 @@ class QuestionnairesController < ApplicationController
     @questionnaires = Questionnaire.all
   end
 
-  
   def new
+    @questionnaire = Questionnaire.new
   end
 
   def show
@@ -17,8 +17,7 @@ class QuestionnairesController < ApplicationController
   end
 
   def create
-    key = params[:questionnaire][:key]
-    @questionnaire = @@questionaires[key.to_sym].new
+    @questionnaire = Questionnaire.new(params[:questionnaire])
     if @questionnaire.save
       redirect_to :action => :show, :id => @questionnaire.id
     end
