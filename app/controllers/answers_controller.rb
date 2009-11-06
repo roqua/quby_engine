@@ -1,24 +1,24 @@
 class AnswersController < ApplicationController
   
   def index
-    @answers = Questionnaire.all
+    @answers = Answer.all
   end
 
+  
   def new
-    @answers = @@questionnaires.values
+    @questionnaires = Questionnaire.all
   end
 
   def show
-    @answer = Questionnaire.find(params[:id])
+    @answer = Answer.find(params[:id])
   end
 
   def edit
-    @answer = Questionnaire.find(params[:id])
+    @answer = Answer.find(params[:id])
   end
 
   def create
-    key = params[:questionnaire][:key]
-    @answer = @@questionaires[key.to_sym].new
+    @answer = Questionnaire.find_by_key(params[:questionnaire][:key])
     if @answer.save
       redirect_to :action => :show, :id => @answer.id
     end

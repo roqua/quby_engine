@@ -9,7 +9,7 @@
       %th(style="min-width: 300px") Vraag
       %th(style="min-width: 500px") Antwoord
   %tbody
-    - @answer.class.questions.each do |question|
+    - @answer.questionnaire.class.questions.each do |question|
       %tr
         %td= question.key
         %td= question.title

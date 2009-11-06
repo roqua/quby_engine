@@ -1,0 +1,26 @@
+%h1 Questionnaires
+
+#actions
+  = link_to "New", new_questionnaire_path
+
+%table
+  %thead
+    %tr
+      %th(style="width: 50px") ID
+      %th Key
+      %th(style="width: 50px") Answers
+      %th(style="width: 150px") Created
+      %th(style="width: 150px") Updated
+      %th(style="width: 150px") Actions
+  %tbody
+    - @questionnaires.each do |questionnaire|
+      %tr
+        %td= questionnaire.id
+        %td= questionnaire.key
+        %td= link_to(questionnaire.answers.size, questionnaire_answers_path(questionnaire))
+        %td= time_ago_in_words(questionnaire.created_at) + " ago"
+        %td= time_ago_in_words(questionnaire.updated_at) + " ago"
+        %td
+          = link_to "Show", questionnaire
+          = link_to "Edit", edit_questionnaire_path(questionnaire)
+          = link_to "Destroy", questionnaire, :method => :destroy

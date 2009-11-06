@@ -1,0 +1,5 @@
+%h1== Editing #{@questionnaire.key}
+
+- semantic_form_for(@questionnaire) do |form|
+  = form.inputs
+  = form.buttons

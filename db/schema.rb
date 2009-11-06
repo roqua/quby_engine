@@ -9,12 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091016122232) do
+ActiveRecord::Schema.define(:version => 20091106174328) do
+
+  create_table "answers", :force => true do |t|
+    t.text     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "questionnaire_id"
+  end
 
   create_table "questionnaires", :force => true do |t|
     t.string   "key"
-    t.text     "value"
-    t.string   "type"
+    t.text     "definition"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
