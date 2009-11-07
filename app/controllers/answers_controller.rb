@@ -1,7 +1,8 @@
 class AnswersController < ApplicationController
   
   def index
-    @answers = Answer.all
+    @answers ||= Questionnaire.find(params[:questionnaire_id]).answers if params[:questionnaire_id]
+    @answers ||= Answer.all
   end
 
   
