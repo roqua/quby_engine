@@ -1,4 +1,5 @@
 *.log
+tmp/*
 *.sqlite
 *.sqlite3
 database.yml
