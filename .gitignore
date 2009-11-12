@@ -7,3 +7,5 @@ tmp/restart.txt
 gems/*
 !gems/cache
 !gems/bundler
+#*#
+.#*

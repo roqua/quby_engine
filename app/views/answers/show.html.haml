@@ -1,6 +1,6 @@
 %h1 
   Answered 
-  = @answer.class.to_s.demodulize.upcase
+  = @answer.questionnaire.key
 
 %table
   %thead
@@ -16,9 +16,9 @@
         %td
           - case question.type
           - when :open
-            = @answer.send(question.key)
+            = @answer.value[question.key]
           - when :radio 
-            = h(question.options[ @answer.send(question.key).to_i ].description )
+            = h(question.options[ @answer.value[question.key] ].description )
           - else
             Unknown question type
             = question.type.inspect

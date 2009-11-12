@@ -1,12 +1,12 @@
 %h1 
   Taking 
-  = @answer.type
+  = @answer.questionnaire.key
 
 - semantic_form_for(@answer, :url => answer_path(@answer)) do |form|
-  - @answer.class.questions.each do |question|
+  - @answer.questionnaire.questions.each do |question|
     - case question.type
     - when :open
-      = form.input question.key, :label => question.title, :as => :text
+      = form.input question.key, :label => question.title, :as => :text, :value_method => :value
     - when :radio
       = form.input question.key, :label => question.title, :hint => question.description, :as => :radio, :collection => question.options, :label_method => :description, :value_method => :value
   

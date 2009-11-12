@@ -19,6 +19,15 @@ body
     &.active a
       :background #ccc
 
+#mastfoot
+  :text-align center
+  :color #aaa
+
+  &:before
+    :content "\2014"
+  &:after
+    :content "\2014"
+
 #content
   :margin 2em
 
@@ -41,6 +50,9 @@ table
     :padding 5px
     :border 1px solid #eee
     :vertical-align top
+
+pre
+  :font-family "Deja Vu Sans Mono", "Courier New", "Courier", monospace
 
 .question
   :background #e5e5e5

@@ -8,6 +8,6 @@ class Question
   def initialize(key, options = {})
     @key = key
     @type = options[:type]
-    @options = []
+    @options = HashWithIndifferentAccess.new
   end
 end

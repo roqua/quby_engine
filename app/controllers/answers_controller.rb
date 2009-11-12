@@ -4,10 +4,10 @@ class AnswersController < ApplicationController
     @answers ||= Questionnaire.find(params[:questionnaire_id]).answers if params[:questionnaire_id]
     @answers ||= Answer.all
   end
-
   
   def new
-    @questionnaires = Questionnaire.all
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @answer = @questionnaire.answers.new
   end
 
   def show

@@ -1,5 +1,7 @@
 %h1== New questionnaire
 
 - semantic_form_for(@questionnaire) do |form|
-  = form.inputs
+  - form.inputs :name => "General" do
+    = form.inputs :key
+  = form.inputs :definition
   = form.buttons

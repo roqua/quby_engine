@@ -8,16 +8,16 @@
     = " / " + yield(:title) if yield(:title)
   = stylesheet_link_tag "reset"
   = stylesheet_link_tag "screen"
+  = stylesheet_link_tag "syntax"
   = stylesheet_link_tag "formtastic"
   = stylesheet_link_tag "formtastic_changes"
-  
-  
+
   %body
     #masthead 
       #navigation
         %ul
           %li= link_to "Questionnaires", questionnaires_path
-          %li= link_to "Answers", answers_path
+
     
     #content
       = yield
