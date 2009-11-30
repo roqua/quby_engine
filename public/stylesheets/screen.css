@@ -53,3 +53,13 @@ pre {
   background: #e5e5e5;
   margin: 2em;
   padding: 2em; }
+
+.formtastic#new_answer fieldset.panel {
+  margin-bottom: 2em; }
+  .formtastic#new_answer fieldset.panel .prevnext {
+    display: none;
+    overflow: hidden; }
+    .formtastic#new_answer fieldset.panel .prevnext .prev {
+      float: left; }
+    .formtastic#new_answer fieldset.panel .prevnext .next {
+      float: right; }

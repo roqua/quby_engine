@@ -8,17 +8,52 @@ module QuestionnaireDsl
     def initialize(target_instance)
       @questionnaire = target_instance
     end
+
+    def panel(title = nil, options = {}, &block)
+      p = PanelFactory.new(title, options)
+      p.instance_eval(&block)
+      
+      @questionnaire.instance_eval do
+        @panels ||= []
+        @panels << p.build
+      end
+    end
     
+    def question(key, options = {}, &block)
+      panel() do
+        question(key, options, &block)
+      end
+    end    
+  end
+
+  class PanelFactory
+    attr_reader :title
+
+    def initialize(title, options = {})
+      @panel = {:title => title,
+                :items => []}
+    end
+
+    def build
+      @panel
+    end
+
+    def title(value)
+      @panel[:title] = value
+    end
+
+    def text(value)
+      @panel[:items] << value.to_s
+    end
+
     def question(key, options = {}, &block)
       q = QuestionFactory.new(key, options)
       q.instance_eval(&block)
-      
-      @questionnaire.instance_eval do
-        @questions ||= []
-        @questions << q.build
-      end
+
+      @panel[:items] << q.build
     end
   end
+      
   
   class QuestionFactory
     attr_reader :key

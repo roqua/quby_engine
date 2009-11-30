@@ -3,10 +3,16 @@ class Questionnaire < ActiveRecord::Base
 
   before_save :validate_definition_syntax
 
-  attr :questions
+  attr :panels
   
   def after_initialize
    QuestionnaireDsl.enhance(self, self.definition || "")
+  end
+
+  def questions
+    @panels.map do |panel|
+      panel[:items].select {|item| Question === item }
+    end.flatten
   end
 
   protected
