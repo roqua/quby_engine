@@ -5,10 +5,12 @@
 - semantic_form_for(@answer, :url => questionnaire_answers_path(@questionnaire)) do |form|
   - @answer.questionnaire.panels.each do |panel|
     - form.inputs(:label => panel[:title], :class => "panel") do
+      %h1&= panel[:title]
       - panel[:items].each do |item|
         - case item.class.name
-        - when "Text"
-          = item.text
+        - when "String"
+          :markdown
+            #{item}
         - when "Question"
           - question = item
           - case question.type
