@@ -1,8 +1,8 @@
 class AnswersController < ApplicationController
   
   def index
-    @answers ||= Questionnaire.find(params[:questionnaire_id]).answers if params[:questionnaire_id]
-    @answers ||= Answer.all
+    @questionnaire = Questionnaire.find(params[:questionnaire_id], :include => :answers)
+    @answers = @questionnaire.answers if params[:questionnaire_id]
   end
   
   def new
@@ -11,22 +11,27 @@ class AnswersController < ApplicationController
   end
 
   def show
-    @answer = Answer.find(params[:id])
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @answer = @questionnaire.answers.find(params[:id])
   end
 
   def edit
-    @answer = Answer.find(params[:id])
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @answer = @questionnaire.answers.find(params[:id])
   end
 
   def create
-    @answer = Questionnaire.find_by_key(params[:questionnaire][:key])
-    if @answer.save
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @answer = @questionnaire.answers.create
+    
+    if @answer.update_attributes(params[:answer])
       redirect_to :action => :show, :id => @answer.id
     end
   end
 
   def update
-    @answer = Questionnaire.find(params[:id])
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @answer = @questionnaire.answers.find(params[:id])
     @answer.update_attributes(params[@answer.class.to_s.underscore])
 
     if @answer.save
