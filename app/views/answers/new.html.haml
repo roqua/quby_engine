@@ -20,8 +20,8 @@
           Error: unknown item type
           = item.class.name
         
-        .prevnext
-          = button_to "&larr; Previous", "#", :class => "prev"
-          = button_to "Next &rarr;", "#", :class => "next"
+      .prevnext
+        = button_to "&larr; Previous", "#", :class => "prev", :accesskey => "p"
+        = button_to "Next &rarr;",     "#", :class => "next", :accesskey => "n"
   
   = form.buttons
