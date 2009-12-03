@@ -1,7 +1,7 @@
 %h1 Answers
 
 #actions
-  = link_to "New", new_answer_path
+  = link_to "New", new_questionnaire_answer_path(@questionnaire)
 
 %table
   %thead
@@ -21,7 +21,7 @@
         %td= time_ago_in_words(answer.created_at) + " ago"
         %td= time_ago_in_words(answer.updated_at) + " ago"
         %td
-          = link_to "Show", answer
-          = link_to "Edit", edit_answer_path(answer)
-          = link_to "Destroy", answer, :method => :destroy
+          = link_to "Show", questionnaire_answer_path(@questionnaire, answer)
+          = link_to "Edit", edit_questionnaire_answer_path(@questionnaire, answer)
+          = link_to "Destroy", questionnaire_answer_path(@questionnaire, answer), :method => :destroy
 
