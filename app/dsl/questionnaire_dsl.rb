@@ -9,6 +9,7 @@ module QuestionnaireDsl
       @questionnaire = target_instance
     end
 
+    
     def panel(title = nil, options = {}, &block)
       p = PanelFactory.new(title, options)
       p.instance_eval(&block)
@@ -23,7 +24,19 @@ module QuestionnaireDsl
       panel() do
         question(key, options, &block)
       end
-    end    
+    end
+
+    # score :totaal do
+    #   q01 + q02 + q03
+    # end
+    def score(key, options = {}, &block)
+      s = ScoreFactory.new(key, options, &block)
+
+      @questionnaire.instance_eval do
+        @scores ||= []
+        @scores << s.build
+      end
+    end
   end
 
   class PanelFactory
@@ -53,7 +66,6 @@ module QuestionnaireDsl
       @panel[:items] << q.build
     end
   end
-      
   
   class QuestionFactory
     attr_reader :key
@@ -82,4 +94,17 @@ module QuestionnaireDsl
     end
   end
   
+  class ScoreFactory
+    attr_reader :key
+    attr_reader :scorer
+
+    def initialize(key, options = {}, &block)
+      @score = Score.new(key, options, &block)
+    end
+
+    def build
+      @score
+    end
+  end
+    
 end

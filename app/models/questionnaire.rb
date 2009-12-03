@@ -15,6 +15,10 @@ class Questionnaire < ActiveRecord::Base
     end.flatten
   end
 
+  def scores
+    @scores
+  end
+
   protected
 
   def validate_definition_syntax

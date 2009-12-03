@@ -15,6 +15,11 @@ module AnswerDsl
           self.value[question.key] = v
         end
       end
+      
+      questionnaire.scores.each do |score|
+        scorer = score.scorer
+        define_method("score_" + score.key.to_s, &scorer)
+      end
     end
   end
 end

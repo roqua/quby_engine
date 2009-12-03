@@ -8,7 +8,7 @@
     %tr
       %th(style="width: 50px") ID
       %th Patient
-      %th(style="width: 100px") Type
+      %th(style="width: 100px") Scores
       %th(style="width: 150px") Created
       %th(style="width: 150px") Updated
       %th(style="width: 150px") Actions
@@ -16,7 +16,7 @@
     - @answers.each do |answer|
       %tr
         %td= answer.id
-        %td #TODO
+        %td= answer.scores.inspect
         %td= answer.questionnaire.key
         %td= time_ago_in_words(answer.created_at) + " ago"
         %td= time_ago_in_words(answer.updated_at) + " ago"
