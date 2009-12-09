@@ -3,7 +3,8 @@ class Questionnaire < ActiveRecord::Base
 
   before_save :validate_definition_syntax
 
-  attr :panels
+  attr_accessor :name
+  attr_accessor :panels
   
   def after_initialize
    QuestionnaireDsl.enhance(self, self.definition || "")

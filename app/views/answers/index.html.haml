@@ -1,4 +1,4 @@
-%h1 Answers
+%h1 Answers for #{@questionnaire.name}
 
 #actions
   = link_to "New", new_questionnaire_answer_path(@questionnaire)
@@ -7,8 +7,7 @@
   %thead
     %tr
       %th(style="width: 50px") ID
-      %th Patient
-      %th(style="width: 100px") Scores
+      %th Scores
       %th(style="width: 150px") Created
       %th(style="width: 150px") Updated
       %th(style="width: 150px") Actions
@@ -17,7 +16,6 @@
       %tr
         %td= answer.id
         %td= answer.scores.inspect
-        %td= answer.questionnaire.key
         %td= time_ago_in_words(answer.created_at) + " ago"
         %td= time_ago_in_words(answer.updated_at) + " ago"
         %td

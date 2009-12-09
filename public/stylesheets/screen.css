@@ -56,10 +56,10 @@ pre {
 
 .formtastic#new_answer fieldset.panel {
   margin-bottom: 2em; }
-  .formtastic#new_answer fieldset.panel .prevnext {
-    display: none;
-    overflow: hidden; }
-    .formtastic#new_answer fieldset.panel .prevnext .prev {
-      float: left; }
-    .formtastic#new_answer fieldset.panel .prevnext .next {
-      float: right; }
+.formtastic.answer .prevnext {
+  display: none;
+  overflow: hidden; }
+  .formtastic.answer .prevnext .prev {
+    float: left; }
+  .formtastic.answer .prevnext .next {
+    float: right; }

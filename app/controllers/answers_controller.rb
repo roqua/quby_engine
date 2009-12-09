@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+
+  before_filter :select_form_style, :only => [:new, :edit, :create, :update]
   
   def index
     @questionnaire = Questionnaire.find(params[:questionnaire_id], :include => :answers)
@@ -35,7 +37,7 @@ class AnswersController < ApplicationController
     @answer.update_attributes(params[@answer.class.to_s.underscore])
 
     if @answer.save
-      redirect_to questionnaire_path(@answer)
+      redirect_to questionnaire_answer_path(@questionnaire, @answer)
     end
   end
 
@@ -43,4 +45,10 @@ class AnswersController < ApplicationController
     @answer.delete(params[:id])
   end
 
+  protected
+
+  def select_form_style
+    @style = "form_" + (["panels", "bulk"].find(params[:style]) || "panels")
+  end
+  
 end

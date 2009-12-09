@@ -9,6 +9,10 @@ module QuestionnaireDsl
       @questionnaire = target_instance
     end
 
+
+    def name(name)
+      @questionnaire.name = name
+    end
     
     def panel(title = nil, options = {}, &block)
       p = PanelFactory.new(title, options)

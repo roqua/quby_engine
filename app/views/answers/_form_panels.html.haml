@@ -1,0 +1,25 @@
+- semantic_form_for(@answer, :url => questionnaire_answers_path(@questionnaire)) do |form|
+  - @answer.questionnaire.panels.each do |panel|
+    - form.inputs(:label => panel[:title], :class => "panel") do
+      %h1&= panel[:title]
+      - panel[:items].each do |item|
+        - case item.class.name
+        - when "String"
+          :markdown
+            #{item}
+        - when "Question"
+          - question = item
+          - case question.type
+          - when :open
+            = form.input question.key, :label => question.title, :as => :text, :value_method => :value
+          - when :radio
+            = form.input question.key, :label => question.title, :hint => question.description, :as => :radio, :collection => question.options.values, :label_method => :description, :value_method => :value
+        - else
+          Error: unknown item type
+          = item.class.name
+        
+      .prevnext
+        = button_to "&larr; Previous", "#", :class => "prev", :accesskey => "p"
+        = button_to "Next &rarr;",     "#", :class => "next", :accesskey => "n"
+  
+  = form.buttons
