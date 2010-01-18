@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+
+  before_filter :select_style, :only => [:new, :edit]
   
   def index
     @questionnaire = Questionnaire.find(params[:questionnaire_id], :include => :answers)
@@ -41,6 +43,12 @@ class AnswersController < ApplicationController
 
   def delete
     @answer.delete(params[:id])
+  end
+
+  protected
+
+  def select_style
+    @style = "form_" + (params[:style] || "panels")
   end
 
 end

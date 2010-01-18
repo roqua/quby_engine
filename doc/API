@@ -32,9 +32,24 @@ wherein $patient_id MUST be a unique identifier for this patient.
 A successful request SHALL return at least these JSON key-value pairs:
 
       {
-         answer_id: $id
+         id: $answer_id
          questionnaire_id: $questionnaire_id
          patient_id: $patient_id
       }
 
-Additional pairs MAY be returned.
+Additional pairs MAY be returned. After filling in a questionnaire,
+Roqua MAY request the answers by doing a HTTP/1.1 GET to
+
+      /questionnaires/$questionnaire_id/$answer_id.json
+
+This SHALL return at least these JSON key-value pairs:
+
+     {
+        id: $answer_id,
+        questionnaire_id: $questionnaire_id,
+        patient_id: $patient_id,
+        answers: { ... }
+     }
+
+wherein answers is a JSON hash of $question_id: $answer_value. The
+precise keys and possible values depend upon the questionnaire.
