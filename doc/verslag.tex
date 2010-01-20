@@ -6,15 +6,14 @@
 \usepackage{amsmath,amssymb,latexsym}
 \usepackage{float}
 
-\newcommand{\lastfm}{\textsc{Last.fm}}
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\enspace\ignorespaces{\textbf{Keywords:~}}#1}
 \newcommand{\negmuchspace}{\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace\negthinspace}
 \newcommand{\ds}[1]{d^2_{#1}}
 \newcommand{\dsa}[1]{\overline{d^2}_{#1}}
 
 %opening
-\title{Music Similarity in Vector Space}
-\author{Eamon Nerbonne \and Marten Veldthuis}
+\title{Domain-Specific Questionnaires}
+\author{Marten Veldthuis}
 \addtolength{\parskip}{0.5\baselineskip}
 \allowdisplaybreaks[1]
 
@@ -26,8 +25,9 @@
 \maketitle
 \begin{@twocolumnfalse}
 \begin{abstract}
-This paper presents the techniques used for and the results of embedding a very large music similarity database consisting of 1.7 million tracks and 140 million similarities into a vector space using landmark MDS.  Several distance metrics are discussed.  Potential uses of a vector space embedding are examined, as are the problems (and advantages) a large data set causes. Finally, a test system for showing the embedded locations of songs is given.
-\keywords{RD-MDS, Landmark MDS, Music Similarity, Dimensionality Reduction, Last.FM}
+This paper has an abstract. But I will not write the abstract until
+the paper is largely done. Makes sense, no?
+\keywords{DSL, Ruby, Rails, Dynamic Programming,  Questionnaires, Psychiatrics, Web-Applications}
 \end{abstract}
 \vspace{5mm}
 \end{@twocolumnfalse}
@@ -35,257 +35,28 @@ This paper presents the techniques used for and the results of embedding a very 
 
 \section{Introduction}
 
-This paper looks at the problem of locating a large set of objects into a low-dimensional Euclidean space, when only a small number of connections is known between the objects. Although the specific data set involved consists of a large and sparse graph of musical similarities, the problem occurs in a more general settings.  For example, the World Wide Web is another instance of an extremely large graph in which numerous useful measures of similarity might exist but for which the means of evaluating queries with respect to such similarity metrics directly is infeasible.  Music similarity is particularly attractive for an evaluation of this technique due to the availability a large accessible data source in the form of an online service called \lastfm.
+The Rob Giel Onderzoekscentrum (RGOc) is a research center developing
+a product called RoQua. RoQua is a web application which allows
+psychiatric departments of healthcare providers to monitor patients by
+periodically letting them fill out questionnaires over the internet.
 
-\lastfm~provides a broad set of features about music.  In addition to the current track similarities which we use, playcounts, listener base, popular tags and many other statistics are available for tracks, albums and artists.  This information has direct value as is evidenced by {\lastfm}'s broad usage.  Nevertheless, a vector space embedding has a number of benefits.
-
-\begin{itemize}
-
-\item Storing the embedding requires far less memory than the original similarity graph. For each object, we now only need to store a fixed number of values (one for each dimension, which is likely less than the number of known similarity ratings for a given track).  Crucially, even when only a small subset of the entire set of embedded points is available, that subsets retains its structure.  On the other hand, the similarity graph cannot be reduced without impacting the connectivity that is crucial for its interpretation.  Once computed, a vector space embedding can thus be used client-side enabling broader usage of the same data.  An embedding is thus both more compact and can be more flexibly distributed.
-
-\item Once embedded, every object has a distance to every other object, removing the sparseness of the original data which solves the sparseness problem of the original data.  This can be directly useful when two dissimilar tracks are to be compared, but it also provides useful smoothing for rarely played tracks.  At its core, \lastfm~bases its notion of similarity between tracks based on the relative number of listeners the two tracks share.  Infrequently played tracks such as very new tracks may not share many listeners simply due to sparseness.  Once embedded, the similarity of a track to others can be inferred from the similarity to tracks (or other embedded points such as users themselves) in the vicinity.  An embedding is dense and provides a limited robustness when confronted with sparse input.
-
-\item Last but not least, any vector space can be processed with a wide array of useful mathematical techniques.  For instance, it is possible to interpolate between two (or more) songs to generate a playlist with smooth transitions.  Low dimensional (especially two-dimensional) vector spaces are easy and intuitively visualized.  There are many fast clustering algorithms which can immediately be applied to the low-dimensional space.  This would make it easy to identify groups of similar songs.  Since the dimensions of the vector space reflect the structure of the graph, the embedding is also an attractive starting point for further learning and classification algorithms, which, for example, could aim to predict a song's position based on other features.
-
-\end{itemize}
+Right now, RoQua uses a third-party webservice called GlobalPark to
+display, and have patients fill in, the actual questionnaires. While
+this is a good separation of concerns for the application, GlobalPark
+is a costly service, and given the nature of the data, the RGOc would
+rather not be reliant on a service which is not under its own
+control.
 
 \section{Method overview}
 
-Our method consists of many steps. First, we collect data by querying \lastfm~for similarity data. These similarity ratings are accessible to anyone through the \lastfm~API.
-
-Once downloaded, the data is preprocessed.  We have a similarity rating (large for highly similar songs), but need a \emph{dissimilarity rating}.   Two rank-based and two log-of-similarity methods were tested.  As per LMDS from the sparse dissimilarities of the large set, we compute a dense rectangle of estimated dissimilarities for a small subset of songs using Dijkstra's shortest path algorithm \cite{dijkstra}.  This dense rectangle is then embedded using MDS \cite{strickert2005htm}.  Finally, using the embedded subset, the positions of the elements of the large set can be triangulated.
-
-\section{Gathering a data set} 
-
-We have written a crawler which takes a set of music files, extracts the artist, album and title (amongst others) and uses that to query \lastfm~for a set of related songs. The first step is to index all songs on the local machine, and store the metadata in an SQLite database. Once we have that, another program goes over all songs, and adds relations to the similarities table.
-
-Running this took many months for our data set of $1.7$ million songs. For each song we needed to make a webservice call to \lastfm, and obviously we needed to be kind to \lastfm~and limit the amount of requests we make per minute.
-
-\lastfm~has since expanded their API with more data, which was not available at the time. For instance, calls to the new API also return the amount of listeners a track has, and any tags the community has associated with the song. The listener count might be useful to include in the distance measure. Once we have run the MDS, we could run a clustering algorithm like k-means to obtain clusters of songs, and then use the tags of each individual songs to discover tags to apply to the entire cluster.
-
-\subsection{Data inconsistency}
-
-Although the similarity ratings \lastfm~provides are symmetrical, we still need to ensure that the ratings we store are indeed symmetrical. Because we downloaded and computed the complete set of similarities over the course of several months, it is possible and even likely that a rating changed during the process. When that happens, we receive the information that A has a similarity rating of 80 to B, but B has a rating of 70 to A. We fix this by taking the average of the values, and using that for both relations.
-
-Of course, the data set still has some problems. For instance, for some time our crawler normalized the names of artists and songs. The idea was to prevent duplication of artists and/or songs in our database, due to misspellings or character set differences. The end result however was that we ended up with songs with similarity to themselves of less than 100 percent. This is the same as saying that in vector space, a song should have a non-zero distance to itself, which is impossible in a metric space.
-
-We verified a few of these inconsistencies by rechecking the current status of the \lastfm~data manually.  In all cases these inconsistencies no longer existed, suggesting that the long period over which the data was downloaded is the cause.  Apart from removing similarities between a track and itself, we did not compensate for these issues - they do not greatly affect MDS and it is not feasible to speed up the downloading of the data from \lastfm.
-
-\label{symmetrization} Note that the data was split into training, test and verification sets only after the symmetrization.  This is necessary, since the source data is symmetric, so doing it before symmetrization means that A's similarity rate to B could be in the training and B's rate to A in the test data, and that would mean we'd be testing on seen data.  However, this decision did cause some problems later.
-
-\subsection{Choosing a distance metric}
-
-For both Dijkstra's path algorithm and MDS we need a measure of proximity for any two songs. The similarity we get from \lastfm~is a value in the range $[0, 100]$, zero being totally dissimilar, and one hundred being completely similar. Transforming this into a distance could be done with for instance:
-%
-\[-\log\frac{similarity}{N} \]
-%
-Most logical is $N = 100$, since then similarity of $100$ equals a distance of $0$. However, due to the high connectedness of the graph a few triangle errors with high similarities mean that tracks become close during Dijkstra's if any short path exists, even if it's caused by multiple artifacts. So, we want to de-emphasize long paths. To do so we impose a fixed additional distance on each similarity. Adding a fixed distance effectively means we use the following distance metric:
-%
-\[-\log\frac{similarity}{N}  =  \log N - \log x \]
-%
-Two $N$'s were tested, $200$ (referred to as Log200) and $2000$ (referred to as Log2000).
-
-Another measure of proximity we look at is the a rank-based distance metric. Since \lastfm~returns the top $k$ most similar tracks, we can ignore the actual similarity and simply use the rank. This nicely limits the impact of data set errors, since a problematic track with many high similarities will still have the same ranks.  It's not clear what distance a track with a given rank should have, and we tested to simple variants.  The first variant assigns a distance numerically equal to the rank (so the closest neighbor has distance one, and the next two, etc.)  The second variant tested assigned a distance equal to the rank plus 99 - thus the nearest neighbor has distance 100, and most neighbors have a distance of less than 200.
-
-Using ranks instead of similarity values however introduces a new problem: symmetrization. Firstly, the rank of $A$ in $B$'s list of known similar songs isn't necessarily identical to the rank of $B$ in $A$'s list. We take the mean of the two ranks (or, equivalently, the mean of the two distances) to compensate.  For this reason, these distance metrics are referred to as AvgRank (with distances starting at 1) and AvgRank2 (with distances starting a 100).  Secondly, unfortunately, since we split out data into a verification set prior before computing the rank, the ranks (and thus distances) in the verification and test sets are not comparable to those in the training set. Thirdly, since the similarities were symmetrized prior to splitting up the data set\ref{symmetrization}, problematically high similarities from untrustworthy tracks have already been symmetrized into the rest of the data set.  This means the advantage of the rank-based distance metric is reduced: Although the difference in distance between a high-similarity outlier and the rest of a similarity list is now reduced, a single track with abnormally high similarities can still occur at the top of around 100 other tracks.  Nevertheless, this method is more robust in the face of problematic tracks, since each track inherently has no more low ranks than any other.  
-
-\subsection{Verifying triangle inequality}
-
-Next, we verify if the triangle inequality (that is, $d(x,z) \leq d(x,y) + d(y,z)$ for all points $x,y,z$) holds true for the distances between any three songs A, B and C. Obviously, this depends on the actual distance metric we use.
-
-Violations are a problem for MDS, because it's noise and will result in inaccuracy in the outcome. However, triangle inequality violations are particularly a problem for Dijkstra's, because Dijkstra's algorithm will ``repair'' the violation by shortening the violating side by reason that a shorter path exists, thereby subtly discarding training data. For this reason, the triangle inequality should be fixed if violated, before running the Dijkstra algorithm. At the moment, we do not do this, mostly because of time constraints.
-
-The data set contained 4464317628 distinct triangles, but each distance metric differs in the number of violations.  Unsurprisingly, the AvgRank measure has the highest triangle inequality error rate: $51.16\%$ of all triangles did not respect the triangle inequality.  For AvgRank2, the error rate was $30.67\%$, for Log200 $15.46\%$ and for~Log2000~just~$0.22\%$.
-
-\section{Data preparation}
-Before we can apply MDS, we need to turn the sparse distance matrix into a dense matrix. We use Dijkstra's path algorithm to provide estimations of the unknown distances between songs.  In a metric space, the triangle inequality guarantees that the estimates provided by Dijkstra's are upper bounds on the true distance.  This is a good estimation: we tested MDS on an artificial, square point-grid where distances to neighbors were accurate but distances to nodes far away scaled to over 10 times their real length, and the output square merely showed some slight pincushioning but retained the overall topology of the input grid.  We also tested on a grid with far distances removed and replaced using Dijkstra's algorithm, as will be illustrated later.  Finally, some tracks are simply unreachable from other tracks.  This results in infinite numbers in the distance matrix, which are problematic for the MDS and other calculations.  Therefore, all pairs of points that are unconnected and thus have an infinite distance are assigned a distance of 10 times the maximum distance to any point.
-
-Because of the amount of data, we do this for a (much smaller) subset of $n$ tracks (in our case, we use a subset of $13000$). For this subset, we compute the full $N \times n$ matrix (with $N$ being the total amount of songs, about $1.7$ million in our case).
-
-In \cite{desilva:sms}, two methods of selecting the subset are suggested.  Firstly, a random selection works well.  Alternatively, min-max can be used to improve coverage.  This advantage is also a disadvantage, however, since doing so means min-max frequently selects outliers.  Since these advantages are somewhat complementary, we chose to use both methods, each to select half of the points of the subset.
-
-Doing this still means that for each of the $n$ runs (with each song in the subset being a run), we compute $1.7$ million floating point numbers, which requires some $6.8$ megabyte of data. To compute the full $N \times n$ matrix, we thus need $1.7 \cdot 10^6 \cdot 13000 \cdot 4$ bytes, which is over $80$ gigabyte. We store this data on disk instead of main memory. In the end, each run takes about 10 seconds to process.
-
-\section{Multidimensional Scaling}
-
-We use a technique called multidimensional scaling (MDS) to embed the songs into a vector space, using the similarities we get from \lastfm. MDS is a powerful dimension reduction technique for embedding high-dimensional data into a low-dimensional target space. It works by reconstructing distances between objects in the source data in the target space, as best as possible.
-
-Multidimensional scaling comes in a non metric and a metric variant. The metric variant applies to problems where the proximity measure implies ``uniqueness on the interval level'' which is true if the triangle inequality holds. Essentially metric MDS can be used when the (preprocessed) proximity measure is itself directly usable as a distance measure in the Euclidean sense. The non-metric variant doesn't require any such thing, and can apply to qualitative proximities.
-
-However, while MDS can deal with non-metric cases, Dijkstra's algorithm cannot be sensibly applied when the triangle inequality does not hold. And since plain MDS doesn't fare well with a sparse data set, as shown in \cite{platt2004fes}, we need to use the inherently metric RD-MDS for accuracy as well as performance reasons.
-
-MDS can generate a low-dimensional representation in more general cases than we require.  For instance, it can model dominance relations, where the proximity measure applies between elements of two different sets (i.e. not similarity between various songs but preference between various people and various colors, say).  MDS does not require that the proximity measure is symmetric, although this is often assumed, and is generally the case in our dataset.
-
-To verify that our MDS implementations perform reasonably, we attempted to reconstruct various test grids from noisy distance data.  In this paper we will use a $25 \times 25$ node test grid.  As in \cite{desilva:sms}, we add noise to the Euclidean distance by multiplying it entrywise with independent random variables distributed as $\exp(N(0,\sigma))$ and then symmetrizing.  The examples presented all use a noise level of $20\%$.  Finally, to model the nature of our data set, distances above a fuzzy-cutoff were removed (set to positive infinity) such that each node is directly connected to around 80 other nodes (this is approximately the connectivity of the \lastfm~data).  Finally, just as we do for the \lastfm~data, missing entries are filled in using Dijkstra's algorithm.
-
-The grid is visualized with grey lines.  Each node is also colored according to the position it had in the source grid. Before applying MDS , the grid then looks like this:\\
-\begin{center}\includegraphics[width=0.9\columnwidth,trim=0mm 60mm 0mm 60mm]{mdstestimgs/L200R25NS20N1000LR2000PU1orig}\end{center}\vspace{2mm}
-
-Since Landmark MDS only processes a subset of the original points and triangulates the rest, we use large dots to indicates points that have been processed using MDS and small dots (as above) to indicate points that have not.
-
-\subsection{HiT-MDS} \label{subsec:hitmds}
-To embed the dense rectangle into vector space, we use a C-library called HiT-MDS (High-Throughput MDS \cite{strickert2005htm}), which is designed to deal with large data sets. It makes use of simulated annealing to position the points in the embedding. We did make a few changes to the library. First, we changed the method updating the locations of points to three variants:
-\label{pointupdates}
-\begin{enumerate}
-\item \label{orig} The first variant, which is the classical HiT-MDS version, does, for each dimension individually, a step of size one towards the target position, or randomly no step at all (for that dimension).
-\item \label{alt1} Our first alternative does a step of size one precisely towards target, and randomly moves $0.5$ in a random dimension.
-\item \label{alt2} Our second alternative is similar to variant \ref{alt1}, but does this with a decrementing amount of randomness.
-\end{enumerate}
-
-Using point-update function \ref{alt1}, the MDS of the noisy sparse grid then looks as follows:\\
-\vspace{-7mm}
-\begin{center}\includegraphics[width=0.9\columnwidth,clip,trim=65mm 108mm 65mm 108mm]{mdstestimgs/L625R25NS20N100LR2000PU1noLDMS}\end{center}
-\vspace{-4mm}
-
-To integrate with the other components, HiT-MDS was ported to C++/CLI, which permits binding to both native and Microsoft.NET binaries.  Finally, we rearranged the memory layout of the triangular distance matrix which forms the input to HiT-MDS such that new landmarks can be added sequentially and to minimize the computational cost of the matrix access, which turned out to noticeably increased throughput.  The advantage over classical scaling provided by HiT-MDS lies less in this tuning than in its lower computational complexity, however.
-
-Within each iteration, HiT-MDS iterates over all points and find the local derivative of the stress function.  Using one of the three step functions, it then takes a step into the general direction of the minimum.  As usual for simulated annealing, the step size is scaled down toward zero as the simulation progresses.  As part of calculating the local derivative, HiT-MDS inspects all dimensions of all other points.  Thus, HiT-MDS is an $O(k n^2)$ algorithm (assuming rapid convergence), in contrast to the $O(n^3)$ eigenvalue solving algorithm (also assuming rapid convergence) which classical scaling employs.  Of course, HiT-MDS merely finds the top $k$ dimensions, whereas the classical scaling finds more, even if not all dimensions are used.  
-
-The difference between an $O(k n^2)$ and an $O(n^3)$ algorithm is significant in practice, since it permits the use of many more landmarks.  Since the data-set is potentially noisy, and since Landmark MDS is less sensitive to noise the more landmarks are used, this means that the embedded landmark points can be more representative of the distribution of tracks as a whole using the faster HiT-MDS.  If the embedded landmark points are indeed more representative of the data set as a whole, triangulation will be more accurate.
-
-\section{Landmark MDS Triangulation}
-Once an initial embedding of the subset is complete, all other points are embedded by triangulation.  Unfortunately, the technique as described in \cite{desilva:sms} isn't directly applicable.  In order to triangulate the positions of the remaining points, the paper describes an approach based on the eigenvectors of a variant of the distance matrix.  This is a useful solution particularly since the eigenvalues and eigenvectors of said matrix are calculated as a part of performing traditional MDS. HiT-MDS, however, does not generate these values directly.
-
-Classical scaling defines the embedding $e_k$ in dimension $k$ in terms of $\sqrt{\lambda_k} v_k$ such that $v_k \cdot v_k^T = \lambda_k$ where each eigenvector $v_k$ corresponds to a dimension of the embedded space - the $i$-th element of vector $\sqrt{\lambda_k} v_k$ is thus the position of the $i$-th in the $k$-th dimension.  The LMDS triangulation of the position of vector $x_a$ then proceeds as follows:
-%
-\begin{equation}
-x_a = -\frac{1}{2} \begin{bmatrix} v_1^T / \sqrt{\lambda_1} \\ \vdots \\ v_k^T / \sqrt{\lambda_k} \end{bmatrix} (\delta_a - \delta_\mu) \label{triangFormula}
-\end{equation}
-%
-Here $\delta_a$ is the vector of squared distances between $a$ and each landmark point in the subset, and $\delta_\mu$ the mean $\frac{1}{n}\sum_i\delta_i$, with $1 \leq i \leq n$, i.e.\ the mean squared distance of a particular landmark $i$ to all others.  In essence, this formula takes a weighted average of all landmark points, weighing the positions of landmarks whose squared distance is closer than average positively, and those that are further away negatively.  Rewritten in terms of $e^k$, this is:
-%
-\begin{equation}
-x_a = -\frac{1}{2} \begin{bmatrix} e_1^T / \lambda_1 \\ \vdots \\ e_k^T / \lambda_k \end{bmatrix} (\delta_a - \delta_\mu)
-\end{equation}  
-%
-Thus to perform triangulation it suffices to know the embedding points and their eigenvalues.  We have a reasonable approximation of the embedded space, as computed by HiT-MDS.  Unfortunately, these embeddings are not true eigenvectors.  HiT-MDS makes no guarantee that the vectors are orthogonal, and further has not separated and sorted all eigenvectors by eigenvalue.  In particular, it turns out that $v_k \cdot v_k^T = \lambda_k$ does not hold, and thus that we cannot derive the eigenvalue using the length of the embedding $e_k$.  While not perfectly orthogonal, the HiT-MDS output is reasonable enough to be useful in this context: $|e_k \cdot e_l| \ll |e_k||e_l|$, especially if many landmarks are used.  An error which slightly skews the resultant vector space is largely meaningless in the context of music comparison: if the shared component between two vectors causes dimensions of the resultant space to become slightly correlated, this slightly skews long distances but will not much impact the local neighborhood and thus not influence song adjacency.  This means that such an error, if present, will have next to no impact on the usefulness of an embedding: both interpolation and compression are unaffected, and visualization or other vector techniques must not be overly sensitive to the accuracy of long distances since the source data is inherently local.  Finally, this error is small and quantifiable: at $100$ landmarks, $\frac{|e_k||e_l|}{|e_k \cdot e_l|} \approx 20$, by $1000$ the ratio is around a factor $100$, and by $10000$ it is roughly $200$ (tested at $10\%$ and $100\%$ noise levels). 
-
-The second required component are the the eigenvalues.  If $D_n$ is the distance matrix, call $[\Delta_n]_{ij} = [D_n]_{ij}^2$ the matrix of squared distances.  The eigenvalues $\lambda_k$ sought are those of the mean-centered $B_n = -\frac{1}{2} H_n \Delta_n H_n$. Since they are eigenvalues, they must satisfy $B_n e_k = \lambda_k e_k$, with $B_n$ the mean-centered matrix of squared distances.  However, as the eigenvectors aren't perfect, this equation will only approximately hold, and instead we minimize the square length of the difference vector: $| B_n e_k - \lambda_k e_k |^2$:
-% 
-\begin{align}
-0           = & \frac {d | B_n e_k - \lambda_k e_k |^2}{d \lambda_k}   \\
-0           = & \frac {d \sum_i^n ([B_n e_k]_i - \lambda_k [e_k]_i )^2 }{d \lambda_k}   \\
-0           = & \sum_i^n 2([B_n e_k]_i - \lambda_k [e_k]_i )[e_k]_i  \\
-\frac{0}{2} = & \sum_i^n [B_n e_k]_i [e_k]_i - \sum_i^n \lambda_k [e_k]_i^2  \\
-\lambda_k \sum_i^n  [e_k]_i^2  = & \sum_i^n [B_n e_k]_i [e_k]_i   \\
-\lambda_k   = & \frac{\sum_i^n [B_n e_k]_i [e_k]_i}{\sum_i^n  [e_k]_i^2} \label{eqLambda1}  
-\end{align}
-%
-While calculating $\lambda_k$ in this fashion is possible, it requires computing $B_n$.  Since that involved two matrix multiplications of $n \times n$ matrices, this is an $O(n^3)$ operation, and performing this multiplication would negate or at least greatly reduce the advantage of using HiT-MDS in the first place.  Mean-centering is, however, also easily accomplished by directly computing the means.  Writing $\ds{ij}$ for the squared distance between the $i$-th and $j$-th element, $\dsa{i}$ for the mean of all squared distances to the $i$-th landmark, and finally $\dsa{}$ for the mean all $\dsa{i}$:
-%
-\begin{align}
-\negmuchspace B_n=& -\frac{1}{2} H_n \Delta_n H_n \\
-\negmuchspace[B_n]_{ij}=& -\frac{1}{2} \sum_{k'}^n \left(\sum_k^n \left(\delta_{ik}-\frac{1}{n}\right) \ds{kk'}\right) \left(\delta_{k'j}-\frac{1}{n}\right) \\
-\negmuchspace[B_n]_{ij}=& -\frac{1}{2} \sum_{k'}^n \left(\ds{ik'}-\frac{1}{n}\sum_k^n \ds{kk'}\right) \left(\delta_{k'j}-\frac{1}{n}\right) \\
-\negmuchspace[B_n]_{ij}=& -\frac{1}{2} \sum_{k'}^n \left(\ds{ik'}-\dsa{k'}\right) \left(\delta_{k'j}-\frac{1}{n}\right) \\
-\negmuchspace[B_n]_{ij}=& -\frac{1}{2} \left(\ds{ij}-\dsa{j} -\frac{1}{n}\sum_{k'}^n \left(\ds{ik'}-\dsa{k'}\right)  \right)\\
-\negmuchspace[B_n]_{ij}=& -\frac{1}{2} \left(\ds{ij}-\dsa{j} -\dsa{i} + \dsa{} \right)\\
-\negmuchspace[B_n]_{ij}=& \frac{1}{2} \left(\dsa{j}+\dsa{i} - \ds{ij}- \dsa{} \right)
-\end{align}
-%
-Although this formulation of $B_n$ is more amenable to implementation, it nevertheless requires another copy of the distance matrix (see \ref{subsec:hitmds}).  This can be avoided by rewriting the numerator of formula \eqref{eqLambda1}, $\sum_i^n [B_n e_k]_i [e_k]_i$:
-%
-\begin{align}
-\negmuchspace&= \sum_i^n [e_k]_i \left(\sum_j^n [B_n]_{ij} [e_k]_j \right) \\
-\negmuchspace&= \frac{1}{2} \sum_i^n [e_k]_i \left(\sum_j^n \left(\dsa{j}+\dsa{i} - \ds{ij}- \dsa{} \right) [e_k]_j \right) \\
-\negmuchspace&= \frac{1}{2} \sum_{i,j} [e_k]_i [e_k]_j \left(\dsa{j}+\dsa{i} - \ds{ij}- \dsa{} \right)   \\
-\negmuchspace&=\begin{matrix} \frac{1}{2} \left(\sum_i [e_k]_i \dsa{i} \sum_j [e_k]_j + \sum_j [e_k]_j \dsa{j} \sum_i [e_k]_i \right. \\
-  \left. - \dsa{} \sum_i [e_k]_i  \sum_j [e_k]_j    -  \sum_{i,j} [e_k]_i [e_k]_j \ds{ij} \right) \end{matrix}  \\
-\intertext{We can assume the embeddings $e_k$ are mean-centered without loss of generality, thus $\sum_i [e_k]_i = \sum_j [e_k]_j = 0$.}
-\negmuchspace&=-\frac{1}{2} \sum_{i,j} [e_k]_i [e_k]_j \ds{ij}  \\
-\intertext{thus}
-\negmuchspace&\lambda_k   =  - \frac{ \sum_{i,j} [e_k]_i [e_k]_j \ds{ij} }{2 \sum_i^n  [e_k]_i^2} \label{eqLambda2}  
-\end{align}
-
-We can now apply \eqref{triangFormula} with this estimated eigenvalue.  If we apply this modified version of LMDS to the noisy $25 \times 25$ grid with 200 landmarks the result generally looks as follows:
-\vspace{-3mm}
-\begin{center}\includegraphics[width=1.0\columnwidth,angle=53,viewport=15mm 120mm 190mm 175mm]{mdstestimgs/L200R25NS20N1000LR2000PU1shear46}\end{center}
-\vspace{-5mm}
-
-As mentioned before, HiT-MDS does not generate a guaranteed orthonormal representation, however.  Since we don't do any further processing to fix this, sometimes the output is slightly distorted.  In the above MDS result,  $\frac{|e_k||e_l|}{|e_k \cdot e_l|} \approx 46$ which was the median distortion in a set of 20 runs using the same settings.  The worst result of this set of runs had $\frac{|e_k||e_l|}{|e_k \cdot e_l|} \approx 11$ and looks as follows:
-\vspace{-7mm}
-\begin{center}\includegraphics[width=1.0\columnwidth,angle=280,viewport=30mm 50mm 250mm 280mm]{mdstestimgs/L200R25NS20N1000LR2000PU1shear11}\end{center}
-\vspace{-26mm}
-
-This result is indeed somewhat distorted, but not unacceptably so.  Such a level of distortion will certainly not pose a problem for our problem domain of music similarities.  
-
-Applying LMDS triangulation directly to a dataset of large size is very slow since the distance of a particular point to every landmark requires non-contiguous access to the distances computed by the application of Dijkstra's algorithm.  The computation of Dijkstra's from each landmark inherently produces distances grouped by landmark rather than by the points we are now trying to triangulate.  Rather than transpose the 82 gigabyte on-disk distance matrix, we observe that formula \eqref{triangFormula} can also be stated as:
-%
-\begin{equation}
-[x_a]_i = -\frac{1}{2} \sum_j^n [e_i]_j (\ds{aj} - [\delta_\mu]_j) \label{triangFormula2}
-\end{equation}
-%
-So, the $i$-th dimension of the triangulated point $x_a$ can be expressed as the scaled sum over all $n$ landmarks.  Apart from the (small) vector $\delta_\mu$, the expression being summed only refers to distances from the $j$-th landmark.  This means we can keep a running total for each dimension of each point and simply iterate over each landmark instead, avoiding unnecessary disk I/O.
-
 \section{Analysis}
-
-We used two measures to analyze our results.  The first method is the correlation of the distances between two points in the input distance matrix and the distance in the embedded space.  This measure is also used internally by HiT-MDS and should be minimized.  However, this measure is insufficient to evaluate the quality of a result, since (for instance) a sufficiently high number of dimensions is almost certainly able to match even noise in the input data.  Ideally, however, the embedded space not only matched the training data well, but also accurately predicts new relationships.
-
-To measure how well the embedded space predicts unseen similarities, we used a second measure we dubbed TestRank.  Since the ranks in the test-set are necessarily unrelated to ranks in the training set, we cannot relate a similarity in the test-set quantitatively to a similarity in the training set.  However, we do know that the similarities in the training set generally represent "close" tracks, since \lastfm~only lists the highest similarities.  Therefore, for each similarity $(a,b)$ in the test set, we counted the number of tracks $c$ for which $(a,c) > (a,b)$ and normalized this number by the total number of tracks.  TestRank is then the average over all similarities in the test set.  A TestRank of 1 represents (impossible) situations where all test-set similarities are pairs of tracks which are closest to each other in the embedded space.  A TestRank of 0.5 represents situations where a test-set similarity pair has as many tracks closer as further away (i.e.\ the base uncorrelated case). This measure was computed exhaustively for landmark-only embeddings, but due to data-set limitations is computed only by random sample for the full data set.
-
-We have various settings which we can change to find the optimum performance of the embedder. First there is the learning rate. We have found that any learning rate works equally fine, provided it is above $1$. Lower than that performance decreases slightly. Values between $1/\sqrt{2}$ and 8 are all reasonable, though.
-
-\begin{figure}
-\begin{center}\includegraphics[width=1.0\columnwidth]{rawgraphs/g-CorrByGen_Log2000N0LR8000SA0PU1D10-crop-rotated-rotated-rotated.pdf}\end{center}
-    \caption{Correlation by number of generations for Log2000, with a learning rate of 8, point update function \ref{alt1}, for $10$ dimensions}
-    \label{corrbygen-log2000}
-\end{figure}
-
-Computing more generations results in better performance in all cases, as seen in figure \ref{corrbygen-log2000}, and starting annealing immediately (as opposed to only after a given amount of generations have passed) gave the best results.
-
-We have a number of distance metrics available, called AvgRank, AvgRank2, Log200 and Log2000. AvgRank2 and Log2000 are about equal in the testrank performance metric, with the former being a tiny bit better, but AvgRank2 achieves better correlation. Plain AvgRank performs poorly compared to the other metrics.
-
-\begin{figure}
-\begin{center}\includegraphics[width=1.0\columnwidth]{rawgraphs/g-TestRankByDim_AvgRank2N30LR1000SA0PU1D0-crop-rotated-rotated-rotated.pdf}\end{center}
-    \caption{TestRank by number of dimensions for AvgRank2, with a learning rate of 1, point update function \ref{alt1}, for $30$ generations}
-    \label{testrankbydim-avgrank2}
-\end{figure}
-
-\begin{figure}
-\begin{center}\includegraphics[width=1.0\columnwidth]{rawgraphs/g-TestRankByDim_Log2000N30LR1000SA0PU1D0-crop-rotated-rotated-rotated.pdf}\end{center}
-    \caption{TestRank by number of dimensions for Log2000, with a learning rate of 1, point update function \ref{alt1}, for $30$ generations}
-    \label{testrankbydim-log2000}
-\end{figure}
-
-The testrank performance for AvgRank2 decreases with more dimensions (see figure \ref{testrankbydim-avgrank2}), due to the fact that it requires more generations to settle when given more dimensions. The Log2000 distance metric doesn't require this, as can be seen in figure \ref{testrankbydim-log2000}.
-
-As for the three different point update styles, as previously explained in section \ref{pointupdates}, if we look at the testrank performance we notice that the original version performs drastically worse than both our alternatives. Our alternatives both perform about equally well. Strangely, correlation results barely differ for any of the three versions.
-
 
 \section{Future Work}
 
-Future work might be done towards the possible applications as we have already outlined in the introduction: playlist generation, music recommendations, clustering or studies into the classification of music through other methods. With a vector space embedding, research could also be done towards using computational geometry theories for building an index to facilitate fast searching through the space.
-
-Several improvements on our methods could be done. The symmetrization step should be done after computing the metric, instead of before as we do now, and there might be better ways of symmetrizing relations than taking the average like we do now - for example by using the maximum. Also, there may be smart ways of fixing the triangle inequality violations we have in the data set, rather than simply shortening the longest edge implicitly with Dijkstra's. This is especially important for the (poorly performing) AvgRank distance metric, as over half of the triangles are erroneous in that case.
-
-HiT-MDS could also be improved to make the embedding dimensions orthonormal.  Making the dimensions orthonormal by using a linear transformation is not complex nor computationally expensive, but doing so changes the relative distances between points.  By performing such a transformation occasionally during training, the embedding may converge on a more appropriate solution without more fundamental changes.
-
-Alternative MDS implementations and versions could be tested, for instance the Pivot MDS variant and the High Dimensional Embedder could be tried. Also, HiT-MDS works with a simulated annealing based algorithm, and is possibly less accurate than classical scaling.
-
-And lastly, \lastfm~now offers a much larger amount of data, compared to when we started gathering the information. The data set could be extended with this information. It might be useful to include listener count in the distance metric, for instance. And it would probably be useful to have the listener count when trying to generate a playlist smoothly transitioning from one song to another, in which case the listener count could be used to prevent obscure songs from being included in the playlist. Tags could be used in clustering, and there are probably many more applications which could be looked into.
-
 \section{Conclusion}
 
-Multidimensional scaling is a powerful technique which can be applied in the embedding of musical tracks in a low-dimensional space, yielding good results. Using Dijkstra's path algorithm to generate a dense matrix, and then using Landmark MDS to embed the rest of the songs, it is possible to find an embedding for songs when only the nearest neighbours for each song are known.
-
-Even though musical similarity graphs are very large, ours having 1.7 million vertices and 140 million edges, using Landmark MDS, it is possible to embed this graph in approximately an hour. Calculating the dense matrix using Dijkstra's took several days, but once this matrix is computed, it can be reused for every embedding.
-
-Finally, we set up a test system which displays the location in the embedding of a given set of tracks. It can be found at \verb|http://home.nerbonne.org/songplotter/|. Either upload a playlist or enter a number of tracks in the text area, and click the ``Plot these songs'' button to get a view of the locations of the songs.
-
-\begin{center}\includegraphics[width=1.0\columnwidth]{songplotter.png}\end{center}
-
-
-
-\bibliographystyle{plain}
-\bibliography{MusicSimMDS}
+%\bibliographystyle{plain}
+%\bibliography{MusicSimMDS}
 \end{twocolumn}
 
 \end{document}
-
-% WONTFIX:
-% Explain RD-MDS (Dijkstra, see platt paper)
-% Mention Nystr\"om?
-% Explain why stress isn't a good quality measure:
-%   -  noise can translate into extra dimensions, so scree plot will indicate higher dimensionality than is really the case
-%   -  sparseness means that unlike normal mds, we're extra sensitive to noise: clearly, with dimensions > connectedness, it's possible to make an embedding that's perfect even if the underlying data is nonsense.
-% Note: real dijkstra is probably not even necessary since MDS is so robust in the face of overestimation.
