@@ -27,7 +27,7 @@
 \begin{abstract}
 This paper has an abstract. But I will not write the abstract until
 the paper is largely done. Makes sense, no?
-\keywords{DSL, Ruby, Rails, Dynamic Programming,  Questionnaires, Psychiatrics, Web-Applications}
+\keywords{Domain Specific Languages, Language Design, Ruby, Rails, Dynamic Programming,  Questionnaires, Psychiatrics, Web-Applications}
 \end{abstract}
 \vspace{5mm}
 \end{@twocolumnfalse}
@@ -37,29 +37,53 @@ the paper is largely done. Makes sense, no?
 
 The Rob Giel Onderzoekscentrum (RGOc) is a research center developing
 a product called RoQua. RoQua is a web application which allows
-psychiatric departments of healthcare providers to monitor patients by
-periodically letting them fill out questionnaires over the internet.
+psychiatric departments of health-care providers to monitor patients by
+periodically letting them fill out questionnaires over the Internet.
 
-Right now, RoQua uses a third-party webservice called GlobalPark to
+Right now, RoQua uses a third-party web service called GlobalPark to
 display, and have patients fill in, the actual questionnaires. While
-this is a good separation of concerns for the application, GlobalPark
-is a costly service, and given the nature of the data, the RGOc would
-rather not be reliant on a service which is not under its own
-control.
+this is a good separation of concerns for the application, in section
+\ref{sec:problems} we will outline the problems with GlobalPark. In
+section \ref{sec:approach} we explain our solutions to these problems,
+and the rationale behind them.
 
-The final problem the RGOc is experiencing with the GlobalPark service
+\section{Problems}\label{sec:problems}
+
+GlobalPark is a costly service, and given the nature of the data, the
+RGOc would rather not be reliant on a service which is not under its
+own control.
+
+Another problem the RGOc is experiencing with the GlobalPark service
 is a matter of usability. Defining questionnaires through the web
-interface of GlobalPark is a slow process, and it's not possible to
-define multiple views for the same questionnaire.
+interface of GlobalPark is a slow process. The web interface for
+editing questionnaires is slow, and gets increasingly slower when
+there are more questions defined for a questionnaire.
 
-\section{Goals}
+It's also not possible to define multiple views for the same
+questionnaire. In RoQua, this is needed because for most
+questionnaires, both a patient-version as well as a bulk-input version
+needs to be available. Currently, this means questionnaires have to be
+defined twice, both in GlobalPark and in RoQua itself.
 
-The goals for the project are then defined thusly:
+Lastly, the way GlobalPark sends back information to RoQua is by doing
+an HTTP GET request back to RoQua. This opens up a potential CSRF
+security hole. Additionally, this interface contains character
+encoding bugs, and GlobalPark is largely unresponsive to bug reports.
 
-\begin{itemize}
-\item Replace GlobalPark
-\item Should make it easy to define new questionnaires, with less
-  point-and-clicking 
+All things considered, the RGOc would like to move away from
+GlobalPark and switch to a replacement of their own.
+
+\subsection{Goals}
+
+The goals for the project, which was given the name Quby, and will be
+referred to as such from here on, are then defined as:
+
+\begin{enumerate}
+\item Replace all functionality of GlobalPark, for as far as we use it
+  currently.
+\item \label{dsl} Make it easier to define questionnaires.
+\item \label{restful} Make the API interface with RoQua simpler.
+\end{enumerate}
 
 \section{Method overview}
 
