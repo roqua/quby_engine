@@ -10,8 +10,16 @@ module QuestionnaireDsl
     end
 
 
-    def name(name)
-      @questionnaire.name = name
+    def key(key)
+      # @questionnaire.key = key
+    end
+
+    def title(title)
+      @questionnaire.title = title
+    end
+
+    def description(description)
+      @questionnaire.description = description
     end
     
     def panel(title = nil, options = {}, &block)
@@ -23,14 +31,23 @@ module QuestionnaireDsl
         @panels << p.build
       end
     end
-    
+
+    # Short-circuit the question command to perform an implicit panel
     def question(key, options = {}, &block)
       panel() do
         question(key, options, &block)
       end
     end
 
+    # Short-circuit the text command to perform an implicit panel
+    def text(value)
+      panel() do
+        text(value)
+      end
+    end
+    
     # score :totaal do
+    #   # Plain old Ruby code here, executed in the scope of the answer
     #   q01 + q02 + q03
     # end
     def score(key, options = {}, &block)
@@ -64,6 +81,8 @@ module QuestionnaireDsl
     end
 
     def question(key, options = {}, &block)
+      # TODO Add check for repeated use of keys
+      
       q = QuestionFactory.new(key, options)
       q.instance_eval(&block)
 
@@ -93,7 +112,16 @@ module QuestionnaireDsl
     end
     
     def option(key, options = {})
+      raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options[:key]
+      
       op = QuestionOption.new(key, options)
+      @question.options[key] = op
+    end
+
+    def other(key, options = {})
+      raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options[:key]
+      
+      op = QuestionOptionWithTextField.new(key, options)
       @question.options[key] = op
     end
   end

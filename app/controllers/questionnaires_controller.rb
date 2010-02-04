@@ -9,7 +9,13 @@ class QuestionnairesController < ApplicationController
   end
 
   def show
-    @questionnaire = Questionnaire.find(params[:id])
+    if params[:version]
+      @current_version = params[:version].to_i
+      @questionnaire = Questionnaire.find(params[:id]).versions[@current_version].reify
+    else
+      @questionnaire = Questionnaire.find(params[:id])
+      @current_version = @questionnaire.versions.length
+    end
   end
 
   def edit

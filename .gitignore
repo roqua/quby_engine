@@ -9,3 +9,5 @@ gems/*
 !gems/bundler
 #*#
 .#*
+doc/verslag.pdf
+doc/verslag.aux

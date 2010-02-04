@@ -3,7 +3,10 @@ class Questionnaire < ActiveRecord::Base
 
   before_save :validate_definition_syntax
 
-  attr_accessor :name
+  has_paper_trail
+
+  attr_accessor :title
+  attr_accessor :description
   attr_accessor :panels
   
   def after_initialize
