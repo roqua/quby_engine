@@ -41,8 +41,11 @@ class AnswersController < ApplicationController
     end
   end
 
-  def delete
-    @answer.delete(params[:id])
+  def destroy
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @answer = @questionnaire.answers.find(params[:id])
+    @answer.destroy
+    redirect_to :action => :index
   end
 
   protected

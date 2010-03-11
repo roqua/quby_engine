@@ -14,7 +14,7 @@
       %th(style="width: 150px") Actions
   %tbody
     - @questionnaires.each do |questionnaire|
-      %tr
+      %tr{:class => cycle("odd", "even")}
         %td= questionnaire.id
         %td= link_to questionnaire.key, questionnaire
         %td
@@ -23,6 +23,6 @@
         %td= time_ago_in_words(questionnaire.created_at) + " ago"
         %td= time_ago_in_words(questionnaire.updated_at) + " ago"
         %td
-          = link_to "Show", questionnaire
+          = link_to "Codebook", questionnaire_codebook_path(questionnaire)
           = link_to "Edit", edit_questionnaire_path(questionnaire)
           = link_to "Destroy", questionnaire, :method => :destroy

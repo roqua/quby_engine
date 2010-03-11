@@ -41,6 +41,8 @@ table {
     color: white;
     padding: 5px;
     border: 1px solid #000; }
+  table tr.even {
+    background: #fafafa; }
   table td {
     padding: 5px;
     border: 1px solid #eee;

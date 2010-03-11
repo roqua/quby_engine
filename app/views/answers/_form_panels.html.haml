@@ -12,8 +12,12 @@
           - case question.type
           - when :open
             = form.input question.key, :label => question.title, :as => :text, :value_method => :value
+          - when :string
+            = form.input question.key, :label => question.title, :as => :text, :value_method => :value
+          - when :text
+            = form.input question.key, :label => question.title, :as => :text, :value_method => :value
           - when :radio
-            = form.input question.key, :label => question.title, :hint => question.description, :as => :radio, :collection => question.options.values, :label_method => :description, :value_method => :value
+            = form.input question.key, :label => question.title, :hint => question.description, :as => :radio, :collection => question.options.values, :label_method => :description, :value_method => :key
         - else
           Error: unknown item type
           = item.class.name

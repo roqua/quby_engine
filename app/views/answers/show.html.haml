@@ -14,7 +14,7 @@
         %td= question.key
         %td= question.title
         %td
-          - case question.type
+          - case question.type-
           - when :open
             = @answer.value[question.key]
           - when :radio 

@@ -121,7 +121,7 @@ module QuestionnaireDsl
     def other(key, options = {})
       raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options[:key]
       
-      op = QuestionOptionWithTextField.new(key, options)
+      op = QuestionOptionWithTextfield.new(key, options)
       @question.options[key] = op
     end
   end

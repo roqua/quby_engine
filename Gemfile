@@ -1,15 +1,14 @@
-clear_sources
 source "http://gemcutter.org/"
 
-disable_system_gems
-
-bundle_path "gems"
+gem "sqlite3-ruby"
 
 gem "rails", "2.3.4"
-gem "ruby-debug", :except => :production
+gem "ruby-debug"
 
 gem "formtastic"
 gem "haml"
+gem "open4"
+gem "rdiscount"
 
 # Testing
-gem "rspec", :only => :testing
+gem "rspec"
