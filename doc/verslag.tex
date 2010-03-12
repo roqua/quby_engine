@@ -101,18 +101,28 @@ referred to as such from here on, are then defined as:
 
 
 \section{Background of technology}
-%   - background of technology used
-Roqua is written using a web application framework called Ruby on Rails. Given that this framework provides options for integrating with other Ruby on Rails applications, Quby will be written in Rails too. Communication between the two is done by exposing a RESTful web service interface on the side of Quby, which will output JSON documents.
+% - background of technology used Roqua is written using a web
+application framework called Ruby on Rails. Given that this framework
+provides options for integrating with other Ruby on Rails
+applications, Quby will be written in Rails too. Communication between
+the two is done by exposing a RESTful web service interface on the
+side of Quby, which will output JSON documents.
 
 
 \section{Architectural Overview}
-% 3 - architectural overview (of Quby, and of Quby as a service in its setting within Roqua)
+% 3 - architectural overview (of Quby, and of Quby as a service in its
+% setting within Roqua)
 
-Ruby on Rails applications follow a standard Model-View-Controller pattern.
+Ruby on Rails applications follow a standard Model-View-Controller
+pattern.
+
+\includegraphics{quby-in-its-setting.pdf}
 
 \subsection{DSL}
 
-One issue traditionnally seen in many Ruby domain-specific languages is that they tend to pollute the namespace. For instance, take the following snippet of Rails code:
+One issue traditionnally seen in many Ruby domain-specific languages
+is that they tend to pollute the namespace. For instance, take the
+following snippet of Rails code:
 
 \begin{lstlisting}
 class Sprocket < ActiveRecord::Base
@@ -120,13 +130,55 @@ class Sprocket < ActiveRecord::Base
 end
 \end{lstlisting}
 
-In this case, \lstinline{belongs_to} is part of the DSL which Rails' ActiveRecord provides. But it's actually a class method, and if you try to define your own \lstinline{belongs_to}, you have to be careful. For Rails, this is usually not that big a problem, given the naming of the DSL methods they use.
+In this case, \lstinline{belongs_to} is part of the DSL which Rails'
+ActiveRecord provides. But it's actually a class method, and if you
+try to define your own \lstinline{belongs_to}, you have to be
+careful. For Rails, this is usually not that big a problem, given the
+naming of the DSL methods they use.
 
-However, with the DSL we wanted to have for Quby, these collisions would be common. In this paper we will show a method of solving this problem, without having to consort to Ruby parsetree manipulation tools, which can be cumbersome to build, maintain and debug.
+However, with the DSL we wanted to have for Quby, these collisions
+would be common. In this paper we will show a method of solving this
+problem, without having to consort to Ruby parsetree manipulation
+tools, which can be cumbersome to build, maintain and debug.
 
-Our approach is similar in spirit to the Decorator pattern\cite{Erich:1995design} in that we too have a seperate Questionnaire\-Decorator class which decorates the Questionnaire instances at runtime. Implementation-wise, we leverage Ruby's dynamic nature.
+Our approach is similar in spirit to the Decorator
+pattern\cite{Erich:1995design} in that we too have a seperate
+Questionnaire\-Decorator class which decorates the Questionnaire
+instances at runtime. Implementation-wise, we leverage Ruby's dynamic
+nature.
 
-Upon instantiation of a questionnaire object we instantiate a decorator and evaluate the questionnaire definition within the instance. Any DSL methods are implemented as instance methods on the decorator. These DSL methods then modify the questionnaire object, filling in instance variables such as \lstinline{@questions}.
+Upon instantiation of a questionnaire object we instantiate a
+decorator and evaluate the questionnaire definition within the
+decorator instance. Any DSL methods are implemented as instance
+methods on the decorator. These DSL methods then modify the
+questionnaire object, filling in instance variables such as
+\lstinline{@questions}.
+
+\begin{lstlisting}
+class Questionnaire
+  def initialize(definition)
+    QuestionnaireDecorator.decorate(self, definition)
+  end
+end
+
+class QuestionnaireDecorator
+  def self.decorate(destination, definition)
+    instance = self.new(destination)
+    instance.instance_eval(definition)
+  end
+
+  def initialize(destination)
+    @destination = destination
+  end
+
+  def question(title)
+    @destination.instance_eval do
+      @questions ||= []
+      @questions << title
+    end
+  end
+end
+\end{lstlisting}
 
 \section{Implementation}
 % 4 - Implementation
@@ -144,6 +196,8 @@ Upon instantiation of a questionnaire object we instantiate a decorator and eval
 
 \section{Conclusion}
 % 6 concluding remarks
+
+We have devised a way of implementing the decorator pattern for a dynamic language. This allows us to easily develop domain-specific languages without code generation, or having to implement our own parser.
 
 
 %----------------------------------------------------------------------------------
