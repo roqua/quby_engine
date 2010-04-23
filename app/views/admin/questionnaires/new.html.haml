@@ -1,6 +1,6 @@
 %h1== New questionnaire
 
-- semantic_form_for(@questionnaire) do |form|
+- semantic_form_for(@questionnaire, :url => admin_questionnaires_path) do |form|
   - form.inputs :name => "General" do
     = form.inputs :key
   = form.inputs :definition

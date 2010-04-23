@@ -1,7 +1,7 @@
 %h1 Answers for #{@questionnaire.title}
 
 #actions
-  = link_to "New", new_questionnaire_answer_path(@questionnaire)
+  = link_to "New", new_admin_questionnaire_answer_path(@questionnaire)
 
 %table
   %thead
@@ -19,7 +19,7 @@
         %td= time_ago_in_words(answer.created_at) + " ago"
         %td= time_ago_in_words(answer.updated_at) + " ago"
         %td
-          = link_to "Show", questionnaire_answer_path(@questionnaire, answer)
-          = link_to "Edit", edit_questionnaire_answer_path(@questionnaire, answer)
-          = link_to "Destroy", questionnaire_answer_path(@questionnaire, answer), :method => :delete
+          = link_to "Show", admin_questionnaire_answer_path(@questionnaire, answer)
+          = link_to "Edit", edit_admin_questionnaire_answer_path(@questionnaire, answer)
+          = link_to "Destroy", admin_questionnaire_answer_path(@questionnaire, answer), :method => :delete
 

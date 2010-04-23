@@ -31,7 +31,8 @@
 
       #nav
         %ul
-          %li= link_to "Questionnaires", questionnaires_path
+          %li= tab_to "Questionnaires", admin_questionnaires_path
+          %li= tab_to "Function Library", "#"
     
     #content
       = yield

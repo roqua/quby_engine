@@ -1,0 +1,4 @@
+%h1 Taking #{@questionnaire.name}
+
+- semantic_form_for(@answer, :url => admin_questionnaire_answer_path(@questionnaire, @answer)) do |form|
+  = render :partial => @style

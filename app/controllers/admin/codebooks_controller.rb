@@ -1,4 +1,4 @@
-class CodebooksController < ApplicationController
+class Admin::CodebooksController < AdminAreaController
   def show
     @questionnaire = Questionnaire.find(params[:questionnaire_id])
 

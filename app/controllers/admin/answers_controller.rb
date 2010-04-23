@@ -1,4 +1,4 @@
-class AnswersController < ApplicationController
+class Admin::AnswersController < AdminAreaController
 
   before_filter :select_style, :only => [:new, :edit]
   
@@ -37,7 +37,7 @@ class AnswersController < ApplicationController
     @answer.update_attributes(params[@answer.class.to_s.underscore])
 
     if @answer.save
-      redirect_to questionnaire_path(@answer)
+      redirect_to admin_questionnaire_path(@answer)
     end
   end
 

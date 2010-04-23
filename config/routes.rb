@@ -1,8 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
+  map.devise_for :users
 
-  map.resources :questionnaires do |q|
-    q.resource :codebook
-    q.resources :answers
+  map.namespace :admin do |admin|
+    admin.resources :questionnaires do |q|
+      q.resource :codebook
+      q.resources :answers
+    end
   end
   
   map.root :controller => 'questionnaires'

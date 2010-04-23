@@ -2,20 +2,58 @@ body {
   font-family: Helvetica, sans-serif;
   font-size: 0.8em; }
 
-#navigation {
-  background: #eee;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 2em;
-  overflow: auto; }
-  #navigation li {
-    float: left; }
-    #navigation li a {
+#masthead {
+  background: #0f72a4;
+  padding: 1em 2em 0 2em; }
+  #masthead h1 {
+    color: white;
+    font-size: 1.1em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0; }
+    #masthead h1 strong {
+      font-size: 1.3em; }
+  #masthead #user {
+    float: right;
+    margin-top: -1.5em;
+    margin-bottom: -4em;
+    margin-left: 15em;
+    color: white; }
+    #masthead #user a {
+      color: white; }
+  #masthead #nav {
+    color: #fff;
+    overflow: auto; }
+    #masthead #nav ul {
+      margin: 1em 0 0 0;
       display: block;
-      padding: 5px;
-      border-right: 1px solid #ccc;
-      text-decoration: none; }
-    #navigation li.active a {
-      background: #ccc; }
+      overflow: auto;
+      position: relative; }
+      #masthead #nav ul li {
+        float: left; }
+        #masthead #nav ul li a {
+          float: left;
+          background: #002e60;
+          padding: 0 10px;
+          margin: 0 0.5em 0 0;
+          line-height: 2em;
+          color: #fff;
+          text-decoration: none;
+          outline: none; }
+          #masthead #nav ul li a#current {
+            background: white;
+            color: black; }
+      #masthead #nav ul li.beta a {
+        background: #006294;
+        color: #777; }
+      #masthead #nav ul li.other {
+        float: right; }
+        #masthead #nav ul li.other a {
+          background: none; }
+
+/* ** fix for IE6.0 ** */
+* html #nav {
+  height: 39px; }
 
 #mastfoot {
   text-align: center;
@@ -27,10 +65,6 @@ body {
 
 #content {
   margin: 2em; }
-
-h1 {
-  font-family: Georgia, serif;
-  font-size: 1.5em; }
 
 table {
   width: 100%;

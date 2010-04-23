@@ -1,5 +1,5 @@
-class QuestionnairesController < ApplicationController
-
+class Admin::QuestionnairesController < AdminAreaController
+  
   def index
     @questionnaires = Questionnaire.all
   end
