@@ -66,6 +66,20 @@ body {
 #content {
   margin: 2em; }
 
+#flash {
+  padding: 0.7em;
+  margin: 0 0 2em 0;
+  border: 1px solid black; }
+  #flash.notice {
+    background-color: #ffffcc;
+    border-color: #ffcc66; }
+  #flash.success {
+    background-color: #ccffcc;
+    border-color: #11cc11; }
+  #flash.error {
+    background-color: #ffcccc;
+    border-color: #cc1111; }
+
 table {
   width: 100%;
   border-collapse: collapse;

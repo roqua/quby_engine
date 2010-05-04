@@ -41,7 +41,7 @@ class Admin::QuestionnairesController < AdminAreaController
     
     logger.info "Saving"
     if @questionnaire.save
-      redirect_to questionnaire_path(@questionnaire)
+      redirect_to admin_questionnaire_path(@questionnaire)
     else
       render :action => :edit
     end

@@ -20,19 +20,6 @@
       %h1
         %strong Quby
 
-      #user
-        - if user_signed_in?
-          Signed in as #{current_user.email}. Not you?
-          = link_to "Sign out", destroy_user_session_path
-        - else
-          = link_to "Sign in", new_user_session_path
-          or
-          = link_to "create an account", new_user_registration_path
-
-      #nav
-        %ul
-          %li= link_to "Questionnaires", questionnaires_path
-    
     #content
       = yield
       

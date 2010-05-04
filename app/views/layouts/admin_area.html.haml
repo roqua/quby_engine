@@ -35,6 +35,9 @@
           %li= tab_to "Function Library", admin_functions_path
     
     #content
+      - flash.keys.each do |k|
+        #flash(class="#{k}")= flash[k]
+
       = yield
       
     #mastfoot
