@@ -124,6 +124,28 @@ module QuestionnaireDsl
       op = QuestionOptionWithTextfield.new(key, options)
       @question.options[key] = op
     end
+
+    def dependencies(options = {}, &block)
+      dependency = DependencyFactory.new(options)
+      dependency.instance_eval(&block)
+
+      @question.dependencies << dependency
+    end      
+  end
+
+  class DependencyFactory
+    # dependencies do
+    #   question :q03, :is_valid
+    #   question :q04, :in => [:q04a04, :q04a05]
+    # end
+    
+    def initialize(options = {})
+      @dependency = Dependency.new(options)
+    end
+
+    def question(question_key, options = {})
+      # TODO
+    end
   end
   
   class ScoreFactory
