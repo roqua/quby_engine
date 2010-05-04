@@ -6,6 +6,8 @@ ActionController::Routing::Routes.draw do |map|
       q.resource :codebook
       q.resources :answers
     end
+
+    admin.resources :functions
   end
   
   map.root :controller => 'questionnaires'
