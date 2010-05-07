@@ -1,6 +1,11 @@
 class Answer < ActiveRecord::Base
   belongs_to :questionnaire
 
+  before_validation_on_create :generate_random_token
+
+  validates_presence_of :token
+  validates_length_of :token, :minimum => 4
+
   serialize :value
 
   def after_initialize
@@ -13,6 +18,12 @@ class Answer < ActiveRecord::Base
       scores[k] = send("score_" + k.to_s)
     end
     scores
+  end
+
+  protected
+
+  def generate_random_token
+    self.token ||= ActiveSupport::SecureRandom.hex(8)
   end
   
 end

@@ -9,6 +9,10 @@ ActionController::Routing::Routes.draw do |map|
 
     admin.resources :functions
   end
+
+  map.resources :questionnaires do |q|
+    q.resources :answers
+  end
   
   map.root :controller => 'admin/questionnaires'
 end
