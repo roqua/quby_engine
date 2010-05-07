@@ -1,2 +1,0 @@
-module Admin::FunctionsHelper
-end
