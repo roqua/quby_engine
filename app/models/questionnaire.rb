@@ -10,7 +10,9 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :panels
   
   def after_initialize
-   QuestionnaireDsl.enhance(self, self.definition || "")
+    functions = Function.all.map(&:definition).join("\n\n")
+    functions_and_definition = [functions, self.definition].join("\n\n")
+    QuestionnaireDsl.enhance(self, functions_and_definition || "")
   end
 
   def questions
@@ -29,7 +31,8 @@ class Questionnaire < ActiveRecord::Base
     q = Questionnaire.new
     begin
 #     raise "Boom!"
-      QuestionnaireDsl.enhance(q, self.definition)
+      functions = Function.all.map(&:definition).join("\n\n")
+      QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
     rescue => e
       errors.add(:definition, "Syntax error")
       errors.add(:definition, e.message)

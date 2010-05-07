@@ -10,5 +10,5 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :functions
   end
   
-  map.root :controller => 'questionnaires'
+  map.root :controller => 'admin/questionnaires'
 end
