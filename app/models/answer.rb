@@ -14,10 +14,16 @@ class Answer < ActiveRecord::Base
 
   def scores
     scores = {}
+    
     questionnaire.scores.map(&:key).each do |k|
       scores[k] = send("score_" + k.to_s)
-    end
+    end if questionnaire.scores
+
     scores
+  end
+
+  def as_json(options = {})
+    super(:methods => [:scores])
   end
 
   protected

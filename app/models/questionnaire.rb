@@ -8,6 +8,7 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :title
   attr_accessor :description
   attr_accessor :panels
+  attr_accessor :scores
   
   def after_initialize
     functions = Function.all.map(&:definition).join("\n\n")
@@ -21,8 +22,9 @@ class Questionnaire < ActiveRecord::Base
     end.flatten
   end
 
-  def scores
-    @scores
+  def as_json(options = {})
+    super(:only => [:key, :title, :description],
+          :methods => [:questions])
   end
 
   protected
@@ -30,7 +32,6 @@ class Questionnaire < ActiveRecord::Base
   def validate_definition_syntax
     q = Questionnaire.new
     begin
-#     raise "Boom!"
       functions = Function.all.map(&:definition).join("\n\n")
       QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
     rescue => e
