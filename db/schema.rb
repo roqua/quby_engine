@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100507121439) do
+ActiveRecord::Schema.define(:version => 20100507151750) do
 
   create_table "answers", :force => true do |t|
     t.text     "value"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20100507121439) do
     t.integer  "questionnaire_id"
     t.string   "patient_id"
     t.string   "token"
+    t.boolean  "active",           :default => true
   end
 
   create_table "functions", :force => true do |t|
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20100507121439) do
     t.datetime "updated_at"
     t.string   "title"
     t.text     "description"
+    t.boolean  "active",      :default => true
   end
 
   create_table "users", :force => true do |t|

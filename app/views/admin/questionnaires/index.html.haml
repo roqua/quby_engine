@@ -7,20 +7,20 @@
   %thead
     %tr
       %th(style="width: 50px") ID
-      %th Key
+      %th(style="width: 100px") Key
+      %th Title
       %th(style="width: 150px") Answers
-      %th(style="width: 150px") Created
-      %th(style="width: 150px") Updated
+      %th(style="width: 150px") Last Updated
       %th(style="width: 150px") Actions
   %tbody
     - @questionnaires.each do |questionnaire|
       %tr{:class => cycle("odd", "even")}
         %td= questionnaire.id
-        %td= link_to questionnaire.key, admin_questionnaire_path(questionnaire)
+        %td= questionnaire.key
+        %td= questionnaire.title || ""
         %td
           = link_to(pluralize(questionnaire.answers.size, "answer"), admin_questionnaire_answers_path(questionnaire))
           = link_to("(new)", new_admin_questionnaire_answer_path(questionnaire))
-        %td= time_ago_in_words(questionnaire.created_at) + " ago"
         %td= time_ago_in_words(questionnaire.updated_at) + " ago"
         %td
           = link_to "Codebook", admin_questionnaire_codebook_path(questionnaire)

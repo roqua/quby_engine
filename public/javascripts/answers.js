@@ -1,7 +1,7 @@
 // Scope:
 //
 //   questionnaires/1/answers/new
-//   questionnaiers/1/answers/edit
+//   questionnaires/1/answers/edit
 
 function activatePanel(panel) {
     $('.panel').hide().removeClass('current');

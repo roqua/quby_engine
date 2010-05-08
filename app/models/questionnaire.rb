@@ -9,7 +9,12 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :description
   attr_accessor :panels
   attr_accessor :scores
-  
+
+  default_scope :conditions => {:active => true},
+                :order => 'key ASC'
+
+  validates_uniqueness_of :key
+
   def after_initialize
     functions = Function.all.map(&:definition).join("\n\n")
     functions_and_definition = [functions, self.definition].join("\n\n")
