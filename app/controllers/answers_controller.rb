@@ -11,7 +11,6 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    render :text => "TODO"    
   end
 
   def create
@@ -48,6 +47,8 @@ class AnswersController < ApplicationController
   end
 
   def verify_token
+    return true if Rails.env.development?
+    
     unless @answer.token == (params[:token] || session[:answer_token])
       render :text => "Invalid token, or no token given"
       return false

@@ -11,9 +11,9 @@
           - question = item
           - case question.type
           - when :open
-            = form.input question.key, :label => question.title, :as => :text, :value_method => :value
+            = form.input question.key, :label => question.title, :as => :string, :value_method => :value
           - when :string
-            = form.input question.key, :label => question.title, :as => :text, :value_method => :value
+            = form.input question.key, :label => question.title, :as => :string, :value_method => :value
           - when :text
             = form.input question.key, :label => question.title, :as => :text, :value_method => :value
           - when :radio

@@ -2,6 +2,7 @@ class Questionnaire < ActiveRecord::Base
   has_many :answers
 
   before_save :validate_definition_syntax
+  after_save  :write_to_disk
 
   has_paper_trail
 
@@ -10,8 +11,8 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :panels
   attr_accessor :scores
 
-  default_scope :conditions => {:active => true},
-                :order => 'key ASC'
+  default_scope :order => "key ASC"
+  named_scope :active, :conditions => {:active => true}, :order => 'key ASC'
 
   validates_uniqueness_of :key
 
@@ -20,7 +21,20 @@ class Questionnaire < ActiveRecord::Base
     functions_and_definition = [functions, self.definition].join("\n\n")
     QuestionnaireDsl.enhance(self, functions_and_definition || "")
   end
-
+  
+  def definition
+    if not @definition_on_disk
+      begin
+        @definition_on_disk ||= File.read(Dir[File.join(RAILS_ROOT, "app", "questionnaires", "#{id}_*.rb")].first)
+        write_attribute(:definition, @definition_on_disk)
+      rescue
+        "" #read_attribute(:definition)
+      end
+    else
+      read_attribute(:definition)
+    end
+  end
+  
   def questions
     @panels.map do |panel|
       panel[:items].select {|item| Question === item }
@@ -46,6 +60,12 @@ class Questionnaire < ActiveRecord::Base
       return false
     end
     return true
+  end
+
+  def write_to_disk
+    filename = File.join(RAILS_ROOT, "app", "questionnaires", "#{id}_#{key}.rb")
+    logger.info "Writing #{filename}..."
+    File.open(filename, "w") {|f| f.write( read_attribute(:definition) ) }
   end
   
 end

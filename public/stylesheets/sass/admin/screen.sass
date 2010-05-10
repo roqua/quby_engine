@@ -1,0 +1,78 @@
+body
+  :font-family Helvetica, sans-serif
+  :font-size 0.8em
+
+!masthead_bg = #0f72a4
+
+@import masthead.sass
+
+#mastfoot
+  :text-align center
+  :color #aaa
+
+  &:before
+    :content "\2014"
+  &:after
+    :content "\2014"
+
+#content
+  :margin 2em
+
+#flash
+  :padding 0.7em
+  :margin 0 0 2em 0
+  :border 1px solid black
+
+  &.notice
+    :background-color #ffffcc
+    :border-color #ffcc66
+
+  &.success
+    :background-color #ccffcc
+    :border-color #11cc11
+
+  &.error
+    :background-color #ffcccc
+    :border-color #cc1111
+
+table
+  :width 100%
+  :border-collapse collapse
+  :margin-bottom 1.5em
+  
+  thead tr th
+    :background black
+    :color white
+    :padding 5px
+    :border 1px solid #000
+
+  tr.even
+    :background #e9e9e9
+
+  td
+    :padding 5px
+    :border 1px solid #cecece
+    :vertical-align top
+
+pre
+  :font-family "Deja Vu Sans Mono", "Courier New", "Courier", monospace
+
+.question
+  :background #e5e5e5
+  :margin 2em
+  :padding 2em
+
+.formtastic
+  &#new_answer 
+    fieldset.panel
+      :margin-bottom 2em
+  
+  &.answer
+    .prevnext
+      :display none
+      :overflow hidden
+      .prev
+        :float left
+      .next
+        :float right
+          

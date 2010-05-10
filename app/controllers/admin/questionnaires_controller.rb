@@ -1,7 +1,7 @@
 class Admin::QuestionnairesController < AdminAreaController
   
   def index
-    @questionnaires = Questionnaire.all
+    @questionnaires = Questionnaire.active.all
   end
 
   def new
