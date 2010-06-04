@@ -1,7 +1,5 @@
 title "Phamous Algemeen"
 
-"foo"
-
 panel do
   # Datum: dd/mm/yyyy
   #
@@ -14,6 +12,14 @@ panel do
   # ( ) Jaarlijkse screening
   # ( ) Ander interval, screening na [string___________],
   #                           reden: [string___________]
+  question :q03, :type => :radio do
+    title "Reden voor screening"
+    option :q03a01, :description => "Jaarlijkse screening"
+    option :q03a02, :description => "Ander interval" do
+      question :q03a02q01, :type => :string, :title => "Screening na"
+      question :q03a02q02, :type => :string, :title => "reden"
+    end
+  end
   
   
   # Etniciteit:
@@ -29,7 +35,9 @@ panel do
     option :q04a04, :description => "Indiaans / Latijns-Amerikaans"
     option :q04a05, :description => "Turks"
     option :q04a06, :description => "Marokkaans"
-    other  :q04a07, :description => "Anders, namelijk"
+    option :q04a07, :description => "Anders" do
+      question :q04a07q01, :type => :string, :title => "namelijk"
+    end
   end
     
 end
