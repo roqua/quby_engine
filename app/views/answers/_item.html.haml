@@ -1,0 +1,23 @@
+/ Begin _item.html.haml
+.item
+  - case item.class.name
+  - when "String"
+    :markdown
+      #{item}
+  - when "Question"
+    - case item.type
+    - when :open
+      = render :partial => "item_question_open",   :locals => {:question => item}
+    - when :string
+      = render :partial => "item_question_string", :locals => {:question => item}
+    - when :text
+      = render :partial => "item_question_text",   :locals => {:question => item}
+    - when :radio
+      = render :partial => "item_question_radio",  :locals => {:question => item}
+    - else
+      Error: unknown question type
+      = question.type
+  - else
+    Error: unknown item type
+    = item.class.name
+/ End _item.html.haml

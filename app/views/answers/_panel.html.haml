@@ -1,0 +1,7 @@
+/ Begin _panel.html.haml
+%fieldset.panel
+  %h1&= panel[:title]
+  = render :partial => "item", :collection => panel[:items]
+
+  = link_to "Next &rarr;"
+/ End _panel.html.haml

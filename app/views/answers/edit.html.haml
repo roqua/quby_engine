@@ -1,1 +1,2 @@
-FOO!
+- form_tag questionnaire_answer_path(@questionnaire, @answer) do
+  = render :partial => "panel", :collection => @questionnaire.panels

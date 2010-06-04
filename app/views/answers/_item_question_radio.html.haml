@@ -1,0 +1,9 @@
+%li.radio(id="answer_#{question.key}_input")
+  %fieldset
+    %label(for="answer_#{question.key}")= question.title
+    %ol
+      - question.options.values.each do |opt|
+        = radio_button(:answer, question.key, opt.key)
+        %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+        
+    
