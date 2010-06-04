@@ -1,4 +1,4 @@
-%h1 Answers for #{@questionnaire.title}
+%h1 #{@questionnaire.title} &rarr; Answers
 
 #actions
   = link_to "New", new_admin_questionnaire_answer_path(@questionnaire)
@@ -7,7 +7,7 @@
   %thead
     %tr
       %th(style="width: 50px") ID
-      %th Scores
+      /%th Scores
       %th(style="width: 150px") Created
       %th(style="width: 150px") Updated
       %th(style="width: 150px") Actions
