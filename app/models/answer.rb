@@ -6,6 +6,8 @@ class Answer < ActiveRecord::Base
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
 
+  before_save :validate_answers
+
   serialize :value
 
   def after_initialize
@@ -25,11 +27,17 @@ class Answer < ActiveRecord::Base
   def as_json(options = {})
     super(:methods => [:scores])
   end
+  
+  def validate_answers
+    questionnaire.questions.each do |question|
+
+    end
+  end
 
   protected
 
   def generate_random_token
     self.token ||= ActiveSupport::SecureRandom.hex(8)
   end
-  
+
 end
