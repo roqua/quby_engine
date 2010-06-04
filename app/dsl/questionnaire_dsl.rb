@@ -125,12 +125,17 @@ module QuestionnaireDsl
       @question.options[key] = op
     end
 
-    def dependencies(options = {}, &block)
-      dependency = DependencyFactory.new(options)
-      dependency.instance_eval(&block)
+    def depends_on(question_id, options = {})
+      #dependency = DependencyFactory.new(options)
+      #dependency.instance_eval(&block)
 
-      @question.dependencies << dependency
-    end      
+      #@question.dependencies << dependency
+    end
+
+    def validates(options = {})
+      @question.validations ||= []
+      @question.validations << [:regexp, options[:regexp]] if options[:regexp]
+    end
   end
 
   class DependencyFactory

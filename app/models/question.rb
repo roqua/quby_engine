@@ -4,6 +4,8 @@ class Question
   attr_accessor :description
   attr_accessor :type
   attr_accessor :options
+  attr_accessor :validations
+  attr_accessor :dependencies
   
   def initialize(key, options = {})
     @key = key
