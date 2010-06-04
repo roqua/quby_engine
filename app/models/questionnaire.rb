@@ -36,7 +36,7 @@ class Questionnaire < ActiveRecord::Base
   end
   
   def questions
-    @panels.map do |panel|
+    @panels && @panels.map do |panel|
       panel[:items].select {|item| Question === item }
     end.flatten
   end
