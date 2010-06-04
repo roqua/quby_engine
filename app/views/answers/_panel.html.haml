@@ -3,5 +3,5 @@
   %h1&= panel[:title]
   = render :partial => "item", :collection => panel[:items]
 
-  = link_to "Next &rarr;"
+  = link_to "Next &rarr;", panel.next
 / End _panel.html.haml
