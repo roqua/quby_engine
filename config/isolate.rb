@@ -17,6 +17,7 @@ gem 'open4'
 # Rails plugins
 gem 'rails-settings' #, :lib => 'settings'
 gem 'devise', '= 1.0.6'
+gem 'seed-fu'
 
 environment :test do
   gem 'rspec'
