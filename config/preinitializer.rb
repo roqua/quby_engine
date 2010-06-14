@@ -1,6 +1,6 @@
 begin
   require 'rubygems'
-  require 'isolate'
+  require 'isolate/now'
 
   Isolate.gems "tmp/gems", :file => "config/isolate.rb"
 rescue LoadError

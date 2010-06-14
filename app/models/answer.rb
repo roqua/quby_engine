@@ -30,7 +30,6 @@ class Answer < ActiveRecord::Base
   
   def validate_answers
     questionnaire.questions.each do |question|
-
     end
   end
 

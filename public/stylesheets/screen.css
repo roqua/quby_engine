@@ -1,6 +1,7 @@
 body {
   font-family: Helvetica, sans-serif;
-  font-size: 0.8em; }
+  font-size: 0.8em;
+  background-color: #eee; }
 
 #masthead {
   background: #0f72a4;
@@ -56,7 +57,9 @@ body {
   height: 39px; }
 
 #mastfoot {
-  text-align: center;
+  margin: 0 auto;
+  max-width: 900px;
+  text-align: right;
   color: #aaa; }
   #mastfoot:before {
     content: "\2014"; }
@@ -64,7 +67,38 @@ body {
     content: "\2014"; }
 
 #content {
-  margin: 2em; }
+  margin: 8em auto 0em auto;
+  max-width: 900px; }
+  #content .panel {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 2em; }
+    #content .panel h1 {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 1em; }
+    #content .panel .prevnext .prev {
+      float: left; }
+    #content .panel .prevnext .next {
+      float: right; }
+    #content .panel .item {
+      margin-bottom: 2em; }
+      #content .panel .item label {
+        display: block;
+        width: 25%;
+        float: left;
+        padding-top: .2em; }
+      #content .panel .item .radio ol {
+        position: relative;
+        width: 74%;
+        margin: 0;
+        padding: 0 0 0 25%; }
+        #content .panel .item .radio ol li label {
+          float: none;
+          display: inline;
+          width: 100%; }
+        #content .panel .item .radio ol li .item {
+          margin-bottom: 0.5em; }
 
 #flash {
   padding: 0.7em;
@@ -106,10 +140,3 @@ pre {
 
 .formtastic#new_answer fieldset.panel {
   margin-bottom: 2em; }
-.formtastic.answer .prevnext {
-  display: none;
-  overflow: hidden; }
-  .formtastic.answer .prevnext .prev {
-    float: left; }
-  .formtastic.answer .prevnext .next {
-    float: right; }

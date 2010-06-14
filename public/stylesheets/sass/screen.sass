@@ -1,13 +1,16 @@
 body
   :font-family Helvetica, sans-serif
   :font-size 0.8em
+  :background-color #eee
 
 !masthead_bg = #0f72a4
 
 @import masthead.sass
 
 #mastfoot
-  :text-align center
+  :margin 0 auto
+  :max-width 900px
+  :text-align right
   :color #aaa
 
   &:before
@@ -16,7 +19,46 @@ body
     :content "\2014"
 
 #content
-  :margin 2em
+  :margin 8em auto 0em auto
+  :max-width 900px
+
+  .panel
+    :background #fff
+    :border 1px solid #ddd
+    :padding 2em
+
+    h1
+      :font-size 1.5em
+      :font-weight bold
+      :margin-bottom 1em
+
+    .prevnext
+      .prev
+        :float left
+      .next
+        :float right
+
+    .item 
+      margin-bottom: 2em
+      label
+        display: block
+        width: 25%
+        float: left
+        padding-top: .2em
+
+      .radio
+        ol
+          position: relative
+          width: 74%
+          margin: 0
+          padding: 0 0 0 25%
+          li 
+            label
+              float: none
+              display: inline
+              width: 100%
+            .item
+              margin-bottom: 0.5em
 
 #flash
   :padding 0.7em
@@ -67,12 +109,3 @@ pre
     fieldset.panel
       :margin-bottom 2em
   
-  &.answer
-    .prevnext
-      :display none
-      :overflow hidden
-      .prev
-        :float left
-      .next
-        :float right
-          

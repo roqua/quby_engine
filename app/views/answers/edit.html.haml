@@ -1,2 +1,2 @@
-- form_tag questionnaire_answer_path(@questionnaire, @answer) do
+- form_tag questionnaire_answer_path(@questionnaire, @answer), :class => @questionnaire.key do
   = render :partial => "panel", :collection => @questionnaire.panels

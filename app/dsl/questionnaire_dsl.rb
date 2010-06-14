@@ -64,8 +64,8 @@ module QuestionnaireDsl
     attr_reader :title
 
     def initialize(title, options = {})
-      @panel = {:title => title,
-                :items => []}
+      @panel = Items::Panel.new :title => title,
+                         :items => []
     end
 
     def build
@@ -73,11 +73,11 @@ module QuestionnaireDsl
     end
 
     def title(value)
-      @panel[:title] = value
+      @panel.title = value
     end
 
     def text(value)
-      @panel[:items] << value.to_s
+      @panel.items << value.to_s
     end
 
     def question(key, options = {}, &block)
@@ -86,7 +86,7 @@ module QuestionnaireDsl
       q = QuestionFactory.new(key, options)
       q.instance_eval(&block)
 
-      @panel[:items] << q.build
+      @panel.items << q.build
     end
   end
   
@@ -111,18 +111,20 @@ module QuestionnaireDsl
       @question.description = value
     end
     
-    def option(key, options = {})
+    def option(key, options = {}, &block)
       raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options[:key]
       
       op = QuestionOption.new(key, options)
       @question.options[key] = op
+
+      instance_eval &block if block
     end
 
-    def other(key, options = {})
-      raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options[:key]
-      
-      op = QuestionOptionWithTextfield.new(key, options)
-      @question.options[key] = op
+    def question(key, options = {}, &block)
+      q = QuestionFactory.new(key, options)
+      q.instance_eval(&block) if block
+
+      @question.options[@question.options.keys.last].questions << q.build
     end
 
     def depends_on(question_id, options = {})

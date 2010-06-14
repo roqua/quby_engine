@@ -34,10 +34,28 @@ class Questionnaire < ActiveRecord::Base
       read_attribute(:definition)
     end
   end
-  
+
   def questions
     @panels && @panels.map do |panel|
-      panel[:items].select {|item| Question === item }
+      panel.items.map do |item| 
+        if Question === item
+          item
+        end
+      end
+    end.flatten
+  end
+
+  def questions
+    @panels && @panels.map do |panel|
+      panel.items.map do |item| 
+        if Question === item
+          if item.type == :radio
+            [item, item.options.map {|key, opt| opt.questions }]
+          else
+            item
+          end
+        end
+      end
     end.flatten
   end
 

@@ -1,9 +1,11 @@
-%li.radio(id="answer_#{question.key}_input")
-  %fieldset
-    %label(for="answer_#{question.key}")= question.title
-    %ol
-      - question.options.values.each do |opt|
+.radio(id="answer_#{question.key}_input")
+  %label(for="answer_#{question.key}")= question.title
+  %ol
+    - question.options.values.each do |opt|
+      %li
         = radio_button(:answer, question.key, opt.key)
-        %label(for="answer_#{question.key}_#{opt.key}")= opt.description
-        
-    
+        - if opt.questions.empty?
+          %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+        - else
+          %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+          = render :partial => "item", :collection => opt.questions

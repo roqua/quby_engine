@@ -10,6 +10,9 @@ class Question
   def initialize(key, options = {})
     @key = key
     @type = options[:type]
+    @title = options[:title]
+    @description = options[:description]
+
     @options = HashWithIndifferentAccess.new
   end
 end
