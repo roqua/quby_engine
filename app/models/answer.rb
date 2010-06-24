@@ -1,7 +1,7 @@
 class Answer < ActiveRecord::Base
   belongs_to :questionnaire
 
-  before_validation_on_create :generate_random_token
+  abefore_validation_on_create :generate_random_token
 
   validates_presence_of :token
   validates_length_of :token, :minimum => 4

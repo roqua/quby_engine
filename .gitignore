@@ -1,10 +1,10 @@
 *.log
 .idea
-tmp/*
-*.sqlite
-*.sqlite3
-database.yml
+tmp/**/*
+db/*.sqlite3
+config/database.yml
 tmp/restart.txt
+.bundle
 gems/*
 !gems/cache
 !gems/bundler

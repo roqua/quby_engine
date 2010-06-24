@@ -4,7 +4,7 @@ class Questionnaire < ActiveRecord::Base
   before_save :validate_definition_syntax
   after_save  :write_to_disk
 
-  has_paper_trail
+  #has_paper_trail
 
   attr_accessor :title
   attr_accessor :description
@@ -12,7 +12,7 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :scores
 
   default_scope :order => "key ASC"
-  named_scope :active, :conditions => {:active => true}, :order => 'key ASC'
+  scope :active, :conditions => {:active => true}, :order => 'key ASC'
 
   validates_uniqueness_of :key
 
@@ -25,7 +25,7 @@ class Questionnaire < ActiveRecord::Base
   def definition
     if not @definition_on_disk
       begin
-        @definition_on_disk ||= File.read(Dir[File.join(RAILS_ROOT, "app", "questionnaires", "#{id}_*.rb")].first)
+        @definition_on_disk ||= File.read(Dir[Rails.root.join("app", "questionnaires", "#{id}_*.rb")].first)
         write_attribute(:definition, @definition_on_disk)
       rescue
         "" #read_attribute(:definition)
@@ -76,7 +76,7 @@ class Questionnaire < ActiveRecord::Base
   end
 
   def write_to_disk
-    filename = File.join(RAILS_ROOT, "app", "questionnaires", "#{id}_#{key}.rb")
+    filename = Rails.root.join("app", "questionnaires", "#{id}_#{key}.rb")
     logger.info "Writing #{filename}..."
     File.open(filename, "w") {|f| f.write( read_attribute(:definition) ) }
   end

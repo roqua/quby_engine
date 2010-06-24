@@ -3,8 +3,9 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  protect_from_forgery
+  layout 'application'
 
-  # Scrub sensitive parameters from your log
+  # TODO: Rails3
   # filter_parameter_logging :password
 end

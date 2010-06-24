@@ -1,6 +1,6 @@
 QUESTIONNAIRES = []
 
-#load File.join(RAILS_ROOT, 'lib/quby/classes.rb')
-#load File.join(RAILS_ROOT, 'lib/quby/factories.rb')
+#load Rails.root.join('lib', 'quby', 'classes.rb')
+#load Rails.root.join('lib', 'quby', 'factories.rb')
 
-#load File.join(RAILS_ROOT, 'app', 'questionnaires', 'honosca.rb')
+#load Rails.root.join('app', 'questionnaires', 'honosca.rb')

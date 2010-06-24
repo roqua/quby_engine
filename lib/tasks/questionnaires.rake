@@ -2,7 +2,7 @@ namespace :questionnaires do
 
   desc "Create/update questionnaires if their counterpart in app/questionnaires/*.rb is newer than the db record."
   task :update => :environment do
-    files = Dir[File.join(RAILS_ROOT, "app", "questionnaires", "*.rb")]
+    files = Dir[Rails.root.join("app", "questionnaires", "*.rb")]
     
     files.each do |path|
       puts "Checking #{path}"
