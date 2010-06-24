@@ -35,28 +35,23 @@ class Questionnaire < ActiveRecord::Base
     end
   end
 
-  def questions
+  def questions_tree
+    recurse = lambda do |question|
+      [question, question.subquestions.map(&recurse) ]
+    end
+
     @panels && @panels.map do |panel|
       panel.items.map do |item| 
         if Question === item
-          item
+          recurse.call(item)
         end
       end
-    end.flatten
+    end
   end
 
   def questions
-    @panels && @panels.map do |panel|
-      panel.items.map do |item| 
-        if Question === item
-          if item.type == :radio
-            [item, item.options.map {|key, opt| opt.questions }]
-          else
-            item
-          end
-        end
-      end
-    end.flatten
+    tree = questions_tree
+    questions_tree.flatten rescue []
   end
 
   def as_json(options = {})

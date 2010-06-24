@@ -59,7 +59,7 @@ question :q01, :type => :radio do
   option :a02, :value => 2, :description => "Licht, maar duidelijk storend of antisociaal gedrag, geringe schade aan eigendommen, of agressie, of uitdagend gedrag."
   option :a03, :value => 3, :description => "Matig ernstig agressief of antisociaal gedrag, zoals vechten of voortdurend dreigen, of zeer oppositioneel, of ernstiger vernieling van eigendommen, of matig ernstige delicten."
   option :a04, :value => 4, :description => "Storend tijdens bijna alle activiteiten, of ten minsten één ernstige fysieke aanval op anderen of dieren, of ernstige vernieling van eigendommen."
-  other :a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
+  option :a09, :value => 9, :description => "Geen of onvoldoende informatie voorhanden."
 end
 
 foobar

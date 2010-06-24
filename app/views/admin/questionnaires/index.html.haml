@@ -18,7 +18,6 @@
         %td= questionnaire.title || ""
         %td
           = link_to(pluralize(questionnaire.answers.size, "answer"), admin_questionnaire_answers_path(questionnaire))
-          = link_to("(new)", new_admin_questionnaire_answer_path(questionnaire))
         %td= time_ago_in_words(questionnaire.updated_at) + " ago"
         %td
           = link_to "Codebook", admin_questionnaire_codebook_path(questionnaire)

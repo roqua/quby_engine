@@ -98,7 +98,20 @@ body {
           display: inline;
           width: 100%; }
         #content .panel .item .radio ol li .item {
-          margin-bottom: 0.5em; }
+          margin-bottom: 0.5em;
+          margin-left: 2em; }
+          #content .panel .item .radio ol li .item label {
+            display: block;
+            width: 25%;
+            float: left;
+            padding-top: .2em; }
+  #content .buttons {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: 0;
+    margin-top: -1px;
+    padding: 1em;
+    text-align: right; }
 
 #flash {
   padding: 0.7em;

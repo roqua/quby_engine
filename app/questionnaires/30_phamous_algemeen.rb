@@ -2,6 +2,9 @@ title "Phamous Algemeen"
 
 panel do
   # Datum: dd/mm/yyyy
+  question :q01, :type => :date do
+    title "Datum"
+  end
   #
   # Naam beoordelaar: [string]
   question :q02, :type => :string do
@@ -20,7 +23,6 @@ panel do
       question :q03a02q02, :type => :string, :title => "reden"
     end
   end
-  
   
   # Etniciteit:
   # ( ) Caucasisch (blank)               ( ) Turks

@@ -14,10 +14,17 @@
       = render :partial => "item_question_text",   :locals => {:question => item}
     - when :radio
       = render :partial => "item_question_radio",  :locals => {:question => item}
+    - when :date
+      = render :partial => "item_question_date",   :locals => {:question => item}
     - else
-      Error: unknown question type
-      = question.type
+      %strong
+        Error: unknown question type
+        = item.type
+        for question
+        = item.key
   - else
     Error: unknown item type
     = item.class.name
+    for question
+    = item.key
 / End _item.html.haml

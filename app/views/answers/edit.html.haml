@@ -1,2 +1,5 @@
-- form_tag questionnaire_answer_path(@questionnaire, @answer), :class => @questionnaire.key do
+- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => @questionnaire.key do
   = render :partial => "panel", :collection => @questionnaire.panels
+
+  %fieldset.buttons
+    = submit_tag "Verzenden"

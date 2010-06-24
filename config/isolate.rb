@@ -16,6 +16,7 @@ gem 'andand'
 gem 'awesome_print'
 gem 'open4'
 gem 'wirble'
+gem 'json'
 
 # Rails plugins
 gem 'rails-settings' #, :lib => 'settings'

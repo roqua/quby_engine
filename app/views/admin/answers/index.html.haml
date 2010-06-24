@@ -1,13 +1,14 @@
 %h1 #{@questionnaire.title} &rarr; Answers
 
 #actions
-  = link_to "New", new_admin_questionnaire_answer_path(@questionnaire)
+  / = link_to "New", new_admin_questionnaire_answer_path(@questionnaire)
 
 %table
   %thead
     %tr
       %th(style="width: 50px") ID
-      /%th Scores
+      %th(style="width: 50px") Token
+      %th Scores
       %th(style="width: 150px") Created
       %th(style="width: 150px") Updated
       %th(style="width: 150px") Actions
@@ -15,6 +16,8 @@
     - @answers.each do |answer|
       %tr
         %td= answer.id
+        %td= answer.token
+        %td TODO
         /%td= answer.scores.inspect
         %td= time_ago_in_words(answer.created_at) + " ago"
         %td= time_ago_in_words(answer.updated_at) + " ago"

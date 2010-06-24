@@ -15,4 +15,8 @@ class Question
 
     @options = HashWithIndifferentAccess.new
   end
+
+  def subquestions
+    options.map {|key, opt| opt.questions }.flatten
+  end
 end

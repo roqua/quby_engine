@@ -1,8 +1,15 @@
 class AnswersController < ApplicationController
-  before_filter :find_questionnaire, :only => [:show, :edit, :create, :update]
+  before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update]
   append_before_filter :find_answer, :only => [:show, :edit, :update]
   before_filter :verify_token, :only => [:show, :edit, :update]
   before_filter :remember_token_in_session
+
+  def index
+    @answers = @questionnaire.answers.all
+    respond_to do |format|
+      format.json { render :json => @answers }
+    end
+  end
 
   def show
     respond_to do |format|
@@ -34,7 +41,7 @@ class AnswersController < ApplicationController
   protected
 
   def find_questionnaire
-    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
+    @questionnaire = Questionnaire.find(params[:questionnaire_id])
     
     unless @questionnaire
       render :text => "Questionnaire not found", :status => 404
