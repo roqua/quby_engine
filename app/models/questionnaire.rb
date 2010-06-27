@@ -11,8 +11,8 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :panels
   attr_accessor :scores
 
-  default_scope :order => "key ASC"
-  scope :active, :conditions => {:active => true}, :order => 'key ASC'
+  #default_scope :order => "key ASC"
+  scope :active, where(:active => true)
 
   validates_uniqueness_of :key
 

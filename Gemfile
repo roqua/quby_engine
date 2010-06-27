@@ -2,12 +2,9 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.0.beta4'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'haml'
 #gem 'will_paginate'
-#gem 'formtastic'
+gem 'formtastic', :git => "git://github.com/justinfrench/formtastic.git", :branch => "rails3"
 #gem 'rdiscount'
 
 gem 'mysql'
