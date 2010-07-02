@@ -6,6 +6,7 @@ gem 'haml'
 #gem 'will_paginate'
 gem 'formtastic', :git => "git://github.com/justinfrench/formtastic.git", :branch => "rails3"
 #gem 'rdiscount'
+gem 'maruku'
 
 gem 'mysql'
 gem 'sqlite3-ruby', :require => 'sqlite3'
