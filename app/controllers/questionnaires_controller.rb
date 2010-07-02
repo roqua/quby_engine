@@ -1,18 +1,13 @@
 class QuestionnairesController < ApplicationController
+  respond_to :html, :json, :xml
+
   def index
     @questionnaires = Questionnaire.active.all
-
-    respond_to do |format|
-      format.json { render :json => @questionnaires }
-      format.xml  { render :xml  => @questionnaires }
-    end
+    respond_with @questionnaires
   end
 
   def show
     @questionnaire = Questionnaire.find(params[:id])
-
-    respond_to do |format|
-      format.json { render :json => @questionnaire }
-    end
+    respond_with @questionnaire
   end
 end

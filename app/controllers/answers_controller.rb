@@ -4,17 +4,15 @@ class AnswersController < ApplicationController
   before_filter :verify_token, :only => [:show, :edit, :update]
   before_filter :remember_token_in_session
 
+  respond_to :html, :json, :xml
+
   def index
     @answers = @questionnaire.answers.all
-    respond_to do |format|
-      format.json { render :json => @answers }
-    end
+    respond_with @answers
   end
 
   def show
-    respond_to do |format|
-      format.json { render :json => @answer }
-    end
+    respond_with @answer
   end
 
   def edit
