@@ -32,7 +32,7 @@ panel do
   question :q04, :type => :radio do
     title "Etniciteit"
     option :q04a01, :description => "Caucasisch (blank)"
-    option :q04a02, :description => "Negro&iuml;de"
+    option :q04a02, :description => "Negroïde"
     option :q04a03, :description => "Aziatisch"
     option :q04a04, :description => "Indiaans / Latijns-Amerikaans"
     option :q04a05, :description => "Turks"
@@ -41,5 +41,5 @@ panel do
       question :q04a07q01, :type => :string, :title => "namelijk"
     end
   end
-    
+
 end
