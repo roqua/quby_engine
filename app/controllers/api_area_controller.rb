@@ -1,0 +1,2 @@
+class ApiAreaController < ApplicationController
+end

@@ -16,6 +16,11 @@ Quby::Application.routes.draw do |map|
   resources :questionnaires do
     resources :answers
   end
+
+  namespace :api do
+    resources :questionnaires
+    resources :answers
+  end
   
   #root :controller => 'admin/questionnaires#index'
 
