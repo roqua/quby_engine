@@ -4,8 +4,6 @@ class Questionnaire < ActiveRecord::Base
   before_save :validate_definition_syntax
   after_save  :write_to_disk
 
-  #has_paper_trail
-
   attr_accessor :title
   attr_accessor :description
   attr_accessor :panels
@@ -25,7 +23,7 @@ class Questionnaire < ActiveRecord::Base
   def definition
     if not @definition_on_disk
       begin
-        @definition_on_disk ||= File.read(Dir[Rails.root.join("app", "questionnaires", "#{id}_*.rb")].first)
+        @definition_on_disk ||= File.read(Dir[Rails.root.join("db", "questionnaires", "#{key}.rb")].first)
         write_attribute(:definition, @definition_on_disk)
       rescue
         "" #read_attribute(:definition)
@@ -76,7 +74,7 @@ class Questionnaire < ActiveRecord::Base
   end
 
   def write_to_disk
-    filename = Rails.root.join("app", "questionnaires", "#{id}_#{key}.rb")
+    filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
     logger.info "Writing #{filename}..."
     File.open(filename, "w") {|f| f.write( read_attribute(:definition) ) }
   end
