@@ -1,6 +1,8 @@
 class Questionnaire < ActiveRecord::Base
   has_many :answers
 
+  after_initialize :enhance_by_dsl
+
   before_save :validate_definition_syntax
   after_save  :write_to_disk
 
@@ -14,7 +16,7 @@ class Questionnaire < ActiveRecord::Base
 
   validates_uniqueness_of :key
 
-  def after_initialize
+  def enhance_by_dsl
     functions = Function.all.map(&:definition).join("\n\n")
     functions_and_definition = [functions, self.definition].join("\n\n")
     QuestionnaireDsl.enhance(self, functions_and_definition || "")

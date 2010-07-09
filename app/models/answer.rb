@@ -1,18 +1,21 @@
 class Answer < ActiveRecord::Base
   belongs_to :questionnaire
 
+  after_initialize :enhance_by_dsl
+
   before_validation(:on => :create) { generate_random_token }
 
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
 
-  before_save :validate_answers
+  validate :validate_answers
 
   serialize :value
 
-  def after_initialize
+  def enhance_by_dsl
     AnswerDsl.enhance(self)
   end
+
 
   def scores
     scores = {}
@@ -30,6 +33,17 @@ class Answer < ActiveRecord::Base
   
   def validate_answers
     questionnaire.questions.each do |question|
+      answer = self.send(question.key)
+      validations = question.validations
+
+      if not validations.empty?
+        logger.info "Validating #{question.key}."
+        question.validations.each do |type, matcher|
+          if type == :regexp
+            errors.add(question.key, "Does not match #{matcher.inspect}") if not matcher.match(answer)
+          end
+        end
+      end
     end
   end
 

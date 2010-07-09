@@ -12,6 +12,7 @@ class Question
     @type = options[:type]
     @title = options[:title]
     @description = options[:description]
+    @validations = []
 
     @options = HashWithIndifferentAccess.new
   end
@@ -19,4 +20,5 @@ class Question
   def subquestions
     options.map {|key, opt| opt.questions }.flatten
   end
+
 end

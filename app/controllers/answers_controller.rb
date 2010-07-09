@@ -29,8 +29,11 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
+        format.html { render :action => :edit }
         format.json { render :json => @answer }
       else
+        format.html { flash[:error] = "Could not save record." ;
+                      render :action => :edit }
         format.json { render :json => @answer.errors.to_json }
       end
     end

@@ -5,14 +5,57 @@ module AnswerDsl
     
     answer.class_eval do
       questionnaire.questions.each do |question|
-        define_method(question.key) do
-          self.value ||= Hash.new
-          self.value[question.key]
-        end
+        if question.type == :date
 
-        define_method(question.key.to_s + "=") do |v|
-          self.value ||= Hash.new
-          self.value[question.key] = v
+          define_method("#{question.key}_yyyy") do
+            self.value ||= Hash.new
+            self.value["#{question.key}_yyyy"]
+          end
+
+          define_method("#{question.key}_yyyy=") do |v|
+            self.value ||= Hash.new
+            self.value["#{question.key}_yyyy"] = v
+          end
+          
+          define_method("#{question.key}_mm") do
+            self.value ||= Hash.new
+            self.value["#{question.key}_mm"]
+          end
+
+          define_method("#{question.key}_mm=") do |v|
+            self.value ||= Hash.new
+            self.value["#{question.key}_mm"] = v
+          end
+
+          define_method("#{question.key}_dd") do
+            self.value ||= Hash.new
+            self.value["#{question.key}_dd"]
+          end
+
+          define_method("#{question.key}_dd=") do |v|
+            self.value ||= Hash.new
+            self.value["#{question.key}_dd"] = v
+          end
+
+          define_method(question.key) do
+            self.value ||= Hash.new
+            [self.value["#{question.key}_yyyy"],
+             self.value["#{question.key}_mm"],
+             self.value["#{question.key}_dd"]].join("-")
+          end
+
+        else
+
+          define_method(question.key) do
+            self.value ||= Hash.new
+            self.value[question.key]
+          end
+  
+          define_method(question.key.to_s + "=") do |v|
+            self.value ||= Hash.new
+            self.value[question.key] = v
+          end
+
         end
       end
 
