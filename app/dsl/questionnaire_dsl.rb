@@ -94,9 +94,11 @@ module QuestionnaireDsl
     attr_reader :key
     attr_reader :title
     attr_reader :type
+    attr_reader :parent
     
     def initialize(key, options = {})
       @question = Question.new(key, options)
+      validates_presence_of_answer if options[:required]
     end
     
     def build
@@ -121,7 +123,7 @@ module QuestionnaireDsl
     end
 
     def question(key, options = {}, &block)
-      q = QuestionFactory.new(key, options)
+      q = QuestionFactory.new(key, options.merge({:parent => @question, :parent_option_key => @question.options.keys.last}))
       q.instance_eval(&block) if block
 
       @question.options[@question.options.keys.last].questions << q.build
@@ -134,9 +136,14 @@ module QuestionnaireDsl
       #@question.dependencies << dependency
     end
 
-    def validates(options = {})
+    def validates_format_with(regexp, options = {})
       @question.validations ||= []
-      @question.validations << [:regexp, options[:regexp]] if options[:regexp]
+      @question.validations << {:type => :regexp, :matcher => regexp}.reverse_merge(options)
+    end
+
+    def validates_presence_of_answer
+      @question.validations ||= []
+      @question.validations << {:type => :requires_answer}
     end
   end
 

@@ -22,7 +22,14 @@ panel do
     option :q03a01, :description => "Jaarlijkse screening"
     option :q03a02, :description => "Ander interval" do
       question :q03a02q01, :type => :string, :title => "Screening na", :required => true
-      question :q03a02q02, :type => :string, :title => "reden", :required => true
+      question :q03a02q02, :type => :string, :title => "reden", :required => true 
+      question :q03a02q03, :type => :radio, :required => true do
+        title "Foo"
+        option :q03a02q03a01, :description => "Bar" do
+          question :q03a02q03a01q01, :type => :string, :title => "Quux?", :required => true
+        end
+        option :q03a02q03a02, :description => "Baz"
+      end
     end
   end
   

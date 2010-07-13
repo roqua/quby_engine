@@ -1,8 +1,7 @@
 / Begin _item.html.haml
-.item{:class => (@answer.errors.on(item.key) ? "errors" : "")}
-  - if @answer.errors.on(item.key)
-    - [@answer.errors.on(item.key)].flatten.each do |err|
-      .error= err
+.item{:class => ((not @answer.errors[item.key].empty?) ? "errors" : "")}
+  - @answer.errors[item.key].each do |err|
+    .error= err
   - case item.class.name
   - when "String"
     :markdown

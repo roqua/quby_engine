@@ -37,10 +37,18 @@ class Answer < ActiveRecord::Base
       validations = question.validations
 
       if not validations.empty?
-        logger.info "Validating #{question.key}."
-        question.validations.each do |type, matcher|
-          if type == :regexp
-            errors.add(question.key, "Does not match #{matcher.inspect}") if not matcher.match(answer)
+        logger.info "Validating #{question.key} = #{question.validations.inspect}."
+        
+        next if question.parent and value[question.parent.key] != question.parent_option_key
+        
+        question.validations.each do |validation|
+          case validation[:type]
+          when :regexp
+            logger.debug "Executing regexp validation"
+            errors.add(question.key, "Does not match #{validation[:matcher].inspect}") if not validation[:matcher].match(answer)
+          when :requires_answer
+            logger.debug "Executing required_answer validation"
+            errors.add(question.key, "Must be answered.") if answer.blank?
           end
         end
       end
