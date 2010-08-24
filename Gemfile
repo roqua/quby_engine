@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0.beta4'
+gem 'rails', '3.0.0.rc2'
 
 gem 'haml'
 #gem 'will_paginate'
@@ -9,7 +9,6 @@ gem 'formtastic', :git => "git://github.com/justinfrench/formtastic.git", :branc
 gem 'maruku'
 
 gem 'mysql'
-gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'andand'
 gem 'awesome_print'
 gem 'open4'
