@@ -8,7 +8,7 @@ class Answer < ActiveRecord::Base
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
 
-  validate :validate_answers
+  validate :validate_answers, :on => :update
 
   serialize :value
 
