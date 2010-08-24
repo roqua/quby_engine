@@ -23,7 +23,7 @@ module QuestionnaireDsl
     end
     
     def panel(title = nil, options = {}, &block)
-      p = PanelFactory.new(title, options)
+      p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire}))
       p.instance_eval(&block)
       
       @questionnaire.instance_eval do
@@ -64,8 +64,7 @@ module QuestionnaireDsl
     attr_reader :title
 
     def initialize(title, options = {})
-      @panel = Items::Panel.new :title => title,
-                         :items => []
+      @panel = Items::Panel.new(options.merge({:title => title, :items => []}))
     end
 
     def build

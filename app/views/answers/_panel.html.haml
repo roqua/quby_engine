@@ -8,7 +8,7 @@
   .prevnext
     .next
       - if panel.next
-        = button_to "Next &rarr;", panel.next
+        = button_to "Next &rarr;", :panel_id => panel.next
       - else
         = button_to "Save", questionnaire_answer_path(@questionnaire, @answer)
 / End _panel.html.haml
