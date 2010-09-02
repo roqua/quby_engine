@@ -56,7 +56,7 @@ module AnswerDsl
             self.value[question.key] = v
           end
 
-        end
+        end rescue nil
       end
 
       if questionnaire.scores

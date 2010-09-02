@@ -1,7 +1,8 @@
 %h1== Editing #{@questionnaire.key}
 
 - semantic_form_for(@questionnaire, :url => admin_questionnaire_path(@questionnaire)) do |form|
-  - form.inputs :name => "General" do
-    = form.inputs :key
-  = form.inputs :definition
+  - form.inputs do
+    = form.input :definition, :as => :text
   = form.buttons
+
+= link_to "Try out this questionnaire. (Remember to save first)", test_admin_questionnaire_path(@questionnaire)

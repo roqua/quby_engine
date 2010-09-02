@@ -9,13 +9,7 @@ class Admin::QuestionnairesController < AdminAreaController
   end
 
   def show
-    if params[:version]
-      @current_version = params[:version].to_i
-      @questionnaire = Questionnaire.find(params[:id]).versions[@current_version].reify
-    else
-      @questionnaire = Questionnaire.find(params[:id])
-      @current_version = @questionnaire.versions.length
-    end
+    @questionnaire = Questionnaire.find(params[:id])
   end
 
   def edit
@@ -23,25 +17,23 @@ class Admin::QuestionnairesController < AdminAreaController
   end
 
   def create
-    @questionnaire = Questionnaire.new(params[:questionnaire])
+    @questionnaire = Questionnaire.new
+    @questionnaire.key = params[:questionnaire][:key]
+    @questionnaire.definition = params[:questionnaire][:definition]
+
     if @questionnaire.save
-      redirect_to :action => :show, :id => @questionnaire.id
+      redirect_to edit_admin_questionnaire_path(@questionnaire)
     else
       render :action => :new
     end
   end
 
   def update
-    logger.info "Finding:"
     @questionnaire = Questionnaire.find(params[:id])
-    logger.info "Updating attributes"
-    @questionnaire.attributes = params[:questionnaire]
+    @questionnaire.definition = params[:questionnaire][:definition]
 
-    logger.info "Attributes are now: " + @questionnaire.attributes.inspect
-    
-    logger.info "Saving"
     if @questionnaire.save
-      redirect_to admin_questionnaire_path(@questionnaire)
+      redirect_to edit_admin_questionnaire_path(@questionnaire)
     else
       render :action => :edit
     end
@@ -49,6 +41,12 @@ class Admin::QuestionnairesController < AdminAreaController
 
   def delete
     @questionnaire.delete(params[:id])
+  end
+
+  def test
+    @questionnaire = Questionnaire.find(params[:id])
+    @answer = @questionnaire.answers.find_or_create_by_test(true)
+    redirect_to edit_questionnaire_answer_path(@questionnaire, @answer)
   end
   
 end

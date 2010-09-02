@@ -3,5 +3,6 @@
 - semantic_form_for(@questionnaire, :url => admin_questionnaires_path) do |form|
   - form.inputs :name => "General" do
     = form.inputs :key
-  = form.inputs :definition
+  - form.inputs do
+    = form.input :definition, :as => :text
   = form.buttons

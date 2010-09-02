@@ -21,4 +21,8 @@ class Items::Panel < Array
   def prev
 
   end
+
+  def validate_answer_for_panel(answer_hash)
+    true
+  end
 end
