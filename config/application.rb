@@ -13,7 +13,7 @@ module Quby
     # -- all .rb files in that directory are automatically loaded.
 
     # Add additional load paths for your own custom dirs
-    config.load_paths += %W( #{config.root}/app/dsl )
+    config.autoload_paths += %W( #{config.root}/app/dsl )
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named
