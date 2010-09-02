@@ -3,6 +3,7 @@ class AnswersController < ApplicationController
   append_before_filter :find_answer, :only => [:show, :edit, :update]
   before_filter :verify_token, :only => [:show, :edit, :update]
   before_filter :remember_token_in_session
+  before_filter :remember_return_url_in_session
 
   respond_to :html, :json, :xml
 
@@ -29,11 +30,14 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
-        format.html { render :action => :edit }
-        format.json { render :json => @answer }
+        if @answer.completed? and session[:return_url]
+          redirect_to session[:return_url]
+        else
+          format.html { render :action => :edit }
+          format.json { render :json => @answer }
+        end
       else
-        format.html { flash[:error] = "Could not save record." ;
-                      render :action => :edit }
+        format.html { render :action => :edit, :error => "Could not save record." }
         format.json { render :json => @answer.errors.to_json }
       end
     end
@@ -66,6 +70,12 @@ class AnswersController < ApplicationController
   def remember_token_in_session
     if params[:token]
       session[:answer_token] = params[:token]
+    end
+  end
+
+  def remember_return_url_in_session
+    if params[:return_url]
+      session[:return_url] = params[:return_url]
     end
   end
 
