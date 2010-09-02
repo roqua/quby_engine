@@ -1,4 +1,4 @@
-class Question
+class Items::Question
   # Standard attributes
   attr_accessor :key
   attr_accessor :title

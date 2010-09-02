@@ -76,7 +76,7 @@ module QuestionnaireDsl
     end
 
     def text(value)
-      @panel.items << value.to_s
+      @panel.items << Items::Text.new(value.to_s)
     end
 
     def question(key, options = {}, &block)
@@ -96,7 +96,7 @@ module QuestionnaireDsl
     attr_reader :parent
     
     def initialize(key, options = {})
-      @question = Question.new(key, options)
+      @question = Items::Question.new(key, options)
       validates_presence_of_answer if options[:required]
     end
     

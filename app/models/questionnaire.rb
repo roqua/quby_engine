@@ -14,6 +14,7 @@ class Questionnaire < ActiveRecord::Base
   #default_scope :order => "key ASC"
   scope :active, where(:active => true)
 
+  validates_presence_of :key
   validates_uniqueness_of :key
 
   def enhance_by_dsl
