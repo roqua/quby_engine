@@ -2,12 +2,10 @@ class Answer < ActiveRecord::Base
   belongs_to :questionnaire
 
   after_initialize :enhance_by_dsl
-
   before_validation(:on => :create) { generate_random_token }
 
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
-
   validate :validate_answers, :on => :update
 
   serialize :value
@@ -15,7 +13,6 @@ class Answer < ActiveRecord::Base
   def enhance_by_dsl
     AnswerDsl.enhance(self)
   end
-
 
   def scores
     scores = {}
@@ -27,8 +24,14 @@ class Answer < ActiveRecord::Base
     scores
   end
 
+  def completed?
+    questionnaire.panels.reduce(true) do |valid_so_far, panel|
+      valid_so_far and panel.validate_answer_for_panel(self)
+    end
+  end
+
   def as_json(options = {})
-    super(:methods => [:scores])
+    super(:methods => [:scores, :completed?])
   end
   
   def validate_answers
