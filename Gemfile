@@ -19,8 +19,8 @@ gem 'rails-settings'
 gem 'devise', '1.1.rc2'
 gem 'seed-fu'
 
-group :test do
-  #gem 'rspec-rails', :version => '>= 1.3.2', :lib => false unless File.directory?(File.join(Rails.root, 'vendor/plugins/rspec-rails'))
-  gem 'test-unit'
+group :test, :development do
+  gem "rspec-rails", ">= 2.0.0.beta.19"
+  gem "autotest"
+  gem "webrat"
 end
-
