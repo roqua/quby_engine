@@ -16,7 +16,9 @@ $(document).ready(
         
         // hide all panels except first one
         $(".panel").hide();
-//        $(".buttons").hide();
+
+        // hide Submit button
+        $(".buttons").hide();
         $(".panel:first").show().addClass('current');
         
         // hide first previous button, and last next button
