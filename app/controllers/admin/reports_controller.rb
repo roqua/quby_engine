@@ -1,4 +1,4 @@
-class Admin::ReportsController < AdminAreaConntroller
+class Admin::ReportsController < AdminAreaController
   def show
     q = Questionnaire.find(params[:questionnaire_id])
     @questionnaire = q['type'].constantize.find(q.id)
