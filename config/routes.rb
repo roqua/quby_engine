@@ -6,6 +6,10 @@ Quby::Application.routes.draw do
 
   namespace :admin do
     resources :questionnaires do
+      member do
+        get :test
+      end
+
       resource :codebook
       resources :answers
     end
@@ -22,7 +26,7 @@ Quby::Application.routes.draw do
     resources :answers
   end
   
-  #root :controller => 'admin/questionnaires#index'
+  root :to => 'admin/questionnaires#index'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
