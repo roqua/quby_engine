@@ -17,22 +17,19 @@ class Questionnaire < ActiveRecord::Base
   validates_uniqueness_of :key
 
   def enhance_by_dsl
-    functions = Function.all.map(&:definition).join("\n\n")
-    functions_and_definition = [functions, self.definition].join("\n\n")
-    QuestionnaireDsl.enhance(self, functions_and_definition || "")
+    if self.definition
+      functions = Function.all.map(&:definition).join("\n\n")
+      functions_and_definition = [functions, self.definition].join("\n\n")
+      QuestionnaireDsl.enhance(self, functions_and_definition || "")
+    end
   end
   
   def definition
-    if not @definition_on_disk
-      begin
-        @definition_on_disk ||= File.read(Dir[Rails.root.join("db", "questionnaires", "#{key}.rb")].first)
-        write_attribute(:definition, @definition_on_disk)
-      rescue
-        "" #read_attribute(:definition)
-      end
-    else
-      read_attribute(:definition)
-    end
+    @definition ||= File.read(Rails.root.join("db", "questionnaires", "#{key}.rb")) rescue nil
+  end
+
+  def definition=(value)
+    @definition = value
   end
 
   def questions_tree
@@ -78,7 +75,7 @@ class Questionnaire < ActiveRecord::Base
   def write_to_disk
     filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
     logger.info "Writing #{filename}..."
-    File.open(filename, "w") {|f| f.write( read_attribute(:definition) ) }
+    File.open(filename, "w") {|f| f.write( self.definition ) }
   end
   
 end
