@@ -6,7 +6,7 @@
   - when "String"
     :markdown
       #{item}
-  - when "Question"
+  - when "Items::Question"
     - case item.type
     - when :open
       = render :partial => "item_question_open",   :locals => {:question => item}

@@ -40,7 +40,7 @@ class Questionnaire < ActiveRecord::Base
 
     @panels && @panels.map do |panel|
       panel.items.map do |item| 
-        if Question === item
+        if Items::Question === item
           recurse.call(item)
         end
       end
