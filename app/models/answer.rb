@@ -16,12 +16,17 @@ class Answer < ActiveRecord::Base
 
   def scores
     scores = {}
-    
     questionnaire.scores.map(&:key).each do |k|
       scores[k] = send("score_" + k.to_s)
     end if questionnaire.scores
-
     scores
+  end
+
+  def as_json(options = {})
+    attributes.merge({
+      :scores => self.scores,
+      :is_completed => self.completed?
+    })
   end
 
   def completed?
@@ -30,10 +35,6 @@ class Answer < ActiveRecord::Base
     end
   end
 
-  def as_json(options = {})
-    super(:methods => [:scores, :completed?])
-  end
-  
   def validate_answers
     questionnaire.questions.each do |question|
       answer = self.send(question.key)
@@ -47,10 +48,8 @@ class Answer < ActiveRecord::Base
         question.validations.each do |validation|
           case validation[:type]
           when :regexp
-            logger.debug "Executing regexp validation"
-            errors.add(question.key, "Does not match #{validation[:matcher].inspect}") if not validation[:matcher].match(answer)
+            errors.add(question.key, "Does not match pattern expected.") if not validation[:matcher].match(answer)
           when :requires_answer
-            logger.debug "Executing required_answer validation"
             errors.add(question.key, "Must be answered.") if answer.blank?
           end
         end
