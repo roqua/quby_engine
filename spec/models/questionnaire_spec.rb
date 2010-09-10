@@ -28,4 +28,43 @@ describe Questionnaire do
     @q.panels.size.should == 1
     @q.panels[0].items[0].class.should == Items::Text
   end
+
+  it "should return a flat list of items in the questionnaire" do
+    questionnaire = <<-END
+      question :q01i, :type => :radio do
+        title "Foo"
+        option :a01, :description => "Foo1" do
+          question(:q01sub, :type => :string, :title => "Blaat") {}
+        end
+      end
+
+      question :q02 do
+        title "Bar"
+      end
+    END
+
+    QuestionnaireDsl.enhance(@q, questionnaire)
+    @q.questions.length.should == 3
+  end
+
+  it "should return a tree of items in the questionnaire" do
+    questionnaire = <<-END
+      question :q01i, :type => :radio do
+        title "Foo"
+        option :a01, :description => "Foo1" do
+          question(:q01sub, :type => :string, :title => "Blaat") {}
+        end
+      end
+
+      question :q02 do
+        title "Bar"
+      end
+    END
+
+    QuestionnaireDsl.enhance(@q, questionnaire)
+    @q.questions_tree.should be_an Array
+    
+    pending "write more expectations"
+  end
+
 end
