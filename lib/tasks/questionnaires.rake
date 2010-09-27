@@ -2,25 +2,19 @@ namespace :questionnaires do
 
   desc "Create/update questionnaires if their counterpart in app/questionnaires/*.rb is newer than the db record."
   task :update => :environment do
-    files = Dir[Rails.root.join("app", "questionnaires", "*.rb")]
+    files = Dir[Rails.root.join("db", "questionnaires", "*.rb")]
     
     files.each do |path|
-      puts "Checking #{path}"
+      print "Checking #{path}... "
       key = File.basename(path, ".rb")
       questionnaire = Questionnaire.find_by_key(key)
       
       begin
         
         if questionnaire
-          if File.ctime(path) > questionnaire.updated_at
-            puts "  File on disk is more recent. Loading from disk."
-            questionnaire.definition = File.read(path)
-            questionnaire.save
-          else
-            puts "  Database record is up to date. Skipping."
-          end
+          puts "Found in DB."
         else
-          puts "  File on disk, but no database record found. Adding."
+          puts "Not found in DB, adding."
           questionnaire = Questionnaire.new(:key => key,
                                             :definition => File.read(path))
           questionnaire.save

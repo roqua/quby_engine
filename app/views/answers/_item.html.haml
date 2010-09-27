@@ -3,7 +3,7 @@
   - @answer.errors[item.key].each do |err|
     .error= err
   - case item.class.name
-  - when "String"
+  - when "Items::Text"
     :markdown
       #{item}
   - when "Items::Question"

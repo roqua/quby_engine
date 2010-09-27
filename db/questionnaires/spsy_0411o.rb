@@ -15,96 +15,90 @@ question :q1866292, :type => :radio do
   end
 end
 
-question :q860379, :type => :radio do
-  title "1. Waar is uw kind geboren?"
-  description ""
-  option :a1, :value => 1, :description => "Nederland"
-  option :a2, :value => 2, :description => "Turkije"
-  option :a3, :value => 3, :description => "Marokko"
-  option :a4, :value => 4, :description => "Suriname"
-  option :a5, :value => 5, :description => "Nederlandse Antillen"
-  option :a6, :value => 6, :description => "Anders, namelijk: %s"
+panel do
+
+  question :q860379, :type => :radio do
+    title "1. Waar is uw kind geboren?"
+    description ""
+    option :a1, :value => 1, :description => "Nederland"
+    option :a2, :value => 2, :description => "Turkije"
+    option :a3, :value => 3, :description => "Marokko"
+    option :a4, :value => 4, :description => "Suriname"
+    option :a5, :value => 5, :description => "Nederlandse Antillen"
+    option :a6, :value => 6, :description => "Anders" do
+      question :q1866292_other, :type => :string, :title => "Namelijk"
+    end
+  end
+  
+  question :q860388, :type => :radio do
+    title "2. Volgt uw kind momenteel een opleiding of school?"
+    description ""
+    option :a1, :value => 1, :description => "Ja"
+    option :a2, :value => 2, :description => "Nee"
+  end
+  
+  question :q860383, :type => :radio do
+    title "2a. Welke opleiding of school volgt uw kind momenteel?"
+    description ""
+    option :a1, :value => 1, :description => "Geen"
+    option :a2, :value => 2, :description => "Basisonderwijs"
+    option :a3, :value => 3, :description => "(SBO) Speciale School voor Basisonderwijs"
+    option :a4, :value => 4, :description => "(SO) Speciaal Onderwijs"
+    option :a5, :value => 5, :description => "Praktijkschool"
+    option :a6, :value => 6, :description => "(VSO) Voortgezet Speciaal Onderwijs"
+    option :a7, :value => 7, :description => "(VMBO) Voorbereidend Middelbaar Beroeps Onderwijs"
+    option :a8, :value => 8, :description => "(HAVO) Hoger Algemeen Voortgezet Onderwijs"
+    option :a9, :value => 9, :description => "(VWO) Voorbereidend Wetenschappelijk Onderwijs"
+    option :a10, :value => 10, :description => "(MBO, KMBO)Middelbaar Beroepsonderwijs"
+    option :a11, :value => 11, :description => "(HBO) Hoger Beroepsonderwijs"
+    option :a12, :value => 12, :description => "(WO) Wetenschappelijk Onderwijs"
+    option :a13, :value => 13, :description => "Anders" do
+      question :q860383_other, :type => :string, :title => "Namelijk"
+    end
+    option :a14, :value => 14, :description => "Typen basisonderwijs:"
+    option :a15, :value => 15, :description => "Typen voortgezet onderwijs:"
+  end
+  
+  question :q860390, :type => :radio do
+    title "2b. Wat was zijn/haar laatste school of opleiding?"
+    description ""
+    option :a1, :value => 1, :description => "Geen"
+    option :a2, :value => 2, :description => "Basisonderwijs"
+    option :a3, :value => 3, :description => "(SBO) Speciale School voor Basisonderwijs"
+    option :a4, :value => 4, :description => "(SO) Speciaal Onderwijs"
+    option :a5, :value => 5, :description => "Praktijkschool"
+    option :a6, :value => 6, :description => "(VSO) Voortgezet Speciaal Onderwijs"
+    option :a7, :value => 7, :description => "(VMBO) Voorbereidend Middelbaar Beroeps Onderwijs"
+    option :a8, :value => 8, :description => "(HAVO) Hoger Algemeen Voortgezet Onderwijs"
+    option :a9, :value => 9, :description => "(VWO) Voorbereidend Wetenschappelijk Onderwijs"
+    option :a10, :value => 10, :description => "(MBO, KMBO)Middelbaar Beroepsonderwijs"
+    option :a11, :value => 11, :description => "(HBO) Hoger Beroepsonderwijs"
+    option :a12, :value => 12, :description => "(WO) Wetenschappelijk Onderwijs"
+    option :a13, :value => 13, :description => "Anders" do
+      question :q860390_other, :type => :string, :title => "Namelijk"
+    end
+    option :a14, :value => 14, :description => "Typen basisonderwijs:"
+    option :a15, :value => 15, :description => "Typen voortgezet onderwijs:"
+  end
 end
 
-question :q999999, :type => :open do
-  title "Namelijk:"
-  description ""
-end
-
-question :q860388, :type => :radio do
-  title "2. Volgt uw kind momenteel een opleiding of school?"
-  description ""
-  option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
-end
-
-question :q860383, :type => :radio do
-  title "2a. Welke opleiding of school volgt uw kind momenteel?"
-  description ""
-  option :a1, :value => 1, :description => "Geen"
-  option :a2, :value => 2, :description => "Basisonderwijs"
-  option :a3, :value => 3, :description => "(SBO) Speciale School voor Basisonderwijs"
-  option :a4, :value => 4, :description => "(SO) Speciaal Onderwijs"
-  option :a5, :value => 5, :description => "Praktijkschool"
-  option :a6, :value => 6, :description => "(VSO) Voortgezet Speciaal Onderwijs"
-  option :a7, :value => 7, :description => "(VMBO) Voorbereidend Middelbaar Beroeps Onderwijs"
-  option :a8, :value => 8, :description => "(HAVO) Hoger Algemeen Voortgezet Onderwijs"
-  option :a9, :value => 9, :description => "(VWO) Voorbereidend Wetenschappelijk Onderwijs"
-  option :a10, :value => 10, :description => "(MBO, KMBO)Middelbaar Beroepsonderwijs"
-  option :a11, :value => 11, :description => "(HBO) Hoger Beroepsonderwijs"
-  option :a12, :value => 12, :description => "(WO) Wetenschappelijk Onderwijs"
-  option :a13, :value => 13, :description => "Anders, namelijk: %s"
-  option :a14, :value => 14, :description => "Typen basisonderwijs:"
-  option :a15, :value => 15, :description => "Typen voortgezet onderwijs:"
-end
-
-question :q999999, :type => :open do
-  title "Namelijk:"
-  description ""
-end
-question :q860390, :type => :radio do
-  title "2b. Wat was zijn/haar laatste school of opleiding?"
-  description ""
-  option :a1, :value => 1, :description => "Geen"
-  option :a2, :value => 2, :description => "Basisonderwijs"
-  option :a3, :value => 3, :description => "(SBO) Speciale School voor Basisonderwijs"
-  option :a4, :value => 4, :description => "(SO) Speciaal Onderwijs"
-  option :a5, :value => 5, :description => "Praktijkschool"
-  option :a6, :value => 6, :description => "(VSO) Voortgezet Speciaal Onderwijs"
-  option :a7, :value => 7, :description => "(VMBO) Voorbereidend Middelbaar Beroeps Onderwijs"
-  option :a8, :value => 8, :description => "(HAVO) Hoger Algemeen Voortgezet Onderwijs"
-  option :a9, :value => 9, :description => "(VWO) Voorbereidend Wetenschappelijk Onderwijs"
-  option :a10, :value => 10, :description => "(MBO, KMBO)Middelbaar Beroepsonderwijs"
-  option :a11, :value => 11, :description => "(HBO) Hoger Beroepsonderwijs"
-  option :a12, :value => 12, :description => "(WO) Wetenschappelijk Onderwijs"
-  option :a13, :value => 13, :description => "Anders, namelijk: %s"
-  option :a14, :value => 14, :description => "Typen basisonderwijs:"
-  option :a15, :value => 15, :description => "Typen voortgezet onderwijs:"
-end
-
-question :q999999, :type => :open do
-  title "Namelijk:"
-  description ""
-end
-
-question :q860393, :type => :open do
-  title "3. Welke problemen, klachten of bijzonderheden zijn de aanleiding om hulp te zoeken. Wilt u de belangrijkste problemen, hieronder beschrijven; graag zo kort en duidelijk mogelijk."
-  description ""
-end
-
-question :q12, :type => :open do
-  title "Probleem 1"
-  description ""
-end
-
-question :q13, :type => :open do
-  title "Probleem 2"
-  description ""
-end
-
-question :q14, :type => :open do
-  title "Probleem 3"
-  description ""
+panel do
+  text "3. Welke problemen, klachten of bijzonderheden zijn de aanleiding om hulp te zoeken. Wilt u de belangrijkste problemen, hieronder beschrijven; graag zo kort en duidelijk mogelijk."
+  
+  question :q12, :type => :string do
+    title "Probleem 1"
+    description ""
+  end
+  
+  question :q13, :type => :string do
+    title "Probleem 2"
+    description ""
+  end
+  
+  question :q14, :type => :string do
+    title "Probleem 3"
+    description ""
+  end
 end
 
 question :q860405, :type => :radio do
@@ -395,12 +389,12 @@ question :q860508, :type => :radio do
   option :a3, :value => 3, :description => "Zeker waar"
 end
 
-question :q860604, :type => :open do
+question :q860604, :type => :string do
   title "40. Gewicht kind?"
   description ""
 end
 
-question :q860605, :type => :open do
+question :q860605, :type => :string do
   title "41. Lengte kind?"
   description ""
 end
@@ -432,45 +426,44 @@ question :q860614, :type => :radio do
   option :a4, :value => 4, :description => "Heel erg"
 end
 
-question :q860615, :type => :radio do
-  title "45. Belemmeren de moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?"
-  description ""
-end
-
-question :q96, :type => :radio do
-  title "a. Thuis"
-  description ""
-  option :a1, :value => 1, :description => "Helemaal niet"
-  option :a2, :value => 2, :description => "Een beetje maar"
-  option :a3, :value => 3, :description => "Tamelijk"
-  option :a4, :value => 4, :description => "Heel erg"
-end
-
-question :q97, :type => :radio do
-  title "b. Vriendschappen"
-  description ""
-  option :a1, :value => 1, :description => "Helemaal niet"
-  option :a2, :value => 2, :description => "Een beetje maar"
-  option :a3, :value => 3, :description => "Tamelijk"
-  option :a4, :value => 4, :description => "Heel erg"
-end
-
-question :q98, :type => :radio do
-  title "c. Leren in de klas"
-  description ""
-  option :a1, :value => 1, :description => "Helemaal niet"
-  option :a2, :value => 2, :description => "Een beetje maar"
-  option :a3, :value => 3, :description => "Tamelijk"
-  option :a4, :value => 4, :description => "Heel erg"
-end
-
-question :q99, :type => :radio do
-  title "d. Activiteiten in de vrije tijd"
-  description ""
-  option :a1, :value => 1, :description => "Helemaal niet"
-  option :a2, :value => 2, :description => "Een beetje maar"
-  option :a3, :value => 3, :description => "Tamelijk"
-  option :a4, :value => 4, :description => "Heel erg"
+panel do
+  text "45. Belemmeren de moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?"
+  
+  question :q96, :type => :radio do
+    title "a. Thuis"
+    description ""
+    option :a1, :value => 1, :description => "Helemaal niet"
+    option :a2, :value => 2, :description => "Een beetje maar"
+    option :a3, :value => 3, :description => "Tamelijk"
+    option :a4, :value => 4, :description => "Heel erg"
+  end
+  
+  question :q97, :type => :radio do
+    title "b. Vriendschappen"
+    description ""
+    option :a1, :value => 1, :description => "Helemaal niet"
+    option :a2, :value => 2, :description => "Een beetje maar"
+    option :a3, :value => 3, :description => "Tamelijk"
+    option :a4, :value => 4, :description => "Heel erg"
+  end
+  
+  question :q98, :type => :radio do
+    title "c. Leren in de klas"
+    description ""
+    option :a1, :value => 1, :description => "Helemaal niet"
+    option :a2, :value => 2, :description => "Een beetje maar"
+    option :a3, :value => 3, :description => "Tamelijk"
+    option :a4, :value => 4, :description => "Heel erg"
+  end
+  
+  question :q99, :type => :radio do
+    title "d. Activiteiten in de vrije tijd"
+    description ""
+    option :a1, :value => 1, :description => "Helemaal niet"
+    option :a2, :value => 2, :description => "Een beetje maar"
+    option :a3, :value => 3, :description => "Tamelijk"
+    option :a4, :value => 4, :description => "Heel erg"
+  end
 end
 
 question :q860619, :type => :radio do
@@ -482,7 +475,7 @@ question :q860619, :type => :radio do
   option :a4, :value => 4, :description => "Heel erg"
 end
 
-question :q860621, :type => :open do
+question :q860621, :type => :string do
   title "47. Overige opmerkingen:"
   description ""
 end

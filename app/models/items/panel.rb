@@ -1,11 +1,11 @@
 class Items::Panel < Array
-  attr_reader :title
-  attr_reader :items
+  attr_accessor :title
+  attr_accessor :items
 
   def initialize(options = {})
     @questionnaire = options[:questionnaire]
     @title = options[:title]
-    @items = options[:items]
+    @items = options[:items] || []
   end
 
   def next
@@ -22,7 +22,7 @@ class Items::Panel < Array
 
   end
 
-  def validate_answer_for_panel(answer_hash)
-    true
+  def validate_answer(answer_hash)
+    items.collect { |mem, item| mem && item.validate_answer(answer_hash) }
   end
 end

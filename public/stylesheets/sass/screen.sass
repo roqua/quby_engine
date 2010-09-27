@@ -36,11 +36,25 @@ $masthead_bg: #0f72a4
     :background #fff
     :border 10px solid #ddd
     :padding 2em
+    :margin-bottom 2em
+    position: relative
+
+    .panel_index
+      position: absolute
+      top: -0.3em
+      left: 0.05em
+      font-family: "Arial Black", "Impact"
+      font-size: 12em
+      color: #ddd
+      z-index: 1
 
     h1
+      position: absolute
+      top: 1px
       :font-size 1.5em
       :font-weight bold
       :margin-bottom 1em
+      z-index: 400
 
     .prevnext
       .prev
@@ -49,6 +63,8 @@ $masthead_bg: #0f72a4
         :float right
 
     .item 
+      position: relative
+      z-index: 100
       &.errors
         border: 1px solid red
         padding: 0.4em
@@ -80,6 +96,8 @@ $masthead_bg: #0f72a4
                 float: left
                 padding-top: .2em
   .buttons
+    position: relative
+    top: -2em
     background: #f3f3f3
     border: 10px solid #ddd
     border-top: 1px dotted #d6d6d6

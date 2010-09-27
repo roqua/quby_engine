@@ -11,8 +11,13 @@ describe Items::Text do
 
   describe "#to_s" do
     it "should return the string the Text was initialized with" do
-      t = Items::Text.new(@some_string)
-      t.to_s.should == @some_string
+      text = Items::Text.new(@some_string)
+      text.to_s.should == @some_string
     end
+  end
+
+  it "should be valid for any hash" do
+    text = Items::Text.new(@some_string)
+    text.validate_answer({}).should be_true
   end
 end

@@ -36,4 +36,8 @@ class Items::Question
     options.map {|key, opt| opt.questions }.flatten
   end
 
+  def validate_answer(answer_hash)
+    false
+  end
+
 end
