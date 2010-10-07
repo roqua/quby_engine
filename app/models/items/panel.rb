@@ -23,6 +23,9 @@ class Items::Panel < Array
   end
 
   def validate_answer(answer_hash)
-    items.collect { |mem, item| mem && item.validate_answer(answer_hash) }
+    items.collect do |mem, item| 
+      next unless item
+      mem && item.validate_answer(answer_hash)
+    end
   end
 end

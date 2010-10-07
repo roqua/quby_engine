@@ -25,18 +25,21 @@ class Answer < ActiveRecord::Base
   def as_json(options = {})
     attributes.merge({
       :scores => self.scores,
-      :is_completed => self.completed?
+      :is_completed => false # self.completed?
     })
   end
 
   def completed?
     questionnaire.panels.reduce(true) do |valid_so_far, panel|
-      valid_so_far and panel.validate_answer_for_panel(self)
+      next valid_so_far unless panel
+      valid_so_far and panel.validate_answer(self)
     end
   end
 
   def validate_answers
+    logger.info questionnaire.questions.map(&:class).inspect
     questionnaire.questions.each do |question|
+      next unless question
       answer = self.send(question.key)
       validations = question.validations
 
