@@ -182,7 +182,7 @@ question :q860433, :type => :radio do
 end
 
 question :q860435, :type => :radio do
-  title "14. Heeft minstens één goede vriend of vriendin."
+  title "14. Heeft minstens Ã©Ã©n goede vriend of vriendin."
   description ""
   option :a1, :value => 1, :description => "Zeker waar"
   option :a2, :value => 2, :description => "Beetje waar"
@@ -399,34 +399,34 @@ question :q860605, :type => :string do
   description ""
 end
 
-question :q860609, :type => :radio do
-  title "42. Denkt u over het geheel genomen dat uw kind moeilijkheden heeft op één van de volgende gebieden: emoties, concentratie, gedrag of vermogen om met andere mensen op te schieten?"
-  description ""
-  option :a1, :value => 1, :description => "Nee"
-  option :a2, :value => 2, :description => "Ja, kleine moeilijkheden"
-  option :a3, :value => 3, :description => "Ja, duidelijke moeilijkheden"
-  option :a4, :value => 4, :description => "Ja, ernstige moeilijkheden"
-end
-
-question :q860613, :type => :radio do
-  title "43. Hoe lang bestaan deze moeilijkheden?"
-  description ""
-  option :a1, :value => 1, :description => "Korter dan een maand"
-  option :a2, :value => 2, :description => "1 tot 5 maanden"
-  option :a3, :value => 3, :description => "6 tot 12 maanden"
-  option :a4, :value => 4, :description => "Meer dan een jaar"
-end
-
-question :q860614, :type => :radio do
-  title "44. Maken de moeilijkheden uw kind overstuur of van slag?"
-  description ""
-  option :a1, :value => 1, :description => "Helemaal niet"
-  option :a2, :value => 2, :description => "Een beetje maar"
-  option :a3, :value => 3, :description => "Tamelijk"
-  option :a4, :value => 4, :description => "Heel erg"
-end
-
 panel do
+  question :q860609, :type => :radio do
+    title "42. Denkt u over het geheel genomen dat uw kind moeilijkheden heeft op Ã©Ã©n van de volgende gebieden: emoties, concentratie, gedrag of vermogen om met andere mensen op te schieten?"
+    description ""
+    option :a1, :value => 1, :description => "Nee"
+    option :a2, :value => 2, :description => "Ja, kleine moeilijkheden"
+    option :a3, :value => 3, :description => "Ja, duidelijke moeilijkheden"
+    option :a4, :value => 4, :description => "Ja, ernstige moeilijkheden"
+  end
+  
+  question :q860613, :type => :radio do
+    title "43. Hoe lang bestaan deze moeilijkheden?"
+    description ""
+    option :a1, :value => 1, :description => "Korter dan een maand"
+    option :a2, :value => 2, :description => "1 tot 5 maanden"
+    option :a3, :value => 3, :description => "6 tot 12 maanden"
+    option :a4, :value => 4, :description => "Meer dan een jaar"
+  end
+  
+  question :q860614, :type => :radio do
+    title "44. Maken de moeilijkheden uw kind overstuur of van slag?"
+    description ""
+    option :a1, :value => 1, :description => "Helemaal niet"
+    option :a2, :value => 2, :description => "Een beetje maar"
+    option :a3, :value => 3, :description => "Tamelijk"
+    option :a4, :value => 4, :description => "Heel erg"
+  end
+
   text "45. Belemmeren de moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?"
   
   question :q96, :type => :radio do
@@ -464,15 +464,15 @@ panel do
     option :a3, :value => 3, :description => "Tamelijk"
     option :a4, :value => 4, :description => "Heel erg"
   end
-end
 
-question :q860619, :type => :radio do
-  title "46. Belasten de moeilijkheden u of het gezin als geheel?"
-  description ""
-  option :a1, :value => 1, :description => "Helemaal niet"
-  option :a2, :value => 2, :description => "Een beetje maar"
-  option :a3, :value => 3, :description => "Tamelijk"
-  option :a4, :value => 4, :description => "Heel erg"
+  question :q860619, :type => :radio do
+    title "46. Belasten de moeilijkheden u of het gezin als geheel?"
+    description ""
+    option :a1, :value => 1, :description => "Helemaal niet"
+    option :a2, :value => 2, :description => "Een beetje maar"
+    option :a3, :value => 3, :description => "Tamelijk"
+    option :a4, :value => 4, :description => "Heel erg"
+  end
 end
 
 question :q860621, :type => :string do
