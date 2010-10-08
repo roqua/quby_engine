@@ -31,7 +31,8 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
         if @answer.completed? and session[:return_url]
-          redirect_to session[:return_url]
+          logger.debug "REDIRECTING TO #{session[:return_url]}"
+          redirect_to "#{session[:return_url]}&key=#{session[:return_token]}" and return
         else
           format.html { render :action => :edit }
           format.json { render :json => @answer }
@@ -76,6 +77,7 @@ class AnswersController < ApplicationController
   def remember_return_url_in_session
     if params[:return_url]
       session[:return_url] = params[:return_url]
+      session[:return_token] = params[:return_token]
     end
   end
 
