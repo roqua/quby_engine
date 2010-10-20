@@ -33,7 +33,7 @@ class Answer < ActiveRecord::Base
     questionnaire.panels.reduce(true) do |valid_so_far, panel|
       next valid_so_far unless panel
       valid_so_far and panel.validate_answer(self)
-    end
+    end rescue false
   end
 
   def validate_answers
