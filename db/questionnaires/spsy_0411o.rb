@@ -480,3 +480,6 @@ question :q860621, :type => :string do
   description ""
 end
 
+panel do
+  text "Bedankt voor het invullen van deze vragenlijst. Als u nog antwoorden wilt veranderen, klik dan op Vorige."
+end

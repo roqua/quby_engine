@@ -113,19 +113,19 @@ module QuestionnaireDsl
     end
     
     def option(key, options = {}, &block)
-      raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options[:key]
+      raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options.find {|i| i.key == key }
       
       op = QuestionOption.new(key, options)
-      @question.options[key] = op
+      @question.options << op
 
       instance_eval &block if block
     end
 
     def question(key, options = {}, &block)
-      q = QuestionFactory.new(key, options.merge({:parent => @question, :parent_option_key => @question.options.keys.last}))
+      q = QuestionFactory.new(key, options.merge({:parent => @question, :parent_option_key => @question.options.last.key}))
       q.instance_eval(&block) if block
 
-      @question.options[@question.options.keys.last].questions << q.build
+      @question.options.last.questions << q.build
     end
 
     def depends_on(question_id, options = {})

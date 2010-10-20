@@ -29,11 +29,11 @@ class Items::Question
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]
 
-    @options = HashWithIndifferentAccess.new
+    @options = []
   end
 
   def subquestions
-    options.map {|key, opt| opt.questions }.flatten
+    options.map {|opt| opt.questions }.flatten
   end
 
   def validate_answer(answer_hash)

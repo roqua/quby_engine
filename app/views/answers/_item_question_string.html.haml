@@ -1,3 +1,4 @@
-%li.string(id="answer_#{question.key}_input")
-  %label(for="answer_#{question.key}")= question.title
-  = text_field :answer, question.key
+%ol.noindent
+  %li.string(id="answer_#{question.key}_input")
+    %label(for="answer_#{question.key}")= question.title
+    = text_field :answer, question.key

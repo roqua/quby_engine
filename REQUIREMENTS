@@ -1,0 +1,3 @@
+# nokogiri requirements
+sudo apt-get install libxslt-dev libxml2-dev
+sudo gem install nokogiri
