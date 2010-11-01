@@ -1,5 +1,10 @@
 / Begin _panel.html.haml
-%fieldset.panel{:id => "panel#{panel_counter}"}
+- if panel_counter == panels.length-1
+  - classes = ['panel', 'last-panel']
+- else
+  - classes = ['panel']
+
+%fieldset{:id => "panel#{panel_counter}", :class => classes}
   /.panel_index= panel_counter + 1
 
   - if panel.title
