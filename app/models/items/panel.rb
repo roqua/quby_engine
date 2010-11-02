@@ -8,23 +8,33 @@ class Items::Panel < Array
     @items = options[:items] || []
   end
 
+  def index
+    @questionnaire.panels.index(self)
+  end
+
   def next
-    this_panel_index = @questionnaire.panels.index(self)
+    this_panel_index = index
     
     if this_panel_index < @questionnaire.panels.size
-      return this_panel_index + 1
+      return @questionnaire.panels[this_panel_index + 1]
     else
       nil
     end
   end
 
   def prev
-
+    this_panel_index = index
+    
+    if this_panel_index > 0
+      return @questionnaire.panels[this_panel_index - 1]
+    else
+      nil
+    end
   end
 
   def validate_answer(answer_hash)
-    items.collect do |mem, item| 
-      next unless item
+    items.reduce(true) do |mem, item| 
+      next mem unless item.answerable?
       mem && item.validate_answer(answer_hash)
     end
   end

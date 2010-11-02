@@ -19,7 +19,7 @@ class Admin::FunctionsController < AdminAreaController
     @function = Function.new(params[:function])
     if @function.save
       flash[:success] = "Function created successfully."
-      redirect_to :action => :show, :id => @function.id
+      redirect_to admin_functions_path
     else
       render :action => :new
     end
@@ -31,7 +31,7 @@ class Admin::FunctionsController < AdminAreaController
 
     if @function.save
       flash[:success] = "Function saved successfully."
-      redirect_to edit_admin_function_path(@function)
+      redirect_to admin_functions_path
     else
       render :action => :edit
     end
@@ -39,5 +39,6 @@ class Admin::FunctionsController < AdminAreaController
 
   def delete
     @function.delete(params[:id])
+    redirect_to admin_functions_path
   end
 end

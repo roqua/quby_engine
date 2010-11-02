@@ -1,4 +1,4 @@
-class Items::Question
+class Items::Question < Item
   # Standard attributes
   attr_accessor :key
   attr_accessor :title
@@ -31,6 +31,8 @@ class Items::Question
 
     @options = []
   end
+
+  def answerable?; true; end
 
   def subquestions
     options.map {|opt| opt.questions }.flatten
