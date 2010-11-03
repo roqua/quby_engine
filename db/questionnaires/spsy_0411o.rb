@@ -5,6 +5,8 @@
 
 title "SPsy 4-11 Ouders"
 
+start_panel
+
 question :q1866292, :type => :radio do
   title "Deze vragenlijst wordt ingevuld door:"
   description ""
@@ -480,6 +482,4 @@ question :q860621, :type => :string do
   description ""
 end
 
-panel do
-  text "Bedankt voor het invullen van deze vragenlijst. Als u nog antwoorden wilt veranderen, klik dan op Vorige."
-end
+end_panel
