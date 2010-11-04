@@ -6,6 +6,11 @@ function activatePanel(panel) {
     $('.panel').hide().removeClass('current');
     window.location.hash = panel[0].id;
     panel.show().addClass('current');
+    if(panel.hasClass('last-panel')){
+        $(".buttons").show();
+    } else {
+        $(".buttons").hide();
+    }
 }
 
 $(document).ready(
@@ -14,12 +19,11 @@ $(document).ready(
         // enable javascript-based previous/next links
         $(".panel .prevnext").show();
 
-        // hide all panels except first one
+        // hide all panels
         $(".panel").hide();
 
         // hide Submit button
         $(".buttons").hide();
-        $(".panel:first").show().addClass('current');
 
         // hide first previous button, and last next button
         $(".panel:first .prevnext .prev").hide();
@@ -31,6 +35,8 @@ $(document).ready(
             if (panel[0]) {
                 activatePanel(panel);
             }
+        } else { // if we have no hash, activate the first panel
+            activatePanel($(".panel:first"));
         }
 
         // show previous panel
@@ -38,11 +44,6 @@ $(document).ready(
             function(event) {
                 var prevPanel = $(this).parents('.panel').prev()
                 activatePanel(prevPanel);
-                if(prevPanel.hasClass('last-panel')){
-                  $(".buttons").show();
-                } else {
-                  $(".buttons").hide();
-                }
                 return false;
             }
         );
@@ -52,11 +53,6 @@ $(document).ready(
             function(event) {
                 var nextPanel = $(this).parents('.panel').next();
                 activatePanel(nextPanel);
-                if(nextPanel.hasClass('last-panel')){
-                  $(".buttons").show();
-                } else {
-                  $(".buttons").hide();
-                }
                 return false;
             }
         );
