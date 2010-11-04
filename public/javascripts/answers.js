@@ -1,11 +1,17 @@
 // Scope:
 //
 //   questionnaires/1/answers/edit
-
-function activatePanel(panel) {
+var hashChangeEnabled;
+function activatePanel(panel, updateHash) {
     $('.panel').hide().removeClass('current');
-    window.location.hash = panel[0].id;
+        
+    if (updateHash) {
+		hashChangeEnabled = false;
+        window.location.hash = panel[0].id;        
+    }
+        
     panel.show().addClass('current');
+    
     if(panel.hasClass('last-panel')){
         $(".buttons").show();
     } else {
@@ -13,10 +19,29 @@ function activatePanel(panel) {
     }
 }
 
+function hashchangeEventHandler(){
+	if (hashChangeEnabled) {
+		// if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
+		if (window.location.hash != "" && window.location.hash != $(".panel:first").id) {
+		    panel = $(".panel#" + window.location.hash);
+		    if (panel[0]) {
+		        activatePanel(panel, true);
+		    }
+		} else { // if we have no hash, activate the first panel
+		    activatePanel($(".panel:first"), false);
+		}
+    } else {
+		hashChangeEnabled = true;
+	}       
+}
+
 $(document).ready(
     function() {
-
-        // enable javascript-based previous/next links
+		hashChangeEnabled = true;
+        jQuery(window).bind( 'hashchange', hashchangeEventHandler);
+        //$.address.change( 'hashchange', hashchangeEventHandler);
+        
+		// enable javascript-based previous/next links
         $(".panel .prevnext").show();
 
         // hide all panels
@@ -29,21 +54,14 @@ $(document).ready(
         $(".panel:first .prevnext .prev").hide();
         $(".panel:last  .prevnext .next").hide();
 
-        // if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
-        if (window.location.hash != "") {
-            panel = $(".panel#" + window.location.hash);
-            if (panel[0]) {
-                activatePanel(panel);
-            }
-        } else { // if we have no hash, activate the first panel
-            activatePanel($(".panel:first"));
-        }
-
+        // Trigger the hashchange event (useful on page load).
+        $(window).hashchange();
+                
         // show previous panel
         $(".panel .prev").click(
             function(event) {
                 var prevPanel = $(this).parents('.panel').prev()
-                activatePanel(prevPanel);
+                activatePanel(prevPanel, true);
                 return false;
             }
         );
@@ -52,7 +70,7 @@ $(document).ready(
         $(".panel .next").click(
             function(event) {
                 var nextPanel = $(this).parents('.panel').next();
-                activatePanel(nextPanel);
+                activatePanel(nextPanel, true);
                 return false;
             }
         );
