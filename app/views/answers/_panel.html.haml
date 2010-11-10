@@ -5,6 +5,9 @@
   - classes = ['panel']
 
 %fieldset{:id => "panel#{panel_counter}", :class => classes}
+  :javascript
+    panel_validations["panel#{panel_counter}"] = #{panel.validations.to_json};
+
   /.panel_index= panel_counter + 1
 
   - if panel.title

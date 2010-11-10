@@ -7,7 +7,7 @@ title "SPsy 4-11 Ouders"
 
 start_panel
 
-question :q1866292, :type => :radio do
+question :q1866292, :type => :radio, :required => true do
   title "Deze vragenlijst wordt ingevuld door:"
   description ""
   option :a1, :value => 1, :description => "Vader"

@@ -38,4 +38,12 @@ class Items::Panel < Array
       mem && item.validate_answer(answer_hash)
     end
   end
+
+  def validations
+    vals = {}
+    items.each do |item|
+      vals[item.key] = item.validations if item.is_a? Items::Question
+    end
+    vals
+  end
 end

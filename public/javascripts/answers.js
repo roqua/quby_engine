@@ -19,6 +19,25 @@ function activatePanel(panel, updateHash) {
     }
 }
 
+function validatePanel(panel) {
+  return_val = true;
+  if (panel_validations[panel.id]) {
+    validations = panel_validations[panel.id];
+    for (question_key in validations) {
+      for (i in validations[question_key]) {
+        validation = validations[question_key][i];
+        if (validation["type"] == "requires_answer") {
+          alert("Require answer");
+          return_val = false;
+        } else {
+          alert("Unknown validation type");
+        }
+      }
+    }
+  }
+  return return_val;
+}
+
 function hashchangeEventHandler(){
 	if (hashChangeEnabled) {
 		// if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
@@ -70,7 +89,11 @@ $(document).ready(
         $(".panel .next").click(
             function(event) {
                 var nextPanel = $(this).parents('.panel').next();
-                activatePanel(nextPanel, true);
+                if (validatePanel($(this).parents('.panel')[0])) {
+                    activatePanel(nextPanel, true);
+                } else {
+                    alert("Answer wrong");
+                }
                 return false;
             }
         );

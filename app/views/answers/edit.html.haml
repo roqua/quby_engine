@@ -1,3 +1,6 @@
+:javascript
+  var panel_validations = {}
+
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => @questionnaire.key do
   = render :partial => "panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels}
 
