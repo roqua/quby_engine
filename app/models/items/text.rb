@@ -1,11 +1,19 @@
 class Items::Text < Item
+  require 'maruku'
 
   attr_accessor :text
 
   def initialize(str)
-    @text = str
+    @text = Maruku.new(single_newline_br(str)).to_html
   end
 
+  def single_newline_br(text)  
+    # in very clear cases, let newlines become <br /> tags
+    text.gsub!(/^[\w\<][^\n]*\n+/) do |x|
+      x =~ /\n{2}/ ? x : (x.strip!; x << "  \n")
+    end
+  end
+  
   def key; 't0'; end
 
   def answerable?
