@@ -9,7 +9,10 @@ class Items::Question < Item
 
   # Multiple-choice questions have options to choose from
   attr_accessor :options
-
+  
+  #Whether the browser should autocomplete this question (off by default)
+  attr_accessor :autocomplete
+  
   # Structuring
   attr_accessor :validations
   attr_accessor :dependencies
@@ -28,7 +31,8 @@ class Items::Question < Item
     @validations = []
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]
-
+    @autocomplete = options[:autocomplete] || false 
+    
     @options = []
   end
 
