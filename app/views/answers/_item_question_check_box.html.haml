@@ -1,0 +1,9 @@
+.checkbox(id="answer_#{question.key}_input")
+  %label(for="answer_#{question.key}")= question.title
+  %ol
+    - question.options.each do |opt|
+      %li
+        = check_box(:answer, opt.key)
+        %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+        - if not opt.questions.empty?
+          = render :partial => "item", :collection => opt.questions

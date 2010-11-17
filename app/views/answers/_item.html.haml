@@ -18,6 +18,8 @@
       = render :partial => "item_question_radio",  :locals => {:question => item}
     - when :date
       = render :partial => "item_question_date",   :locals => {:question => item}
+    - when :check_box
+      = render :partial => "item_question_check_box",   :locals => {:question => item}
     - else
       %strong
         Error: unknown question type

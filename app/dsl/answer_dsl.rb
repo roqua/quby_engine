@@ -44,7 +44,7 @@ module AnswerDsl
              self.value["#{question.key}_dd"]].join("-")
           end
 
-        else
+        elsif question.type == :radio or question.type == :string
 
           define_method(question.key) do
             self.value ||= Hash.new
@@ -55,7 +55,30 @@ module AnswerDsl
             self.value ||= Hash.new
             self.value[question.key] = v
           end
-
+        
+        elsif question.type == :check_box
+          
+          question.options.each do |opt|
+            
+            define_method(question.key) do
+              self.value ||= Hash.new
+              self.value[question.key] ||= Hash.new
+            end
+            
+            define_method(opt.key) do
+              self.value ||= Hash.new
+              self.value[question.key] ||= Hash.new
+              self.value[opt.key] ||= 0              
+            end
+            
+            define_method(opt.key.to_s + "=") do |v|
+              v = v.to_i
+              self.value ||= Hash.new
+              self.value[question.key] ||= Hash.new
+              self.value[question.key][opt.key] = v
+              self.value[opt.key] = v              
+            end  
+          end  
         end rescue nil
       end
 

@@ -52,7 +52,11 @@ class Answer < ActiveRecord::Base
           when :regexp
             errors.add(question.key, "Does not match pattern expected.") if not validation[:matcher].match(answer)
           when :requires_answer
-            errors.add(question.key, "Must be answered.") if answer.blank?
+            if question.type == :check_box
+              errors.add(question.key, "Must be answered.") if answer.values.reduce(:+) == 0
+            else 
+              errors.add(question.key, "Must be answered.") if answer.blank?
+            end            
           end
         end
       end
