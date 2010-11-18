@@ -68,7 +68,7 @@ module AnswerDsl
             define_method(opt.key) do
               self.value ||= Hash.new
               self.value[question.key] ||= Hash.new
-              self.value[opt.key] ||= 0              
+              self.value[opt.key] ||= 0
             end
             
             define_method(opt.key.to_s + "=") do |v|
@@ -76,7 +76,7 @@ module AnswerDsl
               self.value ||= Hash.new
               self.value[question.key] ||= Hash.new
               self.value[question.key][opt.key] = v
-              self.value[opt.key] = v              
+              self.value[opt.key] = v
             end  
           end  
         end rescue nil
