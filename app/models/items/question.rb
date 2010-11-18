@@ -13,6 +13,11 @@ class Items::Question < Item
   #Whether the browser should autocomplete this question (off by default)
   attr_accessor :autocomplete
   
+  #checkbox option that checks all other options on check
+  attr_accessor :check_all_option
+  #checkbox option that unchecks all other options on check
+  attr_accessor :uncheck_all_option 
+  
   # Structuring
   attr_accessor :validations
   attr_accessor :dependencies
@@ -31,7 +36,9 @@ class Items::Question < Item
     @validations = []
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]
-    @autocomplete = options[:autocomplete] || false 
+    @autocomplete = options[:autocomplete] || false
+    @check_all_option = options[:check_all_option] || nil
+    @uncheck_all_option = options[:uncheck_all_option] || nil    
     
     @options = []
   end

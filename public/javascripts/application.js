@@ -6,6 +6,9 @@
 // Fix HTML5 <input placeholder="foo"/> feature for older browsers
 
 function placeholder(){
-	$('input[placeholder],textarea[placeholder]').placeholder();
+	var toPlaceHold = $('input[placeholder],textarea[placeholder]');
+	if (toPlaceHold.length != 0){
+		toPlaceHold.placeholder();
+	}
 }
 $(placeholder);

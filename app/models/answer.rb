@@ -60,6 +60,17 @@ class Answer < ActiveRecord::Base
           end
         end
       end
+      
+      if question.uncheck_all_option
+        if self.send(question.uncheck_all_option) == 1 and answer.values.reduce(:+) > 1
+          errors.add(question.key, "Invalid combination of options.")
+        end
+      end
+      if question.check_all_option
+        if self.send(question.check_all_option) == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
+          errors.add(question.key, "Invalid combination of options.")
+        end
+      end
     end
   end
 
