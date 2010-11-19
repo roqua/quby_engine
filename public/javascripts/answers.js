@@ -90,8 +90,8 @@ function hashchangeEventHandler(){
 }
 
 function handleDisableRadioSubQuestions(element){
+    $(element).parent().parent().find('.item input').attr("disabled", "true");
     if(element.checked){
-        $(element).parent().parent().find('.item input').attr("disabled", "true");
         $(element).parent().find('.item input').attr("disabled", "");		
     } 
 }
