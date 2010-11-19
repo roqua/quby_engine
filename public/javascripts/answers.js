@@ -6,7 +6,7 @@ function activatePanel(panel, updateHash) {
     $('.panel').hide().removeClass('current');
         
     if (updateHash) {
-		hashChangeEnabled = false;
+        hashChangeEnabled = false;
         window.location.hash = panel[0].id;        
     }
         
@@ -41,23 +41,20 @@ function validatePanel(panel) {
 //This function is set to the onClick of the 'check_all' and the 'uncheck_all' checkboxes, with checkValue set
 // to "1" and "0" respectively
 function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
-	if(checked){
-		
-		// Setting all other checkboxes to checkValue
-		check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)")        
-		for (i = 0; i < check_boxes.length; i++) {
+    if(checked){
+        
+        // Setting all other checkboxes to checkValue
+        check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)")        
+        for (i = 0; i < check_boxes.length; i++) {
           if (check_boxes[i].id != "answer_"+nothingKey && check_boxes[i].id != "answer_"+allKey){
-		  	$(check_boxes[i]).attr("checked", checkValue);
-		  }
+            $(check_boxes[i]).attr("checked", checkValue);
+            handleDisableCheckboxSubQuestions(check_boxes[i]);
+          }
         }
-		
-		// Setting the 'check_all' and the 'uncheck_all' checkboxes appropriately, if both are used
-		if(checkValue == "1"){
-			$('#answer_'+nothingKey).attr("checked", "");
-		} else {
-			$('#answer_'+allKey).attr("checked", "");
-		}
-	}
+        
+        // Setting the 'check_all' and the 'uncheck_all' checkboxes appropriately, if both are used
+        correctAllNothingCheckboxes(checkValue == "1", allKey, nothingKey);
+    }
 }
 
 //This function is set to the onClick of all checkboxes besides the 'check_all' or 'uncheck_all' checkboxes
@@ -65,36 +62,63 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
 //1: If a checkbox is checked, the 'uncheck_all' checkbox should be unchecked
 //2: If a checkbox is unchecked, the 'check_all' checkbox should be unchecked
 function correctAllNothingCheckboxes(checked, allKey, nothingKey){
-	if(checked){
-		$("#answer_" + nothingKey).attr("checked", "");
-	} else {
-		$("#answer_" + allKey).attr("checked", "");
-	}
+    if(checked){
+        var el = $('#answer_'+nothingKey)[0];
+        $(el).attr("checked", "");
+        handleDisableCheckboxSubQuestions(el);
+    } else {
+        var el = $('#answer_'+allKey)[0];
+        $(el).attr("checked", "");
+        handleDisableCheckboxSubQuestions(el);
+    }
 }
 
 function hashchangeEventHandler(){
-	if (hashChangeEnabled) {
-		// if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
-		if (window.location.hash != "" && window.location.hash != $(".panel:first").id) {
-		    panel = $(".panel#" + window.location.hash);
-		    if (panel[0]) {
-		        activatePanel(panel, true);
-		    }
-		} else { // if we have no hash, activate the first panel
-		    activatePanel($(".panel:first"), false);
-		}
+    if (hashChangeEnabled) {
+        // if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
+        if (window.location.hash != "" && window.location.hash != $(".panel:first").id) {
+            panel = $(".panel#" + window.location.hash);
+            if (panel[0]) {
+                activatePanel(panel, true);
+            }
+        } else { // if we have no hash, activate the first panel
+            activatePanel($(".panel:first"), false);
+        }
     } else {
-		hashChangeEnabled = true;
-	}       
+        hashChangeEnabled = true;
+    }       
 }
+
+function handleDisableRadioSubQuestions(element){
+    if(element.checked){
+        $(element).parent().parent().find('.item input').attr("disabled", "true");
+        $(element).parent().find('.item input').attr("disabled", "");		
+    } 
+}
+
+function handleDisableCheckboxSubQuestions(element){
+    if(element.checked){
+        $(element).parent().find('.item input').attr("disabled", "");       
+    } else {
+        $(element).parent().find('.item input').attr("disabled", "true");
+    }
+} 
+
 
 $(document).ready(
     function() {
-		hashChangeEnabled = true;
+        hashChangeEnabled = true;
         jQuery(window).bind( 'hashchange', hashchangeEventHandler);
         //$.address.change( 'hashchange', hashchangeEventHandler);
         
-		// enable javascript-based previous/next links
+        $('input[type="radio"]').each( function(index, element){
+           handleDisableRadioSubQuestions(element);
+        });
+        $('input[type="checkbox"]').each( function(index, element){
+           handleDisableCheckboxSubQuestions(element);
+        });
+        
+        // enable javascript-based previous/next links
         $(".panel .prevnext").show();
 
         // hide all panels

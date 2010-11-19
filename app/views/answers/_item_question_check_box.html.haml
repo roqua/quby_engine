@@ -4,11 +4,11 @@
     - question.options.each do |opt|
       %li
         - if question.uncheck_all_option == opt.key
-          = check_box(:answer, opt.key, {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', '')"})
+          = check_box(:answer, opt.key, {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);"})
         - elsif question.check_all_option == opt.key
-          = check_box(:answer, opt.key, {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', '1')"})
+          = check_box(:answer, opt.key, {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);"})
         - else
-          = check_box(:answer, opt.key, {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}')"})
+          = check_box(:answer, opt.key, {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);"})
         %label(for="answer_#{question.key}_#{opt.key}")= opt.description
         - if not opt.questions.empty?
           = render :partial => "item", :collection => opt.questions

@@ -3,7 +3,7 @@
   %ol
     - question.options.each do |opt|
       %li
-        = radio_button(:answer, question.key, opt.key)
+        = radio_button(:answer, question.key, opt.key, {:onClick => "handleDisableRadioSubQuestions(this);"})
         %label(for="answer_#{question.key}_#{opt.key}")= opt.description
-        - if not opt.questions.empty?
+        - unless opt.questions.empty?
           = render :partial => "item", :collection => opt.questions
