@@ -17,6 +17,10 @@ class Questionnaire < ActiveRecord::Base
 
   validates_presence_of :key
   validates_uniqueness_of :key
+  
+  def id
+    key
+  end
 
   def enhance_by_dsl
     if self.definition

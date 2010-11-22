@@ -9,11 +9,11 @@ class Admin::QuestionnairesController < AdminAreaController
   end
 
   def show
-    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire = Questionnaire.find_by_key(params[:id])
   end
 
   def edit
-    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire = Questionnaire.find_by_key(params[:id])
   end
 
   def create
@@ -29,7 +29,7 @@ class Admin::QuestionnairesController < AdminAreaController
   end
 
   def update
-    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire = Questionnaire.find_by_key(params[:id])
     @questionnaire.definition = params[:questionnaire][:definition]
 
     if @questionnaire.save
@@ -40,11 +40,11 @@ class Admin::QuestionnairesController < AdminAreaController
   end
 
   def delete
-    @questionnaire.delete(params[:id])
+    @questionnaire.delete_by_key(params[:id])
   end
 
   def test
-    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire = Questionnaire.find_by_key(params[:id])
     @answer = @questionnaire.answers.find_or_create_by_test(true)
     redirect_to edit_questionnaire_answer_path(@questionnaire, @answer)
   end

@@ -3,27 +3,27 @@ class Admin::AnswersController < AdminAreaController
   before_filter :select_style, :only => [:new, :edit]
   
   def index
-    @questionnaire = Questionnaire.find(params[:questionnaire_id], :include => :answers)
+    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id], :include => :answers)
     @answers = @questionnaire.answers if params[:questionnaire_id]
   end
   
   def new
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
     @answer = @questionnaire.answers.new
   end
 
   def show
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
     @answer = @questionnaire.answers.find(params[:id])
   end
 
   def edit
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
     @answer = @questionnaire.answers.find(params[:id])
   end
 
   def create
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
     @answer = @questionnaire.answers.create
     
     if @answer.update_attributes(params[:answer])
@@ -32,7 +32,7 @@ class Admin::AnswersController < AdminAreaController
   end
 
   def update
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
     @answer = @questionnaire.answers.find(params[:id])
     @answer.update_attributes(params[@answer.class.to_s.underscore])
 
@@ -42,7 +42,7 @@ class Admin::AnswersController < AdminAreaController
   end
 
   def destroy
-    @questionnaire = Questionnaire.find(params[:questionnaire_id])
+    @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
     @answer = @questionnaire.answers.find(params[:id])
     @answer.destroy
     redirect_to :action => :index

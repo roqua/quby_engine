@@ -51,11 +51,11 @@ class Items::Question < Item
       :type => type,
     }).merge(
       case type
-      when "string"
+      when :string
         { :autocomplete => @autocomplete }
-      when "radio"
+      when :radio
         { :options => @options } 
-      when "check_box"
+      when :check_box
         { :options => @options } 
       else
         {}

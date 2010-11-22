@@ -7,7 +7,7 @@ class QuestionnairesController < ApplicationController
   end
 
   def show
-    @questionnaire = Questionnaire.find(params[:id])
+    @questionnaire = Questionnaire.find_by_key(params[:id])
     respond_with @questionnaire
   end
 end
