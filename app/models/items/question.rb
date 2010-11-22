@@ -43,6 +43,26 @@ class Items::Question < Item
     @options = []
   end
 
+  def as_json(options = {})
+    super.merge({
+      :key => key,
+      :title => title,
+      :description => description,
+      :type => type,
+    }).merge(
+      case type
+      when "string"
+        { :autocomplete => @autocomplete }
+      when "radio"
+        { :options => @options } 
+      when "check_box"
+        { :options => @options } 
+      else
+        {}
+      end
+    )
+  end
+
   def answerable?; true; end
 
   def subquestions

@@ -50,8 +50,12 @@ class Questionnaire < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(:only => [:key, :title, :description],
-          :methods => [:questions])
+    attributes.merge({
+      :key => self.key,
+      :title => self.title, 
+      :description => self.description,
+      :panels => self.panels
+    })
   end
 
   protected

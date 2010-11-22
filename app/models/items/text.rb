@@ -7,6 +7,12 @@ class Items::Text < Item
     @text = Maruku.new(str).to_html
   end
 
+  def as_json(options = {})
+    super().merge({ 
+      :text => text
+    })
+  end
+
   def key; 't0'; end
 
   def answerable?

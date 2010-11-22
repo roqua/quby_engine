@@ -1,4 +1,4 @@
-class Items::Panel < Array
+class Items::Panel < Item
   attr_accessor :title
   attr_accessor :items
 
@@ -6,6 +6,13 @@ class Items::Panel < Array
     @questionnaire = options[:questionnaire]
     @title = options[:title]
     @items = options[:items] || []
+  end
+
+  def as_json(options = {})
+    super.merge({
+      :title => title,
+      :items => items
+    })
   end
 
   def index
