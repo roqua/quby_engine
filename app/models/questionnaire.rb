@@ -8,6 +8,7 @@ class Questionnaire < ActiveRecord::Base
 
   attr_accessor :title
   attr_accessor :description
+  attr_accessor :abortable
   attr_accessor :panels
   attr_accessor :scores
 

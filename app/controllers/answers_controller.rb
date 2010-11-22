@@ -4,8 +4,15 @@ class AnswersController < ApplicationController
   before_filter :verify_token, :only => [:show, :edit, :update]
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
-
+  before_filter :check_aborted, :only => [:create, :update]
+  
   respond_to :html, :json, :xml
+
+  def check_aborted
+    if params[:commit] == "Onderbreken" and @questionnaire.abortable
+      params[:answer][:aborted] = true
+    end
+  end
 
   def index
     @answers = @questionnaire.answers.all
@@ -21,12 +28,12 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @questionnaire.answers.create(params[:answer])
-
+            
     respond_to do |format|
       format.json { render :json => @answer}
     end
   end
-
+  
   def update
     respond_to do |format|
       if @answer.update_attributes(params[:answer])

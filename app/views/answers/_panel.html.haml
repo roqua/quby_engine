@@ -20,4 +20,7 @@
       = submit_tag raw("&larr; Vorige vraag")
     .next
       = submit_tag raw("Volgende vraag &rarr;")
+  - if questionnaire.abortable 
+    .abort
+      = submit_tag "Onderbreken"
 / End _panel.html.haml

@@ -8,6 +8,8 @@ class Answer < ActiveRecord::Base
   validates_length_of :token, :minimum => 4
   validate :validate_answers, :on => :update
 
+  attr_accessor :aborted
+
   serialize :value
 
   def enhance_by_dsl
@@ -37,15 +39,20 @@ class Answer < ActiveRecord::Base
   end
 
   def validate_answers
+    return if @aborted
     questionnaire.questions.each do |question|
       next unless question
       answer = self.send(question.key)
       validations = question.validations
 
       if not validations.empty?
-        logger.info "Validating #{question.key} = #{question.validations.inspect}."
         
-        next if question.parent and value[question.parent.key] != question.parent_option_key
+        if question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
+          (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)
+          next          
+        end
+        
+        logger.info "Validating #{question.key} = #{question.validations.inspect}."
         
         question.validations.each do |validation|
           case validation[:type]
@@ -61,6 +68,7 @@ class Answer < ActiveRecord::Base
         end
       end
       
+      #TODO: add these 'validations' to the actual validation array so they also get checked by 'completed?'  
       if question.uncheck_all_option
         if self.send(question.uncheck_all_option) == 1 and answer.values.reduce(:+) > 1
           errors.add(question.key, "Invalid combination of options.")

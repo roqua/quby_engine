@@ -22,6 +22,10 @@ module QuestionnaireDsl
       @questionnaire.description = description
     end
     
+    def abortable
+      @questionnaire.abortable = true 
+    end
+    
     def panel(title = nil, options = {}, &block)
       p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire}))
       p.instance_eval(&block)
