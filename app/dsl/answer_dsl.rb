@@ -56,14 +56,14 @@ module AnswerDsl
             self.value[question.key] = v
           end
         
-        elsif question.type == :check_box
-          
-          question.options.each do |opt|
+      elsif question.type == :check_box
+        
+          define_method(question.key) do
+            self.value ||= Hash.new
+            self.value[question.key] ||= Hash.new
+          end
             
-            define_method(question.key) do
-              self.value ||= Hash.new
-              self.value[question.key] ||= Hash.new
-            end
+          question.options.each do |opt|
             
             define_method(opt.key) do
               self.value ||= Hash.new

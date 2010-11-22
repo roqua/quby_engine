@@ -31,6 +31,15 @@ class Answer < ActiveRecord::Base
     })
   end
 
+  def clear_question(question)
+    value.delete(question.key)
+    if question.type == :check_box
+      question.options.each do |opt|
+        value.delete(opt.key)
+      end      
+    end
+  end
+
   def completed?
     questionnaire.panels.reduce(true) do |valid_so_far, panel|
       next valid_so_far unless panel
@@ -49,6 +58,7 @@ class Answer < ActiveRecord::Base
         
         if question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
           (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)
+          clear_question(question)
           next          
         end
         
