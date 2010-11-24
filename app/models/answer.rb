@@ -53,7 +53,7 @@ class Answer < ActiveRecord::Base
       next unless question
       answer = self.send(question.key)
       validations = question.validations
-
+      
       if not validations.empty?
         
         if question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
@@ -63,17 +63,41 @@ class Answer < ActiveRecord::Base
         end
         
         logger.info "Validating #{question.key} = #{question.validations.inspect}."
+        logger.info "ERRORS: #{errors.inspect}"
+        
+        case question.type
+        when :integer
+          next if answer.blank?
+          begin 
+            answer = Integer(answer)
+          rescue ArgumentError
+            errors.add(question.key, "Invalid integer")
+            next
+          end
+        when :float
+          next if answer.blank?
+          begin 
+            answer = Float(answer)
+          rescue ArgumentError
+            errors.add(question.key, "Invalid float")
+            next
+          end
+        end
         
         question.validations.each do |validation|
           case validation[:type]
           when :regexp
-            errors.add(question.key, "Does not match pattern expected.") if not validation[:matcher].match(answer)
+            errors.add(question.key, "Does not match pattern expected.") if not answer.blank? and not validation[:matcher].match(answer)
           when :requires_answer
             if question.type == :check_box
               errors.add(question.key, "Must be answered.") if answer.values.reduce(:+) == 0
             else 
               errors.add(question.key, "Must be answered.") if answer.blank?
             end            
+          when :minimum
+            errors.add(question.key, "Smaller than minimum") if not answer.blank? and answer < validation[:value]
+          when :maximum
+            errors.add(question.key, "Exceeds maximum") if not answer.blank? and answer > validation[:value]
           end
         end
       end

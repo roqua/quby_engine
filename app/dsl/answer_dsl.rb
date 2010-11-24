@@ -39,9 +39,14 @@ module AnswerDsl
 
           define_method(question.key) do
             self.value ||= Hash.new
-            [self.value["#{question.key}_yyyy"],
+            v = [self.value["#{question.key}_yyyy"],
              self.value["#{question.key}_mm"],
-             self.value["#{question.key}_dd"]].join("-")
+             self.value["#{question.key}_dd"]]
+            if v.inject(true) {|allblank, it| it.blank? and allblank}
+              return ""
+            else
+              return v.join("-")              
+            end            
           end
 
         elsif question.type == :radio or question.type == :string
@@ -56,7 +61,7 @@ module AnswerDsl
             self.value[question.key] = v
           end
         
-      elsif question.type == :check_box
+        elsif question.type == :check_box
         
           define_method(question.key) do
             self.value ||= Hash.new
@@ -79,6 +84,16 @@ module AnswerDsl
               self.value[opt.key] = v
             end  
           end  
+        elsif question.type == :integer or question.type == :float
+          define_method(question.key) do
+            self.value ||= Hash.new
+            self.value[question.key]
+          end
+          
+          define_method(question.key.to_s + "=") do |v|
+            self.value ||= Hash.new
+            self.value[question.key] = v           
+          end                
         end rescue nil
       end
 

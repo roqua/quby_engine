@@ -10,6 +10,10 @@ class Items::Question < Item
   # Multiple-choice questions have options to choose from
   attr_accessor :options
   
+  #Minimum and maximum values for float and integer types
+  attr_accessor :minimum
+  attr_accessor :maximum
+  
   #Whether the browser should autocomplete this question (off by default)
   attr_accessor :autocomplete
   
@@ -37,9 +41,16 @@ class Items::Question < Item
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]
     @autocomplete = options[:autocomplete] || false
-    @check_all_option = options[:check_all_option] || nil
-    @uncheck_all_option = options[:uncheck_all_option] || nil    
-    
+    @check_all_option = options[:check_all_option] 
+    @uncheck_all_option = options[:uncheck_all_option]    
+        
+    if options[:minimum] and (@type == :integer or @type == :float)
+      @validations << {:type => :minimum, :value => options[:minimum]}
+    end
+    if options[:maximum] and (@type == :integer or @type == :float)
+      @validations << {:type => :maximum, :value => options[:maximum]}
+    end
+        
     @options = []
   end
 

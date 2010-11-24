@@ -14,6 +14,8 @@
       = render :partial => "item_question_string", :locals => {:question => item}
     - when :text
       = render :partial => "item_question_text",   :locals => {:question => item}
+    - when :integer, :float
+      = render :partial => "item_question_number",   :locals => {:question => item}
     - when :radio
       = render :partial => "item_question_radio",  :locals => {:question => item}
     - when :date
