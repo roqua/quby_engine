@@ -156,6 +156,9 @@ $(document).ready(
             }
         );
 
+        $("input[type=radio]").customInput();
+        $("input[type=checkbox]").customInput();
+
     }
 );
 
