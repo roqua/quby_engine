@@ -36,12 +36,16 @@ class AnswersController < ApplicationController
   
   def update
     respond_to do |format|
+            render :action => "completed" and return
       if @answer.update_attributes(params[:answer])
-        if @answer.completed? and session[:return_url]
-          logger.debug "REDIRECTING TO #{session[:return_url]}"
-          redirect_to "#{session[:return_url]}&key=#{session[:return_token]}" and return
+        if @answer.completed?
+          if session[:return_url]
+            # FIXME Find and use library for combining URLs
+            redirect_to "#{session[:return_url]}&key=#{session[:return_token]}" and return
+           else
+           end
         else
-          format.html { render :action => :edit }
+          format.html { render :action => :edit, :notice => "De vragenlijst is nog niet volledig ingevuld." }
           format.json { render :json => @answer }
         end
       else
