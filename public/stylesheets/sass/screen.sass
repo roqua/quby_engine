@@ -164,6 +164,59 @@ label.placeholder
   :padding 4px 4px 4px 4px
   :color #999999
   
+/* wrapper divs */
+.custom-checkbox, 
+.custom-radio
+  position: relative
+  
+/* input, label positioning */
+.custom-checkbox input, 
+.custom-radio input
+  position: absolute
+  left: 2px
+  top: 3px
+  margin: 0
+  z-index: 0
+
+.custom-checkbox label, 
+.custom-radio label
+  display: block
+  position: relative
+  z-index: 1
+  padding-right: 1em
+  line-height: 1.6em
+  padding: .5em 0 .5em 30px
+  margin: 0 0 .3em
+  cursor: pointer
+
+.custom-checkbox label
+  background: url(/images/forms/checkbox.gif) no-repeat
+
+.custom-radio label
+  background: url(/images/forms/radiobutton.gif) no-repeat 
+
+.custom-checkbox label, 
+.custom-radio label
+  background-position: -10px -18px
+
+.custom-checkbox label.hover,
+.custom-checkbox label.focus,
+.custom-radio label.hover,
+.custom-radio label.focus
+  background-position: -10px -118px
+
+.custom-checkbox label.checked, 
+.custom-radio label.checked 
+  background-position: -10px -218px
+
+.custom-checkbox label.checkedHover, 
+.custom-checkbox label.checkedFocus 
+  background-position: -10px -318px
+
+.custom-checkbox label.focus, 
+.custom-radio label.focus
+  outline: 1px dotted #ccc
+
 //html5 placeholder support 
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder 
   :color #999999
