@@ -26,6 +26,7 @@ class Items::Question < Item
   attr_accessor :validations
   attr_accessor :dependencies
 
+
   # Some questions are a tree.
   attr_accessor :parent
   attr_accessor :parent_option_key
@@ -43,14 +44,29 @@ class Items::Question < Item
     @autocomplete = options[:autocomplete] || false
     @check_all_option = options[:check_all_option] 
     @uncheck_all_option = options[:uncheck_all_option]    
-        
+    
+    @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
+    
+    if @type == :float
+      @validations << {:type => :valid_float, :explanation => options[:error_explanation]}
+    elsif @type == :integer
+      @validations << {:type => :valid_integer, :explanation => options[:error_explanation]}
+    end
+    
     if options[:minimum] and (@type == :integer or @type == :float)
-      @validations << {:type => :minimum, :value => options[:minimum]}
+      @validations << {:type => :minimum, :value => options[:minimum], :explanation => options[:error_explanation]}
     end
     if options[:maximum] and (@type == :integer or @type == :float)
-      @validations << {:type => :maximum, :value => options[:maximum]}
+      @validations << {:type => :maximum, :value => options[:maximum], :explanation => options[:error_explanation]}
     end
-        
+    
+    if @check_all_option
+      @validations << {:type => :not_all_checked, :check_all_key => @check_all_option, :explanation => options[:error_explanation]}
+    end
+    if @uncheck_all_option
+      @validations << {:type => :too_many_checked, :uncheck_all_key => @uncheck_all_option, :explanation => options[:error_explanation]}
+    end
+    
     @options = []
   end
 

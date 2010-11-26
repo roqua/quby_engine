@@ -10,5 +10,9 @@ function placeholder(){
 	if (toPlaceHold.length != 0){
 		toPlaceHold.placeholder();
 	}
+    //Hack to reposition the placeholders correctly on every call to this function
+    //used at the end of validatePanel
+    toPlaceHold.trigger('focusout');
 }
+
 $(placeholder);

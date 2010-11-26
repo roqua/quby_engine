@@ -100,8 +100,7 @@ module QuestionnaireDsl
     attr_reader :parent
     
     def initialize(key, options = {})
-      @question = Items::Question.new(key, options)
-      validates_presence_of_answer if options[:required]
+      @question = Items::Question.new(key, options)      
     end
     
     def build
@@ -144,9 +143,9 @@ module QuestionnaireDsl
       @question.validations << {:type => :regexp, :matcher => regexp}.reverse_merge(options)
     end
 
-    def validates_presence_of_answer
+    def validates_presence_of_answer(options = {})
       @question.validations ||= []
-      @question.validations << {:type => :requires_answer}
+      @question.validations << {:type => :requires_answer}.reverse_merge(options)
     end
   end
 
