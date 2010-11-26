@@ -71,7 +71,7 @@ class Answer < ActiveRecord::Base
           begin 
             answer = Integer(answer)
           rescue ArgumentError
-            errors.add(question.key, "Invalid integer")
+            add_error(question, :valid_integer, "Invalid integer")
             next
           end
         when :float
@@ -79,7 +79,7 @@ class Answer < ActiveRecord::Base
           begin 
             answer = Float(answer)
           rescue ArgumentError
-            errors.add(question.key, "Invalid float")
+            add_error(question, :valid_float, "Invalid float")
             next
           end
         end
@@ -87,17 +87,17 @@ class Answer < ActiveRecord::Base
         question.validations.each do |validation|
           case validation[:type]
           when :regexp
-            errors.add(question.key, "Does not match pattern expected.") if not answer.blank? and not validation[:matcher].match(answer)
+            add_error(question, validation[:type], "Does not match pattern expected.") if not answer.blank? and not validation[:matcher].match(answer)
           when :requires_answer
             if question.type == :check_box
-              errors.add(question.key, "Must be answered.") if answer.values.reduce(:+) == 0
+              add_error(question, validation[:type], "Must be answered.") if answer.values.reduce(:+) == 0
             else 
-              errors.add(question.key, "Must be answered.") if answer.blank?
+              add_error(question, validation[:type], "Must be answered.") if answer.blank?
             end            
           when :minimum
-            errors.add(question.key, "Smaller than minimum") if not answer.blank? and answer < validation[:value]
+            add_error(question, validation[:type], "Smaller than minimum") if not answer.blank? and answer < validation[:value]
           when :maximum
-            errors.add(question.key, "Exceeds maximum") if not answer.blank? and answer > validation[:value]
+            add_error(question, validation[:type], "Exceeds maximum") if not answer.blank? and answer > validation[:value]
           end
         end
       end
@@ -105,18 +105,22 @@ class Answer < ActiveRecord::Base
       #TODO: add these 'validations' to the actual validation array so they also get checked by 'completed?'  
       if question.uncheck_all_option
         if self.send(question.uncheck_all_option) == 1 and answer.values.reduce(:+) > 1
-          errors.add(question.key, "Invalid combination of options.")
+          add_error(question, :too_many_checked, "Invalid combination of options.")
         end
       end
       if question.check_all_option
         if self.send(question.check_all_option) == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
-          errors.add(question.key, "Invalid combination of options.")
+          add_error(question, :not_all_checked, "Invalid combination of options.")
         end
       end
     end
   end
 
   protected
+  
+  def add_error(question, validationtype, message)
+    errors.add(question.key, {:message => message, :valtype => validationtype})
+  end
 
   def generate_random_token
     self.token ||= ActiveSupport::SecureRandom.hex(8)

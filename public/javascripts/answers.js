@@ -20,22 +20,80 @@ function activatePanel(panel, updateHash) {
 }
 
 function validatePanel(panel) {
-  return_val = true;
+  var fail_vals;
+  $(".error").addClass("hidden")
+  $(".item").removeClass("errors")
   if (panel_validations[panel.id]) {
     validations = panel_validations[panel.id];
+    
     for (question_key in validations) {
+      var inputs = $('#answer_'+question_key+"_input > input");      
+      fail_vals = [];
+      
       for (i in validations[question_key]) {
         validation = validations[question_key][i];
-        if (validation["type"] == "requires_answer") {
-          alert("Require answer");
-          return_val = false;
-        } else {
-          alert("Unknown validation type");
+        
+        switch(validation["type"]){
+        case "requires_answer":
+          var someChecked = -1;
+          for (var i = 0; i < inputs.length; i++){
+            var input = inputs[i];
+            if(input.type == "text" && input.value == "" ){
+                fail_vals.push(validation["type"]);
+                break;            
+            }
+            if((input.type == "radio" || input.type == "checkbox")){
+                if (input.checked) {
+                    someChecked = true;                    
+                    break;            
+                } else {
+                    someChecked = false;
+                }
+            }
+          }
+          if (someChecked != -1 && !someChecked) {
+              fail_vals.push(validation["type"]);
+          }
+          break;
+          
+        case "minimum":
+            if(parseInt(input.value) < validation["value"]){
+                fail_vals.push(validation["type"]);
+            }
+            break;
+        case "maximum":
+            if(parseInt(input.value) > validation["value"]){
+                fail_vals.push(validation["type"]);
+            }
+            break;
+        case "regexp":
+        
+            break;
+        case "valid_integer":
+            
+            break;
+        case "valid_float":
+        
+            break;
+        case "too_many_checked":
+        
+            break;
+        case "not_all_checked":
+        
+            break;
         }
+      }
+      if (fail_vals.length != 0) {
+          var item = $('#answer_' + question_key + "_input").closest(".item").addClass('errors');
+          $(fail_vals).each(function(index, ele){
+              item.find(".error." + ele).removeClass("hidden");
+          });
       }
     }
   }
-  return return_val;
+  //To correctly reposition the placeholders
+  placeholder();
+  return fail_vals.length == 0;
 }
 
 //This function is set to the onClick of the 'check_all' and the 'uncheck_all' checkboxes, with checkValue set
@@ -135,24 +193,23 @@ $(document).ready(
         $(window).hashchange();
                 
         // show previous panel
-        $(".panel .prev").click(
+        $(".panel .prev input").click(
             function(event) {
+                event.preventDefault();
                 var prevPanel = $(this).parents('.panel').prev()
                 activatePanel(prevPanel, true);
-                return false;
+                
             }
         );
 
         // show next panel
-        $(".panel .next").click(
+        $(".panel .next input").click(
             function(event) {
-                var nextPanel = $(this).parents('.panel').next();
+                event.preventDefault();
+                var nextPanel = $(this).parents('.panel').next();                
                 if (validatePanel($(this).parents('.panel')[0])) {
                     activatePanel(nextPanel, true);
-                } else {
-                    alert("Answer wrong");
-                }
-                return false;
+                }          
             }
         );
 
