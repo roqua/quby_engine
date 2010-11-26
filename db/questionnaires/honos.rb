@@ -7,7 +7,7 @@ key "honos"
 title "HoNOS"
 description ""
 
-question :q592147, :type => :radio do
+question :v_1, :type => :radio do
   title "1. Hyperactief, agressief, destructief of geagiteerd gedrag"
   description ""
   option :a1, :value => 1, :description => "0Geen problemen van deze aard gedurende de afgelopen periode."
@@ -18,7 +18,7 @@ question :q592147, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592160, :type => :radio do
+question :v_2, :type => :radio do
   title "2. Opzettelijke zelfverwonding"
   description ""
   option :a1, :value => 1, :description => "0Geen problemen van deze aard gedurende de afgelopen periode."
@@ -29,7 +29,7 @@ question :q592160, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592164, :type => :radio do
+question :v_3, :type => :radio do
   title "3. Problematisch alcohol- of druggebruik"
   description ""
   option :a1, :value => 1, :description => "0Geen problemen van deze aard gedurende de afgelopen periode."
@@ -40,7 +40,7 @@ question :q592164, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592165, :type => :radio do
+question :v_4, :type => :radio do
   title "4. Cognitieve problemen"
   description ""
   option :a1, :value => 1, :description => "0Geen problemen van deze aard gedurende de afgelopen periode."
@@ -51,7 +51,7 @@ question :q592165, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592168, :type => :radio do
+question :v_5, :type => :radio do
   title "5. Lichamelijke problemen of handicaps"
   description ""
   option :a1, :value => 1, :description => "0Geen lichamelijke gezondheidsproblemen gedurende de afgelopen periode."
@@ -62,7 +62,7 @@ question :q592168, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592172, :type => :radio do
+question :v_6, :type => :radio do
   title "6. Problemen als gevolg van hallucinaties en waanvoorstellingen"
   description ""
   option :a1, :value => 1, :description => "0Geen aanwijzingen voor hallucinaties of waanvoorstellingen gedurende de afgelopen periode."
@@ -73,7 +73,7 @@ question :q592172, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592174, :type => :radio do
+question :v_7, :type => :radio do
   title "7. Problemen met depressieve stemming"
   description ""
   option :a1, :value => 1, :description => "0Geen problemen die samenhangen met een depressieve stemming gedurende de afgelopen periode."
@@ -84,37 +84,39 @@ question :q592174, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592179, :type => :radio do
-  title "8. Overige psychische en gedragsproblemen"
-  description ""
-  option :a1, :value => 1, :description => "0Geen aanwijzingen voor een van deze problemen gedurende de afgelopen periode."
-  option :a2, :value => 2, :description => "1Alleen ondergeschikte problemen."
-  option :a3, :value => 3, :description => "2Een probleem is klinisch licht aanwezig (cliënt heeft problemen gedeeltelijk onder controle)."
-  option :a4, :value => 4, :description => "3Incidenteel ernstige aanval of hinder met verlies van controle (bijvoorbeeld moet angst opwekkende situaties helemaal vermijden, moet een buurman te hulp roepen). Dus een matig ernstig probleem."
-  option :a5, :value => 5, :description => "4Ernstig probleem overheerst de meeste activiteiten."
-  option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
-end
+panel do
+  question :v_8, :type => :radio do
+    title "8. Overige psychische en gedragsproblemen"
+    description ""
+    option :a1, :value => 1, :description => "0Geen aanwijzingen voor een van deze problemen gedurende de afgelopen periode."
+    option :a2, :value => 2, :description => "1Alleen ondergeschikte problemen."
+    option :a3, :value => 3, :description => "2Een probleem is klinisch licht aanwezig (cliënt heeft problemen gedeeltelijk onder controle)."
+    option :a4, :value => 4, :description => "3Incidenteel ernstige aanval of hinder met verlies van controle (bijvoorbeeld moet angst opwekkende situaties helemaal vermijden, moet een buurman te hulp roepen). Dus een matig ernstig probleem."
+    option :a5, :value => 5, :description => "4Ernstig probleem overheerst de meeste activiteiten."
+    option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
+  end
 
-question :q592188, :type => :radio do
-  title "Specificeer het type probleem:"
-  description ""
-  option :a1, :value => 1, :description => "fobie"
-  option :a2, :value => 2, :description => "angst"
-  option :a3, :value => 3, :description => "dwangmatig"
-  option :a4, :value => 4, :description => "gespannenheid"
-  option :a5, :value => 5, :description => "dissociatief"
-  option :a6, :value => 6, :description => "somatiserend"
-  option :a7, :value => 7, :description => "eetproblemen"
-  option :a8, :value => 8, :description => "slaapproblemen"
-  option :a9, :value => 9, :description => "seksuele problemen"
-  option :a10, :value => 10, :description => "overig" do
-    question :q12398, :type => :string do
-      title "Namelijk"
+  question :v_9, :type => :radio do
+    title "Specificeer het type probleem:"
+    description ""
+    option :a1, :value => 1, :description => "fobie"
+    option :a2, :value => 2, :description => "angst"
+    option :a3, :value => 3, :description => "dwangmatig"
+    option :a4, :value => 4, :description => "gespannenheid"
+    option :a5, :value => 5, :description => "dissociatief"
+    option :a6, :value => 6, :description => "somatiserend"
+    option :a7, :value => 7, :description => "eetproblemen"
+    option :a8, :value => 8, :description => "slaapproblemen"
+    option :a9, :value => 9, :description => "seksuele problemen"
+    option :a10, :value => 10, :description => "overig" do
+      question :q12398, :type => :string do
+        title "Namelijk"
+      end
     end
   end
 end
 
-question :q592193, :type => :radio do
+question :v_11, :type => :radio do
   title "9. Problemen met relaties"
   description ""
   option :a1, :value => 1, :description => "0Geen belangrijk probleem van deze aard gedurende de afgelopen periode."
@@ -125,7 +127,7 @@ question :q592193, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592202, :type => :radio do
+question :v_14, :type => :radio do
   title "10. Problemen met ADL"
   description ""
   option :a1, :value => 1, :description => "0Geen problemen van deze aard gedurende afgelopen periode; goed in staat op alle gebieden te functioneren."
@@ -136,7 +138,7 @@ question :q592202, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592203, :type => :radio do
+question :v_15, :type => :radio do
   title "11. Problemen met woonomstandigheden"
   description ""
   option :a1, :value => 1, :description => "0Accommodatie en woonomstandigheden zijn acceptabel; zij dragen ertoe bij om elke beperking gescoord op schaal 10 (problemen met ADL) zo beperkt mogelijk te houden en ondersteunen de zelfredzaamheid."
@@ -147,7 +149,7 @@ question :q592203, :type => :radio do
   option :a9, :value => 9, :description => "9Geen of onvoldoende informatie voorhanden."
 end
 
-question :q592208, :type => :radio do
+question :v_16, :type => :radio do
   title "12. Mogelijkheden voor het gebruiken en verbeteren van vaardigheden: beroepsmatig en vrije tijd"
   description ""
   option :a1, :value => 1, :description => "0De dagelijkse omgeving van cliënt is acceptabel; draagt bij om elke beperking gescoord op schaal 10 (problemen met ADL) zo beperkt mogelijk te houden en ondersteunt de zelfredzaamheid."
