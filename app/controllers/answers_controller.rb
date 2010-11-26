@@ -36,20 +36,22 @@ class AnswersController < ApplicationController
   
   def update
     respond_to do |format|
-            render :action => "completed" and return
       if @answer.update_attributes(params[:answer])
-        if @answer.completed?
+        if @answer.valid?
           if session[:return_url]
             # FIXME Find and use library for combining URLs
             redirect_to "#{session[:return_url]}&key=#{session[:return_token]}" and return
-           else
-           end
+          else
+            render :action => "completed" and return
+          end
         else
-          format.html { render :action => :edit, :notice => "De vragenlijst is nog niet volledig ingevuld." }
+          flash[:notice] = "De vragenlijst is nog niet volledig ingevuld." 
+          format.html { render :action => :edit }
           format.json { render :json => @answer }
         end
       else
-        format.html { render :action => :edit, :error => "Could not save record." }
+        flash[:error] = "Could not save record."
+        format.html { render :action => :edit }
         format.json { render :json => @answer.errors.to_json }
       end
     end

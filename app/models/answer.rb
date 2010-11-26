@@ -25,7 +25,25 @@ class Answer < ActiveRecord::Base
   end
 
   def as_json(options = {})
+    if value
+      value_by_values = value.dup
+      value.each_key do |key|
+        logger.debug "Finding question with key #{key}"
+        question = questionnaire.questions.find(){|q| q.key == key }
+        logger.debug question.inspect
+        if question and question.type == :radio
+          logger.debug "Question is a radio"
+          option   = question.options.find(){|o| o.key.to_s == value[key].to_s }
+          logger.debug option.inspect
+          if option 
+            value_by_values[key] = option.value.to_s
+          end
+        end
+      end
+    end
+
     attributes.merge({
+      :value_by_values => value_by_values,
       :scores => self.scores,
       :is_completed => self.completed? ? true : false
     })
@@ -41,10 +59,11 @@ class Answer < ActiveRecord::Base
   end
 
   def completed?
-    questionnaire.panels.reduce(true) do |valid_so_far, panel|
-      next valid_so_far unless panel
-      valid_so_far and panel.validate_answer(self)
-    end rescue false
+#    questionnaire.panels.reduce(true) do |valid_so_far, panel|
+#      next valid_so_far unless panel
+#      valid_so_far and panel.validate_answer(self)
+#    end rescue false
+    valid?
   end
 
   def validate_answers
