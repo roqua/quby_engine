@@ -6,7 +6,7 @@
 
 %fieldset{:id => "panel#{panel_counter}", :class => classes}
   :javascript
-    panel_validations["panel#{panel_counter}"] = #{panel.validations.to_json};
+    panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
 
   /.panel_index= panel_counter + 1
 

@@ -21,6 +21,7 @@ function activatePanel(panel, updateHash) {
 
 function validatePanel(panel) {
   var fail_vals;
+  var failed = false;
   $(".error").addClass("hidden");
   $(".item").removeClass("errors");
   if (panel_validations[panel.id]) {
@@ -69,21 +70,34 @@ function validatePanel(panel) {
             }
             break;
         case "regexp":
-        
+            var regex = eval(validation["matcher"]);
+            var value;
+            if (inputs[0].id.indexOf("yyyy") != -1) {
+                var vals = [];
+                inputs.map(function(index, ele){vals.push(ele.value)});
+                value = vals.join("-");
+            }
+            else {
+                value = inputs[0].value;
+            }
+            var result = regex.exec(value);
+            if(result == null || result[0] != value){
+                fail_vals.push(validation["type"]);
+            }
             break;
         case "valid_integer":
             var input = inputs[0];
-            var rgx = /(\s*[1-9]+[0-9]*\s*| \s*[0-9]?\s*)/;
-            var result = rgx.exec(input.value)[0];
-            if(result != input.value){
+            var rgx = /(\s*-?[1-9]+[0-9]*\s*| \s*-?[0-9]?\s*)/;
+            var result = rgx.exec(input.value);
+            if(result == null || result[0] != input.value){
                 fail_vals.push(validation["type"]);
             }             
             break;
         case "valid_float":
             var input = inputs[0];
-            var rgx = /(\s*[1-9]+[0-9]*\.[0-9]+\s*|\s*[1-9]+[0-9]*\s*|\s*[0-9]\.[0-9]+\s*|\s*[0-9]?\s*)/;
-            var result = rgx.exec(input.value)[0];
-            if(result != input.value){
+            var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
+            var result = rgx.exec(input.value);
+            if(result == null || result[0] != input.value){
                 fail_vals.push(validation["type"]);
             }
             break;
@@ -100,12 +114,13 @@ function validatePanel(panel) {
           $(fail_vals).each(function(index, ele){
               item.find(".error." + ele).removeClass("hidden");
           });
+          failed = true;
       }
     }
   }
   //To correctly reposition the placeholders
   placeholder();
-  return fail_vals.length == 0;
+  return !failed;
 }
 
 //This function is set to the onClick of the 'check_all' and the 'uncheck_all' checkboxes, with checkValue set
