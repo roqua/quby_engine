@@ -64,7 +64,6 @@ class Answer < ActiveRecord::Base
         
         logger.info "Validating #{question.key} = #{question.validations.inspect}."
         
-        
         question.validations.each do |validation|
           case validation[:type]
             
@@ -86,7 +85,6 @@ class Answer < ActiveRecord::Base
             next if answer.blank?
             match = validation[:matcher].match(answer)
             add_error(question, validation[:type], "Does not match pattern expected.") if match and match[0] != answer
-            logger.info "#{match[0].inspect} ==? #{answer.inspect}, #{errors.inspect}"
           when :requires_answer
             if question.type == :check_box
               add_error(question, validation[:type], "Must be answered.") if answer.values.reduce(:+) == 0
