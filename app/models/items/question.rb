@@ -47,6 +47,12 @@ class Items::Question < Item
     
     @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
     
+    if @type == :float
+      @validations << {:type => :valid_float, :explanation => options[:error_explanation]}
+    elsif @type == :integer
+      @validations << {:type => :valid_integer, :explanation => options[:error_explanation]}
+    end
+    
     if options[:minimum] and (@type == :integer or @type == :float)
       @validations << {:type => :minimum, :value => options[:minimum], :explanation => options[:error_explanation]}
     end
@@ -54,17 +60,11 @@ class Items::Question < Item
       @validations << {:type => :maximum, :value => options[:maximum], :explanation => options[:error_explanation]}
     end
     
-    if @type == :float
-      @validations << {:type => :valid_float, :explanation => options[:error_explanation]}
-    elsif @type == :integer
-      @validations << {:type => :valid_integer, :explanation => options[:error_explanation]}
-    end
-    
     if @check_all_option
-      @validations << {:type => :not_all_checked, :explanation => options[:error_explanation]}
+      @validations << {:type => :not_all_checked, :check_all_key => @check_all_option, :explanation => options[:error_explanation]}
     end
     if @uncheck_all_option
-      @validations << {:type => :too_many_checked, :explanation => options[:error_explanation]}
+      @validations << {:type => :too_many_checked, :uncheck_all_key => @uncheck_all_option, :explanation => options[:error_explanation]}
     end
     
     @options = []

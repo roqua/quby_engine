@@ -21,23 +21,23 @@ function activatePanel(panel, updateHash) {
 
 function validatePanel(panel) {
   var fail_vals;
-  $(".error").addClass("hidden")
-  $(".item").removeClass("errors")
+  $(".error").addClass("hidden");
+  $(".item").removeClass("errors");
   if (panel_validations[panel.id]) {
     validations = panel_validations[panel.id];
     
-    for (question_key in validations) {
+    //for (var j = 0; j < validations.length; j++) {      
+    for (var question_key in validations) {
       var inputs = $('#answer_'+question_key+"_input > input");      
       fail_vals = [];
       
-      for (i in validations[question_key]) {
+      for (var i in validations[question_key]) {
         validation = validations[question_key][i];
-        
         switch(validation["type"]){
         case "requires_answer":
           var someChecked = -1;
-          for (var i = 0; i < inputs.length; i++){
-            var input = inputs[i];
+          for (var j = 0; j < inputs.length; j++){
+            var input = inputs[j];
             if(input.type == "text" && input.value == "" ){
                 fail_vals.push(validation["type"]);
                 break;            
@@ -57,11 +57,13 @@ function validatePanel(panel) {
           break;
           
         case "minimum":
+            var input = inputs[0];
             if(parseInt(input.value) < validation["value"]){
                 fail_vals.push(validation["type"]);
             }
             break;
         case "maximum":
+            var input = inputs[0];
             if(parseInt(input.value) > validation["value"]){
                 fail_vals.push(validation["type"]);
             }
@@ -70,16 +72,26 @@ function validatePanel(panel) {
         
             break;
         case "valid_integer":
-            
+            var input = inputs[0];
+            var rgx = /(\s*[1-9]+[0-9]*\s*| \s*[0-9]?\s*)/;
+            var result = rgx.exec(input.value)[0];
+            if(result != input.value){
+                fail_vals.push(validation["type"]);
+            }             
             break;
         case "valid_float":
-        
+            var input = inputs[0];
+            var rgx = /(\s*[1-9]+[0-9]*\.[0-9]+\s*|\s*[1-9]+[0-9]*\s*|\s*[0-9]\.[0-9]+\s*|\s*[0-9]?\s*)/;
+            var result = rgx.exec(input.value)[0];
+            if(result != input.value){
+                fail_vals.push(validation["type"]);
+            }
             break;
-        case "too_many_checked":
-        
+        //These validations would only come into play if the javascript that makes it impossible
+        //to check an invalid combination of checkboxes fails. 
+        case "too_many_checked":            
             break;
-        case "not_all_checked":
-        
+        case "not_all_checked":        
             break;
         }
       }
