@@ -76,8 +76,7 @@ function validatePanel(panel) {
                 var vals = [];
                 inputs.map(function(index, ele){vals.push(ele.value)});
                 value = vals.join("-");
-            }
-            else {
+            } else {
                 value = inputs[0].value;
             }
             var result = regex.exec(value);

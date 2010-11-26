@@ -69,14 +69,15 @@ class Questionnaire < ActiveRecord::Base
     begin
       functions = Function.all.map(&:definition).join("\n\n")
       QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
-    rescue => e
-      errors.add(:definition, "Syntax error")
+    #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
+    rescue Exception => e
+      errors.add(:definition, "Error")
       errors.add(:definition, e.message)
       errors.add(:definition, e.backtrace[0..5].join("<br/>"))
       return false
     end
     return true
-  end
+  end  
 
   def write_to_disk
     filename = Rails.root.join("db", "questionnaires", "#{key}.rb")

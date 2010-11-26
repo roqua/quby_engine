@@ -147,6 +147,17 @@ module QuestionnaireDsl
       @question.validations ||= []
       @question.validations << {:type => :requires_answer}.reverse_merge(options)
     end
+    
+    def validates_minimum(value, options = {})
+      @question.validations ||= []
+      @question.validations << {:type => :minimum, :value => value}.reverse_merge(options)
+    end
+    
+    def validates_maximum(value, options = {})
+      @question.validations ||= []
+      @question.validations << {:type => :maximum, :value => value}.reverse_merge(options)
+    end
+    
   end
 
   class DependencyFactory
