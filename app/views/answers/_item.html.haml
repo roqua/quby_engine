@@ -27,6 +27,8 @@
         %div{:class => exp_classes}= validation[:explanation] || "Ongeldige combinatie van opties"
       - when :not_all_checked
         %div{:class => exp_classes}= validation[:explanation] || "Ongeldige combinatie van opties"
+      - when :one_of
+        %div{:class => exp_classes}= validation[:explanation] || "Moet een van de volgende waarden zijn: #{validation[:array].inspect}"
       - else
         %strong
           Error: unknown validation type

@@ -121,7 +121,9 @@ class Answer < ActiveRecord::Base
           when :not_all_checked
             if self.send(question.check_all_option) == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
               add_error(question, :not_all_checked, "Invalid combination of options.")
-            end
+            end          
+          when :one_of
+            add_error(question, :one_of, "Not one of the options.") unless validation[:array].include?(answer.to_f)
           end
         end
         logger.info "ERRORS: #{errors.inspect}"
