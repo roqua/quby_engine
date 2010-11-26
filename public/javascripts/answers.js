@@ -36,36 +36,35 @@ function validatePanel(panel) {
         validation = validations[question_key][i];
         switch(validation["type"]){
         case "requires_answer":
-          var someChecked = -1;
-          for (var j = 0; j < inputs.length; j++){
-            var input = inputs[j];
-            if(input.type == "text" && input.value == "" ){
-                fail_vals.push(validation["type"]);
-                break;            
-            }
-            if((input.type == "radio" || input.type == "checkbox")){
-                if (input.checked) {
-                    someChecked = true;                    
+            var someChecked = -1;
+            for (var j = 0; j < inputs.length; j++){
+                var input = inputs[j];
+                if(input.type == "text" && input.value == "" ){
+                    fail_vals.push(validation["type"]);
                     break;            
-                } else {
-                    someChecked = false;
+                }
+                if((input.type == "radio" || input.type == "checkbox")){
+                    if (input.checked) {
+                        someChecked = true;                    
+                        break;            
+                    } else {
+                        someChecked = false;
+                    }
                 }
             }
-          }
-          if (someChecked != -1 && !someChecked) {
+            if (someChecked != -1 && !someChecked) {
               fail_vals.push(validation["type"]);
-          }
-          break;
-          
+            }
+            break;          
         case "minimum":
             var input = inputs[0];
-            if(parseInt(input.value) < validation["value"]){
+            if(parseFloat(input.value) < validation["value"]){
                 fail_vals.push(validation["type"]);
             }
             break;
         case "maximum":
             var input = inputs[0];
-            if(parseInt(input.value) > validation["value"]){
+            if(parseFloat(input.value) > validation["value"]){
                 fail_vals.push(validation["type"]);
             }
             break;
@@ -97,6 +96,12 @@ function validatePanel(panel) {
             var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
             var result = rgx.exec(input.value);
             if(result == null || result[0] != input.value){
+                fail_vals.push(validation["type"]);
+            }
+            break;
+        case "one_of":
+            var input = inputs[0];
+            if(validation["array"].indexOf(parseFloat(input.value)) == -1){
                 fail_vals.push(validation["type"]);
             }
             break;
