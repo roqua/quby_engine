@@ -15,7 +15,8 @@
   = javascript_include_tag "jquery.placeholder.js"
   //= javascript_include_tag "jquery.address-1.3.min.js"  
   = javascript_include_tag "jquery.custominput.js"
-  = javascript_include_tag "disable_keys.js"
+  - unless Rails.env.development?
+    = javascript_include_tag "disable_keys.js"
   = javascript_include_tag "modernizr-1.5.min.js"
   = javascript_include_tag "application.js"
   = javascript_include_tag controller.controller_name
@@ -37,3 +38,6 @@
 
     #mastfoot
       Quby
+
+    %noscript
+      #noscript-warning Deze vragenlijst heeft ondersteuning voor JavaScript nodig.
