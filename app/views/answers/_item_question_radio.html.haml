@@ -3,7 +3,7 @@
   - unless question.description.blank?
     .description
       :markdown
-        #{question.description}
+        #{raw question.description}
   %ol
     - question.options.each do |opt|
       %li
