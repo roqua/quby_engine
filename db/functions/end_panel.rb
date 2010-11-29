@@ -1,5 +1,5 @@
 def end_panel 
   panel do
-    text "Welkom bij deze vragenlijst"
+    text "Dit is het einde van deze vragenlijst."
   end
 end
