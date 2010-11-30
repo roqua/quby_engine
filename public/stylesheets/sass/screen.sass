@@ -8,15 +8,15 @@ $masthead_bg: #0f72a4
 @import masthead.sass
 
 #mastfoot
-  :margin 0 auto
-  :max-width 900px
-  :text-align right
-  :color #aaa
+  margin: 0 auto
+  max-width: 900px
+  text-align: right
+  color: #aaa
 
   &:before
-    :content "\2014"
+    content: "\2014"
   &:after
-    :content "\2014"
+    content: "\2014"
 
 #noscript-warning
   position: fixed
@@ -30,8 +30,8 @@ $masthead_bg: #0f72a4
   text-align: center
 
 #content
-  :margin 8em auto 0em auto
-  :max-width 900px
+  margin: 8em auto 0em auto
+  max-width: 900px
 
   .flash
     margin-bottom: 1em
@@ -44,10 +44,10 @@ $masthead_bg: #0f72a4
       border: 1px solid #f33
 
   .panel
-    :background #fff
-    :border 10px solid #ddd
-    :padding 2em
-    :margin-bottom 2em
+    background: #fff
+    border: 10px solid #ddd
+    padding: 2em
+    margin-bottom: 2em
     position: relative
 
     .panel_index
@@ -67,27 +67,30 @@ $masthead_bg: #0f72a4
 
     .prevnext
       .prev
-        :float left
+        float: left
       .next
-        :float right
+        float: right
     .abort
-      :text-align center
+      text-align: center
+
     .item 
       position: relative
       z-index: 100
+      margin-bottom: 2em
+
       .hidden
         display: none
       &.errors
         border: 1px solid red
         padding: 0.4em
 
-      margin-bottom: 2em
       label
         display: block
         width: 23%
         float: left
         padding-top: .2em
         padding-right: 1em
+        font-weight: bold
 
       .description
         margin-left: 25%
@@ -97,7 +100,19 @@ $masthead_bg: #0f72a4
         p
           margin-bottom: 1em
 
-      .radio
+      .text
+        em
+          font-style: italic
+          text-decoration: underline
+
+        ul
+          margin-top: 1em
+          margin-left: 1em
+          li
+            list-style-type: disc
+            margin-bottom: 1em
+            
+      .radio, .checkbox
         ol
           position: relative
           width: 74%
@@ -111,8 +126,18 @@ $masthead_bg: #0f72a4
           li 
             label
               float: none
-              display: inline
+              display: block
               width: 100%
+              position: relative
+              overflow: auto
+              font-weight: normal
+
+              span
+                display: block
+                float: left
+                margin-left: 1em
+                margin-top: -3px
+                margin-right: 2em
             .item
               margin-bottom: 0.5em
               margin-left: 2em
@@ -132,21 +157,21 @@ $masthead_bg: #0f72a4
     text-align: right
 
 #flash
-  :padding 0.7em
-  :margin 0 0 2em 0
-  :border 1px solid black
+  padding: 0.7em
+  margin: 0 0 2em 0
+  border: 1px solid black
 
   &.notice
-    :background-color #ffffcc
-    :border-color #ffcc66
+    background-color: #ffffcc
+    border-color: #ffcc66
 
   &.success
-    :background-color #ccffcc
-    :border-color #11cc11
+    background-color: #ccffcc
+    border-color: #11cc11
 
   &.error
-    :background-color #ffcccc
-    :border-color #cc1111
+    background-color: #ffcccc
+    border-color: #cc1111
 
 table
   :width 100%
@@ -181,59 +206,8 @@ label.placeholder
   :cursor text
   :padding 4px 4px 4px 4px
   :color #999999
-  
-/* wrapper divs */
-.custom-checkbox, 
-.custom-radio
-  position: relative
-  
-/* input, label positioning */
-.custom-checkbox input, 
-.custom-radio input
-  position: absolute
-  left: 2px
-  top: 3px
-  margin: 0
-  z-index: 0
 
-.custom-checkbox label, 
-.custom-radio label
-  display: block
-  position: relative
-  z-index: 1
-  padding-right: 1em
-  line-height: 1.6em
-  padding: .5em 0 .5em 30px
-  margin: 0 0 .3em
-  cursor: pointer
-
-.custom-checkbox label
-  background: url(/images/forms/checkbox.gif) no-repeat
-
-.custom-radio label
-  background: url(/images/forms/radiobutton.gif) no-repeat 
-
-.custom-checkbox label, 
-.custom-radio label
-  background-position: -10px -18px
-
-.custom-checkbox label.hover,
-.custom-checkbox label.focus,
-.custom-radio label.hover,
-.custom-radio label.focus
-  background-position: -10px -118px
-
-.custom-checkbox label.checked, 
-.custom-radio label.checked 
-  background-position: -10px -218px
-
-.custom-checkbox label.checkedHover, 
-.custom-checkbox label.checkedFocus 
-  background-position: -10px -318px
-
-.custom-checkbox label.focus, 
-.custom-radio label.focus
-  outline: 1px dotted #ccc
+@import custom-inputs.sass
 
 //html5 placeholder support 
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder 
