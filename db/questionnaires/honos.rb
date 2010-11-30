@@ -32,7 +32,8 @@ end
 question :v_1, :type => :radio, :required => true do
   title "1. Hyperactief, agressief, destructief of geagiteerd gedrag"
   description <<-END
-  *Inclusief:* elk zulk gedrag ongeacht de oorzaak (drugs, alcohol, dementie, psychose, depressie, etc.)<br/>
+  *Inclusief:* elk zulk gedrag ongeacht de oorzaak (drugs, alcohol, dementie, psychose, depressie, etc.)
+
   *Exclusief:*  bizar gedrag dat gescoord wordt bij item 6 (hallucinaties en wanen).
   END
 
@@ -47,7 +48,8 @@ end
 question :v_2, :type => :radio, :required => true do
   title "2. Opzettelijke zelfverwonding"
   description <<-END
-  *Exclusief:* zelfverwonding per ongeluk ontstaan (bijvoorbeeld als gevolg van dementie of verstandelijke handicap); het cognitieve probleem hierbij wordt gescoord op schaal 4, de verwonding op schaal 5. <br/>
+  *Exclusief:* zelfverwonding per ongeluk ontstaan (bijvoorbeeld als gevolg van dementie of verstandelijke handicap); het cognitieve probleem hierbij wordt gescoord op schaal 4, de verwonding op schaal 5.
+
   *Exclusief:* ziekte of verwonding als direct gevolg van alcohol- of druggebruik worden gescoord op schaal 3 (levercirrose of bijvoorbeeld verwondingen als gevolg van rijden onder invloed worden gescoord op schaal 5).
   END
 
@@ -62,7 +64,8 @@ end
 question :v_3, :type => :radio, :required => true do
   title "3. Problematisch alcohol- of druggebruik"
   description <<-END
-  *Exclusief:* agressief of destructief gedrag als gevolg van alcohol of druggebruik. Dat wordt gescoord op schaal 1.<br/>
+  *Exclusief:* agressief of destructief gedrag als gevolg van alcohol of druggebruik. Dat wordt gescoord op schaal 1.
+
   *Exclusief:* lichamelijke ziekte of handicap als gevolg van alcohol- of druggebruik. Dat wordt gescoord op schaal 5
   END
 
@@ -77,7 +80,8 @@ end
 question :v_4, :type => :radio, :required => true do
   title "4. Cognitieve problemen"
   description <<-END
-  *Inclusief:* problemen met geheugen, ori&euml;ntatie en begripsvermogen passend bij enige stoornis: leerstoornis, dementie, schizofrenie, etc.<br/>
+  *Inclusief:* problemen met geheugen, ori&euml;ntatie en begripsvermogen passend bij enige stoornis: leerstoornis, dementie, schizofrenie, etc.
+
   *Exclusief:* tijdelijke problemen als gevolg van alcohol/druggebruik (bijvoorbeeld een kater) die gescoord worden op schaal 3 (problematisch alcohol- of druggebruik).
   END
 
@@ -92,8 +96,10 @@ end
 question :v_5, :type => :radio, :required => true do
   title "5. Lichamelijke problemen of handicaps"
   description <<-END
-  *Inclusief:* ziekte of handicap van elke oorsprong die mobiliteits-beperkingen geven, het zicht of gehoor aantasten, dan wel anderszins interfereren met het persoonlijk functioneren.<br/>
-  *Inclusief:* bijwerkingen van medicatie; effecten van drug- of alcoholgebruik; handicaps als gevolg van ongevallen of zelfverwonding voortkomend uit cognitieve problemen, rijden onder invloed, etc.<br/>
+  *Inclusief:* ziekte of handicap van elke oorsprong die mobiliteits-beperkingen geven, het zicht of gehoor aantasten, dan wel anderszins interfereren met het persoonlijk functioneren.
+
+  *Inclusief:* bijwerkingen van medicatie; effecten van drug- of alcoholgebruik; handicaps als gevolg van ongevallen of zelfverwonding voortkomend uit cognitieve problemen, rijden onder invloed, etc.
+
   *Exclusief:* psychische problemen of gedrags-problemen die gescoord worden op schaal 4 (cognitieve problemen).
   END
   
@@ -108,8 +114,10 @@ end
 question :v_6, :type => :radio, :required => true do
   title "6. Problemen als gevolg van hallucinaties en waanvoorstellingen"
   description <<-END
-  *Inclusief:* hallucinaties en waanvoorstellingen ongeacht de diagnose.<br/>
-  *Inclusief:* vreemd en bizar gedrag geassocieerd met hallucinaties of waanvoorstellingen.<br/>
+  *Inclusief:* hallucinaties en waanvoorstellingen ongeacht de diagnose.
+
+  *Inclusief:* vreemd en bizar gedrag geassocieerd met hallucinaties of waanvoorstellingen.
+
   *Exclusief:* agressief, destructief of hyperactief gedrag dat voortkomt uit hallucinaties of wanen en dat gescoord wordt op schaal 1 (hyperactief en agressief gedrag).
   END
 
@@ -124,8 +132,10 @@ end
 question :v_7, :type => :radio, :required => true do
   title "7. Problemen met depressieve stemming"
   description <<-END
-  *Exclusief:* hyperactiviteit of geagiteerd gedrag. Dat wordt gescoord op schaal 1.<br/>
-  *Exclusief:* su&iuml;cidegedachten of pogingen. Die worden gescoord op schaal 2.<br/>
+  *Exclusief:* hyperactiviteit of geagiteerd gedrag. Dat wordt gescoord op schaal 1.
+
+  *Exclusief:* su&iuml;cidegedachten of pogingen. Die worden gescoord op schaal 2.
+
   *Exclusief:* waanvoorstellingen of hallucinaties. Die worden gescoord op schaal 6.
   END
 
@@ -187,7 +197,8 @@ question :v_14, :type => :radio, :required => true do
   description <<-END
   Scoor het totale ADL niveau (bijvoorbeeld problemen met basale zelfzorgactiviteiten zoals eten, wassen, aankleden, naar het toilet gaan; ook complexe vaardigheden als budgetteren, regelen van woonruimte, werk en vrije tijd, mobiliteit en gebruik van openbaar vervoer, boodschappen doen, zelfontplooiing, etc.).
 
-  *Inclusief:* gebrek aan motivatie om mogelijkheden te gebruiken die de zelfredzaamheid kunnen vergroten, want dit draagt bij aan een lager totaal ADL niveau.<br/>
+  *Inclusief:* gebrek aan motivatie om mogelijkheden te gebruiken die de zelfredzaamheid kunnen vergroten, want dit draagt bij aan een lager totaal ADL niveau.
+
   *Exclusief:* gebrek aan mogelijkheden om intacte bekwaamheden en vaardigheden uit te oefenen. Dit wordt gescoord bij schaal 11 en 12.
   END
 
@@ -202,8 +213,10 @@ end
 question :v_15, :type => :radio, :required => true do
   title "11. Problemen met woonomstandigheden"
   description <<-END
-  Scoor de globale ernst van problemen in de kwaliteit van de woonomstandigheden en het dagelijks huishouden. Is aan de basis behoeften voldaan (verwarming, licht, hygi&euml;ne)? Zo ja, is er hulp bij het omgaan met eventuele beperkingen en zijn er mogelijkheden om aanwezige vaardigheden toe te kunnen passen en nieuwe vaardigheden te kunnen ontwikkelen?<br/>
-  *Exclusief:* het niveau van functioneren; dat wordt gescoord op schaal 10 (problemen met ADL).<br/>
+  Scoor de globale ernst van problemen in de kwaliteit van de woonomstandigheden en het dagelijks huishouden. Is aan de basis behoeften voldaan (verwarming, licht, hygi&euml;ne)? Zo ja, is er hulp bij het omgaan met eventuele beperkingen en zijn er mogelijkheden om aanwezige vaardigheden toe te kunnen passen en nieuwe vaardigheden te kunnen ontwikkelen?
+
+  *Exclusief:* het niveau van functioneren; dat wordt gescoord op schaal 10 (problemen met ADL).
+
   N.B. Scoor de gebruikelijke woonomstandigheden van de cliënt.
   END
 
@@ -218,9 +231,10 @@ end
 question :v_16, :type => :radio, :required => true do
   title "12. Mogelijkheden voor het gebruiken en verbeteren van vaardigheden: beroepsmatig en vrije tijd"
   description <<-END
-  Scoor de problemen in de kwaliteit van de dagelijkse omgeving van de cli&euml;nt. Is er hulp bij het omgaan met beperkingen, zijn er mogelijkheden tot behouden en vergroten van vaardigheden en activiteiten op gebied van werk en vrije tijd. Let op zaken als stigma, gebrek aan gekwalificeerd personeel, toegang tot voorzieningen (bijvoorbeeld bezettingsgraad en uitrusting van dagcentra, werkplaatsen, verenigingen).<br/>
+  Scoor de problemen in de kwaliteit van de dagelijkse omgeving van de cli&euml;nt. Is er hulp bij het omgaan met beperkingen, zijn er mogelijkheden tot behouden en vergroten van vaardigheden en activiteiten op gebied van werk en vrije tijd. Let op zaken als stigma, gebrek aan gekwalificeerd personeel, toegang tot voorzieningen (bijvoorbeeld bezettingsgraad en uitrusting van dagcentra, werkplaatsen, verenigingen).
 
-  *Exclusief:* het niveau van functioneren zelf. Dat wordt gescoord op schaal 10 (problemen met ADL).<br/>
+  *Exclusief:* het niveau van functioneren zelf. Dat wordt gescoord op schaal 10 (problemen met ADL).
+
   N.B. Scoor de gebruikelijke situatie van de cliënt (wanneer een cliënt is opgenomen, scoor de situatie van voor de opname).
   END
 
