@@ -7,6 +7,8 @@ key "honos"
 title "HoNOS"
 description ""
 
+abortable
+
 # TODO We need a DSL method "show_values" of sorts which enables displaying the value of each answer
 
 panel do
@@ -14,7 +16,7 @@ panel do
   text <<-END.gsub(/^ {4}/, '')
     * (a)	Scoor elke schaal in de volgorde van 1 - 12.
     * (b)	Gebruik geen informatie die bij een vorig item al is meegenomen, behalve bij item 10 wat een globale score is.
-    * (c)	Scoor het MEEST ERNSTIGE probleem dat zich heeft voorgedaan gedurende de afgelopen 2 weken.
+    * (c)	Scoor het MEEST ERNSTIGE probleem dat zich heeft voorgedaan gedurende *de afgelopen 2 weken*.
     * (d)	Alle schalen hebben de volgende opbouw:
       * 0 = geen probleem
       * 1 = ondergeschikt probleem, vereist geen actie
@@ -183,7 +185,8 @@ end
 question :v_14, :type => :radio, :required => true do
   title "10. Problemen met ADL"
   description <<-END
-  Scoor het totale ADL niveau (bijvoorbeeld problemen met basale zelfzorgactiviteiten zoals eten, wassen, aankleden, naar het toilet gaan; ook complexe vaardigheden als budgetteren, regelen van woonruimte, werk en vrije tijd, mobiliteit en gebruik van openbaar vervoer, boodschappen doen, zelfontplooiing, etc.).<br/>
+  Scoor het totale ADL niveau (bijvoorbeeld problemen met basale zelfzorgactiviteiten zoals eten, wassen, aankleden, naar het toilet gaan; ook complexe vaardigheden als budgetteren, regelen van woonruimte, werk en vrije tijd, mobiliteit en gebruik van openbaar vervoer, boodschappen doen, zelfontplooiing, etc.).
+
   *Inclusief:* gebrek aan motivatie om mogelijkheden te gebruiken die de zelfredzaamheid kunnen vergroten, want dit draagt bij aan een lager totaal ADL niveau.<br/>
   *Exclusief:* gebrek aan mogelijkheden om intacte bekwaamheden en vaardigheden uit te oefenen. Dit wordt gescoord bij schaal 11 en 12.
   END
