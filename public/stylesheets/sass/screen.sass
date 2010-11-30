@@ -29,6 +29,21 @@ $masthead_bg: #0f72a4
   font-size: 1.5em
   text-align: center
 
+.acts-as-regular-text
+  margin-bottom: 1em
+  em 
+    font-weight: bold
+  p
+    margin-bottom: 1em
+
+  ul
+    margin-top: 1em
+    margin-left: 1em
+    li
+      list-style-type: disc
+      margin-bottom: 1em
+  
+
 #content
   margin: 8em auto 0em auto
   max-width: 900px
@@ -88,29 +103,19 @@ $masthead_bg: #0f72a4
         display: block
         width: 23%
         float: left
-        padding-top: .2em
         padding-right: 1em
         font-weight: bold
 
       .description
+        @extend .acts-as-regular-text
         margin-left: 25%
-        margin-bottom: 1em
-        em 
-          font-weight: bold
-        p
-          margin-bottom: 1em
+        margin-bottom: 2em
 
       .text
-        em
+        @extend .acts-as-regular-text
+        // em
           font-style: italic
           text-decoration: underline
-
-        ul
-          margin-top: 1em
-          margin-left: 1em
-          li
-            list-style-type: disc
-            margin-bottom: 1em
             
       .radio, .checkbox
         ol
@@ -129,6 +134,7 @@ $masthead_bg: #0f72a4
               display: block
               width: 100%
               position: relative
+              padding-top: 0.15em
               overflow: auto
               font-weight: normal
 
