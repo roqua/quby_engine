@@ -21,11 +21,13 @@ Quby::Application.routes.draw do
     resources :answers
   end
 
-  namespace :api do
-    resources :questionnaires
+  resources :patients do
     resources :answers
+    resources :questionnaires do
+      resources :answers
+    end
   end
-  
+
   root :to => 'admin/questionnaires#index'
 
   # Sample of regular route:

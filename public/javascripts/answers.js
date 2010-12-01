@@ -3,6 +3,7 @@
 //   questionnaires/1/answers/edit
 var hashChangeEnabled;
 function activatePanel(panel, updateHash) {
+    $('.flash').hide();
     $('.panel').hide().removeClass('current');
         
     if (updateHash) {

@@ -2,6 +2,13 @@ require 'erb'
 require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
 
+set :scm, :git
+set :repository, "git@git.roqua.nl:quby.git"
+set :deploy_via, :remote_cache
+
+set :user, "deploy"
+set :use_sudo, false
+
 namespace :deploy do
   desc "Restart web server"
   task :restart, :roles => :app do

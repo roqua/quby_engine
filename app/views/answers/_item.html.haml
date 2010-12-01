@@ -5,8 +5,9 @@
 .item{:class => itemclasses}
   - case item.class.name
   - when "Items::Text"
-    :markdown
-      #{item}
+    .text
+      :markdown
+        #{item}
   - when "Items::Question"
     - item.validations.each do |validation|
       - exp_classes = ["error", validation[:type]]

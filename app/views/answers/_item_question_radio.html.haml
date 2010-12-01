@@ -1,9 +1,14 @@
 .radio(id="answer_#{question.key}_input")
   %label(for="answer_#{question.key}")= question.title
+  - unless question.description.blank?
+    .description
+      :markdown
+        #{raw question.description}
   %ol
     - question.options.each do |opt|
       %li
         = radio_button(:answer, question.key, opt.key, {:onClick => "handleDisableRadioSubQuestions(this);", :class => subquestion ? "subinput" : ""})
-        %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+        %label(for="answer_#{question.key}_#{opt.key}")
+          %span= opt.description
         - unless opt.questions.empty?
           = render :partial => "item", :collection => opt.questions,  :locals => {:subquestion => true}

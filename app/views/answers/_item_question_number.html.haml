@@ -1,4 +1,9 @@
 %ol.noindent
   %li.string(id="answer_#{question.key}_input")
     %label(for="answer_#{question.key}")= question.title
+    - unless question.description.blank?
+      .description
+        :markdown
+          #{question.description}
+
     = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""
