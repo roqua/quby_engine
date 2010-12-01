@@ -26,10 +26,9 @@ function validatePanel(panel) {
   $(".item").removeClass("errors");
   if (panel_validations[panel.id]) {
     validations = panel_validations[panel.id];
-    
-    //for (var j = 0; j < validations.length; j++) {      
+        
     for (var question_key in validations) {
-      var inputs = $('#answer_'+question_key+"_input > input");      
+      var inputs = $("#answer_"+question_key+"_input input:not(.subinput)");      
       fail_vals = [];
       
       for (var i in validations[question_key]) {
@@ -43,12 +42,12 @@ function validatePanel(panel) {
                     fail_vals.push(validation["type"]);
                     break;            
                 }
-                if((input.type == "radio" || input.type == "checkbox")){
+                if(input.type == "radio" || input.type == "checkbox"){
                     if (input.checked) {
                         someChecked = true;                    
                         break;            
                     } else {
-                        someChecked = false;
+                        someChecked = false;                        
                     }
                 }
             }
@@ -179,9 +178,10 @@ function hashchangeEventHandler(){
 }
 
 function handleDisableRadioSubQuestions(element){
-    $(element).parent().parent().find('.item input').attr("disabled", "true");
     if(element.checked){
-        $(element).parent().find('.item input').attr("disabled", "");		
+        //alert(element.id);
+        $(element).closest('.item').find('.subinput').attr("disabled", "true");
+        $(element).closest('li').find('.subinput').attr("disabled", "");
     } 
 }
 
@@ -200,9 +200,11 @@ $(document).ready(
         jQuery(window).bind( 'hashchange', hashchangeEventHandler);
         //$.address.change( 'hashchange', hashchangeEventHandler);
         
-        $('input[type="radio"]').each( function(index, element){
+        $('.subinput').attr("disabled", "true");
+        $('input[type="radio"]').each( function(index, element){            
            handleDisableRadioSubQuestions(element);
         });
+        
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
         });
@@ -245,7 +247,9 @@ $(document).ready(
         );
 
         $("input[type=radio]").customInput();
-        $("input[type=checkbox]").customInput();
+        
+        //Layout breaks with this
+        //$("input[type=checkbox]").customInput();
 
     }
 );
