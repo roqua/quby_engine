@@ -6,6 +6,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'application'
 
+  before_filter :log_session_hash
+
   # TODO: Rails3
   # filter_parameter_logging :password
+  #
+  protected
+
+  def log_session_hash
+    logger.info "  Session: #{session.inspect}"
+  end
 end
