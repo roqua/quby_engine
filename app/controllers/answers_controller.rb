@@ -1,3 +1,5 @@
+require 'addressable/uri'
+
 class AnswersController < ApplicationController
   before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update]
   before_filter :find_patient
@@ -49,8 +51,10 @@ class AnswersController < ApplicationController
       if @answer.update_attributes(params[:answer])
         if @answer.valid?
           if session[:return_url]
-            # FIXME Find and use library for combining URLs
-            redirect_to "#{session[:return_url]}&key=#{session[:return_token]}" and return
+            address = Addressable::URI.parse(session[:return_url])
+            address.query_values = address.query_values.merge(:key => session[:return_token])
+            logger.info address.to_s
+            redirect_to address.to_s and return
           else
             render :action => "completed" and return
           end
