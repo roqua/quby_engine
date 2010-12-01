@@ -12,6 +12,7 @@ gem 'awesome_print'
 gem 'open4'
 gem 'wirble'
 gem 'json'
+gem 'addressable'
 
 gem 'rails-settings'
 gem 'devise', "~> 1.1"
