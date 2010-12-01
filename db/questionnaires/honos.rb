@@ -14,16 +14,16 @@ abortable
 panel do
   title "Instructies bij het invullen van de HoNOS"
   text <<-END.gsub(/^ {4}/, '')
-    * (a)	Scoor elke schaal in de volgorde van 1 - 12.
-    * (b)	Gebruik geen informatie die bij een vorig item al is meegenomen, behalve bij item 10 wat een globale score is.
-    * (c)	Scoor het MEEST ERNSTIGE probleem dat zich heeft voorgedaan gedurende *de afgelopen 2 weken*.
-    * (d)	Alle schalen hebben de volgende opbouw:
+    * Scoor elke schaal in de volgorde van 1 - 12.
+    * Gebruik geen informatie die bij een vorig item al is meegenomen, behalve bij item 10 wat een globale score is.
+    * Scoor het MEEST ERNSTIGE probleem dat zich heeft voorgedaan gedurende *de afgelopen 2 weken*.
+    * Alle schalen hebben de volgende opbouw:
       * 0 = geen probleem
       * 1 = ondergeschikt probleem, vereist geen actie
       * 2 = licht probleem, maar duidelijk aanwezig
       * 3 = matig ernstig probleem
       * 4 = ernstig tot zeer ernstig probleem
-    * (e)	Gebruik de score 9 wanneer over het betreffende item geen of onvoldoende informatie voorhanden is.
+    * Gebruik de score 9 wanneer over het betreffende item geen of onvoldoende informatie voorhanden is.
 
     Klik op 'Volgende' om verder te gaan.
   END
