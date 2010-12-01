@@ -5,4 +5,4 @@
       .description
         :markdown
           #{question.description}
-    = text_field :answer, question.key, :autocomplete => question.autocomplete
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""

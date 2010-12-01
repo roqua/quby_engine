@@ -4,8 +4,8 @@
     .description
       :markdown
         #{question.description}
-  = text_field :answer, "#{question.key}_yyyy", :placeholder => "YYYY", :size => 4, :autocomplete => question.autocomplete
+  = text_field :answer, "#{question.key}_yyyy", :placeholder => "YYYY", :size => 4, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""
   = "-"
-  = text_field :answer, "#{question.key}_mm",   :placeholder => "MM",   :size => 2, :autocomplete => question.autocomplete
+  = text_field :answer, "#{question.key}_mm",   :placeholder => "MM",   :size => 2, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""
   = "-"
-  = text_field :answer, "#{question.key}_dd",   :placeholder => "DD",   :size => 2, :autocomplete => question.autocomplete
+  = text_field :answer, "#{question.key}_dd",   :placeholder => "DD",   :size => 2, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""
