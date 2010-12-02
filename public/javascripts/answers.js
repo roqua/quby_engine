@@ -58,12 +58,18 @@ function validatePanel(panel) {
             break;          
         case "minimum":
             var input = inputs[0];
+            if(input.value == ""){
+                continue;
+            }
             if(parseFloat(input.value) < validation["value"]){
                 fail_vals.push(validation["type"]);
             }
             break;
         case "maximum":
             var input = inputs[0];
+            if(input.value == ""){
+                continue;
+            }
             if(parseFloat(input.value) > validation["value"]){
                 fail_vals.push(validation["type"]);
             }
@@ -71,12 +77,15 @@ function validatePanel(panel) {
         case "regexp":
             var regex = eval(validation["matcher"]);
             var value;
-            if (inputs[0].id.indexOf("yyyy") != -1) {
+            if (inputs[0].id.indexOf("yyyy") != -1 && inputs[0].value != "") {
                 var vals = [];
                 inputs.map(function(index, ele){vals.push(ele.value)});
                 value = vals.join("-");
             } else {
                 value = inputs[0].value;
+            }
+            if(value == ""){
+                continue;
             }
             var result = regex.exec(value);
             if(result == null || result[0] != value){
@@ -85,6 +94,9 @@ function validatePanel(panel) {
             break;
         case "valid_integer":
             var input = inputs[0];
+            if(input.value == ""){
+                continue;
+            }
             var rgx = /(\s*-?[1-9]+[0-9]*\s*| \s*-?[0-9]?\s*)/;
             var result = rgx.exec(input.value);
             if(result == null || result[0] != input.value){
@@ -93,6 +105,9 @@ function validatePanel(panel) {
             break;
         case "valid_float":
             var input = inputs[0];
+            if(input.value == ""){
+                continue;
+            }
             var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
             var result = rgx.exec(input.value);
             if(result == null || result[0] != input.value){
@@ -101,6 +116,9 @@ function validatePanel(panel) {
             break;
         case "one_of":
             var input = inputs[0];
+            if(input.value == ""){
+                continue;
+            }
             if(validation["array"].indexOf(parseFloat(input.value)) == -1){
                 fail_vals.push(validation["type"]);
             }

@@ -85,7 +85,7 @@ panel do
 end
 
 panel do
-  text "3. Welke problemen, klachten of bijzonderheden zijn de aanleiding om hulp te zoeken. Wilt u de belangrijkste problemen, hieronder beschrijven; graag zo kort en duidelijk mogelijk."
+  text "*3\. Welke problemen, klachten of bijzonderheden zijn de aanleiding om hulp te zoeken. Wilt u de belangrijkste problemen, hieronder beschrijven; graag zo kort en duidelijk mogelijk.*"
   
   question :v_12, :type => :string do
     title "Probleem 1"
@@ -408,10 +408,10 @@ end
 panel do
   question :v_62, :type => :float do
     title "40. Gewicht kind?"
-    description "kilogram"
+    description "in kilogram"
   end
 
-  text "41. Lengte kind?"
+  text "*41\. Lengte kind?*"
   question :v_63, :type => :integer do
     title "meter"
     description ""
@@ -450,8 +450,7 @@ panel do
     option :a4, :value => 4, :description => "Heel erg"
   end
 
-#TODO: Fix the disappearance of the '45.' (markdown?) 
-  text " 45. Belemmeren de moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?"
+  text "*45\. Belemmeren de moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?*"
   
   question :v_96, :type => :radio do
     title "a. Thuis"
