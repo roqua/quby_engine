@@ -77,7 +77,7 @@ function validatePanel(panel) {
         case "regexp":
             var regex = eval(validation["matcher"]);
             var value;
-            if (inputs[0].id.indexOf("yyyy") != -1 && inputs[0].value != "") {
+            if (inputs.length == 3 && inputs[0].value != "") {
                 var vals = [];
                 inputs.map(function(index, ele){vals.push(ele.value)});
                 value = vals.join("-");

@@ -111,6 +111,11 @@ module QuestionnaireDsl
       @question.title = value
     end
     
+    def inner_title(value)
+      op = QuestionOption.new(nil, :inner_title => true, :description => value)
+      @question.options << op
+    end
+    
     def description(value)
       @question.description = value
     end
