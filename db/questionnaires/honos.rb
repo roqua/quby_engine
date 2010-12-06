@@ -164,15 +164,15 @@ panel do
     title "Specificeer het type probleem:"
 
     # TODO Check values for this set of options
-    option :a1, :value => 0, :description => "fobie"
-    option :a2, :value => 1, :description => "angst"
-    option :a3, :value => 2, :description => "dwangmatig"
-    option :a4, :value => 3, :description => "gespannenheid"
-    option :a5, :value => 4, :description => "dissociatief"
-    option :a6, :value => 5, :description => "somatiserend"
-    option :a7, :value => 6, :description => "eetproblemen"
-    option :a8, :value => 7, :description => "slaapproblemen"
-    option :a9, :value => 8, :description => "seksuele problemen"
+    option :a1, :value => 1, :description => "fobie"
+    option :a2, :value => 2, :description => "angst"
+    option :a3, :value => 3, :description => "dwangmatig"
+    option :a4, :value => 4, :description => "gespannenheid"
+    option :a5, :value => 5, :description => "dissociatief"
+    option :a6, :value => 6, :description => "somatiserend"
+    option :a7, :value => 7, :description => "eetproblemen"
+    option :a8, :value => 8, :description => "slaapproblemen"
+    option :a9, :value => 9, :description => "seksuele problemen"
     option :a10, :value => 10, :description => "overig" do
       question :v_10, :type => :string do
         title "Namelijk"
