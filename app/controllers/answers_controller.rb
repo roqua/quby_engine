@@ -111,7 +111,7 @@ class AnswersController < ApplicationController
 
   def remember_return_url_in_session
     if params[:return_url]
-      session[:return_url] = params[:return_url]
+      session[:return_url] = CGI.unescape(params[:return_url])
       session[:return_token] = params[:return_token]
     end
   end
