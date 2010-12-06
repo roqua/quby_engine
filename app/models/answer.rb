@@ -9,11 +9,37 @@ class Answer < ActiveRecord::Base
   validate :validate_answers, :on => :update
 
   attr_accessor :aborted
+  #Values in globalpark coding that need to be recoded and used to initialize this answer
+  attr_accessor :roqua_vals
 
   serialize :value
 
   def enhance_by_dsl
     AnswerDsl.enhance(self)
+    
+    if @roqua_vals
+      @questionnaire.questions.each do |q|
+        case q.type 
+        when :radio
+          q.options.each do |opt|
+            if opt.value.to_s == @roqua_vals[q.key]
+              @roqua_vals[q.key] = opt.key
+            end
+          end
+        when :check_box
+          q.options.each do |opt|
+            if @roqua_vals[opt.key] != "1"
+              @roqua_vals.delete(opt.key)
+            end
+          end
+        end
+      end
+      logger.info "RECODED VALUES: #{@roqua_vals.inspect}"
+      @roqua_vals.each_pair do |key, value|
+        self.send("#{key}=", value)
+      end
+      @roqua_vals = nil
+    end
   end
 
   def scores
@@ -30,7 +56,7 @@ class Answer < ActiveRecord::Base
         value_by_values = value.dup
         value.each_key do |key|
           logger.debug "Finding questionnaire #{questionnaire.key} question with key #{key}"
-          question = questionnaire.questions.find(){|q| q.key == key rescue false }
+          question = questionnaire.questions.find(){|q| q.andand.key == key }
           logger.debug question.inspect
           if question and question.type == :radio
             logger.debug "Question is a radio"
@@ -43,7 +69,7 @@ class Answer < ActiveRecord::Base
         end
       end
     rescue Exception => e
-      logger.error "RESCUED #{e.message}"
+      logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
     end
 
     attributes.merge({
@@ -107,7 +133,7 @@ class Answer < ActiveRecord::Base
           when :regexp
             next if answer.blank?
             match = validation[:matcher].match(answer)
-            add_error(question, validation[:type], "Does not match pattern expected.") if match and match[0] != answer
+            add_error(question, validation[:type], "Does not match pattern expected.") if not match or match[0] != answer
           when :requires_answer
             if question.type == :check_box
               add_error(question, validation[:type], "Must be answered.") if answer.values.reduce(:+) == 0

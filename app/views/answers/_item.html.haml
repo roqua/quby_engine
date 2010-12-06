@@ -16,9 +16,9 @@
         - exp_classes << "hidden" 
       - case validation[:type]
       - when :maximum
-        %div{:class => exp_classes}= validation[:explanation] || "Waarde moet kleiner zijn dan #{validation[:value]}" 
+        %div{:class => exp_classes}= validation[:explanation] || "Waarde moet kleiner of gelijk zijn aan #{validation[:value]}" 
       - when :minimum
-        %div{:class => exp_classes}= validation[:explanation] || "Waarde moet groter zijn dan #{validation[:value]}"
+        %div{:class => exp_classes}= validation[:explanation] || "Waarde moet groter of gelijk zijn aan #{validation[:value]}"
       - when :requires_answer
         %div{:class => exp_classes}= validation[:explanation] || "Veld mag niet leeg zijn"
       - when :regexp

@@ -7,41 +7,41 @@ module AnswerDsl
       questionnaire.questions.each do |question|
         if question.type == :date
 
-          define_method("#{question.key}_yyyy") do
+          define_method(question.year_key || "#{question.key}_yyyy") do
             self.value ||= Hash.new
-            self.value["#{question.key}_yyyy"]
+            self.value[question.year_key || "#{question.key}_yyyy"]
           end
 
-          define_method("#{question.key}_yyyy=") do |v|
+          define_method("#{question.year_key}=" || "#{question.key}_yyyy=") do |v|
             self.value ||= Hash.new
-            self.value["#{question.key}_yyyy"] = v
+            self.value[question.year_key || "#{question.key}_yyyy"] = v
           end
           
-          define_method("#{question.key}_mm") do
+          define_method(question.month_key || "#{question.key}_mm") do
             self.value ||= Hash.new
-            self.value["#{question.key}_mm"]
+            self.value[question.month_key || "#{question.key}_mm"]
           end
 
-          define_method("#{question.key}_mm=") do |v|
+          define_method("#{question.month_key}=" || "#{question.key}_mm=") do |v|
             self.value ||= Hash.new
-            self.value["#{question.key}_mm"] = v
+            self.value[question.month_key || "#{question.key}_mm"] = v
+          end
+          
+          define_method(question.day_key || "#{question.key}_dd") do
+            self.value ||= Hash.new
+            self.value[question.day_key ||"#{question.key}_dd"]
           end
 
-          define_method("#{question.key}_dd") do
+          define_method("#{question.day_key}=" ||"#{question.key}_dd=") do |v|
             self.value ||= Hash.new
-            self.value["#{question.key}_dd"]
-          end
-
-          define_method("#{question.key}_dd=") do |v|
-            self.value ||= Hash.new
-            self.value["#{question.key}_dd"] = v
+            self.value[question.day_key ||"#{question.key}_dd"] = v
           end
 
           define_method(question.key) do
             self.value ||= Hash.new
-            v = [self.value["#{question.key}_yyyy"],
-             self.value["#{question.key}_mm"],
-             self.value["#{question.key}_dd"]]
+            v = [self.value[question.day_key ||"#{question.key}_dd"],
+             self.value[question.month_key ||"#{question.key}_mm"],
+             self.value[question.year_key ||"#{question.key}_yyyy"]]
             if v.inject(true) {|allblank, it| it.blank? and allblank}
               return ""
             else

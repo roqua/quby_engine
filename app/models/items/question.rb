@@ -26,6 +26,10 @@ class Items::Question < Item
   attr_accessor :validations
   attr_accessor :dependencies
 
+  #For optionally giving year, month and day fields their own keys
+  attr_accessor :year_key
+  attr_accessor :month_key
+  attr_accessor :day_key
 
   # Some questions are a tree.
   attr_accessor :parent
@@ -44,6 +48,10 @@ class Items::Question < Item
     @autocomplete = options[:autocomplete] || false
     @check_all_option = options[:check_all_option] 
     @uncheck_all_option = options[:uncheck_all_option]    
+    
+    @year_key = options[:year_key].andand.to_s
+    @month_key = options[:month_key].andand.to_s
+    @day_key = options[:day_key].andand.to_s
     
     @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
     
