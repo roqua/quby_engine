@@ -30,7 +30,7 @@ class Answer < ActiveRecord::Base
         value_by_values = value.dup
         value.each_key do |key|
           logger.debug "Finding questionnaire #{questionnaire.key} question with key #{key}"
-          question = questionnaire.questions.find(){|q| q.key == key }
+          question = questionnaire.questions.find(){|q| q.key == key rescue false }
           logger.debug question.inspect
           if question and question.type == :radio
             logger.debug "Question is a radio"
