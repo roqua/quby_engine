@@ -15,7 +15,7 @@ panel do
   # ( ) Jaarlijkse screening
   # ( ) Ander interval, screening na [string___________],
   #                           reden: [string___________]
-  question :v_144, :type => :radio, :required => true do
+  question :v_144, :type => :radio do
     title "Reden voor screening"
     option :a01, :value => 1, :description => "Jaarlijkse screening"
     option :a02, :value => 2, :description => "Ander interval" do
@@ -29,7 +29,7 @@ panel do
   # ( ) Negroide                         ( ) Marokkaans
   # ( ) Aziatisch                        ( ) Anders, namelijk [string___________]
   # ( ) Indiaans / Latijns-Amerikaans
-  question :v_178, :type => :radio, :required => true do
+  question :v_178, :type => :radio do
     title "Etniciteit"
     option :a01, :value => 1, :description => "Caucasisch (blank)"
     option :a02, :value => 2, :description => "Negroïde"
