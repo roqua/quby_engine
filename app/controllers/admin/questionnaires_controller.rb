@@ -46,7 +46,7 @@ class Admin::QuestionnairesController < AdminAreaController
   def test
     @questionnaire = Questionnaire.find_by_key(params[:id])
     @answer = @questionnaire.answers.find_or_create_by_test(true)
-    redirect_to edit_questionnaire_answer_path(@questionnaire, @answer)
+    redirect_to edit_questionnaire_answer_path(@questionnaire, @answer, :token => @answer.token)
   end
   
 end
