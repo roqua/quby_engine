@@ -25,7 +25,7 @@ panel do
       * 4 = ernstig tot zeer ernstig probleem
     * Gebruik de score 9 wanneer over het betreffende item geen of onvoldoende informatie voorhanden is.
 
-    Klik op 'Volgende' om verder te gaan.
+    Klik op 'Volgende vraag' om verder te gaan.
   END
 end
 
