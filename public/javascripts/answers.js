@@ -2,16 +2,24 @@
 //
 //   questionnaires/1/answers/edit
 var hashChangeEnabled;
-function activatePanel(panel, updateHash) {
+function activatePanel(panel, updateHash, forward) {
     $('.flash').hide();
     $('.panel').hide().removeClass('current');
-        
+    panel.show().addClass('current');
+    
+    var hiddenInputs = $(panel).find(".question-item.hidden");
+    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".question-item").length){
+        if (forward) {
+            return activatePanel($(panel).next(), updateHash, true);
+        } else {
+            return activatePanel($(panel).prev(), updateHash, false);
+        }
+    }
+    
     if (updateHash) {
         hashChangeEnabled = false;
         window.location.hash = panel[0].id;        
     }
-        
-    panel.show().addClass('current');
     
     if(panel.hasClass('last-panel')){
         $(".buttons").show();
@@ -36,6 +44,10 @@ function validatePanel(panel) {
         validation = validations[question_key][i];
         switch(validation["type"]){
         case "requires_answer":
+            //Hidden questions are not required
+            if($("#answer_"+question_key+"_input:hidden").length != 0){
+                break;
+            }
             var someChecked = -1;
             for (var j = 0; j < inputs.length; j++){
                 var input = inputs[j];
@@ -186,19 +198,31 @@ function hashchangeEventHandler(){
         if (window.location.hash != "" && window.location.hash != $(".panel:first").id) {
             panel = $(".panel#" + window.location.hash);
             if (panel[0]) {
-                activatePanel(panel, true);
+                activatePanel(panel, true, true);
             }
         } else { // if we have no hash, activate the first panel
-            activatePanel($(".panel:first"), false);
+            activatePanel($(".panel:first"), false, true);
         }
     } else {
         hashChangeEnabled = true;
     }       
 }
 
+function handleHideQuestions(element, hidekeys, allkeys){
+    $.each(allkeys, function(){
+        if (element.checked) {
+            $("#answer_" + this + "_input").removeClass('hidden');
+        }
+    });
+    $.each(hidekeys, function(){
+        if (element.checked) {
+            $("#answer_" + this + "_input").addClass('hidden');
+        }
+    });    
+}
+
 function handleDisableRadioSubQuestions(element){
     if(element.checked){
-        //alert(element.id);
         $(element).closest('.item').find('.subinput').attr("disabled", "true");
         $(element).closest('li').find('.subinput').attr("disabled", "");
     } 
@@ -218,11 +242,13 @@ $(document).ready(
         hashChangeEnabled = true;
         jQuery(window).bind( 'hashchange', hashchangeEventHandler);
         //$.address.change( 'hashchange', hashchangeEventHandler);
-        
+
         $('.subinput').attr("disabled", "true");
         $('input[type="radio"]').each( function(index, element){            
            handleDisableRadioSubQuestions(element);
         });
+        //TODO: change this once the 'click to deselect radio inputs' feature is in
+        $('input[type="radio"]:checked').click();
         
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
@@ -249,7 +275,7 @@ $(document).ready(
             function(event) {
                 event.preventDefault();
                 var prevPanel = $(this).parents('.panel').prev()
-                activatePanel(prevPanel, true);
+                activatePanel(prevPanel, true, false);
                 
             }
         );
@@ -258,9 +284,9 @@ $(document).ready(
         $(".panel .next input").click(
             function(event) {
                 event.preventDefault();
-                var nextPanel = $(this).parents('.panel').next();                
+                var nextPanel = $(this).parents('.panel').next();
                 if (validatePanel($(this).parents('.panel')[0])) {
-                    activatePanel(nextPanel, true);
+                    activatePanel(nextPanel, true, true);
                 }          
             }
         );

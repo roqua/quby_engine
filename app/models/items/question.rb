@@ -31,12 +31,15 @@ class Items::Question < Item
   attr_accessor :month_key
   attr_accessor :day_key
 
+  #A collection of all questions that can be hidden by all the options of this question
+  attr_accessor :hides_questions
+
   # Some questions are a tree.
   attr_accessor :parent
   attr_accessor :parent_option_key
  
   ##########################################################
-  #
+  
   def initialize(key, options = {})
     @key = key
     @type = options[:type]
@@ -75,6 +78,7 @@ class Items::Question < Item
       @validations << {:type => :too_many_checked, :uncheck_all_key => @uncheck_all_option, :explanation => options[:error_explanation]}
     end
     
+    @hides_questions = []
     @options = []
   end
 

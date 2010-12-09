@@ -1,4 +1,4 @@
-.checkbox(id="answer_#{question.key}_input")
+%div{:class =>['question-item','checkbox'], :id=>"answer_#{question.key}_input"}
   %label(for="answer_#{question.key}")= question.title
   - unless question.description.blank?
     .description

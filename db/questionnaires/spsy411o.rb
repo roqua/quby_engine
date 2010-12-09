@@ -7,6 +7,21 @@ title "SPsy 4-11 Ouders"
 
 start_panel
 
+panel do
+  title "Vragenlijst SPsy"
+  text <<-END
+###Ouderversie 4-11 jarigen
+
+De bedoeling van deze vragenlijst is om meer inzicht te krijgen in de sterke kanten en moeilijkheden van uw kind.
+
+Het is van belang dat u alle vragen zo goed mogelijk beantwoordt, ook als u niet helemaal zeker bent of als u de vraag raar vindt. Wilt u alstublieft uw antwoord baseren op het gedrag van het kind van *de laatste zes maanden*.
+
+Deze vragenlijst bevat 47 vragen.
+
+Klik op 'Volgende Vraag' om verder te gaan.
+END
+end
+
 question :v_103, :type => :radio, :required => true do
   title "Deze vragenlijst wordt ingevuld door:"
   description ""
@@ -34,10 +49,12 @@ panel do
   question :v_7, :type => :radio, :required => true do
     title "2. Volgt uw kind momenteel een opleiding of school?"
     description ""
-    option :a1, :value => 1, :description => "Ja"
-    option :a2, :value => 0, :description => "Nee"
+    option :a1, :value => 1, :hides_questions => [:v_8], :description => "Ja"
+    option :a2, :value => 0, :hides_questions => [:v_3], :description => "Nee"
   end
-  
+end
+
+panel do
   question :v_3, :type => :radio, :required => true do
     title "2a. Welke opleiding of school volgt uw kind momenteel?"
     description ""
@@ -492,14 +509,15 @@ panel do
   question :v_88, :type => :radio, :required => true do
     title "42. Denkt u over het geheel genomen dat uw kind moeilijkheden heeft op één van de volgende gebieden: emoties, concentratie, gedrag of vermogen om met andere mensen op te schieten?"
     description ""
-    option :a1, :value => 0, :description => "Nee"
+    option :a1, :value => 0, :hides_questions => [:v_89, :v_90, :v_96, :v_97, :v_98, :v_99, :v_100], :description => "Nee"
     option :a2, :value => 1, :description => "Ja, kleine moeilijkheden"
     option :a3, :value => 2, :description => "Ja, duidelijke moeilijkheden"
     option :a4, :value => 3, :description => "Ja, ernstige moeilijkheden"
   end
-  
-  #TODO: make v_89-v_100 only show up and required if v_88 is 1, 2 or 3  
-  question :v_89, :type => :radio do
+end
+
+panel do
+  question :v_89, :type => :radio, :required => true do
     title "43. Hoe lang bestaan deze moeilijkheden?"
     description ""
     option :a1, :value => 0, :description => "Korter dan een maand"
@@ -508,7 +526,7 @@ panel do
     option :a4, :value => 3, :description => "Meer dan een jaar"
   end
   
-  question :v_90, :type => :radio do
+  question :v_90, :type => :radio, :required => true do
     title "44. Maken de moeilijkheden uw kind overstuur of van slag?"
     description ""
     option :a1, :value => 0, :description => "Helemaal niet"
@@ -519,7 +537,7 @@ panel do
 
   text "*45\. Belemmeren de moeilijkheden het dagelijkse leven van uw kind op de volgende gebieden?*"
   
-  question :v_96, :type => :radio do
+  question :v_96, :type => :radio, :required => true do
     title "a. Thuis"
     description ""
     option :a1, :value => 0, :description => "Helemaal niet"
@@ -528,7 +546,7 @@ panel do
     option :a4, :value => 3, :description => "Heel erg"
   end
   
-  question :v_97, :type => :radio do
+  question :v_97, :type => :radio, :required => true do
     title "b. Vriendschappen"
     description ""
     option :a1, :value => 0, :description => "Helemaal niet"
@@ -537,7 +555,7 @@ panel do
     option :a4, :value => 3, :description => "Heel erg"
   end
   
-  question :v_98, :type => :radio do
+  question :v_98, :type => :radio, :required => true do
     title "c. Leren in de klas"
     description ""
     option :a1, :value => 0, :description => "Helemaal niet"
@@ -546,7 +564,7 @@ panel do
     option :a4, :value => 3, :description => "Heel erg"
   end
   
-  question :v_99, :type => :radio do
+  question :v_99, :type => :radio, :required => true do
     title "d. Activiteiten in de vrije tijd"
     description ""
     option :a1, :value => 0, :description => "Helemaal niet"
@@ -555,7 +573,7 @@ panel do
     option :a4, :value => 3, :description => "Heel erg"
   end
 
-  question :v_100, :type => :radio do
+  question :v_100, :type => :radio, :required => true do
     title "46. Belasten de moeilijkheden u of het gezin als geheel?"
     description ""
     option :a1, :value => 0, :description => "Helemaal niet"

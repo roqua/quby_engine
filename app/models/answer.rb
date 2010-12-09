@@ -103,6 +103,15 @@ class Answer < ActiveRecord::Base
       answer = self.send(question.key)
       validations = question.validations
       
+      hidden_questions = []
+      if question.type == :radio and not question.hides_questions.blank?
+        question.options.map do |opt|
+          if answer == opt.key
+            hidden_questions = opt.hides_questions
+          end
+        end
+      end
+      
       if not validations.empty?
         
         if question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
@@ -121,7 +130,7 @@ class Answer < ActiveRecord::Base
             begin 
               Integer(answer)
             rescue ArgumentError
-              add_error(question, :valid_integer, "Invalid integer")              
+              add_error(question, :valid_integer, "Invalid integer")
             end
           when :valid_float
             next if answer.blank?
@@ -135,6 +144,7 @@ class Answer < ActiveRecord::Base
             match = validation[:matcher].match(answer)
             add_error(question, validation[:type], "Does not match pattern expected.") if not match or match[0] != answer
           when :requires_answer
+            next if hidden_questions.include?(question.key)
             if question.type == :check_box
               add_error(question, validation[:type], "Must be answered.") if answer.values.reduce(:+) == 0
             else 

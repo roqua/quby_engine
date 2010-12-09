@@ -112,8 +112,7 @@ module QuestionnaireDsl
     end
     
     def inner_title(value)
-      op = QuestionOption.new(nil, :inner_title => true, :description => value)
-      @question.options << op
+      op = QuestionOption.new(nil, @question, :inner_title => true, :description => value)      
     end
     
     def description(value)
@@ -123,8 +122,7 @@ module QuestionnaireDsl
     def option(key, options = {}, &block)
       raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options.find {|i| i.key == key }
       
-      op = QuestionOption.new(key, options)
-      @question.options << op
+      op = QuestionOption.new(key, @question, options)
 
       instance_eval &block if block
     end

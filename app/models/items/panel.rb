@@ -1,10 +1,12 @@
 class Items::Panel < Item
   attr_accessor :title
   attr_accessor :items
-
+  attr_accessor :key
+  
   def initialize(options = {})
     @questionnaire = options[:questionnaire]
     @title = options[:title]
+    @key = options[:key]
     @items = options[:items] || []
   end
 

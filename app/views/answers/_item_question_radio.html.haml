@@ -1,4 +1,4 @@
-.radio(id="answer_#{question.key}_input")
+%div{:class =>['question-item','radio'], :id=>"answer_#{question.key}_input"}
   %label(for="answer_#{question.key}")= question.title
   - unless question.description.blank?
     .description
@@ -10,7 +10,8 @@
         - if opt.inner_title
           %span= opt.description
         - else
-          = radio_button(:answer, question.key, opt.key, {:onClick => "handleDisableRadioSubQuestions(this);", :class => subquestion ? "subinput" : ""})
+          = radio_button(:answer, question.key, opt.key,
+           {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
           %label(for="answer_#{question.key}_#{opt.key}")
             %span= opt.description
           - unless opt.questions.empty?

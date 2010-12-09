@@ -1,5 +1,5 @@
 %ol.noindent
-  %li.string(id="answer_#{question.key}_input")
+  %li{:class =>['string','question-item'], :id=>"answer_#{question.key}_input"}
     %label(for="answer_#{question.key}")= question.title
     - unless question.description.blank?
       .description
