@@ -239,6 +239,11 @@ function handleDisableCheckboxSubQuestions(element){
 
 $(document).ready(
     function() {
+        // Don't hide panels when we're doing a bulk version
+        if ($('form.bulk').size() > 0) {
+            return;
+        }
+
         hashChangeEnabled = true;
         jQuery(window).bind( 'hashchange', hashchangeEventHandler);
         //$.address.change( 'hashchange', hashchangeEventHandler);
