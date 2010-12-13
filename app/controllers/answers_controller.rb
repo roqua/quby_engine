@@ -116,4 +116,12 @@ class AnswersController < ApplicationController
     end
   end
 
+  def remember_display_mode_in_session
+    if params[:display_mode] and ["paged", "bulk"].include?(params[:display_mode]
+      session[:display_mode] = params[:display_mode] if params[:display_mode]
+    end
+
+    session[:display_mode] ||= "paged"
+  end
+
 end

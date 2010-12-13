@@ -16,4 +16,4 @@
         %label(for="answer_#{question.key}_#{opt.key}")
           %span= opt.description
         - if not opt.questions.empty?
-          = render :partial => "item", :collection => opt.questions
+          = render :partial => "answers/paged/item", :collection => opt.questions

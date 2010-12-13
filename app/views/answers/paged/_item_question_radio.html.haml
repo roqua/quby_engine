@@ -15,4 +15,4 @@
           %label(for="answer_#{question.key}_#{opt.key}")
             %span= opt.description
           - unless opt.questions.empty?
-            = render :partial => "item", :collection => opt.questions,  :locals => {:subquestion => true}
+            = render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}

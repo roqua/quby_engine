@@ -41,19 +41,19 @@
     
     - case item.type
     - when :open
-      = render :partial => "item_question_open", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/paged/item_question_open", :locals => {:question => item, :subquestion => subquestion}
     - when :string
-      = render :partial => "item_question_string", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion}
     - when :text
-      = render :partial => "item_question_text", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/paged/item_question_text", :locals => {:question => item, :subquestion => subquestion}
     - when :integer, :float
-      = render :partial => "item_question_number", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion}
     - when :radio
-      = render :partial => "item_question_radio", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion}
     - when :date
-      = render :partial => "item_question_date", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion}
     - when :check_box
-      = render :partial => "item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
     - else
       %strong
         Error: unknown question type
