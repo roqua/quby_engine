@@ -5,4 +5,5 @@
   = render :partial => "answers/#{session[:display_mode]}/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}
 
   %fieldset.buttons
+    %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
     = submit_tag "Klaar"
