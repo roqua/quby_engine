@@ -7,6 +7,7 @@ class AnswersController < ApplicationController
   before_filter :verify_token, :only => [:show, :edit, :update]
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
+  before_filter :remember_display_mode_in_session
   before_filter :check_aborted, :only => [:create, :update]
   
   respond_to :html, :json, :xml
@@ -121,7 +122,7 @@ class AnswersController < ApplicationController
       session[:display_mode] = params[:display_mode] if params[:display_mode]
     end
 
-    session[:display_mode] ||= "paged"
+    session[:display_mode] = "paged" if session[:display_mode].blank?
   end
 
 end
