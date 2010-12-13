@@ -1,18 +1,18 @@
-# ADHD vragenlijst over aandachtsproblemen en hyperactiviteit
+# ADHD Kindertijd vragenlijst over aandachtsproblemen en hyperactiviteit
 
-# Project ID 504
-# Date (GMT) 06-12-2010 20:42:57
+# Project ID 574
+# Date (GMT) 06-12-2010 20:42:41
 # All values between 1 and 8 auto-recoded with -1
 # No manual recodes needed
 
-key "adhd"
-title "Vragenlijst over aandachtsproblemen en hyperactiviteit (ADHD)"
+key "adhd_kindertijd"
+title "Vragenlijst_over_aandachtsproblemen_en_hyperactiviteit (ADHD kindertijd)"
 description ""
 
 start_panel
 
 question :v_1, :type => :radio do
-  title "1. Ik let onvoldoende op details bij mijn werk."
+  title "1. Ik lette onvoldoende op details bij schoolwerk."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -21,7 +21,7 @@ question :v_1, :type => :radio do
 end
 
 question :v_2, :type => :radio do
-  title "2. Wanneer ik zit, friemel ik met mijn handen of voeten."
+  title "2. Ik friemelde met handen of voeten."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -30,7 +30,7 @@ question :v_2, :type => :radio do
 end
 
 question :v_3, :type => :radio do
-  title "3. Ik maak slordige fouten in mijn werk."
+  title "3. Ik maakte slordige fouten in schoolwerk."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -39,7 +39,7 @@ question :v_3, :type => :radio do
 end
 
 question :v_4, :type => :radio do
-  title "4. Ik zit te wiebelen en te draaien in mijn stoel."
+  title "4. Ik zat te wiebelen en te draaien op de stoel."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -48,7 +48,7 @@ question :v_4, :type => :radio do
 end
 
 question :v_5, :type => :radio do
-  title "5. Wanneer ik met iets bezig ben, kan ik er met mijn aandacht slecht bij blijven."
+  title "5. Ik kon de aandacht slecht bij bezigheden houden."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -57,7 +57,7 @@ question :v_5, :type => :radio do
 end
 
 question :v_6, :type => :radio do
-  title "6. Ik sta snel op van mijn stoel in situaties waarin verwacht wordt dat ik netjes blijf zitten."
+  title "6. Ik stond snel op van m'n stoel in situaties waarin verwacht werd dat ik netjes bleef zitten."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -66,7 +66,7 @@ question :v_6, :type => :radio do
 end
 
 question :v_7, :type => :radio do
-  title "7. Ik luister slecht wanneer anderen iets tegen mij zeggen."
+  title "7. Ik luisterde slecht wanneer anderen iets zeiden."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -75,7 +75,7 @@ question :v_7, :type => :radio do
 end
 
 question :v_8, :type => :radio do
-  title "8. Ik voel me rusteloos."
+  title "8. Ik voelde me rusteloos."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -84,7 +84,7 @@ question :v_8, :type => :radio do
 end
 
 question :v_9, :type => :radio do
-  title "9. Ik verveel me snel."
+  title "9. Ik verveelde me snel."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -93,7 +93,7 @@ question :v_9, :type => :radio do
 end
 
 question :v_10, :type => :radio do
-  title "10. Ik heb moeite aanwijzingen op te volgen."
+  title "10. Ik had moeite aanwijzingen op te volgen."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -102,7 +102,7 @@ question :v_10, :type => :radio do
 end
 
 question :v_11, :type => :radio do
-  title "11. Karweitjes of werk waar ik aan begin, maak ik niet af."
+  title "11. Ik begon aan karweitjes of werk, maar maakte ze niet af."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -111,7 +111,7 @@ question :v_11, :type => :radio do
 end
 
 question :v_12, :type => :radio do
-  title "12. Ik kan me moeilijk ontspannen in mijn vrije tijd."
+  title "12. Ik kon me moeilijk ontspannen."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -120,7 +120,7 @@ question :v_12, :type => :radio do
 end
 
 question :v_13, :type => :radio do
-  title "13. In mijn vakantie of vrije tijd zoek ik een omgeving met drukte en lawaai."
+  title "13. Ik had moeite rustig te spelen."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -129,7 +129,7 @@ question :v_13, :type => :radio do
 end
 
 question :v_14, :type => :radio do
-  title "14. Ik kan mijn bezigheden of taken moeilijk organiseren."
+  title "14. Ik kon bezigheden of taken moeilijk organiseren."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -138,7 +138,7 @@ question :v_14, :type => :radio do
 end
 
 question :v_15, :type => :radio do
-  title "15. Ik ben voortdurend 'in de weer', alsof ik 'door een motor word aangedreven'."
+  title "15. Ik was voortdurend 'in de weer', als 'door een motor aangedreven'."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -147,7 +147,7 @@ question :v_15, :type => :radio do
 end
 
 question :v_16, :type => :radio do
-  title "16. Ik probeer onder bezigheden uit te komen waarop ik me langere tijd moet concentreren."
+  title "16. Ik probeerde onder bezigheden uit te komen waarop ik me langere tijd moest concentreren."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -156,7 +156,7 @@ question :v_16, :type => :radio do
 end
 
 question :v_17, :type => :radio do
-  title "17. Ik praat aan 'e'en stuk door."
+  title "17. Ik praatte aan 'e'en stuk door."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -165,7 +165,7 @@ question :v_17, :type => :radio do
 end
 
 question :v_18, :type => :radio do
-  title "18. Ik raak dingen kwijt die ik nodig heb voor taken of bezigheden."
+  title "18. Ik raakte dingen kwijt die nodig zijn voor taken of bezigheden."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -174,7 +174,7 @@ question :v_18, :type => :radio do
 end
 
 question :v_19, :type => :radio do
-  title "19. Ik geef antwoord voordat vragen zijn afgemaakt."
+  title "19. Ik gaf antwoord voordat vragen waren afgemaakt."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -183,7 +183,7 @@ question :v_19, :type => :radio do
 end
 
 question :v_20, :type => :radio do
-  title "20. Ik ben snel afgeleid."
+  title "20. Ik was snel afgeleid."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -192,7 +192,7 @@ question :v_20, :type => :radio do
 end
 
 question :v_21, :type => :radio do
-  title "21. Ik vind het moeilijk op mijn beurt te wachten."
+  title "21. Ik vond het moeilijk op mijn beurt te wachten."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -201,7 +201,7 @@ question :v_21, :type => :radio do
 end
 
 question :v_22, :type => :radio do
-  title "22. Ik ben vergeetachtig bij alledaagse bezigheden."
+  title "22. Ik was vergeetachtig bij alledaagse bezigheden."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"
@@ -210,7 +210,7 @@ question :v_22, :type => :radio do
 end
 
 question :v_23, :type => :radio do
-  title "23. Ik onderbreek anderen of val ze in de rede."
+  title "23. Ik onderbrak anderen of viel ze in de rede."
   description ""
   option :a1, :value => 0, :description => "Nooit of zelden"
   option :a2, :value => 1, :description => "Soms"

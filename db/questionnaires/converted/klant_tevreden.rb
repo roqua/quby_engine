@@ -1,13 +1,24 @@
 # Klanttevredenheidslijst
 
-# Project ID 144556
-# Date (GMT) 15-01-2010 09:23:39
+# Project ID 732
+# Date (GMT) 06-12-2010 20:51:52
+# No values auto-recoded
+# Manual recodes: 41,42,43,44,45,46,47,48,49,50,59:2-;57:3-
 
 key "klant_tevreden"
 title "Klanttevredenheidslijst"
 description ""
 
-question :q1308786, :type => :radio do
+start_panel
+
+question :v_60, :type => :radio do
+  title "Vindt u het goed dat uw behandelaar inzage krijgt in de antwoorden die u geeft op deze klanttevredenheidslijst?"
+  description ""
+  option :a1, :value => 1, :description => "Ja, mijn behandelaar mag inzage krijgen in mijn antwoorden en deze met mij bespreken."
+  option :a2, :value => 2, :description => "Nee, mijn antwoorden dienen anoniem te blijven (uw oordeel telt wel mee in de beoordeling van de behandeling die u heeft gehad)."
+end
+
+question :v_2, :type => :radio do
   title "1. Hoe beoordeelt u de kwaliteit van de door u ontvangen zorg?"
   description ""
   option :a1, :value => 1, :description => "Slecht"
@@ -16,7 +27,7 @@ question :q1308786, :type => :radio do
   option :a4, :value => 4, :description => "Uitstekend"
 end
 
-question :q1308789, :type => :radio do
+question :v_6, :type => :radio do
   title "2. Kreeg u het soort zorg dat u wilde?"
   description ""
   option :a1, :value => 1, :description => "Nee, beslist niet"
@@ -25,7 +36,7 @@ question :q1308789, :type => :radio do
   option :a4, :value => 4, :description => "Ja, zeker"
 end
 
-question :q1308800, :type => :radio do
+question :v_14, :type => :radio do
   title "3. In hoeverre kwam ons aanbod tegemoet aan uw behoeften aan zorg?"
   description ""
   option :a1, :value => 1, :description => "Geen van mijn zorgbehoeften zijn vervuld"
@@ -34,7 +45,7 @@ question :q1308800, :type => :radio do
   option :a4, :value => 4, :description => "Bijna al mijn zorgbehoeften zijn vervuld"
 end
 
-question :q1308805, :type => :radio do
+question :v_16, :type => :radio do
   title "4. Als een vriend vergelijkbare hulp nodig had, zou u onze hulpverlening dan aanraden?"
   description ""
   option :a1, :value => 1, :description => "Nee, beslist niet"
@@ -43,7 +54,7 @@ question :q1308805, :type => :radio do
   option :a4, :value => 4, :description => "Ja, zeker"
 end
 
-question :q1308807, :type => :radio do
+question :v_21, :type => :radio do
   title "5. Hoe tevreden bent u met de hoeveelheid hulp die u heeft gekregen?"
   description ""
   option :a1, :value => 1, :description => "Behoorlijk ontevreden"
@@ -52,7 +63,7 @@ question :q1308807, :type => :radio do
   option :a4, :value => 4, :description => "Zeer tevreden"
 end
 
-question :q1308810, :type => :radio do
+question :v_29, :type => :radio do
   title "6. Heeft de zorg die u heeft ontvangen, u geholpen om beter met uw problemen om te gaan?"
   description ""
   option :a1, :value => 1, :description => "Nee, het lijkt er slechter van geworden"
@@ -61,8 +72,17 @@ question :q1308810, :type => :radio do
   option :a4, :value => 4, :description => "Ja, het heeft veel geholpen"
 end
 
-question :q1308812, :type => :radio do
-  title "7. Hoe tevreden bent u in het algemeen met de zorg die u ontvangen heeft?"
+question :v_58, :type => :radio do
+  title "7. Bent u door de behandeling of begeleiding voldoende vooruitgegaan?"
+  description ""
+  option :a1, :value => 1, :description => "Nee, het lijkt er slechter van geworden"
+  option :a2, :value => 2, :description => "Nee, het heeft niet geholpen"
+  option :a3, :value => 3, :description => "Ja, het heeft iets geholpen"
+  option :a4, :value => 4, :description => "Ja, het heeft veel geholpen"
+end
+
+question :v_34, :type => :radio do
+  title "8. Hoe tevreden bent u in het algemeen met de zorg die u ontvangen heeft?"
   description ""
   option :a1, :value => 1, :description => "Nogal ontevreden"
   option :a2, :value => 2, :description => "Neutraal of enigszins ontevreden"
@@ -70,8 +90,8 @@ question :q1308812, :type => :radio do
   option :a4, :value => 4, :description => "Zeer tevreden"
 end
 
-question :q1308816, :type => :radio do
-  title "8. Zou u weer voor deze vorm van hulpverlening kiezen als u nog eens hulp nodig heeft?"
+question :v_36, :type => :radio do
+  title "9. Zou u weer voor deze vorm van hulpverlening kiezen als u nog eens hulp nodig heeft?"
   description ""
   option :a1, :value => 1, :description => "Nee, beslist niet"
   option :a2, :value => 2, :description => "Nee, dat denk ik niet"
@@ -79,78 +99,93 @@ question :q1308816, :type => :radio do
   option :a4, :value => 4, :description => "Ja, zeker"
 end
 
-question :q1310323, :type => :radio do
-  title "9. Kreeg u genoeg informatie over de verschillende mogelijkheden om u te helpen?"
+question :v_41, :type => :radio do
+  title "10. Kreeg u genoeg informatie over de verschillende mogelijkheden om u te helpen?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310325, :type => :radio do
-  title "10. Kreeg u genoeg informatie over de manier van behandelen?"
+question :v_42, :type => :radio do
+  title "11. Kreeg u genoeg informatie over de manier van behandelen?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310327, :type => :radio do
-  title "11. Kreeg u genoeg informatie over de resultaten die men wilde bereiken met uw behandeling?"
+question :v_43, :type => :radio do
+  title "12. Kreeg u genoeg informatie over de resultaten die men wilde bereiken met uw behandeling?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310330, :type => :radio do
-  title "12. Kon u meebeslissen over uw behandeling?"
+question :v_57, :type => :radio do
+  title "13. Bent u voldoende ge'informeerd over de (lichamelijke) bijwerkingen van de medicijnen die u gebruikt?"
+  description ""
+  option :a1, :value => 2, :description => "N.v.t."
+  option :a2, :value => 1, :description => "Ja"
+  option :a3, :value => 0, :description => "Nee"
+end
+
+question :v_44, :type => :radio do
+  title "14. Kon u meebeslissen over uw behandeling?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310331, :type => :radio do
-  title "13. Werd u de mogelijkheid geboden een eigen behandelaar te kiezen?"
+question :v_45, :type => :radio do
+  title "15. Werd u de mogelijkheid geboden een eigen behandelaar te kiezen?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310332, :type => :radio do
-  title "14. Is er een behandelingsplan gemaakt?"
+question :v_46, :type => :radio do
+  title "16. Is er een behandelingsplan gemaakt?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310334, :type => :radio do
-  title "15. Heeft u toestemming gegeven voor dit plan?"
+question :v_47, :type => :radio do
+  title "17. Heeft u toestemming gegeven voor dit plan?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310480, :type => :radio do
-  title "16. Vond u de behandelaar deskundig?Met 'deskundig' bedoelen we goed zijn in je vak."
+question :v_59, :type => :radio do
+  title "18. Is het behandelplan naar wens uitgevoerd?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310481, :type => :radio do
-  title "17. Toonde de hulpverlener genoeg respect voor u?"
+question :v_48, :type => :radio do
+  title "19. Vond u de behandelaar deskundig?Met 'deskundig' bedoelen we goed zijn in je vak."
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310482, :type => :radio do
-  title "18. Was de behandelaar genoeg geïnteresseerd in u en in uw mening?"
+question :v_49, :type => :radio do
+  title "20. Toonde de hulpverlener genoeg respect voor u?"
   description ""
   option :a1, :value => 1, :description => "Ja"
-  option :a2, :value => 2, :description => "Nee"
+  option :a2, :value => 0, :description => "Nee"
 end
 
-question :q1310809, :type => :radio do
-  title "19. Welk rapportcijfer geeft u de totale behandeling?"
+question :v_50, :type => :radio do
+  title "21. Was de behandelaar genoeg ge'interesseerd in u en in uw mening?"
+  description ""
+  option :a1, :value => 1, :description => "Ja"
+  option :a2, :value => 0, :description => "Nee"
+end
+
+question :v_52, :type => :radio do
+  title "22. Welk rapportcijfer geeft u de totale behandeling?"
   description ""
   option :a1, :value => 1, :description => "1"
   option :a2, :value => 2, :description => "2"
@@ -164,8 +199,10 @@ question :q1310809, :type => :radio do
   option :a10, :value => 10, :description => "10"
 end
 
-question :q1310884, :type => :open do
-  title "20. Wat moet de instelling verbeteren?"
+question :v_53, :type => :open do
+  title "23. Wat moet de instelling verbeteren?"
   description ""
 end
+
+end_panel
 
