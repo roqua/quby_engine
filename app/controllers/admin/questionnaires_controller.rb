@@ -1,7 +1,7 @@
 class Admin::QuestionnairesController < AdminAreaController
   
   def index
-    @questionnaires = Questionnaire.active.all
+    @questionnaires = Questionnaire.active.order('questionnaires.key')
   end
 
   def new
