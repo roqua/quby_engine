@@ -239,15 +239,6 @@ function handleDisableCheckboxSubQuestions(element){
 
 $(document).ready(
     function() {
-        // Don't hide panels when we're doing a bulk version
-        if ($('form.bulk').size() > 0) {
-            return;
-        }
-
-        hashChangeEnabled = true;
-        jQuery(window).bind( 'hashchange', hashchangeEventHandler);
-        //$.address.change( 'hashchange', hashchangeEventHandler);
-
         $('.subinput').attr("disabled", "true");
         $('input[type="radio"]').each( function(index, element){            
            handleDisableRadioSubQuestions(element);
@@ -259,43 +250,54 @@ $(document).ready(
            handleDisableCheckboxSubQuestions(element);
         });
         
-        // enable javascript-based previous/next links
-        $(".panel .prevnext").show();
+        // Don't hide panels when we're doing a bulk version
+        if ($('form.bulk').size() <= 0) {
+            hashChangeEnabled = true;
+            jQuery(window).bind( 'hashchange', hashchangeEventHandler);
+            //$.address.change( 'hashchange', hashchangeEventHandler);
 
-        // hide all panels
-        $(".panel").hide();
+            // enable javascript-based previous/next links
+            $(".panel .prevnext").show();
 
-        // hide Submit button
-        $(".buttons").hide();
+            // hide all panels
+            $(".panel").hide();
 
-        // hide first previous button, and last next button
-        $(".panel:first .prevnext .prev").hide();
-        $(".panel:last  .prevnext .next").hide();
+            // hide Submit button
+            $(".buttons").hide();
 
-        // Trigger the hashchange event (useful on page load).
-        $(window).hashchange();
+            // hide first previous button, and last next button
+            $(".panel:first .prevnext .prev").hide();
+            $(".panel:last  .prevnext .next").hide();
+        
+            // Trigger the hashchange event (useful on page load).
+            $(window).hashchange();
+            
+            // show previous panel
+            $(".panel .prev input").click(
+                function(event) {
+                    event.preventDefault();
+                    var prevPanel = $(this).parents('.panel').prev()
+                    activatePanel(prevPanel, true, false);
+                    
+                }
+            );
+
+            // show next panel
+            $(".panel .next input").click(
+                function(event) {
+                    event.preventDefault();
+                    var nextPanel = $(this).parents('.panel').next();
+                    if (validatePanel($(this).parents('.panel')[0])) {
+                        activatePanel(nextPanel, true, true);
+                    }          
+                }
+            );
+        } else {
+          $(".panel .prevnext").hide();
+          $(".panel .abort").hide();
+        }
+
                 
-        // show previous panel
-        $(".panel .prev input").click(
-            function(event) {
-                event.preventDefault();
-                var prevPanel = $(this).parents('.panel').prev()
-                activatePanel(prevPanel, true, false);
-                
-            }
-        );
-
-        // show next panel
-        $(".panel .next input").click(
-            function(event) {
-                event.preventDefault();
-                var nextPanel = $(this).parents('.panel').next();
-                if (validatePanel($(this).parents('.panel')[0])) {
-                    activatePanel(nextPanel, true, true);
-                }          
-            }
-        );
-
         $("input[type=radio]").customInput();
         
         //Layout breaks with this
