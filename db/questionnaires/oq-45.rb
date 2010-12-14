@@ -38,7 +38,7 @@ question :v_2, :type => :radio, :required => true do
 end
 
 question :v_3, :type => :radio, :required => true do
-  title "3. Ik ben nergens in ge&iuml;nteresseerd."
+  title "3. Ik ben nergens in geïnteresseerd."
   description ""
   option :a1, :value => 1, :description => "Nooit"
   option :a2, :value => 2, :description => "Zelden"
@@ -68,7 +68,7 @@ question :v_5, :type => :radio, :required => true do
 end
 
 question :v_6, :type => :radio, :required => true do
-  title "6. Ik ben ge�rriteerd."
+  title "6. Ik ben geïrriteerd."
   description ""
   option :a1, :value => 1, :description => "Nooit"
   option :a2, :value => 2, :description => "Zelden"
