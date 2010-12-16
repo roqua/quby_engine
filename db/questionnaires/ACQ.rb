@@ -1,5 +1,20 @@
 title "Agoraphobic Cognition Questionnaire"
 
+panel do
+ title "ACQ - Agoraphobic Cognitions Questionnaire"
+ text "Hieronder staan enkele gedachten of ideeën, die door uw hoofd kunnen gaan wanneer u gespannen of angstig bent. Geef aan *hoe vaak elke gedachte voorkomt wanneer u gespannen of angstig bent*. De vragenlijst bestaat uit 14 gedachten of ideeën. Vink bij iedere gedachte of idee het antwoord aan dat het beste aangeeft hoe vaak deze voorkomt:
+
+De gedachte komt *nooit* voor
+
+De gedachte komt *zelden* voor
+
+De gedachte komt *de helft van de tijd* voor
+
+De gedachte komt *vaak* voor
+
+De gedachte komt *voortdurend* voor"
+
+end 
 
 panel do
 question :q01, :type => :radio, :required => true do

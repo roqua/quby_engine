@@ -7,7 +7,21 @@ key "mansa"
 title "MANSA"
 description ""
 
-question :v_1, :type => :radio do
+panel do
+  title "MANSA - Kwaliteit van Leven"
+  text "In deze vragenlijst worden vragen gesteld over hoe tevreden u bent met een aantal levens-gebieden. Het is de bedoeling dat u één van de zeven cirkels aanklikt, bijv. op deze manier:
+
+Hoe verder naar rechts, hoe meer u tevreden bent.
+
+Deze vragenlijst bevat 16 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+
+
+
+question :v_1, :type => :radio, :required => true do
   title "1. Hoe tevreden bent u met uw leven als geheel?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -19,7 +33,7 @@ question :v_1, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_6, :type => :radio do
+question :v_6, :type => :radio, :required => true do
   title "2. Hoe tevreden bent u met uw woning?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -31,7 +45,7 @@ question :v_6, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_7, :type => :radio do
+question :v_7, :type => :radio, :required => true do
   title "3. Hoe tevreden bent u met uw huisgenoten of als u alleen woont, hoe tevreden bent u met het feit dat u alleen woont?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -43,7 +57,7 @@ question :v_7, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_8, :type => :radio do
+question :v_8, :type => :radio, :required => true do
   title "4. Hoe tevreden bent u met uw dagbesteding?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -55,7 +69,7 @@ question :v_8, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_9, :type => :radio do
+question :v_9, :type => :radio, :required => true do
   title "5. Hoe tevreden bent u met uw lichamelijke gezondheid?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -67,7 +81,7 @@ question :v_9, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_10, :type => :radio do
+question :v_10, :type => :radio, :required => true do
   title "6. Hoe tevreden bent u met uw psychische gezondheid?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -79,14 +93,14 @@ question :v_10, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_11, :type => :radio do
+question :v_11, :type => :radio, :required => true do
   title "7. Bent u in het afgelopen jaar slachtoffer geweest van geweld?"
   description ""
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 2, :description => "Nee"
 end
 
-question :v_12, :type => :radio do
+question :v_12, :type => :radio, :required => true do
   title "8. Hoe tevreden bent u met uw persoonlijke veiligheid?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -98,28 +112,28 @@ question :v_12, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_13, :type => :radio do
+question :v_13, :type => :radio, :required => true do
   title "9. Bent u in het afgelopen jaar beschuldigd van een misdrijf?"
   description ""
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 2, :description => "Nee"
 end
 
-question :v_14, :type => :radio do
+question :v_14, :type => :radio, :required => true do
   title "10. Heeft u iemand die u een goede vriend of vriendin zou kunnen noemen?"
   description ""
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 2, :description => "Nee"
 end
 
-question :v_15, :type => :radio do
+question :v_15, :type => :radio, :required => true do
   title "11. Heeft u de afgelopen week een vriend of vriendin gesproken?"
   description ""
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 2, :description => "Nee"
 end
 
-question :v_16, :type => :radio do
+question :v_16, :type => :radio, :required => true do
   title "12. Hoe tevreden bent u over uw sociale relaties?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -131,7 +145,7 @@ question :v_16, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_17, :type => :radio do
+question :v_17, :type => :radio, :required => true do
   title "13. Hoe tevreden bent u met de relatie die u heeft met uw familie?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -143,7 +157,7 @@ question :v_17, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_18, :type => :radio do
+question :v_18, :type => :radio, :required => true do
   title "14. Hoe tevreden bent u met uw huidige relatie of met het feit dat u geen relatie heeft?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -155,7 +169,7 @@ question :v_18, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_19, :type => :radio do
+question :v_19, :type => :radio, :required => true do
   title "15. Hoe tevreden bent u met uw seksuele leven?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
@@ -167,8 +181,8 @@ question :v_19, :type => :radio do
   option :a7, :value => 7, :description => "zeer tevreden"
 end
 
-question :v_20, :type => :radio do
-  title "16. Hoe tevreden bent u met uw financi�le situatie?"
+question :v_20, :type => :radio, :required => true do
+  title "16. Hoe tevreden bent u met uw financi�le situatie?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
