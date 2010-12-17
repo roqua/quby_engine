@@ -55,13 +55,13 @@ class Answer < ActiveRecord::Base
       if value
         value_by_values = value.dup
         value.each_key do |key|
-          logger.debug "Finding questionnaire #{questionnaire.key} question with key #{key}"
+          #logger.debug "Finding questionnaire #{questionnaire.key} question with key #{key}"
           question = questionnaire.questions.find(){|q| q.andand.key == key }
-          logger.debug question.inspect
+          #logger.debug question.inspect
           if question and question.type == :radio
-            logger.debug "Question is a radio"
+            #logger.debug "Question is a radio"
             option   = question.options.find(){|o| o.key.to_s == value[key].to_s }
-            logger.debug option.inspect
+            #logger.debug option.inspect
             if option 
               value_by_values[key] = option.value.to_s
             end
@@ -103,17 +103,17 @@ class Answer < ActiveRecord::Base
       answer = self.send(question.key)
       validations = question.validations
       
-      hidden_questions = []
-      if question.type == :radio and not question.hides_questions.blank?
-        question.options.map do |opt|
-          if answer == opt.key
-            hidden_questions = opt.hides_questions
+      if not validations.empty?
+
+        hidden_questions = []
+        if question.type == :radio and not question.hides_questions.blank?
+          question.options.map do |opt|
+            if answer == opt.key
+              hidden_questions = opt.hides_questions
+            end
           end
         end
-      end
-      
-      if not validations.empty?
-        
+     
         if question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
           (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)
           clear_question(question)
@@ -124,7 +124,6 @@ class Answer < ActiveRecord::Base
         
         question.validations.each do |validation|
           case validation[:type]
-            
           when :valid_integer
             next if answer.blank?
             begin 
@@ -163,7 +162,7 @@ class Answer < ActiveRecord::Base
               add_error(question, :not_all_checked, "Invalid combination of options.")
             end          
           when :one_of
-            add_error(question, :one_of, "Not one of the options.") unless validation[:array].include?(answer.to_f)
+            add_error(question, :one_of, "Not one of the options.") if not answer.blank? and validation[:array].include?(answer.to_f)
           end
         end
         logger.info "ERRORS: #{errors.inspect}"
