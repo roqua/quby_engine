@@ -26,7 +26,11 @@ class Questionnaire < ActiveRecord::Base
     if self.definition
       functions = Function.all.map(&:definition).join("\n\n")
       functions_and_definition = [functions, self.definition].join("\n\n")
-      QuestionnaireDsl.enhance(self, functions_and_definition || "")
+      begin
+        QuestionnaireDsl.enhance(self, functions_and_definition || "")
+      rescue Exception => e
+        logger.error "ERROR: failed to load questionnaire #{key}: \n #{e.message} \n #{e.backtrace[0..5].join("\n")}"
+      end
     end
   end
   
