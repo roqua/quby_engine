@@ -51,7 +51,16 @@ class Items::Panel < Item
   def validations
     vals = {}
     items.each do |item|
-      vals[item.key] = item.validations if item.is_a? Items::Question
+      if item.is_a? Items::Question
+        item.options.each do |opt|
+          if opt.questions
+            opt.questions.each do |q|
+              vals[q.key] = q.validations
+            end
+          end
+        end
+        vals[item.key] = item.validations 
+      end
     end
     vals
   end

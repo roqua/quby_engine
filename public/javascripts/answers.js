@@ -6,7 +6,10 @@ function activatePanel(panel, updateHash, forward) {
     $('.flash').hide();
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
-    
+    //To correctly reposition the placeholders
+    placeholder();
+                        
+    //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
     var hiddenInputs = $(panel).find(".question-item.hidden");
     if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".question-item").length){
         if (forward) {
@@ -25,40 +28,38 @@ function activatePanel(panel, updateHash, forward) {
         $(".buttons").show();
     } else {
         $(".buttons").hide();
-    }
+    }    
 }
 
 function validatePanel(panel) {
   var fail_vals;
   var failed = false;
-  $(".error").addClass("hidden");
-  $(".item").removeClass("errors");
+  $(panel).find(".error").addClass("hidden");
+  $(panel).find(".item").removeClass("errors");
   if (panel_validations[panel.id]) {
     validations = panel_validations[panel.id];
         
     for (var question_key in validations) {
-      var inputs = $("#answer_"+question_key+"_input input:not(.subinput)");      
+      var question_item = $("#answer_"+question_key+"_input");
+      
+      var inputs = question_item.find("input").not(":disabled, :hidden");      
       fail_vals = [];
       
       for (var i in validations[question_key]) {
         validation = validations[question_key][i];
         switch(validation["type"]){
         case "requires_answer":
-            //Hidden questions are not required
-            if($("#answer_"+question_key+"_input:hidden").length != 0){
-                break;
-            }
             var someChecked = -1;
             for (var j = 0; j < inputs.length; j++){
                 var input = inputs[j];
-                if(input.type == "text" && input.value == "" ){
+                if(input.type == "text" && question_item.is(".string, .text, .integer, .float, .date") && input.value == "" ){
                     fail_vals.push(validation["type"]);
-                    break;            
+                    break;
                 }
-                if(input.type == "radio" || input.type == "checkbox"){
+                if((input.type == "radio" && question_item.hasClass("radio")) || (input.type == "checkbox" && question_item.hasClass("checkbox"))){
                     if (input.checked) {
                         someChecked = true;                    
-                        break;            
+                        break;
                     } else {
                         someChecked = false;                        
                     }
@@ -146,7 +147,7 @@ function validatePanel(panel) {
       if (fail_vals.length != 0) {
           var item = $('#answer_' + question_key + "_input").closest(".item").addClass('errors');
           $(fail_vals).each(function(index, ele){
-              item.find(".error." + ele).removeClass("hidden");
+              item.find(".error." + ele+":first").removeClass("hidden");
           });
           failed = true;
       }
@@ -278,7 +279,6 @@ $(document).ready(
                     event.preventDefault();
                     var prevPanel = $(this).parents('.panel').prev()
                     activatePanel(prevPanel, true, false);
-                    
                 }
             );
 
@@ -288,7 +288,7 @@ $(document).ready(
                     event.preventDefault();
                     var nextPanel = $(this).parents('.panel').next();
                     if (validatePanel($(this).parents('.panel')[0])) {
-                        activatePanel(nextPanel, true, true);
+                        activatePanel(nextPanel, true, true);                        
                     }          
                 }
             );

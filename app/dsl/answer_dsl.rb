@@ -12,7 +12,7 @@ module AnswerDsl
             self.value[question.year_key || "#{question.key}_yyyy"]
           end
 
-          define_method("#{question.year_key}=" || "#{question.key}_yyyy=") do |v|
+          define_method(question.year_key ? "#{question.year_key}=" : "#{question.key}_yyyy=") do |v|
             self.value ||= Hash.new
             self.value[question.year_key || "#{question.key}_yyyy"] = v
           end
@@ -22,7 +22,7 @@ module AnswerDsl
             self.value[question.month_key || "#{question.key}_mm"]
           end
 
-          define_method("#{question.month_key}=" || "#{question.key}_mm=") do |v|
+          define_method(question.month_key ? "#{question.month_key}=" : "#{question.key}_mm=") do |v|
             self.value ||= Hash.new
             self.value[question.month_key || "#{question.key}_mm"] = v
           end
@@ -32,7 +32,7 @@ module AnswerDsl
             self.value[question.day_key ||"#{question.key}_dd"]
           end
 
-          define_method("#{question.day_key}=" ||"#{question.key}_dd=") do |v|
+          define_method(question.day_key ? "#{question.day_key}=" :"#{question.key}_dd=") do |v|
             self.value ||= Hash.new
             self.value[question.day_key ||"#{question.key}_dd"] = v
           end
