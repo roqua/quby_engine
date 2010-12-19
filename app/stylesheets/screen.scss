@@ -4,16 +4,21 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+@import "blueprint/grid";
+@import "blueprint/typography";
+@import "custom-inputs.sass";
+
+// Variables
+$masthead_bg: #0f72a4;
+
+// Partials
+@import "partials/text.scss";
 
 body {
   font-family: Helvetica, sans-serif;
   font-size: 0.8em;
   background-color: #eeeeee; 
 }
-
-$masthead_bg: #0f72a4;
-
-@import "masthead.sass";
 
 #mastfoot {
   margin: 0 auto;
@@ -42,44 +47,8 @@ $masthead_bg: #0f72a4;
   text-align: center;
 }
 
-@mixin acts-as-regular-text {
-  margin-bottom: 1em;
-  
-  em {
-    font-weight: bold;
-  }
-  
-  p {
-    margin-bottom: 1em;
-  }
-  
-  ul {
-    margin-top: 1em;
-    margin-left: 1em;
-    margin-bottom: 2em;
-    li {
-      list-style-type: disc;
-      margin-bottom: 1em !important;
-      p {
-        margin-bottom: 0; 
-      }
-      ul {
-        margin-bottom: 1em;
-        margin-left: 1.5em;
-        li {
-          margin-bottom: 0 !important;
-          list-style-type: none; 
-        } 
-      }
-    }
-  }
-  
-  ol li { list-style-type: lower-alpha; }
-}
-
 #content {
   margin: 8em auto 0em auto;
-  max-width: 900px;
   
   .flash {
     margin-bottom: 1em;
@@ -96,22 +65,14 @@ $masthead_bg: #0f72a4;
   }
   
   .panel {
-    background: white;
-    border: 10px solid #dddddd;
-    padding: 2em;
-    margin-bottom: 2em;
-    position: relative;
+    @include container;
     
-    .panel_index {
-      position: absolute;
-      top: -0.3em;
-      left: 0.05em;
-      font-family: "Arial Black", "Impact";
-      font-size: 12em;
-      color: #dddddd;
-      clear: both;
-      z-index: 1;
-    }
+    line-height: 18px;
+    
+    background: white;
+    background: url(/images/grid.png);
+    border: 10px solid #dddddd;
+    margin-bottom: 2em;
     
     h1 {
       font-size: 1.5em;
@@ -128,8 +89,7 @@ $masthead_bg: #0f72a4;
     .abort { text-align: center; }
 
     .item { 
-      position: relative;
-      z-index: 100;
+      @include column(24, true);
       margin-bottom: 2em;
 
       &.errors {
@@ -144,67 +104,34 @@ $masthead_bg: #0f72a4;
         }
       }
       
-      label {
-        display: block;
-        width: 23%;
-        float: left;
-        padding-right: 1em;
+      h3 {
+        @include column(6);
         font-weight: bold;
       }
       
       .description {
-        @extend .acts-as-regular-text;
-        margin-left: 25%;
-        margin-bottom: 2em;
+        @include text;
+        @include column(18, true);
       }
       
       .text {
-        @extend .acts-as-regular-text;
-        // em
-        // font-style: italic
-        // text-decoration: underline
+        @include text;
       }
       
-      .radio, .checkbox {
-        ol {
-          position: relative;
-          width: 74%;
-          margin: 0;
-          padding: 0 0 0 25%;
-          &.noindent {
-            width: auto;
-            padding: 0;
-          }
+      ol {
+        @include prepend(6);
+        @include column(18, true);
+        
+        li {
+          @include column(18, true);
           
-          li {
-            label {
-              float: none;
-              display: block;
-              width: 100%;
-              position: relative;
-              padding-top: 0.15em;
-              overflow: auto;
-              font-weight: normal;
-              
-              span {
-                display: block;
-                float: left;
-                margin-left: 1em;
-                margin-top: -3px;
-                margin-right: 2em;
-              }
-            }
-            
-            .item {
-              margin-bottom: 0.5em;
-              margin-left: 2em;
-              label {
-                display: block;
-                width: 25%;
-                float: left;
-                padding-top: 0.2em;
-              }
-            }
+          input {
+            @include column(1);
+            margin-left: 0;
+          }
+          label {
+            @include column(17, true);
+            font-weight: normal;
           }
         }
       }
@@ -212,8 +139,7 @@ $masthead_bg: #0f72a4;
   }
   
   .buttons {
-    position: relative;
-    top: -2em;
+    @include column(24, true);
     background: #f3f3f3;
     border: 10px solid #dddddd;
     border-top: 1px dotted #d6d6d6;
@@ -296,8 +222,6 @@ label.placeholder {
   color: #999999;
 }
 
-@import "custom-inputs.sass";
-
 //html5 placeholder support
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
   color: #999999;
@@ -305,12 +229,4 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 
 input:placeholder, textarea:placeholder {
   color: #999999;
-}
-
-.formtastic {
-  &#new_answer {
-    fieldset.panel {
-      margin-bottom: 2em;
-    }
-  }
 }
