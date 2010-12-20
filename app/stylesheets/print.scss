@@ -1,0 +1,81 @@
+/* Welcome to Compass. Use this file to define print styles.
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
+
+ body {
+   color: black;
+   background: white;
+   //font-family: "Times New Roman", Times, serif
+   font-family: Arial, sans-serif;
+   font-size: 10pt; }
+
+ em {
+   font-weight: bold; }
+
+ p {
+   margin-bottom: 0.5em; }
+
+ ul {
+   margin-top: 0.5em;
+   margin-left: 1em;
+   li {
+     list-style-type: disc;
+     margin-bottom: 0.3em; } }
+
+ .panel {
+   display: block !important;
+   border: none;
+   padding-bottom: 1em;
+   h1 {
+     font-size: 1.5em;
+     font-weight: bold;
+     margin-bottom: 1em; }
+   .prevnext, .abort {
+     display: none; }
+   .requires_answer {
+     display: none; }
+   .item {
+     position: relative;
+     overflow: auto;
+     clear: both;
+     padding-bottom: 1em;
+     .custom-checkbox, .custom-radio {
+       position: relative;
+       padding-bottom: 0.3em;
+       input {
+         position: absolute; }
+       label {
+         padding: 0em 0 0em 2.2em; } }
+     .radio > label, .checkbox > label {
+       display: block;
+       width: 23%;
+       float: left;
+       padding-right: 1em;
+       font-weight: bold; }
+     .radio, .checkbox {
+       ol {
+         padding: 0 0 0 25%;
+         width: 74%;
+         &.noindent {
+           padding: 0;
+           width: auto; }
+         li {
+           label {
+             display: block;
+             overflow: auto;
+             span {
+               display: block; } }
+           .item {
+             label {
+               float: left;
+               padding-left: 2.2em;
+               width: 25%; } } } } }
+     .description {
+       margin-left: 25%;
+       margin-bottom: 1.5em; }
+     .description, .text {
+       ul {
+         padding-left: 0.5em; } } } }
+
+ #mastfoot {
+   display: none; }

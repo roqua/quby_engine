@@ -36,16 +36,15 @@
       - else
         %strong
           Error: unknown validation type
-          = validation[:type]     
-             
+          = validation[:type]                  
     
     - case item.type
-    - when :open
-      = render :partial => "answers/paged/item_question_open", :locals => {:question => item, :subquestion => subquestion}
     - when :string
       = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion}
-    - when :text
-      = render :partial => "answers/paged/item_question_text", :locals => {:question => item, :subquestion => subquestion}
+      -#- when :open
+      -#  = render :partial => "answers/paged/item_question_open", :locals => {:question => item, :subquestion => subquestion}
+      -# when :text
+      -#  = render :partial => "answers/paged/item_question_text", :locals => {:question => item, :subquestion => subquestion}
     - when :integer, :float
       = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion}
     - when :radio
