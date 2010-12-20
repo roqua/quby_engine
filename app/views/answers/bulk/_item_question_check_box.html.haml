@@ -3,7 +3,7 @@
   - unless question.description.blank?
     .description
       :markdown
-        #{question.description}
+        #{raw question.description}
   %ol
     - question.options.each do |opt|
       %li
@@ -14,6 +14,8 @@
         - else
           = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
         %label(for="answer_#{question.key}_#{opt.key}")
-          %span= opt.description
+          %span
+            :markdown
+              #{raw opt.description}
         - if not opt.questions.empty?
           = render :partial => "answers/paged/item", :collection => opt.questions

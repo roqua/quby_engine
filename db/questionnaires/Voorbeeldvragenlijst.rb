@@ -48,8 +48,9 @@ ENDTEXT
 
   question :q03, :type => :string do
      title "Textveld"
-     #description: In questions kan je een description gebruiken om extra uitleg te geven bij een vraag
-     description "Dit is een tekstveld"
+     #description "string": In questions kan je een description gebruiken om extra uitleg te geven bij een vraag
+     #In deze descriptions kan ook dezelfde opmaak gebruikt worden als in text velden
+     description "Dit is een *omschrijving*"
   end
 end #Deze end hoort bij de eerste panel do
 #Het is handig om met indentatie aan te geven of je binnen een panel of een question blok zit of niet
@@ -98,7 +99,8 @@ panel do
 
     #option :key : elke optie heeft zijn eigen key en optioneel ook een value en een description
     #In tegenstelling tot de keys van questions kunnen de keys opties worden hergebruikt in verschillende questions
-    option :a01, :value => 0, :description => "Optie 0"
+    #Er kan net zoals in tekstvelden opmaa gebruikt worden in descriptions van options
+    option :a01, :value => 0, :description => "Optie 0, (*met opmaak*)"
     
     #Je kan aan een option subvragen hangen door er een do end blok achter te zetten met de betreffende questions er in
     #Deze zijn alleen in te vullen en te valideren als de bovenliggende optie is aangevinkt
@@ -131,7 +133,8 @@ panel do
     #geselecteerd is
     option :a00, :description => "Verbergt niks"
     #inner_title "string" : Gebruik inner_title om midden in een lijst van opties text weer te geven
-    inner_title "De volgende twee opties verbergen vragen"
+    #Hier kan ook opmaak in gebruikt worden
+    inner_title "De volgende *twee opties* verbergen vragen"
     option :a01, :hides_questions => [:q11], :description => "Verbergt de volgende vraag"
     option :a02, :hides_questions => [:q12, :q13], :description => "Verbergt alle vragen van het volgende panel, en daarmee ook het panel zelf"
   end
