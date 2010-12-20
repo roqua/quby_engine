@@ -46,6 +46,8 @@ GEM
     awesome_print (0.2.1)
     bcrypt-ruby (2.1.2)
     builder (2.1.2)
+    compass (0.10.6)
+      haml (>= 3.0.4)
     devise (1.1.2)
       bcrypt-ruby (~> 2.1.2)
       warden (~> 0.10.7)
@@ -119,6 +121,7 @@ DEPENDENCIES
   andand
   autotest
   awesome_print
+  compass (>= 0.10.6)
   devise (~> 1.1)
   formtastic!
   haml

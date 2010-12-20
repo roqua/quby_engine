@@ -1,0 +1,316 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+
+body {
+  font-family: Helvetica, sans-serif;
+  font-size: 0.8em;
+  background-color: #eeeeee; 
+}
+
+$masthead_bg: #0f72a4;
+
+@import "masthead.sass";
+
+#mastfoot {
+  margin: 0 auto;
+  max-width: 900px;
+  text-align: right;
+  color: #aaaaaa;
+
+  &:before {
+    content: "\2014"; 
+  }
+  
+  &:after {
+    content: "\2014"; 
+  } 
+}
+
+#noscript-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: yellow;
+  border: 4px solid red;
+  color: red;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+@mixin acts-as-regular-text {
+  margin-bottom: 1em;
+  
+  em {
+    font-weight: bold;
+  }
+  
+  p {
+    margin-bottom: 1em;
+  }
+  
+  ul {
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-bottom: 2em;
+    li {
+      list-style-type: disc;
+      margin-bottom: 1em !important;
+      p {
+        margin-bottom: 0; 
+      }
+      ul {
+        margin-bottom: 1em;
+        margin-left: 1.5em;
+        li {
+          margin-bottom: 0 !important;
+          list-style-type: none; 
+        } 
+      }
+    }
+  }
+  
+  ol li { list-style-type: lower-alpha; }
+}
+
+#content {
+  margin: 8em auto 0em auto;
+  max-width: 900px;
+  
+  .flash {
+    margin-bottom: 1em;
+    div {
+      padding: 5px;
+      background: #333333;
+      border: 1px solid black;
+    }
+    
+    .error {
+      background: #ffbbbb;
+      border: 1px solid #ff3333;
+    }
+  }
+  
+  .panel {
+    background: white;
+    border: 10px solid #dddddd;
+    padding: 2em;
+    margin-bottom: 2em;
+    position: relative;
+    
+    .panel_index {
+      position: absolute;
+      top: -0.3em;
+      left: 0.05em;
+      font-family: "Arial Black", "Impact";
+      font-size: 12em;
+      color: #dddddd;
+      clear: both;
+      z-index: 1;
+    }
+    
+    h1 {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 1.2em;
+      z-index: 400;
+    }
+    
+    .prevnext {
+      .prev { float: left; }
+      .next { float: right; }
+    }
+    
+    .abort { text-align: center; }
+
+    .item { 
+      position: relative;
+      z-index: 100;
+      margin-bottom: 2em;
+
+      &.errors {
+        border: 1px solid red;
+        padding: 0.4em;
+        .error {
+          background: #ffaaaa;
+          color: #550000;
+          border: 1px solid red;
+          padding: 0.3em;
+          margin-bottom: 0.3em;
+        }
+      }
+      
+      label {
+        display: block;
+        width: 23%;
+        float: left;
+        padding-right: 1em;
+        font-weight: bold;
+      }
+      
+      .description {
+        @extend .acts-as-regular-text;
+        margin-left: 25%;
+        margin-bottom: 2em;
+      }
+      
+      .text {
+        @extend .acts-as-regular-text;
+        // em
+        // font-style: italic
+        // text-decoration: underline
+      }
+      
+      .radio, .checkbox {
+        ol {
+          position: relative;
+          width: 74%;
+          margin: 0;
+          padding: 0 0 0 25%;
+          &.noindent {
+            width: auto;
+            padding: 0;
+          }
+          
+          li {
+            label {
+              float: none;
+              display: block;
+              width: 100%;
+              position: relative;
+              padding-top: 0.15em;
+              overflow: auto;
+              font-weight: normal;
+              
+              span {
+                display: block;
+                float: left;
+                margin-left: 1em;
+                margin-top: -3px;
+                margin-right: 2em;
+              }
+            }
+            
+            .item {
+              margin-bottom: 0.5em;
+              margin-left: 2em;
+              label {
+                display: block;
+                width: 25%;
+                float: left;
+                padding-top: 0.2em;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .buttons {
+    position: relative;
+    top: -2em;
+    background: #f3f3f3;
+    border: 10px solid #dddddd;
+    border-top: 1px dotted #d6d6d6;
+    margin-top: -10px;
+    padding: 1em;
+    text-align: right;
+  }
+  
+  .bulk {
+    border-top: 10px solid #dddddd;
+    
+    .panel {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
+      border-top: 0;
+    }
+    
+    .buttons { top: 0; }
+  }
+}
+
+#flash {
+  padding: 0.7em;
+  margin: 0 0 2em 0;
+  border: 1px solid black;
+  &.notice {
+    background-color: #ffffcc;
+    border-color: #ffcc66;
+  }
+  &.success {
+    background-color: #ccffcc;
+    border-color: #11cc11;
+  }
+  &.error {
+    background-color: #ffcccc;
+    border-color: #cc1111;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5em;
+  thead tr th {
+    background: black;
+    color: white;
+    padding: 5px;
+    border: 1px solid black;
+  }
+  
+  tr.even {
+    background: #e9e9e9;
+  }
+  
+  td {
+    padding: 5px;
+    border: 1px solid #cecece;
+    vertical-align: top;
+  }
+}
+
+pre {
+  font-family: "Deja Vu Sans Mono", "Courier New", "Courier", monospace;
+}
+
+.hidden { display: none; }
+
+.question {
+  background: #e5e5e5;
+  margin: 2em;
+  padding: 2em;
+}
+
+//jquery placeholder styling
+//match placeholder/watermark padding to border+padding for input element
+label.placeholder {
+  cursor: text;
+  padding: 4px 4px 4px 4px;
+  color: #999999;
+}
+
+@import "custom-inputs.sass";
+
+//html5 placeholder support
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #999999;
+}
+
+input:placeholder, textarea:placeholder {
+  color: #999999;
+}
+
+.formtastic {
+  &#new_answer {
+    fieldset.panel {
+      margin-bottom: 2em;
+    }
+  }
+}
