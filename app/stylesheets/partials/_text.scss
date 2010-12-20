@@ -1,0 +1,34 @@
+@mixin text {
+  //margin-bottom: 1.5em;
+  
+  em {
+    font-weight: bold;
+  }
+  
+  p {
+    margin-bottom: 18px;
+  }
+  
+  ul {
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-bottom: 2em;
+    li {
+      list-style-type: disc;
+      margin-bottom: 1em !important;
+      p {
+        margin-bottom: 0; 
+      }
+      ul {
+        margin-bottom: 1em;
+        margin-left: 1.5em;
+        li {
+          margin-bottom: 0 !important;
+          list-style-type: none; 
+        } 
+      }
+    }
+  }
+  
+  ol li { list-style-type: lower-alpha; }
+}
