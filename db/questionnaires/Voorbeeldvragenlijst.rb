@@ -52,7 +52,7 @@ ENDTEXT
      description "Dit is een tekstveld"
   end
 end #Deze end hoort bij de eerste panel do
-#Het is handig om met indentatie aan te geven of je binnen een panel of een question blok zit of niet
+#Het is handig om met inspringing aan te geven of je binnen een panel of een question blok zit of niet
 
 panel do
   #De invoer van :date, :string, :float en :integer vragen kan je valideren met een zogenaamde regular expression
