@@ -113,26 +113,32 @@ body {
       .text {
         @include text;
       }
+
+      .description-and-fields {
+        @include column(18, true);
       
-      ol {
         .description {
           @include text;
           @include column(18, true);
         }
-
-        @include column(18, true);
-        
-        li {
+    
+        ol {
           @include column(18, true);
-          margin-bottom: 1.5em;
+
+          li {
+            @include column(18, true);
+            margin-bottom: 1.5em;
+
+            input {
+              @include column(1);
+              margin-left: 0;
+            }
           
-          input {
-            @include column(1);
-            margin-left: 0;
-          }
-          label {
-            @include column(17, true);
-            font-weight: normal;
+            label {
+              @include column(17, true);
+              font-weight: normal;
+            }
+            
           }
         }
       }
