@@ -1,9 +1,10 @@
 %ol.noindent
   %li{:class =>['question-item','number'], :id=>"answer_#{question.key}_input"}
-    %label(for="answer_#{question.key}")= question.title
-    - unless question.description.blank?
-      .description
-        :markdown
-          #{question.description}
+    %label.main(for="answer_#{question.key}")= question.title
+    .description-and-fields
+      - unless question.description.blank?
+        .description
+          :markdown
+            #{question.description}
 
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""
+      = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""

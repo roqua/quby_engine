@@ -1,5 +1,5 @@
 %div{:class =>['question-item','radio'], :id=>"answer_#{question.key}_input"}
-  %h3(for="answer_#{question.key}")= question.title
+  %label.main(for="answer_#{question.key}")= question.title
   .description-and-fields
     - unless question.description.blank?
       .description
