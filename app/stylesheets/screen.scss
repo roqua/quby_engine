@@ -131,7 +131,11 @@ body {
       }
 
       // Specific CSS for certain item types
-      
+     
+      &.string {
+        input { width: 100%; }
+      }
+
       &.radio, &.check_box {
         .inner-title {
           @include column(18, true);
@@ -147,6 +151,11 @@ body {
           .subquestions {
             @include prepend(1);
             @include column(17);
+
+            .item { 
+              @include column(17); 
+              input { width: auto; }
+            }
           }
         }
       }
