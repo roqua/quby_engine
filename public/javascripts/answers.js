@@ -10,8 +10,8 @@ function activatePanel(panel, updateHash, forward) {
     placeholder();
                         
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
-    var hiddenInputs = $(panel).find(".question-item.hidden");
-    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".question-item").length){
+    var hiddenInputs = $(panel).find(".item.hidden");
+    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item").length){
         if (forward) {
             return activatePanel($(panel).next(), updateHash, true);
         } else {
@@ -40,7 +40,7 @@ function validatePanel(panel) {
     validations = panel_validations[panel.id];
         
     for (var question_key in validations) {
-      var question_item = $("#answer_"+question_key+"_input");
+      var question_item = $("#answer_"+question_key+"_input").closest('.item');
       
       var inputs = question_item.find("input").not(":disabled, :hidden");      
       fail_vals = [];
@@ -212,12 +212,12 @@ function hashchangeEventHandler(){
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
         if (element.checked) {
-            $("#answer_" + this + "_input").removeClass('hidden');
+            $("#answer_" + this + "_input").closest('.item').removeClass('hidden');
         }
     });
     $.each(hidekeys, function(){
         if (element.checked) {
-            $("#answer_" + this + "_input").addClass('hidden');
+            $("#answer_" + this + "_input").closest('.item').addClass('hidden');
         }
     });    
 }
@@ -225,7 +225,7 @@ function handleHideQuestions(element, hidekeys, allkeys){
 function handleDisableRadioSubQuestions(element){
     if(element.checked){
         $(element).closest('.item').find('.subinput').attr("disabled", "true");
-        $(element).closest('li').find('.subinput').attr("disabled", "");
+        $(element).closest('.option').find('.subinput').attr("disabled", "");
     } 
 }
 

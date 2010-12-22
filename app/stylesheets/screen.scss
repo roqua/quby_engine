@@ -93,6 +93,10 @@ body {
       @include column(24, true);
       margin-bottom: 18px;
 
+      &.hidden {
+        display: none;
+      }
+
       &.errors {
         border: 1px solid red;
         padding: 0.4em;
@@ -116,29 +120,27 @@ body {
 
       .description-and-fields {
         @include column(18, true);
-      
+
         .description {
           @include text;
           @include column(18, true);
         }
-    
-        ol {
+
+        .fields {
           @include column(18, true);
+        }
+      }
 
-          li {
-            @include column(18, true);
-            margin-bottom: 1.5em;
-
-            input {
-              @include column(1);
-              margin-left: 0;
-            }
-          
-            label {
-              @include column(17, true);
-              font-weight: normal;
-            }
-            
+      // Specific CSS for certain item types
+      
+      &.radio, &.check_box {
+        .option {
+          @include column(18, true); 
+          .radiocheckwrapper { @include column(1); }
+          label  { @include column(17, true); }
+          .subquestions {
+            @include prepend(1);
+            @include column(17);
           }
         }
       }
