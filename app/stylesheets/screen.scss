@@ -134,6 +134,13 @@ body {
       // Specific CSS for certain item types
       
       &.radio, &.check_box {
+        .inner-title {
+          @include column(18, true);
+          margin-top: 1.5em;
+          margin-bottom: 1.5em;
+          font-weight: bold;
+        }
+
         .option {
           @include column(18, true); 
           .radiocheckwrapper { @include column(1); }
