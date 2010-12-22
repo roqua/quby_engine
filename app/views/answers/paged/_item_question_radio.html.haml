@@ -1,18 +1,19 @@
 %div{:class =>['question-item','radio'], :id=>"answer_#{question.key}_input"}
-  %h3(for="answer_#{question.key}")= question.title
-  - unless question.description.blank?
-    .description
-      :markdown
-        #{raw question.description}
-  %ol
-    - question.options.each do |opt|
-      %li
-        - if opt.inner_title
-          %span= opt.description
-        - else
-          = radio_button(:answer, question.key, opt.key,
-           {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
-          %label(for="answer_#{question.key}_#{opt.key}")
+  %label.main(for="answer_#{question.key}")= question.title
+  .description-and-fields
+    - unless question.description.blank?
+      .description
+        :markdown
+          #{raw question.description}
+    %ol
+      - question.options.each do |opt|
+        %li
+          - if opt.inner_title
             %span= opt.description
-          - unless opt.questions.empty?
-            = render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}
+          - else
+            = radio_button(:answer, question.key, opt.key,
+             {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
+            %label(for="answer_#{question.key}_#{opt.key}")
+              %span= opt.description
+            - unless opt.questions.empty?
+              = render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}

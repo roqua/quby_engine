@@ -1,19 +1,20 @@
 %div{:class =>['question-item','checkbox'], :id=>"answer_#{question.key}_input"}
-  %label(for="answer_#{question.key}")= question.title
-  - unless question.description.blank?
-    .description
-      :markdown
-        #{question.description}
-  %ol
-    - question.options.each do |opt|
-      %li
-        - if question.uncheck_all_option == opt.key
-          = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "setAllCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
-        - elsif question.check_all_option == opt.key
-          = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "setAllCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
-        - else
-          = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
-        %label(for="answer_#{question.key}_#{opt.key}")
-          %span= opt.description
-        - if not opt.questions.empty?
-          = render :partial => "answers/paged/item", :collection => opt.questions
+  %label.main(for="answer_#{question.key}")= question.title
+  .description-and-fields
+    - unless question.description.blank?
+      .description
+        :markdown
+          #{question.description}
+    %ol
+      - question.options.each do |opt|
+        %li
+          - if question.uncheck_all_option == opt.key
+            = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "setAllCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
+          - elsif question.check_all_option == opt.key
+            = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "setAllCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
+          - else
+            = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
+          %label(for="answer_#{question.key}_#{opt.key}")
+            %span= opt.description
+          - if not opt.questions.empty?
+            = render :partial => "answers/paged/item", :collection => opt.questions
