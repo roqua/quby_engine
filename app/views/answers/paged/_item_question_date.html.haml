@@ -1,4 +1,4 @@
-%li{:class =>['question-item','string'], :id=>"answer_#{question.key}_input"}
+%div{:class =>['question-item','string'], :id=>"answer_#{question.key}_input"}
   %label.main(for="answer_#{question.key}")= question.title
   .description-and-fields
     - unless question.description.blank?

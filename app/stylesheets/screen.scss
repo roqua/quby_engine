@@ -71,7 +71,7 @@ body {
     line-height: 18px;
     
     background: white;
-    //background: url(/images/grid.png);
+    background: url(/images/grid.png);
     border: 10px solid #dddddd;
     margin-bottom: 2em;
     
@@ -91,7 +91,7 @@ body {
 
     .item { 
       @include column(24, true);
-      margin-bottom: 2em;
+      margin-bottom: 18px;
 
       &.errors {
         border: 1px solid red;
