@@ -298,9 +298,9 @@ $(document).ready(
         }
 
                 
-        $("input[type=radio]").customInput();
         
         //Layout breaks with this
+        //$("input[type=radio]").customInput();
         //$("input[type=checkbox]").customInput();
 
     }
