@@ -182,7 +182,7 @@ question :v_19, :type => :radio, :required => true do
 end
 
 question :v_20, :type => :radio, :required => true do
-  title "16. Hoe tevreden bent u met uw financi�le situatie?"
+  title "16. Hoe tevreden bent u met uw financiële situatie?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
