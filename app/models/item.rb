@@ -1,6 +1,7 @@
 class Item
+  attr_accessor :presentation
+
   def answerable?; false; end
-  def presentation; @presentation || nil; end
 
   def as_json(options = {})
     {
