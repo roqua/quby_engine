@@ -92,15 +92,16 @@ end
 
 panel do
   title "Panels kunnen een titel hebben."
+
   question :q19, :type => :radio, :presentation => :horizontal do
     title "Soms heb je een vraag met een lange vraagstelling. Deze kun je horizontaal laten weergeven met :presentation"
     option :a01, :value => 4, :description => "Optie 0"
     option :a02, :value => 2, :description => "Optie 1"
     option :a03, :value => 1, :description => "Optie 2"
   end
-end
 
-panel do
+  text "Uiterlijk combineert het niet heel goed met dingen die niet horizontaal gelayout zijn, dus ik denk dat we die bij voorkeur niet op een en hetzelfde panel willen zetten. Doe je dat wel, dan krijg je namelijk zoals op dit panel."
+
   #Radio questions, een rij opties waar maar 1 van geselecteerd kan worden
   #De key van de geselecteerde optie wordt onder de key van de vraag opgeslagen
   question :q08, :type => :radio do
@@ -124,9 +125,9 @@ panel do
     title "Bij deze radio tonen we ook de value van elke optie"
     option :a01, :value => 0, :description => "goed"
     option :a02, :value => 1, :description => "beetje goed"
-    option :a03, :value => 2, :description => "gemiddeld"
+    option :a03, :value => 2, :description => "heel lang antwoord die hopelijk lang genoeg is om te moeten wrappen, maar ik zal nog wat typen om hem nog wat langer te laten worden. Hmm, nog niet helemaal lang genoeg. Nog meer tekst! Woorden! Zinnen! Bommen en granaten."
     option :a04, :value => 3, :description => "beetje slecht"
-    option :a05, :value => 4, :description => "slecht"
+    option :a05, :value => 4201, :description => "slecht"
   end
 
   #Schalen zijn net radio questions, alleen worden ze horizontaal naast elkaar weergegeven
