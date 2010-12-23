@@ -67,7 +67,7 @@ body {
   .panel {
     @include container;
     
-    padding: 3em ($blueprint-grid-width + $blueprint-grid-margin) 1.5em;
+    padding: 3em $blueprint-grid-outer-width 1.5em;
     line-height: 18px;
     
     background: white;
