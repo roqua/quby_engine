@@ -154,6 +154,11 @@ body {
           .radiocheckwrapper { @include column(1); }
           label              { @include column(17, true); }
 
+          &.show_values {
+            .value { @include column(1); text-align: center; }
+            label { @include column(16, true); }
+          }
+
           .subquestions {
             @include prepend(1);
             @include column(17);

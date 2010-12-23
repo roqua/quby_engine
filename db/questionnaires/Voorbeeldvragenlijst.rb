@@ -118,6 +118,16 @@ panel do
       question :q08_a02_2, :type => :string, :title => "Subvraag 2", :required => true 
     end
   end
+  
+  #Radio questions kun je ook de waarden van laten zien met :show_values => true
+  question :q103, :type => :radio, :show_values => true do
+    title "Bij deze radio tonen we ook de value van elke optie"
+    option :a01, :value => 0, :description => "goed"
+    option :a02, :value => 1, :description => "beetje goed"
+    option :a03, :value => 2, :description => "gemiddeld"
+    option :a04, :value => 3, :description => "beetje slecht"
+    option :a05, :value => 4, :description => "slecht"
+  end
 
   #Schalen zijn net radio questions, alleen worden ze horizontaal naast elkaar weergegeven
   #De key van de geselecteerde optie wordt onder de key van de vraag opgeslagen
