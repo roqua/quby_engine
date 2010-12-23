@@ -120,14 +120,10 @@ body {
       .description-and-fields {
         @include column(18, true);
 
-        .description {
-          @include text;
-          @include column(18, true);
-        }
+        .description { @include text; @include column(18, true); }
+        .fields { @include column(18, true); }
+      }
 
-        .fields {
-          @include column(18, true);
-        }
       // Specific CSS for presentation styles
 
       &.horizontal {
