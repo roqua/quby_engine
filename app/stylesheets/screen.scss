@@ -150,8 +150,10 @@ body {
 
         .option {
           @include column(18, true); 
+          
           .radiocheckwrapper { @include column(1); }
-          label  { @include column(17, true); }
+          label              { @include column(17, true); }
+
           .subquestions {
             @include prepend(1);
             @include column(17);
