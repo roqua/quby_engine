@@ -135,7 +135,7 @@ panel do
   #
   # Vraagtekst:   ( )  ( )  ( )  ( )  (*)  ( )
   #               goed                  slecht
-  question :q103, :type => :scale do
+  question :q104, :type => :scale do
     title "Wat vindt u van Quby"
     option :a01, :value => 0, :description => "goed"
     option :a02, :value => 1, :description => "beetje goed"
