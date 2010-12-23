@@ -45,6 +45,7 @@ class Items::Question < Item
     @type = options[:type]
     @title = options[:title]
     @description = options[:description]
+    @presentation = options[:presentation]
     @validations = []
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]

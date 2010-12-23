@@ -1,6 +1,6 @@
 / Begin _item.html.haml
 - subquestion ||= false
-- itemclasses = [item.type]
+- itemclasses = [item.type, item.presentation]
 - itemclasses << "errors" if not @answer.errors[item.key].empty?
 .item{:class => itemclasses}
   - case item.class.name

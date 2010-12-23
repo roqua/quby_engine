@@ -128,6 +128,13 @@ body {
         .fields {
           @include column(18, true);
         }
+      // Specific CSS for presentation styles
+
+      &.horizontal {
+        label.main { @include column(24, true); @include append-bottom; }
+        .description-and-fields { @include column(24, true); }
+        .description { @include column(24, true); }
+        .fields { @include column(24, true); }
       }
 
       // Specific CSS for certain item types
