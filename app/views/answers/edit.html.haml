@@ -5,7 +5,3 @@
 
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" ") do
   = render :partial => "answers/#{session[:display_mode]}/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}
-
-  %fieldset.buttons
-    %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
-    = submit_tag "Klaar"

@@ -81,13 +81,25 @@ body {
       z-index: 400;
     }
     
-    .prevnext {
-      .prev { float: left; }
-      .next { float: right; }
+    .buttons {
+      @include column(24, true);
+      margin: 1.5em (-$blueprint-grid-outer-width) -1.5em;
+      padding: 1.5em $blueprint-grid-outer-width;
+      border-top: 1px dotted #d6d6d6;
+      background: #f3f3f3;
+
+      .prev { @include column(6); }
+      .abort { @include column(12); text-align: center; }
+      .print { @include column(12); text-align: center; }
+      .next { @include column(6, true); text-align: right; }
+      .save { @include column(6, true); text-align: right; }
     }
     
-    .abort { text-align: center; }
-
+    &.first .buttons {
+      .abort { @include prepend(6); }
+      .print { @include prepend(6); }
+    }
+    
     .item { 
       @include column(24, true);
       margin-bottom: 18px;
@@ -203,16 +215,6 @@ body {
         .option.last, .description.last { @include last; }
       }
     }
-  }
-  
-  .buttons {
-    @include column(24, true);
-    background: #f3f3f3;
-    border: 10px solid #dddddd;
-    border-top: 1px dotted #d6d6d6;
-    margin-top: -10px;
-    padding: 1em;
-    text-align: right;
   }
   
   .bulk {

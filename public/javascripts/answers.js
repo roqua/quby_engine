@@ -23,12 +23,6 @@ function activatePanel(panel, updateHash, forward) {
         hashChangeEnabled = false;
         window.location.hash = panel[0].id;        
     }
-    
-    if(panel.hasClass('last-panel')){
-        $(".buttons").show();
-    } else {
-        $(".buttons").hide();
-    }    
 }
 
 function validatePanel(panel) {
@@ -258,17 +252,14 @@ $(document).ready(
             //$.address.change( 'hashchange', hashchangeEventHandler);
 
             // enable javascript-based previous/next links
-            $(".panel .prevnext").show();
+            $(".panel .buttons").show();
 
             // hide all panels
             $(".panel").hide();
 
-            // hide Submit button
-            $(".buttons").hide();
-
             // hide first previous button, and last next button
-            $(".panel:first .prevnext .prev").hide();
-            $(".panel:last  .prevnext .next").hide();
+            $(".panel:first .buttons .prev").hide();
+            $(".panel:last  .buttons .next").hide();
         
             // Trigger the hashchange event (useful on page load).
             $(window).hashchange();
@@ -293,7 +284,7 @@ $(document).ready(
                 }
             );
         } else {
-          $(".panel .prevnext").hide();
+          $(".panel .buttons").hide();
           $(".panel .abort").hide();
         }
 
