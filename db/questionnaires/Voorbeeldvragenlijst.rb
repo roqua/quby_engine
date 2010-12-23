@@ -119,6 +119,20 @@ panel do
     end
   end
 
+  #Schalen zijn net radio questions, alleen worden ze horizontaal naast elkaar weergegeven
+  #De key van de geselecteerde optie wordt onder de key van de vraag opgeslagen
+  #
+  # Vraagtekst:   ( )  ( )  ( )  ( )  (*)  ( )
+  #               goed                  slecht
+  question :q103, :type => :scale do
+    title "Wat vindt u van Quby"
+    option :a01, :value => 0, :description => "goed"
+    option :a02, :value => 1, :description => "beetje goed"
+    option :a03, :value => 2, :description => "gemiddeld"
+    option :a04, :value => 3, :description => "beetje slecht"
+    option :a05, :value => 4, :description => "slecht"
+  end
+
   #Bij check boxes kan je meerdere opties aanvinken.
   #Het :check_all_option attribuut geeft aan welke checkbox alle andere checkboxes aan zet
   #Het :uncheck_all_option attribuut geeft aan welke checkbox alle andere checkboxes uit zet

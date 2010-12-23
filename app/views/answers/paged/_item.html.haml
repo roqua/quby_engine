@@ -53,6 +53,8 @@
       = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion}
     - when :check_box
       = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
+    - when :scale
+      = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion}
     - else
       %strong
         Error: unknown question type
