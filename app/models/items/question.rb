@@ -99,6 +99,8 @@ class Items::Question < Item
         { :autocomplete => @autocomplete }
       when :radio
         { :options => @options } 
+      when :scale
+        { :options => @options }
       when :check_box
         { :options => @options } 
       else
