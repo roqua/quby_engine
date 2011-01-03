@@ -4,7 +4,9 @@
 var hashChangeEnabled;
 var lastFocus;
 var lastInput;
-var nextButtonFocussed;
+var nextButtonFocussed = false;
+var saveButtonFocussed = false; 
+var isBulk;
 
 function activatePanel(panel, updateHash, forward) {
     $('.flash').hide();
@@ -257,7 +259,7 @@ function handleHotKeys(event){
     switch (event.which) {
         //enter
         case 13:            
-            if (!nextButtonFocussed) {
+            if (!(nextButtonFocussed || saveButtonFocussed)) {
                 event.preventDefault();
                 focusNextInput();
             }
@@ -331,12 +333,12 @@ function handleHotKeys(event){
 }
 
 function focusItem(qitem){
-    if (lastFocus != undefined) {
-        lastFocus.removeClass('focus');
-    }
     if (qitem.length > 0) {
+        if (lastFocus != undefined) {
+            lastFocus.removeClass('focus');
+        }
         qitem.addClass('focus');
-        qitem[0].scrollIntoView();
+        qitem.closest('.item')[0].scrollIntoView(false);
         lastFocus = qitem;
     }
     return qitem;
@@ -345,55 +347,79 @@ function focusItem(qitem){
 function focusNextItem(){
     var item;
     if (nextButtonFocussed) {
-        item = $('.item:not(:hidden)').first();
+        item = $('.item:not(:hidden, .text)').find('.description-and-fields:not(:hidden)').first();
         nextButtonFocussed = false;
     } else {
-        item = lastFocus.closest(".item").nextAll().find('.description-and-fields:not(:hidden)').first();   
+        item = lastFocus.closest(".item:not(:hidden, .text)").nextAll().find('.description-and-fields:not(:hidden)').first();   
     }
     if(item.length == 0){
-        lastFocus.removeClass('focus');
-        $(".next input").focus();
-        nextButtonFocussed = true;
+        if (isBulk) {
+            item = lastFocus.closest(".panel").next().find('.description-and-fields:not(:hidden)').first();
+            if (item.length > 0) {
+                return focusItem(item);
+            } else {
+                $(".save input").focus();
+                saveButtonFocussed = true;
+            }
+        } else {
+            lastFocus.removeClass('focus');
+            $(".next input").focus();
+            nextButtonFocussed = true;
+        }
     } else {
         return focusItem(item);
     }
 }
 function focusPrevItem(){
     var item;
-    if(nextButtonFocussed){
-        item = $('.item:not(:hidden)').last();
+    if (nextButtonFocussed || saveButtonFocussed) {
+        item = $('.item:not(:hidden, .text)').find('.description-and-fields:not(:hidden)').last();
         nextButtonFocussed = false;
+        saveButtonFocussed = false;
     } else {
-        item = lastFocus.closest(".item:not(:hidden)").prevAll().find('.description-and-fields:not(:hidden)').first();
+        item = lastFocus.closest(".item:not(:hidden, .text)").prevAll().find('.description-and-fields:not(:hidden)').first();
     }
+    
     if(item.length == 0){
-        lastFocus.removeClass('focus');
-        $(".next input").focus();
-        nextButtonFocussed = true;
+        if (isBulk) {
+            item = lastFocus.closest(".panel").prev().find('.description-and-fields:not(:hidden)').last()
+            
+            return focusItem(item);
+        } else {
+            lastFocus.removeClass('focus');
+            $(".next input").focus();
+            nextButtonFocussed = true;
+        }
     } else {
         return focusItem(item);
     }
 }
 
 function focusNextInput(){
-    lastInput = lastInput.nextAll('input:not(:disabled, :hidden)').first().focus();
+    var input = lastInput.nextAll('input:not(:disabled, :hidden)').first().focus();
     
-    if(lastInput.length == 0){
+    if(input.length == 0){
         var item = focusNextItem();
         if(item != undefined){
-            lastInput = item.find("input:not(:disabled, :hidden)").first().focus();
+            input = item.find("input:not(:disabled, :hidden)").first().focus();             
         }
     }
+    if (input.length != 0) {
+        lastInput = input;
+    } 
 }
 function focusPrevInput(){
-    lastInput = lastInput.prevAll('input:not(:disabled, :hidden)').last().focus();
+    var input = lastInput.prevAll('input:not(:disabled, :hidden)').last().focus();
     
-    if(lastInput.length == 0){ 
+    if(input.length == 0){ 
         var item = focusPrevItem();
         if(item != undefined){
-            lastInput = item.find("input:not(:disabled, :hidden)").last().focus();
+            input = item.find("input:not(:disabled, :hidden)").last().focus();
         }
     }
+    if (input.length != 0) {
+        lastInput = input;
+    } 
 }
 
 $(document).ready(
@@ -409,8 +435,9 @@ $(document).ready(
            handleDisableCheckboxSubQuestions(element);
         });
         
+        isBulk = $('form.bulk').size() > 0;
         // Don't hide panels when we're doing a bulk version
-        if ($('form.bulk').size() <= 0) {
+        if (!isBulk) {
             hashChangeEnabled = true;
             jQuery(window).bind( 'hashchange', hashchangeEventHandler);
             //$.address.change( 'hashchange', hashchangeEventHandler);
@@ -447,21 +474,11 @@ $(document).ready(
                     }          
                 }
             );
-        } else {
-          $(".panel .abort").hide();
-          $(".prev, .next").hide();
         }
         
         //Layout breaks with this
         //$("input[type=radio]").customInput();
         //$("input[type=checkbox]").customInput();
-        
-        $(".next input").focus(function(){
-            nextButtonFocussed = true;
-        });
-        $(":not(.next input)").focus(function(){
-            nextButtonFocussed = false;
-        });
         
         $("input").keypress(handleHotKeys);
         

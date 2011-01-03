@@ -98,28 +98,27 @@ class Answer < ActiveRecord::Base
 
   def validate_answers
     return if @aborted
+    hidden_questions = []
     questionnaire.questions.each do |question|
       next unless question
       answer = self.send(question.key)
       validations = question.validations
-      
-      if not validations.empty?
 
-        hidden_questions = []
-        if question.type == :radio and not question.hides_questions.blank?
-          question.options.map do |opt|
-            if answer == opt.key
-              hidden_questions = opt.hides_questions
-            end
+      if question.type == :radio and not question.hides_questions.blank?
+        question.options.each do |opt|
+          if answer.to_sym == opt.key
+            hidden_questions.concat(opt.hides_questions)
           end
         end
-     
-        if question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
-          (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)
-          clear_question(question)
-          next          
-        end
-        
+      end
+      
+      if question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
+        (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)
+        clear_question(question)
+        next          
+      end
+      
+      if not validations.empty?
         logger.info "Validating #{question.key} = #{question.validations.inspect}."
         
         question.validations.each do |validation|
@@ -162,7 +161,7 @@ class Answer < ActiveRecord::Base
               add_error(question, :not_all_checked, "Invalid combination of options.")
             end          
           when :one_of
-            add_error(question, :one_of, "Not one of the options.") if not answer.blank? and validation[:array].include?(answer.to_f)
+            add_error(question, :one_of, "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
           end
         end
         logger.info "ERRORS: #{errors.inspect}"
