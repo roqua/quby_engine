@@ -20,9 +20,11 @@
     .buttons
       .prev
         = submit_tag raw("&larr; Vorige vraag")
-      - if questionnaire.abortable 
-        .abort
+      .abort
+        - if questionnaire.abortable 
           = submit_tag "Onderbreken"
+        - else
+          &nbsp;
       .next
         = submit_tag raw("Volgende vraag &rarr;")
   - else
