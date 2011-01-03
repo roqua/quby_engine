@@ -212,7 +212,7 @@ body {
         }
 
         .option, .description { 
-          @include span(1);
+          @include span(2);
           border: 0;
           text-align: center;
         }
