@@ -141,6 +141,15 @@ panel do
     option :a05, :value => 4, :description => "slecht"
   end
 
+  question :q124, :type => :scale, :presentation => :horizontal do
+    title "Deze is presentation => horizontal, zodat we daar een testcase voor hebben"
+    option :a01, :value => 0, :description => "goed"
+    option :a02, :value => 1, :description => "beetje goed"
+    option :a03, :value => 2, :description => "gemiddeld"
+    option :a04, :value => 3, :description => "beetje slecht"
+    option :a05, :value => 4, :description => "slecht"
+  end
+
   #Bij check boxes kan je meerdere opties aanvinken.
   #Het :check_all_option attribuut geeft aan welke checkbox alle andere checkboxes aan zet
   #Het :uncheck_all_option attribuut geeft aan welke checkbox alle andere checkboxes uit zet
