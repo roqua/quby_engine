@@ -8,8 +8,19 @@
 key "vis-v_1"
 title "VIS-V deel 1"
 description ""
+panel do
+ title "De VIS-V Vragenlijst"
+ text "Op de volgende bladzijden vindt u een lijst met zinnen over allerlei soorten menselijk gedrag. Het is de bedoeling dat u bij elke zin aangeeft of de zin van toepassing is op u. Het gaat om uw gedrag van de laatste twee maanden.
 
-start_panel
+Vult u a.u.b. de lijst in zoals u uzelf ziet, ook al is dat eventueel niet wat anderen vinden.
+
+Deze vragenlijst bevat 160 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+ 
+
 
 question :v_2, :type => :radio do
   title "1. U kijkt niet op als mensen u aanspreken."

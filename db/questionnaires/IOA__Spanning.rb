@@ -9,8 +9,24 @@ key "IOA__Spanning"
 title "IOA - Spanning"
 description ""
 
-start_panel
+panel do
+ title "IOA - Inventarisatielijst Omgaan met Anderen
 
+Deel I - Spanning"
+ text "In deze vragenlijst treft u een aantal situaties aan die betrekking hebben op de omgang met anderen. Geef voor elke situatie aan *hoe gespannen of zenuwachtig u zich voelt*, als u het beschreven gedrag zou uitvoeren.
+
+Werk zo rustig mogelijk door. Er zijn geen goede of foute antwoorden - het gaat erom wat u er zelf van vindt.
+
+Deze vragenlijst bevat 35 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan.
+
+De test IOA is door UMCG te Groningen vervaardigd na schriftelijke toestemming 01 juli 2009 van de uitgever Pearson te Amsterdam. Dit materiaal is auteursrechtelijk beschermd en kopiëren zonder schriftelijke toestemming van de uitgever is dan ook niet toegestaan."
+end
+
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 question :v_1, :type => :radio do
   title "1. Mee gaan praten in een gesprek van een groepje mensen."
   description ""
@@ -40,6 +56,10 @@ question :v_3, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_4, :type => :radio do
   title "4. Instemmen met waardering voor iets dat u hebt gedaan."
@@ -70,6 +90,10 @@ question :v_6, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_7, :type => :radio do
   title "7. Een verzoek weigeren om geld uit te lenen."
@@ -100,7 +124,10 @@ question :v_9, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
 
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 question :v_10, :type => :radio do
   title "10. Iemand die iets doet dat u stoort (bijvoorbeeld in trein of bioscoop), verzoeken daarmee op te houden."
   description ""
@@ -130,7 +157,10 @@ question :v_12, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
 
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 question :v_13, :type => :radio do
   title "13. Een gesprek beginnen met een aantrekkelijke man of vrouw."
   description ""
@@ -160,6 +190,10 @@ question :v_15, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_16, :type => :radio do
   title "16. Een andere mening naar voren brengen dan die van het gezelschap waarin u bent."
@@ -190,6 +224,10 @@ question :v_18, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_19, :type => :radio do
   title "19. Uitleg vragen over iets dat u niet hebt begrepen."
@@ -220,6 +258,10 @@ question :v_21, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_22, :type => :radio do
   title "22. Een verzoek afslaan van iemand op wie u gesteld bent."
@@ -250,6 +292,10 @@ question :v_24, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_25, :type => :radio do
   title "25. Met iemand bespreken dat u de indruk hebt dat hij/zij u ontloopt."
@@ -280,6 +326,10 @@ question :v_27, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_28, :type => :radio do
   title "28. Iemand zeggen dat u erg tevreden bent over iets dat u hebt gedaan."
@@ -310,6 +360,10 @@ question :v_30, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_31, :type => :radio do
   title "31. Iemand zeggen dat u niet meer met hem of haar wilt omgaan."
@@ -340,6 +394,10 @@ question :v_33, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
+end
+
+panel do
+text "Hoe gespannen of zenuwachtig voelt u zich, als u het hieronder beschreven gedrag zou uitvoeren?"
 
 question :v_34, :type => :radio do
   title "34. Uw mening naar voren brengen tegenover een gezaghebbend persoon."
@@ -360,6 +418,6 @@ question :v_35, :type => :radio do
   option :a4, :value => 4, :description => "Erg gespannen of zenuwachtig"
   option :a5, :value => 5, :description => "Heel erg gespannen of zenuwachtig"
 end
-
+end
 end_panel
 

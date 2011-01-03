@@ -1,7 +1,5 @@
 title "Phamous Algemeen"
 
-foo
-
 panel do
   # Datum: dd/mm/yyyy
   #

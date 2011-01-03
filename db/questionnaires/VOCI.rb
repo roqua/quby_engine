@@ -9,8 +9,14 @@ key "voci"
 title "VOCI"
 description ""
 
-start_panel
+panel do
+ title "VOCI - Vancouver Obsessional Compulsive Inventory"
+ text "Wilt u voor elk van de volgende uitspraken aangeven in hoeverre u het er mee eens bent? U kunt dat doen door het antwoord aan te vinken die dit het beste beschrijft. Besteedt niet te veel tijd aan één bepaalde uitspraak. Deze vragenlijst bevat 55 vragen.
 
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+panel do
 question :v_1, :type => :radio do
   title "1. Ik voel me gedwongen om brieven ettelijke malen te controleren, voordat ik ze op de post doe."
   description ""
@@ -50,7 +56,9 @@ question :v_4, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_5, :type => :radio do
   title "5. Ik voel me gedwongen om helemaal perfect te zijn."
   description ""
@@ -90,7 +98,9 @@ question :v_8, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_9, :type => :radio do
   title "9. Ik voel me vaak gedwongen onbeduidende dingen te onthouden (bijv. kentekenplaatnummers, instructies op etiketten)."
   description ""
@@ -130,7 +140,9 @@ question :v_12, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_13, :type => :radio do
   title "13. Ik besteed veel te veel tijd aan handen wassen."
   description ""
@@ -170,7 +182,9 @@ question :v_16, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_17, :type => :radio do
   title "17. Ik word erg angstig wanneer ik ook maar het kleinste besluit moet nemen."
   description ""
@@ -210,7 +224,9 @@ question :v_20, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_21, :type => :radio do
   title "21. Ik vind het erg moeilijk om vuilnis of vuilnisemmers aan te raken."
   description ""
@@ -250,7 +266,9 @@ question :v_24, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_25, :type => :radio do
   title "25. Ik vermijd het gebruik van openbare telefoons vanwege mogelijke besmetting."
   description ""
@@ -290,7 +308,9 @@ question :v_28, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_29, :type => :radio do
   title "29. Ik maak me veel te veel zorgen dat ik andere mensen van streek zal maken."
   description ""
@@ -330,7 +350,9 @@ question :v_32, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_33, :type => :radio do
   title "33. Een van mijn grootste problemen is het herhaaldelijk controleren."
   description ""
@@ -370,7 +392,9 @@ question :v_36, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_37, :type => :radio do
   title "37. Ik controleer meerdere keren of het fornuis uit is, ook al verzet ik me tegen de aandrang om dit te doen."
   description ""
@@ -410,7 +434,9 @@ question :v_40, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_41, :type => :radio do
   title "41. Ik besteed dagelijks veel tijd aan het onophoudelijk controleren van dingen."
   description ""
@@ -450,7 +476,9 @@ question :v_44, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_45, :type => :radio do
   title "45. Ik voel mij vaak gedwongen veel te veel dingen te bewaren, zoals oude tijdschriften, kranten en bonnetjes, omdat ik bang ben ze in de toekomst nog nodig te hebben."
   description ""
@@ -490,7 +518,9 @@ question :v_48, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_49, :type => :radio do
   title "49. Ik ervaar vaak verontrustende en ongewenste gedachten over ziektes."
   description ""
@@ -530,7 +560,9 @@ question :v_52, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
+end
 
+panel do
 question :v_53, :type => :radio do
   title "53. Een van mijn grootste problemen is dat ik veel te veel aandacht besteed aan details."
   description ""
@@ -560,6 +592,6 @@ question :v_55, :type => :radio do
   option :a4, :value => 3, :description => "Tamelijk"
   option :a5, :value => 4, :description => "Heel erg"
 end
-
+end
 end_panel
 

@@ -9,8 +9,20 @@ key "ipov"
 title "Interactionele Probleem Oplossings Vragenlijst (IPOV)"
 description ""
 
-start_panel
+panel do
+ title "De Interactionele Probleem Oplossings Vragenlijst"
+ text"In deze vragenlijst vindt U 17 uitspraken. De bedoeling is, dat U voor elk van deze uitspraken aangeeft in hoeverre U vindt dat die van toepassing is op U en de relatie met uw partner. Het is van het grootste belang dat U bij het invullen van de lijst uitgaat van de situaties zoals die zich de laatste maand voordeden. Laat U zich zo min mogelijk door uw stemming van dit moment beïnvloeden.
 
+Per vraag zult U maar weinig bedenktijd nodig hebben. In het algemeen zult U uw antwoord onmiddelijk klaar hebben.
+
+Deze vragenlijst bevat 17 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end 
+
+
+
+panel do
 question :v_1, :type => :radio do
   title "1. Het kiezen van een oplossing voor een bepaald probleem levert bij ons weinig moeilijkheden op."
   description ""
@@ -50,7 +62,9 @@ question :v_4, :type => :radio do
   option :a4, :value => 4, :description => "Grotendeels op ons van toepassing"
   option :a5, :value => 5, :description => "Precies op ons van toepassing"
 end
+end
 
+panel do
 question :v_5, :type => :radio do
   title "5. Wij hebben nogal eens onenigheid omdat ergernissen verkeerd uitgelegd worden."
   description ""
@@ -90,7 +104,9 @@ question :v_8, :type => :radio do
   option :a4, :value => 4, :description => "Grotendeels op ons van toepassing"
   option :a5, :value => 5, :description => "Precies op ons van toepassing"
 end
+end
 
+panel do
 question :v_9, :type => :radio do
   title "9. Als ik iets van mijn partner wil en ik denk dat hij/zij daar niet op in zal gaan, dan zeg ik het maar niet."
   description ""
@@ -130,7 +146,9 @@ question :v_12, :type => :radio do
   option :a4, :value => 4, :description => "In beperkte mate op ons van toepassing"
   option :a5, :value => 5, :description => "Helemaal niet op ons van toepassing"
 end
+end
 
+panel do
 question :v_13, :type => :radio do
   title "13. Als ik met een oplossing voor een probleem kom, wordt die door mijn partner vaak onmiddelijk van de hand gewezen."
   description ""
@@ -170,7 +188,9 @@ question :v_16, :type => :radio do
   option :a4, :value => 4, :description => "In beperkte mate op ons van toepassing"
   option :a5, :value => 5, :description => "Helemaal niet op ons van toepassing"
 end
+end
 
+panel do
 question :v_17, :type => :radio do
   title "17. In een ruzie raken wij vaak verwikkeld in een discussie over wie er gelijk heeft."
   description ""
@@ -180,6 +200,6 @@ question :v_17, :type => :radio do
   option :a4, :value => 4, :description => "In beperkte mate op ons van toepassing"
   option :a5, :value => 5, :description => "Helemaal niet op ons van toepassing"
 end
-
+end
 end_panel
 

@@ -9,8 +9,23 @@ key "kidscreen_ouders"
 title "Kidscreen Ouders"
 description ""
 
-start_panel
+panel do 
+ title "KIDSCREEN-ouders"
+ text "Deze versie dient ingevuld te worden door de ouders.
 
+Deze vragenlijst heeft 30 vagen.
+
+
+Hoe gaat het met uw kind? Hoe voel uw kind zich? Graag zouden we dit van u willen horen.
+
+Wij vragen u de volgende vragen naar uw beste weten te beantwoorden, zodat de antwoorden zo goed mogelijk weergeven wat uw kind voelt en denkt.
+
+Probeer bij het antwoorden te denken aan de ervaringen van uw kind van de afgelopen week ....
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+panel do
 question :v_32, :type => :radio do
   title "1. Wie vult deze vragenlijst in?"
   description ""
@@ -18,12 +33,15 @@ question :v_32, :type => :radio do
   option :a2, :value => 2, :description => "Vader"
   option :a3, :value => 3, :description => "Stiefmoeder / partner van vader"
   option :a4, :value => 4, :description => "Stiefvader / partner van moeder"
-  option :a5, :value => 5, :description => "Anders, namelijk%s"
+  option :a5, :value => 5, :description => "Anders" do
+    question :v_999999, :title => "Namelijk", :type => :string
+  end
 end
 
-question :v_34, :type => :open do
+question :v_34, :type => :integer do
   title "2. Wanneer is uw kind geboren (het kind waarvoor u de vragenlijst invult)?"
-  description ""
+  description "geboortejaar"
+  validates_in_range 1900..2500
 end
 
 question :v_35, :type => :radio do
@@ -33,16 +51,20 @@ question :v_35, :type => :radio do
   option :a2, :value => 2, :description => "Jongen"
 end
 
-question :v_37, :type => :open do
+question :v_37, :type => :integer do
   title "4. Hoe lang is uw kind (zonder schoenen)?"
-  description ""
+  description "in centimeters"
+  validates_in_range 50..200
 end
 
-question :v_38, :type => :open do
+question :v_38, :type => :integer do
   title "5. Hoeveel weegt uw kind (zonder kleren)?"
-  description ""
+  description "in kilogrammen"
+  validates_in_range 10..200
+end
 end
 
+panel do
 question :v_5, :type => :radio do
   title "4. In het algemeen, hoe zou uw kind zijn/haar gezondheid beoordelen?"
   description ""
@@ -92,7 +114,9 @@ question :v_9, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end
 
+panel do
 question :v_10, :type => :radio do
   title "9. Heeft uw kind het gevoel gehad dat het leven plezierig is?"
   description ""
@@ -142,7 +166,9 @@ question :v_14, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end
 
+panel do
 question :v_15, :type => :radio do
   title "14. Heeft uw kind zich eenzaam gevoeld?"
   description ""
@@ -192,7 +218,9 @@ question :v_19, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end
 
+panel do
 question :v_20, :type => :radio do
   title "19. Heeft uw kind het gevoel gehad eerlijk behandeld te worden door zijn/haar ouders?"
   description ""
@@ -242,7 +270,9 @@ question :v_24, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end
 
+panel do
 question :v_25, :type => :radio do
   title "24. Heeft uw kind plezier gehad met zijn/haar vrienden?"
   description ""
@@ -292,6 +322,9 @@ question :v_29, :type => :radio do
   option :a4, :value => 4, :description => "Nogal"
   option :a5, :value => 5, :description => "Helemaal"
 end
+end
+
+panel do
 
 question :v_30, :type => :radio do
   title "29. Heeft uw kind goed kunnen opletten?"
@@ -312,6 +345,6 @@ question :v_31, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
-
+end
 end_panel
 

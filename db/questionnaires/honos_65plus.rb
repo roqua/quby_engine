@@ -9,7 +9,29 @@ key "honos_65plus"
 title "HoNOS 65+"
 description ""
 
-start_panel
+abortable
+
+panel do
+ title "Instructies bij het invullen van de HoNOS65+"
+ text <<-END.gsub(/^ {4}/, '')
+    * De score heeft alleen betrekking op de afgelopen twee weken. 
+    * Gebruik alle beschikbare informatie. Baseer de score op problemen - niet op diagnose. 
+    * Begin bij item 1 en scoor in volgorde om het probleem maar één keer te scoren en zodoende overlap te vermijden. 
+    * Gebruik uw klinisch oordeel om de score vast te stellen. 
+    * Scoor ten minste het meest ernstige probleem dat zich heeft voorgedaan gedurende de afgelopen twee weken. Kijk naar alle rijen en scoor ten minste wat het ergst is. 
+    * Alle schalen hebben de volgende opbouw:
+      * 0     Geen probleem 
+      * 1     Gering probleem - vereist geen actie 
+      * 2     Licht probleem maar duidelijk aanwezig 
+      * 3     Matig 
+      * 4     Ernstig 
+      * 9     Geen gegevens (maar vermijd dit indien mogelijk)" 
+ 
+
+Klik op 'Volgende vraag' om verder te gaan.
+  END
+end
+
 
 question :v_1, :type => :radio do
   title "SCHAAL 1. GEDRAGSSTOORNISSEN"

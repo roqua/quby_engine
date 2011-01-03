@@ -9,8 +9,18 @@ key "qids_sr"
 title "QIDS-SR"
 description ""
 
-start_panel
+panel do
+ title "Korte Zelfinvullijst Depressieve Symptomen"
+ text "De bedoeling van deze vragenlijst is om meer inzicht te krijgen in een aantal aspecten van uw stemming. 
 
+De vragenlijst bevat 16 vragen. 
+
+Vink bij elke vraag het antwoord aan dat *de afgelopen zeven dagen* het meest op u van toepassing was.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+panel do
 question :v_1, :type => :radio do
   title "1. In slaap vallen:"
   description ""
@@ -46,7 +56,9 @@ question :v_4, :type => :radio do
   option :a3, :value => 2, :description => "Ik slaap niet langer dan 12 uur binnen 'e'en etmaal (inclusief dutten)"
   option :a4, :value => 3, :description => "Ik slaap langer dan 12 uur binnen 'e'en etmaal (inclusief dutten)"
 end
+end
 
+panel do
 question :v_5, :type => :radio do
   title "5. Somber voelen:"
   description ""
@@ -82,7 +94,9 @@ question :v_15, :type => :radio do
   option :a3, :value => 2, :description => "Ik ben 1 kg of meer afgevallen"
   option :a4, :value => 3, :description => "Ik ben 2 1/2 kg of meer afgevallen"
 end
+end
 
+panel do
 question :v_37, :type => :radio do
   title "9. Gewichtstoename gedurende de afgelopen 2 weken:"
   description ""
@@ -118,7 +132,9 @@ question :v_20, :type => :radio do
   option :a3, :value => 2, :description => "Ik denk enkele malen per week wel even aan zelfmoord of aan de dood"
   option :a4, :value => 3, :description => "Ik denk een aantal keren per dag serieus na over zelfmoord of de dood, 'of ik heb zelfmoordplannen gemaakt, 'of ik heb al een poging gedaan om mijn leven te be'eindigen"
 end
+end
 
+panel do
 question :v_21, :type => :radio do
   title "13. Algemene interesse:"
   description ""
@@ -154,6 +170,6 @@ question :v_26, :type => :radio do
   option :a3, :value => 2, :description => "Ik heb de neiging te bewegen en ben nogal rusteloos"
   option :a4, :value => 3, :description => "Ik kan vaak niet stilzitten en loop dan te ijsberen"
 end
-
+end
 end_panel
 

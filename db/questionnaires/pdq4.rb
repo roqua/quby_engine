@@ -9,7 +9,23 @@ key "pdq4"
 title "PDQ4"
 description ""
 
-start_panel
+panel do
+ title "PDQ4-Vragenlijst voor persoonlijkheidskenmerken"
+ text "Het doel van deze vragenlijst is dat u beschrijft wat voor iemand u bent. 
+
+Bij het beantwoorden van de vragen is het de bedoeling dat u nadenkt over hoe u zich gewoonlijk voelde, hoe u over het algemeen dacht en handelde in de afgelopen jaren. Om u hieraan te herinneren staat boven iedere pagina gedrukt *'In het algemeen.....'*
+
+JUIST betekent dat de uitspraak in het algemeen op u van toepassing is.
+
+ONJUIST betekent dat de uitspraak in het algemeen niet op u van toepassing is.
+
+Ook als u niet helemaal zeker bent over het antwoord, klik dan toch op JUIST of ONJUIST bij iedere vraag.
+
+Deze vragenlijst bevat 99 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
 
 question :v_1, :type => :radio do
   title "1. Vermijd ik het werken met mensen die mij zouden kunnen bekritiseren."

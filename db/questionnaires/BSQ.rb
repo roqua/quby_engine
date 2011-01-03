@@ -6,11 +6,27 @@
 # No manual recodes needed
 
 key "BSQ"
-title "BSQ"
+title "Body Sensations Questionnaire"
 description ""
 
-start_panel
+panel do
+ title "BSQ - Body Sensations Questionnaire"
+ text "Hieronder staan lichamelijke gevoelens, die kunnen voorkomen, wanneer u gespannen of angstig bent. Geef aan hoe bang u bent voor deze gevoelens. De vragenlijst bestaat uit 17 lichamelijke gevoelens. Vink bij ieder gevoel het antwoord aan dat het beste aangeeft hoe bang u hiervoor bent:
 
+1. *Niet* angstig of bezorg door dit gevoel;
+2. *Een beetje* angstig door dit gevoel;
+3. *Tamelijk* angstig door dit gevoel;
+4. *Erg* angstig door dit gevoel;
+5. *Heel erg* angstig door dit gevoel.
+
+
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+
+
+panel do
 question :v_1, :type => :radio do
   title "1. Hartkloppingen."
   description ""
@@ -60,7 +76,9 @@ question :v_5, :type => :radio do
   option :a4, :value => 4, :description => "Erg"
   option :a5, :value => 5, :description => "Heel Erg"
 end
+end
 
+panel do
 question :v_6, :type => :radio do
   title "6. Gevoel van kortademigheid."
   description ""
@@ -110,6 +128,9 @@ question :v_10, :type => :radio do
   option :a4, :value => 4, :description => "Erg"
   option :a5, :value => 5, :description => "Heel Erg"
 end
+end
+
+panel do
 
 question :v_11, :type => :radio do
   title "11. Een zwaar gevoel in je maag hebben."
@@ -160,7 +181,9 @@ question :v_15, :type => :radio do
   option :a4, :value => 4, :description => "Erg"
   option :a5, :value => 5, :description => "Heel Erg"
 end
+end
 
+panel do
 question :v_16, :type => :radio do
   title "16. Je verward voelen en niet meer weten waar je bent."
   description ""
@@ -180,6 +203,6 @@ question :v_17, :type => :radio do
   option :a4, :value => 4, :description => "Erg"
   option :a5, :value => 5, :description => "Heel Erg"
 end
-
+end
 end_panel
 

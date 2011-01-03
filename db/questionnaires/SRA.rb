@@ -8,14 +8,15 @@
 key "sra"
 title "SRA"
 description ""
+panel do
+ title "SRA"
+ text "Deze vragenlijst gaat over de ervaringen die u heeft met antipsychotische medicatie.
 
-start_panel
-
-question :v_1138, :type => :radio do
-  title "Door de antipsychotische medicijnen:"
-  description ""
+De SRA heeft ...vragen."
 end
 
+panel do
+text "Door de antipsychotische medicijnen:"
 question :v_1138, :type => :radio do
   title "1. Voel ik me meer mezelf"
   description ""
@@ -47,7 +48,7 @@ question :v_1141, :type => :radio do
   option :a2, :value => 1, :description => "Ja, in enige mate"
   option :a3, :value => 2, :description => "Ja, in sterke mate"
 end
-
+end
 question :v_1142, :type => :radio do
   title "5. Kan ik beter een gesprek volgen"
   description ""
