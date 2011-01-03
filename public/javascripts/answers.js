@@ -241,15 +241,18 @@ function handleDisableCheckboxSubQuestions(element){
 
 function selectInput(value){
     var values = lastFocus.find(".value");
+    var selectedInput = $([]);
     values.each(function(index, element){
        if(parseInt(element.textContent) == value){
-           $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)").click();
+           selectedInput = $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)");           
        }
     });
     
     if(values.length == 0){
-        lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value).click();
+        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value);
     }
+    selectedInput.click();
+    selectedInput.focus();
 }
 
 function handleHotKeys(event){
@@ -395,8 +398,18 @@ function focusPrevItem(){
     }
 }
 
+function getValidInputs(){
+    return lastInput.closest(".description-and-fields.focus").find('input:not(:disabled, :hidden, [type=radio])');
+}
+
 function focusNextInput(){
-    var input = lastInput.nextAll('input:not(:disabled, :hidden)').first().focus();
+    var input = getValidInputs();
+    var index = input.index(lastInput);
+    if (index != -1) {
+        input = input.filter(":gt(" + index + ")").first().focus();
+    } else {
+        input.first().focus();
+    }
     
     if(input.length == 0){
         var item = focusNextItem();
@@ -409,7 +422,13 @@ function focusNextInput(){
     } 
 }
 function focusPrevInput(){
-    var input = lastInput.prevAll('input:not(:disabled, :hidden)').last().focus();
+    var input = getValidInputs();
+    var index = input.index(lastInput);
+    if (index != -1) {
+        input = input.filter(":lt(" + index + ")").last().focus();
+    } else {
+        input.last().focus()
+    }
     
     if(input.length == 0){ 
         var item = focusPrevItem();
