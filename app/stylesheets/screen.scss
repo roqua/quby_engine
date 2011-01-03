@@ -206,6 +206,11 @@ body {
         .fields.options18 table { @include column(18, true);                      }
         // more than 18 options is future work
 
+        &.horizontal {
+          // we need to reset this to be table cells
+          .description { float: none; display: table-cell; }
+        }
+
         .option, .description { 
           @include span(1);
           border: 0;
