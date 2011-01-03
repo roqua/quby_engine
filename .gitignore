@@ -11,4 +11,3 @@ gems/*
 !gems/bundler
 #*#
 .#*
-*.css
