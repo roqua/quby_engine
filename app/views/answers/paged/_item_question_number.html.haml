@@ -1,9 +1,8 @@
-%ol.noindent
-  %li{:class =>['question-item','number'], :id=>"answer_#{question.key}_input"}
-    %label(for="answer_#{question.key}")= question.title
+%label.main(for="answer_#{question.key}")= question.title
+.description-and-fields
+  .description
     - unless question.description.blank?
-      .description
-        :markdown
-          #{raw question.description}
-
+      :markdown
+        #{raw question.description}
+  .fields(id="answer_#{question.key}_input")
     = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : ""

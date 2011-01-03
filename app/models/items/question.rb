@@ -16,6 +16,9 @@ class Items::Question < Item
   
   #Whether the browser should autocomplete this question (off by default)
   attr_accessor :autocomplete
+
+  # Whether we show the value for each option
+  attr_accessor :show_values
   
   #checkbox option that checks all other options on check
   attr_accessor :check_all_option
@@ -45,10 +48,12 @@ class Items::Question < Item
     @type = options[:type]
     @title = options[:title]
     @description = options[:description]
+    @presentation = options[:presentation]
     @validations = []
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]
     @autocomplete = options[:autocomplete] || false
+    @show_values = options[:show_values]
     @check_all_option = options[:check_all_option] 
     @uncheck_all_option = options[:uncheck_all_option]    
     
@@ -94,6 +99,8 @@ class Items::Question < Item
         { :autocomplete => @autocomplete }
       when :radio
         { :options => @options } 
+      when :scale
+        { :options => @options }
       when :check_box
         { :options => @options } 
       else

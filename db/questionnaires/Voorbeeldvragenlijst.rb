@@ -47,13 +47,12 @@ ENDTEXT
   end
 
   question :q03, :type => :string do
-     title "Textveld"
-     #description "string": In questions kan je een description gebruiken om extra uitleg te geven bij een vraag
-     #In deze descriptions kan ook dezelfde opmaak gebruikt worden als in text velden
-     description "Dit is een *omschrijving*"
+    title "Textveld"
+    #description: In questions kan je een description gebruiken om extra uitleg te geven bij een vraag
+    description "Dit is een tekstveld"
   end
 end #Deze end hoort bij de eerste panel do
-#Het is handig om met indentatie aan te geven of je binnen een panel of een question blok zit of niet
+#Het is handig om met inspringing aan te geven of je binnen een panel of een question blok zit of niet
 
 panel do
   #De invoer van :date, :string, :float en :integer vragen kan je valideren met een zogenaamde regular expression
@@ -92,6 +91,17 @@ panel do
 end
 
 panel do
+  title "Panels kunnen een titel hebben."
+
+  question :q19, :type => :radio, :presentation => :horizontal do
+    title "Soms heb je een vraag met een lange vraagstelling. Deze kun je horizontaal laten weergeven met :presentation"
+    option :a01, :value => 4, :description => "Optie 0"
+    option :a02, :value => 2, :description => "Optie 1"
+    option :a03, :value => 1, :description => "Optie 2"
+  end
+
+  text "Uiterlijk combineert het niet heel goed met dingen die niet horizontaal gelayout zijn, dus ik denk dat we die bij voorkeur niet op een en hetzelfde panel willen zetten. Doe je dat wel, dan krijg je namelijk zoals op dit panel."
+
   #Radio questions, een rij opties waar maar 1 van geselecteerd kan worden
   #De key van de geselecteerde optie wordt onder de key van de vraag opgeslagen
   question :q08, :type => :radio do
@@ -99,8 +109,7 @@ panel do
 
     #option :key : elke optie heeft zijn eigen key en optioneel ook een value en een description
     #In tegenstelling tot de keys van questions kunnen de keys opties worden hergebruikt in verschillende questions
-    #Er kan net zoals in tekstvelden opmaa gebruikt worden in descriptions van options
-    option :a01, :value => 0, :description => "Optie 0, (*met opmaak*)"
+    option :a01, :value => 0, :description => "Optie 0"
     
     #Je kan aan een option subvragen hangen door er een do end blok achter te zetten met de betreffende questions er in
     #Deze zijn alleen in te vullen en te valideren als de bovenliggende optie is aangevinkt
@@ -109,6 +118,30 @@ panel do
       question :q08_a02_1, :type => :string, :title => "Subvraag 1", :required => true
       question :q08_a02_2, :type => :string, :title => "Subvraag 2", :required => true 
     end
+  end
+  
+  #Radio questions kun je ook de waarden van laten zien met :show_values => true
+  question :q103, :type => :radio, :show_values => true do
+    title "Bij deze radio tonen we ook de value van elke optie"
+    option :a01, :value => 0, :description => "goed"
+    option :a02, :value => 1, :description => "beetje goed"
+    option :a03, :value => 2, :description => "heel lang antwoord die hopelijk lang genoeg is om te moeten wrappen, maar ik zal nog wat typen om hem nog wat langer te laten worden. Hmm, nog niet helemaal lang genoeg. Nog meer tekst! Woorden! Zinnen! Bommen en granaten."
+    option :a04, :value => 3, :description => "beetje slecht"
+    option :a05, :value => 4201, :description => "slecht"
+  end
+
+  #Schalen zijn net radio questions, alleen worden ze horizontaal naast elkaar weergegeven
+  #De key van de geselecteerde optie wordt onder de key van de vraag opgeslagen
+  #
+  # Vraagtekst:   ( )  ( )  ( )  ( )  (*)  ( )
+  #               goed                  slecht
+  question :q104, :type => :scale do
+    title "Wat vindt u van Quby"
+    option :a01, :value => 0, :description => "goed"
+    option :a02, :value => 1, :description => "beetje goed"
+    option :a03, :value => 2, :description => "gemiddeld"
+    option :a04, :value => 3, :description => "beetje slecht"
+    option :a05, :value => 4, :description => "slecht"
   end
 
   #Bij check boxes kan je meerdere opties aanvinken.
@@ -133,8 +166,7 @@ panel do
     #geselecteerd is
     option :a00, :description => "Verbergt niks"
     #inner_title "string" : Gebruik inner_title om midden in een lijst van opties text weer te geven
-    #Hier kan ook opmaak in gebruikt worden
-    inner_title "De volgende *twee opties* verbergen vragen"
+    inner_title "De volgende twee opties verbergen vragen"
     option :a01, :hides_questions => [:q11], :description => "Verbergt de volgende vraag"
     option :a02, :hides_questions => [:q12, :q13], :description => "Verbergt alle vragen van het volgende panel, en daarmee ook het panel zelf"
   end

@@ -10,8 +10,8 @@ function activatePanel(panel, updateHash, forward) {
     placeholder();
                         
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
-    var hiddenInputs = $(panel).find(".question-item.hidden");
-    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".question-item").length){
+    var hiddenInputs = $(panel).find(".item.hidden");
+    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item").length){
         if (forward) {
             return activatePanel($(panel).next(), updateHash, true);
         } else {
@@ -23,12 +23,6 @@ function activatePanel(panel, updateHash, forward) {
         hashChangeEnabled = false;
         window.location.hash = panel[0].id;        
     }
-    
-    if(panel.hasClass('last-panel')){
-        $(".buttons").show();
-    } else {
-        $(".buttons").hide();
-    }    
 }
 
 function validatePanel(panel) {
@@ -40,7 +34,7 @@ function validatePanel(panel) {
     validations = panel_validations[panel.id];
         
     for (var question_key in validations) {
-      var question_item = $("#answer_"+question_key+"_input");
+      var question_item = $("#answer_"+question_key+"_input").closest('.item');
       
       var inputs = question_item.find("input").not(":disabled, :hidden");      
       fail_vals = [];
@@ -212,12 +206,12 @@ function hashchangeEventHandler(){
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
         if (element.checked) {
-            $("#answer_" + this + "_input").removeClass('hidden');
+            $("#answer_" + this + "_input").closest('.item').removeClass('hidden');
         }
     });
     $.each(hidekeys, function(){
         if (element.checked) {
-            $("#answer_" + this + "_input").addClass('hidden');
+            $("#answer_" + this + "_input").closest('.item').addClass('hidden');
         }
     });    
 }
@@ -225,7 +219,7 @@ function handleHideQuestions(element, hidekeys, allkeys){
 function handleDisableRadioSubQuestions(element){
     if(element.checked){
         $(element).closest('.item').find('.subinput').attr("disabled", "true");
-        $(element).closest('li').find('.subinput').attr("disabled", "");
+        $(element).closest('.option').find('.subinput').attr("disabled", "");
     } 
 }
 
@@ -258,17 +252,14 @@ $(document).ready(
             //$.address.change( 'hashchange', hashchangeEventHandler);
 
             // enable javascript-based previous/next links
-            $(".panel .prevnext").show();
+            $(".panel .buttons").show();
 
             // hide all panels
             $(".panel").hide();
 
-            // hide Submit button
-            $(".buttons").hide();
-
             // hide first previous button, and last next button
-            $(".panel:first .prevnext .prev").hide();
-            $(".panel:last  .prevnext .next").hide();
+            $(".panel:first .buttons .prev").hide();
+            $(".panel:last  .buttons .next").hide();
         
             // Trigger the hashchange event (useful on page load).
             $(window).hashchange();
@@ -293,14 +284,14 @@ $(document).ready(
                 }
             );
         } else {
-          $(".panel .prevnext").hide();
+          $(".panel .buttons").hide();
           $(".panel .abort").hide();
         }
 
                 
-        $("input[type=radio]").customInput();
         
         //Layout breaks with this
+        //$("input[type=radio]").customInput();
         //$("input[type=checkbox]").customInput();
 
     }

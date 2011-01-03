@@ -49,7 +49,8 @@ module AnswerDsl
             end            
           end
 
-        elsif question.type == :radio or question.type == :string
+        elsif question.type == :radio or question.type == :scale or 
+          question.type == :string
 
           define_method(question.key) do
             self.value ||= Hash.new

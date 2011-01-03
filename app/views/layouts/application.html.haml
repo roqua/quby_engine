@@ -2,16 +2,11 @@
 %html{"class" => "no-js"}
   %head
     %meta{"http-equiv"=>"content-type", :content=>"text/html; charset=utf-8"}
-    %title
-      RoQua Vragenlijsten
-      = " / " + yield(:title) if yield(:title)
+    %title= content_for(:page_title) || "Roqua Vragenlijsten"
     = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
     = stylesheet_link_tag 'print.css', :media => 'print'
     /[if IE]
       = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
-    /
-      = stylesheet_link_tag "formtastic"
-      = stylesheet_link_tag "formtastic_changes"
     = javascript_include_tag "jquery-1.4.3.min.js"
     = javascript_include_tag "jquery.ba-hashchange.min.js"
     = javascript_include_tag "jquery.placeholder.js"
