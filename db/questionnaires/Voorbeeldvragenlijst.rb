@@ -124,7 +124,7 @@ panel do
     option :a02, :value => 1, :description => "beetje goed"
     option :a03, :value => 2, :description => "heel lang antwoord die hopelijk lang genoeg is om te moeten wrappen, maar ik zal nog wat typen om hem nog wat langer te laten worden. Hmm, nog niet helemaal lang genoeg. Nog meer tekst! Woorden! Zinnen! Bommen en granaten."
     option :a04, :value => 3, :description => "beetje slecht"
-    option :a05, :value => 4201, :description => "slecht"
+    option :a05, :value => 9, :description => "slecht"
   end
 
   #Schalen zijn net radio questions, alleen worden ze horizontaal naast elkaar weergegeven

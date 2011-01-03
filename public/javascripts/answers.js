@@ -5,6 +5,7 @@ var hashChangeEnabled;
 var lastFocus;
 var lastInput;
 var nextButtonFocussed;
+
 function activatePanel(panel, updateHash, forward) {
     $('.flash').hide();
     $('.panel').hide().removeClass('current');
@@ -25,16 +26,9 @@ function activatePanel(panel, updateHash, forward) {
         window.location.hash = panel[0].id;        
     }
     
-    qitems = $(".question-item:not(:hidden)");
-    lastFocus = qitems.first();
-    focusItem(qitems.first(), true);
-    
-    
-    if(panel.hasClass('last-panel')){
-        $(".buttons").show();
-    } else {
-        $(".buttons").hide();
-    }    
+    qitems = $(".description-and-fields:not(:hidden)");
+    focusItem(qitems.first());
+    lastInput = qitems.find("input:not(:disabled, :hidden)").first().focus();    
 }
 
 function validatePanel(panel) {
@@ -241,11 +235,26 @@ function handleDisableCheckboxSubQuestions(element){
     } else {
         $(element).parent().find('.item input').attr("disabled", "true");
     }
-} 
+}
+
+function selectInput(value){
+    var values = lastFocus.find(".value");
+    values.each(function(index, element){
+       if(parseInt(element.textContent) == value){
+           $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)").click();
+       }
+    });
+    
+    if(values.length == 0){
+        lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value).click();
+    }
+}
 
 function handleHotKeys(event){
     
-    switch (event.keyCode) {
+    event.which = event.which || event.keyCode;
+    
+    switch (event.which) {
         //enter
         case 13:            
             if (!nextButtonFocussed) {
@@ -256,42 +265,52 @@ function handleHotKeys(event){
         //0
         case 48:
         case 96:
+            selectInput(0);
             break;
         //1
         case 49:
-        case 97:
+        case 97:        
+            selectInput(1);
             break;
         //2
         case 50:
         case 98:
+            selectInput(2);
             break;
         //3
         case 51:
         case 99:
+            selectInput(3);
             break;
         //4
         case 52:
         case 100:
+            selectInput(4);
             break;
         //5
         case 53:
         case 101:
+            selectInput(5);
             break;
         //6
         case 54:
         case 102:
+            selectInput(6);
             break;
         //7
         case 55:
         case 103:
+            selectInput(7);
             break;
         //8
-        case 51:
-        case 99:
+        case 56:
+        case 104:
+            selectInput(8);
             break;
         //9
-        case 51:
-        case 99:
+        case 57:
+        case 105:
+            selectInput(9);
             break;
         //pg up, up arrow
         case 33:
@@ -311,62 +330,69 @@ function handleHotKeys(event){
     }
 }
 
-function focusItem(qitem, first){
-    lastFocus.removeClass('focus');
-    qitem.addClass('focus');
-    currentInputs = qitem.find("input:not(:disabled)");
-    
-    if(first){
-        lastInput = currentInputs.first().focus();
-    } else {
-        lastInput = currentInputs.last().focus();
+function focusItem(qitem){
+    if (lastFocus != undefined) {
+        lastFocus.removeClass('focus');
     }
-        
-    lastFocus = qitem;
+    if (qitem.length > 0) {
+        qitem.addClass('focus');
+        qitem[0].scrollIntoView();
+        lastFocus = qitem;
+    }
     return qitem;
 }
 
 function focusNextItem(){
     var item;
     if (nextButtonFocussed) {
-        item = $('.question-item:not(:hidden)').first();
+        item = $('.item:not(:hidden)').first();
+        nextButtonFocussed = false;
     } else {
-        item = lastFocus.closest(".item").nextAll().find('.question-item:not(:hidden)').first();   
+        item = lastFocus.closest(".item").nextAll().find('.description-and-fields:not(:hidden)').first();   
     }
     if(item.length == 0){
         lastFocus.removeClass('focus');
         $(".next input").focus();
+        nextButtonFocussed = true;
     } else {
-        focusItem(item, true);
+        return focusItem(item);
     }
 }
 function focusPrevItem(){
     var item;
     if(nextButtonFocussed){
-        item = $('.question-item:not(:hidden)').last();
+        item = $('.item:not(:hidden)').last();
+        nextButtonFocussed = false;
     } else {
-        item = lastFocus.closest(".item:not(:hidden)").prevAll().find('.question-item:not(:hidden)').first();
+        item = lastFocus.closest(".item:not(:hidden)").prevAll().find('.description-and-fields:not(:hidden)').first();
     }
     if(item.length == 0){
         lastFocus.removeClass('focus');
         $(".next input").focus();
+        nextButtonFocussed = true;
     } else {
-        focusItem(item, false);
+        return focusItem(item);
     }
 }
 
 function focusNextInput(){
-    lastInput = lastInput.nextAll('input:not(:disabled, [type="radio"])').first().focus();
+    lastInput = lastInput.nextAll('input:not(:disabled, :hidden)').first().focus();
     
     if(lastInput.length == 0){
-        focusNextItem();
+        var item = focusNextItem();
+        if(item != undefined){
+            lastInput = item.find("input:not(:disabled, :hidden)").first().focus();
+        }
     }
 }
 function focusPrevInput(){
-    lastInput = lastInput.prevAll('input:not(:disabled, [type="radio"])').last().focus();
+    lastInput = lastInput.prevAll('input:not(:disabled, :hidden)').last().focus();
     
-    if(lastInput.length == 0){
-        focusPrevItem();
+    if(lastInput.length == 0){ 
+        var item = focusPrevItem();
+        if(item != undefined){
+            lastInput = item.find("input:not(:disabled, :hidden)").last().focus();
+        }
     }
 }
 
@@ -422,11 +448,9 @@ $(document).ready(
                 }
             );
         } else {
-          $(".panel .buttons").hide();
           $(".panel .abort").hide();
+          $(".prev, .next").hide();
         }
-
-                
         
         //Layout breaks with this
         //$("input[type=radio]").customInput();
@@ -438,10 +462,13 @@ $(document).ready(
         $(":not(.next input)").focus(function(){
             nextButtonFocussed = false;
         });
-        $(".item input").click(function(){
-            
-        })
-        $("body").keypress(handleHotKeys);
+        
+        $("input").keypress(handleHotKeys);
+        
+        $(".item input").click(function(event){
+            focusItem($(event.target).closest(".description-and-fields").first());
+            lastInput = $(event.target);
+        });
     }
 );
 

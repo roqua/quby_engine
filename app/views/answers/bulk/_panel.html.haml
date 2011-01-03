@@ -1,8 +1,9 @@
 / Begin _panel.html.haml
+- classes = ['panel']
+- if panel_counter == 0
+  - classes << 'first'
 - if panel_counter == panels.length-1
-  - classes = ['panel', 'last-panel']
-- else
-  - classes = ['panel']
+  - classes << 'last-panel'
 
 %fieldset{:id => "panel#{panel_counter}", :class => classes}
   :javascript
@@ -15,12 +16,9 @@
 
   = render :partial => "answers/paged/item", :collection => panel.items
 
-  .prevnext
-    .prev
-      = submit_tag raw("&larr; Vorige vraag")
-    .next
-      = submit_tag raw("Volgende vraag &rarr;")
-  - if questionnaire.abortable 
-    .abort
-      = submit_tag "Onderbreken"
+  - if panel_counter == panels.length - 1
+    .buttons
+      .save
+        = submit_tag "Klaar"
+
 / End _panel.html.haml

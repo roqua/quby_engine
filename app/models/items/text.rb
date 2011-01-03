@@ -14,7 +14,11 @@ class Items::Text < Item
   end
 
   def key; 't0'; end
-
+  
+  def type 
+    "text"  
+  end
+  
   def answerable?
     false
   end
