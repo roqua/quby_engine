@@ -9,15 +9,24 @@ key "mdq"
 title "MDQ"
 description ""
 
-start_panel
+panel do
+ title "MDQ - Mood Disorder Questionnaire"
+ text "Deze vragenlijst richt zich op een periode of perioden in uw leven dat u niet in uw normale doen was. De vragenlijst bevat 15 vragen. 
 
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+panel do
+text "Heeft u ooit een periode meegemaakt, waarin u niet in uw normale doen was en....."
 question :v_1, :type => :radio do
   title "1. ....u zich zo goed of zo super voelde dat anderen vonden dat u niet in uw normale doen was? Of waarin u zo druk was dat u problemen kreeg?"
   description ""
   option :a1, :value => 0, :description => "Nee"
   option :a2, :value => 1, :description => "Ja"
 end
+ text "
 
+"
 question :v_2, :type => :radio do
   title "2. ....u zo prikkelbaar was dat u mensen uitschold of begon te ruzi'en of te vechten?"
   description ""
@@ -52,7 +61,7 @@ question :v_6, :type => :radio do
   option :a1, :value => 0, :description => "Nee"
   option :a2, :value => 1, :description => "Ja"
 end
-
+end
 question :v_7, :type => :radio do
   title "7. ....u zo makkelijk afgeleid was door uw omgeving dat u moeite had met concentreren of bij de zaak te blijven?"
   description ""

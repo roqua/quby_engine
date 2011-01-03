@@ -9,7 +9,12 @@ key "spsy_1218j"
 title "SPsy 12-18 Jongeren"
 description ""
 
-start_panel
+panel do
+ title "Vragenlijst SPsy
+Jongerenversie 12-18 jarigen"
+ text "Deze vragenlijst bevat 52 vragen."
+end
+
 
 question :v_1, :type => :radio do
   title "Waar ben je geboren?"
@@ -67,22 +72,22 @@ question :v_8, :type => :radio do
   option :a15, :value => 15, :description => "Typen voortgezet onderwijs:"
 end
 
-question :v_12, :type => :open do
+question :v_12, :type => :string do
   title "Welke problemen, klachten of bijzonderheden zijn de aanleiding om hulp te zoeken. Wil je de belangrijkste problemen, hiernaast beschrijven; graag zo kort en duidelijk mogelijk."
   description ""
 end
 
-question :v_12, :type => :open do
+question :v_12, :type => :string do
   title "Probleem 1 v_13"
   description ""
 end
 
-question :v_13, :type => :open do
+question :v_13, :type => :string do
   title "Probleem 2 v_14"
   description ""
 end
 
-question :v_14, :type => :open do
+question :v_14, :type => :string do
   title "Probleem 3"
   description ""
 end
@@ -459,17 +464,17 @@ question :v_61, :type => :radio do
   option :a3, :value => 2, :description => "Zeker waar"
 end
 
-question :v_62, :type => :open do
+question :v_62, :type => :integer do
   title "45. Hoeveel weeg je?"
   description ""
 end
 
-question :v_63, :type => :open do
+question :v_63, :type => :integer do
   title "46. Hoe lang ben je?"
   description ""
 end
 
-question :v_63, :type => :open do
+question :v_63, :type => :integer do
   title "v_64"
   description ""
 end
@@ -551,7 +556,7 @@ question :v_100, :type => :radio do
   option :a4, :value => 3, :description => "Heel erg"
 end
 
-question :v_101, :type => :open do
+question :v_101, :type => :string do
   title "52. Overige opmerkingen:"
   description ""
 end

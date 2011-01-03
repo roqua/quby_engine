@@ -9,8 +9,17 @@ key "padua_revised"
 title "PADUA Revised"
 description ""
 
-start_panel
+panel do
+ title "PADUA - Inventarisatie van dwanghandelingen en - gedachten"
+ text "In deze vragenlijst treft u beweringen aan die betrekking hebben op gedragingen die zich kunnen voordoen in het dagelijks leven van iedereen. Kies bij elke bewering het antwoord dat op u het best van toepassing is.
 
+Deze vragenlijst bevat 41 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+
+panel do
 question :v_1, :type => :radio do
   title "1. Als ik ergens over twijfel, of als ik mij zorgen maak, heb ik geen rust totdat ik erover gepraat heb met iemand die mij geruststelt."
   description ""
@@ -50,7 +59,9 @@ question :v_4, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_5, :type => :radio do
   title "5. Wanneer ik praat heb ik de neiging verschillende malen dezelfde dingen en dezelfde zinnen te herhalen."
   description ""
@@ -90,7 +101,9 @@ question :v_8, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_9, :type => :radio do
   title "9. Het is voor mij moeilijk een voorwerp aan te raken, wanneer ik weet dat het eerder is aangeraakt door vreemden of zelfs bekenden."
   description ""
@@ -130,7 +143,9 @@ question :v_12, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_13, :type => :radio do
   title "13. V'o'or ik ga slapen, moet ik bepaalde dingen in een bepaalde volgorde doen."
   description ""
@@ -170,7 +185,9 @@ question :v_16, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_17, :type => :radio do
   title "17. V'o'or ik naar bed ga, hang en vouw ik met zorg mijn kleren op."
   description ""
@@ -210,7 +227,9 @@ question :v_20, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_21, :type => :radio do
   title "21. Zodra ik aan bepaalde dingen denk, kan ik me er niet meer van losmaken of ze uit mijn hoofd zetten."
   description ""
@@ -250,7 +269,9 @@ question :v_24, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_25, :type => :radio do
   title "25. Ik controleer verschillende malen langdurig of ik formulieren, documenten en cheques juist heb ingevuld."
   description ""
@@ -290,7 +311,9 @@ question :v_28, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_29, :type => :radio do
   title "29. Ik controleer verschillende malen of lucifers, sigaretten, enzovoort goed gedoofd zijn."
   description ""
@@ -330,7 +353,9 @@ question :v_32, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_33, :type => :radio do
   title "33. Het gebeurt me wel dat ik zonder enige reden voorwerpen ga tellen."
   description ""
@@ -370,7 +395,9 @@ question :v_36, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_37, :type => :radio do
   title "37. Ik stel mij catastrofale gevolgen voor als ik foutjes maak of niet goed oplet."
   description ""
@@ -420,6 +447,6 @@ question :v_41, :type => :radio do
   option :a4, :value => 3, :description => "Vaak"
   option :a5, :value => 4, :description => "Zeer vaak"
 end
-
+end
 end_panel
 

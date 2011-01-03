@@ -9,8 +9,22 @@ key "IOA__Frequentie"
 title "IOA - Frequentie"
 description ""
 
-start_panel
+panel do
+ title "IOA - Inventarisatielijst Omgaan met Anderen
+                   Deel II - Frequentie"
+ text "In deze vragenlijst treft u een aantal situaties aan die betrekking hebben op de omgang met anderen. De bedoeling is om aan te geven *hoe vaak u het beschreven gedag uitvoert*, als u zich in zo'n situatie bevindt.
 
+Werk zo rustig mogelijk door. Er zijn geen goede of foute antwoorden - het gaat erom wat u er zelf van vindt.
+
+Deze vragenlijst bevat 35 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan.
+
+De test IOA is door UMCG te Groningen vervaardigd na schriftelijke toestemming 01 juli 2009 van de uitgever Pearson te Amsterdam. Dit materiaal is auteursrechtelijk beschermd en kopiëren zonder schriftelijke toestemming van de uitgever is dan ook niet toegestaan."
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 question :v_1, :type => :radio do
   title "1. Mee gaan praten in een gesprek van een groepje mensen."
   description ""
@@ -30,7 +44,6 @@ question :v_2, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
-
 question :v_3, :type => :radio do
   title "3. Er niet op ingaan als iemand u iets probeert op te dringen (bijvoorbeeld aan de deur, op straat)."
   description ""
@@ -40,7 +53,10 @@ question :v_3, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
 
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 question :v_4, :type => :radio do
   title "4. Instemmen met waardering voor iets dat u hebt gedaan."
   description ""
@@ -70,7 +86,10 @@ question :v_6, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
 
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 question :v_7, :type => :radio do
   title "7. Een verzoek weigeren om geld uit te lenen."
   description ""
@@ -100,6 +119,10 @@ question :v_9, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end  
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_10, :type => :radio do
   title "10. Iemand die iets doet dat u stoort (bijvoorbeeld in trein of bioscoop), verzoeken daarmee op te houden."
@@ -130,6 +153,10 @@ question :v_12, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_13, :type => :radio do
   title "13. Een gesprek beginnen met een aantrekkelijke man of vrouw."
@@ -160,6 +187,10 @@ question :v_15, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_16, :type => :radio do
   title "16. Een andere mening naar voren brengen dan die van het gezelschap waarin u bent."
@@ -190,6 +221,10 @@ question :v_18, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_19, :type => :radio do
   title "19. Uitleg vragen over iets dat u niet hebt begrepen."
@@ -220,6 +255,10 @@ question :v_21, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_22, :type => :radio do
   title "22. Een verzoek afslaan van iemand op wie u gesteld bent."
@@ -250,6 +289,10 @@ question :v_24, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_25, :type => :radio do
   title "25. Met iemand bespreken dat u de indruk hebt dat hij/zij u ontloopt."
@@ -280,6 +323,10 @@ question :v_27, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_28, :type => :radio do
   title "28. Iemand zeggen dat u erg tevreden bent over iets dat u hebt gedaan."
@@ -310,6 +357,10 @@ question :v_30, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_31, :type => :radio do
   title "31. Iemand zeggen dat u niet meer met hem of haar wilt omgaan."
@@ -340,6 +391,10 @@ question :v_33, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
+end
+
+panel do
+text "Hoe vaak voert u het hieronder beschreven gedrag uit?"
 
 question :v_34, :type => :radio do
   title "34. Uw mening naar voren brengen tegenover een gezaghebbend persoon."
@@ -360,6 +415,6 @@ question :v_35, :type => :radio do
   option :a4, :value => 4, :description => "Doe ik meestal"
   option :a5, :value => 5, :description => "Doe ik altijd"
 end
-
+end
 end_panel
 

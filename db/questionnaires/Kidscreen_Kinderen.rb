@@ -9,8 +9,25 @@ key "kidscreen_kinderen"
 title "Kidscreen Kinderen"
 description ""
 
-start_panel
+panel do 
+ title "KIDSCREEN-kinderen"
+ text "Deze versie dient ingevuld te worden door kinderen in de leeftijd van 8 tot 18 jaar.
 
+Deze vragenlijst heeft 30 vagen.
+
+
+Hoe gaat het met je? Hoe voel je je? Graag willen we dit van je weten.
+
+Lees elke vraag goed door, maar denk er niet te lang over na. Klik het rondje aan bij het antwoord dat het beste bij je past.
+
+Belangrijk: Dit is geen examen! Er zijn geen goede of foute antwoorden. Het is wel de bedoeling dat je de vragenlijst helemaal en zo duidelijk mogelijk invult. Probeer bij de antwoorden aan de afgelopen week te denken.
+
+Je hoeft je antwoorden aan niemand te laten zien. Niemand die je kent zal deze vragenlijst kunnen zien nadat je hem hebt ingevuld en hebt afgesloten.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+panel do
 question :v_1, :type => :radio do
   title "1. Ben je een meisje of een jongen?"
   description ""
@@ -18,20 +35,20 @@ question :v_1, :type => :radio do
   option :a2, :value => 2, :description => "Jongen"
 end
 
-question :v_2, :type => :open do
-  title "2. Hoeveel jaar ben je?"
-  description ""
+question :v_2, :type => :integer do
+    title "2. Hoeveel jaar ben je?"
+    validates_in_range 1..25
 end
 
 question :v_3, :type => :radio do
   title "3. Heb je een (langdurige) chronische ziekte of handicap?"
   description ""
   option :a1, :value => 0, :description => "Nee"
-  option :a2, :value => 1, :description => "Ja, namelijk %s"
+  option :a2, :value => 1, :description => "Ja, namelijk (vul hieronder in) "
 end
 
-question :v_999999, :type => :open do
-  title "Namelijk:"
+question :v_999999, :type => :string do
+  title ""
   description ""
 end
 
@@ -64,7 +81,9 @@ question :v_7, :type => :radio do
   option :a4, :value => 4, :description => "Nogal"
   option :a5, :value => 5, :description => "Helemaal"
 end
+end 
 
+panel do
 question :v_8, :type => :radio do
   title "7. Heb je goed kunnen rennen?"
   description ""
@@ -114,7 +133,9 @@ question :v_12, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end 
 
+panel do
 question :v_13, :type => :radio do
   title "12. Heb je je verdrietig gevoeld?"
   description ""
@@ -164,7 +185,9 @@ question :v_17, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end 
 
+panel do
 question :v_18, :type => :radio do
   title "17. Heb je in je vrije tijd de dingen kunnen doen die je wilt doen?"
   description ""
@@ -214,7 +237,9 @@ question :v_22, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end 
 
+panel do
 question :v_23, :type => :radio do
   title "22. Heb je genoeg geld gehad voor je uitgaven?"
   description ""
@@ -264,7 +289,9 @@ question :v_27, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
+end 
 
+panel do
 question :v_28, :type => :radio do
   title "27. Heb je het naar je zin gehad op school?"
   description ""
@@ -304,6 +331,6 @@ question :v_31, :type => :radio do
   option :a4, :value => 4, :description => "Redelijk vaak"
   option :a5, :value => 5, :description => "Altijd"
 end
-
+end
 end_panel
 

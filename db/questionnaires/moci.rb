@@ -9,8 +9,20 @@ key "moci"
 title "Maudsley Obsessive-Compulsive Inventory (MOCI)"
 description ""
 
-start_panel
+panel do
+ title "MOCI - Maudsley Obsessive-Compulsive Inventory"
+ text "Bekijkt u alstublieft de volgende vragen en geef het antwoord dat het meest 
+op u van toepassing is.
 
+Ieder antwoord is goed, als het maar uw eigen mening weergeeft. Er zijn geen strikvragen. Werk vlot door en denk niet te lang na over de preciese betekenis van elke zin.
+
+De vragen kunt u beantwoorden door uw keuze aan te klikken met de muis.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+
+panel do
 question :v_1, :type => :radio do
   title "1. Ik vermijd het gebruik van openbare telefoons, omdat ik bang ben besmet te worden."
   description ""
@@ -59,7 +71,7 @@ question :v_7, :type => :radio do
   option :a1, :value => 0, :description => "Onjuist"
   option :a2, :value => 1, :description => "Juist"
 end
-
+end 
 question :v_8, :type => :radio do
   title "8. Ik merk dat ik bijna elke dag geplaagd word door vervelende gedachten, die mij tegen mijn wil overvallen."
   description ""

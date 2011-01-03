@@ -16,7 +16,7 @@ Deze vragenlijst bevat 45 vragen.
 Klik op 'Volgende vraag' om verder te gaan."
 end
 
-
+panel do
 question :v_1, :type => :radio, :required => true do
   title "1. Ik kan goed met anderen overweg."
   description ""
@@ -66,7 +66,9 @@ question :v_5, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end  
 
+panel do
 question :v_6, :type => :radio, :required => true do
   title "6. Ik ben geïrriteerd."
   description ""
@@ -116,7 +118,9 @@ question :v_10, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end  
 
+panel do
 question :v_11, :type => :radio, :required => true do
   title "11. Na zwaar gedronken te hebben, moet ik de volgende morgen weer drinken om op gang te komen."
   description ""
@@ -166,7 +170,9 @@ question :v_15, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end  
 
+panel do
 question :v_16, :type => :radio, :required => true do
   title "16. Ik maak me zorgen over problemen in mijn familie."
   description ""
@@ -216,7 +222,9 @@ question :v_21, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Zelden"
   option :a5, :value => 5, :description => "Nooit"
 end
+end  
 
+panel do
 question :v_22, :type => :radio, :required => true do
   title "21. Ik geniet van mijn vrije tijd."
   description ""
@@ -266,7 +274,9 @@ question :v_26, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end  
 
+panel do
 question :v_27, :type => :radio, :required => true do
   title "26. Ik erger me aan mensen die kritiek hebben op mijn drinken (of drugsgebruik)."
   description ""
@@ -316,7 +326,9 @@ question :v_31, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end  
 
+panel do
 question :v_32, :type => :radio, :required => true do
   title "31. Ik ben tevreden met mijn leven."
   description ""
@@ -366,7 +378,9 @@ question :v_36, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end  
 
+panel do
 question :v_37, :type => :radio, :required => true do
   title "36. Ik ben nerveus."
   description ""
@@ -416,7 +430,9 @@ question :v_41, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end  
 
+panel do
 question :v_42, :type => :radio, :required => true do
   title "41. Ik kan moeilijk in slaap vallen of doorslapen."
   description ""
@@ -466,4 +482,6 @@ question :v_46, :type => :radio, :required => true do
   option :a4, :value => 4, :description => "Regelmatig"
   option :a5, :value => 5, :description => "Bijna altijd"
 end
+end
 
+end_panel

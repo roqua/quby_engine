@@ -9,8 +9,17 @@ key "pq"
 title "PQ Ervaringen"
 description ""
 
-start_panel
+panel do
+ title "Ervaringen Vragenlijst"
+ text "Deze vragenlijst stelt een aantal vragen over uw gedachten, gevoelens en ervaringen. Leest u alstublieft eerst elke uitspraak zorgvuldig en geef dan aan of u het ermee eens of oneens bent.
 
+Deze vragenlijst bevat 92 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+
+panel do
 question :v_1, :type => :radio do
   title "1. Ik word gemakkelijk afgeleid door geluiden en andere mensen die praten."
   description ""
@@ -58,6 +67,7 @@ question :v_7, :type => :radio do
   description ""
   option :a1, :value => 1, :description => "Eens"
   option :a2, :value => 0, :description => "Oneens"
+end
 end
 
 question :v_8, :type => :radio do

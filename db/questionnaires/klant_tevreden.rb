@@ -9,7 +9,13 @@ key "klant_tevreden"
 title "Klanttevredenheidslijst"
 description ""
 
-start_panel
+panel do
+ title "De Klanttevredenheidslijst"
+ text "We zouden het op prijs stellen als u ons wilt helpen om onze hulpverlening te verbeteren. U kunt dat doen door enkele vragen te beantwoorden over de hulpverlening die u heeft ontvangen. We willen graag uw eerlijke mening, of deze nu positief of negatief is.
+
+Deze vragenlijst bevat 23 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
 
 question :v_60, :type => :radio do
   title "Vindt u het goed dat uw behandelaar inzage krijgt in de antwoorden die u geeft op deze klanttevredenheidslijst?"
@@ -17,7 +23,9 @@ question :v_60, :type => :radio do
   option :a1, :value => 1, :description => "Ja, mijn behandelaar mag inzage krijgen in mijn antwoorden en deze met mij bespreken."
   option :a2, :value => 2, :description => "Nee, mijn antwoorden dienen anoniem te blijven (uw oordeel telt wel mee in de beoordeling van de behandeling die u heeft gehad)."
 end
+end
 
+panel do
 question :v_2, :type => :radio do
   title "1. Hoe beoordeelt u de kwaliteit van de door u ontvangen zorg?"
   description ""
@@ -53,7 +61,6 @@ question :v_16, :type => :radio do
   option :a3, :value => 3, :description => "Ja, dat denk ik wel"
   option :a4, :value => 4, :description => "Ja, zeker"
 end
-
 question :v_21, :type => :radio do
   title "5. Hoe tevreden bent u met de hoeveelheid hulp die u heeft gekregen?"
   description ""
@@ -62,7 +69,9 @@ question :v_21, :type => :radio do
   option :a3, :value => 3, :description => "Redelijk tevreden"
   option :a4, :value => 4, :description => "Zeer tevreden"
 end
+end
 
+panel do
 question :v_29, :type => :radio do
   title "6. Heeft de zorg die u heeft ontvangen, u geholpen om beter met uw problemen om te gaan?"
   description ""
@@ -105,7 +114,9 @@ question :v_41, :type => :radio do
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 0, :description => "Nee"
 end
+end
 
+panel do
 question :v_42, :type => :radio do
   title "11. Kreeg u genoeg informatie over de manier van behandelen?"
   description ""
@@ -141,7 +152,9 @@ question :v_45, :type => :radio do
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 0, :description => "Nee"
 end
+end
 
+panel do
 question :v_46, :type => :radio do
   title "16. Is er een behandelingsplan gemaakt?"
   description ""
@@ -183,7 +196,9 @@ question :v_50, :type => :radio do
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 0, :description => "Nee"
 end
+end
 
+panel do
 question :v_52, :type => :radio do
   title "22. Welk rapportcijfer geeft u de totale behandeling?"
   description ""
@@ -199,10 +214,10 @@ question :v_52, :type => :radio do
   option :a10, :value => 10, :description => "10"
 end
 
-question :v_53, :type => :open do
+question :v_53, :type => :string do
   title "23. Wat moet de instelling verbeteren?"
   description ""
 end
-
+end
 end_panel
 

@@ -9,8 +9,24 @@ key "ucl"
 title "Utrechtse Coping Lijst (UCL)"
 description ""
 
-start_panel
+panel do
+ title "UCL - Utrechtse Coping Lijst"
+ text "De UCL meet copinggedrag, dat wil zeggen de manier waarop iemand omgaat met problemen of stressvolle situaties. 
 
+Mensen reageren vaak heel verschillend als zij met problemen of onplezierige gebeurtenissen te maken krijgen. Wat men in een bepaald geval doet hangt sterk af van de aard van het probleem of de gebeurtenis en de ernst ervan. Toch reageert men *over het algemeen* wat vaker op de ene dan op de andere manier. 
+
+Hierna komen een aantal beschrijvingen die aangeven wat men zoal kan denken of doen als er problemen zijn. *Wilt u bij iedere zin aangeven hoe vaak u in het algemeen op de beschreven manier reageert?*
+
+Deze vragenlijst bevat 47 vragen. De vragen kunt u beantwoorden door uw keuze aan te klikken met de muis. Lees de vragen zorgvuldig en beantwoord ze vlot door het gekozen antwoord aan te klikken.
+
+Sla geen vragen over.
+
+Klik op ‘Volgende vraag’ om verder te gaan.
+
+De test UCL'90 is door UMCG te Groningen vervaardigd na schriftelijke toestemming 01 juli 2009 van de uitgever Pearson te Amsterdam. Dit materiaal is auteursrechtelijk beschermd en kopiëren zonder schriftelijke toestemming van de uitgever is dan ook niet toegestaan."
+end
+
+panel do
 question :v_1, :type => :radio do
   title "1. Je bedenken dat er nog wel ergere dingen kunnen gebeuren."
   description ""
@@ -55,7 +71,9 @@ question :v_5, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end 
 
+panel do
 question :v_6, :type => :radio do
   title "6. Je met andere dingen bezighouden om niet aan een probleem te hoeven denken."
   description ""
@@ -100,7 +118,9 @@ question :v_10, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_11, :type => :radio do
   title "11. Direct ingrijpen als er moeilijkheden zijn."
   description ""
@@ -145,7 +165,9 @@ question :v_15, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_16, :type => :radio do
   title "16. Spanningen proberen te verminderen door bijv. meer te roken, drinken, eten of beweging nemen."
   description ""
@@ -190,7 +212,9 @@ question :v_20, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_21, :type => :radio do
   title "21. Kalm blijven in moeilijke situaties."
   description ""
@@ -235,7 +259,9 @@ question :v_25, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_26, :type => :radio do
   title "26. Proberen je te onttrekken aan de situatie."
   description ""
@@ -280,7 +306,9 @@ question :v_30, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_31, :type => :radio do
   title "31. Wegvluchten in fantasie'en."
   description ""
@@ -325,7 +353,9 @@ question :v_35, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_36, :type => :radio do
   title "36. Je bedenken dat anderen het ook wel eens moeilijk hebben."
   description ""
@@ -370,7 +400,9 @@ question :v_40, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_41, :type => :radio do
   title "41. De humoristische kant van problemen zien."
   description ""
@@ -415,7 +447,9 @@ question :v_45, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
+end
 
+panel do
 question :v_46, :type => :radio do
   title "46. Je niet in staat voelen iets te doen."
   description ""
@@ -433,6 +467,6 @@ question :v_47, :type => :radio do
   option :a3, :value => 3, :description => "Vaak"
   option :a4, :value => 4, :description => "Zeer vaak"
 end
-
+end
 end_panel
 

@@ -9,8 +9,19 @@ key "neo-ffi"
 title "Neuroticism-Extroversion-Openness Five Factor Inventory (NEO-FFI)"
 description ""
 
-start_panel
+panel do
+ title "NEO-FFI Persoonlijkheidsvragenlijst"
+ text "Deze vragenlijst bevat 60 uitspraken.
 
+Lees elke uitspraak zorgvuldig en geef vlot aan of u het er mee eens of oneens bent door het passende antwoord aan te klikken.
+
+Klik op 'Volgende' om verder te gaan.
+
+NEO-FFI, H.A. Hoekstra, J.Ormel en F. de Fruyt, (c) 2007 Hogrefe Uitgevers BV, (c) 1989 Psychological Assessment Recources, Odessa, Florida."
+end
+
+
+panel do
 question :v_1, :type => :radio do
   title "1. Ik ben geen tobber."
   description ""
@@ -60,7 +71,9 @@ question :v_6, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
+end
 
+panel do
 question :v_7, :type => :radio do
   title "6. Ik voel me vaak de mindere van anderen."
   description ""
@@ -110,7 +123,9 @@ question :v_11, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
+end
 
+panel do
 question :v_12, :type => :radio do
   title "11. Wanneer ik onder grote spanning sta, heb ik soms het gevoel dat ik er aan onderdoor ga."
   description ""
@@ -160,7 +175,9 @@ question :v_16, :type => :radio do
   option :a4, :value => 4, :description => "Oneens"
   option :a5, :value => 5, :description => "Helemaal oneens"
 end
+end
 
+panel do
 question :v_17, :type => :radio do
   title "16. Ik voel me zelden eenzaam of triest."
   description ""
@@ -210,7 +227,9 @@ question :v_21, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
+end
 
+panel do
 question :v_22, :type => :radio do
   title "21. Ik voel me vaak gespannen en zenuwachtig."
   description ""
@@ -260,7 +279,9 @@ question :v_26, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
+end
 
+panel do
 question :v_27, :type => :radio do
   title "26. Soms voel ik me volkomen waardeloos."
   description ""
@@ -310,7 +331,9 @@ question :v_31, :type => :radio do
   option :a4, :value => 4, :description => "Oneens"
   option :a5, :value => 5, :description => "Helemaal oneens"
 end
+end
 
+panel do
 question :v_32, :type => :radio do
   title "31. Ik voel me zelden angstig of zorgelijk."
   description ""
@@ -360,7 +383,9 @@ question :v_36, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
+end
 
+panel do
 question :v_37, :type => :radio do
   title "36. Ik word vaak kwaad om de manier waarop mensen me behandelen."
   description ""
@@ -410,7 +435,9 @@ question :v_41, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
+end
 
+panel do
 question :v_42, :type => :radio do
   title "41. Wanneer dingen mis gaan raak ik maar al te vaak ontmoedigd en heb ik zin om het op te geven."
   description ""
@@ -460,7 +487,9 @@ question :v_46, :type => :radio do
   option :a4, :value => 4, :description => "Oneens"
   option :a5, :value => 5, :description => "Helemaal oneens"
 end
+end
 
+panel do
 question :v_47, :type => :radio do
   title "46. Ik ben zelden verdrietig of depressief."
   description ""
@@ -510,7 +539,9 @@ question :v_51, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
+end
 
+panel do
 question :v_52, :type => :radio do
   title "51. Ik voel me vaak hulpeloos en wil dan graag dat iemand anders mijn problemen oplost."
   description ""
@@ -560,7 +591,9 @@ question :v_56, :type => :radio do
   option :a4, :value => 4, :description => "Oneens"
   option :a5, :value => 5, :description => "Helemaal oneens"
 end
+end
 
+panel do
 question :v_57, :type => :radio do
   title "56. Soms schaam ik me zo dat ik wel door de grond wil zakken."
   description ""
@@ -610,6 +643,6 @@ question :v_61, :type => :radio do
   option :a4, :value => 4, :description => "Eens"
   option :a5, :value => 5, :description => "Helemaal eens"
 end
-
+end
 end_panel
 

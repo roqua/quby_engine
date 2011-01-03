@@ -1,4 +1,4 @@
-# IDS-SR Zelfinvullijst Depressieve Symptomen
+# IDS-SR:    Zelfinvullijst Depressieve Symptomen
 
 # Project ID 495
 # Date (GMT) 06-12-2010 20:46:35
@@ -9,8 +9,18 @@ key "ids-sr"
 title "Zelfinvullijst Depressieve Symptomen (IDS-SR)"
 description ""
 
-start_panel
+panel do
+ title "IDS-SR:  Zelfinvullijst Depressieve Symptomen"
+ text "De bedoeling van deze vragenlijst is om meer inzicht te krijgen in een aantal aspecten van uw stemming. 
 
+De vragenlijst omvat 30 vragen. 
+
+Vink bij elke vraag het antwoord aan dat de *afgelopen zeven dagen* het meest op u van toepassing was.
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+panel do
 question :v_1, :type => :radio do
   title "1. In slaap vallen:"
   description ""
@@ -46,7 +56,9 @@ question :v_4, :type => :radio do
   option :a3, :value => 2, :description => "Ik slaap niet langer dan 12 uur binnen 'e'en etmaal (inclusief dutten)"
   option :a4, :value => 3, :description => "Ik slaap langer dan 12 uur binnen 'e'en etmaal (inclusief dutten)"
 end
+end
 
+panel do
 question :v_5, :type => :radio do
   title "5. Somber voelen:"
   description ""
@@ -82,7 +94,9 @@ question :v_8, :type => :radio do
   option :a3, :value => 2, :description => "Mijn stemming klaart slechts op bij een beperkt aantal zeer gewenste en aangename gebeurtenissen"
   option :a4, :value => 3, :description => "Mijn stemming klaart helemaal niet op, ook al gebeuren er prettige dingen in mijn leven"
 end
+end
 
+panel do
 question :v_9, :type => :radio do
   title "9. Stemming in relatie tot de tijd van de dag:"
   description ""
@@ -115,7 +129,10 @@ question :v_12, :type => :radio do
   option :a3, :value => 2, :description => "Mijn stemming is somber, maar deze somberheid is enigszins anders dan wat ik bij verdriet zou voelen"
   option :a4, :value => 3, :description => "Mijn stemming is somber, maar deze somberheid voelt geheel anders dan verdriet"
 end
+end 
 
+panel do
+text "Beantwoord nu of vraag 11 of vraag 12"
 question :v_13, :type => :radio do
   title "11. Verminderde eetlust:"
   description ""
@@ -134,6 +151,7 @@ question :v_36, :type => :radio do
   option :a4, :value => 3, :description => "Ik voel een sterke neiging om tijdens en tussen de maaltijden door te veel te eten"
 end
 
+text "Beantwoord nu of vraag 13 of vraag 14"
 question :v_15, :type => :radio do
   title "13. Gewichtsafname gedurende de afgelopen 2 weken:"
   description ""
@@ -151,7 +169,10 @@ question :v_37, :type => :radio do
   option :a3, :value => 2, :description => "Ik ben 1 kg of meer aangekomen"
   option :a4, :value => 3, :description => "Ik ben 2 1/2 kg of meer aangekomen"
 end
+end
 
+panel do
+text "Vink het antwoord aan dat de afgelopen zeven dagen het meest op u van toepassing was." 
 question :v_17, :type => :radio do
   title "15. Concentratie / besluitvaardigheid:"
   description ""
@@ -187,7 +208,10 @@ question :v_20, :type => :radio do
   option :a3, :value => 2, :description => "Ik denk enkele malen per week wel even aan zelfmoord of aan de dood"
   option :a4, :value => 3, :description => "Ik denk een aantal keren per dag serieus na over zelfmoord of de dood, 'of ik heb zelfmoordplannen gemaakt, 'of ik heb al een poging gedaan om mijn leven te be'eindigen"
 end
+end
 
+panel do
+text "Vink het antwoord aan dat de afgelopen zeven dagen het meest op u van toepassing was." 
 question :v_21, :type => :radio do
   title "19. Algemene interesse:"
   description ""
@@ -223,7 +247,10 @@ question :v_24, :type => :radio do
   option :a3, :value => 2, :description => "Ik heb weinig behoefte aan seks of beleef er zelden plezier aan"
   option :a4, :value => 3, :description => "Ik heb absoluut geen interesse in seks of beleef er geen plezier aan"
 end
+end
 
+panel do
+text "Vink het antwoord aan dat de afgelopen zeven dagen het meest op u van toepassing was." 
 question :v_25, :type => :radio do
   title "23. Gevoel van traagheid:"
   description ""
@@ -259,7 +286,10 @@ question :v_28, :type => :radio do
   option :a3, :value => 2, :description => "Ik heb meerdere van deze klachten en heb daar behoorlijk last van"
   option :a4, :value => 3, :description => "Deze klachten zijn zo erg dat ik moet stoppen met mijn bezigheden"
 end
+end
 
+panel do
+text "Vink het antwoord aan dat de afgelopen zeven dagen het meest op u van toepassing was." 
 question :v_29, :type => :radio do
   title "27. Paniek / fobische klachten:"
   description ""
@@ -295,6 +325,6 @@ question :v_32, :type => :radio do
   option :a3, :value => 2, :description => "Meer dan de helft van de tijd heb ik een zwaar gevoel in mijn lichaam (ontbreken van lichamelijke energie)"
   option :a4, :value => 3, :description => "Ik voel mij een aantal uren per dag, een aantal dagen per week zwaar in mijn lichaam (ontbreken van lichamelijke energie)"
 end
-
+end
 end_panel
 

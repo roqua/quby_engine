@@ -9,7 +9,16 @@ key "klant_tevreden_Jonx"
 title "Klanttevredenheidslijst Jonx"
 description ""
 
-start_panel
+panel do
+  title "Klanttevredenheid Vragenlijst - Jonx"
+  text "Hier vragen wij je mening over de behandeling die je hebt bij Jonx. Je kunt je tevredenheid per vraag aangeven via een 5 puntsschaal. Een 1 betekent dat je iets als 'slecht' beoordeelt en een 5 betekent dat je antwoordt met 'uitstekend'.
+
+Wie vult de vragenlijst in? Ben je jonger dan 12 jaar dan vragen we je ouders de vragenlijst in te vullen. Ben je tussen 12 en 16 jaar dan vul je samen met je ouders de vragenlijst in. Jongeren vanaf 16 jaar vullen helemaal zelf de vragenlijst in.
+
+Deze vragenlijst bevat 23 vragen.
+
+Klik op 'Volgende vraag' om verder te gaan."
+  
 
 question :v_1, :type => :radio do
   title "Wil je allereerst aangeven wie de vragenlijst heeft ingevuld?"
@@ -18,7 +27,9 @@ question :v_1, :type => :radio do
   option :a2, :value => 2, :description => "Ouder(s) en kind samen (leeftijd tussen 12 en 16 jaar)"
   option :a3, :value => 3, :description => "Jongere vanaf 16 jaar"
 end
+end 
 
+panel do
 question :v_2, :type => :radio do
   title "Hoe beoordeel je de telefonische bereikbaarheid?"
   description ""
@@ -68,7 +79,9 @@ question :v_6, :type => :radio do
   option :a4, :value => 4, :description => "4"
   option :a5, :value => 5, :description => "5 Uitstekend"
 end
+end
 
+panel do
 question :v_7, :type => :radio do
   title "Hoe beoordeel je de duur van de diagnostiek?"
   description ""
@@ -118,7 +131,9 @@ question :v_11, :type => :radio do
   option :a4, :value => 4, :description => "4"
   option :a5, :value => 5, :description => "5 Uitstekend"
 end
+end 
 
+panel do
 question :v_12, :type => :radio do
   title "Heeft de behandelaar samen met je een behandelplan gemaakt en is de bedoeling hiervan je voldoende duidelijk geworden?"
   description ""
@@ -168,7 +183,9 @@ question :v_16, :type => :radio do
   option :a4, :value => 4, :description => "4"
   option :a5, :value => 5, :description => "5 Uitstekend"
 end
+end 
 
+panel do
 question :v_17, :type => :radio do
   title "Begrijpen je ouders nu beter waardoor de problemen / klachten ontstaan zijn?"
   description ""
@@ -218,7 +235,9 @@ question :v_21, :type => :radio do
   option :a4, :value => 4, :description => "4"
   option :a5, :value => 5, :description => "5 Uitstekend"
 end
+end 
 
+panel do
 question :v_22, :type => :radio do
   title "Ben je door de behandeling of begeleiding voldoende vooruit gegaan?"
   description ""
@@ -238,6 +257,6 @@ question :v_23, :type => :radio do
   option :a4, :value => 4, :description => "4"
   option :a5, :value => 5, :description => "5 Uitstekend"
 end
-
+end
 end_panel
 

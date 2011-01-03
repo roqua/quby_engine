@@ -9,8 +9,23 @@ key "sipp"
 title "Persoonlijkheidsvragenlijst (SIPP)"
 description ""
 
-start_panel
+panel do
+ title "SIPP - Persoonlijkheidsvragenlijst"
+ text "Deze vragenlijst bestaat uit een aantal stellingen. Deze stellingen hebben betrekking op de laatste 3 maanden.
 
+Belangrijk
+
+
+Het gaat om uw eigen mening, niet om die van anderen. 
+Goed lezen is weliswaar belangrijk, maar denk niet te lang na; uw eerste indruk is vaak het beste. 
+
+Deze vragenlijst bevat 118 vragen.
+
+
+Klik op 'Volgende vraag' om verder te gaan."
+end
+
+panel do
 question :v_1, :type => :radio do
   title "1. Ik kan heel goed omgaan met teleurstellingen."
   description ""
@@ -55,7 +70,9 @@ question :v_13, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee eens"
   option :a4, :value => 4, :description => "Volledig mee eens"
 end
+end
 
+panel do
 question :v_14, :type => :radio do
   title "6. Ik vind het moeilijk om mezelf als een waardevol persoon te zien."
   description ""
@@ -100,7 +117,9 @@ question :v_18, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee eens"
   option :a4, :value => 4, :description => "Volledig mee eens"
 end
+end
 
+panel do
 question :v_19, :type => :radio do
   title "11. Ik kan met mensen aan een gezamenlijk project werken ook al klikt het op persoonlijk vlak niet helemaal."
   description ""
@@ -145,7 +164,9 @@ question :v_23, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee eens"
   option :a4, :value => 4, :description => "Volledig mee eens"
 end
+end 
 
+panel do
 question :v_24, :type => :radio do
   title "16. Ik raak ge'irriteerd zodra er dingen niet gaan zoals ik het wil."
   description ""
@@ -190,7 +211,9 @@ question :v_28, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_29, :type => :radio do
   title "21. Ik ben ervan overtuigd dat anderen mij niet kunnen leren kennen zoals ik werkelijk ben."
   description ""
@@ -235,7 +258,9 @@ question :v_33, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_34, :type => :radio do
   title "26. Ik vind het moeilijk om genegenheid voor anderen te tonen."
   description ""
@@ -280,7 +305,9 @@ question :v_38, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee eens"
   option :a4, :value => 4, :description => "Volledig mee eens"
 end
+end
 
+panel do
 question :v_39, :type => :radio do
   title "31. Ik raak zelden zo geprikkeld dat ik mezelf niet meer in de hand heb."
   description ""
@@ -325,7 +352,9 @@ question :v_43, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee eens"
   option :a4, :value => 4, :description => "Volledig mee eens"
 end
+end
 
+panel do
 question :v_44, :type => :radio do
   title "36. Ik geniet van intiem contact met andere mensen."
   description ""
@@ -370,7 +399,9 @@ question :v_48, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_49, :type => :radio do
   title "41. Ik zeg vaak dingen waar ik naderhand spijt van heb."
   description ""
@@ -415,7 +446,9 @@ question :v_53, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_54, :type => :radio do
   title "46. Ik probeer van dag tot dag te leven, omdat het stellen van lange-termijn doelen meestal zinloos blijkt."
   description ""
@@ -460,7 +493,9 @@ question :v_58, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_59, :type => :radio do
   title "51. Bij frustrerende taken geef ik te snel op."
   description ""
@@ -505,7 +540,9 @@ question :v_63, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_64, :type => :radio do
   title "56. Ik ben mij vaak niet volledig bewust van mijn diepere gevoelens."
   description ""
@@ -550,7 +587,9 @@ question :v_68, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_69, :type => :radio do
   title "61. E'en van mijn problemen is dat ik mezelf niet makkelijk kan toestaan een leuke tijd te hebben."
   description ""
@@ -595,7 +634,9 @@ question :v_73, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_74, :type => :radio do
   title "66. Ik heb de neiging om tegen dingen te slaan of te schoppen, wanneer ik gehinderd word bij het bereiken van mijn doel."
   description ""
@@ -640,7 +681,9 @@ question :v_78, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_79, :type => :radio do
   title "71. Ik geloof dat de meeste mensen niet graag met mij omgaan."
   description ""
@@ -685,7 +728,9 @@ question :v_83, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_84, :type => :radio do
   title "76. Ik probeer meestal taken die me toebedeeld worden naar behoren uit te voeren."
   description ""
@@ -730,7 +775,9 @@ question :v_91, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_92, :type => :radio do
   title "81. Ik vind het moeilijk om mijn agressie naar anderen toe de baas te blijven."
   description ""
@@ -775,7 +822,9 @@ question :v_96, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee eens"
   option :a4, :value => 4, :description => "Volledig mee eens"
 end
+end
 
+panel do
 question :v_97, :type => :radio do
   title "86. Ik ben ervan overtuigd dat het leven te serieus is om ervan te genieten."
   description ""
@@ -820,7 +869,9 @@ question :v_102, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_103, :type => :radio do
   title "91. Wanneer ik heb beloofd om iets te doen, dan zal ik mij altijd aan die belofte proberen te houden."
   description ""
@@ -865,7 +916,9 @@ question :v_107, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_108, :type => :radio do
   title "96. Ik denk vaak dat ik het verdien om slecht behandeld te worden."
   description ""
@@ -910,7 +963,9 @@ question :v_112, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_113, :type => :radio do
   title "101. Andere mensen schijnen het niet leuk te vinden om met mij te werken."
   description ""
@@ -955,7 +1010,9 @@ question :v_117, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_118, :type => :radio do
   title "106. E'en van mijn problemen is dat ik niet goed kan omgaan met sterke gevoelens."
   description ""
@@ -1000,7 +1057,9 @@ question :v_122, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_123, :type => :radio do
   title "111. Ik heb over het algemeen een lage dunk over mezelf."
   description ""
@@ -1045,7 +1104,9 @@ question :v_127, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
+end
 
+panel do
 question :v_128, :type => :radio do
   title "116. Ik ben in staat geweest om blijvende vriendschappen aan te gaan."
   description ""
@@ -1072,6 +1133,6 @@ question :v_130, :type => :radio do
   option :a3, :value => 3, :description => "Gedeeltelijk mee oneens"
   option :a4, :value => 4, :description => "Volledig mee oneens"
 end
-
+end
 end_panel
 
