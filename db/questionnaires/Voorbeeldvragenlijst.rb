@@ -19,13 +19,10 @@ panel do
   #text "string" : Tekst met opmaak die op de betreffende plaats in het paneel wordt geplaatst
   text "Text *met opmaak*: Voor alle opmaak opties zie http://daringfireball.net/projects/markdown/basics"
 
-  #Op de volgende manier kan text van meerdere regels worden ingevoerd
-  text <<-ENDTEXT
-Dit is een tekst
+  #Je kan ook text van meerdere regels in een string zetten
+  text "Dit is een tekst
 
-van meerdere regels 
-ENDTEXT
-#Let op dat er geen spaties achter de afsluitende ENDTEXT mogen staan
+van meerdere regels"
 
   #question :key, :type => :soort_type :Vragen moeten minstens een key en een type hebben
   #Woorden met een dubbele punt ervoor heten symbols, dit zijn een soort strings met de beperking dat er geen spaties of 

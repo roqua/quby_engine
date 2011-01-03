@@ -52,7 +52,7 @@ class Items::Question < Item
     @validations = []
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]
-    @autocomplete = options[:autocomplete] || false
+    @autocomplete = options[:autocomplete] || "off"
     @show_values = options[:show_values]
     @check_all_option = options[:check_all_option] 
     @uncheck_all_option = options[:uncheck_all_option]    

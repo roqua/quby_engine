@@ -299,3 +299,8 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 input:placeholder, textarea:placeholder {
   color: #999999;
 }
+
+.focus {
+    background: #cce8ed;
+    border: 2px solid #acc3c7;
+}
