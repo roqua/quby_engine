@@ -5,3 +5,15 @@
   = submit_tag "Update Questionnaire"
 
 = link_to "Try out this questionnaire. (Remember to save first)", test_admin_questionnaire_path(@questionnaire)
+
+:javascript
+  var editor = CodeMirror.fromTextArea("questionnaire_definition", {
+    parserfile: ["tokenizeruby.js", "parseruby.js"],
+    stylesheet: "/javascripts/codemirror/css/rubycolors.css",
+    path: "/javascripts/codemirror/js/",
+    lineNumbers: true,
+    textWrapping: true,
+    indentUnit: 2,
+    parserConfig: {},
+    height: '600px'
+  });
