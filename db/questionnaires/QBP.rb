@@ -105,30 +105,6 @@ question :v_139, :type => :radio do
   description ""
   option :a0, :value => 0, :description => "Not quoted."
   option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_14, :type => :radio do
@@ -144,6 +120,8 @@ end
 question :v_29, :type => :radio do
   title "9. Hoe tevreden bent u over het algemeen met uw leven bij ziekte en gezondheid?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_29, :type => :radio do
@@ -185,6 +163,8 @@ end
 question :v_34, :type => :radio do
   title "10. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van depressie (en geen manisch-depressieve stoornis, dus geen manie of hypomanie)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_34, :type => :radio do
@@ -250,6 +230,8 @@ end
 question :v_40, :type => :radio do
   title "10b. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van depressie (en geen manisch-depressieve stoornis, dus geen manie of hypomanie)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_40, :type => :radio do
@@ -277,6 +259,8 @@ end
 question :v_46, :type => :radio do
   title "11. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van een manisch-depressieve (bipolaire) stoornis (voorgeschiedenis van manie of hypomanie)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_46, :type => :radio do
@@ -342,6 +326,8 @@ end
 question :v_52, :type => :radio do
   title "11b. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van een manisch-depressieve (bipolaire) stoornis (voorgeschiedenis van manie of hypomanie)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_52, :type => :radio do
@@ -369,6 +355,8 @@ end
 question :v_54, :type => :radio do
   title "12. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van een psychose (bijvoorbeeld schizofrenie)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_54, :type => :radio do
@@ -434,6 +422,8 @@ end
 question :v_60, :type => :radio do
   title "12b. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van een psychose (bijvoorbeeld schizofrenie)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_60, :type => :radio do
@@ -461,6 +451,8 @@ end
 question :v_62, :type => :radio do
   title "13. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van een su'icide en/of een ernstige su'icidepoging?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_62, :type => :radio do
@@ -526,6 +518,8 @@ end
 question :v_68, :type => :radio do
   title "13b. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van een su'icide en/of een ernstige su'icidepoging?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_68, :type => :radio do
@@ -553,6 +547,8 @@ end
 question :v_70, :type => :radio do
   title "14. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van alcoholisme?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_70, :type => :radio do
@@ -618,6 +614,8 @@ end
 question :v_76, :type => :radio do
   title "14b. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van alcoholisme?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_76, :type => :radio do
@@ -710,6 +708,8 @@ end
 question :v_84, :type => :radio do
   title "15b. Is er iemand van uw naaste familie (grootouders, ouders, broers en zussen, of kinderen) met een voorgeschiedenis van druggebruik of middelenmisbruik (gebruik van illegale drugs of misbruik van voorgeschreven medicatie)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_84, :type => :radio do
@@ -754,17 +754,13 @@ question :v_174, :type => :radio do
   description ""
   option :a0, :value => 0, :description => "Not quoted."
   option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_107, :type => :radio do
   title "17. Bent u ooit verbaal of emotioneel mishandeld (zoals intimidatie, bedreigingen, vernedering of ernstig uitschelden wat ernstige emotionele schade bij u veroorzaakte)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_107, :type => :radio do
@@ -797,6 +793,8 @@ end
 question :v_110, :type => :radio do
   title "18. Bent u ooit lichamelijk aangevallen of mishandeld (d.w.z. zijn er ervaringen met lichamelijk letsel of schade toegebracht door een ander zoals door slaan, door stompen, door schoppen, door bijten, door branden, door wurgen of door een aanval met een wapen)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_110, :type => :radio do
@@ -829,6 +827,8 @@ end
 question :v_113, :type => :radio do
   title "19. Bent u ooit aangerand of seksueel mishandeld (d.w.z. zijn er ervaringen met seksueel geweld, aanranding of gedwongen seksuele activiteiten)?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_113, :type => :radio do
@@ -861,6 +861,8 @@ end
 question :v_116, :type => :radio do
   title "20. Kunt u een schatting geven hoe vaak u het volgende in uw leven heeft meegemaakt?"
   description ""
+  option :a0, :value => 0, :description => "Not quoted."
+  option :a1, :value => 1, :description => "Quoted."
 end
 
 question :v_116, :type => :radio do
@@ -1110,20 +1112,6 @@ end
 question :v_159, :type => :radio do
   title "39. Vink alle informatiebronnen aan die u heeft gebruikt bij het invullen van deze vragenlijst :"
   description ""
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
-  option :a0, :value => 0, :description => "Not quoted."
-  option :a1, :value => 1, :description => "Quoted."
   option :a0, :value => 0, :description => "Not quoted."
   option :a1, :value => 1, :description => "Quoted."
 end

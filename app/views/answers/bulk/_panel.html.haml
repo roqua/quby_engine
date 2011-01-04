@@ -14,7 +14,7 @@
   - if panel.title
     %h1&= panel.title
 
-  = render :partial => "answers/paged/item", :collection => panel.items
+  = render :partial => "answers/bulk/item", :collection => panel.items
 
   - if panel_counter == panels.length - 1
     .buttons

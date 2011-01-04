@@ -220,12 +220,16 @@ question :v_56, :type => :radio do
   option :a10, :value => 9, :description => ""
 end
 
+question :v_95, :type => :radio do
+  title "int d) Aandacht / concentratie en denken"
+  description ""
   option :a1, :value => 0, :description => "Geen"
   option :a2, :value => 1, :description => "Enigszins afleidbaar en zeer lichte concentratiestoornissen"
   option :a3, :value => 2, :description => "Aandachtsspanne is beperkt"
   option :a4, :value => 3, :description => "Heeft door aandachtsproblemen moeite met helder denken"
   option :a5, :value => 4, :description => "Het denken is verstoord"
   option :a10, :value => 9, :description => ""
+end
 
 question :v_96, :type => :radio do
   title "int e) Planning en organisatie"

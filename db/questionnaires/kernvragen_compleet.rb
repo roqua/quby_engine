@@ -11,20 +11,6 @@ description ""
 
 start_panel
 
-List: [1] 'Hulpverlening', dynamic
-
-Used in questions:
--
-
-List element no.;Meta information;Assign to list, if;Wildcards
-1;Source variable (of the selected source project): v_62 (<table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>a. ;</b></nobr></td><td><b>Huisarts</b></td></tr></table>);(v_62 = '7') ;[1] <table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>a. ;</b></nobr></td><td><b>Huisarts</b></td></tr></table>
-2;Source variable (of the selected source project): v_63 (<table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>b. ;</b></nobr></td><td><b>Eerste hulp / spoed eisende hulp</b></td></tr></table>);(v_63 = '7') ;[1] <table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>b. ;</b></nobr></td><td><b>Eerste hulp / spoed eisende hulp</b></td></tr></table>
-3;Source variable (of the selected source project): v_64 (<table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>c. ;</b></nobr></td><td><b>Psychiater / Psycholoog anders dan bij PsyQ</b></td></tr></table>);(v_64 = '7') ;[1] <table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>c. ;</b></nobr></td><td><b>Psychiater / Psycholoog anders dan bij PsyQ</b></td></tr></table>
-4;Source variable (of the selected source project): v_65 (<table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>d. ;</b></nobr></td><td><b>Sociaal Psychiatrisch Verpleegkundige, Verpleegkundige of Maatschappelijk Werker</b></td></tr></table>);(v_65 = '7') ;[1] <table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>d. ;</b></nobr></td><td><b>Sociaal Psychiatrisch Verpleegkundige, Verpleegkundige of Maatschappelijk Werker</b></td></tr></table>
-5;Source variable (of the selected source project): v_66 (<table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>e. ;</b></nobr></td><td><b>Alternatief Genezer</b></td></tr></table>);(v_66 = '7') ;[1] <table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>e. ;</b></nobr></td><td><b>Alternatief Genezer</b></td></tr></table>
-6;Source variable (of the selected source project): v_67 (<table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>f. ;</b></nobr></td><td><b>Geestelijk Begeleider of Raadspersoon</b></td></tr></table>);(v_67 = '7') ;[1] <table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>f. ;</b></nobr></td><td><b>Geestelijk Begeleider of Raadspersoon</b></td></tr></table>
-7;Source variable (of the selected source project): v_68 (<table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>g. ;</b></nobr></td><td><b>Andere hulpverlener</b></td></tr></table>);(v_68 = '7') ;[1] <table cellpadding='0' cellspacing='0' border='0'><tr><td><nobr> ; ; ;</nobr></td><td valign='top'><nobr><b>g. ;</b></nobr></td><td><b>Andere hulpverlener</b></td></tr></table>
-
 question :v_1, :type => :radio do
   title "1. Angsten"
   description ""
@@ -155,7 +141,7 @@ question :v_57, :type => :radio do
   option :a5, :value => 4, :description => "Heel erg"
 end
 
-question :v_58, :type => :radio do
+question :v_58, :type => :open do
   title "13. Verslavingen, namelijk: v_60"
   description ""
 end
@@ -170,7 +156,7 @@ question :v_60, :type => :radio do
   option :a5, :value => 4, :description => "Heel erg"
 end
 
-question :v_61, :type => :radio do
+question :v_61, :type => :open do
   title "14. Iets anders, namelijk:"
   description ""
 end
@@ -243,48 +229,6 @@ end
 question :v_62, :type => :radio do
   title "1. Hoe vaak hebt u de laatste maand, in verband met uw klachten, buiten PsyQ, gebruik gemaakt van de volgende vormen van hulpverlening?"
   description ""
-  option :a1, :value => 0, :description => "0x"
-  option :a2, :value => 1, :description => "1x"
-  option :a3, :value => 2, :description => "2x"
-  option :a4, :value => 3, :description => "3x"
-  option :a5, :value => 4, :description => "4x"
-  option :a6, :value => 5, :description => "5x"
-  option :a7, :value => 6, :description => "vaker"
-  option :a1, :value => 0, :description => "0x"
-  option :a2, :value => 1, :description => "1x"
-  option :a3, :value => 2, :description => "2x"
-  option :a4, :value => 3, :description => "3x"
-  option :a5, :value => 4, :description => "4x"
-  option :a6, :value => 5, :description => "5x"
-  option :a7, :value => 6, :description => "vaker"
-  option :a1, :value => 0, :description => "0x"
-  option :a2, :value => 1, :description => "1x"
-  option :a3, :value => 2, :description => "2x"
-  option :a4, :value => 3, :description => "3x"
-  option :a5, :value => 4, :description => "4x"
-  option :a6, :value => 5, :description => "5x"
-  option :a7, :value => 6, :description => "vaker"
-  option :a1, :value => 0, :description => "0x"
-  option :a2, :value => 1, :description => "1x"
-  option :a3, :value => 2, :description => "2x"
-  option :a4, :value => 3, :description => "3x"
-  option :a5, :value => 4, :description => "4x"
-  option :a6, :value => 5, :description => "5x"
-  option :a7, :value => 6, :description => "vaker"
-  option :a1, :value => 0, :description => "0x"
-  option :a2, :value => 1, :description => "1x"
-  option :a3, :value => 2, :description => "2x"
-  option :a4, :value => 3, :description => "3x"
-  option :a5, :value => 4, :description => "4x"
-  option :a6, :value => 5, :description => "5x"
-  option :a7, :value => 6, :description => "vaker"
-  option :a1, :value => 0, :description => "0x"
-  option :a2, :value => 1, :description => "1x"
-  option :a3, :value => 2, :description => "2x"
-  option :a4, :value => 3, :description => "3x"
-  option :a5, :value => 4, :description => "4x"
-  option :a6, :value => 5, :description => "5x"
-  option :a7, :value => 6, :description => "vaker"
   option :a1, :value => 0, :description => "0x"
   option :a2, :value => 1, :description => "1x"
   option :a3, :value => 2, :description => "2x"
