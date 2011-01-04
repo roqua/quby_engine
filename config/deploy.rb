@@ -5,6 +5,7 @@ require 'bundler/capistrano'
 set :scm, :git
 set :repository, "git@git.roqua.nl:quby.git"
 set :deploy_via, :remote_cache
+set :git_enable_submodules, 1
 
 set :user, "deploy"
 set :use_sudo, false
