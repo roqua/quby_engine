@@ -1,0 +1,5 @@
+- if @questionnaire.allow_hotkeys == :all or session[:display_mode] == @questionnaire.allow_hotkeys
+  %a{:id => "hotkeyDialogLink", :href => "javascript:hotkeyDialog();", :title => "Klik hier voor informatie over de sneltoetsen."}
+    Sneltoetsen
+  %div{:id => "hotkeyDialog", :title => "Sneltoetsen", :style => "display:none"}
+    %p Gebruik de volgende toetsen voor het invullen van de schalen:
