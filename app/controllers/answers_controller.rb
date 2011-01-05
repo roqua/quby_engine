@@ -39,7 +39,7 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    render :action => "#{session[:display_mode]}/edit"
+    render :action => "answers/#{session[:display_mode]}/edit"
   end
 
   def create
