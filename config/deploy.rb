@@ -42,13 +42,31 @@ namespace :deploy do
 
   desc "Create/update the questionnaires repo checkout"
   task :update_questionnaires do
+    update_commands = []
+    update_commands << "cd #{deploy_to}/#{shared_dir}/questionnaires"
+    update_commands << "git pull"
+
+    clone_commands = []
+    # Set up git for committing
+    clone_commands << "git config --global user.email \"deploy@quby.#{application}.roqua.nl\""
+    clone_commands << "git config --global user.name \"#{application} deployed instance\""
+
+    # Clone git repo
+    clone_commands << "cd #{deploy_to}/#{shared_dir}"
+    clone_commands << "git clone #{questionnaire_repository} questionnaires"
+    
+    # Check out correct branch
+    if questionnaire_branch != "master"
+      clone_commands << "cd #{deploy_to}/#{shared_dir}/questionnaires"
+      clone_commands << "git checkout -b #{questionnaire_branch} origin/#{questionnaire_branch}"
+    end
+
     command = "if [ -d #{deploy_to}/#{shared_dir}/questionnaires ]; then " +
-                # repository already exists
-                "cd #{deploy_to}/#{shared_dir}/questionnaires && git pull;" + 
+                update_commands.join(" && ") + "; " +
               "else " + 
-                # repository does not exist yet, do a clone
-                "cd #{deploy_to}/#{shared_dir} && git clone #{questionnaire_repository} questionnaires; " + 
+                clone_commands.join(" && ") + "; " +
               "fi"
+
     run command
   end
 end
