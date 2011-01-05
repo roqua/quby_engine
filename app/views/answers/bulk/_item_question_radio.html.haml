@@ -1,9 +1,5 @@
 %label.main(for="answer_#{question.key}")= question.title
 .description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
   .fields(id="answer_#{question.key}_input" class="options#{question.options.size}")
     %table(cellspacing=0 border=0)
       %tr
@@ -14,37 +10,3 @@
           %td.option(class=cls)
             = radio_button(:answer, question.key, opt.key,
               {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
-      %tr
-        - question.options.each_with_index do |opt, idx|
-          - cls = []
-          - cls << "first" if idx <= 0
-          - cls << "last" if idx >= (question.options.size - 1)
-          %td.description(class=cls) 
-            %label(for="answer_#{question.key}_#{opt.key}")= opt.description
-
-/
-  %label.main(for="answer_#{question.key}")= question.title
-  .description-and-fields
-    .description
-      - unless question.description.blank?
-        :markdown
-          #{raw question.description}
-    .fields(id="answer_#{question.key}_input")
-      - question.options.each do |opt|
-        - if opt.inner_title
-          .inner-title
-            :markdown
-              #{raw opt.description}
-        - else
-          .option(class="#{question.show_values ? 'show_values' : nil}")
-            .radiocheckwrapper
-              = radio_button(:answer, question.key, opt.key,
-                {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
-            - if question.show_values
-              .value= opt.value
-            %label(for="answer_#{question.key}_#{opt.key}")
-              %span
-                :markdown
-                  #{raw opt.description}
-            - unless opt.questions.empty?
-              .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}
