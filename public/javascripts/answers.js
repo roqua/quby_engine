@@ -73,7 +73,7 @@ function validatePanel(panel) {
             break;          
         case "minimum":
             var input = inputs[0];
-            if(input.value == ""){
+            if(input == undefined || input.value == ""){
                 continue;
             }
             if(parseFloat(input.value) < validation["value"]){
@@ -82,7 +82,7 @@ function validatePanel(panel) {
             break;
         case "maximum":
             var input = inputs[0];
-            if(input.value == ""){
+            if(input == undefined || input.value == ""){
                 continue;
             }
             if(parseFloat(input.value) > validation["value"]){
@@ -96,10 +96,10 @@ function validatePanel(panel) {
                 var vals = [];
                 inputs.map(function(index, ele){vals.push(ele.value)});
                 value = vals.join("-");
-            } else {
+            } else if (inputs.length == 1){
                 value = inputs[0].value;
             }
-            if(value == ""){
+            if(value == undefined || value == ""){
                 continue;
             }
             var result = regex.exec(value);
@@ -109,7 +109,7 @@ function validatePanel(panel) {
             break;
         case "valid_integer":
             var input = inputs[0];
-            if(input.value == ""){
+            if(input == undefined || input.value == ""){
                 continue;
             }
             var rgx = /(\s*-?[1-9]+[0-9]*\s*| \s*-?[0-9]?\s*)/;
@@ -120,7 +120,7 @@ function validatePanel(panel) {
             break;
         case "valid_float":
             var input = inputs[0];
-            if(input.value == ""){
+            if(input == undefined || input.value == ""){
                 continue;
             }
             var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
@@ -131,7 +131,7 @@ function validatePanel(panel) {
             break;
         case "one_of":
             var input = inputs[0];
-            if(input.value == ""){
+            if(input == undefined || input.value == ""){
                 continue;
             }
             if(validation["array"].indexOf(parseFloat(input.value)) == -1){
@@ -267,6 +267,27 @@ function handleHotKeys(event){
                 focusNextInput();
             }
             break;
+        //pg up, up arrow
+        case 33:
+        case 38:
+            focusPrevInput();
+            event.preventDefault();
+            break;
+        //pg dwn, down arrow
+        case 34:
+        case 40:
+            focusNextInput();
+            event.preventDefault();
+            break;
+        //space
+        case 32:
+            break;    
+    }
+}
+function handleRadioHotKeys(event){
+    event.which = event.which || event.keyCode;
+    
+    switch (event.which) {
         //0
         case 48:
         case 96:
@@ -274,7 +295,7 @@ function handleHotKeys(event){
             break;
         //1
         case 49:
-        case 97:        
+        case 97:
             selectInput(1);
             break;
         //2
@@ -317,21 +338,6 @@ function handleHotKeys(event){
         case 105:
             selectInput(9);
             break;
-        //pg up, up arrow
-        case 33:
-        case 38:
-            focusPrevInput();
-            event.preventDefault();
-            break;
-        //pg dwn, down arrow
-        case 34:
-        case 40:
-            focusNextInput();
-            event.preventDefault();
-            break;
-        //space
-        case 32:
-            break;    
     }
 }
 
@@ -441,6 +447,10 @@ function focusPrevInput(){
     } 
 }
 
+function hotkeyDialog(){
+    
+}
+
 $(document).ready(
     function() {
         $('.subinput').attr("disabled", "true");
@@ -499,7 +509,10 @@ $(document).ready(
         //$("input[type=radio]").customInput();
         //$("input[type=checkbox]").customInput();
         
-        $("input").keypress(handleHotKeys);
+        if($("#hotkeyDialogLink").length > 0){
+            $("input").keypress(handleHotKeys);
+            $("input[type=radio]").keypress(handleRadioHotKeys);
+        }
         
         $(".item input").click(function(event){
             focusItem($(event.target).closest(".description-and-fields").first());
