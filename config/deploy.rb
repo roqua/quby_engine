@@ -5,7 +5,6 @@ require 'bundler/capistrano'
 set :scm, :git
 set :repository, "git@git.roqua.nl:quby.git"
 set :deploy_via, :remote_cache
-set :git_enable_submodules, 1
 
 set :questionnaire_repository, "git@git.roqua.nl:qubyquestionnaires.git"
 set :questionnaire_branch, "master"
@@ -69,4 +68,7 @@ namespace :deploy do
 
     run command
   end
+
+  after "deploy:update_code", "deploy:link_shared_dirs"
+  after "deploy:update_code", "deploy:update_questionnaires"
 end
