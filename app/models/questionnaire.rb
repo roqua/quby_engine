@@ -11,7 +11,10 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :abortable
   attr_accessor :panels
   attr_accessor :scores
-
+  
+  #allow hotkeys for either :all or just :bulk views
+  attr_accessor :allow_hotkeys
+  
   #default_scope :order => "key ASC"
   scope :active, where(:active => true)
 

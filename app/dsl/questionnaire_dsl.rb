@@ -26,6 +26,10 @@ module QuestionnaireDsl
       @questionnaire.abortable = true 
     end
     
+    def allow_hotkeys(type = :all)
+      @questionnaire.allow_hotkeys = type
+    end
+    
     def panel(title = nil, options = {}, &block)
       p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire}))
       p.instance_eval(&block)

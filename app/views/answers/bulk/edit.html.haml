@@ -3,5 +3,9 @@
 
 - content_for(:page_title, @questionnaire.title)
 
+- if @questionnaire.allow_hotkeys == :all or session[:display_mode] == @questionnaire.allow_hotkeys
+  %a{:id => "hotkeyDialogLink", :href => "javascript:hotkeyDialog();", :title => "Klik hier voor informatie over de sneltoetsen."}
+    Sneltoetsen
+    
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" ") do
   = render :partial => "answers/#{session[:display_mode]}/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}

@@ -16,9 +16,10 @@
 
   = render :partial => "answers/bulk/item", :collection => panel.items
 
-  - if panel_counter == panels.length - 1
-    .buttons
+  .buttons
+    - if panel_counter == panels.length - 1
       .save
         = submit_tag "Klaar"
+    = render :partial => "answers/hotkey_dialog"
 
 / End _panel.html.haml

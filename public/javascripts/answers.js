@@ -447,8 +447,14 @@ function focusPrevInput(){
     } 
 }
 
-function hotkeyDialog(){
-    
+function hotkeyDialog(){;
+    $("#hotkeyDialog").dialog({ draggable : false, resizable : false, modal : true,
+    buttons: {
+        "Sluiten": function(){
+            $(this).dialog("close");
+        }
+    }
+    });
 }
 
 $(document).ready(
