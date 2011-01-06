@@ -7,6 +7,9 @@ var lastInput;
 var nextButtonFocussed = false;
 var saveButtonFocussed = false; 
 var isBulk;
+var qitems; 
+var fail_vals = new Array();
+var validationI = 0;
 
 function activatePanel(panel, updateHash, forward) {
     $('.flash').hide();
@@ -15,7 +18,7 @@ function activatePanel(panel, updateHash, forward) {
     
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
     var hiddenInputs = $(panel).find(".item.hidden");
-    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item").length){
+    if (hiddenInputs.length > 0 && hiddenInputs.length === $(panel).find(".item").length) {
         if (forward) {
             return activatePanel($(panel).next(), updateHash, true);
         } else {
@@ -28,123 +31,130 @@ function activatePanel(panel, updateHash, forward) {
         window.location.hash = panel[0].id;        
     }
     
+    nextButtonFocussed = false;
+    saveButtonFocussed = false;
     qitems = $(".description-and-fields:not(:hidden)");
     focusItem(qitems.first());
     lastInput = qitems.find("input:not(:disabled, :hidden)").first().focus();    
 }
 
+function pushFailVal(val){
+    fail_vals[validationI] = val;
+    validationI++;
+}
+
 function validatePanel(panel) {
-  var fail_vals;
   var failed = false;
+  validationI = 0;
   $(panel).find(".error").addClass("hidden");
   $(panel).find(".item").removeClass("errors");
   if (panel_validations[panel.id]) {
-    validations = panel_validations[panel.id];
+    var validations = panel_validations[panel.id];
         
     for (var question_key in validations) {
-      var question_item = $("#answer_"+question_key+"_input").closest('.item');
+      var question_item = $("#answer_" + question_key + "_input").closest('.item');
       
       var inputs = question_item.find("input").not(":disabled, :hidden");      
-      fail_vals = [];
+      fail_vals = new Array();
       
       for (var i in validations[question_key]) {
-        validation = validations[question_key][i];
-        switch(validation["type"]){
-        case "requires_answer":
-            var someChecked = -1;
-            for (var j = 0; j < inputs.length; j++){
-                var input = inputs[j];
-                if(input.type == "text" && question_item.is(".string, .text, .integer, .float, .date") && input.value == "" ){
-                    fail_vals.push(validation["type"]);
-                    break;
-                }
-                if((input.type == "radio" && question_item.hasClass("radio")) || (input.type == "checkbox" && question_item.hasClass("checkbox"))){
-                    if (input.checked) {
-                        someChecked = true;                    
+        var validation = validations[question_key][i];
+        switch(validation.type) {
+            case "requires_answer":
+                var someChecked = -1;
+                for (var j = 0; j < inputs.length; j++){
+                    var input = inputs[j];
+                    if(input.type === "text" && question_item.is(".string, .text, .integer, .float, .date") && input.value === "" ){
+                        fail_vals.push(validation.type);
                         break;
-                    } else {
-                        someChecked = false;                        
+                    }
+                    if((input.type === "radio" && question_item.hasClass("radio")) || (input.type === "checkbox" && question_item.hasClass("checkbox"))){
+                        if (input.checked) {
+                            someChecked = true;                    
+                            break;
+                        } else {
+                            someChecked = false;                        
+                        }
                     }
                 }
+                if (someChecked != -1 && !someChecked) {
+                  pushFailVal(validation.type);
+                }
+                break;          
+            case "minimum":
+                var input = inputs[0];
+                if(input === undefined || input.value == ""){
+                    continue;
+                }
+                if(parseFloat(input.value) < validation.value){
+                    pushFailVal(validation.type);
+                }
+                break;
+            case "maximum":
+                var input = inputs[0];
+                if(input === undefined || input.value == ""){
+                    continue;
+                }
+                if(parseFloat(input.value) > validation.value){
+                    pushFailVal(validation.type);
+                }
+                break;
+            case "regexp":
+                var regex = eval(validation.matcher);
+                var value = undefined;
+                if (inputs.length == 3 && (inputs[0].value != "" || inputs[1].value != "" || inputs[2].value != "")) {
+                    var vals = [];
+                    inputs.map(function(index, ele){vals.push(ele.value)});
+                    value = vals.join("-");
+                } else if (inputs.length == 1){
+                    value = inputs[0].value;
+                }
+                if(value == undefined || value == ""){
+                    continue;
+                }
+                var result = regex.exec(value);
+                if(result === null || result[0] != value){
+                    pushFailVal(validation.type);
+                }
+                break;
+            case "valid_integer":
+                var input = inputs[0];
+                if(input === undefined || input.value == ""){
+                    continue;
+                }
+                var rgx = /(\s*-?[1-9]+[0-9]*\s*| \s*-?[0-9]?\s*)/;
+                var result = rgx.exec(input.value);
+                if(result == null || result[0] != input.value){
+                    pushFailVal(validation.type);
+                }             
+                break;
+            case "valid_float":
+                var input = inputs[0];
+                if(input === undefined || input.value == ""){
+                    continue;
+                }
+                var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
+                var result = rgx.exec(input.value);
+                if(result === null || result[0] != input.value){
+                    pushFailVal(validation.type);
+                }
+                break;
+            case "one_of":
+                var input = inputs[0];
+                if(input == undefined || input.value == ""){
+                    continue;
+                }
+                if(validation.array.indexOf(parseFloat(input.value)) == -1){
+                    pushFailVal(validation.type);
+                }
+                break;
+            //These validations would only come into play if the javascript that makes it impossible
+            //to check an invalid combination of checkboxes fails. 
+            case "too_many_checked":            
+                break;
+            case "not_all_checked":        
+                break;
             }
-            if (someChecked != -1 && !someChecked) {
-              fail_vals.push(validation["type"]);
-            }
-            break;          
-        case "minimum":
-            var input = inputs[0];
-            if(input == undefined || input.value == ""){
-                continue;
-            }
-            if(parseFloat(input.value) < validation["value"]){
-                fail_vals.push(validation["type"]);
-            }
-            break;
-        case "maximum":
-            var input = inputs[0];
-            if(input == undefined || input.value == ""){
-                continue;
-            }
-            if(parseFloat(input.value) > validation["value"]){
-                fail_vals.push(validation["type"]);
-            }
-            break;
-        case "regexp":
-            var regex = eval(validation["matcher"]);
-            var value;
-            if (inputs.length == 3 && (inputs[0].value != "" || inputs[1].value != "" || inputs[2].value != "")) {
-                var vals = [];
-                inputs.map(function(index, ele){vals.push(ele.value)});
-                value = vals.join("-");
-            } else if (inputs.length == 1){
-                value = inputs[0].value;
-            }
-            if(value == undefined || value == ""){
-                continue;
-            }
-            var result = regex.exec(value);
-            if(result == null || result[0] != value){
-                fail_vals.push(validation["type"]);
-            }
-            break;
-        case "valid_integer":
-            var input = inputs[0];
-            if(input == undefined || input.value == ""){
-                continue;
-            }
-            var rgx = /(\s*-?[1-9]+[0-9]*\s*| \s*-?[0-9]?\s*)/;
-            var result = rgx.exec(input.value);
-            if(result == null || result[0] != input.value){
-                fail_vals.push(validation["type"]);
-            }             
-            break;
-        case "valid_float":
-            var input = inputs[0];
-            if(input == undefined || input.value == ""){
-                continue;
-            }
-            var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
-            var result = rgx.exec(input.value);
-            if(result == null || result[0] != input.value){
-                fail_vals.push(validation["type"]);
-            }
-            break;
-        case "one_of":
-            var input = inputs[0];
-            if(input == undefined || input.value == ""){
-                continue;
-            }
-            if(validation["array"].indexOf(parseFloat(input.value)) == -1){
-                fail_vals.push(validation["type"]);
-            }
-            break;
-        //These validations would only come into play if the javascript that makes it impossible
-        //to check an invalid combination of checkboxes fails. 
-        case "too_many_checked":            
-            break;
-        case "not_all_checked":        
-            break;
-        }
       }
       if (fail_vals.length != 0) {
           var item = $('#answer_' + question_key + "_input").closest(".item").addClass('errors');
@@ -242,17 +252,27 @@ function handleDisableCheckboxSubQuestions(element){
 function selectInput(value){
     var values = lastFocus.find(".value");
     var selectedInput = $([]);
-    values.each(function(index, element){
-       if(parseInt(element.textContent) == value){
-           selectedInput = $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)");           
-       }
-    });
+//    values.each(function(index, element){
+//       if(parseInt(element.textContent) == value){
+//           selectedInput = $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)");           
+//       }
+//    });
     
-    if(values.length == 0){
-        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value);
-    }
+//    if(values.length == 0){
+        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value-1);
+//    }
     selectedInput.click();
     selectedInput.focus();
+}
+
+function preventDefault(event){
+    if (event.preventDefault) {
+        event.preventDefault(); 
+    } else {
+        event.stop();
+    }
+    event.returnValue = false;
+    event.stopPropagation();
 }
 
 function handleHotKeys(event){
@@ -263,21 +283,21 @@ function handleHotKeys(event){
         //enter
         case 13:            
             if (!(nextButtonFocussed || saveButtonFocussed)) {
-                event.preventDefault();
+                preventDefault(event)
                 focusNextInput();
             }
             break;
         //pg up, up arrow
         case 33:
         case 38:
+            preventDefault(event)
             focusPrevInput();
-            event.preventDefault();
             break;
         //pg dwn, down arrow
         case 34:
         case 40:
+            preventDefault(event)
             focusNextInput();
-            event.preventDefault();
             break;
         //space
         case 32:
@@ -288,11 +308,11 @@ function handleRadioHotKeys(event){
     event.which = event.which || event.keyCode;
     
     switch (event.which) {
-        //0
-        case 48:
-        case 96:
-            selectInput(0);
-            break;
+//        //0
+//        case 48:
+//        case 96:
+//            selectInput(0);
+//            break;
         //1
         case 49:
         case 97:
@@ -347,7 +367,8 @@ function focusItem(qitem){
             lastFocus.removeClass('focus');
         }
         qitem.addClass('focus');
-        qitem.closest('.item')[0].scrollIntoView(false);
+        //Needs functional replacement for IE7
+        //qitem.closest('.item')[0].scrollIntoView(false);
         lastFocus = qitem;
     }
     return qitem;
@@ -448,7 +469,7 @@ function focusPrevInput(){
 }
 
 function hotkeyDialog(){;
-    $("#hotkeyDialog").dialog({ draggable : false, resizable : false, modal : true,
+    $("#hotkeyDialog").dialog({ draggable : false, resizable : false, modal : true, width : 550,
     buttons: {
         "Sluiten": function(){
             $(this).dialog("close");
@@ -459,6 +480,18 @@ function hotkeyDialog(){;
 
 $(document).ready(
     function() {
+        
+        //IE7 indexOf fix
+        if(!Array.indexOf){
+            Array.prototype.indexOf = function(obj){
+                for(var i=0; i<this.length; i++){
+                    if(this[i]==obj){
+                        return i;
+                    }
+                }
+            }
+        }
+        
         $('.subinput').attr("disabled", "true");
         $('input[type="radio"]').each( function(index, element){            
            handleDisableRadioSubQuestions(element);
@@ -515,15 +548,16 @@ $(document).ready(
         //$("input[type=radio]").customInput();
         //$("input[type=checkbox]").customInput();
         
-        if($("#hotkeyDialogLink").length > 0){
-            $("input").keypress(handleHotKeys);
+        if ($("#hotkeyDialogLink").length > 0) {
+            $("input").keydown(handleHotKeys);
             $("input[type=radio]").keypress(handleRadioHotKeys);
+            
+            
+            $(".item input").click(function(event){
+                focusItem($(event.target).closest(".description-and-fields").first());
+                lastInput = $(event.target);
+            });
         }
-        
-        $(".item input").click(function(event){
-            focusItem($(event.target).closest(".description-and-fields").first());
-            lastInput = $(event.target);
-        });
     }
 );
 
