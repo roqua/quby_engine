@@ -1,12 +1,13 @@
+- if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != question.options.map(&:value))
+  = render :partial => "answers/bulk/item_radio_check_scale_options", :object => question
+
 %label.main(for="answer_#{question.key}")= question.title
 .description-and-fields
   .fields(id="answer_#{question.key}_input" class="options#{question.options.size}")
-    %table(cellspacing=0 border=0)
-      %tr
-        - question.options.each_with_index do |opt, idx|
-          - cls = []
-          - cls << "first" if idx <= 0
-          - cls << "last" if idx >= (question.options.size - 1)
-          %td.option(class=cls)
-            = radio_button(:answer, question.key, opt.key,
-              {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
+    - question.options.each_with_index do |opt, idx|
+      - cls = []
+      - cls << "first" if idx <= 0
+      - cls << "last" if idx >= (question.options.size - 1)
+      .option(class=cls)
+        = radio_button(:answer, question.key, opt.key,
+          {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})

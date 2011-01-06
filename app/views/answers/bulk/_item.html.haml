@@ -48,7 +48,7 @@
     - when :integer, :float
       = render :partial => "answers/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion}
     - when :radio
-      = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item}
     - when :date
       = render :partial => "answers/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion}
     - when :check_box

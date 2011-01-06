@@ -298,12 +298,13 @@ body {
 
         // Specific CSS for presentation styles
 
-        &.horizontal {
-          label.main { @include column(24, true); @include append-bottom; }
-          .description-and-fields { @include column(24, true); }
-          .description { @include column(24, true); }
-          .fields { @include column(24, true); }
-        }
+        // Not sure we want this
+        //&.horizontal {
+        //  label.main { @include column(24, true); @include append-bottom; }
+        //  .description-and-fields { @include column(24, true); }
+        //  .description { @include column(24, true); }
+        //  .fields { @include column(24, true); }
+        //}
 
         // Specific CSS for certain item types
       
@@ -339,8 +340,14 @@ body {
             .description { float: none; display: table-cell; }
           }
 
+          .options {
+            @include column(12, true);
+            @include prepend(12);
+            margin-top: 3em;
+          }
+
           .option, .description { 
-            @include span(2);
+            @include column(1);
             border: 0;
             text-align: center;
           }
