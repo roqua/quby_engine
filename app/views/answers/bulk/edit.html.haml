@@ -23,4 +23,10 @@
         - previous_item = item
 
       = render :partial => "answers/hotkey_dialog"
-    / End _panel.html.haml
+    
+  .buttons
+    .prev &nbsp;
+    .print
+      %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
+    .save
+      = submit_tag "Klaar"

@@ -231,6 +231,20 @@ body {
     line-height: 18px;
     background: white;
     
+    .buttons {
+      @include column(24, true);
+      margin: 1.5em (-$blueprint-grid-outer-width) -1.5em;
+      padding: 1.5em $blueprint-grid-outer-width;
+      border-top: 1px dotted #d6d6d6;
+      background: #f3f3f3;
+
+      .prev { @include column(6); }
+      .abort { @include column(12); text-align: center; }
+      .print { @include column(12); text-align: center; }
+      .next { @include column(6, true); text-align: right; }
+      .save { @include column(6, true); text-align: right; }
+    }
+
     .panel {
       @include column(24, true);
       
@@ -239,20 +253,6 @@ body {
         font-weight: bold;
         margin-bottom: 1.2em;
         z-index: 400;
-      }
-      
-      .buttons {
-        @include column(24, true);
-        margin: 1.5em (-$blueprint-grid-outer-width) -1.5em;
-        padding: 1.5em $blueprint-grid-outer-width;
-        border-top: 1px dotted #d6d6d6;
-        background: #f3f3f3;
-
-        .prev { @include column(6); }
-        .abort { @include column(12); text-align: center; }
-        .print { @include column(12); text-align: center; }
-        .next { @include column(6, true); text-align: right; }
-        .save { @include column(6, true); text-align: right; }
       }
       
       &.first .buttons {
