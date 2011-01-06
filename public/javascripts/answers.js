@@ -122,7 +122,7 @@ function validatePanel(panel) {
                 if(input === undefined || input.value == ""){
                     continue;
                 }
-                var rgx = /(\s*-?[1-9]+[0-9]*\s*| \s*-?[0-9]?\s*)/;
+                var rgx = /(\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]?\s*)/;
                 var result = rgx.exec(input.value);
                 if(result == null || result[0] != input.value){
                     pushFailVal(validation.type);
