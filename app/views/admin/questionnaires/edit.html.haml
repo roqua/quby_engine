@@ -1,5 +1,10 @@
 %h1== Editing #{@questionnaire.key}
 
+- if not @questionnaire.errors.empty?
+  .definition-error
+    - @questionnaire.errors.each do |err|
+      %p= err[1]
+
 - form_for(@questionnaire, :url => admin_questionnaire_path(@questionnaire)) do |form|
   = form.text_area "definition"
   = submit_tag "Update Questionnaire"

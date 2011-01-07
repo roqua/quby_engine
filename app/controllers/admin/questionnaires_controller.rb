@@ -1,5 +1,7 @@
 class Admin::QuestionnairesController < AdminAreaController
   
+  after_filter :check_questionnaire_errors, :only => [:show, :edit, :create, :update]
+  
   def index
     @questionnaires = Questionnaire.active.order('questionnaires.key')
   end
@@ -47,6 +49,14 @@ class Admin::QuestionnairesController < AdminAreaController
     @questionnaire = Questionnaire.find_by_key(params[:id])
     @answer = @questionnaire.answers.find_or_create_by_test(true)
     redirect_to edit_questionnaire_answer_path(@questionnaire, @answer, :token => @answer.token)
+  end
+  
+  protected
+  
+  def check_questionnaire_errors
+    if not @questionnaire.errors.empty?
+      flash[:error] = "Could not save questionnaire, error in questionnaire definition"
+    end
   end
   
 end
