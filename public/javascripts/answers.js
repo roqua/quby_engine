@@ -484,7 +484,7 @@ $(document).ready(
         //IE7 indexOf fix
         if(!Array.indexOf){
             Array.prototype.indexOf = function(obj){
-                for(var i=0; i<this.length; i++){
+                for(var i=0; i < this.length; i++){
                     if(this[i]==obj){
                         return i;
                     }
@@ -498,6 +498,13 @@ $(document).ready(
         });
         //TODO: change this once the 'click to deselect radio inputs' feature is in
         $('input[type="radio"]:checked').click();
+
+//        $('input[type="radio"]').click(function (e){
+//           if(e.target.checked){
+//               e.target.checked = false;
+//               $(e.target).parent().find("input[type=radio][value='DESELECTED_RADIO_VALUE']")[0].checked = true;
+//           } 
+//        });
         
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
@@ -512,9 +519,6 @@ $(document).ready(
 
             // enable javascript-based previous/next links
             $(".panel .buttons").show();
-
-            // hide all panels
-            $(".panel").hide();
 
             // hide first previous button, and last next button
             $(".panel:first .buttons .prev").hide();

@@ -23,3 +23,4 @@
                 #{raw opt.description}
           - unless opt.questions.empty?
             .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}
+    = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden")

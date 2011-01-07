@@ -114,7 +114,8 @@ class Answer < ActiveRecord::Base
       
       if (question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
         (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)) or
-        hidden_questions.include?(question.key)
+        hidden_questions.include?(question.key) or
+        answer == "DESELECTED_RADIO_VALUE"
         clear_question(question)
         next          
       end

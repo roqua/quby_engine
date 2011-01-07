@@ -1,14 +1,14 @@
-- hotkeys = ["shortkeys/1key.jpg",
-  "shortkeys/2key.jpg",
-  "shortkeys/3key.jpg",
-  "shortkeys/4key.jpg",
-  "shortkeys/5key.jpg",
-  "shortkeys/6key.jpg",
-  "shortkeys/7key.jpg",
-  "shortkeys/8key.jpg",
-  "shortkeys/9key.jpg",
-  "shortkeys/0key.jpg",]
 - if @questionnaire.allow_hotkeys == :all or session[:display_mode] == @questionnaire.allow_hotkeys
+  - hotkeys = ["shortkeys/1key.jpg",
+    "shortkeys/2key.jpg",
+    "shortkeys/3key.jpg",
+    "shortkeys/4key.jpg",
+    "shortkeys/5key.jpg",
+    "shortkeys/6key.jpg",
+    "shortkeys/7key.jpg",
+    "shortkeys/8key.jpg",
+    "shortkeys/9key.jpg",
+    "shortkeys/0key.jpg",]
   %a{:id => "hotkeyDialogLink", :href => "javascript:hotkeyDialog();", :title => "Klik hier voor informatie over de sneltoetsen."}
     Sneltoetsen
   %div{:id => "hotkeyDialog", :title => "Sneltoetsen", :style => "display:none"}
