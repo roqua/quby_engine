@@ -18,10 +18,10 @@ function activatePanel(panel, updateHash, forward) {
     panel.show().addClass('current');
     
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
-    var hiddenInputs = $(panel).find(".item.hidden");
-    if (hiddenInputs.length > 0 && hiddenInputs.length === $(panel).find(".item").length) {
+    var hiddenInputs = $(panel).find(".item:hidden");
+    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item").length) {
         if (forward) {
-            return activatePanel($(panel).next(), updateHash, true);
+            return activatePanel($(panel).next(), updateHash, true);            
         } else {
             return activatePanel($(panel).prev(), updateHash, false);
         }
@@ -502,12 +502,42 @@ $(document).ready(
         //TODO: change this once the 'click to deselect radio inputs' feature is in
         $('input[type="radio"]:checked').click();
 
-//        $('input[type="radio"]').click(function (e){
-//           if(e.target.checked){
-//               e.target.checked = false;
-//               $(e.target).parent().find("input[type=radio][value='DESELECTED_RADIO_VALUE']")[0].checked = true;
-//           } 
-//        });
+
+        var allRadios = $('input[type=radio]')
+        var radioChecked;
+    
+        var setCurrent = function(e) {
+            var obj = e.target;         
+            radioChecked = $(obj).attr('checked');
+        };
+                            
+        var setCheck = function(e) {
+            var obj = e.target;
+            
+            //TODO: Only allow deselection if question is not required
+            if (radioChecked) {
+                $(obj).attr('checked', false);
+            } else {
+                $(obj).attr('checked', true);
+            }
+        };    
+                             
+        $.each(allRadios, function(i, val){        
+            var label = $('label[for=' + $(this).attr("id") + ']');
+        
+            $(this).bind('mousedown', function(e){
+                setCurrent(e);
+            });
+            
+            label.bind('mousedown', function(e){
+                e.target = $('#' + $(this).attr("for"));
+                setCurrent(e);
+            });
+            
+            $(this).bind('click', function(e){
+                setCheck(e);    
+            });
+        });
         
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
