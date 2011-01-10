@@ -10,6 +10,7 @@ var isBulk;
 var qitems; 
 var fail_vals = new Array();
 var validationI = 0;
+var hotkeysEnabled;
 
 function activatePanel(panel, updateHash, forward) {
     $('.flash').hide();
@@ -33,9 +34,11 @@ function activatePanel(panel, updateHash, forward) {
     
     nextButtonFocussed = false;
     saveButtonFocussed = false;
-    qitems = $(".description-and-fields:not(:hidden)");
-    focusItem(qitems.first());
-    lastInput = qitems.find("input:not(:disabled, :hidden)").first().focus();    
+    if (hotkeysEnabled) {
+        qitems = panel.find(".description-and-fields:not(:hidden)");
+        focusItem(qitems.first());
+        lastInput = qitems.find("input:not(:disabled, :hidden)").first().focus();
+    }    
 }
 
 function pushFailVal(val){
@@ -551,8 +554,8 @@ $(document).ready(
         //Layout breaks with this
         //$("input[type=radio]").customInput();
         //$("input[type=checkbox]").customInput();
-        
-        if ($("#hotkeyDialogLink").length > 0) {
+        hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
+        if (hotkeysEnabled) {
             $("input").keydown(handleHotKeys);
             $("input[type=radio]").keypress(handleRadioHotKeys);
             
