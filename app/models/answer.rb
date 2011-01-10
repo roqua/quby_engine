@@ -164,6 +164,16 @@ class Answer < ActiveRecord::Base
             end          
           when :one_of
             add_error(question, :one_of, "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
+#          when :answer_group_minimum
+#            answered = 0
+#            validation[:group].each do |qk|
+#              unless self.send(qk).blank?
+#                answered += 1
+#              end
+#            end
+#            if answered < validation[:value]
+#              add_error(question, :answer_group_minimum, "Needs at least #{validation[:value]} question(s) answered.")
+#            end
           end
         end
         logger.info "ERRORS: #{errors.inspect}"

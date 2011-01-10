@@ -9,5 +9,8 @@
       - cls << "first" if idx <= 0
       - cls << "last" if idx >= (question.options.size - 1)
       .option(class=cls)
+        - radio_classes = []
+        - radio_classes << "subinput" if subquestion
+        - radio_classes << "deselectable" if question.deselectable
         = radio_button(:answer, question.key, opt.key,
-          {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
+          {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => radio_classes})

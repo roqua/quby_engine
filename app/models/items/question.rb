@@ -37,6 +37,9 @@ class Items::Question < Item
   #A collection of all questions that can be hidden by all the options of this question
   attr_accessor :hides_questions
 
+  #Whether this radio question is deselectable
+  attr_accessor :deselectable
+
   # Some questions are a tree.
   attr_accessor :parent
   attr_accessor :parent_option_key
@@ -56,6 +59,7 @@ class Items::Question < Item
     @show_values = options[:show_values]
     @check_all_option = options[:check_all_option] 
     @uncheck_all_option = options[:uncheck_all_option]    
+    @deselectable = options[:deselectable] || false
     
     @year_key = options[:year_key].andand.to_s
     @month_key = options[:month_key].andand.to_s

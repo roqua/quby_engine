@@ -262,8 +262,9 @@ function selectInput(value){
 //    });
     
 //    if(values.length == 0){
-        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value-1);
+        selectedInput = $(lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value-1));
 //    }
+    selectedInput.mousedown();
     selectedInput.click();
     selectedInput.focus();
 }
@@ -499,11 +500,11 @@ $(document).ready(
         $('input[type="radio"]').each( function(index, element){            
            handleDisableRadioSubQuestions(element);
         });
-        //TODO: change this once the 'click to deselect radio inputs' feature is in
+        
         $('input[type="radio"]:checked').click();
 
 
-        var allRadios = $('input[type=radio]')
+        var allRadios = $('input[type=radio].deselectable')
         var radioChecked;
     
         var setCurrent = function(e) {
@@ -514,7 +515,6 @@ $(document).ready(
         var setCheck = function(e) {
             var obj = e.target;
             
-            //TODO: Only allow deselection if question is not required
             if (radioChecked) {
                 $(obj).attr('checked', false);
             } else {
