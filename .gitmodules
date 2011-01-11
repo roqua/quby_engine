@@ -1,3 +1,0 @@
-[submodule "db/questionnaires"]
-	path = db/questionnaires
-	url = git@git.roqua.nl:qubyquestionnaires.git
