@@ -86,6 +86,10 @@ module QuestionnaireDsl
     def text(value)
       @panel.items << Items::Text.new(value.to_s)
     end
+    
+    def html(value)
+      @panel.items << Items::Text.new(value.to_s, true)
+    end
 
     def question(key, options = {}, &block)
       # TODO Add check for repeated use of keys

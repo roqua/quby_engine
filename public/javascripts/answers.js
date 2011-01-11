@@ -371,8 +371,9 @@ function focusItem(qitem){
             lastFocus.removeClass('focus');
         }
         qitem.addClass('focus');
-        //Needs functional replacement for IE7
-        //qitem.closest('.item')[0].scrollIntoView(false);
+        var toScrollTo = qitem.closest('.item')[0];
+        //Might not work properly inside a frame?
+        window.scrollTo(0, toScrollTo.offsetTop-80);
         lastFocus = qitem;
     }
     return qitem;

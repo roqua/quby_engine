@@ -3,8 +3,12 @@ class Items::Text < Item
 
   attr_accessor :text
 
-  def initialize(str)
-    @text = Maruku.new(str).to_html
+  def initialize(str, pure_html = false)
+    unless pure_html
+      @text = Maruku.new(str).to_html
+    else
+      @text = str
+    end
   end
 
   def as_json(options = {})
