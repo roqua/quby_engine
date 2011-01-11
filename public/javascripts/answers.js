@@ -18,8 +18,8 @@ function activatePanel(panel, updateHash, forward) {
     panel.show().addClass('current');
     
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
-    var hiddenInputs = $(panel).find(".item:hidden");
-    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item").length) {
+    var hiddenInputs = $(panel).find(".item input:hidden");
+    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input").length) {
         if (forward) {
             return activatePanel($(panel).next(), updateHash, true);            
         } else {
@@ -67,7 +67,7 @@ function validatePanel(panel) {
                 var someChecked = -1;
                 for (var j = 0; j < inputs.length; j++){
                     var input = inputs[j];
-                    if(input.type === "text" && question_item.is(".string, .text, .integer, .float, .date") && input.value === "" ){
+                    if(input.type === "text" && question_item.is(".string, .text, .integer, .float, .date") && input.value == "" ){
                         fail_vals.push(validation.type);
                         break;
                     }
