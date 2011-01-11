@@ -9,6 +9,7 @@
     
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" ") do
 
+  - all_items = @questionnaire.panels.map(&:items).flatten
   - previous_item = nil
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
     %fieldset{:id => "panel#{panel_counter}", :class => "panel"}
@@ -19,8 +20,10 @@
         %h1&= panel.title
 
       - panel.items.each_with_index do |item, idx|
-        = render :partial => "answers/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item }
+        - next_item = all_items[all_items.index(item)]
+        = render :partial => "answers/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item, :next_item => next_item }
         - previous_item = item
+        
 
       = render :partial => "answers/hotkey_dialog"
     

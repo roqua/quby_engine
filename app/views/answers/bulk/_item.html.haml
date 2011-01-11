@@ -1,6 +1,10 @@
 / Begin _item.html.haml
 - subquestion ||= false
 - itemclasses = [item.type, item.presentation]
+- if item.is_a?(Items::Question) and (item.disallow_bulk or (not item.subquestions.andand.empty?))
+  - itemclasses << "notbulkitem"
+- else
+  - itemclasses << "bulkitem"
 - itemclasses << "errors" if not @answer.errors[item.key].empty?
 .item{:class => itemclasses}
   - case item.class.name
@@ -48,7 +52,7 @@
     - when :integer, :float
       = render :partial => "answers/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion}
     - when :radio
-      = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item}
+      = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item}
     - when :date
       = render :partial => "answers/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion}
     - when :check_box

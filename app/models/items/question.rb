@@ -43,6 +43,9 @@ class Items::Question < Item
   # Some questions are a tree.
   attr_accessor :parent
   attr_accessor :parent_option_key
+
+  # Whether we can collapse this in bulk view
+  attr_accessor :disallow_bulk
  
   ##########################################################
   
@@ -60,6 +63,7 @@ class Items::Question < Item
     @check_all_option = options[:check_all_option] 
     @uncheck_all_option = options[:uncheck_all_option]    
     @deselectable = options[:deselectable] || false
+    @disallow_bulk = options[:disallow_bulk]
     
     @year_key = options[:year_key].andand.to_s
     @month_key = options[:month_key].andand.to_s
