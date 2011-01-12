@@ -9,58 +9,59 @@
       :markdown
         #{item}
   - when "Items::Question"
-    - item.validations.each do |validation|
-      - exp_classes = ["error", validation[:type]]
-      - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}
-      - if not valtypes.include?(validation[:type])
-        - exp_classes << "hidden" 
-      - case validation[:type]
-      - when :maximum
-        %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal kleiner dan of gelijk aan #{validation[:value]} zijn." 
-      - when :minimum
-        %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal groter dan of gelijk aan #{validation[:value]} zijn."
-      - when :requires_answer
-        %div{:class => exp_classes}= validation[:explanation] || "Deze vraag moet beantwoord worden."
-      - when :regexp
-        %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet voldoen aan de vorm #{validation[:matcher]}."
-      - when :valid_integer
-        %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een afgerond getal zijn."
-      - when :valid_float
-        %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen)."
-      - when :too_many_checked
-        %div{:class => exp_classes}= validation[:explanation] || "U heeft te veel opties gekozen."
-      - when :not_all_checked
-        %div{:class => exp_classes}= validation[:explanation] || "U heeft te weinig opties gekozen."
-      - when :one_of
-        %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een van de volgende zijn: #{validation[:array].inspect}"
+    - unless item.type == :hidden
+      - item.validations.each do |validation|
+        - exp_classes = ["error", validation[:type]]
+        - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}
+        - if not valtypes.include?(validation[:type])
+          - exp_classes << "hidden" 
+        - case validation[:type]
+        - when :maximum
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal kleiner dan of gelijk aan #{validation[:value]} zijn." 
+        - when :minimum
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal groter dan of gelijk aan #{validation[:value]} zijn."
+        - when :requires_answer
+          %div{:class => exp_classes}= validation[:explanation] || "Deze vraag moet beantwoord worden."
+        - when :regexp
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet voldoen aan de vorm #{validation[:matcher]}."
+        - when :valid_integer
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een afgerond getal zijn."
+        - when :valid_float
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen)."
+        - when :too_many_checked
+          %div{:class => exp_classes}= validation[:explanation] || "U heeft te veel opties gekozen."
+        - when :not_all_checked
+          %div{:class => exp_classes}= validation[:explanation] || "U heeft te weinig opties gekozen."
+        - when :one_of
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een van de volgende zijn: #{validation[:array].inspect}"
+        - else
+          %strong
+            Error: unknown validation type
+            = validation[:type]     
+              
+      - case item.type
+      - when :string
+        = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion}
+        -#- when :open
+        -#  = render :partial => "answers/paged/item_question_open", :locals => {:question => item, :subquestion => subquestion}
+        -# when :text
+        -#  = render :partial => "answers/paged/item_question_text", :locals => {:question => item, :subquestion => subquestion}
+      - when :integer, :float
+        = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion}
+      - when :radio
+        = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion}
+      - when :date
+        = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion}
+      - when :check_box
+        = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
+      - when :scale
+        = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion}
       - else
         %strong
-          Error: unknown validation type
-          = validation[:type]     
-             
-    - case item.type
-    - when :string
-      = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion}
-      -#- when :open
-      -#  = render :partial => "answers/paged/item_question_open", :locals => {:question => item, :subquestion => subquestion}
-      -# when :text
-      -#  = render :partial => "answers/paged/item_question_text", :locals => {:question => item, :subquestion => subquestion}
-    - when :integer, :float
-      = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion}
-    - when :radio
-      = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion}
-    - when :date
-      = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion}
-    - when :check_box
-      = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
-    - when :scale
-      = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion}
-    - else
-      %strong
-        Error: unknown question type
-        = item.type
-        for question
-        = item.key
+          Error: unknown question type
+          = item.type
+          for question
+          = item.key
   - else
     Error: unknown item type
     = item.class.name
