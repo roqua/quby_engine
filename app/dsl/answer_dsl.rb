@@ -5,7 +5,8 @@ module AnswerDsl
     
     answer.class_eval do
       questionnaire.questions.each do |question|
-        if question.type == :date
+        case question.type
+        when :date
 
           define_method(question.year_key || "#{question.key}_yyyy") do
             self.value ||= Hash.new
@@ -49,20 +50,7 @@ module AnswerDsl
             end            
           end
 
-        elsif question.type == :radio or question.type == :scale or 
-          question.type == :string
-
-          define_method(question.key) do
-            self.value ||= Hash.new
-            self.value[question.key]
-          end
-  
-          define_method(question.key.to_s + "=") do |v|
-            self.value ||= Hash.new
-            self.value[question.key] = v
-          end
-        
-        elsif question.type == :check_box
+        when :check_box
         
           define_method(question.key) do
             self.value ||= Hash.new
@@ -86,16 +74,24 @@ module AnswerDsl
             end  
           end
 
-        elsif question.type == :integer or question.type == :float
+        else 
+          # Includes:
+          #question.type == :radio 
+          #question.type == :scale
+          #question.type == :string
+          #question.type == :open
+          #question.type == :integer
+          #question.type == :float
+
           define_method(question.key) do
             self.value ||= Hash.new
             self.value[question.key]
           end
-          
+  
           define_method(question.key.to_s + "=") do |v|
             self.value ||= Hash.new
-            self.value[question.key] = v           
-          end                
+            self.value[question.key] = v
+          end
         end rescue nil
       end
 
