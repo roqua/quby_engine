@@ -35,7 +35,6 @@ namespace :deploy do
 
   desc "Symlink the questionnaires from shared dir"
   task :link_shared_dirs do
-    run "rm -r #{release_path}/db/questionnaires"
     run "ln -nfs #{deploy_to}/#{shared_dir}/questionnaires #{release_path}/db/questionnaires"
   end
 
