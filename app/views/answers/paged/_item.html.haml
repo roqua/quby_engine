@@ -15,7 +15,7 @@
       - item.validations.each do |validation|
         - exp_classes = ["error", validation[:type]]
         - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}
-      - unless valtypes.include?(validation[:type])
+        - unless valtypes.include?(validation[:type])
           - exp_classes << "hidden" 
         - case validation[:type]
         - when :maximum
