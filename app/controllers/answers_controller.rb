@@ -64,12 +64,12 @@ class AnswersController < ApplicationController
           end
         else
           flash[:notice] = "De vragenlijst is nog niet volledig ingevuld." 
-          format.html { render :action => :edit }
+          format.html { render :action => "answers/#{session[:display_mode]}/edit" }
           format.json { render :json => @answer }
         end
       else
         flash[:error] = "Could not save record."
-        format.html { render :action => :edit }
+        format.html { render :action => "answers/#{session[:display_mode]}/edit" }
         format.json { render :json => @answer.errors.to_json }
       end
     end

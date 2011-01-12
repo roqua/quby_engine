@@ -99,6 +99,16 @@ class Answer < ActiveRecord::Base
   def validate_answers
     return if @aborted
     hidden_questions = []
+    question_groups = {}
+    
+    questionnaire.questions.each do |q|
+      next unless q
+      if q.question_group
+        question_groups[q.question_group] = [] unless question_groups[q.question_group]
+        question_groups[q.question_group] << q.key
+      end
+    end
+    
     questionnaire.questions.each do |question|
       next unless question
       answer = self.send(question.key)
@@ -114,8 +124,7 @@ class Answer < ActiveRecord::Base
       
       if (question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
         (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)) or
-        hidden_questions.include?(question.key) or
-        answer == "DESELECTED_RADIO_VALUE"
+        hidden_questions.include?(question.key) 
         clear_question(question)
         next          
       end
@@ -164,16 +173,16 @@ class Answer < ActiveRecord::Base
             end          
           when :one_of
             add_error(question, :one_of, "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
-#          when :answer_group_minimum
-#            answered = 0
-#            validation[:group].each do |qk|
-#              unless self.send(qk).blank?
-#                answered += 1
-#              end
-#            end
-#            if answered < validation[:value]
-#              add_error(question, :answer_group_minimum, "Needs at least #{validation[:value]} question(s) answered.")
-#            end
+          when :answer_group_minimum
+            answered = calc_answered(question_groups[validation[:group]])
+            if answered < validation[:value]
+              add_error(question, :answer_group_minimum, "Needs at least #{validation[:value]} question(s) answered.")
+            end
+          when :answer_group_maximum
+            answered = calc_answered(question_groups[validation[:group]])
+            if answered > validation[:value]
+              add_error(question, :answer_group_maximum, "Needs at most #{validation[:value]} question(s) answered.")
+            end
           end
         end
         logger.info "ERRORS: #{errors.inspect}"
@@ -182,6 +191,16 @@ class Answer < ActiveRecord::Base
   end
 
   protected
+  
+  def calc_answered(qkeys)
+    answered = 0
+    qkeys.each do |qk|
+      unless self.send(qk).blank?
+        answered += 1
+      end
+    end
+    return answered
+  end
   
   def add_error(question, validationtype, message)
     errors.add(question.key, {:message => message, :valtype => validationtype})

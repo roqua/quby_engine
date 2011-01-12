@@ -47,6 +47,10 @@ class Items::Question < Item
   # Whether we can collapse this in bulk view
   attr_accessor :disallow_bulk
  
+  #options for grouping questions and setting a minimum or maximum number of answered questions in the group
+  attr_accessor :question_group
+  attr_accessor :group_minimum_answered
+  attr_accessor :group_maximum_answered
   ##########################################################
   
   def initialize(key, options = {})
@@ -64,6 +68,10 @@ class Items::Question < Item
     @uncheck_all_option = options[:uncheck_all_option]    
     @deselectable = options[:deselectable] || false
     @disallow_bulk = options[:disallow_bulk]
+    
+    @question_group = options[:question_group]
+    @group_minimum_answered = options[:group_minimum_answered]
+    @group_maximum_answered = options[:group_maximum_answered]
     
     @year_key = options[:year_key].andand.to_s
     @month_key = options[:month_key].andand.to_s
@@ -89,6 +97,14 @@ class Items::Question < Item
     end
     if @uncheck_all_option
       @validations << {:type => :too_many_checked, :uncheck_all_key => @uncheck_all_option, :explanation => options[:error_explanation]}
+    end
+    
+    if @question_group
+      if @group_minimum_answered
+        @validations << {:type => :answer_group_minimum, :group => @question_group, :value => @group_minimum_answered, :explanation => options[:error_explanation]}
+      elsif @group_maximum_answered
+        @validations << {:type => :answer_group_maximum, :group => @question_group, :value => @group_maximum_answered, :explanation => options[:error_explanation]}
+      end
     end
     
     @hides_questions = []

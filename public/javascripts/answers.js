@@ -46,6 +46,23 @@ function pushFailVal(val){
     validationI++;
 }
 
+function is_answered(inputs, question_item){
+    for (var j = 0; j < inputs.length; j++){
+        var input = inputs[j];
+        if(input.type === "text" && question_item.is(".string, .text, .integer, .float, .date")){
+            if (input.value != "") {
+                return true;
+            }
+        }
+        if((input.type === "radio" && question_item.hasClass("radio")) || (input.type === "checkbox" && question_item.hasClass("checkbox"))){
+            if (input.checked) {
+                return true;
+            }
+        }
+    }
+    return inputs.length == 0;
+}
+
 function validatePanel(panel) {
   var failed = false;
   validationI = 0;
@@ -64,23 +81,7 @@ function validatePanel(panel) {
         var validation = validations[question_key][i];
         switch(validation.type) {
             case "requires_answer":
-                var someChecked = -1;
-                for (var j = 0; j < inputs.length; j++){
-                    var input = inputs[j];
-                    if(input.type === "text" && question_item.is(".string, .text, .integer, .float, .date") && input.value == "" ){
-                        fail_vals.push(validation.type);
-                        break;
-                    }
-                    if((input.type === "radio" && question_item.hasClass("radio")) || (input.type === "checkbox" && question_item.hasClass("checkbox"))){
-                        if (input.checked) {
-                            someChecked = true;                    
-                            break;
-                        } else {
-                            someChecked = false;                        
-                        }
-                    }
-                }
-                if (someChecked != -1 && !someChecked) {
+                if (!is_answered(inputs, question_item)) {
                   pushFailVal(validation.type);
                 }
                 break;          
@@ -151,6 +152,18 @@ function validatePanel(panel) {
                     pushFailVal(validation.type);
                 }
                 break;
+//            case "answer_group_minimum":
+//                var count = get_answer_count(validation.group, panel);
+//                if(count < validation.value){
+//                    pushFailVal(validation.type);
+//                }
+//                break;
+//            case "answer_group_maximum":
+//                var count = get_answer_count(validation.group, panel);
+//                if(count > validation.value){
+//                    pushFailVal(validation.type);
+//                }
+//                break;
             //These validations would only come into play if the javascript that makes it impossible
             //to check an invalid combination of checkboxes fails. 
             case "too_many_checked":            
@@ -171,6 +184,20 @@ function validatePanel(panel) {
   //To correctly reposition the placeholders
   placeholder();
   return !failed;
+}
+
+function get_answer_count(groupkey, panel){
+    var answered = 0;
+    
+    var quest_items = $(panel).find(".item."+ groupkey);
+    for(var i = 0; i < quest_items.length; i++){
+        var inputs = $(quest_items[i]).find(" input").not(":disabled, :hidden")
+        if (is_answered(inputs, quest_items.eq(i))) {
+            answered++;
+        }
+    }
+    
+    return answered;
 }
 
 //This function is set to the onClick of the 'check_all' and the 'uncheck_all' checkboxes, with checkValue set
@@ -262,7 +289,7 @@ function selectInput(value){
 //    });
     
 //    if(values.length == 0){
-        selectedInput = $(lastFocus.find("input:not(.subinput, :hidden, :disabled)").get(value-1));
+        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").eq(value-1);
 //    }
     selectedInput.mousedown();
     selectedInput.click();
