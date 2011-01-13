@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '~> 3.0.0'
 
 gem 'haml'
-gem 'formtastic', :git => "git://github.com/justinfrench/formtastic.git", :branch => "rails3"
+gem 'formtastic'
 gem 'maruku'
 gem 'compass', '>= 0.10.6'
 
