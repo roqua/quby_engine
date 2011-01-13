@@ -104,7 +104,7 @@ class Answer < ActiveRecord::Base
       answer = self.send(question.key)
       validations = question.validations
 
-      if question.type == :radio and not question.hides_questions.blank?
+      if answer and question.type == :radio and not question.hides_questions.blank?
         question.options.each do |opt|
           if answer.to_sym == opt.key
             hidden_questions.concat(opt.hides_questions)
