@@ -1,14 +1,23 @@
+Installatie
+===========
+
+Je hebt de vragenlijst-definities nodig, die staan in een andere git-repo. Zie
+hoofdstuk "Vragenlijsten updaten". Daarna doe je:
+
+  rake db:seed
+
+En je zou klaar moeten zijn.
+
+
 Vragenlijsten updaten
 =====================
 
 Vragenlijsten staan in een losse git repository:
   git@git.roqua.nl:qubyquestionnaires.git
-  
-In development staat deze als git submodule aangemerkt, je kunt 'm makkelijk
-binnen halen via:
 
-  git submodule init 
-  git submodule update 
+Clone deze repository naar een map op je computer, en maak een symlink aan binnen Quby:
+
+  ln -s /path/to/qubyquestionnaires /path/to/quby/db/questionnaires
 
 Bij de eerste deploy wordt deze repository gecloned naar /shared/questionnaires
 en wordt deze gesymlinked. In het capistrano-script kun je aangeven dat je een
