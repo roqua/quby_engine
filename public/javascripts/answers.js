@@ -152,18 +152,18 @@ function validatePanel(panel) {
                     pushFailVal(validation.type);
                 }
                 break;
-//            case "answer_group_minimum":
-//                var count = get_answer_count(validation.group, panel);
-//                if(count < validation.value){
-//                    pushFailVal(validation.type);
-//                }
-//                break;
-//            case "answer_group_maximum":
-//                var count = get_answer_count(validation.group, panel);
-//                if(count > validation.value){
-//                    pushFailVal(validation.type);
-//                }
-//                break;
+            case "answer_group_minimum":
+                var count = get_answer_count(validation.group, panel);
+                if(count < validation.value){
+                    pushFailVal(validation.type);
+                }
+                break;
+            case "answer_group_maximum":
+                var count = get_answer_count(validation.group, panel);
+                if(count > validation.value){
+                    pushFailVal(validation.type);
+                }
+                break;
             //These validations would only come into play if the javascript that makes it impossible
             //to check an invalid combination of checkboxes fails. 
             case "too_many_checked":            
@@ -545,14 +545,16 @@ $(document).ready(
             
             if (radioChecked) {
                 $(obj).attr('checked', false);
+                $(obj).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', true);
             } else {
+                $(obj).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', false);
                 $(obj).attr('checked', true);
             }
         };    
                              
-        $.each(allRadios, function(i, val){        
+        $.each(allRadios, function(i, val){
             var label = $('label[for=' + $(this).attr("id") + ']');
-        
+            
             $(this).bind('mousedown', function(e){
                 setCurrent(e);
             });

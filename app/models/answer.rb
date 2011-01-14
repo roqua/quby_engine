@@ -101,11 +101,16 @@ class Answer < ActiveRecord::Base
     hidden_questions = []
     question_groups = {}
     
-    questionnaire.questions.each do |q|
-      next unless q
-      if q.question_group
-        question_groups[q.question_group] = [] unless question_groups[q.question_group]
-        question_groups[q.question_group] << q.key
+    questionnaire.questions.each do |question|
+      next unless question
+      answer = self.send(question.key)
+      if answer == "DESELECTED_RADIO_VALUE" 
+        clear_question(question)
+      end
+      
+      if question.question_group
+        question_groups[question.question_group] = [] unless question_groups[question.question_group]
+        question_groups[question.question_group] << question.key
       end
     end
     
@@ -124,8 +129,7 @@ class Answer < ActiveRecord::Base
       
       if (question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
           (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)) or
-          hidden_questions.include?(question.key) or
-          answer == "DESELECTED_RADIO_VALUE" 
+          hidden_questions.include?(question.key)
         clear_question(question) 
         next          
       end
