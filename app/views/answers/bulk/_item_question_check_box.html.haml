@@ -17,9 +17,10 @@
               = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "setAllCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
             - else
               = check_box(:answer, "#{question.key}_#{opt.key}", {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""})
-          %label(for="answer_#{question.key}_#{opt.key}")
-            %span
-              :markdown
-                #{raw opt.description}
+          .labelwrapper
+            %label(for="answer_#{question.key}_#{opt.key}")
+              %span
+                :markdown
+                  #{raw opt.description}
           - unless opt.questions.empty?
             .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}

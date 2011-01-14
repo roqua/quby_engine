@@ -40,10 +40,11 @@
                 {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
             - if question.show_values
               .value= opt.value
-            %label(for="answer_#{question.key}_#{opt.key}")
-              %span
-                :markdown
-                  #{raw opt.description}
+            .labelwrapper
+              %label(for="answer_#{question.key}_#{opt.key}")
+                %span
+                  :markdown
+                    #{raw opt.description}
             - unless opt.questions.empty?
               .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}
       = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden")
