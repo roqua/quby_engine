@@ -7,6 +7,7 @@ module QuestionnaireDsl
   class QuestionnaireFactory
     def initialize(target_instance)
       @questionnaire = target_instance
+      @default_question_options = {}
     end
 
 
@@ -31,13 +32,17 @@ module QuestionnaireDsl
     end
     
     def panel(title = nil, options = {}, &block)
-      p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire}))
+      p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire, :default_question_options => @default_question_options}))
       p.instance_eval(&block)
       
       @questionnaire.instance_eval do
         @panels ||= []
         @panels << p.build
       end
+    end
+
+    def default_question_options(options = {})
+      @default_question_options.merge!(options)
     end
 
     # Short-circuit the question command to perform an implicit panel
@@ -73,6 +78,7 @@ module QuestionnaireDsl
 
     def initialize(title, options = {})
       @panel = Items::Panel.new(options.merge({:title => title, :items => []}))
+      @default_question_options = options[:default_question_options] || {}
     end
 
     def build
@@ -94,7 +100,7 @@ module QuestionnaireDsl
     def question(key, options = {}, &block)
       # TODO Add check for repeated use of keys
       
-      q = QuestionFactory.new(key, options)
+      q = QuestionFactory.new(key, @default_question_options.merge(options))
       q.instance_eval(&block)
 
       @panel.items << q.build
@@ -109,6 +115,7 @@ module QuestionnaireDsl
     
     def initialize(key, options = {})
       @question = Items::Question.new(key, options)      
+      @default_question_options = options[:default_question_options] || {}
     end
     
     def build
@@ -140,7 +147,7 @@ module QuestionnaireDsl
     end
 
     def question(key, options = {}, &block)
-      q = QuestionFactory.new(key, options.merge({:parent => @question, :parent_option_key => @question.options.last.key}))
+      q = QuestionFactory.new(key, @default_question_options.merge(options.merge({:parent => @question, :parent_option_key => @question.options.last.key})))
       q.instance_eval(&block) if block
 
       @question.options.last.questions << q.build
