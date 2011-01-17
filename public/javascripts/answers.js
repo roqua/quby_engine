@@ -11,6 +11,9 @@ var qitems;
 var fail_vals = new Array();
 var validationI = 0;
 var hotkeysEnabled;
+var radioChecked;
+var setCurrent;
+var setCheck;
 
 function activatePanel(panel, updateHash, forward) {
     $('.flash').hide();
@@ -282,18 +285,20 @@ function handleDisableCheckboxSubQuestions(element){
 function selectInput(value){
     var values = lastFocus.find(".value");
     var selectedInput = $([]);
-//    values.each(function(index, element){
-//       if(parseInt(element.textContent) == value){
-//           selectedInput = $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)");           
-//       }
-//    });
+    values.each(function(index, element){
+       if(parseInt(element.textContent) == value){
+           selectedInput = $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)");           
+       }
+    });
     
-//    if(values.length == 0){
+    if(values.length == 0){
         selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").eq(value-1);
-//    }
-    selectedInput.mousedown();
-    selectedInput.click();
-    selectedInput.focus();
+    }
+    if(selectedInput.length > 0) {
+        setCurrent(selectedInput[0]);
+        setCheck(selectedInput[0], selectedInput.is('.deselectable'));
+        radioEvents(selectedInput[0]);
+    }    
 }
 
 function preventDefault(event){
@@ -339,11 +344,11 @@ function handleRadioHotKeys(event){
     event.which = event.which || event.keyCode;
     
     switch (event.which) {
-//        //0
-//        case 48:
-//        case 96:
-//            selectInput(0);
-//            break;
+        //0
+        case 48:
+        case 96:
+            selectInput(0);
+            break;
         //1
         case 49:
         case 97:
@@ -510,6 +515,11 @@ function hotkeyDialog(){;
     });
 }
 
+function radioEvents(element){
+    handleDisableRadioSubQuestions(element);
+    handleHideQuestions(element, eval(element.getAttribute('hides')), eval(element.getAttribute('allhidden')));
+}
+
 $(document).ready(
     function() {
         
@@ -528,44 +538,44 @@ $(document).ready(
         $('input[type="radio"]').each( function(index, element){            
            handleDisableRadioSubQuestions(element);
         });
-        
+        $('input[type="radio"]').not("[value='DESELECTED_RADIO_VALUE']").click( function(){
+           radioEvents(this);
+        });
         $('input[type="radio"]:checked').click();
 
 
-        var allRadios = $('input[type=radio].deselectable')
-        var radioChecked;
-    
-        var setCurrent = function(e) {
-            var obj = e.target;         
+        var allDeselectableRadios = $('input[type=radio].deselectable');
+        
+        setCurrent = function(obj) {
             radioChecked = $(obj).attr('checked');
         };
                             
-        var setCheck = function(e) {
-            var obj = e.target;
-            
+        setCheck = function(obj, deselectable) {            
             if (radioChecked) {
-                $(obj).attr('checked', false);
-                $(obj).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', true);
+                if (deselectable) {
+                    $(obj).attr('checked', false);
+                    $(obj).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', true);
+                }
             } else {
                 $(obj).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', false);
                 $(obj).attr('checked', true);
             }
         };    
                              
-        $.each(allRadios, function(i, val){
+        $.each(allDeselectableRadios, function(i, val){
             var label = $('label[for=' + $(this).attr("id") + ']');
             
             $(this).bind('mousedown', function(e){
-                setCurrent(e);
+                setCurrent(e.target);
             });
             
             label.bind('mousedown', function(e){
                 e.target = $('#' + $(this).attr("for"));
-                setCurrent(e);
+                setCurrent(e.target);
             });
             
             $(this).bind('click', function(e){
-                setCheck(e);    
+                setCheck(e.target, true);    
             });
         });
         

@@ -17,7 +17,7 @@
         - radio_classes << "subinput" if subquestion
         - radio_classes << "deselectable" if question.deselectable
           = radio_button(:answer, question.key, opt.key,
-          {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => radio_classes})
+          {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes})
 - else
   - content_for(:item_class, "notbulk")
   %label.main(for="answer_#{question.key}")= question.title
@@ -36,7 +36,7 @@
           .option(class="#{question.show_values ? 'show_values' : nil}")
             .radiocheckwrapper
               = radio_button(:answer, question.key, opt.key,
-                {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
+                {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : ""})
             - if question.show_values
               .value= opt.value
             .labelwrapper
