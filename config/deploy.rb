@@ -69,5 +69,5 @@ namespace :deploy do
   end
 
   after "deploy:update_code", "deploy:link_shared_dirs"
-  #after "deploy:update_code"#, "deploy:update_questionnaires"
+  after "deploy:update_code", "deploy:update_questionnaires"
 end
