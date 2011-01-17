@@ -14,6 +14,7 @@
           %td.option(class=cls)
             = radio_button(:answer, question.key, opt.key,
               {:onClick => "handleDisableRadioSubQuestions(this); handleHideQuestions(this,#{opt.hides_questions.to_json}, #{question.hides_questions.to_json})", :class => subquestion ? "subinput" : ""})
+        = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden")
       %tr
         - question.options.each_with_index do |opt, idx|
           - cls = []
@@ -21,3 +22,4 @@
           - cls << "last" if idx >= (question.options.size - 1)
           %td.description(class=cls) 
             %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+        

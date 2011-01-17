@@ -376,11 +376,14 @@ body {
               @include column(18, true); 
               
               .radiocheckwrapper { @include column(1); }
-              label              { @include column(17, true); }
+              .labelwrapper      { 
+                @include column(17, true); 
+                p { display: inline; }
+              }
 
               &.show_values {
                 .value { @include column(1); text-align: center; }
-                label { @include column(16, true); }
+                .labelwrapper { @include column(16, true); }
               }
 
               .subquestions {

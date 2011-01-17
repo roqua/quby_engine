@@ -1,9 +1,8 @@
 - if not question.disallow_bulk and question.subquestions.blank?
   - if (not previous_item) or |
-       (not previous_item.respond_to?(:options)) or |
-       (    previous_item.options.map(&:value) != question.options.map(&:value) | 
-        and previous_item.options.map(&:description) != question.options.map(&:description) |
-       )
+  (not previous_item.respond_to?(:options)) or |
+  (    previous_item.options.map(&:value) != question.options.map(&:value) | 
+  and previous_item.options.map(&:description) != question.options.map(&:description))
     = render :partial => "answers/bulk/item_radio_check_scale_options", :object => question
 
   %label.main(for="answer_#{question.key}")= question.title

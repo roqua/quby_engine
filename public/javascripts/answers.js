@@ -54,7 +54,7 @@ function is_answered(inputs, question_item){
                 return true;
             }
         }
-        if((input.type === "radio" && question_item.hasClass("radio")) || (input.type === "checkbox" && question_item.hasClass("checkbox"))){
+        if((input.type === "radio" && question_item.is(".radio, .scale")) || (input.type === "checkbox" && question_item.hasClass("checkbox"))){
             if (input.checked) {
                 return true;
             }
