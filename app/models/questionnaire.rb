@@ -3,6 +3,7 @@ class Questionnaire < ActiveRecord::Base
 
   after_initialize :enhance_by_dsl
 
+  before_validation :ensure_linux_line_ends
   before_save :validate_definition_syntax
   after_save  :write_to_disk
 
@@ -42,7 +43,7 @@ class Questionnaire < ActiveRecord::Base
   end
 
   def definition=(value)
-    @definition = value
+    @definition = value.gsub("\r\n", "\n")
   end
 
   def questions_tree
@@ -70,6 +71,10 @@ class Questionnaire < ActiveRecord::Base
   end
 
   protected
+
+  def ensure_linux_line_ends
+    self.definition = self.definition.gsub("\r\n", "\n")
+  end
 
   def validate_definition_syntax
     q = Questionnaire.new
