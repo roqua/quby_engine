@@ -42,13 +42,12 @@ namespace :deploy do
   task :update_questionnaires do
     update_commands = []
     update_commands << "cd #{deploy_to}/#{shared_dir}/questionnaires"
-    update_commands << "git pull"
+    update_commands << "git fetch origin && git merge origin/master && git push"
 
     clone_commands = []
     # Set up git for committing
     clone_commands << "git config --global user.email \"deploy@quby.#{application}.roqua.nl\""
     clone_commands << "git config --global user.name \"#{application} deployed instance\""
-    clone_commands << "git config --global core.autocrlf input"
 
     # Clone git repo
     clone_commands << "cd #{deploy_to}/#{shared_dir}"

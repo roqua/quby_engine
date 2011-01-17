@@ -95,8 +95,9 @@ class Questionnaire < ActiveRecord::Base
     filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
     logger.info "Writing #{filename}..."
     File.open(filename, "w") {|f| f.write( self.definition ) }
+
     unless Rails.env.development?
-      system "cd #{Rails.root}/db/questionnaires && git add . && git commit -m 'auto-commit from admin'"
+      system "cd #{Rails.root}/db/questionnaires && git add . && git commit -m 'auto-commit from admin' &&  git push"
     end
   end
   
