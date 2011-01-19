@@ -52,26 +52,21 @@ class AnswersController < ApplicationController
   
   def update
     respond_to do |format|
+      #Update_attributes also validates
       if @answer.update_attributes(params[:answer])
-        if @answer.valid?
-          if session[:return_url]
-            address = Addressable::URI.parse(session[:return_url])
-            address.query_values = address.query_values.merge(:key => session[:return_token])
-            logger.info address.to_s
-            redirect_to address.to_s and return
-          else
-            render :action => "completed" and return
-          end
+        if session[:return_url]
+          address = Addressable::URI.parse(session[:return_url])
+          address.query_values = address.query_values.merge(:key => session[:return_token])
+          logger.info address.to_s
+          redirect_to address.to_s and return
         else
-          flash[:notice] = "De vragenlijst is nog niet volledig ingevuld." 
-          format.html { render :action => "answers/#{session[:display_mode]}/edit" }
-          format.json { render :json => @answer }
+          render :action => "completed" and return
         end
       else
-        flash[:error] = "Could not save record."
+        flash[:notice] = "De vragenlijst is nog niet volledig ingevuld." 
         format.html { render :action => "answers/#{session[:display_mode]}/edit" }
         format.json { render :json => @answer.errors.to_json }
-      end
+      end      
     end
   end
 

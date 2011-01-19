@@ -16,7 +16,6 @@ var setCurrent;
 var setCheck;
 
 function activatePanel(panel, updateHash, forward) {
-    $('.flash').hide();
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
     
@@ -29,6 +28,9 @@ function activatePanel(panel, updateHash, forward) {
             return activatePanel($(panel).prev(), updateHash, false);
         }
     }
+    
+    //TODO make window scroll to top at every new panel
+    //window.scrollTo(0,0);
     
     if (updateHash) {
         hashChangeEnabled = false;
@@ -57,7 +59,7 @@ function is_answered(inputs, question_item){
                 return true;
             }
         }
-        if((input.type === "radio" && question_item.is(".radio, .scale")) || (input.type === "checkbox" && question_item.hasClass("checkbox"))){
+        if((input.type === "radio" && question_item.is(".radio, .scale")) || (input.type === "checkbox" && question_item.hasClass("check_box"))){
             if (input.checked) {
                 return true;
             }
@@ -229,12 +231,16 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
 function correctAllNothingCheckboxes(checked, allKey, nothingKey){
     if(checked){
         var el = $('#answer_'+nothingKey)[0];
-        $(el).attr("checked", "");
-        handleDisableCheckboxSubQuestions(el);
+        if (el) {
+            $(el).attr("checked", "");
+            handleDisableCheckboxSubQuestions(el);
+        }
     } else {
         var el = $('#answer_'+allKey)[0];
-        $(el).attr("checked", "");
-        handleDisableCheckboxSubQuestions(el);
+        if (el) {
+            $(el).attr("checked", "");
+            handleDisableCheckboxSubQuestions(el);
+        }
     }
 }
 
@@ -276,9 +282,9 @@ function handleDisableRadioSubQuestions(element){
 
 function handleDisableCheckboxSubQuestions(element){
     if(element.checked){
-        $(element).parent().find('.item input').attr("disabled", "");       
+        $(element).closest('.option').find('.subinput').attr("disabled", "");       
     } else {
-        $(element).parent().find('.item input').attr("disabled", "true");
+        $(element).closest('.option').find('.subinput').attr("disabled", "true");
     }
 }
 
@@ -619,6 +625,12 @@ $(document).ready(
                     }          
                 }
             );
+            
+            //Go to first panel with errors
+            var errors = $('.errors');
+            if (errors.length > 0){
+                activatePanel(errors.closest('.panel').eq(0), true, true);
+            }
         }
         
         //Layout breaks with this
