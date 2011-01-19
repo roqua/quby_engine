@@ -22,7 +22,8 @@ class Admin::QuestionnairesController < AdminAreaController
     @questionnaire = Questionnaire.new
     @questionnaire.key = params[:questionnaire][:key]
     @questionnaire.definition = params[:questionnaire][:definition]
-
+    @questionnaire.last_author = current_user.email
+    
     if @questionnaire.save
       redirect_to edit_admin_questionnaire_path(@questionnaire)
     else
@@ -33,7 +34,8 @@ class Admin::QuestionnairesController < AdminAreaController
   def update
     @questionnaire = Questionnaire.find_by_key(params[:id])
     @questionnaire.definition = params[:questionnaire][:definition]
-
+    @questionnaire.last_author = current_user.email
+    
     if @questionnaire.save
       redirect_to edit_admin_questionnaire_path(@questionnaire)
     else

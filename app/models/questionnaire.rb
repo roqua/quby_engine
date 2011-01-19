@@ -13,6 +13,8 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :panels
   attr_accessor :scores
   
+  attr_accessor :last_author
+  
   #allow hotkeys for either :all or just :bulk views
   attr_accessor :allow_hotkeys
   
@@ -97,7 +99,7 @@ class Questionnaire < ActiveRecord::Base
     File.open(filename, "w") {|f| f.write( self.definition ) }
 
     unless Rails.env.development?
-      system "cd #{Rails.root}/db/questionnaires && git add . && git commit -m 'auto-commit from admin' &&  git push"
+      system "cd #{Rails.root}/db/questionnaires && git config --global user.name \"#{application} instance, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' &&  git push"
     end
   end
   
