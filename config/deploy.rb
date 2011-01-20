@@ -8,6 +8,7 @@ set :deploy_via, :remote_cache
 
 set :questionnaire_repository, "git@git.roqua.nl:qubyquestionnaires.git"
 set :questionnaire_branch, "master"
+set :questionnaire_master_branch, "master"
 
 set :user, "deploy"
 set :use_sudo, false
@@ -42,7 +43,7 @@ namespace :deploy do
   task :update_questionnaires do
     update_commands = []
     update_commands << "cd #{deploy_to}/#{shared_dir}/questionnaires"
-    update_commands << "git fetch origin && git merge origin/master && git push"
+    update_commands << "git fetch origin && git merge origin/#{questionnaire_master_branch} && git push"
 
     clone_commands = []
     # Set up git for committing
