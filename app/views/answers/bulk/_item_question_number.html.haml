@@ -1,4 +1,4 @@
-%label.main(for="answer_#{question.key}")= question.title
+%label.main(for="answer_#{question.key}")= question.title || raw("&nbsp;")
 .description-and-fields
   .description
     - unless question.description.blank?

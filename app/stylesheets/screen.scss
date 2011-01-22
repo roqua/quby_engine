@@ -259,6 +259,7 @@ body {
       h1 {
         font-size: 1.5em;
         font-weight: bold;
+        margin-top: 2em;
         margin-bottom: 1.2em;
         z-index: 400;
       }
@@ -301,8 +302,8 @@ body {
           @include column(12, true);
 
           // have to say div.description, because scale uses a table, and including column on tds would break
-          div.description { @include text; @include column(18, true); }
-          .fields { @include column(18, true); }
+          div.description { @include text; @include column(12, true); }
+          .fields { @include column(12, true); }
         }
 
         // Specific CSS for presentation styles
@@ -318,7 +319,8 @@ body {
         // Specific CSS for certain item types
       
         &.string {
-          input { width: 100%; }
+          margin-bottom: 0.5em;
+          input { @include column(12,true); }
         }
 
         &.bulkitem {
@@ -353,7 +355,7 @@ body {
             .options {
               @include column(12, true);
               @include prepend(12);
-              margin-top: 3em;
+              margin-top: 1em;
             }
 
             .option, .description { 
