@@ -9,7 +9,11 @@
   = form.text_area "definition"
   = submit_tag "Update Questionnaire"
 
-= link_to "Try out this questionnaire. (Remember to save first)", test_admin_questionnaire_path(@questionnaire)
+#try
+  Try out this questionnaire. (Remember to save first)
+  = link_to "Regular version", test_admin_questionnaire_path(@questionnaire, :display_mode => :paged)
+  or the 
+  = link_to "bulk version", test_admin_questionnaire_path(@questionnaire, :display_mode => :bulk)
 
 :javascript
   editAreaLoader.init({
