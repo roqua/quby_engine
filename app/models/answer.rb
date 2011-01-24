@@ -20,7 +20,7 @@ class Answer < ActiveRecord::Base
     if @roqua_vals
       @questionnaire.questions.each do |q|
         case q.type 
-        when :radio
+        when :radio, :scale
           q.options.each do |opt|
             if opt.value.to_s == @roqua_vals[q.key]
               @roqua_vals[q.key] = opt.key
