@@ -1,6 +1,8 @@
 class QuestionnairesController < ApplicationController
   respond_to :html, :json, :xml
 
+  before_filter :ip_check_for_api_methods
+
   def index
     @questionnaires = Questionnaire.active.all
     respond_with @questionnaires

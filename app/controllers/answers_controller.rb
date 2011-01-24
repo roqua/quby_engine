@@ -4,7 +4,11 @@ class AnswersController < ApplicationController
   before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update]
   before_filter :find_patient
   append_before_filter :find_answer, :only => [:show, :edit, :update]
+
+  # SECURITY CRITICAL
+  before_filter :ip_check_for_api_methods, :only => [:index]
   before_filter :verify_token, :only => [:show, :edit, :update]
+
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
   before_filter :remember_display_mode_in_session
