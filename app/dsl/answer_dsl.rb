@@ -59,13 +59,13 @@ module AnswerDsl
             
           question.options.each do |opt|
             
-            define_method("#{question.key}_#{opt.key}") do
+            define_method("#{opt.key}") do
               self.value ||= Hash.new
               self.value[question.key] ||= Hash.new
               self.value[opt.key] ||= 0
             end
             
-            define_method("#{question.key}_#{opt.key}=") do |v|
+            define_method("#{opt.key}=") do |v|
               v = v.to_i
               self.value ||= Hash.new
               self.value[question.key] ||= Hash.new
