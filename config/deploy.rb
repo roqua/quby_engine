@@ -47,8 +47,8 @@ namespace :deploy do
 
     clone_commands = []
     # Set up git for committing
-    clone_commands << "git config --global user.email \"deploy@quby.#{application}.roqua.nl\""
-    clone_commands << "git config --global user.name \"#{application} deployed instance\""
+    clone_commands << "git config user.email \"deploy@quby.#{application}.roqua.nl\""
+    clone_commands << "git config user.name \"#{application} deployed instance\""
 
     # Clone git repo
     clone_commands << "cd #{deploy_to}/#{shared_dir}"
