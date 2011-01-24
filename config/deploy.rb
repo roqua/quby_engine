@@ -43,7 +43,7 @@ namespace :deploy do
   task :update_questionnaires do
     update_commands = []
     update_commands << "cd #{deploy_to}/#{shared_dir}/questionnaires"
-    update_commands << "git fetch origin && git merge origin/#{questionnaire_master_branch} && git push"
+    update_commands << "git fetch origin && git merge origin/#{questionnaire_master_branch} && git push origin #{questionnaire_branch}"
 
     clone_commands = []
     # Set up git for committing
