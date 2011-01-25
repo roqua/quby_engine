@@ -298,7 +298,7 @@ function selectInput(value){
     });
     
     if(values.length == 0){
-        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").eq(value-1);
+        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").eq(value);
     }
     if(selectedInput.length > 0) {
         setCurrent(selectedInput[0]);
@@ -549,7 +549,6 @@ $(document).ready(
         });
         $('input[type="radio"]:checked').click();
 
-
         var allDeselectableRadios = $('input[type=radio].deselectable');
         
         setCurrent = function(obj) {
@@ -568,7 +567,7 @@ $(document).ready(
             }
         };    
                              
-        $.each(allDeselectableRadios, function(i, val){
+        allDeselectableRadios.each( function(i, val){
             var label = $('label[for=' + $(this).attr("id") + ']');
             
             $(this).bind('mousedown', function(e){
@@ -590,7 +589,6 @@ $(document).ready(
         });
         
         isBulk = $('form.bulk').size() > 0;
-        // Don't hide panels when we're doing a bulk version
         if (!isBulk) {
             hashChangeEnabled = true;
             jQuery(window).bind( 'hashchange', hashchangeEventHandler);
@@ -634,8 +632,8 @@ $(document).ready(
         }
         
         //Layout breaks with this
-        //$("input[type=radio]").customInput();
-        //$("input[type=checkbox]").customInput();
+//        $("input[type=radio]").customInput();
+//        $("input[type=checkbox]").customInput();
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         if (hotkeysEnabled) {
             $("input").keydown(handleHotKeys);

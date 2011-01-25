@@ -3,12 +3,9 @@
 
 - content_for(:page_title, @questionnaire.title)
 
-- if @questionnaire.allow_hotkeys == :all or session[:display_mode] == @questionnaire.allow_hotkeys
-  %a{:id => "hotkeyDialogLink", :href => "javascript:hotkeyDialog();", :title => "Klik hier voor informatie over de sneltoetsen."}
-    Sneltoetsen
     
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" ") do
-
+  = render :partial => "answers/hotkey_dialog"
   - all_items = @questionnaire.panels.map(&:items).flatten
   - previous_item = nil
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
@@ -22,11 +19,7 @@
       - panel.items.each_with_index do |item, idx|
         - next_item = all_items[all_items.index(item)]
         = render :partial => "answers/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item, :next_item => next_item }
-        - previous_item = item
-        
-
-      = render :partial => "answers/hotkey_dialog"
-    
+        - previous_item = item    
   .buttons
     .prev &nbsp;
     .print

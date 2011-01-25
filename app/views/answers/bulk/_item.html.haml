@@ -11,9 +11,7 @@
 .item{:class => itemclasses}
   - case item.class.name
   - when "Items::Text"
-    .text
-      :markdown
-        #{item}
+    -#Skipping text in bulk view
   - when "Items::Question"
     - item.validations.each do |validation|
       - exp_classes = ["error", validation[:type]]
@@ -64,7 +62,7 @@
     - when :check_box
       = render :partial => "answers/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
     - when :scale
-      = render :partial => "answers/bulk/item_question_scale", :locals => {:question => item, :subquestion => subquestion}
+      = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item}
     - else
       %strong
         Error: unknown question type
