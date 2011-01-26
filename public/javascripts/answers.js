@@ -298,7 +298,7 @@ function selectInput(value){
     });
     
     if(values.length == 0){
-        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").eq(value);
+        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").eq(value-1);
     }
     if(selectedInput.length > 0) {
         setCurrent(selectedInput[0]);
@@ -317,6 +317,27 @@ function preventDefault(event){
     event.stopPropagation();
 }
 
+function handlePreventDefault(event){
+    
+    event.which = event.which || event.keyCode;
+    
+    switch (event.which) {
+        //enter
+        case 13:
+        //pg up, up arrow
+        case 33:
+        case 38:
+        //pg dwn, down arrow
+        case 34:
+        case 40:
+            preventDefault(event);
+            break;
+        //space
+        case 32:
+            break;    
+    }
+}
+
 function handleHotKeys(event){
     
     event.which = event.which || event.keyCode;
@@ -325,20 +346,20 @@ function handleHotKeys(event){
         //enter
         case 13:            
             if (!(nextButtonFocussed || saveButtonFocussed)) {
-                preventDefault(event)
+                preventDefault(event);
                 focusNextInput();
             }
             break;
         //pg up, up arrow
         case 33:
         case 38:
-            preventDefault(event)
+            preventDefault(event);
             focusPrevInput();
             break;
         //pg dwn, down arrow
         case 34:
         case 40:
-            preventDefault(event)
+            preventDefault(event);
             focusNextInput();
             break;
         //space
@@ -406,9 +427,9 @@ function handleRadioHotKeys(event){
 function focusItem(qitem){
     if (qitem.length > 0) {
         if (lastFocus != undefined) {
-            lastFocus.removeClass('focus');
+            lastFocus.closest('.item').removeClass('focus');
         }
-        qitem.addClass('focus');
+        qitem.closest('.item').addClass('focus');
         var toScrollTo = qitem.closest('.item')[0];
         //Might not work properly inside a frame?
         window.scrollTo(0, toScrollTo.offsetTop-80);
@@ -435,7 +456,7 @@ function focusNextItem(){
                 saveButtonFocussed = true;
             }
         } else {
-            lastFocus.removeClass('focus');
+            lastFocus.closest('.item').removeClass('focus');
             $(".next input").focus();
             nextButtonFocussed = true;
         }
@@ -459,7 +480,7 @@ function focusPrevItem(){
             
             return focusItem(item);
         } else {
-            lastFocus.removeClass('focus');
+            lastFocus.closest('.item').removeClass('focus');
             $(".next input").focus();
             nextButtonFocussed = true;
         }
@@ -637,6 +658,7 @@ $(document).ready(
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         if (hotkeysEnabled) {
             $("input").keydown(handleHotKeys);
+            $("input").keypress(handlePreventDefault);
             $("input[type=radio]").keypress(handleRadioHotKeys);
             
             

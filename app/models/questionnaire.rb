@@ -24,6 +24,10 @@ class Questionnaire < ActiveRecord::Base
   validates_presence_of :key
   validates_uniqueness_of :key
   
+  def allow_hotkeys
+    (self[:allow_hotkeys] || :bulk).to_s
+  end
+  
   def to_param
     key
   end

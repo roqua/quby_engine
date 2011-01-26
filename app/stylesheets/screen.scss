@@ -269,6 +269,25 @@ body {
         .print { @include prepend(6); }
       }
       
+    .doublewide {
+        .option, .description { 
+            @include column(2);
+        }    
+    }
+    .option.last, .description.last { @include last; }
+    .options {
+        @include column(12, true);
+        @include prepend(12);
+        margin-top: 1em;
+        .option {
+            text-align: center;
+        }
+    }
+    .option { 
+        @include column(1);
+        border: 0;
+    }
+             
       .item { 
         @include column(24, true);
 
@@ -325,62 +344,53 @@ body {
           }
           input { @include column(12,true); }
         }
-
+        
         &.bulkitem {
-          &.radio, &.check_box, &.scale {
-            .fields.options1  table { @include column( 1, true); @include append(17); }
-            .fields.options2  table { @include column( 2, true); @include append(16); }
-            .fields.options3  table { @include column( 3, true); @include append(15); }
-            .fields.options4  table { @include column( 4, true); @include append(14); }
-            .fields.options5  table { @include column( 5, true); @include append(13); }
-            .fields.options6  table { @include column( 6, true); @include append(12); }
-            .fields.options7  table { @include column( 7, true); @include append(11); }
-            .fields.options8  table { @include column( 8, true); @include append(10); }
-            .fields.options9  table { @include column( 9, true); @include append( 9); }
-            .fields.options10 table { @include column(10, true); @include append( 8); }
-            .fields.options11 table { @include column(11, true); @include append( 7); }
-            .fields.options12 table { @include column(12, true); @include append( 6); }
-            .fields.options13 table { @include column(13, true); @include append( 5); }
-            .fields.options14 table { @include column(14, true); @include append( 4); }
-            .fields.options15 table { @include column(15, true); @include append( 3); }
-            .fields.options16 table { @include column(16, true); @include append( 2); }
-            .fields.options17 table { @include column(17, true); @include append( 1); }
-            .fields.options18 table { @include column(18, true);                      }
-            // more than 18 options is future work
-            //double wide
-            .fields.options1.doublewide  table { @include column( 2, true); @include append(16); }
-            .fields.options2.doublewide  table { @include column( 4, true); @include append(14); }
-            .fields.options3.doublewide  table { @include column( 6, true); @include append(12); }
-            .fields.options4.doublewide  table { @include column( 8, true); @include append(10); }
-            .fields.options5.doublewide  table { @include column( 10, true); @include append(8); }
-            .fields.options6.doublewide  table { @include column( 12, true); @include append(6); }
-            .fields.options7.doublewide  table { @include column( 14, true); @include append(4); }
-            .fields.options8.doublewide  table { @include column( 16, true); @include append(2); }
-            .fields.options9.doublewide  table { @include column( 18, true);}
-
-            &.horizontal {
-              // we need to reset this to be table cells
-              .description { float: none; display: table-cell; }
+            &.radio, &.check_box, &.scale {
+                .fields.options1  table { @include column( 1, true); @include append(17); }
+                .fields.options2  table { @include column( 2, true); @include append(16); }
+                .fields.options3  table { @include column( 3, true); @include append(15); }
+                .fields.options4  table { @include column( 4, true); @include append(14); }
+                .fields.options5  table { @include column( 5, true); @include append(13); }
+                .fields.options6  table { @include column( 6, true); @include append(12); }
+                .fields.options7  table { @include column( 7, true); @include append(11); }
+                .fields.options8  table { @include column( 8, true); @include append(10); }
+                .fields.options9  table { @include column( 9, true); @include append( 9); }
+                .fields.options10 table { @include column(10, true); @include append( 8); }
+                .fields.options11 table { @include column(11, true); @include append( 7); }
+                .fields.options12 table { @include column(12, true); @include append( 6); }
+                .fields.options13 table { @include column(13, true); @include append( 5); }
+                .fields.options14 table { @include column(14, true); @include append( 4); }
+                .fields.options15 table { @include column(15, true); @include append( 3); }
+                .fields.options16 table { @include column(16, true); @include append( 2); }
+                .fields.options17 table { @include column(17, true); @include append( 1); }
+                .fields.options18 table { @include column(18, true);                      }
+                // more than 18 options is future work
+                //double wide
+                .fields.options1.doublewide  table { @include column( 2, true); @include append(16); }
+                .fields.options2.doublewide  table { @include column( 4, true); @include append(14); }
+                .fields.options3.doublewide  table { @include column( 6, true); @include append(12); }
+                .fields.options4.doublewide  table { @include column( 8, true); @include append(10); }
+                .fields.options5.doublewide  table { @include column( 10, true); @include append(8); }
+                .fields.options6.doublewide  table { @include column( 12, true); @include append(6); }
+                .fields.options7.doublewide  table { @include column( 14, true); @include append(4); }
+                .fields.options8.doublewide  table { @include column( 16, true); @include append(2); }
+                .fields.options9.doublewide  table { @include column( 18, true);}
+            
+                &.horizontal {
+                    // we need to reset this to be table cells
+                    .description { float: none; display: table-cell; }
+                }
             }
-
+          
             .options {
-              @include column(12, true);
-              @include prepend(12);
-              margin-top: 1em;
+                @include column(12, true);
+                @include prepend(12);
+                margin-top: 1em;
             }
-
-            .option, .description { 
-              @include column(1);
-              border: 0;
-              text-align: center;
+            .option { 
+                text-align: center;                
             }
-            .doublewide {
-                .option, .description { 
-                    @include column(2);
-                }    
-            }
-            .option.last, .description.last { @include last; }
-          }
         }
 
         &.notbulkitem {
@@ -398,7 +408,7 @@ body {
               
               .radiocheckwrapper { @include column(1); }
               .labelwrapper      { 
-                @include column(17, true); 
+                //@include column(17, true); 
                 p { display: inline; }
               }
 
@@ -425,11 +435,11 @@ body {
 }
 
 .evenRow {
-    background-color: #f2e4ff;
+    background-color: #eeeeee;
 }
 
 .oddRow {
-    background-color: #f1ffe4;
+    //background-color: #f1ffe4;
 }
 
 #hotkeyDialog {

@@ -46,6 +46,9 @@ class Items::Question < Item
 
   # Whether we can collapse this in bulk view
   attr_accessor :disallow_bulk
+  
+  # Whether we use the :description, the :value or :none for the score header above this question
+  attr_accessor :score_header
  
   #options for grouping questions and setting a minimum or maximum number of answered questions in the group
   attr_accessor :question_group
@@ -68,6 +71,7 @@ class Items::Question < Item
     @uncheck_all_option = options[:uncheck_all_option]    
     @deselectable = options[:deselectable] || false
     @disallow_bulk = options[:disallow_bulk]
+    @score_header = options[:score_header] || :value
     
     @question_group = options[:question_group]
     @group_minimum_answered = options[:group_minimum_answered]

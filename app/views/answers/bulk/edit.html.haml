@@ -19,7 +19,7 @@
       - panel.items.each_with_index do |item, idx|
         - next_item = all_items[all_items.index(item)]
         = render :partial => "answers/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item, :next_item => next_item }
-        - previous_item = item    
+        - previous_item = item if item.class.name == "Items::Question"
   .buttons
     .prev &nbsp;
     .print
