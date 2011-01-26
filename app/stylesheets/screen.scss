@@ -320,13 +320,14 @@ body {
       
         &.string {
           margin-bottom: 0.5em;
+          &.bulkitem {
+            margin-bottom: 0.0em;
+          }
           input { @include column(12,true); }
         }
 
         &.bulkitem {
           &.radio, &.check_box, &.scale {
-            // beware, here be holycoding
-            // not sure why i'm including options1, why the frak would you have only one option?
             .fields.options1  table { @include column( 1, true); @include append(17); }
             .fields.options2  table { @include column( 2, true); @include append(16); }
             .fields.options3  table { @include column( 3, true); @include append(15); }
@@ -346,6 +347,16 @@ body {
             .fields.options17 table { @include column(17, true); @include append( 1); }
             .fields.options18 table { @include column(18, true);                      }
             // more than 18 options is future work
+            //double wide
+            .fields.options1.doublewide  table { @include column( 2, true); @include append(16); }
+            .fields.options2.doublewide  table { @include column( 4, true); @include append(14); }
+            .fields.options3.doublewide  table { @include column( 6, true); @include append(12); }
+            .fields.options4.doublewide  table { @include column( 8, true); @include append(10); }
+            .fields.options5.doublewide  table { @include column( 10, true); @include append(8); }
+            .fields.options6.doublewide  table { @include column( 12, true); @include append(6); }
+            .fields.options7.doublewide  table { @include column( 14, true); @include append(4); }
+            .fields.options8.doublewide  table { @include column( 16, true); @include append(2); }
+            .fields.options9.doublewide  table { @include column( 18, true);}
 
             &.horizontal {
               // we need to reset this to be table cells
@@ -363,7 +374,11 @@ body {
               border: 0;
               text-align: center;
             }
-            
+            .doublewide {
+                .option, .description { 
+                    @include column(2);
+                }    
+            }
             .option.last, .description.last { @include last; }
           }
         }
@@ -409,9 +424,17 @@ body {
   }
 }
 
+.evenRow {
+    background-color: #f2e4ff;
+}
+
+.oddRow {
+    background-color: #f1ffe4;
+}
+
 #hotkeyDialog {
     p {
-        margin: 1em 0
+        margin: 1em 0;
     }
 }
 

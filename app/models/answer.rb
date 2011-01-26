@@ -93,7 +93,8 @@ class Answer < ActiveRecord::Base
 #      next valid_so_far unless panel
 #      valid_so_far and panel.validate_answer(self)
 #    end rescue false
-    questionnaire.questions.reduce(true) do |all_blank, question|
+    
+    all_blank = questionnaire.questions.reduce(true) do |all_blank, question|
       next all_blank unless question
       all_blank and self.send(question.key).blank?
     end

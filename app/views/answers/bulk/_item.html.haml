@@ -1,12 +1,15 @@
 / Begin _item.html.haml
 - subquestion ||= false
 - itemclasses = [item.type, item.presentation]
-- if item.is_a?(Items::Question) and (item.disallow_bulk or (not item.subquestions.andand.empty?))
-  - itemclasses << "notbulkitem"
-- else
-  - itemclasses << "bulkitem"
+- if item.is_a?(Items::Question) 
+  - if(item.disallow_bulk or (not item.subquestions.andand.empty?))
+    - itemclasses << "notbulkitem"
+  - else
+    - itemclasses << "bulkitem"
+    - itemclasses << cycle('evenRow', 'oddRow')
 - itemclasses << "errors" unless @answer.errors[item.key].empty?
 - itemclasses << item.question_group if item.class.name == "Items::Question" and item.question_group
+ 
 
 .item{:class => itemclasses}
   - case item.class.name

@@ -1,10 +1,10 @@
 - if not question.disallow_bulk and question.subquestions.blank?
-  - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != question.options.map(&:value) and previous_item.options.map(&:description) != question.options.map(&:description))
-    = render :partial => "answers/bulk/item_radio_check_scale_options", :object => question
-
   %label.main(for="answer_#{question.key}")= raw(question.title)
   .description-and-fields
-    .fields(id="answer_#{question.key}_input" class="options#{question.options.size}")
+    - doublewide = question.options.size <= 9
+    .fields(id="answer_#{question.key}_input" class="options#{question.options.size}} #{doublewide ? 'doublewide' : ''}")
+      - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != question.options.map(&:value) and previous_item.options.map(&:description) != question.options.map(&:description))
+        = render :partial => "answers/bulk/item_radio_check_scale_options", :object => question    
       - question.options.each_with_index do |opt, idx|
         - cls = []
         - cls << "first" if idx <= 0
@@ -12,8 +12,10 @@
         .option(class=cls)
           - radio_classes = []
           - radio_classes << "subinput" if subquestion
-          - radio_classes << "deselectable" if question.deselectable
+          - radio_classes << "deselectable" if question.deselectable          
           = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes})
+          -if doublewide
+            = opt.value
 - else
   - content_for(:item_class, "notbulk")
   %label.main(for="answer_#{question.key}")= raw(question.title)
