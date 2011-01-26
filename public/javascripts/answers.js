@@ -444,7 +444,7 @@ function focusNextItem(){
         item = $('.item:not(:hidden, .text)').find('.description-and-fields:not(:hidden)').first();
         nextButtonFocussed = false;
     } else {
-        item = lastFocus.closest(".item:not(:hidden, .text)").nextAll().find('.description-and-fields:not(:hidden)').first();   
+        item = lastFocus.closest(".item:not(:hidden, .text)").nextAll().find('.description-and-fields:not(:hidden)').first();        
     }
     if(item.length == 0){
         if (isBulk) {
@@ -476,8 +476,7 @@ function focusPrevItem(){
     
     if(item.length == 0){
         if (isBulk) {
-            item = lastFocus.closest(".panel").prev().find('.description-and-fields:not(:hidden)').last()
-            
+            item = lastFocus.closest(".panel").prev().find('.description-and-fields:not(:hidden)').last()            
             return focusItem(item);
         } else {
             lastFocus.closest('.item').removeClass('focus');

@@ -1,8 +1,9 @@
-.options{:class => doublewide ? 'doublewide' : ''} 
+.options
   - item_radio_check_scale_options.options.each_with_index do |option, idx|
     - cls = []
     - cls << "first" if idx <= 0
     - cls << "last" if idx >= (item_radio_check_scale_options.options.size - 1)
+    - cls << "optionwidth#{item_radio_check_scale_options.options.size}"
     .option{:title=>option.description, :class => cls}
       - case item_radio_check_scale_options.score_header 
       - when :value

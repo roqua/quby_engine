@@ -7,9 +7,10 @@
     - itemclasses << "notbulkitem"
   - else
     - itemclasses << "bulkitem"
-    - itemclasses << cycle('evenRow', 'oddRow') if item.type != :hidden
-    - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != item.options.map(&:value) and previous_item.options.map(&:description) != item.options.map(&:description))
-      = render :partial => "answers/bulk/item_radio_check_scale_options", :object => item, :locals => {:doublewide => doublewide}
+    -if item.type != :hidden
+      - itemclasses << cycle('evenRow', 'oddRow') 
+      - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != item.options.map(&:value) or previous_item.options.map(&:description) != item.options.map(&:description))
+        = render :partial => "answers/bulk/item_radio_check_scale_options", :object => item
 - itemclasses << "errors" unless @answer.errors[item.key].empty?
 - itemclasses << item.question_group if item.class.name == "Items::Question" and item.question_group
 

@@ -1,19 +1,18 @@
 - if not question.disallow_bulk and question.subquestions.blank?
-  - doublewide = question.options.size <= 5 
   %label.main(for="answer_#{question.key}")= raw(question.title)
   .description-and-fields
-    .fields(id="answer_#{question.key}_input" class="options#{question.options.size}} #{doublewide ? 'doublewide' : ''}")
+    .fields(id="answer_#{question.key}_input" class="options#{question.options.size}}")
       - question.options.each_with_index do |opt, idx|
         - cls = []
         - cls << "first" if idx <= 0
         - cls << "last" if idx >= (question.options.size - 1)
-        .option(class=cls)
+        - cls << "optionwidth#{question.options.size}"
+        .option{:class => cls}
           - radio_classes = []
           - radio_classes << "subinput" if subquestion
           - radio_classes << "deselectable" if question.deselectable          
           = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes})
-          -if doublewide
-            %span.value= opt.value
+          %span.value= opt.value          
 - else
   - content_for(:item_class, "notbulk")
   %label.main(for="answer_#{question.key}")= raw(question.title)

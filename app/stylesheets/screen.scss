@@ -271,7 +271,7 @@ body {
       
     .doublewide {
         .option, .description { 
-            @include column(2);
+            //@include column(2);
         }    
     }
     .option.last, .description.last { @include last; }
@@ -283,11 +283,22 @@ body {
             text-align: center;
         }
     }
-    .option { 
-        @include column(1);
-        border: 0;
-    }
-             
+    .option {
+        display: inline; 
+        float: left;                    
+        &.optionwidth1{width:20%}
+        &.optionwidth2{width:20%}
+        &.optionwidth3{width:20%}
+        &.optionwidth4{width:20%}
+        &.optionwidth5{width:20%}
+        &.optionwidth6{width:(100%/6)}
+        &.optionwidth7{width:(100%/7)}
+        &.optionwidth8{width:(100%/8)}
+        &.optionwidth9{width:(100%/9)}
+        &.optionwidth10{width:(100%/10)}
+        &.optionwidth11{width:(100%/11)}
+        &.optionwidth12{width:(100%/12)}                
+    }         
       .item { 
         @include column(24, true);
 
@@ -381,15 +392,14 @@ body {
                     // we need to reset this to be table cells
                     .description { float: none; display: table-cell; }
                 }
-            }
-          
-            .options {
-                @include column(12, true);
-                @include prepend(12);
-                margin-top: 1em;
-            }
-            .option { 
-                text-align: center;                
+                .options {
+                    @include column(12, true);
+                    @include prepend(12);
+                    margin-top: 1em;
+                }
+                .option {
+                    text-align: center;                                    
+                }
             }
         }
 
