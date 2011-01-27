@@ -71,7 +71,7 @@ class Items::Question < Item
     @uncheck_all_option = options[:uncheck_all_option]    
     @deselectable = options[:deselectable] || false
     @disallow_bulk = options[:disallow_bulk]
-    @score_header = options[:score_header] || :description
+    @score_header = options[:score_header] || :none
     
     @question_group = options[:question_group]
     @group_minimum_answered = options[:group_minimum_answered]
