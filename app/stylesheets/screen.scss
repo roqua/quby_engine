@@ -6,7 +6,7 @@
 @import "compass/reset";
 @import "blueprint/grid";
 @import "blueprint/typography";
-//@import "custom-inputs.sass";
+@import "custom-inputs.sass";
 
 // Variables
 $masthead_bg: #0f72a4;
@@ -438,16 +438,6 @@ body {
         margin: 1em 0;
     }
 }
-
-.custom-checkbox label {
-    background: url(images/forms/checkbox.gif) no-repeat; 
-}
-
-.custom-radio label { 
-    background: url(images/forms/radiobutton.gif) no-repeat; 
-}
-
-
 
 #flash {
   padding: 0.7em;

@@ -20,7 +20,8 @@ jQuery.fn.customInput = function(){
 			var inputType = (input.is('[type=checkbox]')) ? 'checkbox' : 'radio';
 			
 			// wrap the input + label in a div 
-			$('<div class="custom-'+ inputType +'"></div>').insertBefore(input).append(input, label);
+			//$('<div class="custom-'+ inputType +'"></div>').insertBefore(input).append(input, label);
+			input.parents('.radiocheckwrapper').addClass('custom-' + inputType);
 			
 			// find all inputs in this set using the shared name attribute
 			var allInputs = $('input[name='+input.attr('name')+']');
@@ -28,26 +29,26 @@ jQuery.fn.customInput = function(){
 			// necessary for browsers that don't support the :hover pseudo class on labels
 			label.hover(
 				function(){ 
-					$(this).addClass('hover'); 
+					$(this).parents('.option').find('.radiocheckwrapper').addClass('hover'); 
 					if(inputType == 'checkbox' && input.is(':checked')){ 
-						$(this).addClass('checkedHover'); 
+						$(this).parents('.option').find('.radiocheckwrapper').addClass('checkedHover'); 
 					} 
 				},
-				function(){ $(this).removeClass('hover checkedHover'); }
+				function(){ $(this).parents('.option').find('.radiocheckwrapper').removeClass('hover checkedHover'); }
 			);
 			
-			//bind custom event, trigger it, bind click,focus,blur events					
+			//bind custom event, trigger it, bind click,focus,blur events
 			input.bind('updateState', function(){	
 				if (input.is(':checked')) {
-					if (input.is(':radio')) {				
+					if (input.is(':radio')) {
 						allInputs.each(function(){
-							$('label[for='+$(this).attr('id')+']').removeClass('checked');
+							$('label[for='+$(this).attr('id')+']').parents('.option').find('.radiocheckwrapper').removeClass('checked');
 						});		
 					};
-					label.addClass('checked');
+					label.parents('.option').find('.radiocheckwrapper').addClass('checked');
 				}
 				else { label.removeClass('checked checkedHover checkedFocus'); }
-										
+			
 			})
 			.trigger('updateState')
 			.click(function(){ 
@@ -60,6 +61,17 @@ jQuery.fn.customInput = function(){
 				} 
 			})
 			.blur(function(){ label.removeClass('focus checkedFocus'); });
+			
+			input.parents(".radiocheckwrapper").click(function() {
+			  selectedInput = $(this).find("input");
+        
+			  setCurrent(selectedInput[0]);
+
+        $(this).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', false);
+        $(this).attr('checked', true);
+
+        radioEvents(selectedInput[0]);
+			})
 		}
 	});
 };
