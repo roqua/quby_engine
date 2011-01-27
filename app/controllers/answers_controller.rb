@@ -25,7 +25,6 @@ class AnswersController < ApplicationController
   end
 
   def index
-    # TODO !important Add some IP filter here
     @answers = if @patient_id and @questionnaire
                  Answer.where(:patient_id => @patient_id, :questionnaire_id => @questionnaire.id)
                elsif @questionnaire
