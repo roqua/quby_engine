@@ -141,7 +141,7 @@ class Answer < ActiveRecord::Base
       end
       
       if not validations.empty?
-        logger.info "Validating #{question.key} = #{question.validations.inspect}."
+        #logger.info "Validating #{question.key} = #{question.validations.inspect}."
         
         question.validations.each do |validation|
           case validation[:type]
@@ -196,7 +196,7 @@ class Answer < ActiveRecord::Base
             end
           end
         end
-        logger.info "ERRORS: #{errors.inspect}"
+        #logger.info "ERRORS: #{errors.inspect}"
       end      
     end
   end
