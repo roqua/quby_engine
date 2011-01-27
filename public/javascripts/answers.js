@@ -40,7 +40,7 @@ function activatePanel(panel, updateHash, forward) {
     nextButtonFocussed = false;
     saveButtonFocussed = false;
     if (hotkeysEnabled) {
-        qitems = panel.find(".description-and-fields:not(:hidden)");
+        qitems = panel.find(".item:not(:hidden, .subitem)");
         focusItem(qitems.first());
         lastInput = qitems.find("input:not(:disabled, :hidden)").first().focus();
     }    
@@ -427,10 +427,10 @@ function handleRadioHotKeys(event){
 function focusItem(qitem){
     if (qitem.length > 0) {
         if (lastFocus != undefined) {
-            lastFocus.closest('.item').removeClass('focus');
+            lastFocus.removeClass('focus');
         }
-        qitem.closest('.item').addClass('focus');
-        var toScrollTo = qitem.closest('.item')[0];
+        qitem.addClass('focus');
+        var toScrollTo = qitem[0];
         //Might not work properly inside a frame?
         window.scrollTo(0, toScrollTo.offsetTop-80);
         lastFocus = qitem;
@@ -441,22 +441,24 @@ function focusItem(qitem){
 function focusNextItem(){
     var item;
     if (nextButtonFocussed) {
-        item = $('.item:not(:hidden, .text)').find('.description-and-fields:not(:hidden)').first();
+        item = $('.item:not(:hidden, .text)').first();
         nextButtonFocussed = false;
     } else {
-        item = lastFocus.closest(".item:not(:hidden, .text)").nextAll().find('.description-and-fields:not(:hidden)').first();        
+        item = lastFocus.nextAll('.item:not(:hidden, .text, .subitem)').first();        
     }
+    
     if(item.length == 0){
         if (isBulk) {
-            item = lastFocus.closest(".panel").next().find('.description-and-fields:not(:hidden)').first();
+            item = lastFocus.closest(".panel").next().find('.item:not(:hidden, .text, .subitem)').first();
             if (item.length > 0) {
                 return focusItem(item);
             } else {
+                lastFocus.removeClass('focus');
                 $(".save input").focus();
                 saveButtonFocussed = true;
             }
         } else {
-            lastFocus.closest('.item').removeClass('focus');
+            lastFocus.removeClass('focus');
             $(".next input").focus();
             nextButtonFocussed = true;
         }
@@ -467,19 +469,19 @@ function focusNextItem(){
 function focusPrevItem(){
     var item;
     if (nextButtonFocussed || saveButtonFocussed) {
-        item = $('.item:not(:hidden, .text)').find('.description-and-fields:not(:hidden)').last();
+        item = $('.item:not(:hidden, .text)').last();
         nextButtonFocussed = false;
         saveButtonFocussed = false;
     } else {
-        item = lastFocus.closest(".item:not(:hidden, .text)").prevAll().find('.description-and-fields:not(:hidden)').first();
+        item = lastFocus.prevAll('.item:not(:hidden, .text, .subitem)').last();
     }
     
     if(item.length == 0){
         if (isBulk) {
-            item = lastFocus.closest(".panel").prev().find('.description-and-fields:not(:hidden)').last()            
+            item = lastFocus.closest(".panel").prev().find('.item:not(:hidden, .text, .subitem)').last();
             return focusItem(item);
         } else {
-            lastFocus.closest('.item').removeClass('focus');
+            lastFocus.removeClass('focus');
             $(".next input").focus();
             nextButtonFocussed = true;
         }
@@ -489,13 +491,13 @@ function focusPrevItem(){
 }
 
 function getValidInputs(){
-    return lastInput.closest(".focus").find('input:not(:disabled, :hidden, [type=radio])');
+    return lastFocus.find('input:not(:disabled, :hidden, [type=radio])').add(lastFocus.find('input:not(:disabled, :hidden)').first());
 }
 
 function focusNextInput(){
     var input = getValidInputs();
     var index = input.index(lastInput);
-    if (index != -1) {
+    if (index >= 0) {
         input = input.filter(":gt(" + index + ")").first().focus();
     } else {
         input.first().focus();
@@ -504,26 +506,26 @@ function focusNextInput(){
     if(input.length == 0){
         var item = focusNextItem();
         if(item != undefined){
-            input = item.find("input:not(:disabled, :hidden)").first().focus();             
+            input = getValidInputs().first().focus();             
         }
     }
     if (input.length != 0) {
         lastInput = input;
-    } 
+    }
 }
 function focusPrevInput(){
     var input = getValidInputs();
     var index = input.index(lastInput);
-    if (index != -1) {
+    if (index >= 0) {
         input = input.filter(":lt(" + index + ")").last().focus();
     } else {
-        input.last().focus()
+        input.first().focus()
     }
     
     if(input.length == 0){ 
         var item = focusPrevItem();
         if(item != undefined){
-            input = item.find("input:not(:disabled, :hidden)").last().focus();
+            input = getValidInputs().last().focus();
         }
     }
     if (input.length != 0) {
@@ -662,7 +664,7 @@ $(document).ready(
             
             
             $(".item input").click(function(event){
-                focusItem($(event.target).closest(".description-and-fields").first());
+                focusItem($(event.target).closest(".item:not(.text, .subitem)").first());
                 lastInput = $(event.target);
             });
         }
