@@ -270,15 +270,11 @@ body {
         .print { @include prepend(6); }
       }
       
-    .doublewide {
-        .option, .description { 
-            //@include column(2);
-        }    
-    }
     .option.last, .description.last { @include last; }
+    
     .options {
-        @include column(12, true);
         @include prepend(12);
+        @include column(12, true);
         margin-top: 1em;
         .option {
             text-align: center;

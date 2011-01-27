@@ -489,7 +489,7 @@ function focusPrevItem(){
 }
 
 function getValidInputs(){
-    return lastInput.closest(".description-and-fields.focus").find('input:not(:disabled, :hidden, [type=radio])');
+    return lastInput.closest(".focus").find('input:not(:disabled, :hidden, [type=radio])');
 }
 
 function focusNextInput(){
