@@ -1,5 +1,6 @@
 .options
   - item_radio_check_scale_options.options.each_with_index do |option, idx|
+    -next if option.inner_title
     - cls = []
     - cls << "first" if idx <= 0
     - cls << "last" if idx >= (item_radio_check_scale_options.options.size - 1)

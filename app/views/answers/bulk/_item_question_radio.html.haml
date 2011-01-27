@@ -3,6 +3,7 @@
   .description-and-fields
     .fields(id="answer_#{question.key}_input" class="options#{question.options.size}}")
       - question.options.each_with_index do |opt, idx|
+        -next if opt.inner_title
         - cls = []
         - cls << "first" if idx <= 0
         - cls << "last" if idx >= (question.options.size - 1)
