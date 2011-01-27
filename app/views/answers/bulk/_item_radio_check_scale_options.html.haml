@@ -5,10 +5,10 @@
     - cls << "first" if idx <= 0
     - cls << "last" if idx >= (item_radio_check_scale_options.options.size - 1)
     - cls << "optionwidth#{item_radio_check_scale_options.options.size}"
-    .option{:title=>option.description, :class => cls}
+    .option{:title=> raw(option.description), :class => cls}
       - case item_radio_check_scale_options.score_header 
       - when :value
         = option.value
       - when :description
-        = option.description      
+        = raw option.description      
       

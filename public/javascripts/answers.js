@@ -304,7 +304,8 @@ function selectInput(value){
         setCurrent(selectedInput[0]);
         setCheck(selectedInput[0], selectedInput.is('.deselectable'));
         radioEvents(selectedInput[0]);
-    }    
+        focusNextInput();   
+    }
 }
 
 function preventDefault(event){

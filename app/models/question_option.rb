@@ -9,7 +9,7 @@ class QuestionOption
   def initialize(key, question, options = {})
     @key         = key
     @value       = options[:value]
-    @description = options[:description]
+    @description = Maruku.new(options[:description]).to_html
     @questions   = []
     @inner_title = options[:inner_title]
     @hides_questions = options[:hides_questions] || []

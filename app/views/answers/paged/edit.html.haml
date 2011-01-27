@@ -3,5 +3,5 @@
 
 - content_for(:page_title, @questionnaire.title)
 
-- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" ") do
+- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" "), :autocomplete => "off" do
   = render :partial => "answers/#{session[:display_mode]}/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}

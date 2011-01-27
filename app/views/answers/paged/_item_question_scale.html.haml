@@ -4,21 +4,20 @@
     - unless question.description.blank?
       :markdown
         #{raw question.description}
-  .fields(id="answer_#{question.key}_input" class="options#{question.options.size}")
+  - cls = []
+  - cls << "options#{question.options.size}" unless question.presentation == :horizontal 
+  .fields(id="answer_#{question.key}_input" class=cls)
     %table(cellspacing=0 border=0)
       %tr
         - question.options.each_with_index do |opt, idx|
           - cls = []
           - cls << "first" if idx <= 0
           - cls << "last" if idx >= (question.options.size - 1)
+          - cls << "optionwidth#{question.options.size}"
           %td.option(class=cls)
             = radio_button(:answer, question.key, opt.key,
               {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : ""})
+            %br/
+            %label(for="answer_#{question.key}_#{opt.key}")= raw opt.description
         = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden")
-      %tr
-        - question.options.each_with_index do |opt, idx|
-          - cls = []
-          - cls << "first" if idx <= 0
-          - cls << "last" if idx >= (question.options.size - 1)
-          %td.description(class=cls) 
-            %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+        

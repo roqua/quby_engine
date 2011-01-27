@@ -1,4 +1,6 @@
 class Items::Question < Item
+  require 'maruku'
+  
   # Standard attributes
   attr_accessor :key
   attr_accessor :title
@@ -60,7 +62,7 @@ class Items::Question < Item
     @key = key
     @type = options[:type]
     @title = options[:title]
-    @description = options[:description]
+    @description = Maruku.new(options[:description]).to_html
     @presentation = options[:presentation]
     @validations = []
     @parent = options[:parent]

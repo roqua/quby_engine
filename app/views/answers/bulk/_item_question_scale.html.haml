@@ -21,5 +21,5 @@
           - cls << "first" if idx <= 0
           - cls << "last" if idx >= (question.options.size - 1)
           %td.description(class=cls) 
-            %label(for="answer_#{question.key}_#{opt.key}")= opt.description
+            %label(for="answer_#{question.key}_#{opt.key}")= raw opt.description
         
