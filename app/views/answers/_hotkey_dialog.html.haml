@@ -13,14 +13,24 @@
     Sneltoetsen Help
   %div{:id => "hotkeyDialog", :title => "Sneltoetsen", :style => "display:none"}
     %p Gebruik de volgende toetsen voor het invullen van de schalen:
-    - hotkeys.each do |hk|
-      = image_tag(hk)
+  
+    %table
+      %tr
+        - (1..9).each do |i|
+          %td
+            = radio_button_tag("RB", i)
+            %span= i
+      %tr
+        - hotkeys.each do |hk|
+          %td
+            = image_tag(hk)
     %p 
-      De cijfers komen overeen met de score op de schaal. Indien er geen scores bij de opties staan is de eerste optie gekoppeld aan cijfer 0,
-      de tweede aan cijfer 1 enz.
+      De cijfers komen overeen met de score op de schaal. Indien er geen scores bij de opties staan is de eerste optie gekoppeld aan cijfer 1,
+      de tweede aan cijfer 2 enz.
     %p
       Gebruik de #{image_tag("shortkeys/enterkey.jpg")} toets om door te gaan naar een volgende vraag.
     %p
       Gebruik de spatiebalk voor het aanvinken van Checkboxes.
+      = check_box_tag("CB")
     %p Gebruik de toetsen #{image_tag("shortkeys/pgdwnkey.jpg")} #{image_tag("shortkeys/pgupkey.jpg")} of #{image_tag("shortkeys/dwnkey.jpg")} #{image_tag("shortkeys/upkey.jpg")} om van vraag naar vraag te gaan.
     %p Gebruik de toets #{image_tag("shortkeys/tabkey.jpg")} (Tab) niet!

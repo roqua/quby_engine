@@ -292,7 +292,8 @@ function selectInput(value){
     var values = lastFocus.find(".value");
     var selectedInput = $([]);
     values.each(function(index, element){
-       if(parseInt(element.textContent) == value){
+       
+       if(parseInt(element.textContent || element.innerHTML) == value){
            selectedInput = $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)");           
        }
     });
@@ -370,7 +371,6 @@ function handleHotKeys(event){
 }
 function handleRadioHotKeys(event){
     event.which = event.which || event.keyCode;
-    
     switch (event.which) {
         //0
         case 48:
@@ -659,10 +659,10 @@ $(document).ready(
 //        $("input[type=checkbox]").customInput();
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         if (hotkeysEnabled) {
-            $("input").keydown(handleHotKeys);
+        
             $("input").keypress(handlePreventDefault);
-            $("input[type=radio]").keypress(handleRadioHotKeys);
-            
+            $("input").keydown(handleHotKeys);
+            $("input[type=radio]").keyup(handleRadioHotKeys);
             
             $(".item input").click(function(event){
                 focusItem($(event.target).closest(".item:not(.text, .subitem)").first());
