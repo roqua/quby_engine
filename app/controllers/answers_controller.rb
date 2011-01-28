@@ -59,7 +59,7 @@ class AnswersController < ApplicationController
       if @answer.update_attributes(params[:answer])
         if session[:return_url]
           address = Addressable::URI.parse(session[:return_url])
-          address.query_values = address.query_values.merge(:key => session[:return_token])
+          address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
           logger.info address.to_s
           redirect_to address.to_s and return
         else
