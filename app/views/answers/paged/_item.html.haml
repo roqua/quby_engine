@@ -10,7 +10,7 @@
   - when "Items::Text"
     .text
       :markdown
-        #{item}
+        #{raw(item)}
   - when "Items::Question"
     - unless item.type == :hidden
       - item.validations.each do |validation|
