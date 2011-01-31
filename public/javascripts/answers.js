@@ -655,7 +655,7 @@ $(document).ready(
         }
         
         //Layout breaks with this
-        $(".radiocheckwrapper input[type=radio]").customInput();
+//        $(".radiocheckwrapper input[type=radio]").customInput();
 //        $("input[type=checkbox]").customInput();
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         if (hotkeysEnabled) {
