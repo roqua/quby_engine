@@ -46,10 +46,6 @@ namespace :deploy do
     update_commands << "git fetch origin && git merge origin/#{questionnaire_master_branch} && git push origin #{questionnaire_branch}"
 
     clone_commands = []
-    # Set up git for committing
-    clone_commands << "git config user.email \"deploy@quby.#{application}.roqua.nl\""
-    clone_commands << "git config user.name \"#{application} deployed instance\""
-
     # Clone git repo
     clone_commands << "cd #{deploy_to}/#{shared_dir}"
     clone_commands << "git clone #{questionnaire_repository} questionnaires"
