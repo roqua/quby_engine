@@ -30,7 +30,7 @@ namespace :deploy do
   end
   
   desc "Link in the production database.yml" 
-  task :after_update_code do
+  task :link_database_yml do
     run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml" 
   end
 
@@ -65,6 +65,7 @@ namespace :deploy do
     run command
   end
 
+  after "deploy:update_code", "deploy:link_database_yml"
   after "deploy:update_code", "deploy:link_shared_dirs"
   after "deploy:update_code", "deploy:update_questionnaires"
 end
