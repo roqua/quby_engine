@@ -122,6 +122,7 @@ class Answer < ActiveRecord::Base
     
     questionnaire.questions.each do |question|
       next unless question
+      next if question.type == :hidden
       answer = self.send(question.key)
       validations = question.validations
 
