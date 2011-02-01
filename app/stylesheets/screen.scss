@@ -281,14 +281,14 @@ body {
         &.optionwidth2{width:20%}
         &.optionwidth3{width:20%}
         &.optionwidth4{width:20%}
-        &.optionwidth5{width:20%}
+        &.optionwidth5{width:19%}
         &.optionwidth6{width:(100%/6)}
         &.optionwidth7{width:(100%/7)}
         &.optionwidth8{width:(100%/8)}
         &.optionwidth9{width:(100%/9)}
         &.optionwidth10{width:(100%/10)}
         &.optionwidth11{width:(100%/11)}
-        &.optionwidth12{width:(100%/12)}                
+        &.optionwidth12{width:(100%/12)}
     }
       .item { 
         @include column(24, true);
@@ -395,7 +395,7 @@ body {
             }
 
             .option {
-              @include column(18, true); 
+              @include column(12, true); 
               
               .radiocheckwrapper { @include column(1); }
               .labelwrapper      { 

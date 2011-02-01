@@ -22,60 +22,75 @@
      list-style-type: disc;
      margin-bottom: 0.3em; } }
 
- .panel {
-   display: block !important;
-   border: none;
-   padding-bottom: 1em;
-   h1 {
-     font-size: 1.5em;
-     font-weight: bold;
-     margin-bottom: 1em; }
-   .prevnext, .abort {
-     display: none; }
-   .requires_answer {
-     display: none; }
-   .item {
-     position: relative;
-     overflow: auto;
-     clear: both;
-     padding-bottom: 1em;
-     .custom-checkbox, .custom-radio {
-       position: relative;
-       padding-bottom: 0.3em;
-       input {
-         position: absolute; }
-       label {
-         padding: 0em 0 0em 2.2em; } }
-     .radio > label, .checkbox > label {
-       display: block;
-       width: 23%;
-       float: left;
-       padding-right: 1em;
-       font-weight: bold; }
-     .radio, .checkbox {
-       ol {
-         padding: 0 0 0 25%;
-         width: 74%;
-         &.noindent {
-           padding: 0;
-           width: auto; }
-         li {
-           label {
-             display: block;
-             overflow: auto;
-             span {
-               display: block; } }
-           .item {
-             label {
-               float: left;
-               padding-left: 2.2em;
-               width: 25%; } } } } }
+.panel {
+    border: none;
+    padding-bottom: 1em;
+    .item{
+        position: relative;
+        padding-bottom: 1em;
+        clear: both;
+        .custom-checkbox, .custom-radio {
+            position: relative;
+            padding-bottom: 0.3em;
+            label {
+                padding: 0em 0 0em 2.2em; } }
+        .radio > label, .checkbox > label {
+            padding-right: 1em;
+           font-weight: bold; }
+        .labelwrapper{
+            display:inline;
+         }
+        &.notbulkitem{
+         .option{
+            position: relative;
+            float:left;
+            clear:both;
+         }
+         .labelwrapper{
+            display:block;
+         }
+        }            
+     }
+     
      .description {
-       margin-left: 25%;
        margin-bottom: 1.5em; }
      .description, .text {
        ul {
-         padding-left: 0.5em; } } } }
+       padding-left: 0.5em; } } }  
 
- #mastfoot {
-   display: none; }
+
+
+.options {
+    margin-top: 1em;
+    .option {
+        text-align: center;
+    }
+}
+.option {    
+    &.optionwidth1{width:20%}
+    &.optionwidth2{width:20%}
+    &.optionwidth3{width:20%}
+    &.optionwidth4{width:20%}
+    &.optionwidth5{width:20%}
+    &.optionwidth6{width:(100%/6)}
+    &.optionwidth7{width:(100%/7)}
+    &.optionwidth8{width:(100%/8)}
+    &.optionwidth9{width:(100%/9)}
+    &.optionwidth10{width:(100%/10)}
+    &.optionwidth11{width:(100%/11)}
+    &.optionwidth12{width:(100%/12)}                
+}
+.bulk{
+        .option {display: inline;}
+    }
+
+p, .radiocheckwrapper{
+    display: inline;
+}
+
+.hidden, :disabled, #hotkeyDialogLink, #mastfoot, .buttons{
+  display: none;
+}
+.panel{
+  display: block  !important;
+}

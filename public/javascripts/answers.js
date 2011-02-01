@@ -433,7 +433,7 @@ function focusItem(qitem){
         qitem.addClass('focus');
         var toScrollTo = qitem[0];
         //Might not work properly inside a frame?
-        window.scrollTo(0, toScrollTo.offsetTop-80);
+        //window.scrollTo(0, toScrollTo.offsetTop-80);
         lastFocus = qitem;
     }
     return qitem;
@@ -470,6 +470,7 @@ function focusNextItem(){
 function focusPrevItem(){
     var item;
     if (nextButtonFocussed || saveButtonFocussed) {
+        //Takes too long in IE7
         item = $('.item:not(:hidden, .text)').last();
         nextButtonFocussed = false;
         saveButtonFocussed = false;
