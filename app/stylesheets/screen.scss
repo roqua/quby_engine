@@ -95,12 +95,14 @@ body {
         padding: 1.5em $blueprint-grid-outer-width;
         border-top: 1px dotted #d6d6d6;
         background: #f3f3f3;
+        position: relative;
 
         .prev { @include column(6); }
         .abort { @include column(12); text-align: center; }
         .print { @include column(12); text-align: center; }
         .next { @include column(6, true); text-align: right; }
         .save { @include column(6, true); text-align: right; }
+        #hotkeyDialogLink { position: absolute; top: 7.5em; left: 30px; }
       }
       
       &.first .buttons {
