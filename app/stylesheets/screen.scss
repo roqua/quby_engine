@@ -52,6 +52,8 @@ body {
   margin: 6em auto 0em auto;
   
   .flash {
+    @include container;
+
     margin-bottom: 1em;
     div {
       padding: 5px;
