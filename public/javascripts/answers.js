@@ -16,6 +16,7 @@ var setCurrent;
 var setCheck;
 
 function activatePanel(panel, updateHash, forward) {
+    $('.flash').hide();
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
     
