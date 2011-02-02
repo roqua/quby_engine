@@ -84,11 +84,11 @@
         .option {display: inline;}
     }
 
-p, .radiocheckwrapper{
+p, .radiocheckwrapper, div.value{
     display: inline;
 }
 
-.hidden, :disabled, #hotkeyDialogLink, #mastfoot, .buttons{
+.hidden, :disabled, #hotkeyDialogLink, #mastfoot, .buttons, .item.text{
   display: none;
 }
 .panel{
