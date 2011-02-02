@@ -66,7 +66,7 @@ class AnswersController < ApplicationController
           render :action => "completed" and return
         end
       else
-        flash[:notice] = "De vragenlijst is nog niet volledig ingevuld."
+        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld."
         format.html { render :action => "answers/#{session[:display_mode]}/edit" }
         format.json { render :json => @answer.errors.to_json }
       end      
