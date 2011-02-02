@@ -94,17 +94,18 @@ module QuestionnaireDsl
     end
     
     def html(value)
-      @panel.items << Items::Text.new(value.to_s, true)
+      @panel.items << Items::Text.new('', :raw_content => value.to_s)
     end
 
     def question(key, options = {}, &block)
       # TODO Add check for repeated use of keys
       
       q = QuestionFactory.new(key, @default_question_options.merge(options))
-      q.instance_eval(&block)
+      q.instance_eval(&block) if block
 
       @panel.items << q.build
     end
+    
   end
   
   class QuestionFactory

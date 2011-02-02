@@ -3,12 +3,12 @@ class Items::Text < Item
 
   attr_accessor :text
 
-  def initialize(str, pure_html = false)
-    unless pure_html
-      @text = Maruku.new(str).to_html
-    else
-      @text = str
+  def initialize(str, options={})
+    if options[:raw_content]
+      options[:raw_content] = "<div class='item text'>" + options[:raw_content] + "</div>"
     end
+    super(options)
+    @text = Maruku.new(str).to_html    
   end
 
   def as_json(options = {})

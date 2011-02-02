@@ -56,9 +56,11 @@ class Items::Question < Item
   attr_accessor :question_group
   attr_accessor :group_minimum_answered
   attr_accessor :group_maximum_answered
+  
   ##########################################################
   
   def initialize(key, options = {})
+    super(options)
     @key = key
     @type = options[:type]
     @title = options[:title]
