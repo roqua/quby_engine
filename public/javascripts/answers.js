@@ -46,7 +46,7 @@ function activatePanel(panel, updateHash, forward) {
     nextButtonFocussed = false;
     saveButtonFocussed = false;
     if (hotkeysEnabled) {
-        qitems = panel.find(".item:not(:hidden, .subitem)");
+        qitems = panel.find(".item:not(:hidden, .subitem, .text)");
         focusItem(qitems.first());
         lastInput = qitems.find("input:not(:disabled, :hidden)").first().focus();
     }    
@@ -448,7 +448,7 @@ function focusItem(qitem){
 function focusNextItem(){
     var item;
     if (nextButtonFocussed) {
-        item = $('.item:not(:hidden, .text)').first();
+        item = lastFocus.closest(".panel").find('.item:not(:hidden, .text)').first();
         nextButtonFocussed = false;
     } else {
         item = lastFocus.nextAll('.item:not(:hidden, .text, .subitem)').first();        
@@ -477,7 +477,7 @@ function focusPrevItem(){
     var item;
     if (nextButtonFocussed || saveButtonFocussed) {
         //Takes too long in IE7
-        item = $('.item:not(:hidden, .text)').last();
+        item = lastFocus.closest(".panel").find('.item:not(:hidden, .text)').last();
         nextButtonFocussed = false;
         saveButtonFocussed = false;
     } else {
@@ -504,7 +504,11 @@ function focusPrevItem(){
 }
 
 function getValidInputs(){
-    return lastFocus.find('input:not(:disabled, :hidden, [type=radio])').add(lastFocus.find('input:not(:disabled, :hidden)').first());
+    if (lastFocus) {
+        return lastFocus.find('input:not(:disabled, :hidden, [type=radio])').add(lastFocus.find('input:not(:disabled, :hidden)').first());
+    } else {
+        return $([]);
+    }
 }
 
 function focusNextInput(){
@@ -586,21 +590,26 @@ function assignValue(qkey, value){
 
 
 function processExtraData(){
-    for( question in extra_question_values){
-        assignValue(question, extra_question_values[question]);
-        
+    
+    if (typeof(extra_question_values) != "undefined") {
+        $.each(extra_question_values, function(question, value){
+            assignValue(question, value);
+        });
     }
-    for(question in extra_failed_validations){
-        var item = $('#answer_'+question+"_input").closest('.item');
-        item.addClass('errors');
-        
-        if (extra_failed_validations[question] instanceof Array){
-         $.each(extra_failed_validations[question], function(){
-            item.find("."+this['valtype']).first().show();
-         });
-        } else {
-            item.find("."+extra_failed_validations[question]['valtype']).first().show();
-        }
+    if (typeof(extra_failed_validations) != "undefined") {
+        $.each(extra_failed_validations, function(question, hash){
+            var item = $('#answer_' + question + "_input").closest('.item');
+            item.addClass('errors');
+            
+            if (hash instanceof Array) {
+                $.each(hash, function(){
+                    item.find("." + this['valtype']).first().show();
+                });
+            }
+            else {
+                item.find("." + hash['valtype']).first().show();
+            }
+        });
     }
 }
 
@@ -723,9 +732,11 @@ $(document).ready(
                 focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
                 lastInput = event.target;                
             });
-            focusItem($(".item:not(:hidden, .text, .subitem)").first());
-            lastInput = getValidInputs().first();
-            lastInput.focus();
+            if (isBulk) {
+                focusItem($('.panel').find(".item:not(:hidden, .text, .subitem)").first());
+                lastInput = getValidInputs().first();
+                lastInput.focus();
+            }
         }
         
         processExtraData();
