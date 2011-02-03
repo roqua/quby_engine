@@ -16,7 +16,10 @@
 - itemclasses << 'subitem' if subquestion
 
 - if item.raw_content and item.class.name != "Items::Text" 
-  =  raw item.raw_content
+  - if item.raw_content[session[:display_mode].to_sym]
+    = raw item.raw_content[session[:display_mode].to_sym]
+  - else 
+    = raw item.raw_content
 - else
   .item{:class => itemclasses}
     - case item.class.name
