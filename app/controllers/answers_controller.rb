@@ -13,6 +13,8 @@ class AnswersController < ApplicationController
   before_filter :remember_return_url_in_session
   before_filter :remember_display_mode_in_session
   before_filter :check_aborted, :only => [:create, :update]
+
+  protect_from_forgery :except => [:edit, :update]  
   
   respond_to :html, :json, :xml
 
