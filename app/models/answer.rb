@@ -12,6 +12,10 @@ class Answer < ActiveRecord::Base
   #Values in globalpark coding that need to be recoded and used to initialize this answer
   attr_accessor :roqua_vals
 
+  #for setting raw content values and failed validations
+  attr_accessor :extra_question_values
+  attr_accessor :extra_failed_validations
+
   serialize :value
 
   def enhance_by_dsl
@@ -40,6 +44,29 @@ class Answer < ActiveRecord::Base
       end
       @roqua_vals = nil
     end
+  end
+
+  def extra_question_values    
+    @extra_question_values = {}
+    questionnaire.questions.each do |q|
+      next unless q
+      unless q.raw_content.blank?
+        @extra_question_values[q.key] = self.send(q.key)
+      end
+    end
+    
+    @extra_question_values.to_json
+  end
+
+  def extra_failed_validations
+    @extra_failed_validations = {}
+    questionnaire.questions.each do |q|
+      next unless q
+      unless q.raw_content.blank?
+        @extra_failed_validations[q.key] = errors.on(q.key) if errors.on(q.key)
+      end
+    end
+    @extra_failed_validations.to_json
   end
 
   def scores

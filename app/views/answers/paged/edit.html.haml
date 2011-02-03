@@ -1,6 +1,11 @@
 :javascript
   var panel_validations = {}
-
+  //for setting values of raw_content
+  var extra_question_values = #{@answer.extra_question_values}
+  //for showing validations of raw content
+  var extra_failed_validations = #{@answer.extra_failed_validations}
+  
+  
 - content_for(:page_title, @questionnaire.title)
 
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" "), :autocomplete => "off" do

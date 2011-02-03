@@ -1,5 +1,9 @@
 :javascript
   var panel_validations = {}
+  //for setting values of raw_content
+  var extra_question_values = #{@answer.extra_question_values}
+  //for showing validations of raw content
+  var extra_failed_validations = #{@answer.extra_failed_validations}
 
 - content_for(:page_title, @questionnaire.title)
 
@@ -22,7 +26,7 @@
         - previous_item = item if item.class.name == "Items::Question"
   .buttons
     .prev &nbsp;
-    .print
-      %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
+    -#.print
+    -#  %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
     .save
       = submit_tag "Klaar"

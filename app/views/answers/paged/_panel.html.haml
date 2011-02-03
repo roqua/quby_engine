@@ -30,8 +30,8 @@
     - else
       .prev
         = submit_tag raw("&larr; Vorige vraag")
-      .print
-        %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
+      -#.print
+      -#  %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
       .save
         = submit_tag "Klaar"
     = render :partial => "answers/hotkey_dialog"

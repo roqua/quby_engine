@@ -15,14 +15,19 @@ var radioChecked;
 var setCurrent;
 var setCheck;
 
+function allInputsHidden(panel){
+    var hiddenInputs = $(panel).find(".item input:hidden");
+    return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input").length;
+}
+
 function activatePanel(panel, updateHash, forward) {
+    //FIXME: If there is an error, the first panel with errors is activated, so the flash would be immediately hidden
     $('.flash').hide();
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
     
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
-    var hiddenInputs = $(panel).find(".item input:hidden");
-    if (hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input").length) {
+    if (allInputsHidden(panel)) {
         if (forward) {
             return activatePanel($(panel).next(), updateHash, true);            
         } else {
@@ -451,7 +456,7 @@ function focusNextItem(){
     
     if(item.length == 0){
         if (isBulk) {
-            item = lastFocus.closest(".panel").next().find('.item:not(:hidden, .text, .subitem)').first();
+            item = lastFocus.closest(".panel").nextAll().find('.item:not(:hidden, .text, .subitem)').first();
             if (item.length > 0) {
                 return focusItem(item);
             } else {
@@ -481,7 +486,12 @@ function focusPrevItem(){
     
     if(item.length == 0){
         if (isBulk) {
-            item = lastFocus.closest(".panel").prev().find('.item:not(:hidden, .text, .subitem)').last();
+            var curPanel = lastFocus.closest(".panel");
+            item = curPanel.prev().find('.item:not(:hidden, .text, .subitem)').last();
+            while (item.length == 0){
+                curPanel = curPanel.prev();
+                item = curPanel.prev().find('.item:not(:hidden, .text, .subitem)').last();
+            }
             return focusItem(item);
         } else {
             lastFocus.removeClass('focus');
@@ -549,6 +559,49 @@ function hotkeyDialog(){;
 function radioEvents(element){
     handleDisableRadioSubQuestions(element);
     handleHideQuestions(element, eval(element.getAttribute('hides')), eval(element.getAttribute('allhidden')));
+}
+
+
+//TODO: make this work for: 
+//* enabling/disabling subquestions,
+//* hiding other questions,
+//* dates,
+//* checkboxes,
+//* all/nothing checkboxes
+function assignValue(qkey, value){
+    var inputs = $("input[name^='answer["+qkey+"']");
+    if(inputs.length > 0){
+        var type = inputs[0].type;
+        if (type == "radio" || type == "scale") {
+            var input = inputs.filter("[value='" + value + "']").get(0);
+            if (input) {
+                input.checked = 'checked';
+            }
+        } else if (type == "text") {
+            var input = inputs.get(0);
+            input.value = value;
+        }
+    }
+}
+
+
+function processExtraData(){
+    for( question in extra_question_values){
+        assignValue(question, extra_question_values[question]);
+        
+    }
+    for(question in extra_failed_validations){
+        var item = $('#answer_'+question+"_input").closest('.item');
+        item.addClass('errors');
+        
+        if (extra_failed_validations[question] instanceof Array){
+         $.each(extra_failed_validations[question], function(){
+            item.find("."+this['valtype']).first().show();
+         });
+        } else {
+            item.find("."+extra_failed_validations[question]['valtype']).first().show();
+        }
+    }
 }
 
 $(document).ready(
@@ -667,10 +720,15 @@ $(document).ready(
             $("input[type=radio]").keyup(handleRadioHotKeys);
             
             $(".item input").click(function(event){
-                focusItem($(event.target).closest(".item:not(.text, .subitem)").first());
-                lastInput = $(event.target);
+                focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
+                lastInput = event.target;                
             });
+            focusItem($(".item:not(:hidden, .text, .subitem)").first());
+            lastInput = getValidInputs().first();
+            lastInput.focus();
         }
+        
+        processExtraData();
     }
 );
 
