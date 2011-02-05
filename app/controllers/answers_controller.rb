@@ -22,6 +22,7 @@ class AnswersController < ApplicationController
     if params[:commit] == "Onderbreken" and @questionnaire.abortable
       params[:answer][:aborted] = true
     else
+      params[:answer] ||= HashWithIndifferentAccess.new
       params[:answer][:aborted] = false
     end
   end
