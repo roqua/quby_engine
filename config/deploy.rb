@@ -38,6 +38,11 @@ namespace :deploy do
   task :link_shared_dirs do
     run "ln -nfs #{deploy_to}/#{shared_dir}/questionnaires #{release_path}/db/questionnaires"
   end
+  
+  desc "Seed"
+  task :seed, :roles => :db do
+    run "cd #{current_path} && rake db:seed"
+  end
 
   desc "Create/update the questionnaires repo checkout"
   task :update_questionnaires do
@@ -68,4 +73,10 @@ namespace :deploy do
   after "deploy:update_code", "deploy:link_database_yml"
   after "deploy:update_code", "deploy:link_shared_dirs"
   after "deploy:update_code", "deploy:update_questionnaires"
+end
+
+namespace :logs do
+  task :watch do
+    stream("tail -f #{deploy_to}/#{shared_dir}/log/production.log")
+  end
 end
