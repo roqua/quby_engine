@@ -50,7 +50,11 @@ class Admin::QuestionnairesController < AdminAreaController
   def test
     @questionnaire = Questionnaire.find_by_key(params[:id])
     @answer = @questionnaire.answers.find_or_create_by_test(true)
-    redirect_to edit_questionnaire_answer_path(@questionnaire, @answer, :token => @answer.token, :display_mode => params[:display_mode])
+
+    timestamp = Time.now.getgm.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    plain_hmac = [Settings.shared_secret, @answer.token, timestamp].join('|')
+    hmac = Digest::SHA1.hexdigest(plain_hmac)
+    redirect_to edit_questionnaire_answer_path(@questionnaire, @answer, :token => @answer.token, :display_mode => params[:display_mode], :timestamp => timestamp, :hmac => hmac)
   end
   
   protected

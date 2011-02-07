@@ -8,6 +8,7 @@ class AnswersController < ApplicationController
   # SECURITY CRITICAL
   before_filter :ip_check_for_api_methods, :only => [:index]
   before_filter :verify_token, :only => [:show, :edit, :update]
+  before_filter :verify_hmac, :only => [:edit]
 
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
@@ -66,8 +67,10 @@ class AnswersController < ApplicationController
           address = Addressable::URI.parse(session[:return_url])
           address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
           logger.info address.to_s
+          clear_session
           redirect_to address.to_s and return
         else
+          clear_session
           render :action => "completed" and return
         end
       else
@@ -79,6 +82,15 @@ class AnswersController < ApplicationController
   end
 
   protected
+
+  def clear_session
+    session[:return_url] = nil
+    session[:return_token] = nil
+    session[:answer_token] = nil
+    session[:hmac] = nil
+    session[:timestamp] = nil
+    session[:display_mode] = nil
+  end
 
   def find_questionnaire
     if params[:questionnaire_id]
@@ -110,10 +122,39 @@ class AnswersController < ApplicationController
     end
   end
 
-  def remember_token_in_session
-    if params[:token]
-      session[:answer_token] = params[:token]
+  def verify_hmac
+    #return true if Rails.env.development?
+    
+    hmac      = (params['hmac'] || session[:hmac] || '').strip
+    token     = (params['token'] || session[:answer_token] || '').strip
+    timestamp = (params['timestamp'] || session[:timestamp] || '').strip
+
+    plain_hmac = [Settings.shared_secret, token, timestamp].join('|')
+    our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
+
+    if our_hmac != hmac
+      logger.error "ERROR::Authentication error: Token does not validate"
+      render :text => "Uw sessie is verlopen."
+      return
     end
+
+    if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
+        logger.error "ERROR::Authentication error: Invalid timestamp."
+        render :text => "Uw sessie kon niet geauthenticeerd worden."
+        return
+    end
+
+    if time < 10.minutes.ago or 10.minutes.since < time
+      logger.error "ERROR::Authentication error: Request expired"
+      render :text => "Uw sessie is verlopen."
+      return
+    end
+  end
+
+  def remember_token_in_session
+    session[:answer_token] = params[:token]  if params[:token]
+    session[:hmac] = params[:hmac]           if params[:hmac]
+    session[:timestamp] = params[:timestamp] if params[:timestamp]
   end
 
   def remember_return_url_in_session
