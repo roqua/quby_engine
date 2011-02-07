@@ -48,7 +48,7 @@ function activatePanel(panel, updateHash, forward) {
     if (hotkeysEnabled) {
         qitems = panel.find(".item:not(:hidden, .subitem, .text)");
         focusItem(qitems.first());
-        lastInput = qitems.find("input:not(:disabled, :hidden)").first().focus();
+        lastInput = getValidInputs().first().focus();
     }    
 }
 
@@ -476,7 +476,7 @@ function focusNextItem(){
 function focusPrevItem(){
     var item;
     if (nextButtonFocussed || saveButtonFocussed) {
-        //Takes too long in IE7
+        //Takes a bit in IE7
         item = lastFocus.closest(".panel").find('.item:not(:hidden, .text)').last();
         nextButtonFocussed = false;
         saveButtonFocussed = false;
@@ -507,7 +507,7 @@ function focusPrevItem(){
 }
 
 function getValidInputs(){
-    if (lastFocus) {
+    if (lastFocus) { 
         return lastFocus.find('input:not(:disabled, :hidden, [type=radio])').add(lastFocus.find('input:not(:disabled, :hidden)').first());
     } else {
         return $([]);
@@ -678,6 +678,8 @@ $(document).ready(
            handleDisableCheckboxSubQuestions(element);
         });
         
+        processExtraData();
+        
         isBulk = $('form.bulk').size() > 0;
         if (!isBulk) {
             hashChangeEnabled = true;
@@ -746,8 +748,6 @@ $(document).ready(
                 lastInput.focus();
             }
         }
-        
-        processExtraData();
     }
 );
 

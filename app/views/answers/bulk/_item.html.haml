@@ -76,6 +76,8 @@
         = render :partial => "answers/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
       - when :scale
         = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item}
+      - when :select
+        = render :partial => "answers/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion}
       - else
         %strong
           Error: unknown question type

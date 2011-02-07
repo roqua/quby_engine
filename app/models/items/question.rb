@@ -71,8 +71,8 @@ class Items::Question < Item
     @parent_option_key = options[:parent_option_key]
     @autocomplete = options[:autocomplete] || "off"
     @show_values = options[:show_values]
-    @check_all_option = options[:check_all_option] 
-    @uncheck_all_option = options[:uncheck_all_option]    
+    @check_all_option = options[:check_all_option]
+    @uncheck_all_option = options[:uncheck_all_option]
     @deselectable = options[:deselectable] || false
     @disallow_bulk = options[:disallow_bulk]
     @score_header = options[:score_header] || :none

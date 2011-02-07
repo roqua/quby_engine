@@ -63,7 +63,7 @@ class Answer < ActiveRecord::Base
     questionnaire.questions.each do |q|
       next unless q
       unless q.raw_content.blank?
-        @extra_failed_validations[q.key] = errors.on(q.key) if errors.on(q.key)
+        @extra_failed_validations[q.key] = errors[q.key] if errors[q.key] and not errors[q.key].blank? 
       end
     end
     @extra_failed_validations.to_json

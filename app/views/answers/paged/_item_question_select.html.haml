@@ -1,0 +1,13 @@
+%label.main(for="answer_#{question.key}")= raw(question.title)
+.description-and-fields
+  .description
+    - unless question.description.blank?
+      :markdown
+        #{raw question.description}
+  .fields(id="answer_#{question.key}_input")
+    %select(name="answer[#{question.key}]") 
+      -question.options.each do |opt|
+        - hash = {:value => opt.key, :hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : ""}
+        - hash[:selected] = 'selected' if @answer.send(question.key) == opt.key.to_s 
+        %option{hash}
+          =opt.description
