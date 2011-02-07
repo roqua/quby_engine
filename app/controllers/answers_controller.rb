@@ -19,7 +19,8 @@ class AnswersController < ApplicationController
   respond_to :html, :json, :xml
 
   def check_aborted
-    if params[:commit] == "Onderbreken" and @questionnaire.abortable
+    if (params[:commit] == "Onderbreken" and @questionnaire.abortable) or
+       (params[:commit] == "Toch opslaan" and session[:display_mode] == "bulk")
       params[:answer] ||= HashWithIndifferentAccess.new
       params[:answer][:aborted] = true
     else
@@ -70,7 +71,7 @@ class AnswersController < ApplicationController
           render :action => "completed" and return
         end
       else
-        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld."
+        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if session[:display_mode] != "bulk"
         format.html { render :action => "answers/#{session[:display_mode]}/edit" }
         format.json { render :json => @answer.errors.to_json }
       end      

@@ -9,9 +9,16 @@
 
     
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" "), :autocomplete => "off" do
+  - if not @answer.errors.empty?
+    .force-submit
+      %h1 Let op!
+      %p Deze vragenlijst is nog niet volledig ingevuld. Als u doorgaat met opslaan, kan het zijn dat er over deze vragenlijst geen scores berekend kunnen worden. U kunt ook hieronder uw antwoorden nog aanpassen.
+      = submit_tag "Toch opslaan"
+
   = render :partial => "answers/hotkey_dialog"
   - all_items = @questionnaire.panels.map(&:items).flatten
   - previous_item = nil
+  
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
     %fieldset{:id => "panel#{panel_counter}", :class => "panel"}
       :javascript

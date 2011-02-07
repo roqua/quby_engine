@@ -71,6 +71,17 @@ body {
     }
   }
   
+  .force-submit {
+    background: #ffffcc;
+    border: 1px solid #ffcc66;
+    padding: 3em;
+    font-size: 1.2em;
+    margin-bottom: 5em;
+
+    h1 { font-weight: bold; margin-bottom: 1em;}
+    p  { margin-bottom: 1em; }
+  }
+  
   .paged {
     .panel {
       @include container;
