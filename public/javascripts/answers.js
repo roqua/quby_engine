@@ -300,12 +300,12 @@ function selectInput(value){
     values.each(function(index, element){
        
        if(parseInt(element.textContent || element.innerHTML) == value){
-           selectedInput = $(element).closest(".option").find("input:not(.subinput, :hidden, :disabled)");           
+           selectedInput = $(element).closest(".option").find("input[type='radio']:not(.subinput, :hidden, :disabled)");           
        }
     });
     
     if(values.length == 0){
-        selectedInput = lastFocus.find("input:not(.subinput, :hidden, :disabled)").eq(value-1);
+        selectedInput = lastFocus.find("input[type='radio']:not(.subinput, :hidden, :disabled)").eq(value-1);
     }
     if(selectedInput.length > 0) {
         setCurrent(selectedInput[0]);
@@ -490,7 +490,10 @@ function focusPrevItem(){
             item = curPanel.prev().find('.item:not(:hidden, .text, .subitem)').last();
             while (item.length == 0){
                 curPanel = curPanel.prev();
-                item = curPanel.prev().find('.item:not(:hidden, .text, .subitem)').last();
+                if(curPanel.length == 0){
+                    break;
+                }
+                item = curPanel.prev().find('.item:not(:hidden, .text, .subitem)').last();                
             }
             return focusItem(item);
         } else {
@@ -724,13 +727,18 @@ $(document).ready(
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         if (hotkeysEnabled) {
         
-            $("input").keypress(handlePreventDefault);
-            $("input").keydown(handleHotKeys);
-            $("input[type=radio]").keyup(handleRadioHotKeys);
+            $(document).keypress(handlePreventDefault);
+            $(document).keydown(handleHotKeys);
+            $(document).keyup(handleRadioHotKeys);
             
             $(".item input").click(function(event){
                 focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
-                lastInput = event.target;                
+                lastInput = event.target;    
+            });
+            $("label.main").click(function(event){
+                focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
+                lastInput = getValidInputs().first();
+                lastInput.focus();       
             });
             if (isBulk) {
                 focusItem($('.panel').find(".item:not(:hidden, .text, .subitem)").first());

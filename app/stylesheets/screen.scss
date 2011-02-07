@@ -352,6 +352,8 @@ body {
         }
         
         &.bulkitem {
+            padding-top: 0.5em;
+            padding-bottom: 0.5em;
             &.radio, &.check_box, &.scale {
                 .fields.options1  table { @include column( 1, true); @include append(17); }
                 .fields.options2  table { @include column( 2, true); @include append(16); }
