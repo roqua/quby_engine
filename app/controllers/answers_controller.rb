@@ -8,10 +8,11 @@ class AnswersController < ApplicationController
   # SECURITY CRITICAL
   before_filter :ip_check_for_api_methods, :only => [:index]
   before_filter :verify_token, :only => [:show, :edit, :update]
-  before_filter :verify_hmac, :only => [:edit]
-
+  
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
+  before_filter :verify_hmac, :only => [:edit]
+
   before_filter :remember_display_mode_in_session
   before_filter :check_aborted, :only => [:create, :update]
 
@@ -64,11 +65,7 @@ class AnswersController < ApplicationController
       #Update_attributes also validates
       if @answer.update_attributes(params[:answer])
         if session[:return_url]
-          address = Addressable::URI.parse(session[:return_url])
-          address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
-          logger.info address.to_s
-          clear_session
-          redirect_to address.to_s and return
+          redirect_to_roqua and return
         else
           clear_session
           render :action => "completed" and return
@@ -139,15 +136,14 @@ class AnswersController < ApplicationController
     end
 
     if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
-        logger.error "ERROR::Authentication error: Invalid timestamp."
-        render :text => "Uw sessie kon niet geauthenticeerd worden."
-        return
+      logger.error "ERROR::Authentication error: Invalid timestamp."
+      render :text => "Uw sessie kon niet geauthenticeerd worden."
+      return
     end
 
-    if time < 10.minutes.ago or 10.minutes.since < time
+    if time < 24.hours.ago or 1.hour.since < time
       logger.error "ERROR::Authentication error: Request expired"
-      render :text => "Uw sessie is verlopen."
-      return
+      redirect_to_roqua(true) and return
     end
   end
 
@@ -170,6 +166,15 @@ class AnswersController < ApplicationController
     end
 
     session[:display_mode] = "paged" if session[:display_mode].blank?
+  end
+  
+  def redirect_to_roqua(expired_session=false)
+    address = Addressable::URI.parse(session[:return_url])
+    address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
+    address.query_values = address.query_values.merge(:expired_session => "true") if expired_session
+    logger.info address.to_s
+    clear_session
+    redirect_to address.to_s
   end
 
 end
