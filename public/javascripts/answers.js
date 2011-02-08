@@ -377,6 +377,10 @@ function handleHotKeys(event){
 }
 function handleRadioHotKeys(event){
     event.which = event.which || event.keyCode;
+    if (saveButtonFocussed || nextButtonFocussed){
+        return;
+    }
+    
     switch (event.which) {
         //0
         case 48:
