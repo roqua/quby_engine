@@ -6,6 +6,8 @@ set :scm, :git
 set :repository, "git@git.roqua.nl:quby.git"
 set :deploy_via, :remote_cache
 
+set :quby_staging, "localhost:2801"
+
 set :questionnaire_repository, "git@git.roqua.nl:qubyquestionnaires.git"
 set :questionnaire_branch, "master"
 set :questionnaire_master_branch, "master"
