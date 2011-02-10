@@ -377,7 +377,7 @@ function handleHotKeys(event){
 }
 function handleRadioHotKeys(event){
     event.which = event.which || event.keyCode;
-    if (saveButtonFocussed || nextButtonFocussed){
+    if (saveButtonFocussed || nextButtonFocussed || !$(lastInput).is("[type='radio']")){
         return;
     }
     
