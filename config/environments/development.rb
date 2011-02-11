@@ -20,4 +20,8 @@ Quby::Application.configure do
   config.active_support.deprecation = :log
 
   Sass::Plugin.options[:debug_info] = true
+
+
+  # Remove bloated SQL logs
+  config.log_level = :info
 end

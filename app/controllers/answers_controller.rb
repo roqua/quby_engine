@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
   # SECURITY CRITICAL
   before_filter :ip_check_for_api_methods, :only => [:index]
   before_filter :verify_token, :only => [:show, :edit, :update]
-  
+
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
   before_filter :verify_hmac, :only => [:edit]
@@ -16,8 +16,8 @@ class AnswersController < ApplicationController
   before_filter :remember_display_mode_in_session
   before_filter :check_aborted, :only => [:create, :update]
 
-  protect_from_forgery :except => [:edit, :update]  
-  
+  protect_from_forgery :except => [:edit, :update]
+
   respond_to :html, :json, :xml
 
   def check_aborted
@@ -54,12 +54,12 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @questionnaire.answers.create(params[:answer])
-            
+
     respond_to do |format|
       format.json { render :json => @answer}
     end
   end
-  
+
   def update
     respond_to do |format|
       #Update_attributes also validates
@@ -74,7 +74,7 @@ class AnswersController < ApplicationController
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if session[:display_mode] != "bulk"
         format.html { render :action => "answers/#{session[:display_mode]}/edit" }
         format.json { render :json => @answer.errors.to_json }
-      end      
+      end
     end
   end
 
@@ -92,7 +92,7 @@ class AnswersController < ApplicationController
   def find_questionnaire
     if params[:questionnaire_id]
       @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
-      
+
       unless @questionnaire
         render :text => "Questionnaire not found", :status => 404
         return false
@@ -107,12 +107,12 @@ class AnswersController < ApplicationController
   end
 
   def find_answer
-    @answer = @questionnaire.answers.find(params[:id]) 
+    @answer = @questionnaire.answers.find(params[:id])
   end
 
   def verify_token
     return true if Rails.env.development?
-    
+
     unless @answer.token == (params[:token] || session[:answer_token])
       render :text => "Invalid token, or no token given"
       return false
@@ -121,7 +121,7 @@ class AnswersController < ApplicationController
 
   def verify_hmac
     #return true if Rails.env.development?
-    
+
     hmac      = (params['hmac'] || session[:hmac] || '').strip
     token     = (params['token'] || session[:answer_token] || '').strip
     timestamp = (params['timestamp'] || session[:timestamp] || '').strip
@@ -167,13 +167,12 @@ class AnswersController < ApplicationController
 
     session[:display_mode] = "paged" if session[:display_mode].blank?
   end
-  
+
   def redirect_to_roqua(expired_session=false)
     address = Addressable::URI.parse(session[:return_url])
     address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
     address.query_values = address.query_values.merge(:expired_session => "true") if expired_session
     logger.info address.to_s
-    clear_session
     redirect_to address.to_s
   end
 
