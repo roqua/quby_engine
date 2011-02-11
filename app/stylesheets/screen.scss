@@ -141,8 +141,9 @@ body {
           }
         }
         
+        $mainlabel_columns : 6;
         label.main {
-          @include column(6);
+          @include column($mainlabel_columns);
           font-weight: bold;
         }
         
@@ -151,11 +152,11 @@ body {
         }
 
         .description-and-fields {
-          @include column(18, true);
+          @include column(24-$mainlabel_columns, true);
 
           // have to say div.description, because scale uses a table, and including column on tds would break
-          div.description { @include text; @include column(18, true); }
-          .fields { @include column(18, true); }
+          div.description { @include text; @include column(24-$mainlabel_columns, true); }
+          .fields { @include column(24-$mainlabel_columns, true); }
         }
 
         // Specific CSS for presentation styles
@@ -175,32 +176,32 @@ body {
 
         &.radio, &.check_box {
           .inner-title {
-            @include column(18, true);
+            @include column(24-$mainlabel_columns, true);
             margin-top: 1.5em;
             margin-bottom: 1.5em;
             font-weight: bold;
           }
 
           .option {
-            @include column(18, true); 
+            @include column(24-$mainlabel_columns, true); 
             .radiocheckwrapper { @include column(1); }
             .labelwrapper { 
-              @include column(17, true); 
+              @include column(23-$mainlabel_columns, true); 
               p { display: inline; }
             }
 
             &.show_values {
               .value { @include column(1); text-align: center; }
-              .labelwrapper { @include column(16, true); }
+              .labelwrapper { @include column(22-$mainlabel_columns, true); }
               
             }
 
             .subquestions {
               @include prepend(1);
-              @include column(17);
+              @include column(23-$mainlabel_columns);
 
               .item { 
-                @include column(17); 
+                @include column(23-$mainlabel_columns); 
                 input { width: auto; }
               }
             }
@@ -304,6 +305,7 @@ body {
         &.optionwidth10{width:(100%/10)}
         &.optionwidth11{width:(100%/11)}
         &.optionwidth12{width:(100%/12)}
+        white-space:nowrap;
     }
       .item { 
         @include column(24, true);
@@ -326,7 +328,7 @@ body {
         
         label.main {
           @include column(12);
-          font-weight: bold;
+          //font-weight: bold;
         }
         
         .text {
