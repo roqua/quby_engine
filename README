@@ -13,7 +13,7 @@ Vragenlijsten updaten
 =====================
 
 Vragenlijsten staan in een losse git repository:
-  git@git.roqua.nl:qubyquestionnaires.git
+  git@github.com:roqua/questionnaires.git
 
 Clone deze repository naar een map op je computer, en maak een symlink aan binnen Quby:
 
@@ -24,28 +24,3 @@ en wordt deze gesymlinked. In het capistrano-script kun je aangeven dat je een
 andere branch wil volgen, ipv master. In principe draaien alle klanten gewoon
 op de master branch.
 
-De RGOC instance draait echter op de branch dev-rgoc. Je wordt aangeraden deze
-op de ontwikkelmachine toe te voegen als extra remote:
-
-  git remote add rgoc deploy@10.20.10.1:/var/www/quby.rgoc.roqua.nl/shared/questionnaires
-  git fetch rgoc
-  git checkout -b dev-rgoc rgoc/dev-rgoc
-
-Daarna kun je de wijzigingen die Sjoerd/Ellen op deze instance maken binnenhalen:
-
-  git checkout master
-  git update
-  git rebase dev-rgoc 
-  git checkout dev-rgoc
-  git merge master
-  git push
-
-Bij elke deploy wordt de nieuwste versie van de questionnaires repository binnengehaald,
-en het is ook mogelijk om zonder code-deploy te updaten:
-
-  cap rgoc-production deploy:update_questionnaires
-
-NB: Machines waarop via de web-interface geedit wordt niet load-balancen, dan raken ze
-	namelijk uit sync. Het idee achter de opzet is dat er 1 instance is waarop ge-edit
-	wordt, en dat dit niet een instance is waarop ook klanten/patienten invullen. Die
-	instances krijgen geupdate definities via capistrano, niet via de web-admin.
