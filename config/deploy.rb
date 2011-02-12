@@ -3,10 +3,10 @@ require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
 
 set :scm, :git
-set :repository, "git@git.roqua.nl:quby.git"
+set :repository, "git@github.com:roqua/quby.git"
 set :deploy_via, :remote_cache
 
-set :questionnaire_repository, "git@git.roqua.nl:qubyquestionnaires.git"
+set :questionnaire_repository, "git@github.com:roqua/questionnaires.git"
 set :questionnaire_branch, "master"
 set :questionnaire_master_branch, "master"
 
