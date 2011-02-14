@@ -60,7 +60,7 @@ function pushFailVal(val){
 function is_answered(inputs, question_item){
     for (var j = 0; j < inputs.length; j++){
         var input = inputs[j];
-        if((input.type === "text" || input.type == "textarea") && question_item.is(".string, .text, .integer, .float, .date")){
+        if((input.type === "text" || input.type == "textarea") && question_item.is(".string, .textarea, .integer, .float, .date")){
             if (input.value != "") {
                 return true;
             }
