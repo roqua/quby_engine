@@ -129,6 +129,8 @@ class Items::Question < Item
       case type
       when :string
         { :autocomplete => @autocomplete }
+      when :textarea
+        { :autocomplete => @autocomplete }
       when :radio
         { :options => @options } 
       when :scale

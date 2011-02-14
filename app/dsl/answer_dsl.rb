@@ -79,7 +79,7 @@ module AnswerDsl
           #question.type == :radio 
           #question.type == :scale
           #question.type == :string
-          #question.type == :open
+          #question.type == :textarea
           #question.type == :integer
           #question.type == :float
 

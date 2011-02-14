@@ -170,8 +170,8 @@ body {
 
         // Specific CSS for certain item types
       
-        &.string {
-          input { width: 100%; }
+        &.string, &.textarea {
+          input, textarea { width: 100%; }
         }
 
         &.radio, &.check_box {
@@ -356,12 +356,12 @@ body {
 
         // Specific CSS for certain item types
       
-        &.string {
+        &.string, &.textarea {
           margin-bottom: 0.5em;
           &.bulkitem {
             margin-bottom: 0.0em;
           }
-          input { @include column(12,true); }
+          input, textarea { @include column(12,true); }
         }
         
         &.bulkitem {

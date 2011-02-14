@@ -16,8 +16,8 @@ var setCurrent;
 var setCheck;
 
 function allInputsHidden(panel){
-    var hiddenInputs = $(panel).find(".item input:hidden");
-    return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input").length;
+    var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden");
+    return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea").length;
 }
 
 function activatePanel(panel, updateHash, forward) {
@@ -60,7 +60,7 @@ function pushFailVal(val){
 function is_answered(inputs, question_item){
     for (var j = 0; j < inputs.length; j++){
         var input = inputs[j];
-        if(input.type === "text" && question_item.is(".string, .text, .integer, .float, .date")){
+        if((input.type === "text" || input.type == "textarea") && question_item.is(".string, .text, .integer, .float, .date")){
             if (input.value != "") {
                 return true;
             }
@@ -85,7 +85,7 @@ function validatePanel(panel) {
     for (var question_key in validations) {
       var question_item = $("#answer_" + question_key + "_input").closest('.item');
       
-      var inputs = question_item.find("input").not(":disabled, :hidden");      
+      var inputs = question_item.find("input, textarea").not(":disabled, :hidden");      
       fail_vals = new Array();
       
       for (var i in validations[question_key]) {
@@ -202,7 +202,7 @@ function get_answer_count(groupkey, panel){
     
     var quest_items = $(panel).find(".item."+ groupkey);
     for(var i = 0; i < quest_items.length; i++){
-        var inputs = $(quest_items[i]).find(" input").not(":disabled, :hidden")
+        var inputs = $(quest_items[i]).find(" input, textarea").not(":disabled, :hidden")
         if (is_answered(inputs, quest_items.eq(i))) {
             answered++;
         }
@@ -347,8 +347,10 @@ function handlePreventDefault(event){
 }
 
 function handleHotKeys(event){
-    
     event.which = event.which || event.keyCode;
+    if ($(lastInput).is("textarea")) {
+        return;
+    }
     
     switch (event.which) {
         //enter
@@ -512,7 +514,7 @@ function focusPrevItem(){
 
 function getValidInputs(){
     if (lastFocus) { 
-        return lastFocus.find('input:not(:disabled, :hidden, [type=radio])').add(lastFocus.find('input:not(:disabled, :hidden)').first());
+        return lastFocus.find('input:not(:disabled, :hidden, [type=radio]), textarea:not(:disabled, :hidden)').add(lastFocus.find('input:not(:disabled, :hidden)').first());
     } else {
         return $([]);
     }
@@ -580,7 +582,7 @@ function radioEvents(element){
 //* checkboxes,
 //* all/nothing checkboxes
 function assignValue(qkey, value){
-    var inputs = $("input[name^='answer["+qkey+"']");
+    var inputs = $("input[name^='answer["+qkey+"'], textarea[name^='answer["+qkey+"']");
     if(inputs.length > 0){
         var type = inputs[0].type;
         if (type == "radio" || type == "scale") {
@@ -737,7 +739,7 @@ $(document).ready(
             $(document).keydown(handleHotKeys);
             $(document).keyup(handleRadioHotKeys);
             
-            $(".item input").click(function(event){
+            $(".item input, .item textarea").click(function(event){
                 focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
                 lastInput = event.target;    
             });
