@@ -7,6 +7,9 @@ require 'digest/sha1'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
+# Infer organization based on path of the Rails application
+ORGANIZATION = File.expand_path(__FILE__).match(/quby\.(\w+)\.roqua\.nl/).andand[1] || "dev"
+
 module Quby
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
