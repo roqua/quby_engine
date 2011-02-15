@@ -31,6 +31,10 @@ module QuestionnaireDsl
       @questionnaire.allow_hotkeys = type
     end
     
+    def css(value)
+      @questionnaire.extra_css = value
+    end
+    
     def panel(title = nil, options = {}, &block)
       p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire, :default_question_options => @default_question_options}))
       p.instance_eval(&block)
@@ -94,9 +98,13 @@ module QuestionnaireDsl
     end
     
     def html(value)
+      @panel.items << Items::Text.new('', :html_content => value.to_s)
+    end
+    
+    def raw_html(value)
       @panel.items << Items::Text.new('', :raw_content => value.to_s)
     end
-
+    
     def question(key, options = {}, &block)
       # TODO Add check for repeated use of keys
       

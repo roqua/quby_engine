@@ -1,11 +1,11 @@
 class Items::Text < Item
-  require 'maruku'
-
+  require 'extensions/maruku_extensions'
+  
   attr_accessor :text
 
   def initialize(str, options={})
-    if options[:raw_content]
-      options[:raw_content] = "<div class='item text'>" + options[:raw_content] + "</div>"
+    if options[:html_content]
+      options[:raw_content] = "<div class='item text'>" + options[:html_content] + "</div>"
     end
     super(options)
     @text = Maruku.new(str).to_html    

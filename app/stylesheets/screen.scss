@@ -141,10 +141,18 @@ body {
           }
         }
         
-        $mainlabel_columns : 6;
-        label.main {
+        $mainlabel_columns : 8;
+        .main {
           @include column($mainlabel_columns);
           font-weight: bold;
+          .mainlabelwrap{
+              float:left;
+              width:85%;
+          }
+          .qnumber{
+              float:left;
+              padding-right:0.2em;
+          }
         }
         
         .text {
@@ -162,7 +170,13 @@ body {
         // Specific CSS for presentation styles
 
         &.horizontal {
-          label.main { @include column(24, true); @include append-bottom; }
+          .main { 
+              @include column(24, true);
+              @include append-bottom(1em);
+              .mainlabelwrap{
+                  width:90%;
+              }
+           }
           .description-and-fields { @include column(24, true); }
           .description { @include column(24, true); }
           .fields { @include column(24, true); }

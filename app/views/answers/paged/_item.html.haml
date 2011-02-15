@@ -13,6 +13,9 @@
 - else
   .item{:class => itemclasses}
     - case item.class.name
+    - when "Items::Css"
+      :css
+        =#{item.raw_content}
     - when "Items::Text"
       .text
         :markdown

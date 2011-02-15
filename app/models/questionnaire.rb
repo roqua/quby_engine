@@ -13,9 +13,11 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :panels
   attr_accessor :scores
   
+  attr_accessor :extra_css
+  
   attr_accessor :last_author
   
-  #allow hotkeys for either :all or just :bulk views
+  #allow hotkeys for either :all views, just :bulk views (default), or :none for never
   attr_accessor :allow_hotkeys
   
   #default_scope :order => "key ASC"

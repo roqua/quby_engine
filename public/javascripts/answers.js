@@ -14,6 +14,7 @@ var hotkeysEnabled;
 var radioChecked;
 var setCurrent;
 var setCheck;
+var skipValidations = false;
 
 function allInputsHidden(panel){
     var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden");
@@ -75,6 +76,9 @@ function is_answered(inputs, question_item){
 }
 
 function validatePanel(panel) {
+  if(skipValidations){
+      return true;
+  }
   var failed = false;
   validationI = 0;
   $(panel).find(".error").addClass("hidden");
@@ -579,20 +583,31 @@ function radioEvents(element){
 //* enabling/disabling subquestions,
 //* hiding other questions,
 //* dates,
-//* checkboxes,
 //* all/nothing checkboxes
-function assignValue(qkey, value){
-    var inputs = $("input[name^='answer["+qkey+"'], textarea[name^='answer["+qkey+"']");
+function assignValue(qkey, val){
+    var inputs = $("[name^='answer["+qkey+"'][type!='hidden']");
     if(inputs.length > 0){
-        var type = inputs[0].type;
+        var type = inputs[inputs.length-1].type;
         if (type == "radio" || type == "scale") {
-            var input = inputs.filter("[value='" + value + "']").get(0);
-            if (input) {
-                input.checked = 'checked';
+            //FIXME: IE7 refresh (with cache, not when using CTRL+F5) gives error on next line for mate1
+            //'length' is null or not an object
+            var input = inputs.filter("[value='" + val + "']");
+            if (input && input.length > 0) {
+                input.get(0).checked = 'checked';
             }
         } else if (type == "text") {
             var input = inputs.get(0);
-            input.value = value;
+            input.value = val;
+        } else if (type == "checkbox") {
+            $.each(val, function(ckey, cvalue){
+                var input = inputs.filter("input[name='answer["+ckey+"]']");
+                input.attr("checked", cvalue == 1);
+            });
+        } else if (type == 'select-one'){
+            var input = inputs.find("[value="+val+"]")[0]
+            if(input){
+                input.selected = "selected";
+            }
         }
     }
 }
@@ -729,13 +744,13 @@ $(document).ready(
             }
         }
         
+        $(document).keypress(handlePreventDefault);        
         //Layout breaks with this
 //        $(".radiocheckwrapper input[type=radio]").customInput();
 //        $("input[type=checkbox]").customInput();
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         if (hotkeysEnabled) {
         
-            $(document).keypress(handlePreventDefault);
             $(document).keydown(handleHotKeys);
             $(document).keyup(handleRadioHotKeys);
             
@@ -754,6 +769,14 @@ $(document).ready(
                 lastInput.focus();
             }
         }
+        
+        $("input[text_var]").each(function(i, ele){
+            ele = $(ele);
+            var tvar = ele.attr('text_var');
+            ele.blur(function (){
+                $("span[text_var='"+tvar+"']").attr('innerHTML', ele.attr('value'));
+            });  
+        })
     }
 );
 

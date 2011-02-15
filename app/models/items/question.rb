@@ -1,6 +1,5 @@
 class Items::Question < Item
-  require 'maruku'
-  
+  require 'extensions/maruku_extensions'
   # Standard attributes
   attr_accessor :key
   attr_accessor :title
@@ -57,6 +56,10 @@ class Items::Question < Item
   attr_accessor :group_minimum_answered
   attr_accessor :group_maximum_answered
   
+  #Text variable name that will be replaced with the answer to this question
+  #In all following text elements #FIXME: specify
+  attr_accessor :text_var
+  
   ##########################################################
   
   def initialize(key, options = {})
@@ -64,7 +67,7 @@ class Items::Question < Item
     @key = key
     @type = options[:type]
     @title = options[:title]
-    @description = Maruku.new(options[:description]).to_html
+    @description = options[:description]
     @presentation = options[:presentation]
     @validations = []
     @parent = options[:parent]
@@ -76,6 +79,7 @@ class Items::Question < Item
     @deselectable = options[:deselectable] || false
     @disallow_bulk = options[:disallow_bulk]
     @score_header = options[:score_header] || :none
+    @text_var = options[:text_var]
     
     @question_group = options[:question_group]
     @group_minimum_answered = options[:group_minimum_answered]
@@ -142,6 +146,7 @@ class Items::Question < Item
       end
     )
   end
+  
 
   def answerable?; true; end
 

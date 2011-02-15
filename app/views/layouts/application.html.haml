@@ -2,7 +2,7 @@
 %html{"class" => "no-js"}
   %head
     %meta{"http-equiv"=>"content-type", :content=>"text/html; charset=utf-8"}
-    %title= content_for(:page_title) || "Roqua Vragenlijsten"
+    %title= yield(:page_title) || "Roqua Vragenlijsten"
     = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
     = stylesheet_link_tag 'print.css', :media => 'print'
     = stylesheet_link_tag 'redmond/jquery-ui-1.8.7.custom.css'
@@ -19,6 +19,8 @@
     //= javascript_include_tag "modernizr-1.5.min.js"
     = javascript_include_tag "application.js"
     = javascript_include_tag controller.controller_name
+    :css
+      #{yield(:extra_css) || ""}
   
   %body
     #masthead

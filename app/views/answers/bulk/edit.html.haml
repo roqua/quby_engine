@@ -6,7 +6,7 @@
   var extra_failed_validations = #{@answer.extra_failed_validations}
 
 - content_for(:page_title, @questionnaire.title)
-
+- content_for(:extra_css, @questionnaire.extra_css)
     
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" "), :autocomplete => "off" do
   - if not @answer.errors.empty?
