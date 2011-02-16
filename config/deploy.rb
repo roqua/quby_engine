@@ -13,6 +13,8 @@ set :questionnaire_master_branch, "master"
 set :user, "deploy"
 set :use_sudo, false
 
+ssh_options[:forward_agent] = true
+
 namespace :deploy do
   desc "Restart web server"
   task :restart, :roles => :app do

@@ -319,6 +319,10 @@ body {
         &.optionwidth10{width:(100%/10)}
         &.optionwidth11{width:(100%/11)}
         &.optionwidth12{width:(100%/12)}
+        white-space:nowrap;
+        &.scaleheader{
+            white-space:normal;        
+        }
     }
       .item { 
         @include column(24, true);
