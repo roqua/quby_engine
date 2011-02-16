@@ -146,6 +146,10 @@ module QuestionnaireDsl
     def presentation(value)
       @question.presentation = value
     end
+
+    def lines(value)
+      @question.lines = value
+    end
     
     def option(key, options = {}, &block)
       raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options.find {|i| i.key == key }

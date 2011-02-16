@@ -59,6 +59,9 @@ class Items::Question < Item
   #Text variable name that will be replaced with the answer to this question
   #In all following text elements #FIXME: specify
   attr_accessor :text_var
+
+  # Amount of rows a textarea has
+  attr_accessor :lines
   
   ##########################################################
   
