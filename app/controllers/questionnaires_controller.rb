@@ -9,7 +9,12 @@ class QuestionnairesController < ApplicationController
   end
 
   def show
+    return head(Questionnaire.exists?(:key => params[:id]) ? 200 : 404) if request.head?
     @questionnaire = Questionnaire.find_by_key(params[:id])
-    respond_with @questionnaire
+    if @questionnaire
+      respond_with @questionnaire
+    else
+      head 404
+    end
   end
 end
