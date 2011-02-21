@@ -169,6 +169,7 @@ class AnswersController < ApplicationController
   end
 
   def redirect_to_roqua(expired_session=false)
+    #FIXME: Flash proper error message when return_url is empty
     address = Addressable::URI.parse(session[:return_url])
     address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
     address.query_values = address.query_values.merge(:expired_session => "true") if expired_session

@@ -757,6 +757,9 @@ $(document).ready(
             $(".item input, .item textarea").click(function(event){
                 focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
                 lastInput = event.target;    
+            }).focus(function(event){
+                focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
+                lastInput = event.target;
             });
             $("label.main").click(function(event){
                 focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
