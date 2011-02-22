@@ -272,21 +272,21 @@ function hashchangeEventHandler(){
 
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
-        if (element.checked) {
+        if (element.attr('checked')) {
             $("#answer_" + this + "_input").closest('.item').removeClass('hidden');
         }
     });
     $.each(hidekeys, function(){
-        if (element.checked) {
+        if (element.attr('checked')) {
             $("#answer_" + this + "_input").closest('.item').addClass('hidden');
         }
     });    
 }
 
 function handleDisableRadioSubQuestions(element){
-    if(element.checked){
-        $(element).closest('.item').find('.subinput').attr("disabled", "true");
-        $(element).closest('.option').find('.subinput').attr("disabled", "");
+    if(element.attr('checked')){
+        element.closest('.item').find('.subinput').attr("disabled", "true");
+        element.closest('.option').find('.subinput').attr("disabled", "");
     } 
 }
 
@@ -573,9 +573,10 @@ function hotkeyDialog(){;
     });
 }
 
-function radioEvents(element){
+function radioEvents(event){
+    var element = $(event.target);
     handleDisableRadioSubQuestions(element);
-    handleHideQuestions(element, eval(element.getAttribute('hides')), eval(element.getAttribute('allhidden')));
+    handleHideQuestions(element, eval(element.attr('hides')) || [], eval(element.attr('allhidden')) || []);
 }
 
 
@@ -589,8 +590,6 @@ function assignValue(qkey, val){
     if(inputs.length > 0){
         var type = inputs[inputs.length-1].type;
         if (type == "radio" || type == "scale") {
-            //FIXME: IE7 refresh (with cache, not when using CTRL+F5) gives error on next line for mate1
-            //'length' is null or not an object
             var input = inputs.filter("[value='" + val + "']");
             if (input && input.length > 0) {
                 input.get(0).checked = 'checked';
@@ -653,11 +652,9 @@ $(document).ready(
         
         $('.subinput').attr("disabled", "true");
         $('input[type="radio"]').each( function(index, element){            
-           handleDisableRadioSubQuestions(element);
+           handleDisableRadioSubQuestions($(element));
         });
-        $('input[type="radio"]').not("[value='DESELECTED_RADIO_VALUE']").click( function(){
-           radioEvents(this);
-        });
+        $('input[type="radio"]').not("[value='DESELECTED_RADIO_VALUE']").click( radioEvents );
         $('input[type="radio"]:checked').click();
 
         var allDeselectableRadios = $('input[type=radio].deselectable');

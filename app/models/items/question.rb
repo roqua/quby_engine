@@ -19,6 +19,10 @@ class Items::Question < Item
   attr_accessor :autocomplete
 
   # Whether we show the value for each option
+  # true or :all => in all questionnaire display modes
+  # false or :none => in none of display modes
+  # :paged => for only in :paged display mode
+  # :bulk => for only in :bulk display mode
   attr_accessor :show_values
   
   #checkbox option that checks all other options on check
@@ -76,7 +80,7 @@ class Items::Question < Item
     @parent = options[:parent]
     @parent_option_key = options[:parent_option_key]
     @autocomplete = options[:autocomplete] || "off"
-    @show_values = options[:show_values]
+    @show_values = options[:show_values] || :none
     @check_all_option = options[:check_all_option]
     @uncheck_all_option = options[:uncheck_all_option]
     @deselectable = options[:deselectable] || false
