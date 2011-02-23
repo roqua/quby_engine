@@ -636,6 +636,8 @@ function processExtraData(){
     }
 }
 
+
+
 $(document).ready(
     function() {
         
@@ -649,13 +651,21 @@ $(document).ready(
                 }
             }
         }
-        
+        //FIXME performance terrible for these selectors
         $('.subinput').attr("disabled", "true");
         $('input[type="radio"]').each( function(index, element){            
-           handleDisableRadioSubQuestions($(element));
+            var ele = $(element);
+            handleDisableRadioSubQuestions(ele);
+            
+            if (!ele.is("[value='DESELECTED_RADIO_VALUE']")){
+                ele.click( radioEvents );
+            }
+            
+            if(ele.is(':checked')){
+                ele.click();   
+            }
         });
-        $('input[type="radio"]').not("[value='DESELECTED_RADIO_VALUE']").click( radioEvents );
-        $('input[type="radio"]:checked').click();
+        
 
         var allDeselectableRadios = $('input[type=radio].deselectable');
         
@@ -663,7 +673,7 @@ $(document).ready(
             radioChecked = $(obj).attr('checked');
         };
                             
-        setCheck = function(obj, deselectable) {            
+        setCheck = function(obj, deselectable) {
             if (radioChecked) {
                 if (deselectable) {
                     $(obj).attr('checked', false);
@@ -674,7 +684,9 @@ $(document).ready(
                 $(obj).attr('checked', true);
             }
         };    
-                             
+
+        //FIXME: honos65+ performance opportunity
+        //lots of labels are selected individually,
         allDeselectableRadios.each( function(i, val){
             var label = $('label[for=' + $(this).attr("id") + ']');
             
@@ -776,7 +788,7 @@ $(document).ready(
             ele.blur(function (){
                 $("span[text_var='"+tvar+"']").attr('innerHTML', ele.attr('value'));
             });  
-        })
+        });
     }
 );
 
