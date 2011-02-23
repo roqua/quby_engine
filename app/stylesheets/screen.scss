@@ -154,6 +154,9 @@ body {
               float:left;
               width:85%;
           }
+          em {
+              font-style: italic;
+          }
           .qnumber{
               float:left;
               padding-right:0.2em;
@@ -182,9 +185,16 @@ body {
                   width:90%;
               }
            }
-          .description-and-fields { @include column(24, true); }
-          .description { @include column(24, true); }
-          .fields { @include column(24, true); }
+          .description-and-fields, div.description, .fields { @include column(24, true); }
+          &.radio, &.check_box {
+                  .option {
+                    @include column(24, true);
+                    .labelwrapper { @include column(23, true); } 
+                    &.show_values {
+                        .labelwrapper { @include column(22, true); }
+                  }
+               }
+           }
         }
 
         // Specific CSS for certain item types
