@@ -1,9 +1,13 @@
 / Begin _item.html.haml
 - subquestion ||= false
+- disabled ||= false
+- @answer.to_hide ||= [] 
 - itemclasses = [item.type, item.presentation]
 - itemclasses << "errors" unless @answer.errors[item.key].empty?
-- itemclasses << item.question_group if item.class.name == "Items::Question" and item.question_group
 - itemclasses << 'subitem' if subquestion
+- if item.class.name == "Items::Question"
+  - itemclasses << item.question_group  if item.question_group
+  - itemclasses << 'hidden' if @answer.to_hide.include?(item.key)
 
 - if item.raw_content
   - if item.raw_content[session[:display_mode].to_sym]
@@ -57,21 +61,21 @@
                 
         - case item.type
         - when :string
-          = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - when :textarea
-          = render :partial => "answers/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - when :integer, :float
-          = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - when :radio
-          = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - when :date
-          = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - when :check_box
-          = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - when :scale
-          = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - when :select
-          = render :partial => "answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion}
+          = render :partial => "answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
         - else
           %strong
             Error: unknown question type

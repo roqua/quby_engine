@@ -651,21 +651,8 @@ $(document).ready(
                 }
             }
         }
-        //FIXME performance terrible for these selectors
-        $('.subinput').attr("disabled", "true");
-        $('input[type="radio"]').each( function(index, element){            
-            var ele = $(element);
-            handleDisableRadioSubQuestions(ele);
-            
-            if (!ele.is("[value='DESELECTED_RADIO_VALUE']")){
-                ele.click( radioEvents );
-            }
-            
-            if(ele.is(':checked')){
-                ele.click();   
-            }
-        });
         
+        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').click( radioEvents );        
 
         var allDeselectableRadios = $('input[type=radio].deselectable');
         

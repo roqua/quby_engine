@@ -7,6 +7,8 @@
         #{raw question.description}
   .fields(id="answer_#{question.key}_input")
     - question.options.each do |opt|
+      - checked = @answer.send(question.key) == opt.key.to_s
+      - @answer.to_hide += opt.hides_questions if checked 
       - if opt.inner_title
         .inner-title
           :markdown
@@ -18,7 +20,7 @@
             - radio_classes << "subinput" if subquestion
             - radio_classes << "deselectable" if question.deselectable
             = radio_button(:answer, question.key, opt.key,
-              {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes})
+              {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes, :disabled => disabled ? "" : nil})
           - if show_values
             .value= opt.value
           .labelwrapper
@@ -27,5 +29,5 @@
                 :markdown
                   #{raw opt.description}
           - unless opt.questions.empty?
-            .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}
+            .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}
     = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden", :name => "answer[#{question.key}]")

@@ -15,7 +15,10 @@ class Answer < ActiveRecord::Base
   #for setting raw content values and failed validations
   attr_accessor :extra_question_values
   attr_accessor :extra_failed_validations
-
+  
+  #for setting which questions should be hidden
+  attr_accessor :to_hide
+  
   serialize :value
 
   def enhance_by_dsl

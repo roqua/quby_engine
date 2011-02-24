@@ -5,6 +5,8 @@
     .fields(id="answer_#{question.key}_input" class="options#{question.options.size}}")
       - question.options.each_with_index do |opt, idx|
         -next if opt.inner_title
+        - checked = @answer.send(question.key) == opt.key.to_s
+        - @answer.to_hide += opt.hides_questions if checked
         - cls = []
         - cls << "first" if idx <= 0
         - cls << "last" if idx >= (question.options.size - 1)
@@ -13,7 +15,7 @@
           - radio_classes = []
           - radio_classes << "subinput" if subquestion
           - radio_classes << "deselectable" if question.deselectable          
-          = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes})
+          = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes, :disabled => disabled ? "" : nil})
           -if show_values
             %span.value= opt.value
 - else
@@ -31,9 +33,11 @@
             :markdown
               #{raw opt.description}
         - else
+          - checked = @answer.send(question.key) == opt.key.to_s
+          - @answer.to_hide += opt.hides_questions if checked
           .option(class="#{show_values ? 'show_values' : nil}")
             .radiocheckwrapper
-              = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : ""})
+              = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil})
             - if show_values
               .value= opt.value
             .labelwrapper
@@ -42,5 +46,5 @@
                   :markdown
                     #{raw opt.description}
             - unless opt.questions.empty?
-              .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true}
+              .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}
       = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden")

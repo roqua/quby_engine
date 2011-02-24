@@ -1,7 +1,10 @@
 / Begin _item.html.haml
 - subquestion ||= false
+- disabled ||= false
 - itemclasses = [item.type, item.presentation]
-- if item.is_a?(Items::Question) 
+- @answer.to_hide ||= []
+- if item.is_a?(Items::Question)
+  - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
   - doublewide = item.options.size <= 5 
   - if(item.disallow_bulk or (not item.subquestions.andand.empty?))
     - itemclasses << "notbulkitem"
@@ -64,21 +67,21 @@
                
       - case item.type
       - when :string
-        = render :partial => "answers/bulk/item_question_string", :locals => {:question => item, :subquestion => subquestion}
+        = render :partial => "answers/bulk/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :textarea
-        = render :partial => "answers/bulk/item_question_textarea", :locals => {:question => item, :subquestion => subquestion}
+        = render :partial => "answers/bulk/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :integer, :float
-        = render :partial => "answers/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion}
+        = render :partial => "answers/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio
-        = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item}
+        = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item, :disabled => disabled}
       - when :date
-        = render :partial => "answers/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion}
+        = render :partial => "answers/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box
-        = render :partial => "answers/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion}
+        = render :partial => "answers/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :scale
-        = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item}
+        = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item, :disabled => disabled}
       - when :select
-        = render :partial => "answers/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion}
+        = render :partial => "answers/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
         %strong
           Error: unknown question type

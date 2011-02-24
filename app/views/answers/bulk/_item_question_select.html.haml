@@ -7,7 +7,9 @@
   .fields(id="answer_#{question.key}_input")
     %select(name="answer[#{question.key}]") 
       -question.options.each do |opt|
-        - hash = {:value => opt.key, :hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : ""}
+        - checked = @answer.send(question.key) == opt.key.to_s
+        - @answer.to_hide += opt.hides_questions if checked
+        - hash = {:value => opt.key, :hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil}
         - hash[:selected] = 'selected' if @answer.send(question.key) == opt.key.to_s 
         %option{hash}
           =opt.description
