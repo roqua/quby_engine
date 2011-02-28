@@ -586,6 +586,7 @@ function radioEvents(event){
 //* dates,
 //* all/nothing checkboxes
 function assignValue(qkey, val){
+    //FIXME: also finds inputs named ex. v_11 when looking for inputs for v_1 
     var inputs = $("[name^='answer["+qkey+"'][type!='hidden']");
     if(inputs.length > 0){
         var type = inputs[inputs.length-1].type;

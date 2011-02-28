@@ -78,6 +78,7 @@ module AnswerDsl
           # Includes:
           #question.type == :radio 
           #question.type == :scale
+          #question.type == :select
           #question.type == :string
           #question.type == :textarea
           #question.type == :integer

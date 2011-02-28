@@ -88,7 +88,7 @@ class Answer < ActiveRecord::Base
           #logger.debug "Finding questionnaire #{questionnaire.key} question with key #{key}"
           question = questionnaire.questions.find(){|q| q.andand.key == key }
           #logger.debug question.inspect
-          if question and (question.type == :radio || question.type == :scale)
+          if question and (question.type == :radio || question.type == :scale || question.type == :select)
             #logger.debug "Question is a radio"
             option   = question.options.find(){|o| o.key.to_s == value[key].to_s }
             #logger.debug option.inspect
