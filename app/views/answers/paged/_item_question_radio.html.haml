@@ -1,5 +1,5 @@
 =marukufix(question.title, "answer_#{question.key}")
-- show_values = question.show_values == true or question.show_values == :all or question.show_values == session[:display_mode].to_sym
+- show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
 .description-and-fields
   .description
     - unless question.description.blank?

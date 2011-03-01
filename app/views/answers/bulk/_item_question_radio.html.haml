@@ -1,4 +1,4 @@
-- show_values = question.show_values == true or question.show_values == :all or question.show_values == session[:display_mode].to_sym
+- show_values = (question.show_values == true or question.show_values == :all or question.show_values == :bulk)
 - if not question.disallow_bulk and question.subquestions.blank?
   %label.main(for="answer_#{question.key}")= raw(question.title)
   .description-and-fields
