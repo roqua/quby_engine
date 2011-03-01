@@ -11,7 +11,7 @@
   - else
     - itemclasses << "bulkitem"
     -if item.type != :hidden
-      - itemclasses << cycle('evenRow', 'oddRow') 
+      - itemclasses << cycle('evenRow', 'oddRow', :name => "rowbg") 
       - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != item.options.map(&:value) or previous_item.options.map(&:description) != item.options.map(&:description))
         = render :partial => "answers/bulk/item_radio_check_scale_options", :object => item
 - itemclasses << "errors" unless @answer.errors[item.key].empty?
@@ -19,8 +19,8 @@
 - itemclasses << 'subitem' if subquestion
 
 - if item.raw_content and item.class.name != "Items::Text" 
-  - if item.raw_content[session[:display_mode].to_sym]
-    = raw item.raw_content[session[:display_mode].to_sym]
+  - if item.raw_content[:bulk]
+    = raw item.raw_content[:bulk]
   - else 
     = raw item.raw_content
 - else
