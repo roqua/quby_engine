@@ -79,6 +79,6 @@ end
 
 namespace :logs do
   task :watch do
-    stream("tail -f #{deploy_to}/#{shared_dir}/log/production.log")
+    stream("tail -n 50 -f #{deploy_to}/#{shared_dir}/log/production.log")
   end
 end
