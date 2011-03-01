@@ -359,7 +359,7 @@ body {
         }
         
         label.main {
-          @include column(12);
+          @include column(12, true);
           //font-weight: bold;
         }
         
@@ -455,17 +455,17 @@ body {
 
               &.show_values {
                 .value { @include column(1); text-align: center; }
-                .labelwrapper { @include column(16, true); }
+                //.labelwrapper { @include column(16, true); }
               }
 
               .subquestions {
-                @include prepend(1);
-                @include column(17);
+                  @include prepend(1);
+                  @include column(11);
 
-                .item { 
-                  @include column(17); 
-                  input { width: auto; }
-                }
+                  .item { 
+                       @include column(11); 
+                       input { width: auto; }
+                  }
               }
             }
           }
