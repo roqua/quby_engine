@@ -24,6 +24,13 @@ class Answer < ActiveRecord::Base
   def enhance_by_dsl
     AnswerDsl.enhance(self)
     
+    questionnaire.questions.each do |question|
+      next unless question
+      if question.text_var and not self.send(question.key).blank? 
+        Maruku.setTextVar(question.text_var, self.send(question.key))
+      end rescue nil
+    end
+    
     if @roqua_vals
       @questionnaire.questions.each do |q|
         case q.type 
