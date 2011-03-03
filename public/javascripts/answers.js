@@ -617,7 +617,9 @@ function processExtraData(){
     
     if (typeof(extra_question_values) != "undefined") {
         $.each(extra_question_values, function(question, value){
-            assignValue(question, value);
+            if (value != null) {
+                assignValue(question, value);
+            }
         });
     }
     if (typeof(extra_failed_validations) != "undefined") {
@@ -698,7 +700,7 @@ $(document).ready(
         
         processExtraData();
         
-        isBulk = $('form.bulk').size() > 0;
+        isBulk = $('form.bulk, form.print').size() > 0;
         if (!isBulk) {
             hashChangeEnabled = true;
             jQuery(window).bind( 'hashchange', hashchangeEventHandler);
