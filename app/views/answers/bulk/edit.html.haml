@@ -8,7 +8,7 @@
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)
     
-- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, session[:display_mode]].join(" "), :autocomplete => "off" do
+- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off" do
   - if not @answer.errors.empty?
     .force-submit
       %h1 Let op!
@@ -33,7 +33,6 @@
         - previous_item = item if item.class.name == "Items::Question"
   .buttons
     .prev &nbsp;
-    -#.print
-    -#  %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
     .save
       = submit_tag "Klaar"
+      = link_to_function "Print Antwoorden", "$('form.bulk').submit()"

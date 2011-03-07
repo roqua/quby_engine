@@ -26,7 +26,7 @@ class Answer < ActiveRecord::Base
     
     questionnaire.questions.each do |question|
       next unless question
-      if question.text_var and not self.send(question.key).blank? 
+      if question.text_var 
         Maruku.setTextVar(question.text_var, self.send(question.key))
       end rescue nil
     end

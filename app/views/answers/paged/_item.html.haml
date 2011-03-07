@@ -10,8 +10,8 @@
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key)
 
 - if item.raw_content
-  - if item.raw_content[session[:display_mode].to_sym]
-    = raw item.raw_content[session[:display_mode].to_sym]
+  - if item.raw_content[:paged]
+    = raw item.raw_content[:paged]
   - else 
     = raw item.raw_content
 - else

@@ -25,15 +25,17 @@
           = submit_tag "Onderbreken"
         - else
           &nbsp;
+      -#.print
+        -#= submit_tag "Print antwoorden"
       .next
         = submit_tag raw("Volgende vraag &rarr;")
     - else
       .prev
         = submit_tag raw("&larr; Vorige vraag")
-      -#.print
-      -#  %a(href="#" onClick="window.print(); return false" style="margin-right: 1em") Print antwoorden
       .save
-        = submit_tag "Klaar"
+        = submit_tag "Klaar"        
+      .print
+        = link_to_function "Print Antwoorden", "doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}');"
     = render :partial => "answers/hotkey_dialog"
   
 

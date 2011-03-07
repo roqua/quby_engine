@@ -1,17 +1,17 @@
 require 'addressable/uri'
 
 class AnswersController < ApplicationController
-  before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update]
+  before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update, :print]
   before_filter :find_patient
-  append_before_filter :find_answer, :only => [:show, :edit, :update]
+  append_before_filter :find_answer, :only => [:show, :edit, :update, :print]
 
   # SECURITY CRITICAL
   before_filter :ip_check_for_api_methods, :only => [:index]
-  before_filter :verify_token, :only => [:show, :edit, :update]
+  before_filter :verify_token, :only => [:show, :edit, :update, :print]
 
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
-  before_filter :verify_hmac, :only => [:edit]
+  before_filter :verify_hmac, :only => [:edit, :print]
 
   before_filter :remember_display_mode_in_session
   before_filter :check_aborted, :only => [:create, :update]
@@ -60,15 +60,18 @@ class AnswersController < ApplicationController
     end
   end
 
-  def update
+  def update(printing=false)
     respond_to do |format|
       #Update_attributes also validates
-      if @answer.update_attributes(params[:answer])
+      if @answer.update_attributes(params[:answer])        
+        if printing
+          render "answers/print/show" and return
+        end
         if session[:return_url]
           redirect_to_roqua and return
         else
           clear_session
-          render :action => "completed" and return
+          render :action => "completed" and return 
         end
       else
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if session[:display_mode] != "bulk"
@@ -78,6 +81,10 @@ class AnswersController < ApplicationController
     end
   end
 
+  def print
+    update true    
+  end
+  
   protected
 
   def clear_session
@@ -111,7 +118,7 @@ class AnswersController < ApplicationController
   end
 
   def verify_token
-    return true if Rails.env.development?
+    #return true if Rails.env.development?
 
     unless @answer.token == (params[:token] || session[:answer_token])
       render :text => "Invalid token, or no token given"

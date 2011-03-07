@@ -31,7 +31,8 @@
         #{item.raw_content}
     - when "Items::Text"
       -#Skipping text in bulk view
-    - when "Items::Question"
+    - when "Items::Question" 
+      -return  if item.type == :hidden
       - item.validations.each do |validation|
         - exp_classes = ["error", validation[:type]]
         - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}

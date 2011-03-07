@@ -5,6 +5,7 @@ module AnswerDsl
     
     answer.class_eval do
       questionnaire.questions.each do |question|
+        next unless question
         case question.type
         when :date
 
@@ -95,13 +96,13 @@ module AnswerDsl
           end
         end rescue nil
       end
-
+      
       if questionnaire.scores
         questionnaire.scores.each do |score|
           scorer = score.scorer
           define_method("score_" + score.key.to_s, &scorer)
         end
       end
-    end
+    end    
   end
 end

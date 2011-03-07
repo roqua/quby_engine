@@ -15,15 +15,17 @@ var radioChecked;
 var setCurrent;
 var setCheck;
 var skipValidations = false;
-
+var shownFlash = false;
 function allInputsHidden(panel){
     var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden");
     return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea").length;
 }
 
 function activatePanel(panel, updateHash, forward) {
-    //FIXME: If there is an error, the first panel with errors is activated, so the flash would be immediately hidden
-    $('.flash').hide();
+    if (shownFlash) {
+        $('.flash').hide();
+    }
+    shownFlash = true;
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
     
@@ -36,13 +38,11 @@ function activatePanel(panel, updateHash, forward) {
         }
     }
     
-    //TODO make window scroll to top at every new panel
-    //window.scrollTo(0,0);
-    
     if (updateHash) {
         hashChangeEnabled = false;
         window.location.hash = panel[0].id;        
     }
+    window.scrollTo(0,0);    
     
     nextButtonFocussed = false;
     saveButtonFocussed = false;
@@ -639,7 +639,15 @@ function processExtraData(){
     }
 }
 
-
+function doPrint(url){
+    var form = $('form');
+    var oldAction = form.attr('action');
+    form.attr('action', url);
+    form.attr('target', "_blank");
+    form.submit();
+    form.attr('action', oldAction);
+    form.attr('target', "_top");
+}
 
 $(document).ready(
     function() {
@@ -739,6 +747,7 @@ $(document).ready(
             //Go to first panel with errors
             var errors = $('.errors');
             if (errors.length > 0){
+                shownFlash = false;
                 activatePanel(errors.closest('.panel').eq(0), true, true);
             }
         }

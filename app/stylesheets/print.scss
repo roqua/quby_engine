@@ -1,96 +1,94 @@
 /* Welcome to Compass. Use this file to define print styles.
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
+@import "compass/reset";
+@import "blueprint/typography";
 
- body {
-   color: black;
-   background: white;
-   //font-family: "Times New Roman", Times, serif
-   font-family: Arial, sans-serif;
-   font-size: 10pt; }
+body {
+    color: black;
+    background-color: #ffffff;
+    //font-family: "Times New Roman", Times, serif
+    font-family: Arial, sans-serif;
+    font-size: 8pt;
+}
 
- em {
-   font-weight: bold; }
+#content {
+    margin: 0em;
+}
 
- p {
-   margin-bottom: 0.5em; }
-
- ul {
-   margin-top: 0.5em;
-   margin-left: 1em;
-   li {
-     list-style-type: disc;
-     margin-bottom: 0.3em; } }
-
-.panel {
-    border: none;
-    padding-bottom: 1em;
-    .item{
-        position: relative;
-        padding-bottom: 1em;
-        clear: both;
-        .custom-checkbox, .custom-radio {
-            position: relative;
-            padding-bottom: 0.3em;
-            label {
-                padding: 0em 0 0em 2.2em; } }
-        .radio > label, .checkbox > label {
-            padding-right: 1em;
-           font-weight: bold; }
-        .labelwrapper{
+.print{
+   
+    em {
+        font-weight: bold; }
+    
+    p {
+        margin-bottom: 0.5em; }
+    
+    ul {
+        margin-top: 0.5em;
+        margin-left: 1em;
+    li {
+        list-style-type: disc;
+        margin-bottom: 0.3em; } }
+    
+    .panel {
+        border: none;
+        margin-left: 1em;
+        .item{
+            margin-top: 1em;
+            
+            .radio > label, .checkbox > label {
+                padding-right: 1em;
+               font-weight: bold; }
+            .labelwrapper{
+                display:inline;
+             }
+        }
+        
+        .main, .qnumber, .mainlabelwrap{
             display:inline;
-         }
-        &.notbulkitem{
-         .option{
-            position: relative;
-            float:left;
-            clear:both;
-         }
-         .labelwrapper{
-            display:block;
-         }
-        }            
-     }
-     
-     .description {
-       margin-bottom: 1.5em; }
-     .description, .text {
-       ul {
-       padding-left: 0.5em; } } }  
-
-
-
-.options {
-    margin-top: 1em;
-    .option {
-        text-align: center;
+        }
+         
+        .description {
+            margin-bottom: 0.5em; }
+        .fields {
+            padding-left: 4em;
+        }
+        .description, .text {
+            ul {
+                margin-left: 0.5em; } } 
+    
+        .options {
+            margin-top: 1em;
+            .option {
+                text-align: center;
+            }
+        }
+        .option {    
+            &.optionwidth1{width:20%}
+            &.optionwidth2{width:20%}
+            &.optionwidth3{width:20%}
+            &.optionwidth4{width:20%}
+            &.optionwidth5{width:20%}
+            &.optionwidth6{width:(100%/6)}
+            &.optionwidth7{width:(100%/7)}
+            &.optionwidth8{width:(100%/8)}
+            &.optionwidth9{width:(100%/9)}
+            &.optionwidth10{width:(100%/10)}
+            &.optionwidth11{width:(100%/11)}
+            &.optionwidth12{width:(100%/12)}                
+        }
+        
     }
-}
-.option {    
-    &.optionwidth1{width:20%}
-    &.optionwidth2{width:20%}
-    &.optionwidth3{width:20%}
-    &.optionwidth4{width:20%}
-    &.optionwidth5{width:20%}
-    &.optionwidth6{width:(100%/6)}
-    &.optionwidth7{width:(100%/7)}
-    &.optionwidth8{width:(100%/8)}
-    &.optionwidth9{width:(100%/9)}
-    &.optionwidth10{width:(100%/10)}
-    &.optionwidth11{width:(100%/11)}
-    &.optionwidth12{width:(100%/12)}                
-}
-.bulk{
+    .bulk{
         .option {display: inline;}
     }
-
-p, .radiocheckwrapper, div.value{
-    display: inline;
-}
-
-.hidden, :disabled, #hotkeyDialogLink, #mastfoot, .buttons, .item.text{
-  display: none;
-}
-.panel{
-  display: block  !important;
+    
+    p, .radiocheckwrapper, div.value{
+        display: inline;
+    }
+    
+    .hidden, :disabled, #hotkeyDialogLink, #mastfoot, .buttons, .item.text{
+      display: none;
+    }        
 }

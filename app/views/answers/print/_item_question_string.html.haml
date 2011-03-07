@@ -1,3 +1,4 @@
+-return if @answer.send(question.key).blank?
 =marukufix(question.title, "answer_#{question.key}")
 .description-and-fields
   .description
@@ -5,4 +6,4 @@
       :markdown
         #{raw question.description}
   .fields(id="answer_#{question.key}_input")
-    = text_area :answer, question.key, :rows => (question.lines || 6), :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil

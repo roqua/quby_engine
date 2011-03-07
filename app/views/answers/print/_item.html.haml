@@ -1,0 +1,60 @@
+/ Begin _item.html.haml
+- subquestion ||= false
+- disabled ||= false
+- itemclasses = [item.type, item.presentation]
+- @answer.to_hide ||= []
+- if item.is_a?(Items::Question)
+  - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
+  - doublewide = item.options.size <= 5 
+  - itemclasses << "notbulkitem"
+  
+- itemclasses << "errors" unless @answer.errors[item.key].empty?
+- itemclasses << item.question_group if item.class.name == "Items::Question" and item.question_group
+- itemclasses << 'subitem' if subquestion
+
+- if item.raw_content and item.class.name != "Items::Text" 
+  - if item.raw_content[:print]
+    = raw item.raw_content[:print]
+  - elsif item.raw_content[:bulk]
+    = raw item.raw_content[:bulk]
+  - else
+    = raw item.raw_content
+- else
+  .item{:class => itemclasses}
+    - case item.class.name
+    - when "Items::Css"
+      :css
+        #{item.raw_content}
+    - when "Items::Text"
+      -#Skipping text in print view
+    - when "Items::Question"
+      -return  if item.type == :hidden
+      - case item.type
+      - when :string
+        = render :partial => "answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :textarea
+        = render :partial => "answers/print/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :integer, :float
+        = render :partial => "answers/print/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :radio
+        = render :partial => "answers/print/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :date
+        = render :partial => "answers/print/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :check_box
+        = render :partial => "answers/print/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :scale
+        = render :partial => "answers/print/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :select
+        = render :partial => "answers/print/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - else
+        %strong
+          Error: unknown question type
+          = item.type
+          for question
+          = item.key
+    - else
+      Error: unknown item type
+      = item.class.name
+      for question
+      = item.key
+/ End _item.html.haml

@@ -1,0 +1,30 @@
+:javascript
+  var panel_validations = {}
+  //for setting values of raw_content
+  var extra_question_values = #{@answer.extra_question_values}
+  //for showing validations of raw content
+  var extra_failed_validations = #{@answer.extra_failed_validations}
+  
+  
+:javascript
+  $(document).ready(
+    function() {
+      //window.print();
+    }
+  );  
+  
+- content_for(:page_title, @questionnaire.title)
+- content_for(:extra_css, @questionnaire.extra_css)
+- content_for(:extra_head, stylesheet_link_tag('print.css', :media => 'screen, projection, print'))
+
+%h1=@questionnaire.title
+
+- form_tag "", :method => :put, :class => [@questionnaire.key, "print"].join(" "), :autocomplete => "off" do
+  - @questionnaire.panels.each_with_index do |panel, panel_counter|
+    %fieldset{:id => "panel#{panel_counter}", :class => "panel"}
+      - panel.items.each_with_index do |item, idx|
+        = render :partial => "answers/print/item", :object => item, :locals => { :item_counter => idx, :items => panel.items}
+        - previous_item = item if item.class.name == "Items::Question"
+  .buttons
+    .prev &nbsp;
+    .save
