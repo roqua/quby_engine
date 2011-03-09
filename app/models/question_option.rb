@@ -9,11 +9,7 @@ class QuestionOption
   def initialize(key, question, options = {})
     @key         = key
     @value       = options[:value]
-    if question.type == :select
-      @description = options[:description]
-    else
-      @description = Maruku.new(options[:description]).to_html
-    end
+    @description = options[:description]
     @questions   = []
     @inner_title = options[:inner_title]
     @hides_questions = options[:hides_questions] || []

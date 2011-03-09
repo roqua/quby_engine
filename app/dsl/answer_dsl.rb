@@ -5,7 +5,7 @@ module AnswerDsl
     
     answer.class_eval do
       questionnaire.questions.each do |question|
-        next unless question
+        next if question.andand.key.blank?
         case question.type
         when :date
 
@@ -59,7 +59,7 @@ module AnswerDsl
           end
             
           question.options.each do |opt|
-            
+            next if opt.andand.key.blank?
             define_method("#{opt.key}") do
               self.value ||= Hash.new
               self.value[question.key] ||= Hash.new

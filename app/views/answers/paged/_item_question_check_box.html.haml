@@ -7,16 +7,18 @@
   .fields(id="answer_#{question.key}_input")
     - question.options.each do |opt|
       - if opt.inner_title
-        .inner-title= opt.description
+        .inner-title
+          :markdown
+            #{raw opt.description}
       - else
         .option
           .radiocheckwrapper
             - if question.uncheck_all_option == opt.key
-              -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+              -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
             - elsif question.check_all_option == opt.key
-              -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+              -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
             - else
-              -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.key}_#{question.check_all_option}', '#{question.key}_#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+              -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
             -if disabled
               -attrs[:disabled] = ""
             = check_box(:answer, "#{opt.key}", attrs)
