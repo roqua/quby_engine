@@ -12,6 +12,7 @@ module ApplicationHelper
   end
   
   def highlight_active_tab_if_current(url)
+    #FIXME: does not highlight the proper tab for the root url
     if request.request_uri.index(url)
       {:id => "current"}
     else

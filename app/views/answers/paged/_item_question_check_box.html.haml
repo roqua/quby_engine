@@ -11,6 +11,8 @@
           :markdown
             #{raw opt.description}
       - else
+        - checked = @answer.send(opt.key) == 1
+        - next if( opt.hidden and not checked)
         .option
           .radiocheckwrapper
             - if question.uncheck_all_option == opt.key
@@ -28,4 +30,4 @@
                 :markdown
                   #{raw opt.description}
           - unless opt.questions.empty?
-            .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => @answer.send(opt.key) != 1}
+            .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}

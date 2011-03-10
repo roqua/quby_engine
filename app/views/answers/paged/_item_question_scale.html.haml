@@ -11,6 +11,7 @@
       %tr
         - question.options.each_with_index do |opt, idx|
           - checked = @answer.send(question.key) == opt.key.to_s
+          - next if (opt.hidden and not checked)
           - @answer.to_hide += opt.hides_questions if checked
           - cls = []
           - cls << "first" if idx <= 0

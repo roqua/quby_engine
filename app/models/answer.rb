@@ -213,11 +213,11 @@ class Answer < ActiveRecord::Base
           when :maximum
             add_error(question, validation[:type], "Exceeds maximum") if not answer.blank? and answer.to_f > validation[:value]
           when :too_many_checked
-            if self.send("#{question.key}_#{question.uncheck_all_option}") == 1 and answer.values.reduce(:+) > 1
+            if self.send(question.uncheck_all_option) == 1 and answer.values.reduce(:+) > 1
               add_error(question, :too_many_checked, "Invalid combination of options.")
             end
           when :not_all_checked
-            if self.send("#{question.key}_#{question.check_all_option}") == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
+            if self.send(question.check_all_option) == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
               add_error(question, :not_all_checked, "Invalid combination of options.")
             end          
           when :one_of

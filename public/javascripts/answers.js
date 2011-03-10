@@ -16,6 +16,7 @@ var setCurrent;
 var setCheck;
 var skipValidations = false;
 var shownFlash = false;
+
 function allInputsHidden(panel){
     var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden");
     return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea").length;

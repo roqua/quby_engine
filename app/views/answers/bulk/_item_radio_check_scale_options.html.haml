@@ -1,7 +1,8 @@
 -if item_radio_check_scale_options.score_header != :none
   .options
     - item_radio_check_scale_options.options.each_with_index do |option, idx|
-      -next if option.inner_title
+      -#TODO: if a hidden option is checked it should get its own new scale header
+      - next if (option.inner_title or option.hidden)
       - cls = ['scaleheader']
       - cls << "first" if idx <= 0
       - cls << "last" if idx >= (item_radio_check_scale_options.options.size - 1)

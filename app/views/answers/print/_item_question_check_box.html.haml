@@ -7,8 +7,9 @@
         #{raw question.description}
   .fields(id="answer_#{question.key}_input")
     - question.options.each do |opt|
+      - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
-      - next if( not checked or opt.inner_title)
+      - next if( not checked)
       .option
         .radiocheckwrapper
           - if question.uncheck_all_option == opt.key
