@@ -435,21 +435,42 @@ body {
         }
 
         &.notbulkitem {
+          @include column(24, true);
           padding: 0.5em, 0em, 0.5em, 0.5em;
+          margin-bottom: 1em;
+
+          $mainlabel_columns : 8;
+          .main {
+            @include column($mainlabel_columns);
+            font-weight: bold;
+            .mainlabelwrap{
+                float:left;
+                width:85%;
+            }
+            em {
+                font-style: italic;
+            }
+            .qnumber{
+                float:left;
+                padding-right:0.2em;
+            }
+          }
+
           &.radio, &.check_box {
             .inner-title {
-              @include column(18, true);
+              @include column(24-$mainlabel-columns, true);
               margin-top: 1.5em;
               margin-bottom: 1.5em;
               font-weight: bold;
             }
 
             .option {
-              @include column(12, true); 
+              @include column(24-$mainlabel-columns, true); 
               
               .radiocheckwrapper { @include column(1); }
               .labelwrapper      { 
-                //@include column(17, true); 
+                @include column(23-$mainlabel-columns, true); 
+                label { white-space: normal; }
                 p { display: inline; }
               }
 
