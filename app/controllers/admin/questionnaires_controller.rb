@@ -49,8 +49,10 @@ class Admin::QuestionnairesController < AdminAreaController
 
   def test
     @questionnaire = Questionnaire.find_by_key(params[:id])
-    @answer = @questionnaire.answers.find_or_create_by_test(true)
-
+    # due to rails bug, @questionnaire.answers.find_or_create_by_test(:test => true, ...) doesn't work
+    # but this direct method does work
+    @answer = Answer.find_or_create_by_test_and_questionnaire_id(:test => true, :value => @questionnaire.default_answer_value, :questionnaire_id => @questionnaire.id)
+    
     timestamp = Time.now.getgm.strftime("%Y-%m-%dT%H:%M:%S+00:00")
     plain_hmac = [Settings.shared_secret, @answer.token, timestamp].join('|')
     hmac = Digest::SHA1.hexdigest(plain_hmac)

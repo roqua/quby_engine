@@ -34,6 +34,10 @@ module QuestionnaireDsl
     def css(value)
       @questionnaire.extra_css = value
     end
+
+    def default_answer_value(value)
+      @questionnaire.default_answer_value = value
+    end
     
     def panel(title = nil, options = {}, &block)
       p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire, :default_question_options => @default_question_options}))

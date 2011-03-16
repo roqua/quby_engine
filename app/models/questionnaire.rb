@@ -12,6 +12,7 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :abortable
   attr_accessor :panels
   attr_accessor :scores
+  attr_accessor :default_answer_value
   
   attr_accessor :extra_css
   
