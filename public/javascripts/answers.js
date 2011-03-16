@@ -316,6 +316,7 @@ function selectInput(value){
         setCurrent(selectedInput[0]);
         setCheck(selectedInput[0], selectedInput.is('.deselectable'));
         radioEvents(selectedInput[0]);
+        lastFocus.find('.first.option input').focus();
         focusNextInput();   
     }
 }
@@ -575,7 +576,7 @@ function hotkeyDialog(){;
 }
 
 function radioEvents(event){
-    var element = $(event.target);
+    var element = $(event.target || event);
     handleDisableRadioSubQuestions(element);
     handleHideQuestions(element, eval(element.attr('hides')) || [], eval(element.attr('allhidden')) || []);
 }
@@ -762,7 +763,10 @@ $(document).ready(
         
             $(document).keydown(handleHotKeys);
             $(document).keyup(handleRadioHotKeys);
-            
+            $(document).click(function (){
+                nextButtonFocussed = false;
+                saveButtonFocussed = false;
+            })
             $(".item input, .item textarea").click(function(event){
                 focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
                 lastInput = event.target;    
