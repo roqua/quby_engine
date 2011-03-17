@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/100hz/rails-settings.git
+  revision: 330b958bc6a4a196a35ab190eec0ba917b411060
+  specs:
+    rails-settings (0.1.1)
+      rails (>= 3.0.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -78,7 +85,6 @@ GEM
       activesupport (= 3.0.3)
       bundler (~> 1.0)
       railties (= 3.0.3)
-    rails-settings (1.0.0)
     railties (3.0.3)
       actionpack (= 3.0.3)
       activesupport (= 3.0.3)
@@ -131,7 +137,7 @@ DEPENDENCIES
   mysql
   open4
   rails (~> 3.0.0)
-  rails-settings
+  rails-settings!
   rspec-rails (>= 2.0.0.beta.19)
   seed-fu
   webrat

@@ -134,7 +134,7 @@ class AnswersController < ApplicationController
     token     = (params['token'] || session[:answer_token] || '').strip
     timestamp = (params['timestamp'] || session[:timestamp] || '').strip
 
-    plain_hmac = [Settings.shared_secret, token, timestamp].join('|')
+    plain_hmac = [MySettings.shared_secret, token, timestamp].join('|')
     our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
 
     if our_hmac != hmac

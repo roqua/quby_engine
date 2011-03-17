@@ -20,9 +20,9 @@ class ApplicationController < ActionController::Base
   def ip_check_for_api_methods
     # SECURITY CRITICAL : Checks whether this API method call is coming from one of our own servers
     return true if Rails.env.development?
-    return true if Settings.api_allowed_ip_ranges.blank?
+    return true if MySettings.api_allowed_ip_ranges.blank?
 
-    if not Settings.api_allowed_ip_ranges.find { |range_or_addr| IPAddr.new(range_or_addr).include?(IPAddr.new(request.remote_ip)) }
+    if not MySettings.api_allowed_ip_ranges.find { |range_or_addr| IPAddr.new(range_or_addr).include?(IPAddr.new(request.remote_ip)) }
       head(403)
     end
   end
