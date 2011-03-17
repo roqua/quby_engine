@@ -35,4 +35,6 @@
     .prev &nbsp;
     .save
       = submit_tag "Klaar"
-      = link_to_function "Print Antwoorden", "$('form.bulk').submit()"
+    .print
+      = link_to_function "Print Antwoorden", "doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}');"
+      

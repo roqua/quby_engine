@@ -7,17 +7,26 @@
 body {
     color: black;
     background-color: #ffffff;
-    //font-family: "Times New Roman", Times, serif
-    font-family: Arial, sans-serif;
-    font-size: 8pt;
+    //font-family: "Times New Roman", Times, serif;
+    font-family: Arial, serif;
+    font-size: 9pt;
 }
 
 #content {
     margin: 0em;
 }
 
+.print_button{
+    margin: 1em;
+}
+
+h1 {
+    margin: 0 0.5em 0.5em 0.5em;
+    font: 200% sans-serif;
+}
+
 .print{
-   
+
     em {
         font-weight: bold; }
     
@@ -31,60 +40,79 @@ body {
         list-style-type: disc;
         margin-bottom: 0.3em; } }
     
+    .description-and-fields{
+        float:left;
+        width:75%;
+    }  
+    
     .panel {
+        
         border: none;
         margin-left: 1em;
         .item{
-            margin-top: 1em;
             
+            display:inline-block;
+            &:after {
+                content:"&nbsp;"; 
+                display:block; 
+                height:0; 
+                clear:both; 
+                visibility:hidden;
+            }
+            
+            width:95%;
+            border: 1px solid;
+            
+            &.subitem{
+                border: 0;
+            }
+            
+            margin-top: -1px;
+            padding: 1em 0.5em;
             .radio > label, .checkbox > label {
-                padding-right: 1em;
+               padding-right: 1em;
                font-weight: bold; }
             .labelwrapper{
                 display:inline;
-             }
+             }             
         }
         
-        .main, .qnumber, .mainlabelwrap{
-            display:inline;
+        .main{
+            float:left;
+            width:25%;
+            //padding-right: 0.5em;
+        }
+        .qnumber{
+            float:left;
+            padding-right: 0.5em;
+            width:10%;
+        }
+        .mainlabelwrap{
+            float:left;
+            width:70%;
         }
          
         .description {
-            margin-bottom: 0.5em; }
+            float:left;
+            margin-right: 0.5em;
+            width:25%; 
+        }
         .fields {
             padding-left: 4em;
+            width:65%;
+            float:right;
+            padding:0 0.5em;            
+            border-left: 1px solid;
         }
         .description, .text {
             ul {
-                margin-left: 0.5em; } } 
-    
-        .options {
-            margin-top: 1em;
-            .option {
-                text-align: center;
-            }
-        }
-        .option {    
-            &.optionwidth1{width:20%}
-            &.optionwidth2{width:20%}
-            &.optionwidth3{width:20%}
-            &.optionwidth4{width:20%}
-            &.optionwidth5{width:20%}
-            &.optionwidth6{width:(100%/6)}
-            &.optionwidth7{width:(100%/7)}
-            &.optionwidth8{width:(100%/8)}
-            &.optionwidth9{width:(100%/9)}
-            &.optionwidth10{width:(100%/10)}
-            &.optionwidth11{width:(100%/11)}
-            &.optionwidth12{width:(100%/12)}                
-        }
-        
+                margin-left: 0.5em; } }
     }
     .bulk{
         .option {display: inline;}
     }
     
-    p, .radiocheckwrapper, div.value{
+    span p, .radiocheckwrapper, div.value{
         display: inline;
     }
     

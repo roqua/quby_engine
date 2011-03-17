@@ -1,4 +1,4 @@
-=marukufix(question.title, "answer_#{question.key}")
+%label.main(for="answer_#{question.key}")= raw(question.title) || raw("&nbsp;")
 .description-and-fields
   .description
     - unless question.description.blank?

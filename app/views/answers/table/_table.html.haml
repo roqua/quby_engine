@@ -1,0 +1,32 @@
+- all_items = table.items.flatten
+- previous_item = nil
+
+- table.items.each do |item|
+  - next_item = all_items[all_items.index(item)]
+  - itemclasses = [item.type, item.presentation]
+  - itemclasses << 'hidden' if to_hide.include?(item.key)
+  - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != item.options.map(&:value) or previous_item.options.map(&:description) != item.options.map(&:description))
+    = render :partial => "answers/table/item_table_header", :locals => {:question => item}
+  .item{:class => itemclasses}
+    - case item.type
+    - when :string
+      = render :partial => "answers/table/item_question_string", :locals => {:question => item}
+    - when :textarea
+      = render :partial => "answers/table/item_question_textarea", :locals => {:question => item}
+    - when :integer, :float
+      = render :partial => "answers/table/item_question_number", :locals => {:question => item}
+    - when :radio, :scale
+      = render :partial => "answers/table/item_question_radio", :locals => {:question => item}
+    - when :date
+      = render :partial => "answers/table/item_question_date", :locals => {:question => item}
+    - when :check_box
+      = render :partial => "answers/table/item_question_check_box", :locals => {:question => item, :fields_width => 100}
+    - when :select
+      = render :partial => "answers/table/item_question_select", :locals => {:question => item}
+    - else
+      %strong
+        Error: unknown question type
+        = item.type
+        for question
+        = item.key
+  - previous_item = item if item.class.name == "Items::Question"

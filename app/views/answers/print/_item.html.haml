@@ -4,13 +4,15 @@
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
 - if item.is_a?(Items::Question)
+  -# return if item.table 
+  -# return if @answer.send(item.key).blank?
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
   - doublewide = item.options.size <= 5 
   - itemclasses << "notbulkitem"
-  
-- itemclasses << "errors" unless @answer.errors[item.key].empty?
-- itemclasses << item.question_group if item.class.name == "Items::Question" and item.question_group
-- itemclasses << 'subitem' if subquestion
+  - itemclasses << "errors" unless @answer.errors[item.key].empty?
+  - itemclasses << item.question_group if item.question_group
+  - itemclasses << 'subitem' if subquestion
+  - itemclasses << 'first' unless previous_item
 
 - if item.raw_content and item.class.name != "Items::Text" 
   - if item.raw_content[:print]
@@ -28,7 +30,7 @@
     - when "Items::Text"
       -#Skipping text in print view
     - when "Items::Question"
-      -return  if item.type == :hidden
+      - return if (item.type == :hidden )#or item.table)
       - case item.type
       - when :string
         = render :partial => "answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
@@ -50,6 +52,8 @@
           = item.type
           for question
           = item.key
+    - when "Items::Table"
+      = render :partial => "answers/table/table", :locals => {:table => item, :to_hide => @answer.to_hide}
     - else
       Error: unknown item type
       = item.class.name

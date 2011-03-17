@@ -4,19 +4,21 @@
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
 - if item.is_a?(Items::Question)
+  -# return if item.table
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
   - doublewide = item.options.size <= 5 
-  - if(item.disallow_bulk or (not item.subquestions.andand.empty?))
+  - itemclasses << "errors" unless @answer.errors[item.key].empty?
+  - itemclasses << item.question_group if item.question_group
+  - itemclasses << 'subitem' if subquestion
+  - if(item.disallow_bulk or (not item.subquestions.andand.empty?) or subquestion)
     - itemclasses << "notbulkitem"
   - else
     - itemclasses << "bulkitem"
     -if item.type != :hidden
-      - itemclasses << cycle('evenRow', 'oddRow', :name => "rowbg") 
+      - itemclasses << cycle('evenRow', 'oddRow', :name => "rowbg")
       - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != item.options.map(&:value) or previous_item.options.map(&:description) != item.options.map(&:description))
         = render :partial => "answers/bulk/item_radio_check_scale_options", :object => item
-- itemclasses << "errors" unless @answer.errors[item.key].empty?
-- itemclasses << item.question_group if item.class.name == "Items::Question" and item.question_group
-- itemclasses << 'subitem' if subquestion
+  
 
 - if item.raw_content and item.class.name != "Items::Text" 
   - if item.raw_content[:bulk]
@@ -32,7 +34,7 @@
     - when "Items::Text"
       -#Skipping text in bulk view
     - when "Items::Question" 
-      -return  if item.type == :hidden
+      - return if item.type == :hidden 
       - item.validations.each do |validation|
         - exp_classes = ["error", validation[:type]]
         - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}
@@ -87,6 +89,8 @@
           = item.type
           for question
           = item.key
+    - when "Items::Table"
+      = render :partial => "answers/table/table", :locals => {:table => item, :to_hide => @answer.to_hide}
     - else
       Error: unknown item type
       = item.class.name

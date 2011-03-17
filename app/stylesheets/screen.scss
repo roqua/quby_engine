@@ -48,6 +48,47 @@ body {
   text-align: center;
 }
 
+@mixin tablemix($mainlabel_columns ) {
+    .table {
+        .options {
+            @include column(24- $mainlabel_columns, true);
+            @include prepend($mainlabel_columns);
+            margin-top: 1em;
+        }
+        .option.scaleheader {
+            text-align: center;
+            float:left;                                    
+        }
+        .option{
+            display: inline;
+            text-align: center;
+            &.optionwidth1 {width:30% !important;}
+            &.optionwidth2 {width:30% !important;}
+            &.optionwidth3 {width:30% !important;}
+            &.optionwidth4 {width:20% !important;}
+            &.optionwidth5 {width:19% !important;}
+            &.optionwidth6 {width:(100%/6) !important;}
+            &.optionwidth7 {width:(100%/7) !important;}
+            &.optionwidth8 {width:(100%/8) !important;}
+            &.optionwidth9 {width:(100%/9) !important;}
+            &.optionwidth10 {width:(100%/10) !important;}
+            &.optionwidth11 {width:(100%/11) !important;}
+            &.optionwidth12 {width:(100%/12) !important;}
+        }
+        .labelwrapper{
+            width:auto !important;
+            float:none !important;
+        }
+        .radiocheckwrapper{
+            width:auto !important;
+            float:none !important;
+        }
+        .first{
+            clear:left;
+        }
+    }
+}
+
 #content {
     
   input[disabled] {
@@ -88,8 +129,10 @@ body {
   }
   
   .paged {
+    $mainlabel_columns : 8;
     .panel {
       @include container;
+      @include tablemix($mainlabel_columns );
       
       padding: 3em $blueprint-grid-outer-width 1.5em;
       line-height: 18px;
@@ -146,7 +189,6 @@ body {
           }
         }
         
-        $mainlabel_columns : 8;
         .main {
           @include column($mainlabel_columns);
           font-weight: bold;
@@ -274,6 +316,7 @@ body {
   
   .bulk {
     @include container;
+    @include tablemix(8);
     border: 10px solid #dddddd;
     padding: 3em $blueprint-grid-outer-width 1.5em;
     line-height: 18px;
@@ -320,8 +363,8 @@ body {
         }
     }
     .option {
-        display: inline; 
-        float: left;                    
+        display: inline;
+        float: left;
         &.optionwidth1{width:20%}
         &.optionwidth2{width:20%}
         &.optionwidth3{width:20%}

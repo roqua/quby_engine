@@ -3,9 +3,10 @@
 - disabled ||= false
 - @answer.to_hide ||= [] 
 - itemclasses = [item.type, item.presentation]
-- itemclasses << "errors" unless @answer.errors[item.key].empty?
-- itemclasses << 'subitem' if subquestion
 - if item.class.name == "Items::Question"
+  -# return if item.table
+  - itemclasses << "errors" unless @answer.errors[item.key].empty?
+  - itemclasses << 'subitem' if subquestion
   - itemclasses << item.question_group  if item.question_group
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key)
 
@@ -25,63 +26,65 @@
         :markdown
           #{raw(item)}
     - when "Items::Question"
-      - unless item.type == :hidden
-        - item.validations.each do |validation|
-          - exp_classes = ["error", validation[:type]]
-          - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}
-          - unless valtypes.include?(validation[:type])
-            - exp_classes << "hidden" 
-          - case validation[:type]
-          - when :maximum
-            %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal kleiner dan of gelijk aan #{validation[:value]} zijn." 
-          - when :minimum
-            %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal groter dan of gelijk aan #{validation[:value]} zijn."
-          - when :requires_answer
-            %div{:class => exp_classes}= validation[:explanation] || "Deze vraag moet beantwoord worden."
-          - when :regexp
-            %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet voldoen aan de vorm #{validation[:matcher]}."
-          - when :valid_integer
-            %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een afgerond getal zijn."
-          - when :valid_float
-            %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen)."
-          - when :too_many_checked
-            %div{:class => exp_classes}= validation[:explanation] || "U heeft te veel opties gekozen."
-          - when :not_all_checked
-            %div{:class => exp_classes}= validation[:explanation] || "U heeft te weinig opties gekozen."
-          - when :one_of
-            %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een van de volgende zijn: #{validation[:array].inspect}"
-          - when :answer_group_minimum 
-            %div{:class => exp_classes}= validation[:explanation] || "Beantwoord minstens #{validation[:value]} van deze vragen"
-          - when :answer_group_maximum
-            %div{:class => exp_classes}= validation[:explanation] || "Beantwoord hoogstens #{validation[:value]} van deze vragen"
-          - else
-            %strong
-              Error: unknown validation type
-              = validation[:type]     
-                
-        - case item.type
-        - when :string
-          = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-        - when :textarea
-          = render :partial => "answers/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-        - when :integer, :float
-          = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-        - when :radio
-          = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-        - when :date
-          = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-        - when :check_box
-          = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-        - when :scale
-          = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-        - when :select
-          = render :partial => "answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - return if (item.type == :hidden)# or item.table)
+      - item.validations.each do |validation|
+        - exp_classes = ["error", validation[:type]]
+        - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}
+        - unless valtypes.include?(validation[:type])
+          - exp_classes << "hidden" 
+        - case validation[:type]
+        - when :maximum
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal kleiner dan of gelijk aan #{validation[:value]} zijn." 
+        - when :minimum
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal groter dan of gelijk aan #{validation[:value]} zijn."
+        - when :requires_answer
+          %div{:class => exp_classes}= validation[:explanation] || "Deze vraag moet beantwoord worden."
+        - when :regexp
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet voldoen aan de vorm #{validation[:matcher]}."
+        - when :valid_integer
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een afgerond getal zijn."
+        - when :valid_float
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen)."
+        - when :too_many_checked
+          %div{:class => exp_classes}= validation[:explanation] || "U heeft te veel opties gekozen."
+        - when :not_all_checked
+          %div{:class => exp_classes}= validation[:explanation] || "U heeft te weinig opties gekozen."
+        - when :one_of
+          %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een van de volgende zijn: #{validation[:array].inspect}"
+        - when :answer_group_minimum 
+          %div{:class => exp_classes}= validation[:explanation] || "Beantwoord minstens #{validation[:value]} van deze vragen"
+        - when :answer_group_maximum
+          %div{:class => exp_classes}= validation[:explanation] || "Beantwoord hoogstens #{validation[:value]} van deze vragen"
         - else
           %strong
-            Error: unknown question type
-            = item.type
-            for question
-            = item.key
+            Error: unknown validation type
+            = validation[:type]     
+              
+      - case item.type
+      - when :string
+        = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :textarea
+        = render :partial => "answers/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :integer, :float
+        = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :radio
+        = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :date
+        = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :check_box
+        = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :scale
+        = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :select
+        = render :partial => "answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - else
+        %strong
+          Error: unknown question type
+          = item.type
+          for question
+          = item.key
+    - when "Items::Table"
+      = render :partial => "answers/table/table", :locals => {:table => item, :to_hide => @answer.to_hide}
     - else
       Error: unknown item type
       = item.class.name
