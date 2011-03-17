@@ -4,7 +4,7 @@
 @import "compass/reset";
 @import "blueprint/typography";
 
-body {
+body, input {
     color: black;
     background-color: #ffffff;
     //font-family: "Times New Roman", Times, serif;
@@ -18,6 +18,12 @@ body {
 
 .print_button{
     margin: 1em;
+}
+
+@media print {
+    .print_button{
+        display:none;
+    }
 }
 
 h1 {
