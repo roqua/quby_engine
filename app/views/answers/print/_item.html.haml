@@ -1,6 +1,7 @@
 / Begin _item.html.haml
 - subquestion ||= false
 - disabled ||= false
+- previous_item ||= nil
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
 - if item.is_a?(Items::Question)
@@ -32,16 +33,10 @@
     - when "Items::Question"
       - return if (item.type == :hidden )#or item.table)
       - case item.type
-      - when :string
+      - when :string, :textarea, :integer, :float, :date
         = render :partial => "answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :textarea
-        = render :partial => "answers/print/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :integer, :float
-        = render :partial => "answers/print/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio, :scale
         = render :partial => "answers/print/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :date
-        = render :partial => "answers/print/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box
         = render :partial => "answers/print/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :select

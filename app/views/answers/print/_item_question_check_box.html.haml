@@ -16,4 +16,4 @@
               :markdown
                 #{raw opt.description}
         - unless opt.questions.empty?
-          .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}
+          .subquestions= render :partial => "answers/print/item", :collection => opt.questions,  :locals => {:subquestion => true}
