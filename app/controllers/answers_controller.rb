@@ -53,8 +53,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @questionnaire.answers.create(:value => @questionnaire.default_answer_value)
-    @answer.update_attributes(params[:answer])
+    @answer = @questionnaire.answers.create({:value => @questionnaire.default_answer_value}.merge(params[:answer]||{}))
 
     respond_to do |format|
       format.json { render :json => @answer}
