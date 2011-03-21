@@ -151,9 +151,11 @@ class Items::Question < Item
       when :scale
         { :options => @options }
       when :check_box
-        { :options => @options } 
+        { :options => @options }
       when :quantity
         { :options => @options }
+      when :date
+        (year_key ? { :year_key => year_key, :month_key => month_key, :day_key => day_key } : {} )
       else
         {}
       end
