@@ -39,6 +39,10 @@ class Items::Question < Item
   attr_accessor :month_key
   attr_accessor :day_key
 
+  # For quantity items
+  attr_accessor :unit
+  attr_accessor :size
+
   #A collection of all questions that can be hidden by all the options of this question
   attr_accessor :hides_questions
 
@@ -148,6 +152,8 @@ class Items::Question < Item
         { :options => @options }
       when :check_box
         { :options => @options } 
+      when :quantity
+        { :options => @options }
       else
         {}
       end
