@@ -20,7 +20,7 @@ class Admin::QuestionnairesController < AdminAreaController
 
   def create
     @questionnaire = Questionnaire.new
-    @questionnaire.key = params[:questionnaire][:key].gsub(' ', '_')
+    @questionnaire.key = params[:questionnaire][:key].gsub(' ', '_').downcase
     @questionnaire.definition = params[:questionnaire][:definition]
     @questionnaire.last_author = current_user.email
     
