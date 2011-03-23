@@ -26,6 +26,7 @@ class Questionnaire < ActiveRecord::Base
 
   validates_presence_of :key
   validates_uniqueness_of :key
+  validates_format_of :key, :without => /\s/
   
   def allow_hotkeys
     (@allow_hotkeys || :bulk).to_s
