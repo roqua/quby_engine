@@ -76,9 +76,14 @@ body {
             }
         }
         table{
+            *{
+                float:none;
+                width:auto;
+            }
             border-collapse: collapse; 
             .row{
                 td, th{
+                    display:table-cell;
                     border: 0;
                     border-bottom:1px solid #000;
                     vertical-align:top;

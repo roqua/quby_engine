@@ -83,7 +83,7 @@ function validatePanel(panel) {
   var failed = false;
   validationI = 0;
   panel.find(".error").addClass("hidden");
-  panel.find(".item").removeClass("errors");
+  panel.find(".errors").removeClass("errors");
   if (panel_validations[panel.attr("id")]) {
     var validations = panel_validations[panel.attr("id")];
         
@@ -91,8 +91,8 @@ function validatePanel(panel) {
       if(validations[question_key].length == 0){
           continue;
       }
-      //var question_item = $("#answer_" + question_key + "_input").closest('.item');
-      var question_item = $("#answer_" + question_key + "_input");
+      var question_item = $("#answer_" + question_key + "_input").closest('.item');
+      //var question_item = $("#answer_" + question_key + "_input");
       var inputs = null;
       
       if(question_item.length == 0){
