@@ -76,7 +76,7 @@ class Questionnaire < ActiveRecord::Base
       :key => self.key,
       :title => self.title, 
       :description => self.description,
-      :panels => self.panels
+      :panels => self.panels 
     })
   end
 

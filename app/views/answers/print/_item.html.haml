@@ -5,7 +5,7 @@
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
 - if item.is_a?(Items::Question)
-  -# return if item.table 
+  - return if item.table 
   -# return if @answer.send(item.key).blank?
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
   - doublewide = item.options.size <= 5 
@@ -31,7 +31,7 @@
     - when "Items::Text"
       -#Skipping text in print view
     - when "Items::Question"
-      - return if (item.type == :hidden )#or item.table)
+      - return if (item.type == :hidden )
       - case item.type
       - when :string, :textarea, :integer, :float, :date
         = render :partial => "answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}

@@ -4,7 +4,7 @@
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
 - if item.is_a?(Items::Question)
-  -# return if item.table
+  - return if item.table
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
   - doublewide = item.options.size <= 5 
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
@@ -16,7 +16,7 @@
     - itemclasses << "bulkitem"
     -if item.type != :hidden
       - itemclasses << cycle('evenRow', 'oddRow', :name => "rowbg")
-      - if (not previous_item) or (not previous_item.respond_to?(:options)) or (previous_item.options.map(&:value) != item.options.map(&:value) or previous_item.options.map(&:description) != item.options.map(&:description))
+      - if different_header(item, previous_item)
         = render :partial => "answers/bulk/item_radio_check_scale_options", :object => item
   
 

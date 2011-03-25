@@ -1,13 +1,10 @@
-%label.main(for="answer_#{question.key}")= raw(question.title)
-.description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
-  .fields(id="answer_#{question.key}_input")
-    = text_field :answer, question.day_key || "#{question.key}_dd",   :placeholder => "DD",   :size => 2, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil
+- optionclasses =  [os_cycle]
+- available_width = question.presentation == :horizontal ? 100 : 66
+%td.fields{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :id => "answer_#{question.key}_input"}
+  %span.nowrap
+    = text_field :answer, question.day_key || "#{question.key}_dd",   :placeholder => "DD",   :size => 2, :autocomplete => question.autocomplete
     = "-"
-    = text_field :answer, question.month_key || "#{question.key}_mm",   :placeholder => "MM",   :size => 2, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil
+    = text_field :answer, question.month_key || "#{question.key}_mm",   :placeholder => "MM",   :size => 2, :autocomplete => question.autocomplete
     = "-"
-    = text_field :answer, question.year_key || "#{question.key}_yyyy", :placeholder => "JJJJ", :size => 4, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil
-
+    = text_field :answer, question.year_key || "#{question.key}_yyyy", :placeholder => "JJJJ", :size => 4, :autocomplete => question.autocomplete
+  = validations

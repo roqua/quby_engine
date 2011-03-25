@@ -4,7 +4,7 @@
 - @answer.to_hide ||= [] 
 - itemclasses = [item.type, item.presentation]
 - if item.class.name == "Items::Question"
-  -# return if item.table
+  - return if item.table
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << 'subitem' if subquestion
   - itemclasses << item.question_group  if item.question_group
@@ -26,7 +26,7 @@
         :markdown
           #{raw(item)}
     - when "Items::Question"
-      - return if (item.type == :hidden)# or item.table)
+      - return if (item.type == :hidden)
       - item.validations.each do |validation|
         - exp_classes = ["error", validation[:type]]
         - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}

@@ -12,7 +12,7 @@
         - cls << "first" if idx <= 0
         - cls << "last" if idx >= (question.options.size - 1)
         - cls << "optionwidth#{question.options.size}"
-        .option{:class => cls, :title => opt.description}
+        .option{:class => cls, :title => opt.description, :for => question.key}
           - radio_classes = []
           - radio_classes << "subinput" if subquestion
           - radio_classes << "deselectable" if question.deselectable
@@ -42,7 +42,7 @@
           - cls << "first" if idx <= 0
           - cls << "last" if idx >= (question.options.size - 1)
           - cls << 'show_values' if show_values
-          .option(class=cls)
+          .option{:class => cls, :for => question.key}
             .radiocheckwrapper
               - radio_classes = []
               - radio_classes << "subinput" if subquestion

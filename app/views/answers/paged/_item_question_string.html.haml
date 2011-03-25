@@ -5,4 +5,6 @@
       :markdown
         #{raw question.description}
   .fields(id="answer_#{question.key}_input")
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :text_var => question.text_var || "", :disabled => disabled ? "" : nil
+    - cls = [question.type]
+    - cls << "subinput"  if subquestion
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :text_var => question.text_var || "", :disabled => disabled ? "" : nil

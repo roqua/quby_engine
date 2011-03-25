@@ -1,16 +1,24 @@
--if question.score_header != :none
-  .options
-    - question.options.each_with_index do |option, idx|
+- if question.blank?
+  %th.option{:class => os_cycle, :colspan => colspan}
+- else
+  - if question.score_header == :question_description
+    - cls = ['scaleheader']
+    %th.option{:title => raw(question.description), :class => cls, :colspan => colspan,  :class => os_cycle}
+      :markdown
+        #{raw question.description}
+  - else
+    - question.options.each do |option|
       -#TODO: if a hidden option is checked it should get its own new scale header
       - next if (option.inner_title or option.hidden)
       - cls = ['scaleheader']
-      - cls << "last" if idx >= (question.options.size - 1)
-      - cls << "optionwidth#{question.options.size}"
-      .option{:title=> raw(option.description), :class => cls}
-        = raw cycle("<br/>", "", :name => "headbr" ) 
+      - cls << "last" if option ==  question.options.last
+      - cls << "optionwidth#{question.options.size}"  
+      %th.option{:title=> raw(option.description), :class => cls}
+        -#= raw cycle("<br/>", "", :name => "headbr" ) 
         - case question.score_header 
         - when :value
           = option.value
         - when :description
-          = raw option.description             
-        
+          :markdown
+            #{raw option.description}
+          

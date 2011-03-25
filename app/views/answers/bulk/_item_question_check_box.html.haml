@@ -9,7 +9,7 @@
       - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
       - next if( opt.hidden and not checked)
-      .option
+      .option{ :for => question.key}
         .radiocheckwrapper
           - if question.uncheck_all_option == opt.key
             -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}

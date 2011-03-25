@@ -1,8 +1,5 @@
-%label.main(for="answer_#{question.key}")= raw(question.title) || raw("&nbsp;")
-.description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
-  .fields(id="answer_#{question.key}_input")
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil
+- available_width = question.presentation == :horizontal ? 100 : 66
+- optionclasses =  [os_cycle, question.type]
+%td.fields{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :id => "answer_#{question.key}_input"}
+  = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => question.type
+  = validations

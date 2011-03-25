@@ -109,6 +109,10 @@ module QuestionnaireDsl
       @panel.items << Items::Text.new('', :raw_content => value.to_s)
     end
     
+    def default_question_options(options = {})
+      @default_question_options = @default_question_options.merge(options)
+    end
+    
     def question(key, options = {}, &block)
       # TODO Add check for repeated use of keys
       
@@ -118,6 +122,31 @@ module QuestionnaireDsl
       @panel.items << q.build
     end
     
+    def table(options = {}, &block)
+      t = TableFactory.new(@panel, options.merge({:default_question_options => @default_question_options}))
+      t.instance_eval(&block) if block
+    end
+    
+  end
+  
+  class TableFactory
+    
+    def initialize(panel, options = {})
+      @panel = panel
+      @table = Items::Table.new(options) 
+      @default_question_options = options[:default_question_options] || {}
+      @panel.items << @table
+    end
+    
+    def question(key, options = {}, &block)
+      # TODO Add check for repeated use of keys
+      
+      q = QuestionFactory.new(key, @default_question_options.merge(options).merge(:table => @table))
+      q.instance_eval(&block) if block
+
+      @table.items << q.build      
+      @panel.items << q.build
+    end
   end
   
   class QuestionFactory

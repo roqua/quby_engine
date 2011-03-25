@@ -71,6 +71,9 @@ class Items::Question < Item
   # Amount of rows a textarea has
   attr_accessor :lines
   
+  # Table this question might belong to
+  attr_accessor :table 
+  
   ##########################################################
   
   def initialize(key, options = {})
@@ -82,6 +85,7 @@ class Items::Question < Item
     @presentation = options[:presentation]
     @validations = []
     @parent = options[:parent]
+    @table = options[:table]
     @parent_option_key = options[:parent_option_key]
     @autocomplete = options[:autocomplete] || "off"
     @show_values = options[:show_values] || :bulk

@@ -1,16 +1,11 @@
-%label.main(for="answer_#{question.key}")= raw(question.title)
-.description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
-  .fields(id="answer_#{question.key}_input")
-    %select(name="answer[#{question.key}]") 
-      -question.options.each do |opt|
-        - checked = @answer.send(question.key) == opt.key.to_s
-        - next if (opt.hidden and not checked)
-        - @answer.to_hide += opt.hides_questions if checked
-        - hash = {:value => opt.key, :hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil}
-        - hash[:selected] = 'selected' if @answer.send(question.key) == opt.key.to_s 
-        %option{hash}
-          =opt.description
+- available_width = question.presentation == :horizontal ? 100 : 66
+- optionclasses =  [os_cycle]
+%td.fields{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :id => "answer_#{question.key}_input"}
+  %select(name="answer[#{question.key}]") 
+    -question.options.each do |opt|
+      - checked = @answer.send(question.key) == opt.key.to_s
+      - @answer.to_hide += opt.hides_questions if checked
+      - hash = {:value => opt.key, :hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => question.type}
+      - hash[:selected] = 'selected' if checked 
+      %option{hash}
+        =opt.description

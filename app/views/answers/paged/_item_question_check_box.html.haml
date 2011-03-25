@@ -13,7 +13,7 @@
       - else
         - checked = @answer.send(opt.key) == 1
         - next if( opt.hidden and not checked)
-        .option
+        .option{:for => question.key}
           .radiocheckwrapper
             - if question.uncheck_all_option == opt.key
               -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
@@ -23,6 +23,7 @@
               -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
             -if disabled
               -attrs[:disabled] = ""
+            - attrs[:class] = question.type
             = check_box(:answer, "#{opt.key}", attrs)
           .labelwrapper
             %label(for="answer_#{opt.key}")

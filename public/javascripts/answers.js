@@ -59,16 +59,16 @@ function pushFailVal(val){
     validationI++;
 }
 
-function is_answered(inputs, question_item){
+function is_answered(inputs){
     for (var j = 0; j < inputs.length; j++){
-        var input = inputs[j];
-        if((input.type === "text" || input.type == "textarea") && question_item.is(".string, .textarea, .integer, .float, .date")){
-            if (input.value != "") {
+        var input = $(inputs[j]);
+        if(input.is("[type=text], textarea") && input.is(".string, .textarea, .integer, .float, .date")){
+            if (input.attr("value") != "") {
                 return true;
             }
         }
-        if((input.type === "radio" && question_item.is(".radio, .scale")) || (input.type === "checkbox" && question_item.hasClass("check_box"))){
-            if (input.checked) {
+        if((input.is("[type=radio]") && input.is(".radio, .scale")) || (input.is("[type=checkbox]") && input.hasClass("check_box"))){
+            if (input.attr("checked")) {
                 return true;
             }
         }
@@ -82,22 +82,33 @@ function validatePanel(panel) {
   }
   var failed = false;
   validationI = 0;
-  $(panel).find(".error").addClass("hidden");
-  $(panel).find(".item").removeClass("errors");
-  if (panel_validations[panel.id]) {
-    var validations = panel_validations[panel.id];
+  panel.find(".error").addClass("hidden");
+  panel.find(".item").removeClass("errors");
+  if (panel_validations[panel.attr("id")]) {
+    var validations = panel_validations[panel.attr("id")];
         
     for (var question_key in validations) {
-      var question_item = $("#answer_" + question_key + "_input").closest('.item');
+      if(validations[question_key].length == 0){
+          continue;
+      }
+      //var question_item = $("#answer_" + question_key + "_input").closest('.item');
+      var question_item = $("#answer_" + question_key + "_input");
+      var inputs = null;
       
-      var inputs = question_item.find("input, textarea").not(":disabled, :hidden");      
+      if(question_item.length == 0){
+          question_item = panel.find("[data-for=" + question_key + "]");
+      }
+      
+      inputs = question_item.find("input, textarea").not(":disabled, :hidden");
+      
+      //alert( inputs.length +" " + question_item.length);
       fail_vals = new Array();
-      
+            
       for (var i in validations[question_key]) {
         var validation = validations[question_key][i];
         switch(validation.type) {
             case "requires_answer":
-                if (!is_answered(inputs, question_item)) {
+                if (!is_answered(inputs)) {
                   pushFailVal(validation.type);
                 }
                 break;          
@@ -189,9 +200,9 @@ function validatePanel(panel) {
             }
       }
       if (fail_vals.length != 0) {
-          var item = $('#answer_' + question_key + "_input").closest(".item").addClass('errors');
+          var item = question_item.addClass('errors');
           $(fail_vals).each(function(index, ele){
-              item.find(".error." + ele+":first").removeClass("hidden");
+              item.find(".error." + ele).first().removeClass("hidden");
           });
           failed = true;
       }
@@ -205,7 +216,7 @@ function validatePanel(panel) {
 function get_answer_count(groupkey, panel){
     var answered = 0;
     
-    var quest_items = $(panel).find(".item."+ groupkey);
+    var quest_items = panel.find(".item."+ groupkey);
     for(var i = 0; i < quest_items.length; i++){
         var inputs = $(quest_items[i]).find(" input, textarea").not(":disabled, :hidden")
         if (is_answered(inputs, quest_items.eq(i))) {
@@ -740,7 +751,7 @@ $(document).ready(
                 function(event) {
                     event.preventDefault();
                     var nextPanel = $(this).parents('.panel').next();
-                    if (validatePanel($(this).parents('.panel')[0])) {
+                    if (validatePanel($(this).parents('.panel').first())) {
                         activatePanel(nextPanel, true, true);                        
                     }          
                 }
@@ -760,7 +771,6 @@ $(document).ready(
 //        $("input[type=checkbox]").customInput();
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         if (hotkeysEnabled) {
-        
             $(document).keydown(handleHotKeys);
             $(document).keyup(handleRadioHotKeys);
             $(document).click(function (){
