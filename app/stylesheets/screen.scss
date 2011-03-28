@@ -321,15 +321,17 @@ body {
         }
 
         &.scale {
-            // beware, here be holycoding
-            // not sure why i'm including options1, why the frak would you have only one option?
-            @for $n from 1 to 19 {
-                .options#{$n}  table { @include column( $n, true); @include append(18-$n); }
-            }
+            //@for $n from 1 to 19 {
+            //    .options#{$n}  table { @include column( $n, true); @include append(18-$n); }
+            //}
             
             &.horizontal {
             // we need to reset this to be table cells
                 .description { float: none; display: table-cell; }
+            }
+            td {
+                border: 0;
+                text-align: center;
             }
             
             .option, .description { 
@@ -344,9 +346,7 @@ body {
                 &.optionwidth9{width:(100%/9)}
                 &.optionwidth10{width:(100%/10)}
                 &.optionwidth11{width:(100%/11)}
-                &.optionwidth12{width:(100%/12)}
-                border: 0;
-                text-align: center;
+                &.optionwidth12{width:(100%/12)}                
             }
             
             .option.last, .description.last { @include last; }
@@ -622,7 +622,6 @@ table {
     background: black;
     color: white;
     padding: 5px;
-    border: 1px solid black;
   }
   
   tr.even {

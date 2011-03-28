@@ -1,4 +1,5 @@
 =marukufix(question.title, "answer_#{question.key}")
+- show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
 .description-and-fields
   .description
     - unless question.description.blank?
@@ -18,14 +19,18 @@
           - cls << "last" if idx >= (question.options.size - 1)
           - cls << "optionwidth#{question.options.size}"
           %td.option{:class => cls, :for => question.key}
-            - cls = [question.type]
-            - cls << "subinput"  if subquestion
-            = radio_button(:answer, question.key, opt.key,
-              {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
-            %br/
-            %label(for="answer_#{question.key}_#{opt.key}")
-              %span
-                :markdown
-                  #{raw opt.description}
+            - if show_values
+              %span.value= opt.value
+              %br/
+            %span
+              - cls = [question.type]
+              - cls << "subinput"  if subquestion
+              = radio_button(:answer, question.key, opt.key,
+                {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
+              %br/
+              %label(for="answer_#{question.key}_#{opt.key}")
+                %span
+                  :markdown
+                    #{raw opt.description}
         = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden", :name => "answer[#{question.key}]")
         
