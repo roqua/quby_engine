@@ -12,7 +12,7 @@
     = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes})
   -if question.table.show_option_desc
     .labelwrapper
-      %label(for="answer_#{opt.key}")
+      %label(for="answer_#{question.key}_#{opt.key}")
         %span
           :markdown
             #{raw opt.description}

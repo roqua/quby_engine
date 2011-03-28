@@ -11,8 +11,6 @@
       -#TODO: if a hidden option is checked it should get its own new scale header
       - next if (option.inner_title or option.hidden)
       - cls = ['scaleheader']
-      - cls << "last" if option ==  question.options.last
-      - cls << "optionwidth#{question.options.size}"  
       %th.option{:title=> raw(option.description), :class => cls}
         -#= raw cycle("<br/>", "", :name => "headbr" ) 
         - case question.score_header 
