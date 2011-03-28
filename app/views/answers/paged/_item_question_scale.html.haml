@@ -23,6 +23,9 @@
             = radio_button(:answer, question.key, opt.key,
               {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
             %br/
-            %label(for="answer_#{question.key}_#{opt.key}")= raw opt.description
+            %label(for="answer_#{question.key}_#{opt.key}")
+              %span
+                :markdown
+                  #{raw opt.description}
         = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden", :name => "answer[#{question.key}]")
         
