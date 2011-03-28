@@ -27,3 +27,18 @@ MaRuKu::In::Markdown.register_span_extension(
     #con.push doc.md_html("<p>raw html</p>")
     true
 end)
+
+klass = ActiveSupport::JSON::Encoding::Encoder
+
+klass.module_eval do
+  def check_for_circular_references(value)
+            if @seen.any? { |object| object.equal?(value) }
+              
+              raise Exception, "#{value.class.name} object references itself"
+            end
+            @seen.unshift value
+            yield
+          ensure
+            @seen.shift
+  end
+end

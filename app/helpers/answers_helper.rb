@@ -61,12 +61,8 @@ module AnswersHelper
     end
   end
   
-  def get_question(item_opt)
-    if item_opt.class.name == "QuestionOption"
-      return item_opt.question
-    else
-      return item_opt
-    end
+  def get_question(table, rowi,j)
+    table.questions[rowi][j]
   end
   
 end

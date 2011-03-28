@@ -14,10 +14,15 @@ class Items::Table < Item
     @items = []
   end
   
+  def questions
+    rows
+    @questions    
+  end
   
   #TODO: cleanup to map/functional style 
   def rows
     return @rows if @rows
+    @questions = [[]]
     @rows = [[[]]]
     filled_columns = 0
     filled_rows = 0
@@ -25,20 +30,22 @@ class Items::Table < Item
     items.each do |item|
       case item.type
       when :check_box, :radio, :scale
+        @questions[filled_rows] << item
         if item.options.length <= columns
           item.options.each do |opt|
-            @rows[filled_rows][row_items] << opt
+            @rows[filled_rows][row_items] << opt            
             filled_columns += 1
             if filled_columns == columns and item != items.last 
               filled_rows += 1
               filled_columns = 0
               row_items = 0
               @rows << [[]]
+              @questions << []
             end
           end
           if filled_columns != 0 and item != items.last
             row_items += 1
-            @rows[filled_rows] << []
+            @rows[filled_rows] << []            
           end
         else
           opt_len = item.options.length
@@ -51,11 +58,13 @@ class Items::Table < Item
               if filled_columns == columns
                 filled_rows += 1
                 @rows << [[]]
+                @questions << [item]
               end
             end
           end
         end
       else
+        @questions[filled_rows] << item
         @rows[filled_rows][row_items] << item
         filled_columns += 1
         if filled_columns == columns and item != items.last 
@@ -63,6 +72,7 @@ class Items::Table < Item
           filled_columns = 0
           row_items = 0
           @rows << [[]]
+          @questions << []
         end
         if filled_columns != 0 and item != items.last
           row_items += 1

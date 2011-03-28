@@ -1,5 +1,4 @@
 - question = nil
-- previous_row = nil
 - reset_cycle "opt_set_hcycle"
 - reset_cycle "opt_set_rcycle"
 - reset_cycle "opt_set_cycle"
@@ -12,17 +11,16 @@
     - opt_sets.each_with_index do |opt_set, i|
       - os_cycle = cycle("light", "dark", :name => "opt_set_hcycle" )      
       - last = opt_set == opt_sets.last
-      - if opt_set.class.name == "QuestionOption"
-        - fail Exception.new("#{rowi}, #{i}")
       - colspan = opt_set.length.to_f
-      - if not previous_row or different_header(get_question(opt_set[0]), get_question(previous_row[i][0]))
-        - header += render :partial => "answers/table/item_table_header", :locals => {:question => get_question(opt_set[0]), :last => last, :colspan => colspan, :os_cycle => os_cycle}
+      - question = get_question(table, rowi, i)
+      - if rowi == 0 or different_header(question, get_question(table, rowi-1, i))
+        - header += render :partial => "answers/table/item_table_header", :locals => {:question => question, :last => last, :colspan => colspan, :os_cycle => os_cycle}
         - all_blank = false
       - else
         - header += render :partial => "answers/table/item_table_header", :locals => {:question => nil, :colspan => colspan, :os_cycle => os_cycle}
-    
-    - question = get_question(opt_sets[0][0])
-    - same_question = (rowi != 0 and question.key == get_question(table.rows[rowi-1][0][0]).key)
+        
+    - question = get_question(table, rowi, 0)
+    - same_question = (rowi != 0 and question.key == get_question(table, rowi-1, 0).key)
     
     - if question.presentation == :horizontal
       - if rowi == 0
@@ -41,14 +39,14 @@
         - unless question.andand.presentation == :horizontal
           %th.main
         = raw header
-    - previous_row = opt_sets
+    
     - cls = []
     - if opt_sets.length <= 1 and not same_question
       - os_cycle = cycle("light", "dark", :name => "opt_set_rcycle" )
     - else 
       - os_cycle = nil
     - cls << os_cycle
-    - cls << 'inner_row' if opt_sets != table.rows.last and get_question(opt_sets[0][0]) == get_question(table.rows[rowi+1][0][0])
+    - cls << 'inner_row' if opt_sets != table.rows.last and question == get_question(table, rowi+1, 0)
     %tr.row(class = cls)
       - unless question.presentation == :horizontal
         %td.main
@@ -56,10 +54,10 @@
             %div
               %label(for="answer_#{question.key}")= raw(question.title)
       - reset_cycle "opt_set_cycle" if os_cycle != "dark"
-      - opt_sets.each do |opt_set| 
+      - opt_sets.each_with_index do |opt_set, j| 
         - os_cycle = !same_question ? cycle("light", "dark", :name => "opt_set_cycle" ) : ''
+        - question = get_question(table, rowi, j)
         - opt_set.each_with_index do |opt, i|
-          - question = get_question(opt)
           - validations = capture do
             - question.validations.each do |validation|
               - exp_classes = ["error", validation[:type]]
@@ -96,9 +94,9 @@
                   
           - case question.type
           - when :check_box
-            = render :partial => "answers/table/item_option_check_box", :locals => {:opt => opt, :table => table, :os_cycle => os_cycle, :validations => validations}
+            = render :partial => "answers/table/item_option_check_box", :locals => {:opt => opt, :table => table, :os_cycle => os_cycle, :validations => validations, :question => question}
           - when :radio, :scale
-            = render :partial => "answers/table/item_option_radio", :locals => {:opt => opt, :table => table, :os_cycle => os_cycle, :validations => validations}
+            = render :partial => "answers/table/item_option_radio", :locals => {:opt => opt, :table => table, :os_cycle => os_cycle, :validations => validations, :question => question}
           - when :string
             = render :partial => "answers/table/item_question_string", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
           - when :textarea
