@@ -2,13 +2,15 @@ class Items::Text < Item
   require 'extensions/maruku_extensions'
   
   attr_accessor :text
+  attr_accessor :display_in
 
   def initialize(str, options={})
     if options[:html_content]
       options[:raw_content] = "<div class='item text'>" + options[:html_content] + "</div>"
     end
     super(options)
-    @text = Maruku.new(str).to_html    
+    @text = Maruku.new(str).to_html
+    @display_in = options[:display_in]
   end
 
   def as_json(options = {})

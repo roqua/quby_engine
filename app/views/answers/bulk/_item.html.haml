@@ -32,6 +32,9 @@
       :css
         #{item.raw_content}
     - when "Items::Text"
+      - if item.display_in.andand.include?(:bulk)
+        .text
+          = raw item.text
       -#Skipping text in bulk view
     - when "Items::Question" 
       - return if item.type == :hidden 

@@ -61,9 +61,9 @@ module QuestionnaireDsl
     end
 
     # Short-circuit the text command to perform an implicit panel
-    def text(value)
+    def text(value, options = {})
       panel() do
-        text(value)
+        text(value, options)
       end
     end
     
@@ -97,8 +97,8 @@ module QuestionnaireDsl
       @panel.title = value
     end
 
-    def text(value)
-      @panel.items << Items::Text.new(value.to_s)
+    def text(value, options = {})
+      @panel.items << Items::Text.new(value.to_s, options)
     end
     
     def html(value)
