@@ -62,12 +62,12 @@ function pushFailVal(val){
 function is_answered(inputs){
     for (var j = 0; j < inputs.length; j++){
         var input = $(inputs[j]);
-        if(input.is("[type=text], textarea") && input.is(".string, .textarea, .integer, .float, .date")){
+        if(input.is("[type=text], textarea")){
             if (input.attr("value") != "") {
                 return true;
             }
         }
-        if((input.is("[type=radio]") && input.is(".radio, .scale")) || (input.is("[type=checkbox]") && input.hasClass("check_box"))){
+        if(input.is("[type=radio]") || input.is("[type=checkbox]")){
             if (input.attr("checked")) {
                 return true;
             }
