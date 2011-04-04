@@ -8,6 +8,10 @@ class Items::Question < Item
   # What kind of question is this?
   attr_accessor :type
 
+  # In what modes do we display this question
+  # NOTE We always display questions in print-view (if they have an answer)
+  attr_accessor :display_modes
+
   # Multiple-choice questions have options to choose from
   attr_accessor :options
   
@@ -82,6 +86,7 @@ class Items::Question < Item
     @type = options[:type]
     @title = options[:title]
     @description = options[:description]
+    @display_modes = options[:display_modes]
     @presentation = options[:presentation]
     @validations = []
     @parent = options[:parent]

@@ -38,6 +38,7 @@
       -#Skipping text in bulk view
     - when "Items::Question" 
       - return if item.type == :hidden 
+      - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       - item.validations.each do |validation|
         - exp_classes = ["error", validation[:type]]
         - valtypes = @answer.errors[item.key].collect{|e| e[:valtype]}
