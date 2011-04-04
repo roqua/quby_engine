@@ -45,7 +45,10 @@ class AnswersController < ApplicationController
   end
 
   def show
-    respond_with @answer
+    respond_to do |format|
+      format.html { redirect_to :action => "edit" }
+      format.json { render :json => @answer.to_json }
+    end
   end
 
   def edit
