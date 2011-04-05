@@ -34,7 +34,7 @@
   .buttons
     .prev &nbsp;
     .save
-      = submit_tag "Klaar"
+      = submit_tag "Klaar", :id => "done-button"
     .print
       = link_to_function "Print Antwoorden", "doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}');"
       
