@@ -57,6 +57,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @questionnaire.answers.create({:value => @questionnaire.default_answer_value}.merge(params[:answer]||{}))
+    logger.info "  Created answer #{@answer.id}"
 
     respond_to do |format|
       format.json { render :json => @answer}
