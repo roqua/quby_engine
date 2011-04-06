@@ -4,6 +4,7 @@ require 'bundler/capistrano'
 
 set :scm, :git
 set :repository, "git@github.com:roqua/quby.git"
+set :branch,     "rel_201103"
 set :deploy_via, :remote_cache
 
 set :questionnaire_repository, "git@github.com:roqua/questionnaires.git"
@@ -30,17 +31,17 @@ namespace :deploy do
   task :stop, :roles => :app do
     # Do nothing
   end
-  
-  desc "Link in the production database.yml" 
+
+  desc "Link in the production database.yml"
   task :link_database_yml do
-    run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml" 
+    run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml"
   end
 
   desc "Symlink the questionnaires from shared dir"
   task :link_shared_dirs do
     run "ln -nfs #{deploy_to}/#{shared_dir}/questionnaires #{release_path}/db/questionnaires"
   end
-  
+
   desc "Seed"
   task :seed, :roles => :db do
     run "cd #{current_path} && rake db:seed"
@@ -56,7 +57,7 @@ namespace :deploy do
     # Clone git repo
     clone_commands << "cd #{deploy_to}/#{shared_dir}"
     clone_commands << "git clone #{questionnaire_repository} questionnaires"
-    
+
     # Check out correct branch
     if questionnaire_branch != "master"
       clone_commands << "cd #{deploy_to}/#{shared_dir}/questionnaires"
@@ -65,7 +66,7 @@ namespace :deploy do
 
     command = "if [ -d #{deploy_to}/#{shared_dir}/questionnaires ]; then " +
                 update_commands.join(" && ") + "; " +
-              "else " + 
+              "else " +
                 clone_commands.join(" && ") + "; " +
               "fi"
 
