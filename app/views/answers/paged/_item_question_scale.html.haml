@@ -3,9 +3,9 @@
 - if subquestion.andand.presentation == :next_to_title and subquestion.type == :string
   -insert = capture do
     .fields.specifier(id="answer_#{subquestion.key}_input")
-      =marukufix(subquestion.title, "answer_#{subquestion.key}") 
+      = marukufix(subquestion.title, "answer_#{subquestion.key}") 
       = text_field :answer, subquestion.key, :autocomplete => subquestion.autocomplete, :class => ["string", "subinput"], :text_var => subquestion.text_var || "", :disabled => disabled ? "" : nil
-=marukufix(question.title, "answer_#{question.key}", insert)
+= marukufix(question.title, "answer_#{question.key}", insert)
 - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
 
 .description-and-fields

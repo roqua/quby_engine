@@ -1,22 +1,28 @@
-- checked = @answer.send(opt.key) == 1
-- return if( opt.hidden and not checked)
-- optionclasses =  [os_cycle]
 - available_width = question.presentation == :horizontal ? 100 : 66
-%td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}}
-  .radiocheckwrapper
-    - if question.uncheck_all_option == opt.key
-      -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);"}
-    - elsif question.check_all_option == opt.key
-      -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);"}
-    - else
-      -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);"}
-    - attrs[:class] = question.type
-    = check_box(:answer, "#{opt.key}", attrs)
+- if opt.inner_title
+  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= opt.description  
+- else
+  - checked = @answer.send(opt.key) == 1
+  - return if( opt.hidden and not checked)
+  - optionclasses =  [os_cycle]
   
-  -if question.table.show_option_desc
-    .labelwrapper
-      %label(for="answer_#{opt.key}")
-        %span
-          :markdown
-            #{raw opt.description}
-  = validations
+  %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}}
+    .radiocheckwrapper
+      - if question.uncheck_all_option == opt.key
+        -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);"}
+      - elsif question.check_all_option == opt.key
+        -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', '1'); handleDisableCheckboxSubQuestions(this);"}
+      - else
+        -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);"}
+      - attrs[:class] = question.type
+      = check_box(:answer, "#{opt.key}", attrs)
+    
+    -if question.table.show_option_desc
+      .labelwrapper
+        %label(for="answer_#{opt.key}")
+          %span
+            - if table.columns >= 10
+              %br
+            :markdown
+              #{raw opt.description}
+    = validations

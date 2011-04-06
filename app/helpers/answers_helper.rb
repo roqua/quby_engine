@@ -41,7 +41,7 @@ module AnswersHelper
       if question_id_regex.match(string)
         string.gsub!(question_id_regex, " <div class='main'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div> #{title_insert}</div>")
       else
-        string = " <div class='main'><label for='#{labelfor}'>#{string}</label></div>"
+        string = " <div class='main'><label for='#{labelfor}'>#{string}</label> #{title_insert}</div>"
       end
       raw string
     else

@@ -69,11 +69,13 @@ class Items::Question < Item
   attr_accessor :group_maximum_answered
   
   #Text variable name that will be replaced with the answer to this question
-  #In all following text elements #FIXME: specify
+  #In all following text elements that support markdown
   attr_accessor :text_var
 
   # Amount of rows a textarea has
   attr_accessor :lines
+  
+  # Hash to store extra data attributes on the question's html element
   
   # Table this question might belong to
   attr_accessor :table 
