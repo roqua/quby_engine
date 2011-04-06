@@ -1,16 +1,15 @@
 - if question.blank?
   %th.option{:class => os_cycle, :colspan => colspan}
 - else
-  - if question.score_header == :question_description
-    - cls = ['scaleheader']
+  -#TODO: if a hidden option is checked it should get its own new scale header
+  - cls = ['scaleheader']
+  - if question.score_header == :question_description    
     %th.option{:title => raw(question.description), :class => cls, :colspan => colspan,  :class => os_cycle}
       :markdown
         #{raw question.description}
   - else
     - question.options.each do |option|
-      -#TODO: if a hidden option is checked it should get its own new scale header
-      - next if (option.inner_title or option.hidden)
-      - cls = ['scaleheader']
+      - next if (option.inner_title or option.hidden)  
       %th.option{:title=> raw(option.description), :class => cls}
         -#= raw cycle("<br/>", "", :name => "headbr" ) 
         - case question.score_header 

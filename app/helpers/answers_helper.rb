@@ -32,14 +32,14 @@ module AnswersHelper
   # 1a.
   #2: lops off enclosing p tags
   #3: adds .main and %label(for=labelfor) around content
-  def marukufix(string, labelfor=nil)
+  def marukufix(string, labelfor, title_insert=nil)
     return '' unless string
     string.gsub!(/\A\d+.?\./, '  \\0')
     question_id_regex = /\A\s*(\d+.?\.|\A\w\)|\A\w\.)(.*)/
     if labelfor
       string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
       if question_id_regex.match(string)
-        string.gsub!(question_id_regex, " <div class='main'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div></div>")
+        string.gsub!(question_id_regex, " <div class='main'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div> #{title_insert}</div>")
       else
         string = " <div class='main'><label for='#{labelfor}'>#{string}</label></div>"
       end

@@ -57,6 +57,7 @@ class Items::Table < Item
               filled_columns += 1
               if filled_columns == columns
                 filled_rows += 1
+                filled_columns = 0
                 @rows << [[]]
                 @questions << [item]
               end

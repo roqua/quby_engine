@@ -1,5 +1,5 @@
 - checked = @answer.send(opt.key) == 1
-- next if( opt.hidden and not checked)
+- return if( opt.hidden and not checked)
 - optionclasses =  [os_cycle]
 - available_width = question.presentation == :horizontal ? 100 : 66
 %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}}

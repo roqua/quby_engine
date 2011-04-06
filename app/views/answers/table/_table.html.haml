@@ -4,8 +4,7 @@
 - reset_cycle "opt_set_cycle"
 %table
   - table.rows.each_with_index do |opt_sets, rowi|
-    - filled_columns = 0
-        
+    - filled_columns = 0        
     - header = ''
     - all_blank = true
     - opt_sets.each_with_index do |opt_set, i|
@@ -13,7 +12,7 @@
       - last = opt_set == opt_sets.last
       - colspan = opt_set.length.to_f
       - question = get_question(table, rowi, i)
-      - if rowi == 0 or different_header(question, get_question(table, rowi-1, i))
+      - if (rowi == 0 or different_header(question, get_question(table, rowi-1, i))) and question.score_header != :none
         - header += render :partial => "answers/table/item_table_header", :locals => {:question => question, :last => last, :colspan => colspan, :os_cycle => os_cycle}
         - all_blank = false
       - else
@@ -22,19 +21,17 @@
     - question = get_question(table, rowi, 0)
     - same_question = (rowi != 0 and question.key == get_question(table, rowi-1, 0).key)
     
-    - if question.presentation == :horizontal
+    - if question.presentation == :horizontal and not same_question
       - if rowi == 0
         %caption
           %div.main(class = "horizontal")
-            - unless same_question
-              %label(for="answer_#{question.key}")= raw(question.title)
+            %label(for="answer_#{question.key}")= raw(question.title)
       - else
         %tr.row
           %td.main{:class => "horizontal", :colspan => table.columns}
-            - unless same_question
-              %label(for="answer_#{question.key}")= raw(question.title)
+            %label(for="answer_#{question.key}")= raw(question.title)
     
-    - if not all_blank or rowi == 0
+    - if not all_blank 
       %tr.option_sets.row
         - unless question.andand.presentation == :horizontal
           %th.main

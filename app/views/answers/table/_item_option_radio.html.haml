@@ -1,6 +1,6 @@
-- next if opt.inner_title
+- return if opt.inner_title
 - checked = @answer.send(question.key) == opt.key.to_s
-- next if (opt.hidden and not checked)
+- return if (opt.hidden and not checked)
 - @answer.to_hide += opt.hides_questions if checked
 - optionclasses =  [os_cycle]
 - available_width = question.presentation == :horizontal ? 100 : 66
