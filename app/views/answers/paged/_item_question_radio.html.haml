@@ -5,7 +5,7 @@
     - unless question.description.blank?
       :markdown
         #{raw question.description}
-  .fields(id="answer_#{question.key}_input")
+  .fields{:id => question.html_id}
     - question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next if (opt.hidden and not checked)

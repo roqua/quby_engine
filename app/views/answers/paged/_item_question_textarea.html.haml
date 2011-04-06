@@ -4,7 +4,7 @@
     - unless question.description.blank?
       :markdown
         #{raw question.description}
-  .fields(id="answer_#{question.key}_input")
+  .fields{:id => question.html_id}
     - cls = [question.type]
     - cls << "subinput"  if subquestion
     = text_area :answer, question.key, :rows => (question.lines || 6), :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil

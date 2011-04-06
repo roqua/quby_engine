@@ -15,7 +15,7 @@ class QuestionOption
     @inner_title = options[:inner_title]
     @hides_questions = options[:hides_questions] || []
     @hidden = options[:hidden] || false
-    question.hides_questions = question.hides_questions | @hides_questions 
+    question.hides_questions = question.hides_questions | @hides_questions
     question.options << self
   end
 end

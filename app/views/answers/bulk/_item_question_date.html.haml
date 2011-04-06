@@ -4,7 +4,7 @@
     - unless question.description.blank?
       :markdown
         #{raw question.description}
-  .fields(id="answer_#{question.key}_input")
+  .fields{:id => question.html_id}
     = text_field :answer, question.day_key || "#{question.key}_dd",   :placeholder => "DD",   :size => 2, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil
     = "-"
     = text_field :answer, question.month_key || "#{question.key}_mm",   :placeholder => "MM",   :size => 2, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil

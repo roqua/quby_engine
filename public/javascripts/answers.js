@@ -101,7 +101,6 @@ function validatePanel(panel) {
       
       inputs = question_item.find("input, textarea").not(":disabled, :hidden");
       
-      //alert( inputs.length +" " + question_item.length);
       fail_vals = new Array();
             
       for (var i in validations[question_key]) {

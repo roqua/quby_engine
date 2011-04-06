@@ -75,8 +75,6 @@ class Items::Question < Item
   # Amount of rows a textarea has
   attr_accessor :lines
   
-  # Hash to store extra data attributes on the question's html element
-  
   # Table this question might belong to
   attr_accessor :table 
   
@@ -102,7 +100,7 @@ class Items::Question < Item
     @disallow_bulk = options[:disallow_bulk]
     @score_header = options[:score_header] || :none
     @text_var = options[:text_var]
-    
+
     @question_group = options[:question_group]
     @group_minimum_answered = options[:group_minimum_answered]
     @group_maximum_answered = options[:group_maximum_answered]
@@ -173,6 +171,9 @@ class Items::Question < Item
     )
   end
   
+  def html_id
+    "answer_#{key}_input"
+  end
 
   def answerable?; true; end
 

@@ -1,10 +1,10 @@
 - insert = nil
-- subquestion = question.options.last.questions.first
-- if subquestion.andand.presentation == :next_to_title and subquestion.type == :string
+- subq = question.options.last.questions.first
+- if subq.andand.presentation == :next_to_title and subq.type == :string
   -insert = capture do
-    .fields.specifier(id="answer_#{subquestion.key}_input")
-      = marukufix(subquestion.title, "answer_#{subquestion.key}") 
-      = text_field :answer, subquestion.key, :autocomplete => subquestion.autocomplete, :class => ["string", "subinput"], :text_var => subquestion.text_var || "", :disabled => disabled ? "" : nil
+    .fields.specifier{:id => subq.html_id}
+      = marukufix(subq.title, "answer_#{subq.key}") 
+      = text_field :answer, subq.key, :autocomplete => subq.autocomplete, :class => ["string"], :text_var => subq.text_var || "", :disabled => disabled ? "" : nil
 = marukufix(question.title, "answer_#{question.key}", insert)
 - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
 
@@ -15,7 +15,7 @@
         #{raw question.description}
   - cls = []
   - cls << "options#{question.options.size}" unless question.presentation == :horizontal 
-  .fields(id="answer_#{question.key}_input" class=cls)
+  .fields{:id => question.html_id, :class =>cls}
     %table(cellspacing=0 border=0)
       %tr
         - question.options.each_with_index do |opt, idx|
@@ -32,7 +32,7 @@
               %br/
             %span
               - cls = [question.type]
-              - cls << "subinput"  if subquestion
+              - cls << "subinput" if subquestion
               = radio_button(:answer, question.key, opt.key,
                 {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
               %br/
