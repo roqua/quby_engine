@@ -1,5 +1,5 @@
  development:
-   database: quby
+   database: development
    capsize: <%= 50.megabytes %>
    host: localhost
    port: 27017
