@@ -76,6 +76,7 @@ namespace :deploy do
   after "deploy:update_code", "deploy:link_database_yml"
   after "deploy:update_code", "deploy:link_shared_dirs"
   after "deploy:update_code", "deploy:update_questionnaires"
+  after "deploy:migrate", "deploy:seed"
 end
 
 namespace :logs do
