@@ -126,6 +126,7 @@ select {
             width: (100%/3);
             float:none;
             display:table-cell;
+            label small { font-size: 0.7em; }
         }
             
         .option_sets{
@@ -205,6 +206,8 @@ select {
         margin-bottom: 1.2em;
         z-index: 400;
       }
+
+      hr { height: 8px; border: 0; background: #ddd; }
       
       .buttons {
         @include column($blueprint-grid-columns, true);
