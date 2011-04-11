@@ -20,6 +20,8 @@ gem "rails-settings", :git => "git://github.com/100hz/rails-settings.git"
 gem 'devise', "~> 1.1"
 gem 'seed-fu'
 
+gem "central_logger"
+
 group :test, :development do
   gem "rspec-rails", ">= 2.0.0.beta.19"
   gem "autotest"

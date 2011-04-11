@@ -2,6 +2,8 @@
 # Likewise, all the methods added will be available for all controllers.
 require 'ipaddr'
 class ApplicationController < ActionController::Base
+  include CentralLogger::Filter
+
   helper :all # include all helpers, all the time
   protect_from_forgery
   layout 'application'

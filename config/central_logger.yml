@@ -1,0 +1,6 @@
+ development:
+   database: quby
+   capsize: <%= 50.megabytes %>
+   host: localhost
+   port: 27017
+   replica_set: true
