@@ -668,6 +668,17 @@ function doPrint(url){
     form.attr('target', "_top");
 }
 
+function modalFrame(url){
+    $("#modalFrame").attr('src', url);
+    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width : 820,
+    buttons: {
+        "Sluiten": function(){
+            $(this).dialog("close");
+        }
+    }
+    });    
+}
+
 $(document).ready(
     function() {
         

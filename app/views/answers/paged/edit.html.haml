@@ -11,3 +11,5 @@
 
 - form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "paged"].join(" "), :autocomplete => "off" do
   = render :partial => "answers/paged/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}
+
+= render :partial => "answers/modal_iframe"

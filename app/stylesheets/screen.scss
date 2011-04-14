@@ -15,6 +15,14 @@ $masthead_bg: #0f72a4;
 @import "partials/base.scss";
 @import "partials/text.scss";
 
+#modalFrameDialog {
+    padding: 0;
+}
+#modalFrame {
+    width:820px;
+    height:600px;        
+}
+
 body {
   font-family: Verdana, sans-serif;
   font-size: 0.8em;

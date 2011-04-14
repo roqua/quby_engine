@@ -37,4 +37,6 @@
       = submit_tag "Klaar", :id => "done-button"
     .print
       = link_to_function "Print Antwoorden", "doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}');"
-      
+  
+
+= render :partial => "answers/modal_iframe"
