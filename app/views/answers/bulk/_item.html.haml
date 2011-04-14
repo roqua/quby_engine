@@ -10,7 +10,8 @@
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
   - itemclasses << 'subitem' if subquestion
-  - if(item.disallow_bulk or (not item.subquestions.andand.empty?) or subquestion)
+  - not_bulk = item.disallow_bulk or (not item.subquestions.blank? and item.subquestions.last.presentation != :next_to_title) 
+  - if not_bulk
     - itemclasses << "notbulkitem"
   - else
     - itemclasses << "bulkitem"
@@ -49,7 +50,7 @@
       - when :integer, :float
         = render :partial => "answers/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio, :scale
-        = render :partial => "answers/bulk/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item, :disabled => disabled}
+        = render :partial => "answers/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item, :disabled => disabled}
       - when :date
         = render :partial => "answers/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box

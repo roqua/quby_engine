@@ -50,6 +50,10 @@
           - unless same_question
             %div
               %label(for="answer_#{question.key}")= raw(question.title)
+              - subq = question.options.last.questions.first
+              - if subq.andand.presentation == :next_to_title and subq.type == :string
+                = render :partial => "answers/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
+            
       - reset_cycle "opt_set_cycle" if os_cycle != "dark"
       - opt_sets.each_with_index do |opt_set, j| 
         - os_cycle = !same_question ? cycle("light", "dark", :name => "opt_set_cycle" ) : ''

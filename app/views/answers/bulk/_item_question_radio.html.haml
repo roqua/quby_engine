@@ -1,6 +1,12 @@
 - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :bulk)
-- if not question.disallow_bulk and question.subquestions.blank?
-  %label.main(for="answer_#{question.key}")= raw(question.title)
+- if not_bulk
+  = render :partial => "answers/paged/item_question_radio", :locals => {:answer => @answer, :question => question, :subquestion => false, :disabled => false}
+- else
+  %label.main(for="answer_#{question.key}")
+    = raw(question.title)
+    - subq = question.options.last.questions.first
+    - if subq.andand.presentation == :next_to_title and subq.type == :string
+      = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
   .description-and-fields
     .fields{:id => question.html_id, :class => "options#{question.options.size}"}
       - question.options.each_with_index do |opt, idx|
@@ -19,44 +25,4 @@
           = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes, :disabled => disabled ? "" : nil})
           - if show_values
             %span.value= opt.value
-- else
-  - content_for(:item_class, "notbulk")
-  =marukufix(question.title, "answer_#{question.key}")
-  - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
-  .description-and-fields
-    .description
-      - unless question.description.blank?
-        :markdown
-          #{raw question.description}
-    .fields{:id => question.html_id}
-      - question.options.each_with_index do |opt, idx|
-        - checked = @answer.send(question.key) == opt.key.to_s
-        - next if (opt.hidden and not checked)
-        - @answer.to_hide += opt.hides_questions if checked 
-        - if opt.inner_title
-          .inner-title
-            :markdown
-              #{raw opt.description}
-        - else
-          - cls = []
-          - cls << "first" if idx <= 0
-          - cls << "last" if idx >= (question.options.size - 1)
-          - cls << 'show_values' if show_values
-          .option{:class => cls, :for => question.key}
-            .radiocheckwrapper
-              - radio_classes = []
-              - radio_classes << "subinput" if subquestion
-              - radio_classes << "deselectable" if question.deselectable
-              = radio_button(:answer, question.key, opt.key,
-                {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes, :disabled => disabled ? "" : nil})
-            - if show_values
-              .value= opt.value
-            .labelwrapper
-              %label(for="answer_#{question.key}_#{opt.key}")
-                %span
-                  :markdown
-                    #{raw opt.description}
-            - unless opt.questions.empty?
-              .subquestions= render :partial => "answers/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}
-      = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden", :name => "answer[#{question.key}]")
 

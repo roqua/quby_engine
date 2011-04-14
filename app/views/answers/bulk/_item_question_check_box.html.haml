@@ -1,4 +1,8 @@
-%label.main(for="answer_#{question.key}")= raw(question.title)
+%label.main(for="answer_#{question.key}")
+  = raw(question.title)
+  - subq = question.options.last.questions.first
+  - if subq.andand.presentation == :next_to_title and subq.type == :string
+    = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
 .description-and-fields
   .description
     - unless question.description.blank?

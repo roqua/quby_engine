@@ -3,12 +3,16 @@
 - disabled ||= false
 - @answer.to_hide ||= [] 
 - itemclasses = [item.type, item.presentation]
+- extra_data = nil
 - if item.class.name == "Items::Question"
   - return if item.table
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
-  - itemclasses << 'subitem' if subquestion
+  - if subquestion
+    - itemclasses << 'subitem'
+    - return if item.presentation == :next_to_title 
   - itemclasses << item.question_group  if item.question_group
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key)
+  - extra_data = item.extra_data
 
 - if item.raw_content
   - if item.raw_content[:paged]
@@ -16,7 +20,7 @@
   - else 
     = raw item.raw_content
 - else
-  .item{:class => itemclasses}
+  .item{:class => itemclasses, :data => extra_data}
     - case item.class.name
     - when "Items::Css"
       :css

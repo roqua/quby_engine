@@ -91,18 +91,25 @@ function validatePanel(panel) {
       if(validations[question_key].length == 0){
           continue;
       }
+      
       var question_item = $("#answer_" + question_key + "_input").closest('.item');
-      //var question_item = $("#answer_" + question_key + "_input");
-      var inputs = null;
+      
+      var depends_on = question_item.attr("data-depends_on");
+      if(depends_on){
+        var dep_inputs = $("#answer_" + depends_on + "_input").find("input, textarea").not(":disabled, :hidden");
+        if(!is_answered(dep_inputs) || dep_inputs.length == 0){
+            continue;
+        }
+      }
       
       if(question_item.length == 0){
           question_item = panel.find("[data-for=" + question_key + "]");
       }
       
-      inputs = question_item.find("input, textarea").not(":disabled, :hidden");
+      var inputs = question_item.find("input, textarea").not(":disabled, :hidden");
       
       fail_vals = new Array();
-            
+      
       for (var i in validations[question_key]) {
         var validation = validations[question_key][i];
         switch(validation.type) {

@@ -97,7 +97,7 @@ class Answer < ActiveRecord::Base
           #logger.debug question.inspect
           if question and (question.type == :radio || question.type == :scale || question.type == :select)
             #logger.debug "Question is a radio"
-            option   = question.options.find(){|o| o.key.to_s == value[key].to_s }
+            option = question.options.find(){|o| o.key.to_s == value[key].to_s }
             #logger.debug option.inspect
             if option 
               value_by_values[key] = option.value.to_s
@@ -160,6 +160,7 @@ class Answer < ActiveRecord::Base
     questionnaire.questions.each do |question|
       next unless question
       next if question.type == :hidden
+      next if (question.depends_on and self.send(question.depends_on).blank?)
       answer = self.send(question.key)
       validations = question.validations
 
@@ -202,7 +203,7 @@ class Answer < ActiveRecord::Base
             match = validation[:matcher].match(answer)
             add_error(question, validation[:type], "Does not match pattern expected.") if not match or match[0] != answer
           when :requires_answer
-            next if hidden_questions.include?(question.key)
+            next if hidden_questions.include?(question.key)            
             if question.type == :check_box
               add_error(question, validation[:type], "Must be answered.") if answer.values.reduce(:+) == 0
             else 

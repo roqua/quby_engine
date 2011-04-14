@@ -39,7 +39,7 @@ module AnswersHelper
     if labelfor
       string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
       if question_id_regex.match(string)
-        string.gsub!(question_id_regex, " <div class='main'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div> #{title_insert}</div>")
+        string.gsub!(question_id_regex, " <div class='main'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label>#{title_insert}</div></div>")
       else
         string = " <div class='main'><label for='#{labelfor}'>#{string}</label> #{title_insert}</div>"
       end

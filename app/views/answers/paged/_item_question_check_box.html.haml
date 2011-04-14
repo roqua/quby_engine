@@ -1,4 +1,10 @@
-=marukufix(question.title, "answer_#{question.key}")
+- insert = nil
+- subq = question.options.last.questions.first
+- if subq.andand.presentation == :next_to_title and subq.type == :string
+  -insert = capture do
+    = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
+
+=marukufix(question.title, "answer_#{question.key}", insert)
 .description-and-fields
   .description
     - unless question.description.blank?

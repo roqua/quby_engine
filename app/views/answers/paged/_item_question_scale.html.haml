@@ -2,9 +2,7 @@
 - subq = question.options.last.questions.first
 - if subq.andand.presentation == :next_to_title and subq.type == :string
   -insert = capture do
-    .fields.specifier{:id => subq.html_id}
-      = marukufix(subq.title, "answer_#{subq.key}") 
-      = text_field :answer, subq.key, :autocomplete => subq.autocomplete, :class => ["string"], :text_var => subq.text_var || "", :disabled => disabled ? "" : nil
+    = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
 = marukufix(question.title, "answer_#{question.key}", insert)
 - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
 
@@ -33,6 +31,7 @@
             %span
               - cls = [question.type]
               - cls << "subinput" if subquestion
+              - cls << "deselectable" if question.deselectable
               = radio_button(:answer, question.key, opt.key,
                 {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
               %br/

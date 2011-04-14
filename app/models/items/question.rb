@@ -60,6 +60,12 @@ class Items::Question < Item
   # Whether we can collapse this in bulk view
   attr_accessor :disallow_bulk
   
+  # This question should not validate itself unless the depends_on question is answered
+  attr_accessor :depends_on 
+  
+  # Extra data hash to store on the question item's html element
+  attr_accessor :extra_data
+  
   # Whether we use the :description, the :value or :none for the score header above this question
   attr_accessor :score_header
  
@@ -100,6 +106,9 @@ class Items::Question < Item
     @disallow_bulk = options[:disallow_bulk]
     @score_header = options[:score_header] || :none
     @text_var = options[:text_var]
+    @depends_on = options[:depends_on]
+    @extra_data = {}
+    @extra_data[:depends_on] = options[:depends_on] if options[:depends_on]
 
     @question_group = options[:question_group]
     @group_minimum_answered = options[:group_minimum_answered]
@@ -170,7 +179,7 @@ class Items::Question < Item
       end
     )
   end
-  
+    
   def html_id
     "answer_#{key}_input"
   end
