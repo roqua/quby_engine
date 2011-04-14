@@ -8,12 +8,12 @@
     - unless question.description.blank?
       :markdown
         #{raw question.description}
-  .fields{:id => question.html_id}
+  .fields{:id => question.html_id, :class => "options#{question.options.size}"}
     - question.options.each do |opt|
       - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
       - next if( opt.hidden and not checked)
-      .option{ :for => question.key}
+      .option{ :for => question.key, :class => "optionwidth#{question.options.size}"}
         .radiocheckwrapper
           - if question.uncheck_all_option == opt.key
             -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}

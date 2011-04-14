@@ -81,7 +81,6 @@ select {
         }
         table{
             *{
-                float:none;
                 width:auto;
             }
             
@@ -89,9 +88,7 @@ select {
                 white-space:normal;
             }
             
-            tbody {
-                border-top: 1px solid black;
-            }
+            border-bottom: 1px solid black;
             
             border-collapse: collapse; 
             .row{
@@ -103,6 +100,7 @@ select {
                     &.main{
                         vertical-align:middle;
                     }
+                    float: none;
                 }
                 &.inner_row td{border:0;}
                 &:first-child td{border-top:1px solid black;}
@@ -184,7 +182,6 @@ select {
   }
   
   .specifier{
-      width:inherit !important;
       margin: 0 !important;
       input{
         width:auto !important;    
