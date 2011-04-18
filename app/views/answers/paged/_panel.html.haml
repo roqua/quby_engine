@@ -19,19 +19,19 @@
   .buttons
     - if panel_counter < panels.length - 1
       .prev
-        = submit_tag raw("&larr; Vorige vraag")
+        = submit_tag raw("&larr; Vorige vraag"), :class => 'prevButton'
       .abort
         - if questionnaire.abortable 
-          = submit_tag "Onderbreken"
+          = submit_tag "Onderbreken", :class => 'abortButton'
         - else
           &nbsp;
       -#.print
         -#= submit_tag "Print antwoorden"
       .next
-        = submit_tag raw("Volgende vraag &rarr;")
+        = submit_tag raw("Volgende vraag &rarr;"), :class => 'nextButton'
     - else
       .prev
-        = submit_tag raw("&larr; Vorige vraag")
+        = submit_tag raw("&larr; Vorige vraag"), :class => 'prevButton'
       .save
         = submit_tag "Klaar", :id => "done-button"
       .print
