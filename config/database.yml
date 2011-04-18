@@ -2,7 +2,7 @@
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development:
   adapter: mysql
-  database: quby_development
+  database: ucp_quby
   username: root
   password: 
   encoding: utf8
@@ -26,3 +26,4 @@ production:
   password: 
   encoding: utf8
   host: localhost
+  
