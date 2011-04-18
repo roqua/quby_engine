@@ -158,6 +158,7 @@ class Items::Question < Item
       :title => title,
       :description => description,
       :type => type,
+      :validations => validations
     }).merge(
       case type
       when :string
