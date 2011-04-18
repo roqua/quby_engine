@@ -168,6 +168,8 @@ class Items::Question < Item
         { :options => @options } 
       when :scale
         { :options => @options }
+      when :select
+        { :options => @options }
       when :check_box
         { :options => @options }
       when :quantity
