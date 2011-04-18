@@ -17,6 +17,13 @@ var setCheck;
 var skipValidations = false;
 var shownFlash = false;
 
+//For displaying answers differently within iframes 
+if( self != top ) {
+   headTag = document.getElementsByTagName("head")[0].innerHTML;
+   var frameCSS = headTag + '<link type="text/css" rel="stylesheet" href="/stylesheets/answer_iframe.css">';
+   document.getElementsByTagName('head')[0].innerHTML = frameCSS;
+}
+
 function allInputsHidden(panel){
     var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden");
     return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea").length;
