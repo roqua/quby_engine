@@ -14,11 +14,11 @@ class Items::Question < Item
 
   # Multiple-choice questions have options to choose from
   attr_accessor :options
-  
+
   #Minimum and maximum values for float and integer types
   attr_accessor :minimum
   attr_accessor :maximum
-  
+
   #Whether the browser should autocomplete this question (off by default)
   attr_accessor :autocomplete
 
@@ -28,12 +28,12 @@ class Items::Question < Item
   # :paged => for only in :paged display mode
   # :bulk => for only in :bulk display mode
   attr_accessor :show_values
-  
+
   #checkbox option that checks all other options on check
   attr_accessor :check_all_option
   #checkbox option that unchecks all other options on check
-  attr_accessor :uncheck_all_option 
-  
+  attr_accessor :uncheck_all_option
+
   # Structuring
   attr_accessor :validations
   attr_accessor :dependencies
@@ -59,33 +59,33 @@ class Items::Question < Item
 
   # Whether we can collapse this in bulk view
   attr_accessor :disallow_bulk
-  
+
   # This question should not validate itself unless the depends_on question is answered
-  attr_accessor :depends_on 
-  
+  attr_accessor :depends_on
+
   # Extra data hash to store on the question item's html element
   attr_accessor :extra_data
-  
+
   # Whether we use the :description, the :value or :none for the score header above this question
   attr_accessor :score_header
- 
+
   #options for grouping questions and setting a minimum or maximum number of answered questions in the group
   attr_accessor :question_group
   attr_accessor :group_minimum_answered
   attr_accessor :group_maximum_answered
-  
+
   #Text variable name that will be replaced with the answer to this question
   #In all following text elements that support markdown
   attr_accessor :text_var
 
   # Amount of rows a textarea has
   attr_accessor :lines
-  
+
   # Table this question might belong to
-  attr_accessor :table 
-  
+  attr_accessor :table
+
   ##########################################################
-  
+
   def initialize(key, options = {})
     super(options)
     @key = key
@@ -113,41 +113,42 @@ class Items::Question < Item
     @question_group = options[:question_group]
     @group_minimum_answered = options[:group_minimum_answered]
     @group_maximum_answered = options[:group_maximum_answered]
-    
+
     @year_key = options[:year_key].andand.to_s
     @month_key = options[:month_key].andand.to_s
     @day_key = options[:day_key].andand.to_s
-    
+
     @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
-    
+
     if @type == :float
       @validations << {:type => :valid_float, :explanation => options[:error_explanation]}
     elsif @type == :integer
       @validations << {:type => :valid_integer, :explanation => options[:error_explanation]}
     end
-    
+
     if options[:minimum] and (@type == :integer or @type == :float)
       @validations << {:type => :minimum, :value => options[:minimum], :explanation => options[:error_explanation]}
     end
     if options[:maximum] and (@type == :integer or @type == :float)
       @validations << {:type => :maximum, :value => options[:maximum], :explanation => options[:error_explanation]}
     end
-    
+
     if @check_all_option
       @validations << {:type => :not_all_checked, :check_all_key => @check_all_option, :explanation => options[:error_explanation]}
     end
     if @uncheck_all_option
       @validations << {:type => :too_many_checked, :uncheck_all_key => @uncheck_all_option, :explanation => options[:error_explanation]}
     end
-    
+
     if @question_group
       if @group_minimum_answered
         @validations << {:type => :answer_group_minimum, :group => @question_group, :value => @group_minimum_answered, :explanation => options[:error_explanation]}
-      elsif @group_maximum_answered
+      end
+      if @group_maximum_answered
         @validations << {:type => :answer_group_maximum, :group => @question_group, :value => @group_maximum_answered, :explanation => options[:error_explanation]}
       end
     end
-    
+
     @hides_questions = []
     @options = []
   end
@@ -166,7 +167,7 @@ class Items::Question < Item
       when :textarea
         { :autocomplete => @autocomplete }
       when :radio
-        { :options => @options } 
+        { :options => @options }
       when :scale
         { :options => @options }
       when :select
@@ -182,7 +183,7 @@ class Items::Question < Item
       end
     )
   end
-    
+
   def html_id
     "answer_#{key}_input"
   end
