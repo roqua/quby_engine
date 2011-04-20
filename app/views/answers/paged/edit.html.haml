@@ -9,7 +9,9 @@
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)
 
-- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "paged"].join(" "), :autocomplete => "off" do
+- target = params[:target_top] ? "_top" : nil
+
+- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => [@questionnaire.key, "paged"].join(" "), :autocomplete => "off" do
   = render :partial => "answers/paged/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}
 
 = render :partial => "answers/modal_iframe"
