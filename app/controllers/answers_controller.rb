@@ -103,7 +103,6 @@ class AnswersController < ApplicationController
   def find_questionnaire
     if params[:questionnaire_id]
       @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
-
       unless @questionnaire
         render :text => "Questionnaire not found", :status => 404
         return false

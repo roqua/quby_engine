@@ -14,6 +14,8 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :scores
   attr_accessor :default_answer_value
   
+  attr_accessor :question_hash
+  
   attr_accessor :extra_css
   
   attr_accessor :last_author
@@ -38,6 +40,8 @@ class Questionnaire < ActiveRecord::Base
 
   def enhance_by_dsl
     if self.definition
+      @question_hash = {}
+      
       functions = Function.all.map(&:definition).join("\n\n")
       functions_and_definition = [functions, self.definition].join("\n\n")
       begin
@@ -56,6 +60,25 @@ class Questionnaire < ActiveRecord::Base
     @definition = value.gsub("\r\n", "\n")
   end
 
+  def get_input_keys(keys)
+    input_keys = []
+    keys.each do |key|
+      if question_hash[key]
+        question = question_hash[key]
+        if question.options.blank?
+          input_keys << key
+        else
+          question.options.each do |opt|
+            input_keys << "#{key}_#{opt.key}"
+          end
+        end
+      else
+        input_keys << key
+      end
+    end
+    input_keys
+  end
+  
   def questions_tree
     recurse = lambda do |question|
       [question, question.subquestions.map(&recurse) ]
@@ -88,6 +111,7 @@ class Questionnaire < ActiveRecord::Base
 
   def validate_definition_syntax
     q = Questionnaire.new
+    q.question_hash = {}
     begin
       functions = Function.all.map(&:definition).join("\n\n")
       QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))

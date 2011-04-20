@@ -191,7 +191,7 @@ select {
   
   .specifier{
       margin: 0 !important;
-      input{
+      &.errors , input{
         width:auto !important;    
       }
   }  

@@ -2,6 +2,7 @@ class Items::Panel < Item
   attr_accessor :title
   attr_accessor :items
   attr_accessor :key
+  attr_reader :questionnaire
   
   def initialize(options = {})
     @questionnaire = options[:questionnaire]

@@ -41,7 +41,7 @@ module QuestionnaireDsl
     end
     
     def panel(title = nil, options = {}, &block)
-      p = PanelFactory.new(title, options.merge({:questionnaire => @questionnaire, :default_question_options => @default_question_options}))
+      p = PanelFactory.new(title, options.merge(default_panel_options))
       p.instance_eval(&block)
       
       @questionnaire.instance_eval do
@@ -56,15 +56,22 @@ module QuestionnaireDsl
 
     # Short-circuit the question command to perform an implicit panel
     def question(key, options = {}, &block)
-      panel() do
-        question(key, options, &block)
+      panel(default_panel_options) do
+        question(key, default_question_options(options.merge({:questionnaire => @questionnaire})), &block)
       end
     end
 
     # Short-circuit the text command to perform an implicit panel
     def text(value, options = {})
-      panel() do
+      panel(default_panel_options) do
         text(value, options)
+      end
+    end
+    
+    # Short-circuit the table command to perform an implicit panel
+    def table(options = {}, &block)
+      panel(default_panel_options) do
+        table(options, &block)
       end
     end
     
@@ -80,14 +87,21 @@ module QuestionnaireDsl
         @scores << s.build
       end
     end
+    
+    private
+    def default_panel_options
+      {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
+    end
   end
 
   class PanelFactory
     attr_reader :title
-
+    attr_reader :questionnaire
+    
     def initialize(title, options = {})
       @panel = Items::Panel.new(options.merge({:title => title, :items => []}))
       @default_question_options = options[:default_question_options] || {}
+      @questionnaire = options[:questionnaire]
     end
 
     def build
@@ -115,16 +129,18 @@ module QuestionnaireDsl
     end
     
     def question(key, options = {}, &block)
-      # TODO Add check for repeated use of keys
+      raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
       
-      q = QuestionFactory.new(key, @default_question_options.merge(options))
+      q = QuestionFactory.new(key, @default_question_options.merge(options).merge({:questionnaire => @panel.questionnaire}))
+      @questionnaire.question_hash[key] = q.build
       q.instance_eval(&block) if block
 
+      
       @panel.items << q.build
     end
     
     def table(options = {}, &block)
-      t = TableFactory.new(@panel, options.merge({:default_question_options => @default_question_options}))
+      t = TableFactory.new(@panel, options.merge({:questionnaire => @panel.questionnaire, :default_question_options => @default_question_options}))
       t.instance_eval(&block) if block
     end
     
@@ -140,9 +156,10 @@ module QuestionnaireDsl
     end
     
     def question(key, options = {}, &block)
-      # TODO Add check for repeated use of keys
-      
-      q = QuestionFactory.new(key, @default_question_options.merge(options).merge(:table => @table))
+      raise "Question key: #{key} repeated!" if @panel.questionnaire.question_hash[key]
+            
+      q = QuestionFactory.new(key, @default_question_options.merge(options).merge(:table => @table, :questionnaire => @panel.questionnaire))
+      @panel.questionnaire.question_hash[key] = q.build
       q.instance_eval(&block) if block
 
       @table.items << q.build      
@@ -155,10 +172,12 @@ module QuestionnaireDsl
     attr_reader :title
     attr_reader :type
     attr_reader :parent
+    attr_reader :questionnaire
     
     def initialize(key, options = {})
       @question = Items::Question.new(key, options)      
       @default_question_options = options[:default_question_options] || {}
+      @questionnaire = options[:questionnaire]
     end
     
     def build
@@ -194,7 +213,8 @@ module QuestionnaireDsl
     end
     
     def option(key, options = {}, &block)
-      raise "Option with key #{key} already defined. Keys must be unique with a question." if @question.options.find {|i| i.key == key }
+      raise "Option with key #{key} already defined. Keys must be unique within a question." if @question.options.find {|i| i.key == key }
+      raise "Question with key #{key} already defined. Checkbox option keys must be completely unique." if @question.type == :check_box && @questionnaire.question_hash[key]
       
       op = QuestionOption.new(key, @question, options)
 
@@ -202,17 +222,14 @@ module QuestionnaireDsl
     end
 
     def question(key, options = {}, &block)
-      q = QuestionFactory.new(key, @default_question_options.merge(options.merge({:parent => @question, :parent_option_key => @question.options.last.key})))
+      q = QuestionFactory.new(key, @default_question_options.merge(options.merge({:questionnaire => @questionnaire, :parent => @question, :parent_option_key => @question.options.last.key})))
       q.instance_eval(&block) if block
 
       @question.options.last.questions << q.build
     end
 
-    def depends_on(question_id, options = {})
-      #dependency = DependencyFactory.new(options)
-      #dependency.instance_eval(&block)
-
-      #@question.dependencies << dependency
+    def depends_on(keys)
+      @question.set_depends_on(keys, @questionnaire)
     end
 
     def validates_format_with(regexp, options = {})
@@ -247,21 +264,6 @@ module QuestionnaireDsl
     end
   end
 
-  class DependencyFactory
-    # dependencies do
-    #   question :q03, :is_valid
-    #   question :q04, :in => [:q04a04, :q04a05]
-    # end
-    
-    def initialize(options = {})
-      @dependency = Dependency.new(options)
-    end
-
-    def question(question_key, options = {})
-      # TODO
-    end
-  end
-  
   class ScoreFactory
     attr_reader :key
     attr_reader :scorer

@@ -32,7 +32,7 @@ class Answer < ActiveRecord::Base
     end
     
     if @roqua_vals
-      @questionnaire.questions.each do |q|
+      questionnaire.questions.each do |q|
         case q.type 
         when :radio, :scale
           q.options.each do |opt|
@@ -160,7 +160,15 @@ class Answer < ActiveRecord::Base
     questionnaire.questions.each do |question|
       next unless question
       next if question.type == :hidden
-      next if (question.depends_on and self.send(question.depends_on).blank?)
+      
+      unless question.depends_on.blank?
+        should_validate = false
+        question.depends_on.each do |key|
+          should_validate = should_validate || self.send(key)            
+        end
+        next unless should_validate
+      end
+      
       answer = self.send(question.key)
       validations = question.validations
 

@@ -101,9 +101,11 @@ function validatePanel(panel) {
       
       var question_item = $("#answer_" + question_key + "_input").closest('.item');
       
-      var depends_on = question_item.attr("data-depends_on");
+      var depends_on = eval(question_item.attr("data-depends_on"));
       if(depends_on){
-        var dep_inputs = $("#answer_" + depends_on + "_input").find("input, textarea").not(":disabled, :hidden");
+        var dep_inputs = $($.map(depends_on, function(key){
+            return $("#answer_"+key).not(":disabled, :hidden");
+        }));
         if(!is_answered(dep_inputs) || dep_inputs.length == 0){
             continue;
         }

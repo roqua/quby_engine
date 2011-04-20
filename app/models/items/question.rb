@@ -61,6 +61,7 @@ class Items::Question < Item
   attr_accessor :disallow_bulk
 
   # This question should not validate itself unless the depends_on question is answered
+  # May also be an array of "#{question_key}_#{option_key}" strings that specify options this question depends on
   attr_accessor :depends_on
 
   # Extra data hash to store on the question item's html element
@@ -88,6 +89,7 @@ class Items::Question < Item
 
   def initialize(key, options = {})
     super(options)
+    @options = []
     @key = key
     @type = options[:type]
     @title = options[:title]
@@ -106,9 +108,8 @@ class Items::Question < Item
     @disallow_bulk = options[:disallow_bulk]
     @score_header = options[:score_header] || :none
     @text_var = options[:text_var]
-    @depends_on = options[:depends_on]
-    @extra_data = {}
-    @extra_data[:depends_on] = options[:depends_on] if options[:depends_on]
+    
+    set_depends_on(options[:depends_on], options[:questionnaire])
 
     @question_group = options[:question_group]
     @group_minimum_answered = options[:group_minimum_answered]
@@ -119,7 +120,7 @@ class Items::Question < Item
     @day_key = options[:day_key].andand.to_s
 
     #Require subquestions of required questions by default
-    options[:required] = true if @parent.andand.validations.first.andand.type == :requires_answer 
+    options[:required] = true if @parent.andand.validations.andand.first.andand.type == :requires_answer 
     @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
 
     if @type == :float
@@ -152,7 +153,20 @@ class Items::Question < Item
     end
 
     @hides_questions = []
-    @options = []
+    
+  end
+  
+  def set_depends_on(keys, questionnaire)
+    return if keys.blank?
+    keys = [keys] unless keys.is_a?(Array)
+    input_keys = questionnaire.get_input_keys(keys)
+    @depends_on = input_keys
+    @extra_data = {}
+    @extra_data[:depends_on] = input_keys.to_json
+  end
+  
+  def depends_on
+    @depends_on
   end
 
   def as_json(options = {})
