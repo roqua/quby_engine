@@ -178,9 +178,13 @@ module QuestionnaireDsl
       @question = Items::Question.new(key, options)      
       @default_question_options = options[:default_question_options] || {}
       @questionnaire = options[:questionnaire]
+      @title_question = nil
     end
     
     def build
+      if @title_question
+        @question.options.last.questions << @title_question
+      end
       @question
     end
     
@@ -219,6 +223,13 @@ module QuestionnaireDsl
       op = QuestionOption.new(key, @question, options)
 
       instance_eval &block if block
+    end
+    
+    def title_question(key, options = {}, &block)
+      options = @default_question_options.merge({:depends_on => @question.key, :questionnaire => @questionnaire, :parent => @question, :presentation => :next_to_title}.merge(options))
+      q = QuestionFactory.new(key, options)
+      q.instance_eval(&block) if block
+      @title_question = q.build
     end
 
     def question(key, options = {}, &block)

@@ -164,7 +164,7 @@ class Answer < ActiveRecord::Base
       unless question.depends_on.blank?
         should_validate = false
         question.depends_on.each do |key|
-          should_validate = should_validate || self.send(key)            
+          should_validate = should_validate || self.send(key)
         end
         next unless should_validate
       end
