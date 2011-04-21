@@ -56,21 +56,21 @@ module QuestionnaireDsl
 
     # Short-circuit the question command to perform an implicit panel
     def question(key, options = {}, &block)
-      panel(default_panel_options) do
+      panel(nil, default_panel_options) do
         question(key, default_question_options(options.merge({:questionnaire => @questionnaire})), &block)
       end
     end
 
     # Short-circuit the text command to perform an implicit panel
     def text(value, options = {})
-      panel(default_panel_options) do
+      panel(nil, default_panel_options) do
         text(value, options)
       end
     end
     
     # Short-circuit the table command to perform an implicit panel
     def table(options = {}, &block)
-      panel(default_panel_options) do
+      panel(nil, default_panel_options) do
         table(options, &block)
       end
     end
