@@ -8,6 +8,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    SystemTimer (1.2.3)
     ZenTest (4.4.2)
     abstract (1.0.0)
     actionmailer (3.0.3)
@@ -132,6 +133,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  SystemTimer
   addressable
   andand
   autotest
