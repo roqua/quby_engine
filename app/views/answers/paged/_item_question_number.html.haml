@@ -8,3 +8,4 @@
     - cls = [question.type]
     - cls << "subinput"  if subquestion
     = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
+    = question.unit
