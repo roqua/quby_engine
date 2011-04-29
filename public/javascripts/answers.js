@@ -19,10 +19,7 @@ var shownFlash = false;
 
 //For displaying answers differently within iframes 
 if( self != top ) {
-   var head = $("head")[0];
-   headTag = head.innerHTML;
-   var frameCSS = headTag + '<link type="text/css" rel="stylesheet" href="/stylesheets/answer_iframe.css">';
-   head.innerHTML = frameCSS;
+   $('head').append('<link type="text/css" rel="stylesheet" href="/stylesheets/answer_iframe.css">');
 }
 
 function allInputsHidden(panel){

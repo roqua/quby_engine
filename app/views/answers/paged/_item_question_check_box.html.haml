@@ -5,6 +5,7 @@
     = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
 
 =marukufix(question.title, "answer_#{question.key}", insert)
+- show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
 .description-and-fields
   .description
     - unless question.description.blank?
@@ -19,7 +20,7 @@
       - else
         - checked = @answer.send(opt.key) == 1
         - next if( opt.hidden and not checked)
-        .option{:for => question.key}
+        .option{:for => question.key, :class => show_values ? "show_values" : nil}
           .radiocheckwrapper
             - if question.uncheck_all_option == opt.key
               - attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
@@ -31,6 +32,8 @@
               - attrs[:disabled] = ""
             - attrs[:class] = question.type
             = check_box(:answer, "#{opt.key}", attrs)
+          - if show_values
+            .value= opt.value
           .labelwrapper
             %label(for="answer_#{opt.key}")
               %span
