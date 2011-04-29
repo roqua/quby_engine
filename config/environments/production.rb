@@ -28,9 +28,9 @@ Quby::Application.configure do
     :password => nil
   }
 
-  config.middleware.use ExceptionNotifier, :email_prefix => "[Quby] ",
-                                            :sender_address => %{"Exception Notifier" <noreply@roqua.nl>},
-                                            :exception_recipients => "#{ORGANIZATION}@roqua.nl"
+  # config.middleware.use ExceptionNotifier, :email_prefix => "[Quby] ",
+  #                                           :sender_address => %{"Exception Notifier" <noreply@roqua.nl>},
+  #                                           :exception_recipients => "#{ORGANIZATION}@roqua.nl"
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
