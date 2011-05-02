@@ -222,7 +222,7 @@ class Items::Question < Item
     output_range = ""
     range_min = validations.find{|i| i[:type] == :minimum}.andand[:value]
     range_max = validations.find{|i| i[:type] == :maximum}.andand[:value]
-    output_range = [range_min, "value", range_max].compact.join(" < ") if range_min || range_max
+    output_range = "(#{[range_min, "value", range_max].compact.join(" <= ")})" if range_min || range_max
 
     output << "#{output_key} #{output_type} #{output_range}"
     output << "\"#{title}\"" unless title.blank?
