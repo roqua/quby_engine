@@ -21,7 +21,7 @@ gem 'rails3-settings', :require => 'settings'
 gem 'devise', "~> 1.1"
 gem 'seed-fu'
 
-gem "central_logger"
+# gem "central_logger" # disabled until fixed for when no connection is made
 gem 'SystemTimer'
 
 group :test, :development do
