@@ -21,7 +21,7 @@ gem "rails-settings", :git => "git://github.com/100hz/rails-settings.git"
 gem 'devise', "~> 1.1"
 gem 'seed-fu'
 
-gem "central_logger"
+# gem "central_logger" # disable until fixed for missing logserver
 gem 'SystemTimer'
 
 group :test, :development do
