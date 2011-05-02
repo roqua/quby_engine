@@ -17,7 +17,7 @@ gem 'addressable'
 
 
 gem 'exception_notification_rails3', :require => 'exception_notifier'
-gem "rails-settings", :git => "git://github.com/100hz/rails-settings.git"
+gem 'rails3-settings', :require => 'settings'
 gem 'devise', "~> 1.1"
 gem 'seed-fu'
 
