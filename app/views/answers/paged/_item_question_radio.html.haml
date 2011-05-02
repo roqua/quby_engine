@@ -1,5 +1,5 @@
 - insert = nil
-- subq = question.options.last.questions.first
+- subq = question.options.last.andand.questions.andand.first
 - if subq.andand.presentation == :next_to_title and subq.type == :string
   -insert = capture do
     = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
