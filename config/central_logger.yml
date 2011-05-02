@@ -1,6 +1,18 @@
- development:
-   database: development
-   capsize: <%= 50.megabytes %>
-   host: localhost
-   port: 27017
-   replica_set: true
+development:
+  database: development
+  capsize: <%= 50.megabytes %>
+  host: localhost
+  port: 27017
+  replica_set: true
+staging:
+  database: staging
+  capsize: <%= 50.megabytes %>
+  host: localhost
+  port: 27017
+  replica_set: true
+production:
+  database: production
+  capsize: <%= 50.megabytes %>
+  host: localhost
+  port: 27017
+  replica_set: true
