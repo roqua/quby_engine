@@ -214,4 +214,21 @@ class Items::Question < Item
     false
   end
 
+  def to_codebook(questionnaire)
+    output = []
+    output_key = key.to_s.gsub(/^v_/, "#{questionnaire.key.to_s}_")
+    output_type = type
+
+    output_range = ""
+    range_min = validations.find{|i| i[:type] == :minimum}.andand[:value]
+    range_max = validations.find{|i| i[:type] == :maximum}.andand[:value]
+    output_range = [range_min, "value", range_max].compact.join(" < ") if range_min || range_max
+
+    output << "#{output_key} #{output_type} #{output_range}"
+    output << "\"#{title}\"" unless title.blank?
+    output << options.map(&:to_codebook).join("\n") unless options.blank?
+
+    output.join("\n")
+  end
+
 end

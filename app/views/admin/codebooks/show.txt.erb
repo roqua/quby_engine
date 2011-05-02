@@ -1,17 +1,1 @@
-<%= @questionnaire.title %>
-
-<%= "Date #{@questionnaire.updated_at}" %>
-
-<% 
-   @questionnaire.questions.each do |question|
-     case question.type
-     when :open
-%>
-<%=    "#{question.key} string \"#{question.title}\"" %>
-<%   when :radio %>
-<%=    "#{question.key} radio \"#{question.title}\"" -%>
-<%     question.options.each do |key, option| %>
-<%=      "  #{option.value} \"#{option.description}\"" -%>
-<%     end %>
-<%   end
-   end %>
+<%= raw @questionnaire.to_codebook %>

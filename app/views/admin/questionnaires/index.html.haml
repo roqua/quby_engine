@@ -20,5 +20,5 @@
           = link_to(pluralize(questionnaire.answers.size, "answer"), admin_questionnaire_answers_path(questionnaire))
         %td= time_ago_in_words(questionnaire.updated_at) + " ago"
         %td
-          = link_to "Codebook", admin_questionnaire_codebook_path(questionnaire)
+          = link_to "Codebook", admin_questionnaire_codebook_path(questionnaire, :format => :txt)
           = link_to "Edit", edit_admin_questionnaire_path(questionnaire)

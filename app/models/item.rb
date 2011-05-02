@@ -15,4 +15,8 @@ class Item
       :class => self.class.to_s
     }
   end
+
+  def to_codebook
+    ""
+  end
 end

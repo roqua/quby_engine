@@ -103,6 +103,19 @@ class Questionnaire < ActiveRecord::Base
     })
   end
 
+  def to_codebook
+    output = []
+    output << title
+    output << "Date #{updated_at}"
+    output << ""
+    questions.compact.each do |question|
+      output << question.to_codebook(self)
+      output << ""
+    end
+
+    output.join("\n")
+  end
+
   protected
 
   def ensure_linux_line_ends

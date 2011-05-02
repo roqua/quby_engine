@@ -18,4 +18,8 @@ class QuestionOption
     question.hides_questions = question.hides_questions | @hides_questions
     question.options << self
   end
+
+  def to_codebook
+    "#{value || key}\t\"#{description}\""
+  end
 end
