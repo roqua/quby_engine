@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   helper :all # include all helpers, all the time
   protect_from_forgery
-  layout 'application'
+  layout :layout_by_resource
 
   before_filter :log_session_hash
 
@@ -26,6 +26,14 @@ class ApplicationController < ActionController::Base
 
     if not Settings.api_allowed_ip_ranges.find { |range_or_addr| IPAddr.new(range_or_addr).include?(IPAddr.new(request.remote_ip)) }
       head(403)
+    end
+  end
+
+  def layout_by_resource
+    if devise_controller?
+      "dialog"
+    else
+      "application"
     end
   end
 end
