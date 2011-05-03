@@ -147,7 +147,7 @@ class Answer < ActiveRecord::Base
     questionnaire.questions.each do |question|
       next unless question
       answer = self.send(question.key)
-      if answer == "DESELECTED_RADIO_VALUE" 
+      if answer == "DESELECTED_RADIO_VALUE"
         clear_question(question)
       end
       
@@ -253,7 +253,10 @@ class Answer < ActiveRecord::Base
   def calc_answered(qkeys)
     answered = 0
     qkeys.each do |qk|
-      unless self.send(qk).blank?
+      ans = self.send(qk)
+      if ans.class == Hash # in case of check_box, only count checked check_boxes as answered
+        answered += ans.values.sum >= 1 ? 1 : 0
+      elsif not self.send(qk).blank?
         answered += 1
       end
     end
