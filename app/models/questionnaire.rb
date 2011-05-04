@@ -69,7 +69,11 @@ class Questionnaire < ActiveRecord::Base
           input_keys << key
         else
           question.options.each do |opt|
-            input_keys << "#{key}_#{opt.key}"
+            if question.type == :check_box
+              input_keys << "#{opt.key}"            
+            else
+              input_keys << "#{key}_#{opt.key}"
+            end
           end
         end
       else
