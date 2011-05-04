@@ -51,7 +51,7 @@
             %td.main{:rowspan => (question.options.length.to_f/table.columns).ceil}
               %div
                 %label(for="answer_#{question.key}")= raw(question.title)
-                - subq = question.options.last.questions.first
+                - subq = question.options.last.andand.questions.andand.first
                 - if subq.andand.presentation == :next_to_title and subq.type == :string
                   = render :partial => "answers/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
               
