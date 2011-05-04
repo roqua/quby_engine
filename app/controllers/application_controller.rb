@@ -9,11 +9,17 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   before_filter :log_session_hash
+  before_filter :fix_ie_trusted_party_warning
 
   # TODO: Rails3
   # filter_parameter_logging :password
 
   protected
+
+  def fix_ie_trusted_party_warning
+    # Indicate IE that we are a trusted party
+    response.headers["P3P"] = "CP=\"CAO PSA OUR\""
+  end
 
   def log_session_hash
     logger.info "  Session: #{session.inspect}"
