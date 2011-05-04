@@ -10,7 +10,7 @@
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
   - itemclasses << 'subitem' if subquestion
-  - not_bulk = item.disallow_bulk or (not item.subquestions.blank? and item.subquestions.last.presentation != :next_to_title) 
+  - not_bulk = (item.disallow_bulk or (not item.subquestions.blank? and item.subquestions.last.andand.presentation != :next_to_title))
   - if not_bulk
     - itemclasses << "notbulkitem"
   - else
