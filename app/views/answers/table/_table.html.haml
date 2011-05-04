@@ -48,7 +48,9 @@
       %tr.row(class = cls)
         - unless question.presentation == :horizontal
           - unless same_question
-            %td.main{:rowspan => (question.options.length.to_f/table.columns).ceil}
+            - rowspan = (question.options.length.to_f/table.columns).ceil
+            - rowspan = 1 if question.type == :select
+            %td.main{:rowspan => rowspan}
               %div
                 %label(for="answer_#{question.key}")= raw(question.title)
                 - subq = question.options.last.andand.questions.andand.first
