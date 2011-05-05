@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
   append_before_filter :find_answer, :only => [:show, :edit, :update, :print]
 
   # SECURITY CRITICAL
-  before_filter :ip_check_for_api_methods, :only => [:index]
+  before_filter :ip_check_for_api_methods, :only => [:index, :create]
   before_filter :verify_token, :only => [:show, :edit, :update, :print]
 
   before_filter :remember_token_in_session
