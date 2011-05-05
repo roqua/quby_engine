@@ -9,6 +9,8 @@ class Questionnaire < ActiveRecord::Base
 
   attr_accessor :title
   attr_accessor :description
+  attr_accessor :outcome_description
+  attr_accessor :short_description
   attr_accessor :abortable
   attr_accessor :panels
   attr_accessor :scores
@@ -103,6 +105,8 @@ class Questionnaire < ActiveRecord::Base
       :key => self.key,
       :title => self.title, 
       :description => self.description,
+      :outcome_description => self.outcome_description,
+      :short_description => self.short_description,
       :panels => self.panels 
     })
   end

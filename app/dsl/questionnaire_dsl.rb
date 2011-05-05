@@ -23,6 +23,14 @@ module QuestionnaireDsl
       @questionnaire.description = description
     end
     
+    def outcome_description(description)
+      @questionnaire.outcome_description = description
+    end
+    
+    def short_description(description)
+      @questionnaire.short_description = description
+    end
+    
     def abortable
       @questionnaire.abortable = true 
     end
