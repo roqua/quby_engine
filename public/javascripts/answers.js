@@ -16,10 +16,12 @@ var setCurrent;
 var setCheck;
 var skipValidations = false;
 var shownFlash = false;
+var inIframe = false;
 
 //For displaying answers differently within iframes 
 if( self != top ) {
    $('head').append('<link type="text/css" rel="stylesheet" href="/stylesheets/answer_iframe.css">');
+   inIframe = true;
 }
 
 function allInputsHidden(panel){
@@ -44,7 +46,7 @@ function activatePanel(panel, updateHash, forward) {
         }
     }
     
-    if (updateHash) {
+    if (updateHash && !inIframe) {
         hashChangeEnabled = false;
         window.location.hash = panel[0].id;        
     }
@@ -748,7 +750,11 @@ $(document).ready(
         isBulk = $('form.bulk, form.print').size() > 0;
         if (!isBulk) {
             hashChangeEnabled = true;
-            jQuery(window).bind( 'hashchange', hashchangeEventHandler);
+            if (inIframe) {
+                activatePanel($(".panel:first"), false, true);
+            } else {
+                jQuery(window).bind('hashchange', hashchangeEventHandler);
+            }
             //$.address.change( 'hashchange', hashchangeEventHandler);
 
             // enable javascript-based previous/next links
