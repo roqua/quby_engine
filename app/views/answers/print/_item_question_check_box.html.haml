@@ -9,11 +9,13 @@
       - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
       - next if( not checked)
-      .option        
+      .option{:class => show_values ? "show_values" : nil}
         .labelwrapper
           %label(for="answer_#{opt.key}")
             %span
               :markdown
                 #{raw opt.description}
+        - if show_values
+          .value= opt.value
         - unless opt.questions.empty?
           .subquestions= render :partial => "answers/print/item", :collection => opt.questions,  :locals => {:subquestion => true}

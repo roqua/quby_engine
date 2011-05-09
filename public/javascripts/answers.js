@@ -679,7 +679,7 @@ function doPrint(url){
 
 function modalFrame(url){
     $("#modalFrame").attr('src', url);
-    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width : 820,
+    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width : 700, height : 900,
     buttons: {
         "Sluiten": function(){
             $(this).dialog("close");
