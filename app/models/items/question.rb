@@ -225,6 +225,7 @@ class Items::Question < Item
     output = []
     output_key = key.to_s.gsub(/^v_/, "#{questionnaire.key.to_s}_")
     output_type = type
+    output_type = :radio if [:scale].include?(output_type)
 
     output_range = ""
     range_min = validations.find{|i| i[:type] == :minimum}.andand[:value]
