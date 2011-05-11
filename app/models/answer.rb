@@ -80,11 +80,12 @@ class Answer < ActiveRecord::Base
   end
 
   def scores
-    scores = {}
-    questionnaire.scores.map(&:key).each do |k|
-      scores[k] = send("score_" + k.to_s)
+    questionnaire.scores.map(&:key).map do |key|
+      val = send("score_" + key.to_s)
+      val[:key] = key
+      val
     end if questionnaire.scores
-    scores
+  end
   end
 
   def as_json(options = {})
