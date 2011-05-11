@@ -121,6 +121,10 @@ class Questionnaire < ActiveRecord::Base
       output << ""
     end
 
+    scores.andand.each do |score|
+      output << "score #{score.key}"
+    end
+
     output.join("\n")
   end
 
