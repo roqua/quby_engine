@@ -4,8 +4,9 @@
 - previous_item ||= nil
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
-- if item.is_a?(Items::Question)
-  - return if item.table 
+- case item.class.name
+- when "Items::Question"
+  -# return if item.table 
   -# return if @answer.send(item.key).blank?
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
   - doublewide = item.options.size <= 5 
@@ -14,6 +15,8 @@
   - itemclasses << item.question_group if item.question_group
   - itemclasses << 'subitem' if subquestion
   - itemclasses << 'first' unless previous_item
+- when "Items::Table"
+  - return
 
 - if item.raw_content and item.class.name != "Items::Text" 
   - if item.raw_content[:print]
@@ -50,10 +53,8 @@
           for question
           = item.key
     - when "Items::Table"
-      = render :partial => "answers/table/table", :locals => {:table => item, :to_hide => @answer.to_hide}
+      -# do nothing
     - else
       Error: unknown item type
       = item.class.name
-      for question
-      = item.key
 / End _item.html.haml

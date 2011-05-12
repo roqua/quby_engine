@@ -192,6 +192,7 @@ module QuestionnaireDsl
     def build
       if @title_question
         @question.options.last.questions << @title_question
+        @title_question = nil
       end
       @question
     end
