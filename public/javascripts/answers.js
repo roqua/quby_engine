@@ -714,10 +714,10 @@ $(document).ready(
             if (radioChecked) {
                 if (deselectable) {
                     $(obj).attr('checked', false);
-                    $(obj).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', true);
+                    $("input[name="+obj.name+"][value=DESELECTED_RADIO_VALUE]").attr('checked', true);
                 }
             } else {
-                $(obj).closest(".fields").find("input[value=DESELECTED_RADIO_VALUE]").attr('checked', false);
+                $("input[name="+obj.name+"][value=DESELECTED_RADIO_VALUE]").attr('checked', false);
                 $(obj).attr('checked', true);
             }
         };    

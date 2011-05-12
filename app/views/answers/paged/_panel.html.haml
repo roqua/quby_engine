@@ -33,7 +33,8 @@
       .save
         = submit_tag "Klaar", :id => "done-button"
       .print
-        = link_to_function "Print Antwoorden", "doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}');"
+        %a{:onclick => raw("doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
+          Print Antwoorden
     = render :partial => "answers/hotkey_dialog"
   
 
