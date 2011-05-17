@@ -663,6 +663,10 @@ table {
   }
 }
 
+.ui-dialog-buttonpane {
+    overflow: hidden !important;
+}
+
 pre {
   font-family: "Deja Vu Sans Mono", "Courier New", "Courier", monospace;
 }
