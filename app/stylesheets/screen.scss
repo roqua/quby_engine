@@ -572,7 +572,6 @@ select {
             .option {
               @include column($blueprint-grid-columns - $mainlabel-columns, true); 
               display: block;
-              float: none;
               .radiocheckwrapper { 
                 @include column(1);
                 float: none; 
