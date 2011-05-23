@@ -26,6 +26,7 @@ $masthead_bg: #0f72a4;
 body {
   font-family: Verdana, sans-serif;
   font-size: 0.8em;
+  line-height: normal;
   background-color: #eeeeee;
 }
 
@@ -202,8 +203,7 @@ select {
       @include container;
       
       padding: 3em $blueprint-grid-outer-width 1.5em;
-      line-height: 18px;
-      
+            
       background: white;
       border: 10px solid #dddddd;
       margin-bottom: 2em;

@@ -6,7 +6,7 @@
   - return if (opt.hidden and not checked)
   - @answer.to_hide += opt.hides_questions if checked
   - optionclasses =  [os_cycle]  
-  %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}}
+  %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     - radio_classes = [question.type]
     - radio_classes << "deselectable" if question.deselectable
     - if opt == question.options.first

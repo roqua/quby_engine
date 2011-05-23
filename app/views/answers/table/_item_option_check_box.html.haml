@@ -6,7 +6,7 @@
   - return if( opt.hidden and not checked)
   - optionclasses =  [os_cycle]
   
-  %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}}
+  %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     .radiocheckwrapper
       - if question.uncheck_all_option == opt.key
         -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', ''); handleDisableCheckboxSubQuestions(this);"}

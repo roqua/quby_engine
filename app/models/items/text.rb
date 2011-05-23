@@ -3,7 +3,11 @@ class Items::Text < Item
   
   attr_accessor :text
   attr_accessor :display_in
-
+  
+  #In case of being displayed inside a table, amount of columns/rows to span
+  attr_accessor :col_span
+  attr_accessor :row_span
+  
   def initialize(str, options={})
     if options[:html_content]
       options[:raw_content] = "<div class='item text'>" + options[:html_content] + "</div>"
@@ -11,6 +15,8 @@ class Items::Text < Item
     super(options)
     @text = Maruku.new(str).to_html
     @display_in = options[:display_in]
+    @col_span = options[:col_span] || 1
+    @row_span = options[:row_span] || 1
   end
 
   def as_json(options = {})

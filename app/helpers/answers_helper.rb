@@ -74,7 +74,12 @@ module AnswersHelper
   end
   
   def get_question(table, rowi,j)
-    table.questions[rowi][j]
+    q = get_item(table, rowi, j)
+    q.class.name == "Items::Question" ? q : nil
+  end
+  
+  def get_item(table, rowi, j)
+    table.item_table[rowi][j] 
   end
   
 end

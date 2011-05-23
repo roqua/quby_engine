@@ -163,6 +163,11 @@ module QuestionnaireDsl
       @panel.items << @table
     end
     
+    def text(value, options = {})
+      t = Items::Text.new(value.to_s, options)
+      @table.items << t 
+    end
+    
     def question(key, options = {}, &block)
       raise "Question key: #{key} repeated!" if @panel.questionnaire.question_hash[key]
             

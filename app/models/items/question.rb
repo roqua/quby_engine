@@ -84,6 +84,10 @@ class Items::Question < Item
 
   # Table this question might belong to
   attr_accessor :table
+  
+  #In case of being displayed inside a table, amount of columns/rows to span
+  attr_accessor :col_span
+  attr_accessor :row_span
 
   ##########################################################
 
@@ -108,6 +112,9 @@ class Items::Question < Item
     @disallow_bulk = options[:disallow_bulk]
     @score_header = options[:score_header] || :none
     @text_var = options[:text_var]
+    
+    @col_span = options[:col_span] || 1
+    @row_span = options[:row_span] || 1
     
     set_depends_on(options[:depends_on], options[:questionnaire])
 
