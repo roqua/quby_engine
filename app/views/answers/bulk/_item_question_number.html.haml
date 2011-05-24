@@ -6,3 +6,5 @@
         #{raw question.description}
   .fields{:id => question.html_id}
     = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil, :size => (question.size || 30)
+    = raw question.unit
+    

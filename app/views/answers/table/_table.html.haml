@@ -52,7 +52,7 @@
       %tr.row(class = cls)
         - reset_cycle "opt_set_cycle" if os_cycle != "dark"
         - if question and question.presentation != :horizontal
-          - unless same_question            
+          - unless same_question
             - rowspan = (question.options.length.to_f/table.columns).ceil
             - rowspan = 1 if question.type == :select
             - title_insert = nil

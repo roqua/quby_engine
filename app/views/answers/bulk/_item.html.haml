@@ -3,8 +3,10 @@
 - disabled ||= false
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
+- extra_data = nil
 - if item.is_a?(Items::Question)
   - return if item.table
+  - extra_data = item.extra_data
   - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
   - doublewide = item.options.size <= 5 
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
@@ -27,7 +29,7 @@
   - else 
     = raw item.raw_content
 - else
-  .item{:class => itemclasses}
+  .item{:class => itemclasses, :data => extra_data}
     - case item.class.name
     - when "Items::Css"
       :css
