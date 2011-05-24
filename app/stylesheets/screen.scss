@@ -574,13 +574,11 @@ select {
               display: block;
               .radiocheckwrapper { 
                 @include column(1);
-                float: none; 
               }
               .labelwrapper      { 
                 @include column(23-$mainlabel-columns, true); 
                 label { white-space: normal; }
                 p { display: inline; }
-                float: none;
               }
 
               &.show_values {
