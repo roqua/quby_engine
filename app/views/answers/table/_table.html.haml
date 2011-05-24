@@ -50,14 +50,14 @@
       - cls << 'inner_row' if opt_sets != table.rows.last and question and question == get_question(table, rowi+1, 0)
       - filled_columns = 0
       %tr.row(class = cls)
-        - reset_cycle "opt_set_cycle" 
+        - reset_cycle "opt_set_cycle" if os_cycle != "dark"
         - if question and question.presentation != :horizontal
           - unless same_question            
             - rowspan = (question.options.length.to_f/table.columns).ceil
             - rowspan = 1 if question.type == :select
             - title_insert = nil
             - subq = question.options.last.andand.questions.andand.first
-            - cycle("light", "dark", :name => "opt_set_cycle" )
+            -# cycle("light", "dark", :name => "opt_set_cycle" )
             - if subq.andand.presentation == :next_to_title and subq.type == :string
               - title_insert = render :partial => "answers/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
             :markdown
