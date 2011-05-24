@@ -37,7 +37,7 @@
       
       - unless all_blank 
         %tr.option_sets.row
-          - unless question.andand.presentation == :horizontal
+          - unless (question.andand.presentation == :horizontal or question.andand.title.blank?) 
             %th.main
           = raw header
       
