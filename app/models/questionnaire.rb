@@ -15,27 +15,27 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :panels
   attr_accessor :scores
   attr_accessor :default_answer_value
-  
+
   attr_accessor :question_hash
-  
+
   attr_accessor :extra_css
-  
+
   attr_accessor :last_author
-  
+
   #allow hotkeys for either :all views, just :bulk views (default), or :none for never
   attr_accessor :allow_hotkeys
-  
+
   #default_scope :order => "key ASC"
   scope :active, where(:active => true)
 
   validates_presence_of :key
   validates_uniqueness_of :key
-  validates_format_of :key, :without => /\s/
-  
+  validates_format_of :key, :with => /^[a-z][a-z_0-9]*$/, :message => "mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter."
+
   def allow_hotkeys
     (@allow_hotkeys || :bulk).to_s
   end
-  
+
   def to_param
     key
   end
@@ -43,7 +43,7 @@ class Questionnaire < ActiveRecord::Base
   def enhance_by_dsl
     if self.definition
       @question_hash = {}
-      
+
       functions = Function.all.map(&:definition).join("\n\n")
       functions_and_definition = [functions, self.definition].join("\n\n")
       begin
@@ -53,7 +53,7 @@ class Questionnaire < ActiveRecord::Base
       end
     end
   end
-  
+
   def definition
     @definition ||= File.read(Rails.root.join("db", "questionnaires", "#{key}.rb")) rescue nil
   end
@@ -72,7 +72,7 @@ class Questionnaire < ActiveRecord::Base
         else
           question.options.each do |opt|
             if question.type == :check_box
-              input_keys << "#{opt.key}"            
+              input_keys << "#{opt.key}"
             else
               input_keys << "#{key}_#{opt.key}"
             end
@@ -84,7 +84,7 @@ class Questionnaire < ActiveRecord::Base
     end
     input_keys
   end
-  
+
   def questions_tree
     recurse = lambda do |question|
       [question, question.subquestions.map(&recurse) ]
@@ -103,11 +103,11 @@ class Questionnaire < ActiveRecord::Base
   def as_json(options = {})
     attributes.merge({
       :key => self.key,
-      :title => self.title, 
+      :title => self.title,
       :description => self.description,
       :outcome_description => self.outcome_description,
       :short_description => self.short_description,
-      :panels => self.panels 
+      :panels => self.panels
     })
   end
 
@@ -148,7 +148,7 @@ class Questionnaire < ActiveRecord::Base
       return false
     end
     return true
-  end  
+  end
 
   def write_to_disk
     filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
@@ -159,5 +159,5 @@ class Questionnaire < ActiveRecord::Base
       system "cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_str}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' &&  git push"
     end
   end
-  
+
 end
