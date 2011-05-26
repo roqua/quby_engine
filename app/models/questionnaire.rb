@@ -30,7 +30,7 @@ class Questionnaire < ActiveRecord::Base
 
   validates_presence_of :key
   validates_uniqueness_of :key
-  validates_format_of :key, :with => /^[a-z][a-z_0-9]*$/, :message => "mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter."
+  validates_format_of :key, :with => /^[a-z][a-z_0-9]*$/, :message => "De key mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter."
 
   def allow_hotkeys
     (@allow_hotkeys || :bulk).to_s
