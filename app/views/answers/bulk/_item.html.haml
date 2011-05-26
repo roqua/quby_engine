@@ -38,7 +38,6 @@
       - if item.display_in.andand.include?(:bulk)
         .text
           = raw item.text
-      -#Skipping text in bulk view
     - when "Items::Question" 
       - return if item.type == :hidden 
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))

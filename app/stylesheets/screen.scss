@@ -89,9 +89,6 @@ select {
             display: inline-block;
             background: #ffbbbb;
             border: 1px solid #ff3333;
-            &.hidden{
-                display:none;
-            }
         }
         table{
             *{
@@ -242,7 +239,6 @@ select {
       .item { 
         @include column($blueprint-grid-columns, true);
         margin-bottom: 18px;
-        &.hidden { display: none;}
         &.errors {
           border: 1px solid red;
           padding: 0.4em;
@@ -451,7 +447,6 @@ select {
     }
       .item { 
         @include column($blueprint-grid-columns, true);
-        &.hidden { display: none;}
 
         &.errors {
           border: 1px solid red;

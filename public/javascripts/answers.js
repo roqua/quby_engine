@@ -685,7 +685,7 @@ function modalFrame(url){
             $(this).dialog("close");
         }
     }
-    });    
+    });
 }
 
 $(document).ready(

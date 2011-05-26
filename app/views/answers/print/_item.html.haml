@@ -26,14 +26,19 @@
   - else
     = raw item.raw_content
 - else
-  .item{:class => itemclasses}
-    - case item.class.name
-    - when "Items::Css"
+  
+  - case item.class.name
+  - when "Items::Css"
+    .item{:class => itemclasses}
       :css
         #{item.raw_content}
-    - when "Items::Text"
-      -#Skipping text in print view
-    - when "Items::Question"
+  - when "Items::Text"
+    - if item.display_in.andand.include?(:print)
+      .item{:class => itemclasses}
+        .text
+          = raw item.text
+  - when "Items::Question"
+    .item{:class => itemclasses}
       - return if (item.type == :hidden )
       - case item.type
       - when :string, :textarea, :integer, :float, :date
@@ -50,9 +55,9 @@
           = item.type
           for question
           = item.key
-    - when "Items::Table"
-      -# do nothing
-    - else
-      Error: unknown item type
-      = item.class.name
+  - when "Items::Table"
+    -# do nothing
+  - else
+    Error: unknown item type
+    = item.class.name
 / End _item.html.haml
