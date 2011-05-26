@@ -44,8 +44,6 @@
         = render :partial => "answers/print/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :select
         = render :partial => "answers/print/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :quantity
-        = render :partial => "answers/print/item_question_quantity", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
         %strong
           Error: unknown question type

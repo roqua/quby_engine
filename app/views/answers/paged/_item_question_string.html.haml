@@ -7,5 +7,5 @@
   .fields{:id => question.html_id}
     - cls = [question.type]
     - cls << "subinput"  if subquestion
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :text_var => question.text_var || "", :disabled => disabled ? "" : nil
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :text_var => question.text_var || "", :disabled => disabled ? "" : nil, :size => question.size
     = question.unit

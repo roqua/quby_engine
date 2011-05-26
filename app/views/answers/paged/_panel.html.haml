@@ -30,6 +30,11 @@
     - else
       .prev
         = submit_tag raw("&larr; Vorige vraag"), :id => "prevButton#{panel_counter}" 
+      .abort
+        - if questionnaire.abortable 
+          = submit_tag "Onderbreken", :id => "abortButton#{panel_counter}"
+        - else
+          &nbsp;      
       .save
         = submit_tag "Klaar", :id => "done-button"
       .print

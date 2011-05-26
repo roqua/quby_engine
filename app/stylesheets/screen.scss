@@ -124,7 +124,7 @@ select {
                 display:table-row;
                 
                 input {
-                    &.quantity , &.float , &.integer {
+                    &.float , &.integer {
                         @include column(2, true);
                     }
                     &.string , &.textarea {
@@ -232,16 +232,12 @@ select {
 
         .prev { @include column(6); }
         .abort { @include column(12); text-align: center; }
-        .print { @include column(12); text-align: center; }
+        .print { @include column(24); text-align: right; }
         .next { @include column(6, true); text-align: right; }
         .save { @include column(6, true); text-align: right; }
         #hotkeyDialogLink { position: absolute; top: 7.5em; left: 30px; }
       }
       
-      &.first .buttons {
-        .abort { @include prepend(6); }
-        .print { @include prepend(6); }
-      }
       
       .item { 
         @include column($blueprint-grid-columns, true);

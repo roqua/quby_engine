@@ -38,13 +38,14 @@ class Items::Question < Item
   attr_accessor :validations
   attr_accessor :dependencies
 
-  #For optionally giving year, month and day fields their own keys
+  # For optionally giving year, month and day fields of dates their own keys
   attr_accessor :year_key
   attr_accessor :month_key
   attr_accessor :day_key
 
-  # For quantity items
+  # To display unit for number items
   attr_accessor :unit
+  # To specify size of string/number input boxes
   attr_accessor :size
 
   #A collection of all questions that can be hidden by all the options of this question
@@ -62,7 +63,7 @@ class Items::Question < Item
 
   # This question should not validate itself unless the depends_on question is answered
   # May also be an array of "#{question_key}_#{option_key}" strings that specify options this question depends on
-  attr_accessor :depends_on
+  attr_accessor :depends_on  
 
   # Extra data hash to store on the question item's html element
   attr_accessor :extra_data
@@ -112,6 +113,7 @@ class Items::Question < Item
     @disallow_bulk = options[:disallow_bulk]
     @score_header = options[:score_header] || :none
     @text_var = options[:text_var]
+    @unit = options[:unit]
     
     @col_span = options[:col_span] || 1
     @row_span = options[:row_span] || 1
@@ -182,7 +184,8 @@ class Items::Question < Item
       :title => title,
       :description => description,
       :type => type,
-      :validations => validations
+      :validations => validations,
+      :unit => unit
     }).merge(
       case type
       when :string
@@ -196,8 +199,6 @@ class Items::Question < Item
       when :select
         { :options => @options }
       when :check_box
-        { :options => @options }
-      when :quantity
         { :options => @options }
       when :date
         (year_key ? { :year_key => year_key, :month_key => month_key, :day_key => day_key } : {} )

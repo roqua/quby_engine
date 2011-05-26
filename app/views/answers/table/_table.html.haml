@@ -87,8 +87,6 @@
                 = render :partial => "answers/table/item_question_date", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
               - when :select
                 = render :partial => "answers/table/item_question_select", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
-              - when :quantity
-                = render :partial => "answers/table/item_question_quantity", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
               - else
                 %strong
                   Error: unknown question type

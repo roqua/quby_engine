@@ -6,3 +6,4 @@
         #{raw question.description}
   .fields{:id => question.html_id}
     = @answer.send(question.key)
+    = raw question.unit
