@@ -683,6 +683,7 @@ function modalFrame(url){
     buttons: {
         "Sluiten": function(){
             $(this).dialog("close");
+            $("#modalFrame").attr('src', "about:blank");
         }
     }
     });
