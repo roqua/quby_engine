@@ -7,7 +7,7 @@
 - if item.is_a?(Items::Question)
   - return if item.table
   - extra_data = item.extra_data
-  - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
+  - itemclasses << 'hidden' unless extra_data[:hidden_by].blank?
   - doublewide = item.options.size <= 5 
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
@@ -65,7 +65,7 @@
           for question
           = item.key
     - when "Items::Table"
-      = render :partial => "answers/table/table", :locals => {:table => item, :to_hide => @answer.to_hide}
+      = render :partial => "answers/table/table", :locals => {:table => item}
     - else
       Error: unknown item type
       = item.class.name

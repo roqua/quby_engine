@@ -8,7 +8,8 @@
 - when "Items::Question"
   -# return if item.table 
   -# return if @answer.send(item.key).blank?
-  - itemclasses << 'hidden' if @answer.to_hide.include?(item.key) 
+  - extra_data = item.extra_data
+  - itemclasses << 'hidden' unless extra_data[:hidden_by].blank?
   - doublewide = item.options.size <= 5 
   - itemclasses << "notbulkitem"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?

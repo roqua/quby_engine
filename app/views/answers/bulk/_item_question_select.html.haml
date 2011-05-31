@@ -9,7 +9,7 @@
       -question.options.each do |opt|
         - checked = @answer.send(question.key) == opt.key.to_s
         - next if (opt.hidden and not checked)
-        - @answer.to_hide += opt.hides_questions if checked
+        - handle_hide_questions(question,opt,@questionnaire) if checked
         - hash = {:value => opt.key, :hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil}
         - hash[:selected] = 'selected' if @answer.send(question.key) == opt.key.to_s 
         %option{hash}

@@ -297,15 +297,41 @@ function hashchangeEventHandler(){
     }       
 }
 
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
         if (element.attr('checked')) {
-            $("#answer_" + this + "_input").closest('.item').removeClass('hidden');
+            var item = $("#answer_" + this + "_input").closest('.item');
+            var hiddenby = item.data('hidden-by');
+            hiddenby = hiddenby || [];
+            
+            var loc = $.inArray(element.attr('name'), hiddenby);
+            if(loc != -1){
+              hiddenby.remove(loc,loc);
+              item.data('hidden-by', hiddenby);
+            }
+            if (hiddenby.length == 0) {
+                item.removeClass('hidden');
+            }
         }
     });
     $.each(hidekeys, function(){
         if (element.attr('checked')) {
-            $("#answer_" + this + "_input").closest('.item').addClass('hidden');
+            var item = $("#answer_" + this + "_input").closest('.item'); 
+            var hiddenby = item.data('hidden-by');
+            hiddenby = hiddenby || [];
+            var loc = $.inArray(element.attr('name'), hiddenby);
+            if(loc == -1){
+                hiddenby.push(element.attr('name'));
+                item.data('hidden-by', hiddenby);
+            }
+            item.addClass('hidden');
         }
     });    
 }

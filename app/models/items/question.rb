@@ -94,6 +94,7 @@ class Items::Question < Item
 
   def initialize(key, options = {})
     super(options)
+    @extra_data ||= {}
     @options = []
     @key = key
     @type = options[:type]
@@ -161,8 +162,7 @@ class Items::Question < Item
       end
     end
 
-    @hides_questions = []
-    
+    @hides_questions = []    
   end
   
   def set_depends_on(keys, questionnaire)
@@ -170,7 +170,6 @@ class Items::Question < Item
     keys = [keys] unless keys.is_a?(Array)
     input_keys = questionnaire.get_input_keys(keys)
     @depends_on = input_keys
-    @extra_data = {}
     @extra_data[:depends_on] = input_keys.to_json
   end
   

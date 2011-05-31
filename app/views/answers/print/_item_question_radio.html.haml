@@ -9,7 +9,7 @@
     - question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next unless checked
-      - @answer.to_hide += opt.hides_questions 
+      - handle_hide_questions(question,opt,@questionnaire)
       .option(class="#{show_values ? 'show_values' : nil}")
         - if show_values
           .value= opt.value

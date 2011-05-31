@@ -14,7 +14,7 @@
     - question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next if (opt.hidden and not checked)
-      - @answer.to_hide += opt.hides_questions if checked
+      - handle_hide_questions(question,opt,@questionnaire) if checked
       - if opt.inner_title
         .inner-title
           :markdown

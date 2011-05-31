@@ -11,9 +11,9 @@
     - itemclasses << 'subitem'
     - return if item.presentation == :next_to_title 
   - itemclasses << item.question_group  if item.question_group
-  - itemclasses << 'hidden' if @answer.to_hide.include?(item.key)
   - extra_data = item.extra_data
-
+  - itemclasses << 'hidden' unless extra_data[:hidden_by].blank?
+  
 - if item.raw_content
   - if item.raw_content[:paged]
     = raw item.raw_content[:paged]
@@ -58,7 +58,7 @@
           for question
           = item.key
     - when "Items::Table"
-      = render :partial => "answers/table/table", :locals => {:table => item, :to_hide => @answer.to_hide}
+      = render :partial => "answers/table/table", :locals => {:table => item}
     - else
       Error: unknown item type
       = item.class.name

@@ -82,4 +82,11 @@ module AnswersHelper
     table.item_table[rowi][j] 
   end
   
+  def handle_hide_questions(question,option,questionnaire)
+    option.hides_questions.each do |key|
+      questionnaire.question_hash[key].extra_data[:hidden_by] ||= []
+      questionnaire.question_hash[key].extra_data[:hidden_by] << question.key.to_s
+    end
+  end
+  
 end
