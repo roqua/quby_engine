@@ -705,14 +705,15 @@ function doPrint(url){
 
 function modalFrame(url){
     $("#modalFrame").attr('src', url);
-    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width : 700, height : 900,
+    //window.scrollTo(0,0);
+    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width : 700, height : 600,
     buttons: {
-        "Sluiten": function(){
+        "Terug": function(){
             $(this).dialog("close");
             $("#modalFrame").attr('src', "about:blank");
         }
     }
-    });
+    });    
 }
 
 $(document).ready(
