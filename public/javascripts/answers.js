@@ -252,12 +252,17 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
         for (i = 0; i < check_boxes.length; i++) {
           if (check_boxes[i].id != "answer_"+nothingKey && check_boxes[i].id != "answer_"+allKey){
             $(check_boxes[i]).attr("checked", checkValue);
+            if (checkValue) {
+                $(check_boxes[i]).attr("checked", checkValue);
+            } else {
+                $(check_boxes[i]).removeAttr("checked");
+            }
             handleDisableCheckboxSubQuestions(check_boxes[i]);
           }
         }
         
         // Setting the 'check_all' and the 'uncheck_all' checkboxes appropriately, if both are used
-        correctAllNothingCheckboxes(checkValue == "1", allKey, nothingKey);
+        correctAllNothingCheckboxes(checkValue == "checked", allKey, nothingKey);
     }
 }
 
@@ -269,13 +274,13 @@ function correctAllNothingCheckboxes(checked, allKey, nothingKey){
     if(checked){
         var el = $('#answer_'+nothingKey)[0];
         if (el) {
-            $(el).attr("checked", "");
+            $(el).removeAttr("checked");
             handleDisableCheckboxSubQuestions(el);
         }
     } else {
         var el = $('#answer_'+allKey)[0];
         if (el) {
-            $(el).attr("checked", "");
+            $(el).removeAttr("checked");
             handleDisableCheckboxSubQuestions(el);
         }
     }
@@ -342,16 +347,16 @@ function handleHideQuestions(element, hidekeys, allkeys){
 
 function handleDisableRadioSubQuestions(element){
     if(element.attr('checked')){
-        element.closest('.item').find('.subinput').attr("disabled", "true");
-        element.closest('.option').find('.subinput').attr("disabled", "");
+        element.closest('.item').find('.subinput').attr("disabled", "disabled");
+        element.closest('.option').find('.subinput').removeAttr("disabled");
     } 
 }
 
 function handleDisableCheckboxSubQuestions(element){
     if(element.checked){
-        $(element).closest('.option').find('.subinput').attr("disabled", "");       
+        $(element).closest('.option').find('.subinput').removeAttr("disabled");       
     } else {
-        $(element).closest('.option').find('.subinput').attr("disabled", "true");
+        $(element).closest('.option').find('.subinput').attr("disabled", "disabled");
     }
 }
 
@@ -651,7 +656,7 @@ function assignValue(qkey, val){
         if (type == "radio" || type == "scale") {
             var input = inputs.filter("[value='" + val + "']");
             if (input && input.length > 0) {
-                input.get(0).checked = 'checked';
+                input.first().attr("checked", "checked");
             }
         } else if (type == "text") {
             var input = inputs.get(0);
@@ -659,7 +664,11 @@ function assignValue(qkey, val){
         } else if (type == "checkbox") {
             $.each(val, function(ckey, cvalue){
                 var input = inputs.filter("input[name='answer["+ckey+"]']");
-                input.attr("checked", cvalue == 1);
+                if (cvalue == 1) {
+                    input.attr("checked", "checked");
+                } else {
+                    input.removeAttr("checked");                    
+                }
             });
         } else if (type == 'select-one'){
             var input = inputs.find("[value="+val+"]")[0]
@@ -745,12 +754,12 @@ $(document).ready(
         setCheck = function(obj, deselectable) {
             if (radioChecked) {
                 if (deselectable) {
-                    $(obj).attr('checked', false);
-                    $("input[name="+obj.name+"][value=DESELECTED_RADIO_VALUE]").attr('checked', true);
+                    $(obj).removeAttr('checked');
+                    $("input[name='"+obj.name+"'][value='DESELECTED_RADIO_VALUE']").attr('checked', 'checked');
                 }
             } else {
-                $("input[name="+obj.name+"][value=DESELECTED_RADIO_VALUE]").attr('checked', false);
-                $(obj).attr('checked', true);
+                $("input[name='"+obj.name+"'][value='DESELECTED_RADIO_VALUE']").removeAttr('checked');
+                $(obj).attr('checked', 'checked');
             }
         };    
 
