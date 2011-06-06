@@ -299,6 +299,10 @@ function hashchangeEventHandler(){
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
+  if(!isFinite(from)){
+     alert(from);
+      
+  } 
   var rest = this.slice((to || from) + 1 || this.length);
   this.length = from < 0 ? this.length + from : from;
   return this.push.apply(this, rest);
@@ -312,7 +316,7 @@ function handleHideQuestions(element, hidekeys, allkeys){
             hiddenby = hiddenby || [];
             
             var loc = $.inArray(element.attr('name'), hiddenby);
-            if(loc != -1){
+            if(loc != undefined && loc != -1){
               hiddenby.remove(loc,loc);
               item.data('hidden-by', hiddenby);
             }
@@ -327,7 +331,7 @@ function handleHideQuestions(element, hidekeys, allkeys){
             var hiddenby = item.data('hidden-by');
             hiddenby = hiddenby || [];
             var loc = $.inArray(element.attr('name'), hiddenby);
-            if(loc == -1){
+            if(loc == undefined || loc == -1){
                 hiddenby.push(element.attr('name'));
                 item.data('hidden-by', hiddenby);
             }
