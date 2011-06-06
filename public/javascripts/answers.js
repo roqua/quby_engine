@@ -312,13 +312,13 @@ function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
         if (element.attr('checked')) {
             var item = $("#answer_" + this + "_input").closest('.item');
-            var hiddenby = item.data('hidden-by');
+            var hiddenby = item.data('hiddenBy');
             hiddenby = hiddenby || [];
             
             var loc = $.inArray(element.attr('name'), hiddenby);
             if(loc != undefined && loc != -1){
               hiddenby.remove(loc,loc);
-              item.data('hidden-by', hiddenby);
+              item.data('hiddenBy', hiddenby);
             }
             if (hiddenby.length == 0) {
                 item.removeClass('hidden');
@@ -328,12 +328,12 @@ function handleHideQuestions(element, hidekeys, allkeys){
     $.each(hidekeys, function(){
         if (element.attr('checked')) {
             var item = $("#answer_" + this + "_input").closest('.item'); 
-            var hiddenby = item.data('hidden-by');
+            var hiddenby = item.data('hiddenBy');
             hiddenby = hiddenby || [];
             var loc = $.inArray(element.attr('name'), hiddenby);
             if(loc == undefined || loc == -1){
                 hiddenby.push(element.attr('name'));
-                item.data('hidden-by', hiddenby);
+                item.data('hiddenBy', hiddenby);
             }
             item.addClass('hidden');
         }
