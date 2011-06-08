@@ -32,6 +32,8 @@ class Answer < ActiveRecord::Base
     end
     
     if @roqua_vals
+      @roqua_vals = @roqua_vals["roqua_vals"] if @roqua_vals["roqua_vals"]
+
       questionnaire.questions.each do |q|
         case q.type 
         when :radio, :scale
