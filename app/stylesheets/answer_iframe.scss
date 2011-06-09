@@ -1,13 +1,18 @@
-* {
- overflow-x: hidden;   
+html {
+    overflow:auto;
+    overflow-x: hidden;
 }
+
 #content {
-  margin: 0;
-  margin-top: 0.1em;
-  width: 780px;
-  
-  .paged .panel{
-     border: 0;
-     padding: 1em;
-  }
+    .flash{
+        margin: 0.2em;
+    }  
+    margin: 0;
+    margin-top: 0.1em;
+    
+    .paged .panel{
+         border: 0;
+         padding: 1em;
+    }    
 } 
+
