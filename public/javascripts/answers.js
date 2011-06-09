@@ -21,9 +21,19 @@ var skipValidations = false;
 var shownFlash = false;
 var inIframe = false;
 
+function loadcssfile(filename){
+ var fileref=document.createElement("link")
+  fileref.setAttribute("rel", "stylesheet")
+  fileref.setAttribute("type", "text/css")
+  fileref.setAttribute("href", filename)
+  
+ if (typeof fileref!="undefined")
+  document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+
 //For displaying answers differently within iframes 
 if( self != top ) {
-   $('head').append('<link type="text/css" rel="stylesheet" href="/stylesheets/answer_iframe.css">');
+   loadcssfile("/stylesheets/answer_iframe.css");
    inIframe = true;
 }
 
