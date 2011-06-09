@@ -318,10 +318,6 @@ function hashchangeEventHandler(){
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
-  if(!isFinite(from)){
-     alert(from);
-      
-  } 
   var rest = this.slice((to || from) + 1 || this.length);
   this.length = from < 0 ? this.length + from : from;
   return this.push.apply(this, rest);
@@ -549,9 +545,15 @@ function focusInputIndex(index, forward){
 }
 
 function getValidInputs(){
-    var inputs = curPanel.find('input:not([type=radio]), textarea');
-    curPanel.find('input[type=radio]').each(function (index,ele){
-        inputs = inputs.add(curPanel.find("[name='"+ele.name+"']:not([value='DESELECTED_RADIO_VALUE'])").first());
+    var inputs = curPanel.find('input:not([value="DESELECTED_RADIO_VALUE"]), textarea');
+    var hadRadioQ = [];
+    inputs = inputs.filter(function (index){
+        if (this.type == "radio") {
+            var valid = $.inArray(this.name, hadRadioQ) == -1;
+            hadRadioQ.push(this.name);
+            return valid;
+        } 
+        return true;
     });
     return inputs;
 }
@@ -740,14 +742,13 @@ $(document).ready(
                 focusInput(event.target);
             });
             $("label.main").click(function(event){
-                focusInput(event.target);
-                lastInput.focus();
+                //focusInput(event.target);
             });
             if (isBulk) {
                 curPanel = $('form');
                 panelInputs = getValidInputs();
                 focusI = 0;
-                focusInputIndex(focusI);
+                focusInputIndex(focusI, true);
             }
         }
                 
