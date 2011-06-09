@@ -87,6 +87,11 @@ class Answer < ActiveRecord::Base
       val[:key] = key
       val
     end if questionnaire.scores
+  rescue Exception => e
+    {
+      :exception_message => e.message,
+      :exception_backtrace => e.backtrace
+    }
   end
 
   def value_by_values
