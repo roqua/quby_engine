@@ -325,19 +325,17 @@ Array.prototype.remove = function(from, to) {
 
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
-        if (element.attr('checked')) {
-            var item = $("#answer_" + this + "_input").closest('.item');
-            var hiddenby = item.data('hiddenBy');
-            hiddenby = hiddenby || [];
-            
-            var loc = $.inArray(element.attr('name'), hiddenby);
-            if(loc != undefined && loc != -1){
-              hiddenby.remove(loc,loc);
-              item.data('hiddenBy', hiddenby);
-            }
-            if (hiddenby.length == 0) {
-                item.removeClass('hidden');
-            }
+        var item = $("#answer_" + this + "_input").closest('.item');
+        var hiddenby = item.data('hiddenBy');
+        hiddenby = hiddenby || [];
+        
+        var loc = $.inArray(element.attr('name'), hiddenby);
+        if(loc != undefined && loc != -1){
+          hiddenby.remove(loc,loc);
+          item.data('hiddenBy', hiddenby);
+        }
+        if (hiddenby.length == 0) {
+            item.removeClass('hidden');
         }
     });
     $.each(hidekeys, function(){
@@ -683,8 +681,7 @@ $(document).ready(
         }
         hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         
-        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').click( radioEvents );        
-
+        
         var allDeselectableRadios = $('input[type=radio].deselectable');
         
         setCurrent = function(obj) {
@@ -718,9 +715,11 @@ $(document).ready(
             });
             
             $(this).bind('click', function(e){
-                setCheck(e.target, true);    
+                setCheck(e.target, true);
             });
         });
+        
+        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').click( radioEvents );
         
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
