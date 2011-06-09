@@ -586,8 +586,12 @@ function radioEvents(event){
 //* dates,
 //* all/nothing checkboxes
 function assignValue(qkey, val){
-    //FIXME: also finds inputs named ex. v_11 when looking for inputs for v_1 
-    var inputs = $("[name^='answer["+qkey+"'][type!='hidden']");
+    var inputs;
+    if(val instanceof Object){//checkbox vals are passed as an object hash 
+        inputs = $("[name^='answer["+qkey+"_'][type!='hidden']");
+    } else {
+        inputs = $("[name='answer["+qkey+"]'][type!='hidden']");
+    } 
     if(inputs.length > 0){
         var type = inputs[inputs.length-1].type;
         if (type == "radio" || type == "scale") {
@@ -598,6 +602,9 @@ function assignValue(qkey, val){
         } else if (type == "text") {
             var input = inputs.get(0);
             input.value = val;
+        } else if( inputs.get(0).tagName == "TEXTAREA"){
+            var input = inputs.get(0);
+            input.textContent = val;
         } else if (type == "checkbox") {
             $.each(val, function(ckey, cvalue){
                 var input = inputs.filter("input[name='answer["+ckey+"]']");
