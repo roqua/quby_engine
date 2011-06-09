@@ -7,6 +7,8 @@ gem 'formtastic'
 gem 'maruku'
 gem 'compass', '>= 0.10.6'
 
+gem 'newrelic_rpm'
+
 gem 'mysql'
 gem 'andand'
 gem 'awesome_print'
