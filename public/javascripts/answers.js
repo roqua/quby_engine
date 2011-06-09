@@ -1,8 +1,11 @@
 // Scope:
 //
 //   questionnaires/1/answers/edit
+var curPanel;
+var panelInputs;
+var focusI = 0;
+
 var hashChangeEnabled;
-var lastFocus;
 var lastInput;
 var nextButtonFocussed = false;
 var saveButtonFocussed = false; 
@@ -55,10 +58,11 @@ function activatePanel(panel, updateHash, forward) {
     nextButtonFocussed = false;
     saveButtonFocussed = false;
     if (hotkeysEnabled) {
-        qitems = panel.find(".item:not(:hidden, .subitem, .text)");
-        focusItem(qitems.first());
-        lastInput = getValidInputs().first().focus();
-    }    
+        curPanel = panel;
+        panelInputs = getValidInputs();
+        focusI = 0;
+        focusInputIndex(focusI, true);
+    }
 }
 
 function pushFailVal(val){
@@ -290,7 +294,7 @@ function hashchangeEventHandler(){
     if (hashChangeEnabled) {
         // if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
         if (window.location.hash != "" && window.location.hash != $(".panel:first").id) {
-            panel = $(".panel#" + window.location.hash);
+            var panel = $(".panel#" + window.location.hash);
             if (panel[0]) {
                 activatePanel(panel, true, true);
             }
@@ -361,23 +365,22 @@ function handleDisableCheckboxSubQuestions(element){
 }
 
 function selectInput(value){
+    var lastFocus = $('.focus');
     var values = lastFocus.find(".value");
     var selectedInput = $([]);
-    values.each(function(index, element){
-       
+    values.each(function(index, element){       
        if(parseInt(element.textContent || element.innerHTML) == value){
-           selectedInput = $(element).closest(".option").find("input[type='radio']:not(.subinput, :hidden, :disabled)");           
+           selectedInput = $(element).closest(".option").find("input[type='radio'][name='"+lastInput[0].name+"']:not(.subinput, :hidden, :disabled)");
        }
     });
     
-    if(values.length == 0){
-        selectedInput = lastFocus.find("input[type='radio']:not(.subinput, :hidden, :disabled)").eq(value-1);
+    if(selectedInput.length == 0){
+        selectedInput = lastFocus.find("input[type='radio'][name='"+lastInput[0].name+"']:not(.subinput, :hidden, :disabled)").eq(value-1);
     }
     if(selectedInput.length > 0) {
         setCurrent(selectedInput[0]);
         setCheck(selectedInput[0], selectedInput.is('.deselectable'));
         radioEvents(selectedInput[0]);
-        lastFocus.find('.first.option input').focus();
         focusNextInput();   
     }
 }
@@ -504,126 +507,50 @@ function handleRadioHotKeys(event){
     }
 }
 
-function focusItem(qitem){
-    if (qitem.length > 0) {
-        if (lastFocus != undefined) {
-            lastFocus.removeClass('focus');
-        }
-        qitem.addClass('focus');
-        var toScrollTo = qitem[0];
-        //Might not work properly inside a frame?
-        //window.scrollTo(0, toScrollTo.offsetTop-80);
-        lastFocus = qitem;
-    }
-    return qitem;
+function focusInput(input){
+    $('.focus').removeClass('focus');
+    $(input).closest('.item, .row').addClass('focus');
+    focusI = panelInputs.index(input);
+    lastInput = $(input);
 }
 
-function focusNextItem(){
-    var item;
-    if (nextButtonFocussed) {
-        item = lastFocus.closest(".panel").find('.item:not(:hidden, .text)').first();
-        nextButtonFocussed = false;
+function focusInputIndex(index, forward){
+    if (forward) {
+        lastInput = panelInputs.filter(':eq('+index+'), :gt(' + index + ')').not(':hidden, :disabled').first();
     } else {
-        item = lastFocus.nextAll('.item:not(:hidden, .text, .subitem)').first();        
+        lastInput = panelInputs.filter(':eq('+index+'), :lt(' + index + ')').not(':hidden, :disabled').last();
     }
     
-    if(item.length == 0){
-        if (isBulk) {
-            item = lastFocus.closest(".panel").nextAll().find('.item:not(:hidden, .text, .subitem)').first();
-            if (item.length > 0) {
-                return focusItem(item);
-            } else {
-                lastFocus.removeClass('focus');
-                $(".save input").focus();
-                saveButtonFocussed = true;
-            }
+    if (lastInput.length == 0) {
+        if(forward){
+            index = 0
+            lastInput = panelInputs.filter(':eq('+index+'), :gt(' + index + ')').not(':hidden, :disabled').first();
         } else {
-            lastFocus.removeClass('focus');
-            $(".next input").focus();
-            nextButtonFocussed = true;
+            index = panelInputs.length -1;
+            lastInput = panelInputs.filter(':eq('+index+'), :lt(' + index + ')').not(':hidden, :disabled').last();
         }
-    } else {
-        return focusItem(item);
     }
-}
-function focusPrevItem(){
-    var item;
-    if (nextButtonFocussed || saveButtonFocussed) {
-        //Takes a bit in IE7
-        item = lastFocus.closest(".panel").find('.item:not(:hidden, .text)').last();
-        nextButtonFocussed = false;
-        saveButtonFocussed = false;
-    } else {
-        item = lastFocus.prevAll('.item:not(:hidden, .text, .subitem)').last();
-    }
-    
-    if(item.length == 0){
-        if (isBulk) {
-            var curPanel = lastFocus.closest(".panel");
-            item = curPanel.prev().find('.item:not(:hidden, .text, .subitem)').last();
-            while (item.length == 0){
-                curPanel = curPanel.prev();
-                if(curPanel.length == 0){
-                    break;
-                }
-                item = curPanel.prev().find('.item:not(:hidden, .text, .subitem)').last();                
-            }
-            return focusItem(item);
-        } else {
-            lastFocus.removeClass('focus');
-            $(".next input").focus();
-            nextButtonFocussed = true;
-        }
-    } else {
-        return focusItem(item);
+    if (lastInput.length > 0) {
+        lastInput[0].focus();
+        saveButtonFocussed = lastInput.is('#done-button');
+        nextButtonFocussed = lastInput.is('.next');
+        focusI = panelInputs.index(lastInput);
     }
 }
 
 function getValidInputs(){
-    if (lastFocus) { 
-        return lastFocus.find('input:not(:disabled, :hidden, [type=radio]), textarea:not(:disabled, :hidden)').add(lastFocus.find('input:not(:disabled, :hidden)').first());
-    } else {
-        return $([]);
-    }
+    var inputs = curPanel.find('input:not([type=radio]), textarea');
+    curPanel.find('input[type=radio]').each(function (index,ele){
+        inputs = inputs.add(curPanel.find("[name='"+ele.name+"']:not([value='DESELECTED_RADIO_VALUE'])").first());
+    });
+    return inputs;
 }
 
 function focusNextInput(){
-    var input = getValidInputs();
-    var index = input.index(lastInput);
-    if (index >= 0) {
-        input = input.filter(":gt(" + index + ")").first().focus();
-    } else {
-        input.first().focus();
-    }
-    
-    if(input.length == 0){
-        var item = focusNextItem();
-        if(item != undefined){
-            input = getValidInputs().first().focus();             
-        }
-    }
-    if (input.length != 0) {
-        lastInput = input;
-    }
+    focusInputIndex(focusI+1, true);
 }
 function focusPrevInput(){
-    var input = getValidInputs();
-    var index = input.index(lastInput);
-    if (index >= 0) {
-        input = input.filter(":lt(" + index + ")").last().focus();
-    } else {
-        input.first().focus()
-    }
-    
-    if(input.length == 0){ 
-        var item = focusPrevItem();
-        if(item != undefined){
-            input = getValidInputs().last().focus();
-        }
-    }
-    if (input.length != 0) {
-        lastInput = input;
-    } 
+    focusInputIndex(focusI-1, false); 
 }
 
 function hotkeyDialog(){;
@@ -742,6 +669,7 @@ $(document).ready(
                 }
             }
         }
+        hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
         
         $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').click( radioEvents );        
 
@@ -789,6 +717,30 @@ $(document).ready(
         processExtraData();
         
         isBulk = $('form.bulk, form.print').size() > 0;
+        if (hotkeysEnabled) {
+            $(document).keydown(handleHotKeys);
+            $(document).keyup(handleRadioHotKeys);
+            $(document).click(function (){
+                nextButtonFocussed = false;
+                saveButtonFocussed = false;
+            })
+            $(".item input, .item textarea").click(function(event){
+                focusInput(event.target);                
+            }).focus(function(event){
+                focusInput(event.target);
+            });
+            $("label.main").click(function(event){
+                focusInput(event.target);
+                lastInput.focus();
+            });
+            if (isBulk) {
+                curPanel = $('form');
+                panelInputs = getValidInputs();
+                focusI = 0;
+                focusInputIndex(focusI);
+            }
+        }
+                
         if (!isBulk) {
             hashChangeEnabled = true;
             if (inIframe) {
@@ -837,35 +789,6 @@ $(document).ready(
         }
         
         $(document).keypress(handlePreventDefault);        
-        //Layout breaks with this
-//        $(".radiocheckwrapper input[type=radio]").customInput();
-//        $("input[type=checkbox]").customInput();
-        hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
-        if (hotkeysEnabled) {
-            $(document).keydown(handleHotKeys);
-            $(document).keyup(handleRadioHotKeys);
-            $(document).click(function (){
-                nextButtonFocussed = false;
-                saveButtonFocussed = false;
-            })
-            $(".item input, .item textarea").click(function(event){
-                focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
-                lastInput = event.target;    
-            }).focus(function(event){
-                focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
-                lastInput = event.target;
-            });
-            $("label.main").click(function(event){
-                focusItem($(event.target).closest(".item:not(:hidden, .text, .subitem)").first());
-                lastInput = getValidInputs().first();
-                lastInput.focus();       
-            });
-            if (isBulk) {
-                focusItem($('.panel').find(".item:not(:hidden, .text, .subitem)").first());
-                lastInput = getValidInputs().first();
-                lastInput.focus();
-            }
-        }
         
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
