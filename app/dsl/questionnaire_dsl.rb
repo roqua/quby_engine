@@ -39,6 +39,10 @@ module QuestionnaireDsl
       @questionnaire.allow_hotkeys = type
     end
     
+    def enable_previous_questionnaire_button
+      @questionnaire.enable_previous_questionnaire_button = true
+    end
+    
     def css(value)
       @questionnaire.extra_css ||= ""
       @questionnaire.extra_css += value

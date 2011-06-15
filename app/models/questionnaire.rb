@@ -12,6 +12,7 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :outcome_description
   attr_accessor :short_description
   attr_accessor :abortable
+  attr_accessor :enable_previous_questionnaire_button
   attr_accessor :panels
   attr_accessor :scores
   attr_accessor :default_answer_value
