@@ -22,7 +22,8 @@ class AnswersController < ApplicationController
 
   def check_aborted
     if (params[:commit] == "Onderbreken" and @questionnaire.abortable) or
-       (params[:commit] == "Toch opslaan" and session[:display_mode] == "bulk")
+       (params[:commit] == "Toch opslaan" and session[:display_mode] == "bulk") or
+       (params[:commit] == "← Vorige vragenlijst")
       params[:answer] ||= HashWithIndifferentAccess.new
       params[:answer][:aborted] = true
     else
@@ -67,9 +68,12 @@ class AnswersController < ApplicationController
   def update(printing=false)
     respond_to do |format|
       #Update_attributes also validates
-      if @answer.update_attributes(params[:answer])        
+      if @answer.update_attributes(params[:answer])
         if printing
           render "answers/print/show" and return
+        end
+        if params[:commit] == "← Vorige vragenlijst"
+          redirect_to_roqua(:params => {:status => "back"}) and return
         end
         if session[:return_url]
           redirect_to_roqua and return
@@ -153,7 +157,7 @@ class AnswersController < ApplicationController
 
     if time < 24.hours.ago or 1.hour.since < time
       logger.error "ERROR::Authentication error: Request expired"
-      redirect_to_roqua(true) and return
+      redirect_to_roqua(:params => {:expired_session => "true"}) and return
     end
   end
 
@@ -178,11 +182,11 @@ class AnswersController < ApplicationController
     session[:display_mode] = "paged" if session[:display_mode].blank?
   end
 
-  def redirect_to_roqua(expired_session=false)
+  def redirect_to_roqua(options = {})
     #FIXME: Flash proper error message when return_url is empty
     address = Addressable::URI.parse(session[:return_url])
     address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
-    address.query_values = address.query_values.merge(:expired_session => "true") if expired_session
+    address.query_values = address.query_values.merge(options[:params])
     logger.info address.to_s
     redirect_to address.to_s
   end
