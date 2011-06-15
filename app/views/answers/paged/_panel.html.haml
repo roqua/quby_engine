@@ -17,6 +17,9 @@
   = render :partial => "answers/paged/item", :collection => panel.items
 
   .buttons
+    - if panel_counter == 0 and @questionnaire.enable_previous_questionnaire_button
+      .back
+        = submit_tag raw("&larr; Vorige vragenlijst"), :id => "back"
     - if panel_counter < panels.length - 1
       .prev
         = submit_tag raw("&larr; Vorige vraag"), :id => "prevButton#{panel_counter}"

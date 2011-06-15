@@ -32,6 +32,9 @@
         = render :partial => "answers/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item, :next_item => next_item }
         - previous_item = item if item.class.name == "Items::Question"
   .buttons
+    - if @questionnaire.enable_previous_questionnaire_button
+      .back
+        = submit_tag raw("&larr; Vorige vragenlijst"), :id => "back"
     .prev &nbsp;
     .save
       = submit_tag "Klaar", :id => "done-button"
