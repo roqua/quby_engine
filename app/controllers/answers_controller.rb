@@ -186,7 +186,7 @@ class AnswersController < ApplicationController
     #FIXME: Flash proper error message when return_url is empty
     address = Addressable::URI.parse(session[:return_url])
     address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
-    address.query_values = address.query_values.merge(options[:params])
+    address.query_values = address.query_values.merge(options[:params]||{})
     logger.info address.to_s
     redirect_to address.to_s
   end
