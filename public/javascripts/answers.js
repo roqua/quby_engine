@@ -354,8 +354,8 @@ function handleHideQuestions(element, hidekeys, allkeys){
 }
 
 function handleDisableRadioSubQuestions(element){
-    if(element.attr('checked')){
-        element.closest('.item').find('.subinput').attr("disabled", "disabled");
+    element.closest('.item').find('.subinput').attr("disabled", "disabled");
+    if(element.attr('checked')){        
         element.closest('.option').find('.subinput').removeAttr("disabled");
     } 
 }
@@ -550,7 +550,7 @@ function getValidInputs(){
             var valid = $.inArray(this.name, hadRadioQ) == -1;
             hadRadioQ.push(this.name);
             return valid;
-        } 
+        }
         return true;
     });
     return inputs;
