@@ -3,11 +3,16 @@ class Items::Table < Item
   attr_accessor :columns
   attr_accessor :items
   
+  attr_accessor :title
+  attr_accessor :description
+  
   # Whether the question options in this table should show their descriptions
   attr_accessor :show_option_desc
   
   def initialize(options = {})
     @columns = options[:columns]
+    @title = options[:title]
+    @description = options[:description]    
     @show_option_desc = options[:show_option_desc] || false
     @items = []
   end

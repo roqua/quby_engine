@@ -34,7 +34,17 @@
               %label(for="answer_#{question.key}")
                 :markdown
                   #{question.title}
-      
+      -if rowi == 0
+        - if table.title
+          %caption
+            %div.main{:class => "horizontal"}
+              :markdown
+                #{table.title}
+        - if table.description
+          %tr.row
+            %td.description{:class => "horizontal", :colspan => table.columns+1}
+              :markdown
+                #{table.description}
       - unless all_blank 
         %tr.option_sets.row
           - unless (question.andand.presentation == :horizontal or question.andand.title.blank?) 

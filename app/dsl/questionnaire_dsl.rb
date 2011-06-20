@@ -146,7 +146,6 @@ module QuestionnaireDsl
       q = QuestionFactory.new(key, @default_question_options.merge(options).merge({:questionnaire => @panel.questionnaire}))
       @questionnaire.question_hash[key] = q.build
       q.instance_eval(&block) if block
-
       
       @panel.items << q.build
     end
@@ -165,6 +164,14 @@ module QuestionnaireDsl
       @table = Items::Table.new(options) 
       @default_question_options = options[:default_question_options] || {}
       @panel.items << @table
+    end
+    
+    def title(value)
+      @table.title = value
+    end
+    
+    def description(value)
+      @table.description = value
     end
     
     def text(value, options = {})
