@@ -8,6 +8,9 @@ class Items::Question < Item
   # What kind of question is this?
   attr_accessor :type
 
+  # To hide old questions
+  attr_accessor :hidden
+
   # In what modes do we display this question
   # NOTE We always display questions in print-view (if they have an answer)
   attr_accessor :display_modes
@@ -104,6 +107,7 @@ class Items::Question < Item
     @presentation = options[:presentation]
     @validations = []
     @parent = options[:parent]
+    @hidden = options[:hidden]
     @table = options[:table]
     @parent_option_key = options[:parent_option_key]
     @autocomplete = options[:autocomplete] || "off"
@@ -184,7 +188,8 @@ class Items::Question < Item
       :description => description,
       :type => type,
       :validations => validations,
-      :unit => unit
+      :unit => unit,
+      :hidden => !!hidden?
     }).merge(
       case type
       when :string
@@ -214,6 +219,10 @@ class Items::Question < Item
   end
 
   def answerable?; true; end
+
+  def hidden?
+    self.type == :hidden or self.hidden
+  end
 
   def subquestions
     options.map {|opt| opt.questions }.flatten

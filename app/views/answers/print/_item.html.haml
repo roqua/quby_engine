@@ -40,7 +40,7 @@
           = raw item.text
   - when "Items::Question"
     .item{:class => itemclasses}
-      - return if (item.type == :hidden )
+      - return if (item.hidden?)
       - case item.type
       - when :string, :textarea, :integer, :float, :date
         = render :partial => "answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}

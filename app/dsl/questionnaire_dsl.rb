@@ -229,6 +229,10 @@ module QuestionnaireDsl
       @question.presentation = value
     end
 
+    def hidden(value = true)
+      @question.hidden = value
+    end
+
     def lines(value)
       @question.lines = value
     end

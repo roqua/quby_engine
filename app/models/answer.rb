@@ -182,7 +182,7 @@ class Answer < ActiveRecord::Base
     
     questionnaire.questions.each do |question|
       next unless question
-      next if question.type == :hidden
+      next if question.type == :hidden or question.hidden?
       
       unless question.depends_on.blank?
         should_validate = false
