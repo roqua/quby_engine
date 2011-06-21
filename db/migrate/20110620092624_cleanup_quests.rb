@@ -8,7 +8,8 @@ class CleanupQuests < ActiveRecord::Migration
     "adviesrelevantie",
     "dependency_test",
     "help",
-    "heuristische-evaluatie"].each do |key|
+    "heuristische-evaluatie",
+    "adhd_kindertijd"].each do |key|
       q = Questionnaire.find_by_key key
       if q
         q.destroy
