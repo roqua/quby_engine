@@ -201,6 +201,8 @@ class Items::Question < Item
         { :options => @options }
       when :date
         (year_key ? { :year_key => year_key, :month_key => month_key, :day_key => day_key } : {} )
+      when :hidden
+        { :options => @options }
       else
         {}
       end
