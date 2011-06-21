@@ -72,11 +72,19 @@ class AnswersController < ApplicationController
         if printing
           render "answers/print/show" and return
         end
-        if params[:commit] == "← Vorige vragenlijst"
-          redirect_to_roqua(:params => {:status => "back"}) and return
+        case params[:commit]
+        when "Onderbreken"
+          @status = "close"
+        when "← Vorige vragenlijst"
+          @status = "back"
         end
+
         if session[:return_url]
-          redirect_to_roqua and return
+          if @status
+            redirect_to_roqua(:params => {:status => @status}) and return
+          else
+            redirect_to_roqua and return
+          end
         else
           clear_session
           render :action => "completed" and return 
