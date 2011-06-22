@@ -39,7 +39,7 @@
         .text
           = raw item.text
     - when "Items::Question" 
-      - return if item.hidden? and not @answer.send(item.key)
+      - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'answers/shared/validations', :locals => {:question => item, :answer => @answer}     
                
