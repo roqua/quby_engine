@@ -262,7 +262,10 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
     if(checked){
         
         // Setting all other checkboxes to checkValue
-        check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)")        
+        check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)")
+        if(check_boxes.length == 0){
+            check_boxes = $("[data-for='"+question+"']").find("input[type=checkbox]:not(:disabled)")
+        }
         for (i = 0; i < check_boxes.length; i++) {
           if (check_boxes[i].id != "answer_"+nothingKey && check_boxes[i].id != "answer_"+allKey){
             $(check_boxes[i]).attr("checked", checkValue);
