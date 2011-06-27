@@ -35,9 +35,13 @@ namespace :deploy do
     # Do nothing
   end
 
-  desc "Link in the production database.yml"
+  desc "Link in the shared config files"
   task :link_database_yml do
     run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml"
+
+    # if a shared copy of newrelic.yml exists, use that, otherwise the repo version is fine
+    # we use this to disable newrelic in the rgoc app
+    run "[ -e #{deploy_to}/#{shared_dir}/config/newrelic.yml ] && ln -nfs #{deploy_to}/#{shared_dir}/config/newrelic.yml #{release_path}/config/newrelic.yml"
   end
 
   desc "Symlink the questionnaires from shared dir"
