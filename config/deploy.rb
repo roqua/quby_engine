@@ -16,6 +16,9 @@ set :use_sudo, false
 
 ssh_options[:forward_agent] = true
 
+set :default_env,  'production'
+set :rails_env,     ENV['rails_env'] || ENV['RAILS_ENV'] || default_env
+
 namespace :deploy do
   desc "Restart web server"
   task :restart, :roles => :app do
@@ -44,7 +47,7 @@ namespace :deploy do
 
   desc "Seed"
   task :seed, :roles => :db do
-    run "cd #{current_path} && bundle exec rake db:seed RAILS_ENV=#{Rails.env}"
+    run "cd #{current_path} && bundle exec rake db:seed RAILS_ENV=#{rails_env}"
   end
 
   desc "Create/update the questionnaires repo checkout"
