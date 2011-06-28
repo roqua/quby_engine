@@ -41,7 +41,7 @@ namespace :deploy do
 
     # if a shared copy of newrelic.yml exists, use that, otherwise the repo version is fine
     # we use this to disable newrelic in the rgoc app
-    run "[ -e #{deploy_to}/#{shared_dir}/config/newrelic.yml ] && ln -nfs #{deploy_to}/#{shared_dir}/config/newrelic.yml #{release_path}/config/newrelic.yml"
+    run "if [ -e #{deploy_to}/#{shared_dir}/config/newrelic.yml ]; then ln -nfs #{deploy_to}/#{shared_dir}/config/newrelic.yml #{release_path}/config/newrelic.yml; fi"
   end
 
   desc "Symlink the questionnaires from shared dir"
