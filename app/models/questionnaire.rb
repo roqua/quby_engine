@@ -116,11 +116,18 @@ class Questionnaire < ActiveRecord::Base
     })
   end
 
-  def to_codebook
+  def to_codebook(extra_vars)
     output = []
     output << title
     output << "Date #{updated_at}"
     output << ""
+
+    extra_vars.andand.each do |key, description|
+      output << "#{key} unknown"
+      output << "\"#{description}\""
+      output << ""
+    end
+
     questions.compact.each do |question|
       output << question.to_codebook(self)
       output << ""
