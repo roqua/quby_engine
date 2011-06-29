@@ -233,9 +233,9 @@ class Items::Question < Item
     false
   end
 
-  def to_codebook(questionnaire)
+  def to_codebook(questionnaire, opts = {})
     output = []
-    output_key = key.to_s.gsub(/^v_/, "#{questionnaire.key.to_s}_")
+    output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
     output_type = type
     output_type = :radio if [:scale].include?(output_type)
 

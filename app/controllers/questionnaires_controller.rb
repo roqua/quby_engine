@@ -11,7 +11,8 @@ class QuestionnairesController < ApplicationController
   def show
     return head(Questionnaire.exists?(:key => params[:id]) ? 200 : 404) if request.head?
     @questionnaire = Questionnaire.find_by_key(params[:id])
-    @extra_vars = params[:extra_vars]
+    @extra_vars = params[:extra_vars].to_a.sort_by{|i| i[0].to_i}.map{|i| i[1]}
+    @roqua_key = params[:roqua_key]
     if @questionnaire
       respond_with @questionnaire
     else
