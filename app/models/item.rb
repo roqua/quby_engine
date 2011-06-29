@@ -16,7 +16,7 @@ class Item
     }
   end
 
-  def to_codebook
+  def to_codebook(questionnaire, options = {})
     ""
   end
 end
