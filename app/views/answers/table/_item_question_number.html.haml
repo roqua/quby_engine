@@ -2,5 +2,5 @@
 %td.item{:class => os_cycle, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span}
   .fields{:class => question.type, :id => question.html_id}
     = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => question.type
-    = raw question.unit    
+    %span.unit= raw question.unit    
     = validations
