@@ -234,18 +234,62 @@ class Items::Question < Item
 
   def to_codebook(questionnaire, opts = {})
     output = []
-    output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
     output_type = type
-    output_type = :radio if [:scale].include?(output_type)
+    output_type = :radio if [:scale, :select].include?(output_type)
 
     output_range = ""
     range_min = validations.find{|i| i[:type] == :minimum}.andand[:value]
     range_max = validations.find{|i| i[:type] == :maximum}.andand[:value]
     output_range = "(#{[range_min, "value", range_max].compact.join(" <= ")})" if range_min || range_max
 
-    output << "#{output_key} #{output_type} #{output_range}"
-    output << "\"#{title}\"" unless title.blank?
-    output << options.map(&:to_codebook).join("\n") unless options.blank?
+    case type
+    when :date
+      if day_key
+        output_key = day_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
+        output << "#{output_key} #{output_type}_day #{output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
+        output << ""
+      end
+      
+      if month_key
+        output_key = month_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
+        output << "#{output_key} #{output_type}_month #{output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
+        output << ""
+      end
+      
+      if year_key
+        output_key = year_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
+        output << "#{output_key} #{output_type}_year #{output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
+        output << ""
+      end
+
+      if not (year_key or month_key or day_key)
+        output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
+        output << "#{output_key} #{output_type}_day #{output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
+      end
+    when :check_box
+      options.each_with_index do |option, idx|
+        output_key = option.key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
+        output << "#{output_key} #{output_type}"
+        output << "\"#{title}\"" unless title.blank?
+        output << "1\tChecked"
+        output << "0\tUnchecked"
+        output << "empty\tUnchecked"
+        output << "" unless idx == (options.size-1)
+      end
+    else
+      output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
+      output << "#{output_key} #{output_type} #{output_range}"
+      output << "\"#{title}\"" unless title.blank?
+      output << options.map(&:to_codebook).join("\n") unless options.blank?
+    end
 
     output.join("\n")
   end
