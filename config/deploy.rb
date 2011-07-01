@@ -51,7 +51,7 @@ namespace :deploy do
 
   desc "Seed"
   task :seed, :roles => :db do
-    run "cd #{current_path} && bundle exec rake db:seed RAILS_ENV=#{rails_env}"
+    run "cd #{release_path}; bundle exec rake RAILS_ENV=#{rails_env} db:seed"
   end
 
   desc "Create/update the questionnaires repo checkout"
