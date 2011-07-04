@@ -67,10 +67,10 @@ function activatePanel(panel, updateHash, forward) {
     
     nextButtonFocussed = false;
     saveButtonFocussed = false;
-    if (hotkeysEnabled) {
-        curPanel = panel;
+    curPanel = panel;
+    if (hotkeysEnabled) {        
         panelInputs = getValidInputs();
-        focusI = 0;
+        focusI = 1;
         focusInputIndex(focusI, true);
     }
 }
@@ -521,8 +521,20 @@ function handleRadioHotKeys(event){
 
 function focusInput(input){
     $('.focus').removeClass('focus');
-    $(input).closest('.item, .row').addClass('focus');
     focusI = panelInputs.index(input);
+    if($(input).is("[type='submit']")){
+        $('.buttons').addClass('focus');
+    } else if ($(input).is("[type='checkbox']")) {
+        $(input).closest('.option').addClass('focus');
+    } else {
+        var focus = $(input).closest('.item:not(.table)');
+        if (focus.length == 0) {
+            var qname = $(input).closest('td.option').data('for');
+            curPanel.find('td.option[data-for="' + qname + '"]').addClass('focus');
+        } else {
+            focus.addClass('focus');
+        }
+    }
     lastInput = $(input);
 }
 
@@ -561,6 +573,14 @@ function getValidInputs(){
         }
         return true;
     });
+    
+    var backI = inputs.index(inputs.filter('#back, #prevButton1').not(':hidden'));
+    if(backI != -1){
+        inputs = inputs.toArray();
+        inputs.unshift(inputs.splice(backI, 1)[0]);;
+        inputs = $(inputs);;
+    }
+    
     return inputs;
 }
 
@@ -772,7 +792,7 @@ $(document).ready(
                 nextButtonFocussed = false;
                 saveButtonFocussed = false;
             })
-            $(".item input, .item textarea").click(function(event){
+            $(".item input, .item textarea, .buttons input").click(function(event){
                 focusInput(event.target);                
             }).focus(function(event){
                 focusInput(event.target);
