@@ -545,7 +545,7 @@ function focusInputIndex(index, forward){
         lastInput = panelInputs.filter(':eq('+index+'), :lt(' + index + ')').not(':hidden, :disabled').last();
     }
     
-    if (lastInput.length == 0) {
+    if (index < 0 || index > panelInputs.length || lastInput.length == 0) {
         if(forward){
             index = 0
             lastInput = panelInputs.filter(':eq('+index+'), :gt(' + index + ')').not(':hidden, :disabled').first();
@@ -563,7 +563,7 @@ function focusInputIndex(index, forward){
 }
 
 function getValidInputs(){
-    var inputs = curPanel.find('input:not([value="DESELECTED_RADIO_VALUE"]), textarea');
+    var inputs = curPanel.find('input:not([value="DESELECTED_RADIO_VALUE"], [id^="abortButton"]), textarea');
     var hadRadioQ = [];
     inputs = inputs.filter(function (index){
         if (this.type == "radio") {
@@ -574,11 +574,11 @@ function getValidInputs(){
         return true;
     });
     
-    var backI = inputs.index(inputs.filter('#back, #prevButton1').not(':hidden'));
+    var backI = inputs.index(inputs.filter('#back, [id^="prevButton"]').not(':hidden'));
     if(backI != -1){
         inputs = inputs.toArray();
-        inputs.unshift(inputs.splice(backI, 1)[0]);;
-        inputs = $(inputs);;
+        inputs.unshift(inputs.splice(backI, 1)[0]);
+        inputs = $(inputs);
     }
     
     return inputs;
