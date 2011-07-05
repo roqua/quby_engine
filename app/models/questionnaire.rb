@@ -17,6 +17,8 @@ class Questionnaire < ActiveRecord::Base
   attr_accessor :scores
   attr_accessor :default_answer_value
 
+  attr_accessor :leave_page_alert
+
   attr_accessor :question_hash
 
   attr_accessor :extra_css

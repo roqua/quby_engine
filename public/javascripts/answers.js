@@ -676,8 +676,30 @@ function modalFrame(url){
     });    
 }
 
+var leave_page_text;
 $(document).ready(
     function() {
+        
+        leave_page_text = $("#leave_page_alert").html();
+        
+        function leave_page_nag(e){
+            var e = e || window.event;
+            
+            e.cancelBubble = true; 
+            
+            //Firefox 4+ does not use this text
+            e.returnValue = leave_page_text; 
+            
+            if (e.stopPropagation) { 
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            
+            return leave_page_text;
+        }
+        if(leave_page_text && leave_page_text.length > 0){
+            window.onbeforeunload = leave_page_nag;
+        }
         
         //IE7 indexOf fix
         if(!Array.indexOf){

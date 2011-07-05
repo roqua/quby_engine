@@ -10,6 +10,9 @@ module QuestionnaireDsl
       @default_question_options = {}
     end
 
+    def leave_page_alert(text)
+      @questionnaire.leave_page_alert = text
+    end
 
     def key(key)
       # @questionnaire.key = key
