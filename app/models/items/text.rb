@@ -14,7 +14,7 @@ class Items::Text < Item
     end
     super(options)
     @text = Maruku.new(str).to_html
-    @display_in = options[:display_in]
+    @display_in = options[:display_in] || [:paged]
     @col_span = options[:col_span] || 1
     @row_span = options[:row_span] || 1
   end
