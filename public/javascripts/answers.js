@@ -843,13 +843,14 @@ $(document).ready(
         // Don't submit if we've just submitted already
         var done_button_semaphore = true;
         $(".save input#done-button").click(function(event){
-          if (done_button_semaphore){
-            done_button_semaphore = false
-            setTimeout("done_button_semaphore = true;", 3000)
-            return true;
-          } else {
-            return false;
-          }
+            window.onbeforeunload = null;
+            if (done_button_semaphore){
+                done_button_semaphore = false
+                setTimeout("done_button_semaphore = true;", 3000)
+                return true;
+            } else {
+                return false;
+            }
         });
     }
 );
