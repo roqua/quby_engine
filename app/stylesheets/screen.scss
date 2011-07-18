@@ -231,7 +231,6 @@ select {
         padding: 1.5em $blueprint-grid-outer-width;
         border-top: 1px dotted #d6d6d6;
         background: #f3f3f3;
-        position: relative;
 
         .back { @include column(6); }
         .prev { @include column(6); }
@@ -239,7 +238,7 @@ select {
         .print { @include column(24); text-align: right; }
         .next { @include column(6, true); text-align: right; }
         .save { @include column(6, true); text-align: right; }
-        #hotkeyDialogLink { position: absolute; top: 7.5em; left: 30px; }
+        .hotkeyDialogLink { position: absolute; top: 7.5em; left: 30px; }
       }
       
       .item { 
@@ -617,7 +616,7 @@ select {
     //background-color: #f1ffe4;
 }
 
-#hotkeyDialog {
+.hotkeyDialog {
     p {
         margin: 1em 0;
     }
@@ -702,7 +701,13 @@ input:placeholder, textarea:placeholder {
     background: #cce8ed;
 }
 
+.hotkeyDialogLink{
+    margin-top: 2em;
+    @include column(10);
+}
 .print {
+    @include column(10);
+    margin-top: 2em;
     a {
         color: blue;
         text-decoration: underline;

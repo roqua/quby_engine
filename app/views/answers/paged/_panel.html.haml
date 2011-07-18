@@ -40,10 +40,14 @@
           &nbsp;      
       .save
         = submit_tag "Klaar", :id => "done-button"
-      .print
-        %a{:onclick => raw("doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
-          Print Antwoorden
-    = render :partial => "answers/hotkey_dialog"
+      
+  = render :partial => "answers/hotkey_dialog"    
+  - if panel_counter == panels.length - 1
+    .print
+      %a{:onclick => raw("doPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
+        Print Antwoorden
+  
+  
   
 
 / End _panel.html.haml

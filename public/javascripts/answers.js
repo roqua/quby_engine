@@ -567,7 +567,7 @@ function focusPrevInput(){
 }
 
 function hotkeyDialog(){;
-    $("#hotkeyDialog").dialog({ draggable : false, resizable : false, modal : true, width : 550,
+    $(".hotkeyDialog").last().dialog({ draggable : false, resizable : false, modal : true, width : 550,
     buttons: {
         "Sluiten": function(){
             $(this).dialog("close");
@@ -711,7 +711,7 @@ $(document).ready(
                 }
             }
         }
-        hotkeysEnabled = $("#hotkeyDialogLink").length > 0;
+        hotkeysEnabled = $(".hotkeyDialog").length > 0;
         
         
         var allDeselectableRadios = $('input[type=radio].deselectable');

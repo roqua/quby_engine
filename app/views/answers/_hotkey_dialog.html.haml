@@ -1,35 +1,36 @@
-- if @questionnaire.allow_hotkeys == "all" or session[:display_mode] == @questionnaire.allow_hotkeys
-  - hotkeys = ["shortkeys/1key.jpg",
-    "shortkeys/2key.jpg",
-    "shortkeys/3key.jpg",
-    "shortkeys/4key.jpg",
-    "shortkeys/5key.jpg",
-    "shortkeys/6key.jpg",
-    "shortkeys/7key.jpg",
-    "shortkeys/8key.jpg",
-    "shortkeys/9key.jpg",
-    "shortkeys/0key.jpg"]
-  %a{:id => "hotkeyDialogLink", :href => "javascript:hotkeyDialog();", :title => "Klik hier voor informatie over de sneltoetsen."}
-    Sneltoetsen Help
-  %div{:id => "hotkeyDialog", :title => "Sneltoetsen", :style => "display:none"}
-    %p Gebruik de volgende toetsen voor het invullen van de schalen:
-  
-    %table
-      %tr
-        - (1..9).each do |i|
-          %td
-            = radio_button_tag("RB", i)
-            %span= i
-      %tr
-        - hotkeys.each do |hk|
-          %td
-            = image_tag(hk)
-    %p 
-      De cijfers komen overeen met de score op de schaal. Indien er geen scores bij de opties staan is de eerste optie gekoppeld aan cijfer 1,
-      de tweede aan cijfer 2 enz.
-    %p
-      Gebruik de #{image_tag("shortkeys/enterkey.jpg")} toets om door te gaan naar een volgende vraag.
-    %p
-      Gebruik de spatiebalk voor het aanvinken van Checkboxes.
-      = check_box_tag("CB")
-    %p Gebruik de toetsen #{image_tag("shortkeys/pgdwnkey.jpg")} #{image_tag("shortkeys/pgupkey.jpg")}, #{image_tag("shortkeys/tabkey.jpg")} (Tab) en Shift+#{image_tag("shortkeys/tabkey.jpg")} of #{image_tag("shortkeys/dwnkey.jpg")} #{image_tag("shortkeys/upkey.jpg")} om van vraag naar vraag te gaan.
+.hotkeyDialogLink
+  - if @questionnaire.allow_hotkeys == "all" or session[:display_mode] == @questionnaire.allow_hotkeys
+    - hotkeys = ["shortkeys/1key.jpg",
+      "shortkeys/2key.jpg",
+      "shortkeys/3key.jpg",
+      "shortkeys/4key.jpg",
+      "shortkeys/5key.jpg",
+      "shortkeys/6key.jpg",
+      "shortkeys/7key.jpg",
+      "shortkeys/8key.jpg",
+      "shortkeys/9key.jpg",
+      "shortkeys/0key.jpg"]
+    %a{:href => "javascript:hotkeyDialog();", :title => "Klik hier voor informatie over de sneltoetsen."}
+      Sneltoetsen Help
+    .hotkeyDialog{ :title => "Sneltoetsen", :style => "display:none"}
+      %p Gebruik de volgende toetsen voor het invullen van de schalen:
+    
+      %table
+        %tr
+          - (1..9).each do |i|
+            %td
+              = radio_button_tag("RB", i)
+              %span= i
+        %tr
+          - hotkeys.each do |hk|
+            %td
+              = image_tag(hk)
+      %p 
+        De cijfers komen overeen met de score op de schaal. Indien er geen scores bij de opties staan is de eerste optie gekoppeld aan cijfer 1,
+        de tweede aan cijfer 2 enz.
+      %p
+        Gebruik de #{image_tag("shortkeys/enterkey.jpg")} toets om door te gaan naar een volgende vraag.
+      %p
+        Gebruik de spatiebalk voor het aanvinken van Checkboxes.
+        = check_box_tag("CB")
+      %p Gebruik de toetsen #{image_tag("shortkeys/pgdwnkey.jpg")} #{image_tag("shortkeys/pgupkey.jpg")}, #{image_tag("shortkeys/tabkey.jpg")} (Tab) en Shift+#{image_tag("shortkeys/tabkey.jpg")} of #{image_tag("shortkeys/dwnkey.jpg")} #{image_tag("shortkeys/upkey.jpg")} om van vraag naar vraag te gaan.
