@@ -26,6 +26,11 @@ gem 'seed-fu'
 # gem "central_logger" # disabled until fixed for when no connection is made
 gem 'SystemTimer'
 
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-ext'
+end
+
 group :test, :development do
   gem 'foreman'
   gem "rspec-rails", ">= 2.0.0.beta.19"

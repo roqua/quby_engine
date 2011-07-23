@@ -38,6 +38,14 @@ GEM
     awesome_print (0.3.1)
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
+    capistrano (2.6.0)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
+    capistrano-ext (1.2.1)
+      capistrano (>= 1.0.0)
     compass (0.10.6)
       haml (>= 3.0.4)
     devise (1.1.5)
@@ -55,6 +63,7 @@ GEM
       activesupport (>= 2.3.7)
       i18n (~> 0.4)
     haml (3.0.25)
+    highline (1.6.2)
     i18n (0.5.0)
     json (1.5.1)
     mail (2.2.19)
@@ -66,6 +75,13 @@ GEM
       syntax (>= 1.0.0)
     mime-types (1.16)
     mysql (2.8.1)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.1.4)
+    net-ssh-gateway (1.1.0)
+      net-ssh (>= 1.99.1)
     newrelic_rpm (3.0.1)
     nokogiri (1.4.4)
     open4 (1.0.1)
@@ -137,6 +153,8 @@ DEPENDENCIES
   andand
   autotest
   awesome_print
+  capistrano
+  capistrano-ext
   compass (>= 0.10.6)
   devise (~> 1.1)
   exception_notification
