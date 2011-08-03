@@ -1,6 +1,10 @@
 require 'addressable/uri'
 
 class AnswersController < ApplicationController
+  class TokenValidationError < Exception; end
+  class TimestampValidationError < Exception; end
+  class QuestionnaireNotFound < ActiveRecord::RecordNotFound; end
+
   before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update, :print]
   before_filter :find_patient
   append_before_filter :find_answer, :only => [:show, :edit, :update, :print]
@@ -19,6 +23,10 @@ class AnswersController < ApplicationController
   protect_from_forgery :except => [:edit, :update]
 
   respond_to :html, :json, :xml
+
+  rescue_from TokenValidationError, :with => :bad_token
+  rescue_from QuestionnaireNotFound, :with => :bad_questionnaire
+  rescue_from TimestampValidationError, :with => :bad_questionnaire
 
   def check_aborted
     if (params[:commit] == "Onderbreken" and @questionnaire.abortable) or
@@ -100,7 +108,25 @@ class AnswersController < ApplicationController
   def print
     update true    
   end
+
+  def bad_token(exception)
+    @error = "Er is geen of een ongeldige token meegegeven."
+    render :file => "errors/generic", :layout => "dialog"
+    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+  end
   
+  def bad_questionnaire(exception)
+    @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]} kon niet gevonden worden."
+    render :file => "errors/generic", :layout => "dialog"
+    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+  end
+
+  def bad_timestamp(exception)
+    @error = "Uw authenticatie is verlopen."
+    render :file => "errors/generic", :layout => "dialog"
+    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+  end
+
   protected
 
   def clear_session
@@ -115,10 +141,7 @@ class AnswersController < ApplicationController
   def find_questionnaire
     if params[:questionnaire_id]
       @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
-      unless @questionnaire
-        render :text => "Questionnaire not found", :status => 404
-        return false
-      end
+      raise QuestionnaireNotFound unless @questionnaire
     end
   end
 
@@ -133,12 +156,7 @@ class AnswersController < ApplicationController
   end
 
   def verify_token
-    #return true if Rails.env.development?
-
-    unless @answer.token == (params[:token] || session[:answer_token])
-      render :text => "Invalid token, or no token given"
-      return false
-    end
+    raise TokenValidationError unless @answer.token == (params[:token] || session[:answer_token])
   end
 
   def verify_hmac
@@ -153,14 +171,12 @@ class AnswersController < ApplicationController
 
     if our_hmac != hmac
       logger.error "ERROR::Authentication error: Token does not validate"
-      render :text => "Uw sessie is verlopen."
-      return
+      raise TokenValidationError.new("HMAC") 
     end
 
     if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
       logger.error "ERROR::Authentication error: Invalid timestamp."
-      render :text => "Uw sessie kon niet geauthenticeerd worden."
-      return
+      raise TimestampValidationError
     end
 
     if time < 24.hours.ago or 1.hour.since < time

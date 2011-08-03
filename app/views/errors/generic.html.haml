@@ -1,0 +1,9 @@
+.panel
+  .toolbar
+    Er is een fout opgetreden.
+  :markdown
+    Bij de afhandeling van deze pagina is er een fout opgetreden. We zijn hiervan
+    op de hoogte gesteld en we zullen er zo spoedig mogelijk naar kijken.
+  - unless @error.blank?
+    :markdown
+      De specifieke foutmelding is: #{@error}
