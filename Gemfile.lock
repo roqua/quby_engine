@@ -46,7 +46,7 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    exception_notification_rails3 (1.2.0)
+    exception_notification (2.4.1)
     formtastic (1.2.3)
       actionpack (>= 2.3.7)
       activesupport (>= 2.3.7)
@@ -130,7 +130,7 @@ DEPENDENCIES
   awesome_print
   compass (>= 0.10.6)
   devise (~> 1.1)
-  exception_notification_rails3
+  exception_notification
   formtastic
   haml
   json

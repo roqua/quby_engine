@@ -18,7 +18,7 @@ gem 'json'
 gem 'addressable'
 
 
-gem 'exception_notification_rails3', :require => 'exception_notifier'
+gem 'exception_notification'
 gem 'rails3-settings', :require => 'settings'
 gem 'devise', "~> 1.1"
 gem 'seed-fu'

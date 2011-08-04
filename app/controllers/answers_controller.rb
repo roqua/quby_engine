@@ -116,7 +116,7 @@ class AnswersController < ApplicationController
   end
   
   def bad_questionnaire(exception)
-    @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]} kon niet gevonden worden."
+    @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]}) kon niet gevonden worden."
     render :file => "errors/generic", :layout => "dialog"
     ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
   end
