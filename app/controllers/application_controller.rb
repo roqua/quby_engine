@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout :layout_by_resource
 
-  before_filter :log_session_hash
+  around_filter :log_session_hash
   before_filter :fix_ie_trusted_party_warning
 
   # TODO: Rails3
@@ -22,7 +22,12 @@ class ApplicationController < ActionController::Base
   end
 
   def log_session_hash
-    logger.info "  Session: #{session.inspect}"
+    logger.info "  User agent: #{request.headers['User-Agent']}"
+    logger.info "  Session ID: #{request.session_options[:id]}"
+    logger.info "  Process PID: #{Process.pid}" unless Rails.env.development?
+    logger.info "  Pre-request session: #{session.inspect}"
+    yield
+    logger.info "  Post-request session: #{session.inspect}"
   end
 
   def ip_check_for_api_methods
