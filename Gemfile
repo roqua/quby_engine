@@ -17,7 +17,7 @@ gem 'wirble'
 gem 'json'
 gem 'addressable'
 
-
+gem 'postmark-rails', '~> 0.4'
 gem 'exception_notification'
 gem 'rails3-settings', :require => 'settings'
 gem 'devise', "~> 1.1"
@@ -27,6 +27,7 @@ gem 'seed-fu'
 gem 'SystemTimer'
 
 group :test, :development do
+  gem 'foreman'
   gem "rspec-rails", ">= 2.0.0.beta.19"
   gem "autotest"
   gem "webrat"

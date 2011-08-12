@@ -48,5 +48,9 @@ module Quby
     config.filter_parameters += [:password]
 
     config.active_record.include_root_in_json = false
+ 
+    config.action_mailer.delivery_method   = :postmark
+    config.action_mailer.postmark_settings = { :api_key => "c7cafd4a-95ba-4987-be70-20c3e8e414eb" }
+
   end
 end
