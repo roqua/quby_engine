@@ -22,7 +22,7 @@ class Items::Table < Item
     @item_table    
   end
   
-  #TODO: cleanup to map/functional style 
+  #FIXME: code to be ashamed of 
   def rows
     return @rows if @rows
     @item_table = [[]]
@@ -30,12 +30,44 @@ class Items::Table < Item
     filled_columns = 0
     filled_rows = 0
     row_items = 0
+    
+    skips = []
     items.each do |item|
-      if item.class.name == "Items::Text" or not ([:check_box, :radio, :scale].include? item.type) 
+      
+      skips.delete_if do |row_span, skip_cols_at, skip_cols_length|
+        next true if row_span == 1
+        if skip_cols_length > 0 and filled_columns == skip_cols_at
+          filled_columns += skip_cols_length
+          @item_table[filled_rows] << nil
+          @rows[filled_rows][row_items] << nil
+          if filled_columns >= columns and item != items.last
+            filled_rows += 1
+            filled_columns = 0
+            row_items = 0
+            @rows << [[]]
+            @item_table << []
+            skips.map! do |row_span, skip_cols_at, skip_cols_length|
+              [row_span-1, skip_cols_at, skip_cols_length]
+            end
+          end
+          if filled_columns != 0 and item != items.last
+              row_items += 1
+              @rows[filled_rows] << []
+          end
+          next false
+        end
+      end
+      
+      if item.class.name == "Items::Text" or not ([:check_box, :radio, :scale].include? item.type)
+        if item.row_span > 1
+          skips << [item.row_span, filled_columns, item.col_span]
+        end
+      
         @item_table[filled_rows] << item
         @rows[filled_rows][row_items] << item
         filled_columns += item.col_span
-        if filled_columns >= columns and item != items.last 
+        
+        if filled_columns >= columns and item != items.last
           filled_rows += 1
           filled_columns = 0
           row_items = 0
@@ -46,12 +78,18 @@ class Items::Table < Item
           row_items += 1
           @rows[filled_rows] << []
         end
+        
       else #is :check_box, :radio or :scale question
+        if item.row_span > 1
+          skips << [item.row_span, filled_columns, item.options.length]
+        end
+      
         @item_table[filled_rows] << item
         if item.options.length <= columns #multiple questions on one row
           item.options.each do |opt|
             @rows[filled_rows][row_items] << opt            
             filled_columns += 1
+            
             if filled_columns >= columns and item != items.last 
               filled_rows += 1
               filled_columns = 0

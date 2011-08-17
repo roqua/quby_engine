@@ -89,4 +89,14 @@ module AnswersHelper
     end
   end
   
+  def light_dark_for(cyclei, same_question)
+    if same_question
+      return ""
+    elsif (cyclei.modulo(2) == 0)
+      return "light"
+    else
+      return "dark"
+    end     
+  end
+  
 end

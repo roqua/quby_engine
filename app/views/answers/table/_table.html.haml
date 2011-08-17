@@ -8,15 +8,15 @@
       - header = ''
       - all_blank = true
       - opt_sets.each_with_index do |opt_set, i|
-        - os_cycle = cycle("light", "dark", :name => "opt_set_hcycle" )      
+        - hos_cycle = cycle("light", "dark", :name => "opt_set_hcycle" )      
         - last = opt_set == opt_sets.last
         - colspan = opt_set.length.to_f
         - question = get_question(table, rowi, i)
         - if question and (rowi == 0 or different_header(question, get_question(table, rowi-1, i))) and question.score_header != :none
-          - header += render :partial => "answers/table/item_table_header", :locals => {:question => question, :last => last, :colspan => colspan, :os_cycle => os_cycle}
+          - header += render :partial => "answers/table/item_table_header", :locals => {:question => question, :last => last, :colspan => colspan, :os_cycle => hos_cycle}
           - all_blank = false
         - else
-          - header += render :partial => "answers/table/item_table_header", :locals => {:question => nil, :colspan => colspan, :os_cycle => os_cycle}
+          - header += render :partial => "answers/table/item_table_header", :locals => {:question => nil, :colspan => colspan, :os_cycle => hos_cycle}
           
       - question = get_question(table, rowi, 0)
       - same_question = (rowi != 0 and question and question == get_question(table, rowi-1, 0))
@@ -53,21 +53,22 @@
       
       - cls = []
       - if opt_sets.length <= 1 and not same_question
-        - os_cycle = cycle("light", "dark", :name => "opt_set_rcycle" )
-      - else 
-        - os_cycle = nil
-      - cls << os_cycle
+        - ros_cycle = cycle("light", "dark", :name => "opt_set_rcycle" )
+      - else
+        - ros_cycle = nil
+      
+      - cls << ros_cycle
       - cls << 'inner_row' if opt_sets != table.rows.last and question and question == get_question(table, rowi+1, 0)
       - filled_columns = 0
+      - cyclei = 0
       %tr.row(class = cls)
-        - reset_cycle "opt_set_cycle" if os_cycle != "dark"
+        -# reset_cycle "opt_set_cycle" if ros_cycle != "dark"   
         - if question and question.presentation != :horizontal
           - unless same_question
             - rowspan = (question.options.length.to_f/table.columns).ceil
             - rowspan = 1 if question.type == :select
             - title_insert = nil
             - subq = question.options.last.andand.questions.andand.first
-            -# cycle("light", "dark", :name => "opt_set_cycle" )
             - if subq.andand.presentation == :next_to_title and subq.type == :string
               - title_insert = render :partial => "answers/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
             :markdown
@@ -75,37 +76,40 @@
                 
         - opt_sets.each_with_index do |opt_set, j| 
           - item = get_item(table, rowi, j)
-          - os_cycle = !same_question ?  cycle("light", "dark", :name => "opt_set_cycle" ) : ''
+          - if item.andand.switch_cycle
+            - cyclei += 1
+          
+          - cos_cycle = light_dark_for(cyclei, same_question)
+          - cyclei += 1
+          - next unless item          
           - opt_set.each_with_index do |opt, i|
-            -case item.class.name
-            -when "Items::Question"
+            
+            -if item.class.name == "Items::Question"
               - question = item
-              - validations = render :partial => 'answers/shared/validations', :locals => {:question => question, :answer => @answer}
-                      
+              - validations = render :partial => 'answers/shared/validations', :locals => {:question => question, :answer => @answer}                      
               - case question.type
               - when :check_box
-                = render :partial => "answers/table/item_option_check_box", :locals => {:opt => opt, :table => table, :os_cycle => os_cycle, :validations => validations, :question => question}
+                = render :partial => "answers/table/item_option_check_box", :locals => {:opt => opt, :table => table, :os_cycle =>cos_cycle, :validations => validations, :question => question}
               - when :radio, :scale
-                = render :partial => "answers/table/item_option_radio", :locals => {:opt => opt, :table => table, :os_cycle => os_cycle, :validations => validations, :question => question}
+                = render :partial => "answers/table/item_option_radio", :locals => {:opt => opt, :table => table, :os_cycle =>cos_cycle, :validations => validations, :question => question}
               - when :string
-                = render :partial => "answers/table/item_question_string", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
+                = render :partial => "answers/table/item_question_string", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
               - when :textarea
-                = render :partial => "answers/table/item_question_textarea", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
+                = render :partial => "answers/table/item_question_textarea", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
               - when :integer, :float
-                = render :partial => "answers/table/item_question_number", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
+                = render :partial => "answers/table/item_question_number", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
               - when :date
-                = render :partial => "answers/table/item_question_date", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
+                = render :partial => "answers/table/item_question_date", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
               - when :select
-                = render :partial => "answers/table/item_question_select", :locals => {:question => question, :table => table, :os_cycle => os_cycle, :validations => validations}
+                = render :partial => "answers/table/item_question_select", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
               - else
                 %strong
                   Error: unknown question type
                   = question.type
                   for question
                   = question.key
-            -when "Items::Text"
-              %td.item.text{:class => os_cycle, :colspan => item.col_span, :rowspan => item.row_span}
-                =raw item.text
+            -elsif  item.class.name == "Items::Text"
+              = render :partial => "answers/table/item_text", :locals => {:item => item, :cos_cycle =>cos_cycle}
             - filled_columns += item.col_span
             - if opt == opt_set.last and opt_set == opt_sets.last and filled_columns < table.columns
               - (0...(table.columns - filled_columns)).each do 

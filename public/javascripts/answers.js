@@ -22,13 +22,13 @@ var shownFlash = false;
 var inIframe = false;
 
 function loadcssfile(filename){
- var fileref=document.createElement("link")
-  fileref.setAttribute("rel", "stylesheet")
-  fileref.setAttribute("type", "text/css")
-  fileref.setAttribute("href", filename)
+ var fileref=document.createElement("link");
+  fileref.setAttribute("rel", "stylesheet");
+  fileref.setAttribute("type", "text/css");
+  fileref.setAttribute("href", filename);
   
  if (typeof fileref!="undefined")
-  document.getElementsByTagName("head")[0].appendChild(fileref)
+  document.getElementsByTagName("head")[0].appendChild(fileref);
 }
 
 //For displaying answers differently within iframes 
