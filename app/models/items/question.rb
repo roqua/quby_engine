@@ -189,7 +189,8 @@ class Items::Question < Item
       :type => type,
       :validations => validations,
       :unit => unit,
-      :hidden => !!hidden?
+      :hidden => !!hidden?,
+      :display_modes => display_modes
     }).merge(
       case type
       when :string
