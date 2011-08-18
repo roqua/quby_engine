@@ -80,18 +80,17 @@ function pushFailVal(val){
     validationI++;
 }
 
-function is_answered(inputs){
+function is_answered(inputs, item){
     for (var j = 0; j < inputs.length; j++){
         var input = $(inputs[j]);
         if(input.is("[type=text], textarea")){
-            if (input.attr("value") != "") {
-                return true;
-            }
+            return (input.attr("value") != "");
         }
         if(input.is("[type=radio]") || input.is("[type=checkbox]")){
-            if (input.attr("checked")) {
-                return true;
-            }
+            return input.attr("checked");
+        }
+        if(input.is("select")){
+            return item.data('placeholder') != input[0].value;
         }
     }
     return inputs.length == 0;
@@ -120,7 +119,7 @@ function validatePanel(panel) {
         var dep_inputs = $($.map(depends_on, function(key){
             return $("#answer_"+key).not(":disabled, :hidden");
         }));
-        if(!is_answered(dep_inputs) || dep_inputs.length == 0){
+        if(!is_answered(dep_inputs, question_item) || dep_inputs.length == 0){
             continue;
         }
       }
@@ -129,7 +128,7 @@ function validatePanel(panel) {
           question_item = panel.find("[data-for=" + question_key + "]");
       }
       
-      var inputs = question_item.find("input, textarea").not(":disabled, :hidden");
+      var inputs = question_item.find("input, textarea, select").not(":disabled, :hidden");
       
       fail_vals = new Array();
       
@@ -137,7 +136,7 @@ function validatePanel(panel) {
         var validation = validations[question_key][i];
         switch(validation.type) {
             case "requires_answer":
-                if (!is_answered(inputs)) {
+                if (!is_answered(inputs, question_item)) {
                   pushFailVal(validation.type);
                 }
                 break;          

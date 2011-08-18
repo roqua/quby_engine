@@ -62,7 +62,8 @@
       - filled_columns = 0
       - cyclei = 0
       %tr.row(class = cls)
-        -# reset_cycle "opt_set_cycle" if ros_cycle != "dark"   
+        - cyclei = 1 if ros_cycle == "dark"
+           
         - if question and question.presentation != :horizontal
           - unless same_question
             - rowspan = (question.options.length.to_f/table.columns).ceil

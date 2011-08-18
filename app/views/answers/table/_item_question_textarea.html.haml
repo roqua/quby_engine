@@ -1,6 +1,6 @@
 - available_width = question.presentation == :horizontal ? 100 : 66
 - optionclasses =  [os_cycle]
-%td.item{:class => os_cycle, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span}
+%td.item{:class => os_cycle, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   .fields{:class => question.type, :id => question.html_id}
     = text_area :answer, question.key, :rows => (question.lines || 6), :autocomplete => question.autocomplete, :class => question.type
     = validations
