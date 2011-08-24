@@ -84,13 +84,19 @@ function is_answered(inputs, item){
     for (var j = 0; j < inputs.length; j++){
         var input = $(inputs[j]);
         if(input.is("[type=text], textarea")){
-            return (input.attr("value") != "");
+          if (input.attr("value") != "") {
+              return true;
+          }
         }
         if(input.is("[type=radio]") || input.is("[type=checkbox]")){
-            return input.attr("checked");
+          if (input.attr("checked")) {
+              return true;
+          }
         }
         if(input.is("select")){
-            return item.data('placeholder') != input[0].value;
+          if (item.data('placeholder') != input[0].value){
+            return true;
+          }
         }
     }
     return inputs.length == 0;
