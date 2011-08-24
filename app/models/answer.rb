@@ -3,7 +3,7 @@ class Answer < ActiveRecord::Base
 
   after_initialize :enhance_by_dsl
   before_validation(:on => :create) { generate_random_token }
-  before_validation(:on => :update) { cleanup_input }
+
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
   validate :validate_answers, :on => :update
@@ -162,41 +162,23 @@ class Answer < ActiveRecord::Base
     not all_blank and valid?
   end
 
-  def cleanup_input
-    @hidden_questions = []
-    @question_groups = {}
+  def validate_answers
+    return if @aborted
+    hidden_questions = []
+    question_groups = {}
     
     questionnaire.questions.each do |question|
       next unless question
       answer = self.send(question.key)
-      if answer and (answer == "DESELECTED_RADIO_VALUE" or answer == question.extra_data[:placeholder].to_s)
+      if answer == "DESELECTED_RADIO_VALUE"
         clear_question(question)
       end
       
-      if answer and question.type == :radio and not question.hides_questions.blank?
-        question.options.each do |opt|
-          if answer.to_sym == opt.key
-            @hidden_questions.concat(opt.hides_questions)
-          end
-        end
-      end
-      
-      if (question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
-          (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)) or
-        @hidden_questions.include?(question.key)
-        clear_question(question)          
-      end
-      
       if question.question_group
-        @question_groups[question.question_group] = [] unless question_groups[question.question_group]
-        @question_groups[question.question_group] << question.key
+        question_groups[question.question_group] = [] unless question_groups[question.question_group]
+        question_groups[question.question_group] << question.key
       end
-
     end
-  end
-
-  def validate_answers
-    return if @aborted
     
     questionnaire.questions.each do |question|
       next unless question
@@ -212,6 +194,21 @@ class Answer < ActiveRecord::Base
       
       answer = self.send(question.key)
       validations = question.validations
+
+      if answer and question.type == :radio and not question.hides_questions.blank?
+        question.options.each do |opt|
+          if answer.to_sym == opt.key
+            hidden_questions.concat(opt.hides_questions)
+          end
+        end
+      end
+      
+      if (question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
+          (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)) or
+          hidden_questions.include?(question.key)
+        clear_question(question) 
+        next          
+      end
       
       if not validations.empty?
         #logger.info "Validating #{question.key} = #{question.validations.inspect}."
@@ -237,7 +234,7 @@ class Answer < ActiveRecord::Base
             match = validation[:matcher].match(answer)
             add_error(question, validation[:type], "Does not match pattern expected.") if not match or match[0] != answer
           when :requires_answer
-            next if @hidden_questions.include?(question.key)            
+            next if hidden_questions.include?(question.key)            
             if question.type == :check_box
               add_error(question, validation[:type], "Must be answered.") if answer.values.reduce(:+) == 0
             else 
