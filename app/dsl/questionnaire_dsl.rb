@@ -258,16 +258,21 @@ module QuestionnaireDsl
     end
     
     def title_question(key, options = {}, &block)
+      raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
       options = @default_question_options.merge({:depends_on => @question.key, :questionnaire => @questionnaire, :parent => @question, :presentation => :next_to_title}.merge(options))
+      
       q = QuestionFactory.new(key, options)
       q.instance_eval(&block) if block
+      @questionnaire.question_hash[key] = q.build
       @title_question = q.build
     end
 
     def question(key, options = {}, &block)
+      raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
+      
       q = QuestionFactory.new(key, @default_question_options.merge(options.merge({:questionnaire => @questionnaire, :parent => @question, :parent_option_key => @question.options.last.key})))
       q.instance_eval(&block) if block
-
+      @questionnaire.question_hash[key] = q.build
       @question.options.last.questions << q.build
     end
 
