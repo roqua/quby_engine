@@ -361,6 +361,17 @@ function handleHideQuestions(element, hidekeys, allkeys){
     });    
 }
 
+
+function radioCheckboxEvents(event){
+    var element = $(event.target || event);
+    if(element.is("[type=radio]")){
+        handleDisableRadioSubQuestions(element);
+    } else {
+        handleDisableCheckboxSubQuestions(element);
+    }
+    handleHideQuestions(element, eval(element.attr('hides')) || [], eval(element.attr('allhidden')) || []);
+}
+
 function handleDisableRadioSubQuestions(element){
     element.closest('.item').find('.subinput').attr("disabled", "disabled");
     if(element.attr('checked')){        
@@ -369,7 +380,8 @@ function handleDisableRadioSubQuestions(element){
 }
 
 function handleDisableCheckboxSubQuestions(element){
-    if(element.checked){
+    element = $(element);
+    if(element.attr('checked')){
         $(element).closest('.option').find('.subinput').removeAttr("disabled");       
     } else {
         $(element).closest('.option').find('.subinput').attr("disabled", "disabled");
@@ -392,9 +404,16 @@ function selectInput(value){
     if(selectedInput.length > 0) {
         setCurrent(selectedInput[0]);
         setCheck(selectedInput[0], selectedInput.is('.deselectable'));
-        radioEvents(selectedInput[0]);
+        radioCheckboxEvents(selectedInput[0]);
         focusNextInput();   
     }
+}
+function selectFocusedInput(){
+    var el = $(document.activeElement);
+    setCurrent(el);
+    setCheck(el, el.is("input[type='checkbox'], .deselectable"));
+    radioCheckboxEvents(el);
+    focusNextInput();
 }
 
 function preventDefault(event){
@@ -428,7 +447,7 @@ function handlePreventDefault(event){
     }
 }
 
-function handleHotKeys(event){
+function handleDownHotKeys(event){
     event.which = event.which || event.keyCode;
     if ($(lastInput).is("textarea")) {
         return;
@@ -448,74 +467,95 @@ function handleHotKeys(event){
             preventDefault(event);
             focusPrevInput();
             break;
+        case 37: // left arrow
+            if (!$(lastInput).is("input[type=text]")) {
+                preventDefault(event);
+                focusPrevInput();
+            }
+            break;
         //pg dwn, down arrow
         case 34:
         case 40:
             preventDefault(event);
             focusNextInput();
             break;
+        case 39: //right arrow
+            if (!$(lastInput).is("input[type=text]")) {
+                preventDefault(event);
+                focusNextInput();
+            }
+            break;
         //space
         case 32:
-            break;    
+            if(!$(lastInput).is("input[type=text]")){
+                preventDefault(event);
+            }
+            break;
     }
 }
-function handleRadioHotKeys(event){
+function handleUpHotKeys(event){
     event.which = event.which || event.keyCode;
-    if (saveButtonFocussed || nextButtonFocussed || !$(lastInput).is("[type='radio']")){
+    if (saveButtonFocussed || nextButtonFocussed || $(lastInput).is("textarea, input[type=text]")){ 
         return;
     }
-    
-    switch (event.which) {
-        //0
-        case 48:
-        case 96:
-            selectInput(0);
-            break;
-        //1
-        case 49:
-        case 97:
-            selectInput(1);
-            break;
-        //2
-        case 50:
-        case 98:
-            selectInput(2);
-            break;
-        //3
-        case 51:
-        case 99:
-            selectInput(3);
-            break;
-        //4
-        case 52:
-        case 100:
-            selectInput(4);
-            break;
-        //5
-        case 53:
-        case 101:
-            selectInput(5);
-            break;
-        //6
-        case 54:
-        case 102:
-            selectInput(6);
-            break;
-        //7
-        case 55:
-        case 103:
-            selectInput(7);
-            break;
-        //8
-        case 56:
-        case 104:
-            selectInput(8);
-            break;
-        //9
-        case 57:
-        case 105:
-            selectInput(9);
-            break;
+    if ($(lastInput).is("[type='radio']")) {
+        switch (event.which) {
+            //0
+            case 48:
+            case 96:
+                selectInput(0);
+                break;
+            //1
+            case 49:
+            case 97:
+                selectInput(1);
+                break;
+            //2
+            case 50:
+            case 98:
+                selectInput(2);
+                break;
+            //3
+            case 51:
+            case 99:
+                selectInput(3);
+                break;
+            //4
+            case 52:
+            case 100:
+                selectInput(4);
+                break;
+            //5
+            case 53:
+            case 101:
+                selectInput(5);
+                break;
+            //6
+            case 54:
+            case 102:
+                selectInput(6);
+                break;
+            //7
+            case 55:
+            case 103:
+                selectInput(7);
+                break;
+            //8
+            case 56:
+            case 104:
+                selectInput(8);
+                break;
+            //9
+            case 57:
+            case 105:
+                selectInput(9);
+                break;
+        }
+    } 
+    //space
+    if(event.which == 32){
+            preventDefault(event);
+            selectFocusedInput();
     }
 }
 
@@ -600,13 +640,6 @@ function hotkeyDialog(){;
     }
     });
 }
-
-function radioEvents(event){
-    var element = $(event.target || event);
-    handleDisableRadioSubQuestions(element);
-    handleHideQuestions(element, eval(element.attr('hides')) || [], eval(element.attr('allhidden')) || []);
-}
-
 
 //TODO: make this work for: 
 //* enabling/disabling subquestions,
@@ -746,7 +779,7 @@ $(document).ready(
         };
                             
         setCheck = function(obj, deselectable) {
-            if (radioChecked) {
+            if (radioChecked){
                 if (deselectable) {
                     $(obj).removeAttr('checked');
                     $("input[name='"+obj.name+"'][value='DESELECTED_RADIO_VALUE']").attr('checked', 'checked');
@@ -776,7 +809,7 @@ $(document).ready(
             });
         });
         
-        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').click( radioEvents );
+        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').click( radioCheckboxEvents );
         
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
@@ -786,8 +819,8 @@ $(document).ready(
         
         isBulk = $('form.bulk, form.print').size() > 0;
         if (hotkeysEnabled) {
-            $(document).keydown(handleHotKeys);
-            $(document).keyup(handleRadioHotKeys);
+            $(document).keydown(handleDownHotKeys);
+            $(document).keyup(handleUpHotKeys);
             $(document).click(function (){
                 nextButtonFocussed = false;
                 saveButtonFocussed = false;
