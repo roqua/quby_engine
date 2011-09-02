@@ -74,7 +74,7 @@ GEM
     maruku (0.6.0)
       syntax (>= 1.0.0)
     mime-types (1.16)
-    mysql (2.8.1)
+    mysql2 (0.2.7)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -163,7 +163,7 @@ DEPENDENCIES
   haml
   json
   maruku
-  mysql
+  mysql2 (= 0.2.7)
   newrelic_rpm
   open4
   postmark-rails (~> 0.4)

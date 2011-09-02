@@ -2,14 +2,14 @@ source 'http://rubygems.org'
 
 gem 'rails', '~> 3.0.0'
 
+gem 'mysql2', "=0.2.7"
+
 gem 'haml'
 gem 'formtastic'
 gem 'maruku'
 gem 'compass', '>= 0.10.6'
 
 gem 'newrelic_rpm'
-
-gem 'mysql'
 gem 'andand'
 gem 'awesome_print'
 gem 'open4'
