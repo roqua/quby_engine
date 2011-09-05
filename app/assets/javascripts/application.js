@@ -1,7 +1,9 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 //
-
+//= require jquery
+//= require jquery_ujs
+//= require jquery-ui
 
 // Fix HTML5 <input placeholder="foo"/> feature for older browsers
 
