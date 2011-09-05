@@ -1,0 +1,131 @@
+/* Welcome to Compass. Use this file to define print styles.
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
+@import "compass/reset";
+@import "blueprint/typography";
+
+body, input {
+    color: black;
+    background-color: #ffffff;
+    //font-family: "Times New Roman", Times, serif;
+    font-family: Arial, serif;
+    font-size: 9pt;
+}
+
+#content {
+    margin: 0em;
+}
+
+.print_button{
+    margin: 1em;
+}
+
+@media print {
+    .print_button{
+        display:none;
+    }
+}
+
+h1 {
+    margin: 0 0.5em 0.5em 0.5em;
+    font: 200% sans-serif;
+}
+
+.print{
+
+    em {
+        font-weight: bold; }
+    
+    p {
+        margin-bottom: 0.5em; }
+    
+    ul {
+        margin-top: 0.5em;
+        margin-left: 1em;
+    li {
+        list-style-type: disc;
+        margin-bottom: 0.3em; } }
+    
+    .description-and-fields{
+        float:left;
+        width:75%;
+    }  
+    
+    .panel {
+        
+        border: none;
+        margin-left: 1em;
+        .item{
+            
+            display:inline-block;
+            &:after {
+                content:"&nbsp;"; 
+                display:block; 
+                height:0; 
+                clear:both; 
+                visibility:hidden;
+            }
+            
+            width:95%;
+            border: 1px solid;
+            
+            &.subitem {
+                border: 0;
+            }
+            
+            margin-top: -1px;
+            padding: 1em 0.5em;
+            .radio > label, .checkbox > label {
+               padding-right: 1em;
+               font-weight: bold; }
+            .labelwrapper{
+                display:inline;
+             }             
+        }
+        
+        .main{
+            float:left;
+            width:25%;
+            //padding-right: 0.5em;
+        }
+        .qnumber{
+            float:left;
+            padding-right: 0.5em;
+            width:10%;
+        }
+        .mainlabelwrap{
+            float:left;
+            width:70%;
+        }
+         
+        .description {
+            float:left;
+            margin-right: 0.5em;
+            width:25%; 
+        }
+        .fields {
+            padding-left: 4em;
+            width:65%;
+            float:right;
+            padding:0 0.5em;            
+            border-left: 1px solid;
+        }
+        .description, .text {
+            ul {
+                margin-left: 0.5em; } }
+    }
+    .bulk{
+        .option {display: inline;}
+    }
+    
+    span p, .radiocheckwrapper, div.value{
+        display: inline;
+    }
+    
+    .hidden, #hotkeyDialogLink, #mastfoot, .buttons{
+      display: none;
+    }
+    :disabled {
+      display: none;
+    }
+}
