@@ -82,13 +82,13 @@ select {
         }
         
         .errors{
-            outline: 2px solid red !important;
+            border: 2px solid red !important;
         }
         
         .error{
             display: inline-block;
             background: #ffbbbb;
-            outline: 1px solid #ff3333;
+            border: 1px solid #ff3333;
             &.hidden{
                 display:none;
             }
@@ -251,12 +251,12 @@ select {
         &.hidden{ display:none; }
 
         &.errors {
-          outline: 1px solid red;
+          border: 1px solid red;
           padding: 0.4em;
           .error {
             background: #ffaaaa;
             color: #550000;
-            outline: 1px solid red;
+            border: 1px solid red;
             padding: 0.3em;
             margin-bottom: 0.3em;
           }
@@ -461,12 +461,12 @@ select {
         &.hidden{ display:none;}
 
         &.errors {
-          outline: 1px solid red;
+          border: 1px solid red;
           padding: 0.4em;
           .error {
             background: #ffaaaa;
             color: #550000;
-            outline: 1px solid red;
+            border: 1px solid red;
             padding: 0.3em;
             margin-bottom: 0.3em;
           }

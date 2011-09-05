@@ -464,8 +464,10 @@ function handleDownHotKeys(event){
         //pg up, up arrow
         case 33:
         case 38:
-            preventDefault(event);
-            focusPrevInput();
+            if (!$(lastInput).is("select")) {
+                preventDefault(event);
+                focusPrevInput();
+            }
             break;
         case 37: // left arrow
             if (!$(lastInput).is("input[type=text]")) {
@@ -476,8 +478,10 @@ function handleDownHotKeys(event){
         //pg dwn, down arrow
         case 34:
         case 40:
-            preventDefault(event);
-            focusNextInput();
+            if (!$(lastInput).is("select")) {
+                preventDefault(event);
+                focusNextInput();
+            }
             break;
         case 39: //right arrow
             if (!$(lastInput).is("input[type=text]")) {
@@ -487,7 +491,7 @@ function handleDownHotKeys(event){
             break;
         //space
         case 32:
-            if(!$(lastInput).is("input[type=text]")){
+            if(!$(lastInput).is("input[type=text], select")){
                 preventDefault(event);
             }
             break;
@@ -498,6 +502,7 @@ function handleUpHotKeys(event){
     if (saveButtonFocussed || nextButtonFocussed || $(lastInput).is("textarea, input[type=text]")){ 
         return;
     }
+    
     if ($(lastInput).is("[type='radio']")) {
         switch (event.which) {
             //0
@@ -603,7 +608,7 @@ function focusInputIndex(index, forward){
 }
 
 function getValidInputs(){
-    var inputs = curPanel.find('input:not([value="DESELECTED_RADIO_VALUE"], [id^="abortButton"]), textarea');
+    var inputs = curPanel.find('input:not([value="DESELECTED_RADIO_VALUE"], [id^="abortButton"]), textarea, select');
     var hadRadioQ = [];
     inputs = inputs.filter(function (index){
         if (this.type == "radio") {
@@ -625,10 +630,12 @@ function getValidInputs(){
 }
 
 function focusNextInput(){
-    focusInputIndex(focusI+1, true);
+    lastInput.blur();
+    setTimeout(function() { focusInputIndex(focusI+1, true);}, 50);
 }
 function focusPrevInput(){
-    focusInputIndex(focusI-1, false); 
+    lastInput.blur();
+    setTimeout(function() { focusInputIndex(focusI-1, false);}, 50); 
 }
 
 function hotkeyDialog(){;
@@ -825,7 +832,7 @@ $(document).ready(
                 nextButtonFocussed = false;
                 saveButtonFocussed = false;
             })
-            $(".item input, .item textarea, .buttons input").click(function(event){
+            $(".item input, .item textarea, .buttons input, select").click(function(event){
                 focusInput(event.target);                
             }).focus(function(event){
                 focusInput(event.target);
