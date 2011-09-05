@@ -6,7 +6,6 @@ gem 'mysql2', "=0.3.7"
 gem 'haml'
 gem 'formtastic'
 gem 'maruku'
-gem 'compass', '>= 0.12.alpha.0'
 
 gem 'newrelic_rpm'
 gem 'andand'
@@ -22,6 +21,7 @@ group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
+  gem 'compass', :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
 end
 
 gem 'jquery-rails'
@@ -31,7 +31,7 @@ gem 'rails3-settings', :git => 'git://github.com/roqua/rails-settings.git', :req
 gem 'devise', "~> 1.1"
 
 # gem "central_logger" # disabled until fixed for when no connection is made
-gem 'SystemTimer'
+gem 'SystemTimer', :platforms => [:ruby_18]
 
 group :development do
   gem 'capistrano'

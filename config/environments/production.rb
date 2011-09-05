@@ -43,7 +43,8 @@ Quby::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  # config.assets.precompile += %w( search.js )
+  config.assets.precompile += %w( screen.css dialog.css ie.css admin/screen.css reset.css syntax.css formtastic.css formtastic_changes.css 
+                                  questionnaires.js answers.js disable_keys.js edit_area/edit_area_full.js jquery.ba-hashchange.min.js jquery.placeholder.js )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

@@ -1,6 +1,7 @@
 .rvmrc
 .sass-cache
 *.log
+log/*
 .idea
 tmp/**/*
 db/*.sqlite3
