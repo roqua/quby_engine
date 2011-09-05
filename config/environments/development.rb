@@ -1,5 +1,5 @@
 Quby::Application.configure do
-  # Settings specified here will take precedence over those in config/environment.rb
+  # Settings specified here will take precedence over those in config/application.rb
 
   config.action_mailer.delivery_method = :sendmail
 
@@ -19,7 +19,11 @@ Quby::Application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
 
+  # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
+
+  # Only use best-standards-support built into browsers
+  config.action_dispatch.best_standards_support = :builtin
 
   Sass::Plugin.options[:debug_info] = true
 
