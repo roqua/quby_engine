@@ -11,7 +11,7 @@
 
 - target = params[:target_top] ? "_top" : nil
 
-- form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => [@questionnaire.key, "paged"].join(" "), :autocomplete => "off" do
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => [@questionnaire.key, "paged"].join(" "), :autocomplete => "off" do
   = render :partial => "answers/paged/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}
 
 - if @questionnaire.leave_page_alert

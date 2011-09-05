@@ -14,7 +14,7 @@
 %h1=@questionnaire.title
 
 - previous_item = nil
-- form_tag "", :method => :put, :class => [@questionnaire.key, "print"].join(" "), :autocomplete => "off" do
+= form_tag "", :method => :put, :class => [@questionnaire.key, "print"].join(" "), :autocomplete => "off" do
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
     %fieldset{:id => "panel#{panel_counter}", :class => "panel"}
       - panel.items.each_with_index do |item, idx|
