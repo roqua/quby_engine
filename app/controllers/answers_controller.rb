@@ -61,7 +61,7 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    render :action => "answers/#{session[:display_mode]}/edit"
+    render :action => "#{session[:display_mode]}/edit"
   end
 
   def create
@@ -78,7 +78,7 @@ class AnswersController < ApplicationController
       #Update_attributes also validates
       if @answer.update_attributes(params[:answer])
         if printing
-          render "answers/print/show" and return
+          render "print/show" and return
         end
         case params[:commit]
         when "Onderbreken"
@@ -99,7 +99,7 @@ class AnswersController < ApplicationController
         end
       else
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if session[:display_mode] != "bulk"
-        format.html { render :action => "answers/#{session[:display_mode]}/edit" }
+        format.html { render :action => "#{session[:display_mode]}/edit" }
         format.json { render :json => @answer.errors.to_json }
       end
     end
