@@ -4,6 +4,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require_self
 
 // Fix HTML5 <input placeholder="foo"/> feature for older browsers
 
