@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.0.0'
+gem 'rails', '~> 3.1.0'
 
 gem 'mysql2', "=0.2.7"
 
@@ -17,11 +17,9 @@ gem 'wirble'
 gem 'json'
 gem 'addressable'
 
-gem 'postmark-rails', '~> 0.4'
 gem 'exception_notification'
-gem 'rails3-settings', :require => 'settings'
+gem 'rails3-settings', :git => 'git://github.com/roqua/rails-settings.git', :require => 'settings'
 gem 'devise', "~> 1.1"
-gem 'seed-fu'
 
 # gem "central_logger" # disabled until fixed for when no connection is made
 gem 'SystemTimer'
