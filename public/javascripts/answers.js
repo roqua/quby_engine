@@ -38,8 +38,8 @@ if( self != top ) {
 }
 
 function allInputsHidden(panel){
-    var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden");
-    return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea").length;
+    var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden, .item select:hidden");
+    return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea, .item select").length;
 }
 
 function activatePanel(panel, updateHash, forward) {
@@ -333,30 +333,42 @@ Array.prototype.remove = function(from, to) {
 
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
-        var item = $("#answer_" + this + "_input").closest('.item');
-        var hiddenby = item.data('hiddenBy');
+        var item = $("#answer_" + this + "_input").closest('.item:not(.table)');
+        
+        if(item.length == 0){ //table
+            item = $("[data-for^='" + this + "']").first();
+        }
+        
+        var hiddenby = item.first().data('hiddenBy');
         hiddenby = hiddenby || [];
         
         var loc = $.inArray(element.attr('name'), hiddenby);
         if(loc != undefined && loc != -1){
           hiddenby.remove(loc,loc);
-          item.data('hiddenBy', hiddenby);
+          item.first().data('hiddenBy', hiddenby);
         }
+        
         if (hiddenby.length == 0) {
-            item.removeClass('hidden');
+            item.removeClass('hidden-childs');            
         }
     });
     $.each(hidekeys, function(){
         if (element.attr('checked')) {
-            var item = $("#answer_" + this + "_input").closest('.item'); 
-            var hiddenby = item.data('hiddenBy');
+            var item = $("#answer_" + this + "_input").closest('.item');
+            
+            if(item.length == 0){ //table
+                item = $("[data-for^='" + this + "']").first();            
+            } 
+            
+            var hiddenby = item.first().data('hiddenBy');
             hiddenby = hiddenby || [];
             var loc = $.inArray(element.attr('name'), hiddenby);
             if(loc == undefined || loc == -1){
                 hiddenby.push(element.attr('name'));
-                item.data('hiddenBy', hiddenby);
+                item.first().data('hiddenBy', hiddenby);
             }
-            item.addClass('hidden');
+            
+            item.addClass('hidden-childs');
         }
     });    
 }
@@ -816,7 +828,7 @@ $(document).ready(
             });
         });
         
-        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').click( radioCheckboxEvents );
+        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"], input[type="checkbox"]').click( radioCheckboxEvents );
         
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
