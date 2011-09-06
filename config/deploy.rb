@@ -83,11 +83,19 @@ namespace :deploy do
   after "deploy:update_code", "deploy:link_database_yml"
   after "deploy:update_code", "deploy:link_shared_dirs"
   after "deploy:update_code", "deploy:update_questionnaires"
+  after "deploy:update_code", "assets:precompile"
   after "deploy:migrate", "deploy:seed"
 end
 
 namespace :logs do
   task :watch do
     stream("tail -n 50 -f #{deploy_to}/#{shared_dir}/log/production.log")
+  end
+end
+
+namespace :assets do
+  desc "Precompile assets"
+  task :precompile, :roles => :app do
+    run "cd #{release_path}; bundle exec rake RAILS_ENV=#{rails_env} assets:precompile"
   end
 end
