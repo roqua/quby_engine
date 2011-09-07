@@ -134,7 +134,7 @@ class Items::Question < Item
     @day_key = options[:day_key].andand.to_s
 
     #Require subquestions of required questions by default
-    options[:required] = true if @parent.andand.validations.andand.first.andand.type == :requires_answer 
+    options[:required] = true if @parent.andand.validations.andand.first.andand[:type] == :requires_answer 
     @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
 
     if @type == :float
