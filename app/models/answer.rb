@@ -196,8 +196,8 @@ class Answer < ActiveRecord::Base
       next unless question
       next if question.type == :hidden or question.hidden?
       
-      if (question.parent and (question.parent.type == :radio and value[question.parent.key] != question.parent_option_key.to_s) or
-          (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0)) or
+      if (question.parent and ((question.parent.type == :radio     and value[question.parent.key] != question.parent_option_key.to_s) or
+                               (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0))) or
         @hidden_questions.include?(question.key)
         clear_question(question)
         next

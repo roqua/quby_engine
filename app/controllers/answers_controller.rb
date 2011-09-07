@@ -79,7 +79,7 @@ class AnswersController < ApplicationController
       #Update_attributes also validates
       if @answer.update_attributes(params[:answer])
         if printing
-          render "print/show" and return
+          render :action => "print/show" and return
         end
         case params[:commit]
         when "Onderbreken"
