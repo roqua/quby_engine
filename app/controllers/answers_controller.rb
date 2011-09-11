@@ -70,7 +70,7 @@ class AnswersController < ApplicationController
     logger.info "  Created answer #{@answer.id}"
 
     respond_to do |format|
-      format.json { render :json => @answer}
+      format.json { render :json => @answer.to_json }
     end
   end
 

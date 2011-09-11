@@ -36,6 +36,7 @@ gem 'SystemTimer', :platforms => [:ruby_18]
 group :development do
   gem 'capistrano'
   gem 'capistrano-ext'
+  gem 'capistrano_colors'
 end
 
 group :test, :development do

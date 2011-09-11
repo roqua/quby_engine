@@ -1,5 +1,6 @@
 require 'erb'
 require 'capistrano/ext/multistage'
+require 'capistrano_colors'
 require 'bundler/capistrano'
 
 set :scm, :git
