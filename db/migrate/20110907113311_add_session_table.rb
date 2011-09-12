@@ -1,5 +1,5 @@
 class AddSessionTable < ActiveRecord::Migration
-  def up
+  def self.up
     create_table "sessions", :force => true do |t|
       t.string   "session_id", :null => false
       t.text     "data"
@@ -11,6 +11,6 @@ class AddSessionTable < ActiveRecord::Migration
     add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
   end
 
-  def down
+  def self.down
   end
 end
