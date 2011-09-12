@@ -3,9 +3,9 @@
 # Quby::Application.config.session_store :cookie_store, :key => '_quby_session'
 
 unless Rails.env.development?
-  Quby::Application.config.session_store :active_record_store, :key => '_quby_session', :domain => '.roqua.nl'
+  Quby::Application.config.session_store :active_record_store, :key => '_quby_ar_session', :domain => '.roqua.nl'
 else
-  Quby::Application.config.session_store :active_record_store, :key => '_quby_session'
+  Quby::Application.config.session_store :active_record_store, :key => '_quby_ar_session'
 end
 
 # Use the database for sessions instead of the cookie-based default,

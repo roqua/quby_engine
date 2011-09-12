@@ -21,7 +21,7 @@ class AnswersController < ApplicationController
   before_filter :remember_display_mode_in_session
   before_filter :check_aborted, :only => [:create, :update]
 
-  protect_from_forgery :except => [:edit, :update]
+  protect_from_forgery :except => [:edit, :update], :secret => "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d5d88bfd8481868d9"
 
   respond_to :html, :json, :xml
 
@@ -90,9 +90,13 @@ class AnswersController < ApplicationController
 
         if session[:return_url]
           if @status
-            redirect_to_roqua(:params => {:status => @status}) and return
+            redirect_to_roqua(:params => {:status => @status})
+            clear_session
+            return
           else
-            redirect_to_roqua and return
+            redirect_to_roqua
+            clear_session
+            return
           end
         else
           clear_session
