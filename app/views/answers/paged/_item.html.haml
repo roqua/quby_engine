@@ -15,7 +15,7 @@
   - itemclasses << 'hidden' unless extra_data[:hidden_by].blank?
   
 - if item.raw_content
-  - if item.raw_content[:paged]
+  - if item.raw_content.is_a?(Hash) and item.raw_content[:paged]
     = raw item.raw_content[:paged]
   - else 
     = raw item.raw_content

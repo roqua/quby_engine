@@ -20,7 +20,7 @@
   - return
 
 - if item.raw_content and item.class.name != "Items::Text" 
-  - if item.raw_content[:print]
+  - if item.raw_content.is_a?(Hash) and item.raw_content[:print]
     = raw item.raw_content[:print]
   - elsif item.raw_content[:bulk]
     = raw item.raw_content[:bulk]

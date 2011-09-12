@@ -24,7 +24,7 @@
   
 
 - if item.raw_content and item.class.name != "Items::Text" 
-  - if item.raw_content[:bulk]
+  - if item.raw_content.is_a?(Hash) and item.raw_content[:bulk]
     = raw item.raw_content[:bulk]
   - else 
     = raw item.raw_content
