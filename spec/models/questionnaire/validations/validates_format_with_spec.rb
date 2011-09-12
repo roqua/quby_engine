@@ -8,7 +8,12 @@ describe Questionnaire do
         @questionnaire.stub(:definition).and_return(<<-END)
           question :one, :type => :string do
             title "Testvraag"
-            validates_format_with /aabb/
+            validates_format_with /right/
+          end
+
+          question :two, :type => :string do
+            title "Vraag 2"
+            validates_format_with /qwerty/, :message => "should contain qwerty"
           end
         END
         @questionnaire.enhance_by_dsl
@@ -16,17 +21,26 @@ describe Questionnaire do
       end
 
       it "should add a validation to the question" do
-        @questionnaire.questions.first.validations.should_not be_empty
+        @questionnaire.questions[0].validations.should_not be_empty
+        @questionnaire.questions[1].validations.should_not be_empty
       end
 
       it "should check if the value matches the regexp" do
-        @answer.value = {:one => "aabb"}
+        @answer.value = {:one => "right"}
         @answer.validate_answers
-        @answer.errors.should be_empty
+        @answer.errors[:one].any?.should be_false
 
-        @answer.value = {:one => "foo"}
+        @answer.value = {:one => "wrong"}
         @answer.validate_answers
-        @answer.errors.should_not be_empty
+        @answer.errors[:one].any?.should be_true
+      end
+
+      it "should add a message if passed" do
+        @answer.value = {:one => "right", :two => "wrong"}
+        @answer.validate_answers
+        @answer.errors[:two].any?.should be_true
+        puts @answer.errors[:two].inspect
+        @answer.errors[:two].map{|i| i[:message] }.should include("should contain qwerty")
       end
     end
   end

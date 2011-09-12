@@ -225,49 +225,49 @@ class Answer < ActiveRecord::Base
             begin 
               Integer(answer)
             rescue ArgumentError
-              add_error(question, :valid_integer, "Invalid integer")
+              add_error(question, :valid_integer, validation[:message] || "Invalid integer")
             end
           when :valid_float
             next if answer.blank?
             begin
               Float(answer)
             rescue ArgumentError
-              add_error(question, :valid_float, "Invalid float")
+              add_error(question, :valid_float, validation[:message] || "Invalid float")
             end
           when :regexp
             next if answer.blank?
             match = validation[:matcher].match(answer)
-            add_error(question, validation[:type], "Does not match pattern expected.") if not match or match[0] != answer
+            add_error(question, validation[:type], validation[:message] || "Does not match pattern expected.") if not match or match[0] != answer
           when :requires_answer
             next if @hidden_questions.include?(question.key)            
             if question.type == :check_box
-              add_error(question, validation[:type], "Must be answered.") if answer.values.reduce(:+) == 0
+              add_error(question, validation[:type], validation[:message] || "Must be answered.") if answer.values.reduce(:+) == 0
             else 
-              add_error(question, validation[:type], "Must be answered.") if answer.blank?
+              add_error(question, validation[:type], validation[:message] || "Must be answered.") if answer.blank?
             end            
           when :minimum
-            add_error(question, validation[:type], "Smaller than minimum") if not answer.blank? and answer.to_f < validation[:value]
+            add_error(question, validation[:type], validation[:message] || "Smaller than minimum") if not answer.blank? and answer.to_f < validation[:value]
           when :maximum
-            add_error(question, validation[:type], "Exceeds maximum") if not answer.blank? and answer.to_f > validation[:value]
+            add_error(question, validation[:type], validation[:message] || "Exceeds maximum") if not answer.blank? and answer.to_f > validation[:value]
           when :too_many_checked
             if self.send(question.uncheck_all_option) == 1 and answer.values.reduce(:+) > 1
-              add_error(question, :too_many_checked, "Invalid combination of options.")
+              add_error(question, :too_many_checked, validation[:message] || "Invalid combination of options.")
             end
           when :not_all_checked
             if self.send(question.check_all_option) == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
-              add_error(question, :not_all_checked, "Invalid combination of options.")
+              add_error(question, :not_all_checked, validation[:message] || "Invalid combination of options.")
             end          
           when :one_of
-            add_error(question, :one_of, "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
+            add_error(question, :one_of, validation[:message] || "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
           when :answer_group_minimum
             answered = calc_answered(@question_groups[validation[:group]])
             if answered < validation[:value]
-              add_error(question, :answer_group_minimum, "Needs at least #{validation[:value]} question(s) answered.")
+              add_error(question, :answer_group_minimum, validation[:message] || "Needs at least #{validation[:value]} question(s) answered.")
             end
           when :answer_group_maximum
             answered = calc_answered(@question_groups[validation[:group]])
             if answered > validation[:value]
-              add_error(question, :answer_group_maximum, "Needs at most #{validation[:value]} question(s) answered.")
+              add_error(question, :answer_group_maximum, validation[:message] || "Needs at most #{validation[:value]} question(s) answered.")
             end
           end
         end
