@@ -70,7 +70,7 @@
             - rowspan = 1 if question.type == :select
             - title_insert = nil
             - subq = question.options.last.andand.questions.andand.first
-            - if subq.andand.presentation == :next_to_title and subq.type == :string
+            - if subq and (subq.presentation == :next_to_title and subq.type == :string)
               - title_insert = render :partial => "answers/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
             :markdown
               #{table_marukufix question.title, "answer_#{question.key}", rowspan, title_insert}
