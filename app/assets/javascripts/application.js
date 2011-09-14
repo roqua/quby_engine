@@ -4,22 +4,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery_placeholder
 //= require_self
-
-// Fix HTML5 <input placeholder="foo"/> feature for older browsers
-
-function placeholder(){
-	var toPlaceHold = $('input[placeholder],textarea[placeholder]');
-	if (toPlaceHold.length != 0){
-		
-	}
-    //Hack to reposition the placeholders correctly on every call to this function
-    //used at the end of validatePanel
-    //toPlaceHold.trigger('focusout');
-}
-
-$(function(){
-    //placeholder();
-        
-    //$.hint({attr:'placeholder'})
-});

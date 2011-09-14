@@ -757,6 +757,8 @@ var leave_page_text;
 $(document).ready(
     function() {
         
+        $('input').placeholder();
+
         leave_page_text = $("#leave_page_alert").html();
         
         function leave_page_nag(e){
