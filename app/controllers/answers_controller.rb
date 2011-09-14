@@ -88,7 +88,6 @@ class AnswersController < ApplicationController
         end
 
         if session[:return_url]
-          clear_session
           if @status
             redirect_to_roqua(:params => {:status => @status}) and return
           else
