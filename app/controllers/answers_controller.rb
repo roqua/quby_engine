@@ -90,13 +90,9 @@ class AnswersController < ApplicationController
 
         if session[:return_url]
           if @status
-            redirect_to_roqua(:params => {:status => @status})
-            clear_session
-            return
+            redirect_to_roqua(:params => {:status => @status}) and return
           else
-            redirect_to_roqua
-            clear_session
-            return
+            redirect_to_roqua and return
           end
         else
           clear_session
