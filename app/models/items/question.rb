@@ -66,7 +66,7 @@ class Items::Question < Item
 
   # This question should not validate itself unless the depends_on question is answered
   # May also be an array of "#{question_key}_#{option_key}" strings that specify options this question depends on
-  attr_accessor :depends_on  
+  attr_accessor :depends_on
 
   # Extra data hash to store on the question item's html element
   attr_accessor :extra_data
@@ -88,7 +88,7 @@ class Items::Question < Item
 
   # Table this question might belong to
   attr_accessor :table
-  
+
   #In case of being displayed inside a table, amount of columns/rows to span
   attr_accessor :col_span
   attr_accessor :row_span
@@ -119,10 +119,10 @@ class Items::Question < Item
     @score_header = options[:score_header] || :none
     @text_var = options[:text_var]
     @unit = options[:unit]
-    
+
     @col_span = options[:col_span] || 1
     @row_span = options[:row_span] || 1
-    
+
     set_depends_on(options[:depends_on], options[:questionnaire])
 
     @question_group = options[:question_group]
@@ -134,7 +134,7 @@ class Items::Question < Item
     @day_key = options[:day_key].andand.to_s
 
     #Require subquestions of required questions by default
-    options[:required] = true if @parent.andand.validations.andand.first.andand[:type] == :requires_answer 
+    options[:required] = true if @parent.andand.validations.andand.first.andand[:type] == :requires_answer
     @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
 
     if @type == :float
@@ -171,9 +171,9 @@ class Items::Question < Item
       end
     end
 
-    @hides_questions = []    
+    @hides_questions = []
   end
-  
+
   def set_depends_on(keys, questionnaire)
     return if keys.blank?
     keys = [keys] unless keys.is_a?(Array)
@@ -181,7 +181,7 @@ class Items::Question < Item
     @depends_on = input_keys
     @extra_data[:depends_on] = input_keys.to_json
   end
-  
+
   def depends_on
     @depends_on
   end
@@ -257,7 +257,7 @@ class Items::Question < Item
         output << options.map(&:to_codebook).join("\n") unless options.blank?
         output << ""
       end
-      
+
       if month_key
         output_key = month_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
         output << "#{output_key} #{output_type}_month #{output_range}"
@@ -265,7 +265,7 @@ class Items::Question < Item
         output << options.map(&:to_codebook).join("\n") unless options.blank?
         output << ""
       end
-      
+
       if year_key
         output_key = year_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
         output << "#{output_key} #{output_type}_year #{output_range}"

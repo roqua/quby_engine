@@ -15,28 +15,28 @@ class Answer < ActiveRecord::Base
   #for setting raw content values and failed validations
   attr_accessor :extra_question_values
   attr_accessor :extra_failed_validations
-  
+
   #for setting which questions should be hidden
   attr_accessor :to_hide
-  
+
   serialize :value
 
   def enhance_by_dsl
     AnswerDsl.enhance(self)
-    
+
     questionnaire.questions.each do |question|
       next unless question
-      if question.text_var 
+      if question.text_var
         Maruku.setTextVar(question.text_var, self.send(question.key))
       end rescue nil
     end
-    
+
     if @roqua_vals
       @roqua_vals = @roqua_vals["roqua_vals"] if @roqua_vals["roqua_vals"]
 
       questionnaire.questions.each do |q|
         next unless q
-        case q.type 
+        case q.type
         when :radio, :scale
           q.options.each do |opt|
             if opt.value.to_s == @roqua_vals[q.key]
@@ -59,7 +59,7 @@ class Answer < ActiveRecord::Base
     end
   end
 
-  def extra_question_values    
+  def extra_question_values
     @extra_question_values = {}
     questionnaire.questions.each do |q|
       next unless q
@@ -67,7 +67,7 @@ class Answer < ActiveRecord::Base
         @extra_question_values[q.key] = self.send(q.key)
       end
     end
-    
+
     @extra_question_values.to_json
   end
 
@@ -76,7 +76,7 @@ class Answer < ActiveRecord::Base
     questionnaire.questions.each do |q|
       next unless q
       unless q.raw_content.blank?
-        @extra_failed_validations[q.key] = errors[q.key] if errors[q.key] and not errors[q.key].blank? 
+        @extra_failed_validations[q.key] = errors[q.key] if errors[q.key] and not errors[q.key].blank?
       end
     end
     @extra_failed_validations.to_json
@@ -102,7 +102,7 @@ class Answer < ActiveRecord::Base
         question = questionnaire.questions.find(){|q| q.andand.key == key }
         if question and (question.type == :radio || question.type == :scale || question.type == :select)
           option = question.options.find(){|o| o.key.to_s == value[key].to_s }
-          if option 
+          if option
             result[key] = option.value
           end
         end
@@ -122,8 +122,8 @@ class Answer < ActiveRecord::Base
           question = questionnaire.questions.find(){|q| q.andand.key == key }
           if question and (question.type == :radio || question.type == :scale || question.type == :select)
             option = question.options.find(){|o| o.key.to_s == value[key].to_s }
-            
-            if option 
+
+            if option
               value_by_values[key] = option.value.to_s
             end
           end
@@ -145,7 +145,7 @@ class Answer < ActiveRecord::Base
     if question.type == :check_box
       question.options.each do |opt|
         value.delete(opt.key)
-      end      
+      end
     end
   end
 
@@ -154,26 +154,26 @@ class Answer < ActiveRecord::Base
 #      next valid_so_far unless panel
 #      valid_so_far and panel.validate_answer(self)
 #    end rescue false
-    
+
     all_blank = questionnaire.questions.reduce(true) do |all_blank, question|
       next all_blank unless question
       all_blank and self.send(question.key).blank?
     end
-    
+
     not all_blank and valid?
   end
 
   def cleanup_input
     @hidden_questions = []
     @question_groups = {}
-    
+
     questionnaire.questions.each do |question|
       next unless question
       answer = self.send(question.key)
       if answer and (answer == "DESELECTED_RADIO_VALUE" or answer == question.extra_data[:placeholder].to_s)
         clear_question(question)
       end
-      
+
       if answer and question.type == :radio and not question.hides_questions.blank?
         question.options.each do |opt|
           if answer.to_sym == opt.key
@@ -181,7 +181,7 @@ class Answer < ActiveRecord::Base
           end
         end
       end
-      
+
       if question.question_group
         @question_groups[question.question_group] = [] unless @question_groups[question.question_group]
         @question_groups[question.question_group] << question.key
@@ -192,18 +192,18 @@ class Answer < ActiveRecord::Base
 
   def validate_answers
     return if @aborted
-    
+
     questionnaire.questions.each do |question|
       next unless question
       next if question.type == :hidden or question.hidden?
-      
+
       if (question.parent and ((question.parent.type == :radio     and value[question.parent.key] != question.parent_option_key.to_s) or
                                (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0))) or
          @hidden_questions.andand.include?(question.key)
         clear_question(question)
         next
       end
-      
+
       unless question.depends_on.blank?
         should_validate = false
         question.depends_on.each do |key|
@@ -211,18 +211,18 @@ class Answer < ActiveRecord::Base
         end
         next unless should_validate
       end
-      
+
       answer = self.send(question.key)
       validations = question.validations
-      
+
       if not validations.empty?
         #logger.info "Validating #{question.key} = #{question.validations.inspect}."
-        
+
         question.validations.each do |validation|
           case validation[:type]
           when :valid_integer
             next if answer.blank?
-            begin 
+            begin
               Integer(answer)
             rescue ArgumentError
               add_error(question, :valid_integer, validation[:message] || "Invalid integer")
@@ -239,12 +239,12 @@ class Answer < ActiveRecord::Base
             match = validation[:matcher].match(answer)
             add_error(question, validation[:type], validation[:message] || "Does not match pattern expected.") if not match or match[0] != answer
           when :requires_answer
-            next if @hidden_questions.include?(question.key)            
+            next if @hidden_questions.include?(question.key)
             if question.type == :check_box
               add_error(question, validation[:type], validation[:message] || "Must be answered.") if answer.values.reduce(:+) == 0
-            else 
+            else
               add_error(question, validation[:type], validation[:message] || "Must be answered.") if answer.blank?
-            end            
+            end
           when :minimum
             add_error(question, validation[:type], validation[:message] || "Smaller than minimum") if not answer.blank? and answer.to_f < validation[:value]
           when :maximum
@@ -256,7 +256,7 @@ class Answer < ActiveRecord::Base
           when :not_all_checked
             if self.send(question.check_all_option) == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
               add_error(question, :not_all_checked, validation[:message] || "Invalid combination of options.")
-            end          
+            end
           when :one_of
             add_error(question, :one_of, validation[:message] || "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
           when :answer_group_minimum
@@ -272,12 +272,12 @@ class Answer < ActiveRecord::Base
           end
         end
         #logger.info "ERRORS: #{errors.inspect}"
-      end      
+      end
     end
   end
 
   protected
-  
+
   def calc_answered(qkeys)
     answered = 0
     qkeys.each do |qk|
@@ -290,7 +290,7 @@ class Answer < ActiveRecord::Base
     end
     return answered
   end
-  
+
   def add_error(question, validationtype, message)
     errors.add(question.key, {:message => message, :valtype => validationtype})
   end
