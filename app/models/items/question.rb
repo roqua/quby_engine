@@ -83,8 +83,9 @@ class Items::Question < Item
   #In all following text elements that support markdown
   attr_accessor :text_var
 
-  # Amount of rows a textarea has
+  # Amount of rows and cols a textarea has
   attr_accessor :lines
+  attr_accessor :cols
 
   # Table this question might belong to
   attr_accessor :table
@@ -119,6 +120,8 @@ class Items::Question < Item
     @score_header = options[:score_header] || :none
     @text_var = options[:text_var]
     @unit = options[:unit]
+    @lines = options[:lines] || 6
+    @cols = options[:cols] || 40
 
     @col_span = options[:col_span] || 1
     @row_span = options[:row_span] || 1
@@ -184,6 +187,10 @@ class Items::Question < Item
 
   def depends_on
     @depends_on
+  end
+  
+  def col_span
+    options.length > 0 ? options.length : @col_span
   end
 
   def as_json(options = {})

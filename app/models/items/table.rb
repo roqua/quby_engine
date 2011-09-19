@@ -38,8 +38,10 @@ class Items::Table < Item
         next true if row_span == 1
         if skip_cols_length > 0 and filled_columns == skip_cols_at
           filled_columns += skip_cols_length
-          @item_table[filled_rows] << nil
-          @rows[filled_rows][row_items] << nil
+          skip_cols_length.times do
+            @item_table[filled_rows] << nil
+            @rows[filled_rows][row_items] << nil
+          end
           if filled_columns >= columns and item != items.last
             filled_rows += 1
             filled_columns = 0
@@ -54,7 +56,7 @@ class Items::Table < Item
               row_items += 1
               @rows[filled_rows] << []
           end
-          next false
+          next row_span -1 == 1
         end
       end
       

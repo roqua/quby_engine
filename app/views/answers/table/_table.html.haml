@@ -82,6 +82,7 @@
           
           - cos_cycle = light_dark_for(cyclei, same_question)
           - cyclei += 1
+          - filled_columns += item.andand.col_span || 1 
           - next unless item          
           - opt_set.each_with_index do |opt, i|
             
@@ -110,9 +111,8 @@
                   for question
                   = question.key
             -elsif  item.class.name == "Items::Text"
-              = render :partial => "answers/table/item_text", :locals => {:item => item, :cos_cycle =>cos_cycle}
-            - filled_columns += item.col_span
-            - if opt == opt_set.last and opt_set == opt_sets.last and filled_columns < table.columns
+              = render :partial => "answers/table/item_text", :locals => {:item => item, :table => table, :cos_cycle =>cos_cycle}
+            - if opt == opt_set.last and opt_set == opt_sets.last and filled_columns < table.columns 
               - (0...(table.columns - filled_columns)).each do 
                 %td
                     
