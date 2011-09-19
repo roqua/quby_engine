@@ -2,8 +2,8 @@
 
 - if not @questionnaire.errors.empty?
   .definition-error
-    - @questionnaire.errors.each do |err|
-      %p= err[1]
+    - @questionnaire.errors.each do |err, value|
+      %p= value
 
 = form_for(@questionnaire, :url => admin_questionnaire_path(@questionnaire)) do |form|
   = form.text_area "definition"
@@ -25,4 +25,4 @@
     ,language: "en"
     ,syntax: "ruby"
     ,replace_tab_by_spaces : 2
-    }); 
+    });
