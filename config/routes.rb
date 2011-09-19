@@ -18,11 +18,7 @@ Quby::Application.routes.draw do
   end
 
   resources :questionnaires do
-    resources :answers do
-      collection do
-        get :create
-      end
-    end
+    resources :answers
   end
   
   #putting this in as a resource member action did not work for some reason
