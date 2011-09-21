@@ -243,7 +243,7 @@ function validatePanel(panel) {
     }
   }
   //To correctly reposition the placeholders
-  placeholder();
+  //placeholder();
   return !failed;
 }
 
