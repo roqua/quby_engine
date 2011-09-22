@@ -26,7 +26,8 @@ Spork.prefork do
 
     begin
       #puts "Creating Questionnaire #{q_key}"
-      Questionnaire.create!(:key => q_key, :definition => File.read(path))
+      q = Questionnaire.new(:key => q_key, :definition => File.read(path))
+      q.save!(:validate => false)
     rescue => e
       puts "Questionnaire #{q_key} was not saved because it has errors:\n #{e}"
     end
