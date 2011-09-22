@@ -296,7 +296,7 @@ class Answer < ActiveRecord::Base
   end
 
   def generate_random_token
-    self.token ||= ActiveSupport::SecureRandom.hex(8)
+    self.token ||= SecureRandom.hex(8)
   end
 
 end
