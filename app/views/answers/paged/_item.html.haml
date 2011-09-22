@@ -53,16 +53,9 @@
       - when :select
         = render :partial => "answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
-        %strong
-          Error: unknown question type
-          = item.type
-          for question
-          = item.key
+        - raise "Unknown question type #{item.type} for question #{item.key}"
     - when "Items::Table"
       = render :partial => "answers/table/table", :locals => {:table => item}
     - else
-      Error: unknown item type
-      = item.class.name
-      for question
-      = item.key
+      - raise "Unknown item type #{item.class.name} for question #{item.key}"
 / End _item.html.haml
