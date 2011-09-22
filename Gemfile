@@ -21,7 +21,7 @@ group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
-  gem 'compass', :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
+  gem 'compass', "~> 0.12.alpha.0"
 end
 
 gem 'jquery-rails'
@@ -40,8 +40,11 @@ group :development do
 end
 
 group :test, :development do
-  gem 'foreman'
-  gem "rspec-rails", ">= 2.0.0.beta.19"
-  gem "autotest"
-  gem "webrat"
+  gem "rspec-rails"
+  gem 'capybara'
+  gem 'database_cleaner'
+
+  gem 'guard-rspec'
+  gem 'spork'
+  gem 'guard-spork'
 end

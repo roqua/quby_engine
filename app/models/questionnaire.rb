@@ -169,7 +169,7 @@ class Questionnaire < ActiveRecord::Base
     logger.info "Writing #{filename}..."
     File.open(filename, "w") {|f| f.write( self.definition ) }
 
-    unless Rails.env.development?
+    unless Rails.env.development? or Rails.env.test?
       system "cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_str}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' &&  git push"
     end
   end
