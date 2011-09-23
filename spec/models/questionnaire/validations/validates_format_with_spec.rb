@@ -39,7 +39,6 @@ describe Questionnaire do
         @answer.value = {:one => "right", :two => "wrong"}
         @answer.validate_answers
         @answer.errors[:two].any?.should be_true
-        puts @answer.errors[:two].inspect
         @answer.errors[:two].map{|i| i[:message] }.should include("should contain qwerty")
       end
     end
