@@ -6,7 +6,7 @@
 @import "compass/reset";
 @import "blueprint/grid";
 @import "blueprint/typography";
-@import "custom-inputs.sass";
+@import "custom-inputs";
 
 // Variables
 $masthead_bg: #0f72a4;
@@ -68,6 +68,10 @@ body {
 
 select {
     width:100%;
+}
+
+.main i {
+  font-style: italic !important;
 }
 
 @mixin tablemix($mainlabel_columns ) {
