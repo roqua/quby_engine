@@ -57,5 +57,9 @@ module Quby
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+  
+    # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+    config.assets.precompile += %w( screen.css dialog.css ie.css admin/screen.css reset.css syntax.css formtastic.css formtastic_changes.css redmond/jquery-ui-1.8.7.custom.css
+                                    questionnaires.js answers.js disable_keys.js edit_area/edit_area_full.js jquery.ba-hashchange.min.js jquery.placeholder.js )
   end
 end
