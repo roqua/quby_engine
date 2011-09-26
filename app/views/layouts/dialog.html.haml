@@ -5,7 +5,7 @@
     %title Roqua
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html;charset=utf-8"}
     = stylesheet_link_tag 'dialog'
-    = javascript_include_tag :defaults
+    = javascript_include_tag 'application'
     /[if lt IE 7]
       %script{:defer=>"defer", :type=>"text/javascript", :src=>"/javascripts/pngfix.js"}
     %link{:rel=>"Shortcut Icon", :href=>"/favicon.ico"}
@@ -13,5 +13,3 @@
   %body
     #content{ :class => class_for_current_controller_and_action }
       = yield
-
-      = javascript_include_tag 'handlers'
