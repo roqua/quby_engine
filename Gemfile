@@ -24,6 +24,8 @@ group :assets do
   gem 'compass', "~> 0.12.alpha.0"
 end
 
+gem 'therubyracer'
+
 gem 'jquery-rails'
 
 gem 'exception_notification'
