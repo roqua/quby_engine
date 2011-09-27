@@ -170,7 +170,12 @@ class Questionnaire < ActiveRecord::Base
     File.open(filename, "w") {|f| f.write( self.definition ) }
 
     unless Rails.env.development? or Rails.env.test?
-      system "cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' &&  git push"
+      output = `cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
+      result = $?.success?
+      unless result
+        logger.error "Git add, commit or push failed: #{output}"
+        flash.now[:error] = "Git add, commit or push failed"
+      end
     end
   end
 
