@@ -145,9 +145,7 @@ class Items::Question < Item
     elsif @type == :integer
       @validations << {:type => :valid_integer, :explanation => options[:error_explanation]}
     elsif @type == :date
-      @validations << {:type => :regexp, :matcher => /(0?[1-9]|[1-2][0-9]|3[01])- # Day
-                                                      (0?[1-9]|1[012])-           # Month
-                                                      (19|20)\d\d/x,              # Year
+      @validations << {:type => :regexp, :matcher => /(0?[1-9]|[1-2][0-9]|3[01])-(0?[1-9]|1[012])-(19|20)\d\d/,
                                          :explanation => (options[:error_explanation] || "Voer een geldige datum in (DD-MM-JJJJ).")}
     end
 
