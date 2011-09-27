@@ -730,14 +730,12 @@ function processExtraData(){
     }
 }
 
-function doPrint(url){
-    var form = $('form');
-    var oldAction = form.attr('action');
-    form.attr('action', url);
-    form.attr('target', "_blank");
-    form.submit();
-    form.attr('action', oldAction);
-    form.attr('target', "_top");
+function doDivPrint(url){
+    $('.x_container').load(url, $('form').serializeArray(), function(){ 
+        $('.x_container').print_area({ afterFilter : function(){
+            $('.x_container *').remove();
+        }});
+    });
 }
 
 function modalFrame(url){

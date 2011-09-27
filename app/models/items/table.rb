@@ -68,6 +68,7 @@ class Items::Table < Item
         @item_table[filled_rows] << item
         @rows[filled_rows][row_items] << item
         filled_columns += item.col_span
+        #puts "#{item.class.name} #{item.type} #{item.col_span}"
         
         if filled_columns >= columns and item != items.last
           filled_rows += 1
@@ -75,6 +76,7 @@ class Items::Table < Item
           row_items = 0
           @rows << [[]]
           @item_table << []
+          #puts "newrow"
         end
         if filled_columns != 0 and item != items.last
           row_items += 1

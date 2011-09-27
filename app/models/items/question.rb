@@ -190,7 +190,7 @@ class Items::Question < Item
   end
   
   def col_span
-    options.length > 0 ? options.length : @col_span
+    options.length > 0 && type != :select ? options.length : @col_span
   end
 
   def as_json(options = {})
