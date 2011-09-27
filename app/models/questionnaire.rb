@@ -174,7 +174,6 @@ class Questionnaire < ActiveRecord::Base
       result = $?.success?
       unless result
         logger.error "Git add, commit or push failed: #{output}"
-        flash.now[:error] = "Git add, commit or push failed"
       end
     end
   end
