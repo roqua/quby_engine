@@ -113,19 +113,31 @@ class AnswersController < ApplicationController
   def bad_token(exception)
     @error = "Er is geen of een ongeldige token meegegeven."
     render :file => "errors/generic", :layout => "dialog"
-    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    if Rails.env.development?
+      raise exception
+    else 
+      ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    end
   end
   
   def bad_questionnaire(exception)
     @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]}) kon niet gevonden worden."
     render :file => "errors/generic", :layout => "dialog"
-    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    if Rails.env.development?
+      raise exception
+    else 
+      ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    end
   end
 
   def bad_timestamp(exception)
     @error = "Uw authenticatie is verlopen."
     render :file => "errors/generic", :layout => "dialog"
-    ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    if Rails.env.development?
+      raise exception
+    else 
+      ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    end
   end
 
   protected
