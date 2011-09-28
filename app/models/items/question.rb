@@ -216,7 +216,8 @@ class Items::Question < Item
       when :check_box
         { :options => @options }
       when :date
-        (year_key ? { :year_key => year_key, :month_key => month_key, :day_key => day_key } : {} )
+        (year_key ? { :year_key => year_key,      :month_key => month_key,   :day_key => day_key } : 
+                    { :year_key => "#{key}_yyyy", :month_key => "#{key}_mm", :day_key => "#{key}_dd" } )
       when :hidden
         { :options => @options }
       else
