@@ -240,10 +240,6 @@ class Items::Question < Item
     options.map {|opt| opt.questions }.flatten
   end
 
-  def validate_answer(answer_hash)
-    false
-  end
-
   def to_codebook(questionnaire, opts = {})
     output = []
     output_type = type

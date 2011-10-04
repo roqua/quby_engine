@@ -1,5 +1,5 @@
 class Questionnaire < ActiveRecord::Base
-  has_many :answers
+  has_many :answers, :dependent => :destroy
 
   after_initialize :enhance_by_dsl
 
@@ -167,13 +167,15 @@ class Questionnaire < ActiveRecord::Base
   def write_to_disk
     filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
     logger.info "Writing #{filename}..."
-    File.open(filename, "w") {|f| f.write( self.definition ) }
+    unless Rails.env.test?
+      File.open(filename, "w") {|f| f.write( self.definition ) }
 
-    unless Rails.env.development? or Rails.env.test?
-      output = `cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
-      result = $?.success?
-      unless result
-        logger.error "Git add, commit or push failed: #{output}"
+      unless Rails.env.development?
+        output = `cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
+        result = $?.success?
+        unless result
+          logger.error "Git add, commit or push failed: #{output}"
+        end
       end
     end
   end

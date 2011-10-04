@@ -42,13 +42,6 @@ class Items::Panel < Item
     end
   end
 
-  def validate_answer(answer_hash)
-    items.reduce(true) do |mem, item| 
-      next mem unless item.answerable?
-      mem && item.validate_answer(answer_hash)
-    end
-  end
-
   def validations
     vals = {}
     items.each do |item|
