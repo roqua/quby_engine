@@ -6,6 +6,7 @@ class Questionnaire < ActiveRecord::Base
   before_validation :ensure_linux_line_ends
   before_save :validate_definition_syntax
   after_save  :write_to_disk
+  after_destroy :remove_from_disk
 
   attr_accessor :title
   attr_accessor :description
@@ -179,5 +180,18 @@ class Questionnaire < ActiveRecord::Base
       end
     end
   end
-
+  
+  def remove_from_disk
+    unless Rails.env.test?
+      unless Rails.env.development?
+        filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
+        logger.info "Removing #{filename}..."
+        output = `cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
+        result = $?.success?
+        unless result
+          logger.error "Git rm, commit or push failed: #{output}"
+        end
+      end
+    end
+  end
 end

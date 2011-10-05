@@ -7,6 +7,7 @@
       %th(style="width: 50px") ID
       %th(style="width: 100px") Key
       %th Title
+      %th(style="width: 150px") Destroy
       %th(style="width: 150px") Answers
       %th(style="width: 150px") Last Updated
       %th(style="width: 150px") Actions
@@ -16,9 +17,13 @@
         %td= questionnaire.id
         %td= questionnaire.key
         %td= questionnaire.title || ""
+        %td= button_to "Destroy", {:action => "destroy", :id => questionnaire.id}, 
+          :confirm => "Are you sure you want to delete this questionnaire? All its answers will also be deleted!",
+          :method => :delete
         %td
           = link_to(pluralize(questionnaire.answers.size, "answer"), admin_questionnaire_answers_path(questionnaire))
         %td= time_ago_in_words(questionnaire.updated_at) + " ago"
         %td
           = link_to "Codebook", admin_questionnaire_codebook_path(questionnaire, :format => :txt)
           = link_to "Edit", edit_admin_questionnaire_path(questionnaire)
+          

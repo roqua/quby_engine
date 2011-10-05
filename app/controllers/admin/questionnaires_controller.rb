@@ -43,8 +43,12 @@ class Admin::QuestionnairesController < AdminAreaController
     end
   end
 
-  def delete
-    @questionnaire.delete_by_key(params[:id])
+  def destroy
+    q = Questionnaire.find_by_id(params[:id]).destroy
+    flash.now[:info] = "Questionnaire #{q.key} deleted"
+    
+    @questionnaires = Questionnaire.active.order('questionnaires.key')
+    render :action => :index
   end
 
   def test
