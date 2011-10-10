@@ -852,8 +852,8 @@ $(document).ready(
             $(".panel .buttons").show();
 
             // hide first previous button, and last next button
-            $(".panel:first .buttons .prev").hide();
-            $(".panel:last  .buttons .next").hide();
+            $(".panel:first .buttons .prev").css('visibility', 'hidden');
+            $(".panel:last  .buttons .next").css('visibility', 'hidden');
         
             // Trigger the hashchange event (useful on page load).
             $(window).hashchange();
