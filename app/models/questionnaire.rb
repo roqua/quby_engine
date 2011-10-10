@@ -185,6 +185,7 @@ class Questionnaire < ActiveRecord::Base
     unless Rails.env.test?
       unless Rails.env.development?
         filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
+        return unless File.exists?(filename)
         logger.info "Removing #{filename}..."
         output = `cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
         result = $?.success?
