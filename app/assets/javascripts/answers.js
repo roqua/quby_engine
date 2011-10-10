@@ -438,33 +438,12 @@ function preventDefault(event){
     event.stopPropagation();
 }
 
-function handlePreventDefault(event){
-    
-    event.which = event.which || event.keyCode;
-    
-    switch (event.which) {
-        //enter
-        case 13:
-        //pg up, up arrow
-        case 33:
-        case 38:
-        //pg dwn, down arrow
-        case 34:
-        case 40:
-            preventDefault(event);
-            break;
-        //space
-        case 32:
-            break;    
-    }
-}
-
-function handleDownHotKeys(event){
+function handleDownHotKeys(event){    
     event.which = event.which || event.keyCode;
     if ($(lastInput).is("textarea")) {
         return;
     }
-    
+
     switch (event.which) {
         //enter
         case 13:            
@@ -906,8 +885,6 @@ $(document).ready(
                 activatePanel(errors.closest('.panel').eq(0), true, true);
             }
         }
-        
-        $(document).keypress(handlePreventDefault);        
         
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
