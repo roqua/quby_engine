@@ -9,6 +9,7 @@
 - content_for(:extra_css, @questionnaire.extra_css)
     
 = form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off" do
+  = render :partial => "answers/session_params"
   - if not @answer.errors.empty?
     .force-submit
       %h1 Deze vragenlijst is nog niet volledig ingevuld!

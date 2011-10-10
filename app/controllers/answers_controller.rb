@@ -12,10 +12,10 @@ class AnswersController < ApplicationController
 
   # SECURITY CRITICAL
   before_filter :ip_check_for_api_methods, :only => [:index, :create]
-  before_filter :verify_token, :only => [:show, :edit, :update, :print]
 
   before_filter :remember_token_in_session
   before_filter :remember_return_url_in_session
+  before_filter :verify_token, :only => [:show, :edit, :update, :print]
   before_filter :verify_hmac, :only => [:edit, :print]
 
   before_filter :remember_display_mode_in_session
@@ -31,7 +31,7 @@ class AnswersController < ApplicationController
 
   def check_aborted
     if (params[:commit] == "Onderbreken" and @questionnaire.abortable) or
-       (params[:commit] == "Toch opslaan" and session[:display_mode] == "bulk") or
+       (params[:commit] == "Toch opslaan" and @display_mode == "bulk") or
        (params[:commit] == "← Vorige vragenlijst")
       params[:answer] ||= HashWithIndifferentAccess.new
       params[:answer][:aborted] = true
@@ -62,7 +62,7 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    render :action => "#{session[:display_mode]}/edit"
+    render :action => "#{@display_mode}/edit"
   end
 
   def create
@@ -88,19 +88,18 @@ class AnswersController < ApplicationController
           @status = "back"
         end
 
-        if session[:return_url]
+        if @return_url
           if @status
             redirect_to_roqua(:params => {:status => @status}) and return
           else
             redirect_to_roqua and return
           end
         else
-          clear_session
           render :action => "completed" and return 
         end
       else
-        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if session[:display_mode] != "bulk"
-        format.html { render :action => "#{session[:display_mode]}/edit" }
+        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
+        format.html { render :action => "#{@display_mode}/edit" }
         format.json { render :json => @answer.errors.to_json }
       end
     end
@@ -142,15 +141,6 @@ class AnswersController < ApplicationController
 
   protected
 
-  def clear_session
-    session[:return_url] = nil
-    session[:return_token] = nil
-    session[:answer_token] = nil
-    session[:hmac] = nil
-    session[:timestamp] = nil
-    session[:display_mode] = nil
-  end
-
   def find_questionnaire
     if params[:questionnaire_id]
       @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
@@ -169,15 +159,15 @@ class AnswersController < ApplicationController
   end
 
   def verify_token
-    raise TokenValidationError unless @answer.token == (params[:token] || session[:answer_token])
+    raise TokenValidationError unless @answer.token == (params[:token] || @answer_token)
   end
 
   def verify_hmac
     #return true if Rails.env.development?
 
-    hmac      = (params['hmac'] || session[:hmac] || '').strip
-    token     = (params['token'] || session[:answer_token] || '').strip
-    timestamp = (params['timestamp'] || session[:timestamp] || '').strip
+    hmac      = (params['hmac']      || @hmac         || '').strip
+    token     = (params['token']     || @answer_token || '').strip
+    timestamp = (params['timestamp'] || @timestamp    || '').strip
 
     plain_hmac = [Settings.shared_secret, token, timestamp].join('|')
     our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
@@ -199,30 +189,30 @@ class AnswersController < ApplicationController
   end
 
   def remember_token_in_session
-    session[:answer_token] = params[:token]  if params[:token]
-    session[:hmac] = params[:hmac]           if params[:hmac]
-    session[:timestamp] = params[:timestamp] if params[:timestamp]
+    @answer_token = params[:token]     if params[:token]
+    @hmac         = params[:hmac]      if params[:hmac]
+    @timestamp    = params[:timestamp] if params[:timestamp]
   end
 
   def remember_return_url_in_session
     if params[:return_url]
-      session[:return_url] = CGI.unescape(params[:return_url])
-      session[:return_token] = params[:return_token]
+      @return_url   = CGI.unescape(params[:return_url])
+      @return_token = params[:return_token]
     end
   end
 
   def remember_display_mode_in_session
     if params[:display_mode] and ["paged", "bulk"].include?(params[:display_mode])
-      session[:display_mode] = params[:display_mode] if params[:display_mode]
+      @display_mode = params[:display_mode] if params[:display_mode]
     end
 
-    session[:display_mode] = "paged" if session[:display_mode].blank?
+    @display_mode = "paged" if @display_mode.blank?
   end
 
   def redirect_to_roqua(options = {})
     #FIXME: Flash proper error message when return_url is empty
-    address = Addressable::URI.parse(session[:return_url])
-    address.query_values = (address.query_values || {}).merge(:key => session[:return_token], :return_from => "quby")
+    address = Addressable::URI.parse(@return_url)
+    address.query_values = (address.query_values || {}).merge(:key => @return_token, :return_from => "quby")
     address.query_values = address.query_values.merge(options[:params]||{})
     logger.info address.to_s
     redirect_to address.to_s
