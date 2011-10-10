@@ -1,0 +1,7 @@
+-# Due to issues with people using back buttons, we can't store this in the session without occasionally getting errors
+= hidden_field_tag :token,        @answer_token
+= hidden_field_tag :hmac,         @hmac
+= hidden_field_tag :timestamp,    @timestamp
+= hidden_field_tag :return_url,   @return_url
+= hidden_field_tag :return_token, @return_token
+= hidden_field_tag :display_mode, @display_mode
