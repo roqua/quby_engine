@@ -250,10 +250,11 @@ module QuestionnaireDsl
     
     def option(key, options = {}, &block)
       raise "Option with key #{key} already defined. Keys must be unique within a question." if @question.options.find {|i| i.key == key }
-      raise "Question with key #{key} already defined. Checkbox option keys must be completely unique." if @question.type == :check_box && @questionnaire.question_hash[key]
+      raise "Question with key #{key} already defined. Checkbox option keys must be completely unique." if @question.type == :checkbox && @questionnaire.question_hash[key]
       
       op = QuestionOption.new(key, @question, options)
-
+      @questionnaire.question_hash[key] = op
+      
       instance_eval &block if block
     end
     

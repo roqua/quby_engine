@@ -79,6 +79,31 @@ describe Questionnaire do
     pending "write more expectations"
   end
   
+  it "should not accept duplicate question keys" do
+    questionnaire = <<-END
+      question :q01, :type => :radio 
+
+      question :q01 
+    END
+
+    quest(questionnaire).send(:validate_definition_syntax).should be_false
+  end
+  
+  it "should not accept checkbox option keys that are the same as other question keys" do
+    questionnaire = <<-END
+      question :q01, :type => :radio 
+
+      question :q02, :type => :checkbox do 
+        option :q03
+        option :a1
+      end 
+      
+      question :q03, :type => :radio 
+    END
+
+    quest(questionnaire).send(:validate_definition_syntax).should be_false
+  end
+  
   context "with some answers" do
   
     before(:all) do
