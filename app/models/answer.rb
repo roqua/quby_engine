@@ -8,6 +8,8 @@ class Answer < ActiveRecord::Base
   validates_length_of :token, :minimum => 4
   validate :validate_answers, :on => :update
 
+  attr_protected :token
+
   attr_accessor :aborted
   #Values in globalpark coding that need to be recoded and used to initialize this answer
   attr_accessor :roqua_vals
