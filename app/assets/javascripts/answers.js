@@ -430,7 +430,7 @@ function selectFocusedInput(){
 
 function preventDefault(event){
     if (event.preventDefault) {
-        event.preventDefault(); 
+        event.preventDefault();
     } else {
         event.stop();
     }
@@ -730,11 +730,26 @@ function processExtraData(){
     }
 }
 
-function doDivPrint(url){
-    $('.x_container').load(url, $('form').serializeArray(), function(){ 
-        $('.x_container').print_area({ afterFilter : function(){
-            $('.x_container *').remove();
-        }});
+function doDivPrint(url){    
+    var result = $(document.createElement("div"));
+    result.load(url, $('form').serializeArray(), function(){
+        if(result.find(".errors").length == 0){
+          $('.x_container').html(result.find("#content").html());
+          if(document.recalc){
+            document.recalc();
+          }
+          $('.x_container').print_area({ afterFilter : function(){
+              $('.x_container *').remove();
+          }});
+        } else {
+          $("body > #content").replaceWith(result.find("#content"));
+          if (isBulk){
+            prepareBulk();
+          } else {
+            preparePaged();
+          }
+          registerDeselectables();
+        }
     });
 }
 
@@ -749,6 +764,74 @@ function modalFrame(url){
         }
     }
     });    
+}
+
+function prepareBulk(){
+    if(hotkeysEnabled) {
+      curPanel = $('form');
+      panelInputs = getValidInputs();
+      focusI = 0;
+      focusInputIndex(focusI, true);
+    }
+}
+
+function preparePaged(){
+    // enable javascript-based previous/next links
+    $(".panel .buttons").show();
+
+    // hide first previous button, and last next button
+    $(".panel:first .buttons .prev").css('visibility', 'hidden');
+    $(".panel:last  .buttons .next").css('visibility', 'hidden');
+
+    //Go to first panel with errors
+    var errors = $('.errors');
+    if (errors.length > 0){
+        shownFlash = false;
+        activatePanel(errors.closest('.panel').eq(0), true, true);
+    }
+}
+
+//ONLY USE FOR KEYUP AND KEYDOWN
+function handlePreventDefault(event){
+    
+    event.which = event.which || event.keyCode;
+    
+    switch (event.which) {
+        //enter
+        case 13:
+        //pg up, up arrow
+        case 33:
+        case 38:
+        //pg dwn, down arrow
+        case 34:
+        case 40:
+            preventDefault(event);
+            break;
+        //space
+        case 32:
+            break;
+    }
+}
+
+function registerDeselectables(){
+    //FIXME: honos65+ performance opportunity
+    //lots of labels are selected individually  
+    $('input[type=radio].deselectable').each( function(i, val){
+        var label = $('label[for=' + $(this).attr("id") + ']');
+        
+        $(this).bind('mousedown', function(e){
+            setCurrent(e.target);
+        });
+        
+        label.bind('mousedown', function(e){
+            e.target = $('#' + $(this).attr("for"));
+            setCurrent(e.target);
+        });
+        
+        $(this).bind('click', function(e){
+            setCheck(e.target, true);
+        });
+    }); 
 }
 
 var leave_page_text;
@@ -790,9 +873,6 @@ $(document).ready(
         }
         hotkeysEnabled = $(".hotkeyDialog").length > 0;
         
-        
-        var allDeselectableRadios = $('input[type=radio].deselectable');
-        
         setCurrent = function(obj) {
             radioChecked = $(obj).attr('checked');
         };
@@ -809,26 +889,9 @@ $(document).ready(
             }
         };    
 
-        //FIXME: honos65+ performance opportunity
-        //lots of labels are selected individually,
-        allDeselectableRadios.each( function(i, val){
-            var label = $('label[for=' + $(this).attr("id") + ']');
-            
-            $(this).bind('mousedown', function(e){
-                setCurrent(e.target);
-            });
-            
-            label.bind('mousedown', function(e){
-                e.target = $('#' + $(this).attr("for"));
-                setCurrent(e.target);
-            });
-            
-            $(this).bind('click', function(e){
-                setCheck(e.target, true);
-            });
-        });
+        registerDeselectables();
         
-        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"], input[type="checkbox"]').click( radioCheckboxEvents );
+        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"], input[type="checkbox"]').live("click", radioCheckboxEvents );
         
         $('input[type="checkbox"]').each( function(index, element){
            handleDisableCheckboxSubQuestions(element);
@@ -838,29 +901,23 @@ $(document).ready(
         
         isBulk = $('form.bulk, form.print').size() > 0;
         if (hotkeysEnabled) {
-            $(document).keydown(handleDownHotKeys);
-            $(document).keyup(handleUpHotKeys);
-            $(document).click(function (){
+            $("body").live("keydown", handleDownHotKeys);
+            $("body").live("keyup", handleUpHotKeys);
+            $("body").live("click", function (){
                 nextButtonFocussed = false;
                 saveButtonFocussed = false;
             })
-            $(".item input, .item textarea, .buttons input, select").click(function(event){
+            $(".item input, .item textarea, .buttons input, select").live("click", function(event){
                 focusInput(event.target);                
-            }).focus(function(event){
+            })
+            $(".item input, .item textarea, .buttons input, select").live("focus", function(event){
                 focusInput(event.target);
             });
-            $("label.main").click(function(event){
-                //focusInput(event.target);
-            });
-            if (isBulk) {
-                curPanel = $('form');
-                panelInputs = getValidInputs();
-                focusI = 0;
-                focusInputIndex(focusI, true);
-            }
         }
                 
-        if (!isBulk) {
+        if (isBulk) {
+            prepareBulk();
+        } else{
             hashChangeEnabled = true;
             if (inIframe) {
                 activatePanel($(".panel:first"), false, true);
@@ -868,19 +925,11 @@ $(document).ready(
                 jQuery(window).bind('hashchange', hashchangeEventHandler);
             }
             //$.address.change( 'hashchange', hashchangeEventHandler);
-
-            // enable javascript-based previous/next links
-            $(".panel .buttons").show();
-
-            // hide first previous button, and last next button
-            $(".panel:first .buttons .prev").css('visibility', 'hidden');
-            $(".panel:last  .buttons .next").css('visibility', 'hidden');
-        
             // Trigger the hashchange event (useful on page load).
             $(window).hashchange();
             
             // show previous panel
-            $(".panel .prev input").click(
+            $(".panel .prev input").live("click",
                 function(event) {
                     event.preventDefault();
                     var prevPanel = $(this).parents('.panel').prev()
@@ -889,7 +938,7 @@ $(document).ready(
             );
 
             // show next panel
-            $(".panel .next input").click(
+            $(".panel .next input").live("click",
                 function(event) {
                     event.preventDefault();
                     var nextPanel = $(this).parents('.panel').next();
@@ -899,16 +948,13 @@ $(document).ready(
                 }
             );
             
-            //Go to first panel with errors
-            var errors = $('.errors');
-            if (errors.length > 0){
-                shownFlash = false;
-                activatePanel(errors.closest('.panel').eq(0), true, true);
-            }
+            preparePaged();
         }
         
-        $(document).keypress(handlePreventDefault);        
+        //$(document).keypress(handlePreventDefault); 
         
+        $(document).keypress(handlePreventDefault);        
+                
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');

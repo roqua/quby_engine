@@ -48,12 +48,6 @@
     // setTimeout( function() { $iframe[0].contentWindow.print(); isPrinting = false }, 1000);
 
     // hide all body content
-    $.each(childNodes, function(i, node) {
-      if (node.nodeType == 1) {
-        origDisplay[i] = node.style.display;
-        node.style.display = NONE;
-      }
-    });
     
     // prepare content for printing
     var classes = container.attr("class")
@@ -79,13 +73,6 @@
       // put back print content
       old_parent.prepend(container)
         
-      // restore all body content
-      $.each(childNodes, function(i, node) {
-        if (node.nodeType == 1) {
-          node.style.display = origDisplay[i];
-        }
-      });
-
       // run after_filter if present
       if (settings.afterFilter){
         settings.afterFilter();        
