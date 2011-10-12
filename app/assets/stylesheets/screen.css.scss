@@ -39,6 +39,11 @@ body {
   background-color: #eeeeee;
 }
 
+.hotkeyDialogLink{
+  text-align: right;
+  margin-bottom: 1em;
+}
+
 #mastfoot {
   margin: 0 auto;
   max-width: 900px;
@@ -250,7 +255,6 @@ select {
         .print { @include column(24); text-align: right; }
         .next { @include column(6, true); text-align: right; }
         .save { @include column(6, true); text-align: right; }
-        .hotkeyDialogLink { position: absolute; top: 7.5em; left: 30px; }
       }
       
       .item { 
@@ -717,10 +721,6 @@ input:placeholder, textarea:placeholder {
     background: #cce8ed !important;
 }
 
-.hotkeyDialogLink{
-    margin-top: 2em;
-    @include column(10);
-}
 .print {
     @include column(10);
     margin-top: 2em;

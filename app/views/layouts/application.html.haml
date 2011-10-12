@@ -5,6 +5,7 @@
     %title= content_for?(:page_title) ? yield(:page_title) : "Roqua Vragenlijsten"
     = content_for?(:override_css) ? yield(:override_css) : (stylesheet_link_tag('screen', :media => 'screen, projection'))
     = stylesheet_link_tag 'redmond/jquery-ui-1.8.7.custom.css'
+    = stylesheet_link_tag "print", :media => "print"
     /[if IE]
       = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
     = javascript_include_tag "application.js"
@@ -34,6 +35,8 @@
           .success= flash[:success]
       = yield
 
+    .x_container  
+    
     #mastfoot
       RoQua Vragenlijsten
 

@@ -79,7 +79,7 @@ class AnswersController < ApplicationController
       #Update_attributes also validates
       if @answer.update_attributes(params[:answer])
         if printing
-          render :action => "print/show" and return
+          render :action => "print/show", :layout => "layouts/content_only" and return
         end
         case params[:commit]
         when "Onderbreken"
@@ -88,18 +88,22 @@ class AnswersController < ApplicationController
           @status = "back"
         end
 
-        if @return_url
+        if @return_url.blank?
+          render :action => "completed" and return 
+        else
           if @status
             redirect_to_roqua(:params => {:status => @status}) and return
           else
             redirect_to_roqua and return
           end
-        else
-          render :action => "completed" and return 
         end
       else
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
-        format.html { render :action => "#{@display_mode}/edit" }
+        if printing
+          format.html { render :action => "#{@display_mode}/edit", :layout => "layouts/content_only" }
+        else 
+          format.html { render :action => "#{@display_mode}/edit" }
+        end
         format.json { render :json => @answer.errors.to_json }
       end
     end

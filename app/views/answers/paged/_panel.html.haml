@@ -7,11 +7,13 @@
   - classes << 'last-panel'
 
 %fieldset{:id => "panel#{panel_counter}", :class => classes}
+  = render :partial => "answers/hotkey_dialog"
+  
   :javascript
     panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
 
   /.panel_index= panel_counter + 1
-
+  
   - if panel.title
     %h1&= panel.title
 
@@ -41,9 +43,7 @@
           &nbsp;      
       .save
         = submit_tag "Klaar", :id => "done-button"
-      .x_container
-      
-  = render :partial => "answers/hotkey_dialog"    
+        
   - if panel_counter == panels.length - 1
     .print
       %a.print_button{:onclick => raw("doDivPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
