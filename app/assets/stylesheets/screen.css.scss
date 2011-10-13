@@ -690,6 +690,10 @@ pre {
 
 .hidden { display: none;}
 
+.hidden-childs > * {
+  display: none !important;
+}
+
 .question {
   background: #e5e5e5;
   margin: 2em;
