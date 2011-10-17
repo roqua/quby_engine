@@ -7,7 +7,7 @@
 - if item.is_a?(Items::Question)
   - return if item.table
   - extra_data = item.extra_data
-  - itemclasses << 'hidden' unless extra_data[:hidden_by].blank?
+  - itemclasses << 'hidden-childs' unless extra_data[:hidden_by].blank?
   - doublewide = item.options.size <= 5 
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
