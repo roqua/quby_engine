@@ -48,12 +48,7 @@
     // setTimeout( function() { $iframe[0].contentWindow.print(); isPrinting = false }, 1000);
 
     // hide all body content
-    
-    // prepare content for printing
-    var classes = container.attr("class")
-    container.removeClass(classes)
-    container.addClass(settings.print_container)
-    
+        
     // extract print content
     $(body).append(container);
     
@@ -66,10 +61,6 @@
     
     // allow the browser to prepare before reverting
     setTimeout(function() {
-      // restore print content
-      container.removeClass(settings.print_container)
-      container.addClass(classes)
-      
       // put back print content
       old_parent.prepend(container)
         

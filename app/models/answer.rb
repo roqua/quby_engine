@@ -174,7 +174,7 @@ class Answer < ActiveRecord::Base
         clear_question(question)
       end
 
-      if answer and question.type == :radio and not question.hides_questions.blank?
+      if answer and [:radio, :scale].include?(question.type) and not question.hides_questions.blank?
         question.options.each do |opt|
           if answer.to_sym == opt.key
             @hidden_questions.concat(opt.hides_questions)
@@ -270,10 +270,10 @@ class Answer < ActiveRecord::Base
               add_error(question, :answer_group_maximum, validation[:message] || "Needs at most #{validation[:value]} question(s) answered.")
             end
           end
-        end
-        #logger.info "ERRORS: #{errors.inspect}"
-      end
+        end        
+      end      
     end
+    logger.info "ERRORS: #{errors.inspect}"
   end
 
   protected
