@@ -275,7 +275,7 @@ class Answer < ActiveRecord::Base
         end        
       end      
     end
-    logger.info "ERRORS: #{errors.inspect}"
+    #logger.info "ERRORS: #{errors.inspect}"
   end
 
   protected
