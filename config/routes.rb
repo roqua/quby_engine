@@ -18,12 +18,11 @@ Quby::Application.routes.draw do
   end
 
   resources :questionnaires do
-    resources :answers
+    resources :answers  do
+        put "print", :on => :member
+    end
   end
   
-  #putting this in as a resource member action did not work for some reason
-  match 'questionnaires/:questionnaire_id/answers/:id/print', :to => 'answers#print', :as => "print_questionnaire_answer"
-
   resources :patients do
     resources :answers
     resources :questionnaires do
