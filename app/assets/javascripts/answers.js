@@ -772,7 +772,7 @@ function preparePaged(){
 }
 
 //ONLY USE FOR KEYUP AND KEYDOWN
- function handlePreventDefault(event){
+function handlePreventDefault(event){
     
     event.which = event.which || event.keyCode;
     
@@ -932,7 +932,6 @@ $(document).ready(
         }
         
         $(document).keydown(handlePreventDefault); 
-        
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');

@@ -81,6 +81,7 @@ namespace :deploy do
     run command
   end
 
+  before "deploy:update_code", "irc:notice_deployment"
   before "deploy:assets:precompile", "deploy:link_database_yml"
   before "deploy:assets:precompile", "deploy:link_shared_dirs"
   after "deploy:update_code", "deploy:update_questionnaires"
@@ -90,5 +91,17 @@ end
 namespace :logs do
   task :watch do
     stream("tail -n 50 -f #{deploy_to}/#{shared_dir}/log/production.log")
+  end
+end
+
+namespace :irc do
+  task :notice_deployment do
+    begin
+      socket = TCPSocket.new("129.125.147.31", 12345)
+      socket.puts("#roqua Capistrano: #{`whoami`.strip} is deploying Quby @ #{application}-#{rails_env}")
+      socket.close
+    rescue Exception => e
+      # Okay, well then we don't tell IRC. Whatever.
+    end
   end
 end
