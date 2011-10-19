@@ -951,10 +951,6 @@ $(document).ready(
             preparePaged();
         }
         
-        //$(document).keypress(handlePreventDefault); 
-        
-        $(document).keypress(handlePreventDefault);        
-                
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');
