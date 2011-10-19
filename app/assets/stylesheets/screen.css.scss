@@ -115,6 +115,11 @@ select {
                 white-space:normal;
             }
             
+            td > div > *{
+              margin-top: 0.5em;
+              margin-bottom: 0.5em;
+            }
+            
             border-bottom: 1px solid black;
             
             border-collapse: collapse; 
