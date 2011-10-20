@@ -492,6 +492,8 @@ select {
         label.main {
           @include column(12, true);
           //font-weight: bold;
+          em { font-style: italic; }
+          strong { font-weight: bold; }
         }
         
         .text {

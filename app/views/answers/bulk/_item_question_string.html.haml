@@ -1,4 +1,4 @@
-%label.main(for="answer_#{question.key}")= raw(question.title)
+%label.main(for="answer_#{question.key}")= sanitize(marukufix(question.title, nil)
 .description-and-fields
   .description
     - unless question.description.blank?

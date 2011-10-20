@@ -3,7 +3,7 @@
   = render :partial => "answers/paged/item_question_radio", :locals => {:answer => @answer, :question => question, :subquestion => false, :disabled => false}
 - else
   %label.main(for="answer_#{question.key}")
-    = raw(question.title)
+    = sanitize(marukufix(question.title, nil), :tags => %w(em))
     - subq = question.options.last.questions.first
     - if subq.andand.presentation == :next_to_title and subq.type == :string
       = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
