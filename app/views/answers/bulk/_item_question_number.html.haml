@@ -1,4 +1,4 @@
-%label.main(for="answer_#{question.key}")= sanitize(marukufix(question.title, nil) || raw("&nbsp;")
+%label.main(for="answer_#{question.key}")= sanitize(marukufix(question.title, nil), :tags => %w(em)) || raw("&nbsp;")
 .description-and-fields
   .description
     - unless question.description.blank?
