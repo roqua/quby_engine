@@ -1,5 +1,6 @@
 class Questionnaire < ActiveRecord::Base
-  has_many :answers, :dependent => :destroy
+  # Faux has_many :answers
+  def answers; Answer.where(:questionnaire_id => self.id); end
 
   after_initialize :enhance_by_dsl
 

@@ -1,5 +1,24 @@
-class Answer < ActiveRecord::Base
-  belongs_to :questionnaire
+class Answer
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
+  field :questionnaire_id,  :type => Integer
+  field :value,             :type => Hash
+  field :patient_id,        :type => String
+  field :token,             :type => String
+  field :active,            :type => Boolean
+  field :test,              :type => Boolean
+
+  # Faux belongs_to :questionnaire
+  def questionnaire; Questionnaire.find(questionnaire_id); end
+
+  def self.find_or_create_by_test_and_questionnaire_id(options = {})
+    if answer = where(:test => options[:test], :questionnaire_id => options[:questionnaire_id]).first
+      return answer
+    else
+      create(options)
+    end
+  end
 
   after_initialize :enhance_by_dsl
   before_validation(:on => :create) { generate_random_token }
@@ -20,8 +39,6 @@ class Answer < ActiveRecord::Base
 
   #for setting which questions should be hidden
   attr_accessor :to_hide
-
-  serialize :value
 
   def enhance_by_dsl
     AnswerDsl.enhance(self)

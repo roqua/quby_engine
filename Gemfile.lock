@@ -46,6 +46,8 @@ GEM
     arel (2.2.1)
     awesome_print (0.4.0)
     bcrypt-ruby (3.0.1)
+    bson (1.4.1)
+    bson_ext (1.4.1)
     builder (3.0.0)
     capistrano (2.8.0)
       highline
@@ -119,6 +121,12 @@ GEM
     maruku (0.6.0)
       syntax (>= 1.0.0)
     mime-types (1.16)
+    mongo (1.4.1)
+      bson (= 1.4.1)
+    mongoid (2.3.2)
+      activemodel (~> 3.1)
+      mongo (~> 1.4)
+      tzinfo (~> 0.3.22)
     multi_json (1.0.3)
     mysql2 (0.3.7)
     net-scp (1.0.4)
@@ -215,6 +223,7 @@ DEPENDENCIES
   addressable
   andand
   awesome_print
+  bson_ext (= 1.4.1)
   capistrano
   capistrano-ext
   capistrano_colors
@@ -231,6 +240,7 @@ DEPENDENCIES
   jquery-rails
   json
   maruku
+  mongoid (~> 2.3.2)
   mysql2 (= 0.3.7)
   newrelic_rpm
   open4
