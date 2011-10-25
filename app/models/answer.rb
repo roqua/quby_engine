@@ -2,6 +2,7 @@ class Answer
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  identity type: String
   field :questionnaire_id,  :type => Integer
   field :value,             :type => Hash
   field :patient_id,        :type => String
@@ -20,14 +21,14 @@ class Answer
     end
   end
 
+  def value; self[:value].with_indifferent_access; end
+
   after_initialize :enhance_by_dsl
   before_validation(:on => :create) { generate_random_token }
   before_validation(:on => :update) { cleanup_input }
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
   validate :validate_answers, :on => :update
-
-  attr_protected :token
 
   attr_accessor :aborted
   #Values in globalpark coding that need to be recoded and used to initialize this answer
