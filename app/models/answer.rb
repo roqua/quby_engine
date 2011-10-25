@@ -50,33 +50,6 @@ class Answer
         Maruku.setTextVar(question.text_var, self.send(question.key))
       end rescue nil
     end
-
-    if @roqua_vals
-      @roqua_vals = @roqua_vals["roqua_vals"] if @roqua_vals["roqua_vals"]
-
-      questionnaire.questions.each do |q|
-        next unless q
-        case q.type
-        when :radio, :scale
-          q.options.each do |opt|
-            if opt.value.to_s == @roqua_vals[q.key]
-              @roqua_vals[q.key] = opt.key
-            end
-          end
-        when :check_box
-          q.options.each do |opt|
-            if @roqua_vals[opt.key] != "1"
-              @roqua_vals.delete(opt.key)
-            end
-          end
-        end
-      end
-      logger.info "RECODED VALUES: #{@roqua_vals.inspect}"
-      @roqua_vals.each_pair do |key, value|
-        self.send("#{key}=", value)
-      end
-      @roqua_vals = nil
-    end
   end
 
   def extra_question_values
