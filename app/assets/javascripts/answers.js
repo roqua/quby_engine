@@ -420,6 +420,7 @@ function selectInput(value){
         focusNextInput();   
     }
 }
+
 function selectFocusedInput(){
     var el = $(document.activeElement);
     setCurrent(el);
@@ -438,29 +439,8 @@ function preventDefault(event){
     event.stopPropagation();
 }
 
-function handlePreventDefault(event){
-    
-    event.which = event.which || event.keyCode;
-    
-    switch (event.which) {
-        //enter
-        case 13:
-        //pg up, up arrow
-        case 33:
-        case 38:
-        //pg dwn, down arrow
-        case 34:
-        case 40:
-            preventDefault(event);
-            break;
-        //space
-        case 32:
-            break;    
-    }
-}
-
-function handleDownHotKeys(event){
-    event.which = event.which || event.keyCode;
+function handleDownHotKeys(event){    
+    event.which = event.charCode || event.which || event.keyCode;
     if ($(lastInput).is("textarea")) {
         return;
     }
@@ -579,6 +559,10 @@ function handleUpHotKeys(event){
 function focusInput(input){
     $('.focus').removeClass('focus');
     focusI = panelInputs.index(input);
+    if(focusI == -1 && $(input).is("[type=radio]")){
+        input = $(input).closest('.fields').find('[type=radio]:first');
+        focusI = panelInputs.index(input);
+    }
     if($(input).is("[type='submit']")){
         $('.buttons').addClass('focus');
     } else if ($(input).is("[type='checkbox']")) {
@@ -612,7 +596,10 @@ function focusInputIndex(index, forward){
         }
     }
     if (lastInput.length > 0) {
+        //IE7 disabled element focus hack
+        $(lastInput[0]).show();
         lastInput[0].focus();
+        
         saveButtonFocussed = lastInput.is('#done-button');
         nextButtonFocussed = lastInput.is('.next');
         focusI = panelInputs.index(lastInput);
@@ -796,17 +783,20 @@ function handlePreventDefault(event){
     
     event.which = event.which || event.keyCode;
     
+    if($(event.target).is('textarea')){
+        return;
+    }
     switch (event.which) {
         //enter
         case 13:
+            preventDefault(event);
+            break;
         //pg up, up arrow
         case 33:
         case 38:
         //pg dwn, down arrow
         case 34:
         case 40:
-            preventDefault(event);
-            break;
         //space
         case 32:
             break;
@@ -951,6 +941,7 @@ $(document).ready(
             preparePaged();
         }
         
+        $(document).keydown(handlePreventDefault); 
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');
