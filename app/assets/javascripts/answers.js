@@ -420,6 +420,7 @@ function selectInput(value){
         focusNextInput();   
     }
 }
+
 function selectFocusedInput(){
     var el = $(document.activeElement);
     setCurrent(el);
@@ -439,7 +440,7 @@ function preventDefault(event){
 }
 
 function handleDownHotKeys(event){    
-    event.which = e.charCode || event.which || event.keyCode;
+    event.which = event.charCode || event.which || event.keyCode;
     if ($(lastInput).is("textarea")) {
         return;
     }
@@ -559,6 +560,10 @@ function handleUpHotKeys(event){
 function focusInput(input){
     $('.focus').removeClass('focus');
     focusI = panelInputs.index(input);
+    if(focusI == -1 && $(input).is("[type=radio]")){
+        input = $(input).closest('.fields').find('[type=radio]:first');
+        focusI = panelInputs.index(input);
+    }
     if($(input).is("[type='submit']")){
         $('.buttons').addClass('focus');
     } else if ($(input).is("[type='checkbox']")) {
@@ -592,7 +597,10 @@ function focusInputIndex(index, forward){
         }
     }
     if (lastInput.length > 0) {
+        //IE7 disabled element focus hack
+        $(lastInput[0]).show();
         lastInput[0].focus();
+        
         saveButtonFocussed = lastInput.is('#done-button');
         nextButtonFocussed = lastInput.is('.next');
         focusI = panelInputs.index(lastInput);
@@ -775,7 +783,9 @@ function preparePaged(){
 function handlePreventDefault(event){
     
     event.which = event.which || event.keyCode;
-    
+    if($(event.target).is('textarea')){
+        return;
+    }
     switch (event.which) {
         //enter
         case 13:
