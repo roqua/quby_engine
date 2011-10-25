@@ -95,7 +95,7 @@ module AnswerDsl
          
           define_method(question.key) do
             self.value ||= Hash.new
-            self.value.fetch(question.key)
+            self.value[question.key]
           end
   
           define_method(question.key.to_s + "=") do |v|

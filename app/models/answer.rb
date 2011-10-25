@@ -21,7 +21,7 @@ class Answer
     end
   end
 
-  def value; self[:value].with_indifferent_access; end
+  def value; self[:value].andand.with_indifferent_access; end
 
   after_initialize :enhance_by_dsl
   before_validation(:on => :create) { generate_random_token }
@@ -127,6 +127,7 @@ class Answer
     end
 
     attributes.merge({
+      :id => self.id,
       :value_by_values => value_by_values,
       :scores => self.scores,
       :is_completed => self.completed? ? true : false
