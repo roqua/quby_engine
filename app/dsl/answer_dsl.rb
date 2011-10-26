@@ -11,39 +11,39 @@ module AnswerDsl
 
           define_method(question.year_key || "#{question.key}_yyyy") do
             self.value ||= Hash.new
-            self.value[question.year_key || "#{question.key}_yyyy"]
+            self.value[question.year_key.to_s || "#{question.key}_yyyy"]
           end
 
           define_method(question.year_key ? "#{question.year_key}=" : "#{question.key}_yyyy=") do |v|
             self.value ||= Hash.new
-            self.value[question.year_key || "#{question.key}_yyyy"] = v
+            self.value[question.year_key.to_s || "#{question.key}_yyyy"] = v
           end
           
           define_method(question.month_key || "#{question.key}_mm") do
             self.value ||= Hash.new
-            self.value[question.month_key || "#{question.key}_mm"]
+            self.value[question.month_key.to_s || "#{question.key}_mm"]
           end
 
           define_method(question.month_key ? "#{question.month_key}=" : "#{question.key}_mm=") do |v|
             self.value ||= Hash.new
-            self.value[question.month_key || "#{question.key}_mm"] = v
+            self.value[question.month_key.to_s || "#{question.key}_mm"] = v
           end
           
           define_method(question.day_key || "#{question.key}_dd") do
             self.value ||= Hash.new
-            self.value[question.day_key ||"#{question.key}_dd"]
+            self.value[question.day_key.to_s ||"#{question.key}_dd"]
           end
 
           define_method(question.day_key ? "#{question.day_key}=" :"#{question.key}_dd=") do |v|
             self.value ||= Hash.new
-            self.value[question.day_key ||"#{question.key}_dd"] = v
+            self.value[question.day_key.to_s ||"#{question.key}_dd"] = v
           end
 
           define_method(question.key) do
             self.value ||= Hash.new
-            v = [self.value[question.day_key ||"#{question.key}_dd"],
-             self.value[question.month_key ||"#{question.key}_mm"],
-             self.value[question.year_key ||"#{question.key}_yyyy"]]
+            v = [self.value[question.day_key.to_s ||"#{question.key}_dd"],
+             self.value[question.month_key.to_s ||"#{question.key}_mm"],
+             self.value[question.year_key.to_s ||"#{question.key}_yyyy"]]
             if v.inject(true) {|allblank, it| it.blank? and allblank}
               return ""
             else
@@ -55,23 +55,23 @@ module AnswerDsl
         
           define_method(question.key) do
             self.value ||= Hash.new
-            self.value[question.key] ||= Hash.new
+            self.value[question.key.to_s] ||= Hash.new
           end
             
           question.options.each do |opt|
             next if opt.andand.key.blank?
             define_method("#{opt.key}") do
               self.value ||= Hash.new
-              self.value[question.key] ||= Hash.new
-              self.value[opt.key] ||= 0
+              self.value[question.key.to_s] ||= Hash.new
+              self.value[opt.key.to_s] ||= 0
             end
             
             define_method("#{opt.key}=") do |v|
               v = v.to_i
               self.value ||= Hash.new
-              self.value[question.key] ||= Hash.new
-              self.value[question.key][opt.key] = v
-              self.value[opt.key] = v
+              self.value[question.key.to_s] ||= Hash.new
+              self.value[question.key.to_s][opt.key.to_s] = v
+              self.value[opt.key.to_s] = v
             end  
           end
         else 
@@ -88,19 +88,19 @@ module AnswerDsl
             question.options.each do |opt|
               define_method("#{question.key}_#{opt.key}") do
                 self.value ||= Hash.new
-                self.value[question.key] == opt.key.to_s
+                self.value[question.key.to_s] == opt.key.to_s
               end
             end
           end
          
           define_method(question.key) do
             self.value ||= Hash.new
-            self.value[question.key]
+            self.value[question.key.to_s]
           end
   
           define_method(question.key.to_s + "=") do |v|
             self.value ||= Hash.new
-            self.value[question.key] = v
+            self.value[question.key.to_s] = v
           end
         end rescue nil
       end

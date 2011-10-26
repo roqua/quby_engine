@@ -21,8 +21,6 @@ class Answer
     end
   end
 
-  def value; self[:value].andand.with_indifferent_access; end
-
   after_initialize :enhance_by_dsl
   before_validation(:on => :create) { generate_random_token }
   before_validation(:on => :update) { cleanup_input }
