@@ -783,6 +783,7 @@ function preparePaged(){
 function handlePreventDefault(event){
     
     event.which = event.which || event.keyCode;
+    
     if($(event.target).is('textarea')){
         return;
     }
