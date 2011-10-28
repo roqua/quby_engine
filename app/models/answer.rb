@@ -24,6 +24,7 @@ class Answer
   after_initialize :enhance_by_dsl
   before_validation(:on => :create) { generate_random_token }
   before_validation(:on => :update) { cleanup_input }
+  before_save { self[:value_by_values] = value_by_values }
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
   validate :validate_answers, :on => :update
