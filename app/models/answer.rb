@@ -90,7 +90,7 @@ class Answer
     if value
       result = value.dup
       value.each_key do |key|
-        question = questionnaire.questions.find(){|q| q.andand.key == key }
+        question = questionnaire.questions.find(){|q| q.andand.key.to_s == key }
         if question and (question.type == :radio || question.type == :scale || question.type == :select)
           option = question.options.find(){|o| o.key.to_s == value[key].to_s }
           if option
