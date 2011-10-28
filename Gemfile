@@ -31,7 +31,7 @@ gem 'therubyracer'
 gem 'jquery-rails'
 
 gem 'exception_notification'
-gem 'rails3-settings', :git => 'git://github.com/roqua/rails-settings.git', :require => 'settings'
+gem 'mongoid-app_settings'
 gem 'devise', "~> 1.1"
 
 # gem "central_logger" # disabled until fixed for when no connection is made
