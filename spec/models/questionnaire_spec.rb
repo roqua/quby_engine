@@ -106,7 +106,7 @@ describe Questionnaire do
   
   context "with some answers" do
   
-    before(:all) do
+    before(:each) do
       questionnaire = <<-END
         default_answer_value :q01 => "antwoord"
         question :q01, :type => :string, :title => "Blaat" 
@@ -117,9 +117,9 @@ describe Questionnaire do
         pp @q.errors
       end
       
-      @q.answers.create
-      @q.answers.create
-      @q.answers.create
+      @q.answers.create!(:questionnaire_id => @q.id)
+      @q.answers.create!(:questionnaire_id => @q.id)
+      @q.answers.create!(:questionnaire_id => @q.id)
     end
     
     it "should have some answers" do
@@ -129,7 +129,7 @@ describe Questionnaire do
     it "should destroy dependent answers when questionnaire is destroyed" do
       id = @q.id
       @q.destroy
-      Answer.find_by_questionnaire_id(id).should be_nil
+      Answer.where(:questionnaire_id => id).should be_empty
     end
   end
 

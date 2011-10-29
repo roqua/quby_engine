@@ -12,26 +12,26 @@ Spork.prefork do
   require 'rspec/rails'
   require 'capybara/rspec'
 
-  Dir[Rails.root.join('db', 'functions', '*.rb')].each do |path|
-    filename = File.basename(path)
-    q_key = filename.match(/^(.*)\.rb$/)[1]
-    next if  Function.find_by_name(q_key)
-    Function.create(:name => q_key, :definition => File.read(path))
-  end
+  #Dir[Rails.root.join('db', 'functions', '*.rb')].each do |path|
+    #filename = File.basename(path)
+    #q_key = filename.match(/^(.*)\.rb$/)[1]
+    #next if  Function.find_by_name(q_key)
+    #Function.create(:name => q_key, :definition => File.read(path))
+  #end
 
-  Dir[Rails.root.join('db', 'questionnaires', '*.rb')].each do |path|
-    filename = File.basename(path)
-    q_key = filename.match(/^(.*)\.rb$/)[1]
-    next if Questionnaire.find_by_key q_key
+  #Dir[Rails.root.join('db', 'questionnaires', '*.rb')].each do |path|
+    #filename = File.basename(path)
+    #q_key = filename.match(/^(.*)\.rb$/)[1]
+    #next if Questionnaire.find_by_key q_key
 
-    begin
-      #puts "Creating Questionnaire #{q_key}"
-      q = Questionnaire.new(:key => q_key, :definition => File.read(path))
-      q.save!(:validate => false)
-    rescue => e
-      puts "Questionnaire #{q_key} was not saved because it has errors:\n #{e}"
-    end
-  end
+    #begin
+      ##puts "Creating Questionnaire #{q_key}"
+      #q = Questionnaire.new(:key => q_key, :definition => File.read(path))
+      #q.save!(:validate => false)
+    #rescue => e
+      #puts "Questionnaire #{q_key} was not saved because it has errors:\n #{e}"
+    #end
+  #end
 
 end
 
@@ -58,5 +58,20 @@ Spork.each_run do
     # examples within a transaction, comment the following line or assign false
     # instead of true.
     config.use_transactional_fixtures = true
+
+    config.before(:suite) do
+      DatabaseCleaner[:active_record].clean_with(:truncation)
+      DatabaseCleaner[:mongoid].clean_with(:truncation)
+      DatabaseCleaner[:active_record].strategy = :truncation
+      DatabaseCleaner[:mongoid].strategy = :truncation
+    end
+
+    config.before(:each) do
+      DatabaseCleaner.start
+    end
+
+    config.after(:each) do
+      DatabaseCleaner.clean
+    end
   end
 end

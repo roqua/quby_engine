@@ -17,7 +17,8 @@ describe Questionnaire do
           end
         END
         @questionnaire.enhance_by_dsl
-        @answer = Answer.new(:questionnaire => @questionnaire)
+        Answer.any_instance.stub(:questionnaire).and_return(@questionnaire)
+        @answer = Answer.new
       end
 
       it "should add a validation to the question" do
@@ -26,17 +27,17 @@ describe Questionnaire do
       end
 
       it "should check if the value matches the regexp" do
-        @answer.value = {:one => "right"}
+        @answer.value = {"one" => "right"}
         @answer.validate_answers
         @answer.errors[:one].any?.should be_false
 
-        @answer.value = {:one => "wrong"}
+        @answer.value = {"one" => "wrong"}
         @answer.validate_answers
         @answer.errors[:one].any?.should be_true
       end
 
       it "should add a message if passed" do
-        @answer.value = {:one => "right", :two => "wrong"}
+        @answer.value = {"one" => "right", "two" => "wrong"}
         @answer.validate_answers
         @answer.errors[:two].any?.should be_true
         @answer.errors[:two].map{|i| i[:message] }.should include("should contain qwerty")
