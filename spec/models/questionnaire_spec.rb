@@ -114,7 +114,7 @@ describe Questionnaire do
 
       @q = quest(questionnaire)
       unless @q.save
-        pp @q.errors
+        pp @q.errors and raise "Error saving questionnaire"
       end
       
       @q.answers.create!(:questionnaire_id => @q.id)

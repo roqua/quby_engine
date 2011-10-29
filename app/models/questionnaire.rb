@@ -8,6 +8,7 @@ class Questionnaire < ActiveRecord::Base
   before_save :validate_definition_syntax
   after_save  :write_to_disk
   after_destroy :remove_from_disk
+  after_destroy :remove_answers
 
   attr_accessor :title
   attr_accessor :description
@@ -195,5 +196,9 @@ class Questionnaire < ActiveRecord::Base
         end
       end
     end
+  end
+  
+  def remove_answers
+    Answer.where(:questionnaire_id => self.id).delete
   end
 end
