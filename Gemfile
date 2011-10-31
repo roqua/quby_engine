@@ -2,8 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '~> 3.1.0'
 gem 'mysql2', "=0.3.7"
-gem 'mongoid', '~> 2.3.2'
-gem 'bson_ext', '= 1.4.1'
+gem 'mongoid', '~> 2.3.3'
+gem 'bson_ext', '= 1.3.1'
 
 gem 'haml'
 gem 'formtastic'
