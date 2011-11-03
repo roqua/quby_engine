@@ -1,16 +1,14 @@
+---
 development:
   host: localhost
-  database: roqua_development
+  database: q_ggzfriesland
   autocreate_indexes: true
   persist_in_safe_mode: true
-
 test:
   host: localhost
   database: roqua_test
   autocreate_indexes: true
   persist_in_safe_mode: true
-
-# set these environment variables on your prod server
 production:
   host: <%= ENV['MONGOID_HOST'] %>
   port: <%= ENV['MONGOID_PORT'] %>
@@ -18,8 +16,3 @@ production:
   password: <%= ENV['MONGOID_PASSWORD'] %>
   database: <%= ENV['MONGOID_DATABASE'] %>
   persist_in_safe_mode: true
-  # slaves:
-  #   - host: slave1.local
-  #     port: 27018
-  #   - host: slave2.local
-  #     port: 27019
