@@ -7,8 +7,8 @@ class Answer
   field :value,             :type => Hash
   field :patient_id,        :type => String
   field :token,             :type => String
-  field :active,            :type => Boolean
-  field :test,              :type => Boolean
+  field :active,            :type => Boolean, :default => true
+  field :test,              :type => Boolean, :default => false
 
   # Faux belongs_to :questionnaire
   def questionnaire; Questionnaire.find(questionnaire_id); end
