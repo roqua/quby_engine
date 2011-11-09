@@ -11,7 +11,7 @@ class MigrateSettingsToMongo < ActiveRecord::Migration
     OldSettings.all.each do |old_setting|
       key = old_setting.var
       val = old_setting.value
-      logger.info "Setting #{key} to #{val.inspect}"
+      puts "Setting #{key} to #{val.inspect}"
       Settings.send("#{key}=", val)
     end
   end
