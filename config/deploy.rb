@@ -5,7 +5,7 @@ require 'bundler/capistrano'
 
 set :scm, :git
 set :repository, "git@github.com:roqua/quby.git"
-set :branch,     "rel_201109"
+set :branch,     "rel_201110"
 set :deploy_via, :remote_cache
 
 set :questionnaire_repository, "git@github.com:roqua/questionnaires.git"
