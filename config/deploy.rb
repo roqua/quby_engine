@@ -39,6 +39,7 @@ namespace :deploy do
   desc "Link in the shared config files"
   task :link_database_yml do
     run "ln -nfs #{deploy_to}/#{shared_dir}/config/database.yml #{release_path}/config/database.yml"
+    run "ln -nfs #{deploy_to}/#{shared_dir}/config/mongoid.yml #{release_path}/config/mongoid.yml"
 
     # if a shared copy of newrelic.yml exists, use that, otherwise the repo version is fine
     # we use this to disable newrelic in the rgoc app
