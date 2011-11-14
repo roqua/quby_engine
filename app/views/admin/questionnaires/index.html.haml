@@ -26,4 +26,8 @@
         %td
           = link_to "Codebook", admin_questionnaire_codebook_path(questionnaire, :format => :txt)
           = link_to "Edit", edit_admin_questionnaire_path(questionnaire)
+          %br
+          = link_to "Try Regular", test_admin_questionnaire_path(questionnaire, :display_mode => :paged)
+          = link_to "Try Bulk", test_admin_questionnaire_path(questionnaire, :display_mode => :bulk)
+          
           
