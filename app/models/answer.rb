@@ -11,7 +11,9 @@ class Answer
   field :test,              :type => Boolean, :default => false
 
   # Faux belongs_to :questionnaire
-  def questionnaire; Questionnaire.find(questionnaire_id); end
+  def questionnaire
+    @questionnaire_cache ||= Questionnaire.find(questionnaire_id)
+  end
 
   def self.find_or_create_by_test_and_questionnaire_id(options = {})
     if answer = where(:test => options[:test], :questionnaire_id => options[:questionnaire_id]).first
@@ -91,11 +93,11 @@ class Answer
     if value
       result = value.dup
       value.each_key do |key|
-        question = questionnaire.questions.find(){|q| q.andand.key.to_s == key }
+        question = questionnaire.questions.find(){|q| q.andand.key.to_s == key.to_s }
         if question and (question.type == :radio || question.type == :scale || question.type == :select)
           option = question.options.find(){|o| o.key.to_s == value[key].to_s }
           if option
-            result[key] = option.value
+            result[key] = option.value.to_s
           end
         end
       end
@@ -107,24 +109,6 @@ class Answer
   end
 
   def as_json(options = {})
-    begin
-      if value
-        value_by_values = value.dup
-        value.each_key do |key|
-          question = questionnaire.questions.find(){|q| q.andand.key == key }
-          if question and (question.type == :radio || question.type == :scale || question.type == :select)
-            option = question.options.find(){|o| o.key.to_s == value[key].to_s }
-
-            if option
-              value_by_values[key] = option.value.to_s
-            end
-          end
-        end
-      end
-    rescue Exception => e
-      logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
-    end
-
     attributes.merge({
       :id => self.id,
       :value_by_values => value_by_values,
