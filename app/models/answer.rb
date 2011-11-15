@@ -41,7 +41,7 @@ class Answer
 
   #for setting which questions should be hidden
   attr_accessor :to_hide
-
+  
   def enhance_by_dsl
     AnswerDsl.enhance(self)
 
@@ -118,10 +118,10 @@ class Answer
   end
 
   def clear_question(question)
-    value.delete(question.key)
+    value.delete(question.key.to_s)
     if question.type == :check_box
       question.options.each do |opt|
-        value.delete(opt.key)
+        value.delete(opt.key.to_s)
       end
     end
   end
@@ -174,8 +174,8 @@ class Answer
       next unless question
       next if question.type == :hidden or question.hidden?
 
-      if (question.parent and ((question.parent.type == :radio     and value[question.parent.key] != question.parent_option_key.to_s) or
-                               (question.parent.type == :check_box and value[question.parent.key][question.parent_option_key] == 0))) or
+      if (question.parent and ((question.parent.type == :radio     and value[question.parent.key.to_s] != question.parent_option_key.to_s) or
+                               (question.parent.type == :check_box and value[question.parent.key.to_s].andand[question.parent_option_key] != 1))) or
          @hidden_questions.andand.include?(question.key)
         clear_question(question)
         next
