@@ -2,4 +2,4 @@
   = render :partial => 'answers/shared/validations', :locals => {:question => question, :answer => answer}    
   .fields{:id => question.html_id}
     = question.title
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => ["string"], :text_var => question.text_var || "", :size => 20
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => ["string", "subinput"], :text_var => question.text_var || "", :size => 20
