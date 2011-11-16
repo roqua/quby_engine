@@ -82,7 +82,7 @@ namespace :deploy do
     run command
   end
 
-  before "deploy:update_code", "irc:notice_deployment"
+  before "deploy:finalize_update", "irc:notice_deployment"
   before "deploy:assets:precompile", "deploy:link_database_yml"
   before "deploy:assets:precompile", "deploy:link_shared_dirs"
   after "deploy:update_code", "deploy:update_questionnaires"
