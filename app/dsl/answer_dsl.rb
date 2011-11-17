@@ -9,34 +9,34 @@ module AnswerDsl
         case question.type
         when :date
 
-          define_method(question.year_key || "#{question.key}_yyyy") do
+          define_method(question.year_key) do
             self.value ||= Hash.new
-            self.value[question.year_key.to_s || "#{question.key}_yyyy"]
+            self.value[question.year_key]
           end
 
-          define_method(question.year_key ? "#{question.year_key}=" : "#{question.key}_yyyy=") do |v|
+          define_method("#{question.year_key}=") do |v|
             self.value ||= Hash.new
-            self.value[question.year_key.to_s || "#{question.key}_yyyy"] = v
+            self.value[question.year_key] = v
           end
           
-          define_method(question.month_key || "#{question.key}_mm") do
+          define_method(question.month_key) do
             self.value ||= Hash.new
-            self.value[question.month_key.to_s || "#{question.key}_mm"]
+            self.value[question.month_key]
           end
 
-          define_method(question.month_key ? "#{question.month_key}=" : "#{question.key}_mm=") do |v|
+          define_method("#{question.month_key}=") do |v|
             self.value ||= Hash.new
-            self.value[question.month_key.to_s || "#{question.key}_mm"] = v
+            self.value[question.month_key] = v
           end
           
-          define_method(question.day_key || "#{question.key}_dd") do
+          define_method(question.day_key) do
             self.value ||= Hash.new
-            self.value[question.day_key.to_s ||"#{question.key}_dd"]
+            self.value[question.day_key]
           end
 
-          define_method(question.day_key ? "#{question.day_key}=" :"#{question.key}_dd=") do |v|
+          define_method("#{question.day_key}=" ) do |v|
             self.value ||= Hash.new
-            self.value[question.day_key.to_s ||"#{question.key}_dd"] = v
+            self.value[question.day_key] = v
           end
 
           define_method(question.key) do

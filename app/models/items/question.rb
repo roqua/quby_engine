@@ -174,6 +174,18 @@ class Items::Question < Item
 
     @hides_questions = []
   end
+  
+  def year_key
+    (@year_key || "#{key}_yyyy").to_s    
+  end
+  
+  def month_key
+    (@month_key || "#{key}_mm").to_s
+  end
+  
+  def day_key
+    (@day_key || "#{key}_dd").to_s
+  end
 
   def set_depends_on(keys, questionnaire)
     return if keys.blank?
