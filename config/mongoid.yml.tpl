@@ -1,7 +1,7 @@
 ---
 development:
   host: localhost
-  database: q_ggzfriesland
+  database: r_ggzfriesland_dev
   autocreate_indexes: true
   persist_in_safe_mode: true
 test:
