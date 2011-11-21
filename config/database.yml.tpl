@@ -1,7 +1,7 @@
 # SQLite version 3.x
 #   gem install sqlite3-ruby (not necessary on OS X Leopard)
 development:
-  adapter: mysql
+  adapter: mysql2
   database: quby_development
   username: root
   password: 
@@ -12,7 +12,7 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test: &TEST
-  adapter: mysql
+  adapter: mysql2
   database: quby_test
   username: root
   password: 
@@ -20,7 +20,7 @@ test: &TEST
   host: localhost
 
 production:
-  adapter: mysql
+  adapter: mysql2
   database: quby
   username: root
   password: 
