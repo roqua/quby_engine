@@ -20,21 +20,23 @@ class MigrateAnswersToMongo < ActiveRecord::Migration
   end
 
   def up
-    quest_id = nil
-    OldAnswer.find_each do |answer|
-      if answer.questionnaire_id != quest_id
-        quest_id = answer.questionnaire_id
-        puts "Processing answers for #{answer.questionnaire_id}"
+    STDOUT.sync = true
+    questionnaires = Questionnaire.all
+    questionnaires.each do |questionnaire|
+      puts "Processing answers for #{questionnaire.key}"
+      OldAnswer.where(:questionnaire_id => questionnaire.id).find_each do |answer|
+        Answer.safely.create!(:_id => answer.id,
+                              :questionnaire_id => answer.questionnaire_id,
+                              :patient_id => answer.patient_id,
+                              :active => answer.active,
+                              :test => answer.test,
+                              :created_at => answer.created_at,
+                              :updated_at => answer.updated_at,
+                              :value => answer.value,
+                              :token => answer.token)
+        print '.'
       end
-      Answer.safely.create!(:_id => answer.id,
-                            :questionnaire_id => answer.questionnaire_id,
-                            :patient_id => answer.patient_id,
-                            :active => answer.active,
-                            :test => answer.test,
-                            :created_at => answer.created_at,
-                            :updated_at => answer.updated_at,
-                            :value => answer.value,
-                            :token => answer.token)
+      puts ' done'
     end
     raise "Sanity check failed" unless OldAnswer.count == Answer.count
   end
