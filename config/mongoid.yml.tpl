@@ -1,14 +1,15 @@
----
 development:
   host: localhost
-  database: r_ggzfriesland_dev
+  database: r_development
   autocreate_indexes: true
   persist_in_safe_mode: true
+  
 test:
   host: localhost
-  database: roqua_test
+  database: r_test
   autocreate_indexes: true
   persist_in_safe_mode: true
+  
 production:
   host: <%= ENV['MONGOID_HOST'] %>
   port: <%= ENV['MONGOID_PORT'] %>
