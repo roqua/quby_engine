@@ -52,3 +52,7 @@ group :test, :development do
   gem 'spork'
   gem 'guard-spork'
 end
+
+group :test do
+  gem 'fuubar'
+end
