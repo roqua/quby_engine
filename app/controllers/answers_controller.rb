@@ -68,7 +68,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @questionnaire.answers.create({:value => @questionnaire.default_answer_value}.merge(params[:answer]||{}))
+    @answer = @questionnaire.answers.create({:questionnaire_id => @questionnaire.id, :value => @questionnaire.default_answer_value}.merge(params[:answer]||{}))
     logger.info "  Created answer #{@answer.id}"
 
     respond_to do |format|
