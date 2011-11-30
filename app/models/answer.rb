@@ -4,6 +4,7 @@ class Answer
 
   identity type: String
   field :questionnaire_id,  :type => Integer
+  field :questionnaire_key, :type => String
   field :value,             :type => Hash
   field :patient_id,        :type => String
   field :token,             :type => String
@@ -12,7 +13,8 @@ class Answer
 
   # Faux belongs_to :questionnaire
   def questionnaire
-    @questionnaire_cache ||= Questionnaire.find(questionnaire_id)
+    @questionnaire_cache ||= (Questionnaire.find_by_key(questionnaire_key) || 
+                              Questionnaire.find(questionnaire_id))
   end
 
   def self.find_or_create_by_test_and_questionnaire_id(options = {})
@@ -27,6 +29,7 @@ class Answer
   before_validation(:on => :create) { generate_random_token }
   before_validation(:on => :update) { cleanup_input }
   before_save { self[:value_by_values] = value_by_values }
+  before_save { self[:questionnaire_key] = questionnaire.key }
   validates_presence_of :token
   validates_length_of :token, :minimum => 4
   validate :validate_answers, :on => :update
