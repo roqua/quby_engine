@@ -6,6 +6,7 @@ class Answer
   field :questionnaire_id,  :type => Integer
   field :questionnaire_key, :type => String
   field :value,             :type => Hash
+  field :value_by_values,   :type => Hash
   field :patient_id,        :type => String
   field :token,             :type => String
   field :active,            :type => Boolean, :default => true
