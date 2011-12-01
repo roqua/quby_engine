@@ -351,6 +351,11 @@ function handleHideQuestions(element, hidekeys, allkeys){
         if (hiddenby.length == 0) {
             item.removeClass('hidden-childs');            
         }
+        
+        var panel = item.closest(".panel");
+        if( allInputsHidden(panel) && isBulk){
+          panel.show();
+        }
     });
     $.each(hidekeys, function(){
         if (element.attr('checked')) {
@@ -369,6 +374,11 @@ function handleHideQuestions(element, hidekeys, allkeys){
             }
             
             item.addClass('hidden-childs');
+            
+            var panel = item.closest(".panel");
+            if( allInputsHidden(panel) && isBulk){
+              panel.hide();
+            }
         }
     });    
 }
