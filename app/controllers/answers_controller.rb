@@ -18,6 +18,8 @@ class AnswersController < ApplicationController
   before_filter :verify_token, :only => [:show, :edit, :update, :print]
   before_filter :verify_hmac, :only => [:edit, :print]
 
+  before_filter :prevent_browser_cache, :only => :edit
+
   before_filter :remember_display_mode_in_session
   before_filter :check_aborted, :only => [:create, :update]
 

@@ -15,6 +15,13 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
   protected
+  
+  def prevent_browser_cache
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
 
   def fix_ie_trusted_party_warning
     # Indicate IE that we are a trusted party
