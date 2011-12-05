@@ -55,4 +55,5 @@ end
 
 group :test do
   gem 'fuubar'
+  gem 'timecop'
 end
