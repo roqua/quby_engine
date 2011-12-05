@@ -894,10 +894,6 @@ $(document).ready(
         
         $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"], input[type="checkbox"]').live("click", radioCheckboxEvents );
         
-        $('input[type="checkbox"]').each( function(index, element){
-           handleDisableCheckboxSubQuestions(element);
-        });
-        
         processExtraData();
         
         isBulk = $('form.bulk, form.print').size() > 0;
@@ -951,6 +947,10 @@ $(document).ready(
             
             preparePaged();
         }
+        
+        $('input[type="checkbox"], input[type="radio"]').each( function(index, element){
+           radioCheckboxEvents(element);
+        });
         
         $(document).keydown(handlePreventDefault); 
         $("input[text_var]").each(function(i, ele){
