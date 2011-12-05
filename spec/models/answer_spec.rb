@@ -23,17 +23,18 @@ describe Answer do
   describe "#completed_at" do
     let(:answer) { Answer.create! }
     let(:time)   { Time.gm(2011, 11, 5, 11, 24, 00) }
+
     it "should record the time when answer is completed" do
       Timecop.freeze(time) { answer.update_attributes!(:q1 => "Foo") }
       answer.completed_at.should == time
     end
 
-    it "should not be set upon creation" do
-      answer.completed_at.should_not be
+    it "should record the time when answer is aborted" do
+      Timecop.freeze(time) { answer.update_attributes!(:aborted => true) }
+      answer.completed_at.should == time
     end
 
-    it "should not be set when answers is not completed" do
-      answer.update_attributes(:q1 => nil, :aborted => true)
+    it "should not be set upon creation" do
       answer.completed_at.should_not be
     end
 

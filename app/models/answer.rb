@@ -37,7 +37,7 @@ class Answer
   end
 
   before_update do
-    self[:completed_at] ||= Time.now if completed?
+    self[:completed_at] ||= Time.now if completed? or @aborted
   end
 
   validates_presence_of :token
