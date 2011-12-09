@@ -4,4 +4,6 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
+Rake.application.options.trace = true 
+
 Quby::Application.load_tasks
