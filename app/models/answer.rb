@@ -272,8 +272,8 @@ class Answer
     answered = 0
     qkeys.each do |qk|
       ans = self.send(qk)
-      if ans.class == Hash # in case of check_box, only count checked check_boxes as answered
-        answered += ans.values.sum >= 1 ? 1 : 0
+      if ans.is_a? Hash # in case of check_box, only count checked check_boxes as answered
+        answered += (ans.values.sum >= 1 ? 1 : 0)
       elsif not self.send(qk).blank?
         answered += 1
       end

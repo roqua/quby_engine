@@ -112,7 +112,7 @@ class AnswersController < ApplicationController
   end
 
   def print
-    update true    
+    update true
   end
 
   def bad_token(exception)
