@@ -8,8 +8,8 @@ pkg/
 .idea
 tmp/**/*
 db/*.sqlite3
-config/database.yml
-config/mongoid.yml
+test/dummy/config/database.yml
+test/dummy/config/mongoid.yml
 db/questionnaires
 tmp/restart.txt
 .bundle
