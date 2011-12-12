@@ -4,9 +4,11 @@ require 'table_builder'
 require 'question_builder'
 require 'score_builder'
 
-module QuestionnaireDsl
-  def self.enhance(target_instance, definition)
-    q = QuestionnaireBuilder.new(target_instance)
-    q.instance_eval(definition)
+module Quby
+  module QuestionnaireDsl
+    def self.enhance(target_instance, definition)
+      q = QuestionnaireBuilder.new(target_instance)
+      q.instance_eval(definition)
+    end
   end
 end
