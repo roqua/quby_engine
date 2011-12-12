@@ -1,5 +1,7 @@
 module Quby
   class Questionnaire < ActiveRecord::Base
+    set_table_name :questionnaires
+
     # Faux has_many :answers
     def answers; Answer.where(:questionnaire_id => self.id); end
 

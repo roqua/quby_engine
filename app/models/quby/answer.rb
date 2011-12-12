@@ -3,6 +3,8 @@ module Quby
     include ::Mongoid::Document
     include ::Mongoid::Timestamps
 
+    store_in :answers
+
     identity type: String
     field :questionnaire_id,  :type => Integer
     field :questionnaire_key, :type => String
