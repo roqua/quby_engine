@@ -4,7 +4,7 @@
 - @answer.to_hide ||= [] 
 - itemclasses = [item.type, item.presentation]
 - extra_data = nil
-- if item.class.name == "Items::Question"
+- if item.class.name == "Quby::Items::Question"
   - return if item.table
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - if subquestion

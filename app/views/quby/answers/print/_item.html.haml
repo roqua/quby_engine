@@ -5,7 +5,7 @@
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
 - case item.class.name
-- when "Items::Question"
+- when "Quby::Items::Question"
   -# return if item.table 
   -# return if @answer.send(item.key).blank?
   - extra_data = item.extra_data
@@ -16,10 +16,10 @@
   - itemclasses << item.question_group if item.question_group
   - itemclasses << 'subitem' if subquestion
   - itemclasses << 'first' unless previous_item
-- when "Items::Table"
+- when "Quby::Items::Table"
   - return
 
-- if item.raw_content and item.class.name != "Items::Text" 
+- if item.raw_content and item.class.name != "Quby::Items::Text" 
   - if item.raw_content.is_a?(Hash) and item.raw_content[:print]
     = raw item.raw_content[:print]
   - elsif item.raw_content[:bulk]
@@ -29,16 +29,16 @@
 - else
   
   - case item.class.name
-  - when "Items::Css"
+  - when "Quby::Items::Css"
     .item{:class => itemclasses}
       :css
         #{item.raw_content}
-  - when "Items::Text"
+  - when "Quby::Items::Text"
     - if item.display_in.andand.include?(:print)
       .item{:class => itemclasses}
         .text
           = raw item.text
-  - when "Items::Question"
+  - when "Quby::Items::Question"
     .item{:class => itemclasses}
       - return if (item.hidden?) and @answer.send(item.key).blank?
       - case item.type
@@ -56,7 +56,7 @@
           = item.type
           for question
           = item.key
-  - when "Items::Table"
+  - when "Quby::Items::Table"
     -# do nothing
   - else
     Error: unknown item type

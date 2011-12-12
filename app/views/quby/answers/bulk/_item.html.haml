@@ -4,7 +4,7 @@
 - itemclasses = [item.type, item.presentation]
 - @answer.to_hide ||= []
 - extra_data = nil
-- if item.is_a?(Items::Question)
+- if item.is_a?(Quby::Items::Question)
   - return if item.table
   - extra_data = item.extra_data
   - itemclasses << 'hidden-childs' unless extra_data[:hidden_by].blank?
@@ -23,7 +23,7 @@
         = render :partial => "quby/answers/bulk/item_radio_check_scale_options", :object => item
   
 
-- if item.raw_content and item.class.name != "Items::Text" 
+- if item.raw_content and item.class.name != "Quby::Items::Text" 
   - if item.raw_content.is_a?(Hash) and item.raw_content[:bulk]
     = raw item.raw_content[:bulk]
   - else 
@@ -31,14 +31,14 @@
 - else
   .item{:class => itemclasses, :data => extra_data}
     - case item.class.name
-    - when "Items::Css"
+    - when "Quby::Items::Css"
       :css
         #{item.raw_content}
-    - when "Items::Text"
+    - when "Quby::Items::Text"
       - if item.display_in.andand.include?(:bulk)
         .text
           = raw item.text
-    - when "Items::Question" 
+    - when "Quby::Items::Question" 
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/answers/shared/validations', :locals => {:question => item, :answer => @answer}     
@@ -64,7 +64,7 @@
           = item.type
           for question
           = item.key
-    - when "Items::Table"
+    - when "Quby::Items::Table"
       = render :partial => "quby/answers/table/table", :locals => {:table => item}
     - else
       Error: unknown item type
