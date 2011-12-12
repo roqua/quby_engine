@@ -43,7 +43,7 @@
   - if panel_counter == panels.length - 1
     .print
       %a.print_button{:onclick => raw("doDivPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
-        = image_tag "print.gif"
+        = image_tag "quby/print.gif"
         Print Antwoorden
         
 / End _panel.html.haml

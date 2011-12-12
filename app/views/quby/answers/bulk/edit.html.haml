@@ -41,7 +41,7 @@
       = submit_tag "Klaar", :id => "done-button"
     .print
       %a.print_button{:onclick => raw("doDivPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
-        = image_tag "print.gif"
+        = image_tag "quby/print.gif"
         Print Antwoorden
 
 = render :partial => "quby/answers/modal_iframe"
