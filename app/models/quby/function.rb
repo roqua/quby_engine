@@ -1,5 +1,7 @@
 module Quby
   class Function < ActiveRecord::Base
+    set_table_name :functions
+
     after_save  :write_to_disk
 
     def definition

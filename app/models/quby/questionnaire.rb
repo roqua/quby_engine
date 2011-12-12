@@ -68,7 +68,7 @@ module Quby
     end
 
     def definition
-      @definition ||= File.read(Rails.root.join("db", "questionnaires", "#{key}.rb")) rescue nil
+      @definition ||= File.read(File.join(Quby.questionnaires_path, "#{key}.rb")) rescue nil
     end
 
     def definition=(value)
@@ -171,13 +171,13 @@ module Quby
     end
 
     def write_to_disk
-      filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
+      filename = File.join(Quby.questionnaires_path, "#{key}.rb")
       logger.info "Writing #{filename}..."
       unless Rails.env.test?
         File.open(filename, "w") {|f| f.write( self.definition ) }
 
         unless Rails.env.development?
-          output = `cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
+          output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
           result = $?.success?
           unless result
             logger.error "Git add, commit or push failed: #{output}"
@@ -189,10 +189,10 @@ module Quby
     def remove_from_disk
       unless Rails.env.test?
         unless Rails.env.development?
-          filename = Rails.root.join("db", "questionnaires", "#{key}.rb")
+          filename = File.join(Quby.questionnaires_path, "#{key}.rb")
           return unless File.exists?(filename)
           logger.info "Removing #{filename}..."
-          output = `cd #{Rails.root}/db/questionnaires && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
+          output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
           result = $?.success?
           unless result
             logger.error "Git rm, commit or push failed: #{output}"
