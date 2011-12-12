@@ -9,14 +9,14 @@
 - content_for(:extra_css, @questionnaire.extra_css)
     
 = form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off" do
-  = render :partial => "answers/session_params"
+  = render :partial => "quby/answers/session_params"
   - if not @answer.errors.empty?
     .force-submit
       %h1 Deze vragenlijst is nog niet volledig ingevuld!
       %p Als u de vragenlijst toch opslaat, kan het zijn dat er geen schaalscores berekend worden omdat hiervoor onvoldoende informatie voorhanden is. U kunt uw antwoorden hieronder alsnog aanvullen. Vragen die nog niet volledig zijn beantwoord, worden rood gemarkeerd.
       = submit_tag "Toch opslaan"
 
-  = render :partial => "answers/hotkey_dialog"
+  = render :partial => "quby/answers/hotkey_dialog"
   - all_items = @questionnaire.panels.map(&:items).flatten
   - previous_item = nil
   
@@ -30,7 +30,7 @@
 
       - panel.items.each_with_index do |item, idx|
         - next_item = all_items[all_items.index(item)]
-        = render :partial => "answers/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item, :next_item => next_item }
+        = render :partial => "quby/answers/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item, :next_item => next_item }
         - previous_item = item if item.class.name == "Items::Question"
   .buttons
     - if @questionnaire.enable_previous_questionnaire_button
@@ -44,4 +44,4 @@
         = image_tag "print.gif"
         Print Antwoorden
 
-= render :partial => "answers/modal_iframe"
+= render :partial => "quby/answers/modal_iframe"

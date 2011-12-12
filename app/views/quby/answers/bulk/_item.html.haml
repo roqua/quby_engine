@@ -20,7 +20,7 @@
     -if not (item.hidden? and not @answer.send(item.key))
       - itemclasses << cycle('evenRow', 'oddRow', :name => "rowbg")
       - if different_header(item, previous_item)
-        = render :partial => "answers/bulk/item_radio_check_scale_options", :object => item
+        = render :partial => "quby/answers/bulk/item_radio_check_scale_options", :object => item
   
 
 - if item.raw_content and item.class.name != "Items::Text" 
@@ -41,23 +41,23 @@
     - when "Items::Question" 
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
-      = render :partial => 'answers/shared/validations', :locals => {:question => item, :answer => @answer}     
+      = render :partial => 'quby/answers/shared/validations', :locals => {:question => item, :answer => @answer}     
                
       - case item.type
       - when :string
-        = render :partial => "answers/bulk/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/bulk/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :textarea
-        = render :partial => "answers/bulk/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/bulk/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :integer, :float
-        = render :partial => "answers/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio, :scale
-        = render :partial => "answers/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item, :disabled => disabled}
+        = render :partial => "quby/answers/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item, :disabled => disabled}
       - when :date
-        = render :partial => "answers/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box
-        = render :partial => "answers/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :select
-        = render :partial => "answers/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
         %strong
           Error: unknown question type
@@ -65,7 +65,7 @@
           for question
           = item.key
     - when "Items::Table"
-      = render :partial => "answers/table/table", :locals => {:table => item}
+      = render :partial => "quby/answers/table/table", :locals => {:table => item}
     - else
       Error: unknown item type
       = item.class.name

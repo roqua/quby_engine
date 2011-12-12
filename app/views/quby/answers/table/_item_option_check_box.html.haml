@@ -30,5 +30,5 @@
     - subq = opt.questions.first
     - if subq and (subq.presentation != :next_to_title and subq.type == :string)
       %br
-      = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
+      = render :partial => "quby/answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
     = validations

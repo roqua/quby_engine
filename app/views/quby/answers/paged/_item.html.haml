@@ -22,40 +22,40 @@
 - else
   .item{:class => itemclasses, :data => extra_data}
     - case item.class.name
-    - when "Items::Css"
+    - when "Quby::Items::Css"
       :css
         =#{item.raw_content}
-    - when "Items::Text"
+    - when "Quby::Items::Text"
       -if item.display_in.andand.include?(:paged)
         .text
           :markdown
             #{raw(item)}
-    - when "Items::Question"
+    - when "Quby::Items::Question"
       - return if (item.hidden?) and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:paged)))
-      = render :partial => 'answers/shared/validations', :locals => {:question => item, :answer => @answer}        
+      = render :partial => 'quby/answers/shared/validations', :locals => {:question => item, :answer => @answer}        
       
       - case item.type
       - when :string
-        = render :partial => "answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :textarea
-        = render :partial => "answers/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :integer, :float
-        = render :partial => "answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio
-        = render :partial => "answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :date
-        = render :partial => "answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box
-        = render :partial => "answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :scale
-        = render :partial => "answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :select
-        = render :partial => "answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
         - raise "Unknown question type #{item.type} for question #{item.key}"
-    - when "Items::Table"
-      = render :partial => "answers/table/table", :locals => {:table => item}
+    - when "Quby::Items::Table"
+      = render :partial => "quby/answers/table/table", :locals => {:table => item}
     - else
       - raise "Unknown item type #{item.class.name} for question #{item.key}"
 / End _item.html.haml

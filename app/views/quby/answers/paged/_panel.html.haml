@@ -7,7 +7,7 @@
   - classes << 'last-panel'
 
 %fieldset{:id => "panel#{panel_counter}", :class => classes}
-  = render :partial => "answers/hotkey_dialog"
+  = render :partial => "quby/answers/hotkey_dialog"
   
   :javascript
     panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
@@ -17,7 +17,7 @@
   - if panel.title
     %h1&= panel.title
 
-  = render :partial => "answers/paged/item", :collection => panel.items
+  = render :partial => "quby/answers/paged/item", :collection => panel.items
 
   .buttons
     - if panel_counter == 0 and @questionnaire.enable_previous_questionnaire_button

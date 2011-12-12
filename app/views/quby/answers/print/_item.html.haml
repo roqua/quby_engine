@@ -43,13 +43,13 @@
       - return if (item.hidden?) and @answer.send(item.key).blank?
       - case item.type
       - when :string, :textarea, :integer, :float, :date
-        = render :partial => "answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio, :scale
-        = render :partial => "answers/print/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/print/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box
-        = render :partial => "answers/print/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/print/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :select
-        = render :partial => "answers/print/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+        = render :partial => "quby/answers/print/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
         %strong
           Error: unknown question type

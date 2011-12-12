@@ -2,7 +2,7 @@
   = sanitize(marukufix(question.title, nil), :tags => %w(em))
   - subq = question.options.last.questions.first
   - if subq.andand.presentation == :next_to_title and subq.type == :string
-    = render :partial => "answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
+    = render :partial => "quby/answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
 .description-and-fields
   .description
     - unless question.description.blank?
@@ -35,4 +35,4 @@
               :markdown
                 #{raw opt.description}
         - unless opt.questions.empty?
-          .subquestions= render :partial => "answers/bulk/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}
+          .subquestions= render :partial => "quby/answers/bulk/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}

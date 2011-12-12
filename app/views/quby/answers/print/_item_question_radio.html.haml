@@ -19,4 +19,4 @@
               :markdown
                 #{raw opt.description}
         - unless opt.questions.empty?
-          .subquestions= render :partial => "answers/print/item", :collection => opt.questions,  :locals => {:subquestion => true}
+          .subquestions= render :partial => "quby/answers/print/item", :collection => opt.questions,  :locals => {:subquestion => true}
