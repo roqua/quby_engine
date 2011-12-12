@@ -45,11 +45,7 @@ module Quby
     end
 
     def layout_by_resource
-      if devise_controller?
-        "dialog"
-      else
-        "application"
-      end
+      "application"
     end
   end
 end
