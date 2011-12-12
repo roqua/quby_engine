@@ -43,3 +43,4 @@ module Dummy
   end
 end
 
+Quby.questionnaires_path = Rails.root.join("../../db/questionnaires")
