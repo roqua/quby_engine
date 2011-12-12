@@ -4,7 +4,6 @@ module Quby
   class ApplicationController < ActionController::Base
     helper :all # include all helpers, all the time
     protect_from_forgery
-    layout :layout_by_resource
 
     around_filter :log_session_hash
     before_filter :fix_ie_trusted_party_warning
@@ -42,10 +41,6 @@ module Quby
       if not Settings.api_allowed_ip_ranges.find { |range_or_addr| IPAddr.new(range_or_addr).include?(IPAddr.new(request.remote_ip)) }
         head(403)
       end
-    end
-
-    def layout_by_resource
-      "application"
     end
   end
 end

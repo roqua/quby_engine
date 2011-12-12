@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "devise", "~> 1.1"
   s.add_dependency "andand"
   s.add_dependency "mongoid-app_settings"
+  s.add_dependency "compass", "~> 0.12.alpha.0"
   # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"
