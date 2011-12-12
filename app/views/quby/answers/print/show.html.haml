@@ -7,7 +7,7 @@
   
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)
-- content_for(:override_css, stylesheet_link_tag('print.css', :media => 'screen, projection, print'))
+- content_for(:override_css, stylesheet_link_tag('quby/print.css', :media => 'screen, projection, print'))
   
 -#= button_to_function 'Print', "window.print();", :class => "print_button"
 

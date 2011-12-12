@@ -3,9 +3,9 @@
   %head
     %meta{"http-equiv"=>"content-type", :content=>"text/html; charset=utf-8"}
     %title= content_for?(:page_title) ? yield(:page_title) : "Roqua Vragenlijsten"
-    = content_for?(:override_css) ? yield(:override_css) : (stylesheet_link_tag('screen', :media => 'screen, projection'))
-    = stylesheet_link_tag 'redmond/jquery-ui-1.8.7.custom.css'
-    = stylesheet_link_tag "print", :media => "print"
+    = content_for?(:override_css) ? yield(:override_css) : (stylesheet_link_tag('quby/screen', :media => 'screen, projection'))
+    = stylesheet_link_tag 'quby/redmond/jquery-ui-1.8.7.custom.css'
+    = stylesheet_link_tag "quby/print", :media => "print"
     /[if IE]
       = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
     = javascript_include_tag "quby/application.js"
