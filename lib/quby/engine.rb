@@ -4,6 +4,7 @@ require 'rubygems'
 require 'mongoid'
 require 'mongoid-app_settings'
 require 'compass'
+require 'jquery-rails'
 require 'andand'
 
 module Quby

@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency "addressable"
   s.add_dependency "mongoid-app_settings"
 
-  # s.add_dependency "jquery-rails"
+  s.add_dependency "jquery-rails", "1.0.13"
 
   s.add_development_dependency "database_cleaner"
 end
