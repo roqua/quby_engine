@@ -1,8 +1,8 @@
-require 'questionnaire_builder'
-require 'panel_builder'
-require 'table_builder'
-require 'question_builder'
-require 'score_builder'
+require 'quby/questionnaire_builder'
+require 'quby/panel_builder'
+require 'quby/table_builder'
+require 'quby/question_builder'
+require 'quby/score_builder'
 
 module Quby
   module QuestionnaireDsl

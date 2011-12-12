@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "mongoid", "~> 2.3.3"
   s.add_dependency "maruku"
   s.add_dependency "devise", "~> 1.1"
+  s.add_dependency "andand"
   # s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"
