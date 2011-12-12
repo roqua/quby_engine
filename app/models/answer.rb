@@ -1,6 +1,6 @@
 class Answer
-  include Mongoid::Document
-  include Mongoid::Timestamps
+  include ::Mongoid::Document
+  include ::Mongoid::Timestamps
 
   identity type: String
   field :questionnaire_id,  :type => Integer
