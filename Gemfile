@@ -22,7 +22,7 @@ gem "jquery-rails"
 gem 'rails', '~> 3.1.0'
 gem 'mysql2', "=0.3.7"
 gem 'mongoid', '~> 2.3.3'
-gem 'bson_ext', '= 1.3.1'
+gem 'bson_ext'
 
 gem 'haml'
 gem 'formtastic'
