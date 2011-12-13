@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   # Databases
   s.add_dependency "mysql2", "=0.3.7"
-  s.add_dependency "mongoid", "~> 2.3.3"
+  s.add_dependency "mongoid", "~> 2.2"
 
   # Views
   s.add_dependency "haml"
