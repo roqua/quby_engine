@@ -22,6 +22,7 @@ module Quby
     end
 
     after_initialize :enhance_by_dsl
+    before_validation(:on => :create) { set_default_answer_values }
     before_validation(:on => :create) { generate_random_token }
     before_validation(:on => :update) { cleanup_input }
 
@@ -283,5 +284,8 @@ module Quby
       self.token ||= SecureRandom.hex(8)
     end
 
+    def set_default_answer_values
+      self.value = (questionnaire.default_answer_value || {}).merge(self.value || {})
+    end
   end
 end
