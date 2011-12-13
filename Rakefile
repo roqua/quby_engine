@@ -23,8 +23,8 @@ end
 APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
 load 'rails/tasks/engine.rake'
 
-
-Bundler::GemHelper.install_tasks
+# Let's not have a rake task that pushes our closed-source app to rubygems.org
+#Bundler::GemHelper.install_tasks
 
 require 'rake/testtask'
 
