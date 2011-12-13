@@ -1,24 +1,20 @@
 module Quby
-  class Function < ActiveRecord::Base
-    set_table_name :functions
+  class Function
+    attr_accessor :key
 
-    after_save  :write_to_disk
+    def self.all
+      Dir[Rails.root.join("db", "functions", "*.rb")].map do |filename|
+        key = File.basename(filename, '.rb')
+        self.new(key)
+      end
+    end
+
+    def initialize(key)
+      self.key = key
+    end
 
     def definition
-      @definition ||= File.read(Rails.root.join("db", "functions", "#{name}.rb")) rescue nil
+      @definition ||= File.read(Rails.root.join("db", "functions", "#{key}.rb")) rescue nil
     end
-
-    def definition=(value)
-      @definition = value
-    end
-
-    protected
-
-    def write_to_disk
-      filename = Rails.root.join("db", "functions", "#{name}.rb")
-      logger.info "Writing #{filename}..."
-      File.open(filename, "w") {|f| f.write( self.definition ) }
-    end
-
   end
 end
