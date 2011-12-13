@@ -6,9 +6,10 @@ PATH
       andand
       compass (~> 0.12.alpha.0)
       haml
+      jquery-rails (= 1.0.13)
       json
       maruku
-      mongoid (~> 2.3.3)
+      mongoid (~> 2.2)
       mongoid-app_settings
       mysql2 (= 0.3.7)
       rails (~> 3.1.0)
@@ -92,7 +93,7 @@ GEM
     haml (3.1.4)
     hike (1.2.1)
     i18n (0.6.0)
-    jquery-rails (1.0.19)
+    jquery-rails (1.0.13)
       railties (~> 3.0)
       thor (~> 0.14)
     json (1.6.3)
