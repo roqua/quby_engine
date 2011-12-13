@@ -150,7 +150,7 @@ module Quby
 
     def find_questionnaire
       if params[:questionnaire_id]
-        @questionnaire = Questionnaire.find_by_key(params[:questionnaire_id])
+        @questionnaire = Quby::Questionnaire.find_by_key(params[:questionnaire_id])
         raise QuestionnaireNotFound unless @questionnaire
       end
     end
@@ -176,7 +176,7 @@ module Quby
       token     = (params['token']     || @answer_token || '').strip
       timestamp = (params['timestamp'] || @timestamp    || '').strip
 
-      plain_hmac = [Settings.shared_secret, token, timestamp].join('|')
+      plain_hmac = [Quby::Settings.shared_secret, token, timestamp].join('|')
       our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
 
       if our_hmac != hmac

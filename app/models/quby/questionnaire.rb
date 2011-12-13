@@ -3,7 +3,7 @@ module Quby
     set_table_name :questionnaires
 
     # Faux has_many :answers
-    def answers; Answer.where(:questionnaire_id => self.id); end
+    def answers; Quby::Answer.where(:questionnaire_key => self.key); end
 
     after_initialize :enhance_by_dsl
 

@@ -18,16 +18,7 @@ module Quby
 
     # Faux belongs_to :questionnaire
     def questionnaire
-      @questionnaire_cache ||= (Questionnaire.find_by_key(questionnaire_key) || 
-                                Questionnaire.find(questionnaire_id))
-    end
-
-    def self.find_or_create_by_test_and_questionnaire_id(options = {})
-      if answer = where(:test => options[:test], :questionnaire_id => options[:questionnaire_id]).first
-        return answer
-      else
-        create(options)
-      end
+      @questionnaire_cache ||= Quby::Questionnaire.find_by_key(questionnaire_key)
     end
 
     after_initialize :enhance_by_dsl
