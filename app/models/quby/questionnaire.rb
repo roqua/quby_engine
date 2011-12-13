@@ -68,11 +68,7 @@ module Quby
 
         functions = Function.all.map(&:definition).join("\n\n")
         functions_and_definition = [functions, self.definition].join("\n\n")
-        begin
-          QuestionnaireDsl.enhance(self, functions_and_definition || "")
-        rescue Exception => e
-          logger.error "ERROR: failed to load questionnaire #{key}: \n #{e.message} \n #{e.backtrace[0..5].join("\n")}"
-        end
+        QuestionnaireDsl.enhance(self, functions_and_definition || "")
       end
     end
 
