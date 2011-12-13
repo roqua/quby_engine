@@ -17,7 +17,7 @@ module Quby
     before_filter :remember_token_in_session
     before_filter :remember_return_url_in_session
     before_filter :verify_token, :only => [:show, :edit, :update, :print]
-    #before_filter :verify_hmac, :only => [:edit, :print]
+    before_filter :verify_hmac, :only => [:edit, :print]
 
     before_filter :prevent_browser_cache, :only => :edit
 
