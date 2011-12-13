@@ -132,7 +132,7 @@ module Quby
     def to_codebook(options = {})
       output = []
       output << title
-      output << "Date #{updated_at}"
+      output << "Date unknown"
       output << ""
 
       options[:extra_vars].andand.each do |var|
