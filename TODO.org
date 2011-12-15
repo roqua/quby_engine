@@ -1,9 +1,0 @@
-* admin beveiligen
-* invullen questionnaires via token
-* css tweaks questionnaires
-  verberg navbar boven
-  
-
-* Vraagtypes
-** Multiple choice slider als balkje 0, 10, 20, 30, ..., 100 (zie Phamous "Kwaliteit")
-   
