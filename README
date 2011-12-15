@@ -1,26 +1,24 @@
-Installatie
-===========
+Usage
+=====
 
-Je hebt de vragenlijst-definities nodig, die staan in een andere git-repo. Zie
-hoofdstuk "Vragenlijsten updaten". Daarna doe je:
+Quby is a Rails 3.1 Mountable Engine, which means that you have to mount it
+into your existing Rails application. First, you need to include Quby as a gem in your Gemfile:
 
-  rake db:seed
+    gem 'quby', :git => "git@github.com:roqua/quby.git"
 
-En je zou klaar moeten zijn.
+Then, mount it at a path in your application. You can do this by putting a line
+in config/routes.rb. Note that "/quby" could be anything you want.
 
+    mount Quby::Engine => "/quby", :as => "quby_engine"
 
-Vragenlijsten updaten
-=====================
+In config/initializers/quby.rb, you need to tell Quby where it can find its questionnaire definitions.
 
-Vragenlijsten staan in een losse git repository:
-  git@github.com:roqua/questionnaires.git
+    Quby.questionnaires_path = "db/questionnaires"
+    Quby.functions_path      = "db/functions"
 
-Clone deze repository naar een map op je computer, en maak een symlink aan binnen Quby:
+Questionnaires
+==============
 
-  ln -s /path/to/qubyquestionnaires /path/to/quby/db/questionnaires
+The questionnaires from the RGOc are stored in a seperate git repository:
 
-Bij de eerste deploy wordt deze repository gecloned naar /shared/questionnaires
-en wordt deze gesymlinked. In het capistrano-script kun je aangeven dat je een
-andere branch wil volgen, ipv master. In principe draaien alle klanten gewoon
-op de master branch.
-
+    git@github.com:roqua/questionnaires.git
