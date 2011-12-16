@@ -296,9 +296,11 @@ class Items::Question < Item
       end
     when :check_box
       options.each_with_index do |option, idx|
+        next if option.inner_title
+
         output_key = option.key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
         output << "#{output_key} #{output_type}"
-        output << "\"#{title}\"" unless title.blank?
+        output << "\"#{title} -- #{option.description}\"" unless title.blank? and option.description.blank?
         output << "1\tChecked"
         output << "0\tUnchecked"
         output << "empty\tUnchecked"
