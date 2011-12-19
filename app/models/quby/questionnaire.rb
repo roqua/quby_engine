@@ -1,6 +1,13 @@
 module Quby
   class Questionnaire # < ActiveRecord::Base
     #set_table_name :questionnaires
+    #
+    def self.all
+      Dir[File.join(Quby.questionnaires_path, "*.rb")].map do |filename|
+        key = File.basename(filename, '.rb')
+        self.new(key)
+      end
+    end
 
     # Faux has_many :answers
     def answers; Quby::Answer.where(:questionnaire_key => self.key); end
