@@ -1,7 +1,7 @@
 module Quby
   class Questionnaire # < ActiveRecord::Base
-    #set_table_name :questionnaires
-    #
+    class RecordNotFound < StandardError; end
+
     def self.all
       Dir[File.join(Quby.questionnaires_path, "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
@@ -13,7 +13,12 @@ module Quby
     def answers; Quby::Answer.where(:questionnaire_key => self.key); end
 
     def self.find_by_key(key)
-      self.new(key)
+      path = File.join(Quby.questionnaires_path, "#{key}.rb")
+      if File.exist?(path)
+        self.new(key)
+      else
+        raise RecordNotFound, path
+      end
     end
 
     def initialize(key)
