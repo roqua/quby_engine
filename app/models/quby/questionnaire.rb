@@ -10,7 +10,9 @@ module Quby
     end
 
     # Faux has_many :answers
-    def answers; Quby::Answer.where(:questionnaire_key => self.key); end
+    def answers
+      Quby::Answer.where(:questionnaire_key => self.key)
+    end
 
     def self.find_by_key(key)
       path = File.join(Quby.questionnaires_path, "#{key}.rb")
