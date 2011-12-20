@@ -1,3 +1,5 @@
+include ActionView::Helpers::SanitizeHelper 
+
 module Quby
   class Questionnaire # < ActiveRecord::Base
     class RecordNotFound < StandardError; end
@@ -164,7 +166,8 @@ module Quby
       #output << "score #{score.key}"
       #end
 
-      output.join("\n")
+      output = output.join("\n")
+      strip_tags(output)
     end
 
     protected
