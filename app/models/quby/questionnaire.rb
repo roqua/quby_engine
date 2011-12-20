@@ -30,6 +30,10 @@ module Quby
       enhance_by_dsl
     end
 
+    def path
+      path = File.join(Quby.questionnaires_path, "#{key}.rb")
+    end
+
     #after_initialize :enhance_by_dsl
 
     #before_validation :ensure_linux_line_ends
