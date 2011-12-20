@@ -1,4 +1,7 @@
+include ActionView::Helpers::SanitizeHelper 
+
 class Questionnaire < ActiveRecord::Base
+  
   # Faux has_many :answers
   def answers; Answer.where(:questionnaire_id => self.id); end
 
@@ -142,7 +145,8 @@ class Questionnaire < ActiveRecord::Base
       #output << "score #{score.key}"
     #end
 
-    output.join("\n")
+    output = output.join("\n")
+    strip_tags(output)
   end
 
   protected
