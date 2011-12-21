@@ -2,18 +2,17 @@ include ActionView::Helpers::SanitizeHelper
 
 module Quby
   class Questionnaire # < ActiveRecord::Base
+    extend  ActiveModel::Naming
+    include ActiveModel::Validations
+
     class RecordNotFound < StandardError; end
+    class ValidationError < StandardError; end
 
     def self.all
       Dir[File.join(Quby.questionnaires_path, "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
         self.new(key)
       end
-    end
-
-    # Faux has_many :answers
-    def answers
-      Quby::Answer.where(:questionnaire_key => self.key)
     end
 
     def self.find_by_key(key)
@@ -25,8 +24,15 @@ module Quby
       end
     end
 
-    def initialize(key)
-      self.key = key
+    # Faux has_many :answers
+    def answers
+      Quby::Answer.where(:questionnaire_key => self.key)
+    end
+
+    def initialize(key, definition = nil)
+      @key = key
+      @definition = definition if definition
+
       enhance_by_dsl
     end
 
@@ -34,11 +40,31 @@ module Quby
       path = File.join(Quby.questionnaires_path, "#{key}.rb")
     end
 
-    #after_initialize :enhance_by_dsl
+    validate do 
+      errors.add(:key, "Must be present") unless key.present?
+    end
 
-    #before_validation :ensure_linux_line_ends
-    #before_save :validate_definition_syntax
-    #after_save  :write_to_disk
+    validate :validate_definition_syntax
+
+    def save
+      if valid?
+        File.open(path, "w") {|f| f.write( self.definition ) }
+        return true
+      else
+        return false
+      end
+    end
+
+    def save!
+      if valid?
+        write_to_disk
+      else
+        raise ValidationError
+      end
+
+      true
+    end
+
     #after_destroy :remove_from_disk
     #after_destroy :remove_answers
 
@@ -176,56 +202,57 @@ module Quby
 
     protected
 
-    #def ensure_linux_line_ends
-      #self.definition = self.definition.gsub("\r\n", "\n")
-    #end
+    def ensure_linux_line_ends
+      self.definition = self.definition.gsub("\r\n", "\n")
+    end
 
-    #def validate_definition_syntax
-      #q = Questionnaire.new
-      #q.question_hash = {}
-      #begin
-        #functions = Function.all.map(&:definition).join("\n\n")
-        #QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
-        ##Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
-      #rescue Exception => e
-        #errors.add(:definition, "Error")
-        #errors.add(:definition, e.message)
-        #errors.add(:definition, e.backtrace[0..5].join("<br/>"))
-        #return false
-      #end
-      #return true
-    #end
+    def require_key
+    end
 
-    #def write_to_disk
-      #filename = File.join(Quby.questionnaires_path, "#{key}.rb")
-      #logger.info "Writing #{filename}..."
-      #unless Rails.env.test?
-        #File.open(filename, "w") {|f| f.write( self.definition ) }
+    def validate_definition_syntax
+      ensure_linux_line_ends
 
-        #unless Rails.env.development?
-          #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
-          #result = $?.success?
-          #unless result
-            #logger.error "Git add, commit or push failed: #{output}"
-          #end
+      q = Questionnaire.new(self.key)
+      q.question_hash = {}
+
+      begin
+        functions = Function.all.map(&:definition).join("\n\n")
+        QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
+        return true
+      #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
+      rescue Exception => e
+        errors.add(:definition, "Error")
+        errors.add(:definition, e.message)
+        errors.add(:definition, e.backtrace[0..5].join("<br/>"))
+        return false
+      end
+    end
+
+    def write_to_disk
+
+      #unless Rails.env.development?
+        #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
+        #result = $?.success?
+        #unless result
+          #logger.error "Git add, commit or push failed: #{output}"
         #end
       #end
-    #end
+    end
 
-    #def remove_from_disk
-      #unless Rails.env.test?
-        #unless Rails.env.development?
-          #filename = File.join(Quby.questionnaires_path, "#{key}.rb")
-          #return unless File.exists?(filename)
+    def remove_from_disk
+      unless Rails.env.test?
+        unless Rails.env.development?
+          filename = File.join(Quby.questionnaires_path, "#{key}.rb")
+          return unless File.exists?(filename)
           #logger.info "Removing #{filename}..."
-          #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
-          #result = $?.success?
-          #unless result
+          output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
+          result = $?.success?
+          unless result
             #logger.error "Git rm, commit or push failed: #{output}"
-          #end
-        #end
-      #end
-    #end
+          end
+        end
+      end
+    end
 
     #def remove_answers
       #Answer.where(:questionnaire_id => self.id).delete
