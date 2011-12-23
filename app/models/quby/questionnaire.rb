@@ -123,7 +123,7 @@ module Quby
     end
 
     def definition=(value)
-      @definition = value.gsub("\r\n", "\n")
+      @definition = value.andand.gsub("\r\n", "\n")
     end
 
     def get_input_keys(keys)
@@ -203,7 +203,7 @@ module Quby
     protected
 
     def ensure_linux_line_ends
-      self.definition = self.definition.gsub("\r\n", "\n")
+      self.definition = self.definition.andand.gsub("\r\n", "\n")
     end
 
     def require_key
