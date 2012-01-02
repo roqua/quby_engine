@@ -751,6 +751,7 @@ function doDivPrint(url){
     });
 }
 
+
 function modalFrame(url){
     $("#modalFrame").attr('src', url);
     //window.scrollTo(0,0);
@@ -948,7 +949,7 @@ $(document).ready(
             preparePaged();
         }
         
-        $('input[type="checkbox"], input[type="radio"]').each( function(index, element){
+        $('input[type="checkbox"], input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').each( function(index, element){
            radioCheckboxEvents(element);
         });
         
