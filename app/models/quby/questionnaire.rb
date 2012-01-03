@@ -165,14 +165,14 @@ module Quby
     end
 
     def as_json(options = {})
-      attributes.merge({
+      {
         :key => self.key,
         :title => self.title,
         :description => self.description,
         :outcome_description => self.outcome_description,
         :short_description => self.short_description,
         :panels => self.panels
-      })
+      }
     end
 
     def to_codebook(options = {})
