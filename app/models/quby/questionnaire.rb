@@ -221,9 +221,7 @@ module Quby
         return true
       #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
       rescue Exception => e
-        errors.add(:definition, "Error")
-        errors.add(:definition, e.message)
-        errors.add(:definition, e.backtrace[0..5].join("<br/>"))
+        errors.add(:definition, {:message => e.message, :backtrace => e.backtrace[0..5].join("<br/>")})
         return false
       end
     end
