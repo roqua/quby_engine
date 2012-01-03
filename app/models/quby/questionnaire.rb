@@ -218,12 +218,13 @@ module Quby
       begin
         functions = Function.all.map(&:definition).join("\n\n")
         QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
-        return true
       #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
       rescue Exception => e
         errors.add(:definition, {:message => e.message, :backtrace => e.backtrace[0..5].join("<br/>")})
         return false
       end
+
+      enhance_by_dsl
     end
 
     def write_to_disk
