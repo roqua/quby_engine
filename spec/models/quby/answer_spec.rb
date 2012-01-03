@@ -14,7 +14,8 @@ module Quby
                               :depends_on => [],
                               :validations => [{:type => :requires_answer}],
                               :extra_data => {})], 
-          :scores => [])
+          :scores => [],
+          :default_answer_value => {})
     end
 
     before do

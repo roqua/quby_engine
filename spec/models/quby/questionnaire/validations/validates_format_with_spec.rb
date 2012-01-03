@@ -5,7 +5,7 @@ module Quby
     describe "validating using" do
       describe "validates_format_with" do
         before(:each) do
-          @questionnaire = Quby::Questionnaire.new
+          @questionnaire = Quby::Questionnaire.new("test")
           @questionnaire.stub(:definition).and_return(<<-END)
             question :one, :type => :string do
               title "Testvraag"
