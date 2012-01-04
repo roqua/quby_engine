@@ -151,7 +151,8 @@ em {
                     }
                     &.string , &.textarea {
                         width:92%;
-                    } 
+                    }
+                    &.sized { width: auto;} 
                 }
                 .unit {
                     vertical-align: -20%;
