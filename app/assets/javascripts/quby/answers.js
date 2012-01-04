@@ -731,7 +731,7 @@ function processExtraData(){
 function doDivPrint(url){    
     var result = $(document.createElement("div"));
     result.load(url, $('form').serializeArray(), function(){
-        if(result.find(".errors").length == 0){
+        if(result.find(".notice").length == 0){
           $('.x_container').html(result.find("#content").html());
           if(document.recalc){
             document.recalc();

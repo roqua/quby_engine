@@ -1,10 +1,6 @@
 =marukufix(question.title, "answer_#{question.key}")
 .description-and-fields
   .fields{:id => question.html_id}
-    .description
-      - unless question.description.blank?
-        :markdown
-          #{raw question.description}
     - question.options.each do |opt|
       - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
@@ -16,7 +12,10 @@
             .value= opt.value
           %label(for="answer_#{opt.key}")
             %span
-              :markdown
-                #{raw opt.description}
+              -unless opt.description.blank?
+                :markdown
+                  #{raw opt.description}
+              - else
+                Aangevinkt
         - unless opt.questions.empty?
           .subquestions= render :partial => "quby/answers/print/item", :collection => opt.questions,  :locals => {:subquestion => true}

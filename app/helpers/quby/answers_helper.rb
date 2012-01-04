@@ -35,7 +35,7 @@ module Quby
     #3: adds .main and %label(for=labelfor) around content
     QUESTION_ID_REGEX = /\A\s*(\d+.?\.|\A\w\)|\A\w\.)(.*)/
     def marukufix(string, labelfor, title_insert=nil)
-      return '' unless string
+      string = "&nbsp;" if string.blank?
       string.gsub!(/\A\d+.?\./, '  \\0')
       
       if labelfor

@@ -40,13 +40,14 @@
           = raw item.text
   - when "Quby::Items::Question"
     .item{:class => itemclasses}
-      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if @answer.send(item.key).blank? 
       - case item.type
       - when :string, :textarea, :integer, :float, :date
         = render :partial => "quby/answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio, :scale
         = render :partial => "quby/answers/print/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box
+        - return if @answer.send(item.key).values.sum == 0
         = render :partial => "quby/answers/print/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :select
         = render :partial => "quby/answers/print/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
