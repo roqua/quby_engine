@@ -1,10 +1,10 @@
 =marukufix(question.title, "answer_#{question.key}")
 .description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
   .fields{:id => question.html_id}
+    .description
+      - unless question.description.blank?
+        :markdown
+          #{raw question.description}
     -question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next unless checked

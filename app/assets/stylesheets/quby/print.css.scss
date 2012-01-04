@@ -51,7 +51,7 @@ body > #content{
     
     .description-and-fields{
         float:left;
-        width:75%;
+        width:50%;
     }  
             
       border: none;
@@ -87,30 +87,27 @@ body > #content{
       
       .main{
           float:left;
-          width:25%;
+          width:50%;
           //padding-right: 0.5em;
       }
       .qnumber{
           float:left;
-          padding-right: 0.5em;
           width:10%;
       }
-      .mainlabelwrap{
+      .mainlabelwrap, .main label{
           float:left;
-          width:70%;
+          width:89%;
       }
        
-      .description {
-          float:left;
-          margin-right: 0.5em;
-          width:25%; 
-      }
       .fields {
           padding-left: 4em;
-          width:65%;
+          width:100%;
           float:right;
           padding:0 0.5em;            
           border-left: 1px solid;
+          .description {
+            display:block;
+          }
       }
       .description, .text {
           ul {

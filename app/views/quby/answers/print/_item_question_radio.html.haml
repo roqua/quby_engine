@@ -1,22 +1,23 @@
 =marukufix(question.title, "answer_#{question.key}")
 - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :print)
 .description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
   .fields{:id => question.html_id}
+    .description
+      - unless question.description.blank?
+        :markdown
+          #{raw question.description}
     - question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next unless checked
       - handle_hide_questions(question,opt,@questionnaire)
       .option(class="#{show_values ? 'show_values' : nil}")
-        - if show_values
-          .value= opt.value
         .labelwrapper
+          - if show_values
+            .value= opt.value
           %label(for="answer_#{question.key}_#{opt.key}")
             %span
               :markdown
                 #{raw opt.description}
+                
         - unless opt.questions.empty?
           .subquestions= render :partial => "quby/answers/print/item", :collection => opt.questions,  :locals => {:subquestion => true}

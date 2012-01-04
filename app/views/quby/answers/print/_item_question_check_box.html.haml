@@ -1,10 +1,10 @@
 =marukufix(question.title, "answer_#{question.key}")
 .description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
   .fields{:id => question.html_id}
+    .description
+      - unless question.description.blank?
+        :markdown
+          #{raw question.description}
     - question.options.each do |opt|
       - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
@@ -12,11 +12,11 @@
       - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
       .option{:class => show_values ? "show_values" : nil}
         .labelwrapper
+          - if show_values
+            .value= opt.value
           %label(for="answer_#{opt.key}")
             %span
               :markdown
                 #{raw opt.description}
-        - if show_values
-          .value= opt.value
         - unless opt.questions.empty?
           .subquestions= render :partial => "quby/answers/print/item", :collection => opt.questions,  :locals => {:subquestion => true}

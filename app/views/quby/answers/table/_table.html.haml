@@ -20,7 +20,6 @@
           
       - question = get_question(table, rowi, 0)
       - same_question = (rowi != 0 and question and question == get_question(table, rowi-1, 0))
-      
       - if question.andand.presentation == :horizontal and not same_question
         - if rowi == 0
           %caption
