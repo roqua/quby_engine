@@ -23,7 +23,7 @@
             - if table.columns >= 10
               %br
             :markdown
-              #{raw opt.description}         
+              #{raw opt.description}
     - subq = opt.questions.first
     - if subq and (subq.presentation != :next_to_title and subq.type == :string)
       %br

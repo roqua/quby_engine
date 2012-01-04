@@ -4,5 +4,5 @@
     - cls = [question.type]
     - cls << "sized" if question.size
     = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :size => (question.size || 30)
-    = question.unit
+    = raw question.unit
     = validations
