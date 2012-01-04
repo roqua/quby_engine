@@ -396,7 +396,7 @@ function radioCheckboxEvents(event){
 
 function handleDisableRadioSubQuestions(element){
     element.closest('.item').find('.subinput').attr("disabled", "disabled");
-    if(element.attr('checked')){        
+    if(element.attr('checked')){
         element.closest('.option').find('.subinput').removeAttr("disabled");
     } 
 }
@@ -836,6 +836,19 @@ function registerDeselectables(){
     }); 
 }
 
+function showPrint(url){
+  var result = $(document.createElement("div"));
+    result.load(url, $('form').serializeArray(), function(){
+        if(result.find(".errors").length == 0){
+          $('.x_container').html(result.find("#content").html());
+          if(document.recalc){
+            document.recalc();
+          }
+          $('.x_container').show();
+        }
+    });
+}
+
 var leave_page_text;
 $(document).ready(
     function() {
@@ -893,7 +906,7 @@ $(document).ready(
 
         registerDeselectables();
         
-        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"], input[type="checkbox"]').live("click", radioCheckboxEvents );
+        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
         
         processExtraData();
         
@@ -949,7 +962,7 @@ $(document).ready(
             preparePaged();
         }
         
-        $('input[type="checkbox"], input[type="radio"][value!="DESELECTED_RADIO_VALUE"]').each( function(index, element){
+        $('input[type="checkbox"]:not(.subinput), input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput)').each( function(index, element){
            radioCheckboxEvents(element);
         });
         
