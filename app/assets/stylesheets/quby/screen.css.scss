@@ -342,7 +342,7 @@ em {
         // Specific CSS for certain item types
       
         &.string, &.textarea {
-          input, textarea { width: 100%; }
+          input, textarea { width: 99%; }
           .sized { width: auto;}
         }
 
