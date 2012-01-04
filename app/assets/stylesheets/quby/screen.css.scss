@@ -83,6 +83,10 @@ select {
   font-style: italic !important;
 }
 
+em {
+  font-weight: bold;
+}
+
 @mixin tablemix($mainlabel_columns ) {
     .table {
         @include nested-reset;
@@ -208,6 +212,10 @@ select {
       background: #ffffcc;
       border: 1px solid #ffcc66;
     }
+    .success {
+      background-color: #ccffcc;
+      border: 1px solid #11cc11;
+    } 
   }
   
   .force-submit {
@@ -647,24 +655,6 @@ select {
     td {
         border: 0px;
     }
-}
-
-#flash {
-  padding: 0.7em;
-  margin: 0 0 2em 0;
-  border: 1px solid black;
-  &.notice {
-    background-color: #ffffcc;
-    border-color: #ffcc66;
-  }
-  &.success {
-    background-color: #ccffcc;
-    border-color: #11cc11;
-  }
-  &.error {
-    background-color: #ffcccc;
-    border-color: #cc1111;
-  }
 }
 
 table {
