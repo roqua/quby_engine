@@ -188,7 +188,7 @@ class Answer
       next if question.type == :hidden or question.hidden?
 
       if (question.parent and ((question.parent.type == :radio     and value[question.parent.key.to_s] != question.parent_option_key.to_s) or
-                               (question.parent.type == :check_box and value[question.parent.key.to_s].andand[question.parent_option_key] != 1))) or
+                               (question.parent.type == :check_box and value[question.parent.key.to_s].andand[question.parent_option_key.to_s] != 1))) or
          @hidden_questions.andand.include?(question.key)
         clear_question(question)
         next
