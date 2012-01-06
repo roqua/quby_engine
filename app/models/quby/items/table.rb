@@ -105,7 +105,7 @@ module Quby
             end
             if filled_columns != 0 and item != items.last
               row_items += 1
-              @rows[filled_rows] << []            
+              @rows[filled_rows] << []
             end
           else #one question's options split over multiple rows, ordered row wise
             opt_len = item.options.length

@@ -139,7 +139,7 @@ em {
                     float: none;
                 }
                 &.inner_row td{border:0;}
-                &:first-child td{border-top:1px solid black;}
+                &:first-child td{border-top:1px solid #bbb;}
                  
                 @include column($blueprint-grid-columns, true);
                 float:none;
