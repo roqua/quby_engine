@@ -5,7 +5,7 @@ module Quby
   class AnswersController < ApplicationController
     class TokenValidationError < Exception; end
     class TimestampValidationError < Exception; end
-    class QuestionnaireNotFound < ActiveRecord::RecordNotFound; end
+    class QuestionnaireNotFound < StandardError; end
 
     before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update, :print]
     before_filter :find_patient
