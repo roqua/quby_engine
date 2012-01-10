@@ -46,7 +46,7 @@ module Quby
 
     def index
       @answers = if @patient_id and @questionnaire
-                  Answer.where(:patient_id => @patient_id, :questionnaire_id => @questionnaire.id)
+                  Answer.where(:patient_id => @patient_id, :questionnaire_key => @questionnaire.key)
                 elsif @questionnaire
                   @questionnaire.answers.all
                 elsif @patient_id
@@ -69,7 +69,7 @@ module Quby
     end
 
     def create
-      @answer = @questionnaire.answers.create({:questionnaire_id => @questionnaire.id, :value => @questionnaire.default_answer_value}.merge(params[:answer]||{}))
+      @answer = @questionnaire.answers.create({:questionnaire_key => @questionnaire.key, :value => @questionnaire.default_answer_value}.merge(params[:answer]||{}))
       logger.info "  Created answer #{@answer.id}"
 
       respond_to do |format|

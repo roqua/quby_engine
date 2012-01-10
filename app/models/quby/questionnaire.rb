@@ -16,12 +16,16 @@ module Quby
     end
 
     def self.find_by_key(key)
-      path = File.join(Quby.questionnaires_path, "#{key}.rb")
-      if File.exist?(path)
+      if exists?(key)
         self.new(key)
       else
-        raise RecordNotFound, path
+        raise RecordNotFound, key
       end
+    end
+
+    def self.exists?(key)
+      path = File.join(Quby.questionnaires_path, "#{key}.rb")
+      File.exist?(path)
     end
 
     # Faux has_many :answers

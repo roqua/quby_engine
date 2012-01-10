@@ -10,7 +10,7 @@ module Quby
     end
 
     def show
-      return head(Questionnaire.exists?(:key => params[:id]) ? 200 : 404) if request.head?
+      return head(Questionnaire.exists?(params[:id]) ? 200 : 404) if request.head?
       @questionnaire = Questionnaire.find_by_key(params[:id])
       unless params[:extra_vars].blank?
         @extra_vars = params[:extra_vars].to_a.sort_by{|i| i[0].to_i}.map{|i| i[1]} rescue nil

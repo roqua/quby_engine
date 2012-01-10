@@ -32,7 +32,9 @@ group :assets do
   gem 'compass', "~> 0.12.alpha.0"
 end
 
-gem 'therubyracer'
+platforms :ruby, :jruby do
+  gem 'therubyracer'
+end
 
 group :test, :development do
   gem "rspec-rails"
