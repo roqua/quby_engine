@@ -176,8 +176,6 @@ module Quby
     end
 
     def validate_answers
-      return if @aborted
-
       questionnaire.questions.each do |question|
         next unless question
         next if question.type == :hidden or question.hidden?
@@ -224,7 +222,7 @@ module Quby
               match = validation[:matcher].match(answer)
               add_error(question, validation[:type], validation[:message] || "Does not match pattern expected.") if not match or match[0] != answer
             when :requires_answer
-              next if @hidden_questions.include?(question.key)
+              next if (@hidden_questions.include?(question.key) or @aborted)
               if question.type == :check_box
                 add_error(question, validation[:type], validation[:message] || "Must be answered.") if answer.values.reduce(:+) == 0
               else
@@ -245,6 +243,7 @@ module Quby
             when :one_of
               add_error(question, :one_of, validation[:message] || "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
             when :answer_group_minimum
+              next if @aborted
               answered = calc_answered(@question_groups[validation[:group]])
               if answered < validation[:value]
                 add_error(question, :answer_group_minimum, validation[:message] || "Needs at least #{validation[:value]} question(s) answered.")
