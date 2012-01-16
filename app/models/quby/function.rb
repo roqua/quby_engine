@@ -3,7 +3,7 @@ module Quby
     attr_accessor :key
 
     def self.all
-      Dir[Rails.root.join("db", "functions", "*.rb")].map do |filename|
+      Dir[File.join(Quby.questionnaires_path, "functions", "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
         self.new(key)
       end
@@ -14,7 +14,7 @@ module Quby
     end
 
     def definition
-      @definition ||= File.read(Rails.root.join("db", "functions", "#{key}.rb")) rescue nil
+      @definition ||= File.read(File.join(Quby.questionnaires_path, "functions", "#{key}.rb")) rescue nil
     end
   end
 end
