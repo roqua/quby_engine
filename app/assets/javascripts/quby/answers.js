@@ -395,18 +395,18 @@ function radioCheckboxEvents(event){
 }
 
 function handleDisableRadioSubQuestions(element){
-    element.closest('.item').find('.subinput').attr("disabled", "disabled");
+    element.closest('.item').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
     if(element.attr('checked')){
-        element.closest('.option').find('.subinput').removeAttr("disabled");
+        element.closest('.option').find('.item:not(.specifier)').find('.subinput').removeAttr("disabled");
     } 
 }
 
 function handleDisableCheckboxSubQuestions(element){
     element = $(element);
     if(element.attr('checked')){
-        $(element).closest('.option').find('.subinput').removeAttr("disabled");       
+        $(element).closest('.option').find('.item:not(.specifier)').find('.subinput').removeAttr("disabled");
     } else {
-        $(element).closest('.option').find('.subinput').attr("disabled", "disabled");
+        $(element).closest('.option').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
     }
 }
 
