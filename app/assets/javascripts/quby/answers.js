@@ -33,7 +33,7 @@ function loadcssfile(filename){
 
 //For displaying answers differently within iframes 
 if( self != top ) {
-   loadcssfile("/stylesheets/answer_iframe.css");
+   loadcssfile("/assets/quby/answer_iframe.css");
    inIframe = true;
 }
 
