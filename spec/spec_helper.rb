@@ -54,17 +54,8 @@ Spork.each_run do
     # config.mock_with :rr
     config.mock_with :rspec
 
-    config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
-    # If you're not using ActiveRecord, or you'd prefer not to run each of your
-    # examples within a transaction, comment the following line or assign false
-    # instead of true.
-    config.use_transactional_fixtures = true
-
     config.before(:suite) do
-      DatabaseCleaner[:active_record].clean_with(:truncation)
       DatabaseCleaner[:mongoid].clean_with(:truncation)
-      DatabaseCleaner[:active_record].strategy = :truncation
       DatabaseCleaner[:mongoid].strategy = :truncation
     end
 
