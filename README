@@ -22,3 +22,8 @@ Questionnaires
 The questionnaires from the RGOc are stored in a seperate git repository:
 
     git@github.com:roqua/questionnaires.git
+
+Jenkins
+=======
+
+http://jenkins.roqua.nl
