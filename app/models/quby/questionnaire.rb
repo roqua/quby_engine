@@ -104,6 +104,10 @@ module Quby
       #:message => "De key mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter.",
       #:on => :create
 
+    def leave_page_alert
+      @leave_page_alert || "Als u de pagina verlaat worden uw antwoorden niet opgeslagen."
+    end
+
     def allow_hotkeys
       (@allow_hotkeys || :bulk).to_s
     end
