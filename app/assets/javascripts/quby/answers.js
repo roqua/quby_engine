@@ -451,7 +451,7 @@ function preventDefault(event){
 
 function handleDownHotKeys(event){    
     event.which = event.charCode || event.which || event.keyCode;
-    if ($(lastInput).is("textarea")) {
+    if ($(lastInput).is("textarea") || $(lastInput).is("input[type=submit]") && (event.which == 32 || event.which == 13)) {
         return;
     }
 
@@ -502,10 +502,8 @@ function handleDownHotKeys(event){
 }
 function handleUpHotKeys(event){
     event.which = event.which || event.keyCode;
-    if (saveButtonFocussed || nextButtonFocussed){
-        if(event.which == 32 || event.which == 13){
-          event.target.click();
-        }
+    if ($(lastInput).is("input[type=submit]") && (event.which == 32 || event.which == 13)){
+        event.target.click();
         return;
     } else if($(lastInput).is("textarea, input[type=text]")){ 
         return;
@@ -982,7 +980,7 @@ $(document).ready(
 
         // Don't submit if we've just submitted already
         var done_button_semaphore = true;
-        $(".save input#done-button").click(function(event){
+        $(".save input#done-button, .back input, .abort input").click(function(event){
             window.onbeforeunload = null;
             if (done_button_semaphore){
                 done_button_semaphore = false
