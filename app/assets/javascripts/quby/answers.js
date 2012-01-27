@@ -502,7 +502,12 @@ function handleDownHotKeys(event){
 }
 function handleUpHotKeys(event){
     event.which = event.which || event.keyCode;
-    if (saveButtonFocussed || nextButtonFocussed || $(lastInput).is("textarea, input[type=text]")){ 
+    if (saveButtonFocussed || nextButtonFocussed){
+        if(event.which == 32 || event.which == 13){
+          event.target.click();
+        }
+        return;
+    } else if($(lastInput).is("textarea, input[type=text]")){ 
         return;
     }
     
