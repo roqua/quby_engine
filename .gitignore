@@ -10,8 +10,6 @@ tmp/**/*
 db/*.sqlite3
 config/database.yml
 config/mongoid.yml
-test/dummy/config/database.yml
-test/dummy/config/mongoid.yml
 db/questionnaires
 tmp/restart.txt
 .bundle
@@ -21,6 +19,9 @@ gems/*
 #*#
 .#*
 public/assets
-test/dummy/db/*.sqlite3
-test/dummy/log/*.log
-test/dummy/tmp/
+
+spec/dummy/config/database.yml
+spec/dummy/config/mongoid.yml
+spec/dummy/db/*.sqlite3
+spec/dummy/log/*.log
+spec/dummy/tmp/
