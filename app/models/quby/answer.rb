@@ -94,7 +94,7 @@ module Quby
           if question and (question.type == :radio || question.type == :scale || question.type == :select)
             option = question.options.find(){|o| o.key.to_s == value[key].to_s }
             if option
-              result[key] = option.value.to_s
+              result[key] = option.value
             end
           end
         end
