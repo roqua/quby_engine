@@ -2,6 +2,7 @@ module Quby
   class Answer
     include ::Mongoid::Document
     include ::Mongoid::Timestamps
+    include ScoreCalculations
 
     store_in :answers
 
@@ -15,6 +16,7 @@ module Quby
     field :active,            :type => Boolean, :default => true
     field :test,              :type => Boolean, :default => false
     field :completed_at,      :type => Time
+    field :scores,            :type => Hash
 
     # Faux belongs_to :questionnaire
     def questionnaire
@@ -82,19 +84,6 @@ module Quby
         end
       end
       @extra_failed_validations.to_json
-    end
-
-    def scores
-      questionnaire.scores.map(&:key).map do |key|
-        val = send("score_" + key.to_s)
-        val[:key] = key
-        val
-      end if questionnaire.scores
-    rescue Exception => e
-      {
-        :exception_message => e.message,
-        :exception_backtrace => e.backtrace
-      }
     end
 
     def value_by_values
