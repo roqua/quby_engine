@@ -11,13 +11,13 @@ module Quby
 
     describe '#initialize' do
       it 'stores values passed' do
-        calculator = ScoreCalculator.new(values: {'v_1': 1})
-        calculator.values.should == {'v_1': 1}
+        calculator = ScoreCalculator.new(values: {'v_1' => 1})
+        calculator.values.should == {'v_1' => 1}
       end
     end
 
     describe '#values' do
-      let(:values) { {'v_1': 1, 'v_2': 4, 'v_3': nil} }
+      let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
       let(:calculator) { ScoreCalculator.new(values: values) }
 
       it 'returns the values hash if no args given' do
@@ -34,8 +34,8 @@ module Quby
 
       it 'raises if a value is requested which does not exist' do
         expect do
-          calculator.values(:unknown)
-        end.to raise_error(/:unknown/)
+          calculator.values(:unknown_key)
+        end.to raise_error(/unknown_key/)
       end
     end
 
