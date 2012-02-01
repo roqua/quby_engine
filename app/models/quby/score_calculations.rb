@@ -1,3 +1,5 @@
+require 'active_support/concern'
+
 module Quby
   module ScoreCalculations
     extend ActiveSupport::Concern
@@ -14,7 +16,7 @@ module Quby
 
         questionnaire.scores.each do |score|
           begin
-            scores[score.key] = ScoreCalculator.calculate({:values => self.value_by_values}, &score.scorer)
+            scores[score.key] = ScoreCalculator.calculate({:values => self.value_by_regular_values}, &score.scorer)
           rescue StandardError => e
             scores[score.key] = {:error => e.message}
           end
