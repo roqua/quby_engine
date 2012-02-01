@@ -15,11 +15,13 @@ module Quby
     end
 
     def values(*keys)
+      keys = keys.map(&:to_s)
+
       if keys.empty?
         @values
       else
         keys.each do |key|
-          raise "Key #{key.inspect} not found in values" unless @values.has_key?(key)
+          raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
         end
 
         @values.values_at(*keys)
