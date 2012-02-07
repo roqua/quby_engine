@@ -49,6 +49,36 @@ module Quby
       it 'sums no values' do
         calculator.sum([]).should == 0
       end
+
+      it 'raises for nil values' do
+        expect { calculator.sum([nil, 2]) }.to raise_error(/coerce/)
+      end
+    end
+
+    describe '#require_percentage_filled' do
+      let(:calculator) { ScoreCalculator.new }
+
+      context 'when enough values are non-nil' do
+        it 'returns the values' do
+          calculator.require_percentage_filled([1, 2, 3, 4, 5, 6], 100).should == [1,2,3,4,5,6]
+        end
+
+        it 'filters nils' do
+          calculator.require_percentage_filled([1,2,nil], 20).should == [1,2]
+        end
+
+        it 'works with float percentages 0..1' do
+          calculator.require_percentage_filled([1,2,nil], 0.2).should == [1,2]
+        end
+      end
+
+      context 'when not enough values are non-nil' do
+        it 'raises' do
+          expect { 
+            calculator.require_percentage_filled([1, nil, nil, nil], 50) 
+          }.to raise_error("Needed at least 50.0% answered, got 25.0%")
+        end
+      end
     end
   end
 end
