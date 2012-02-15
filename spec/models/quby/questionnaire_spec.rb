@@ -39,6 +39,10 @@ module Quby
       end
     end
     
+    describe '#scores' do
+      Questionnaire.new("test").scores.should == []
+    end
+
     #it "should support panels" do
       #@q = quest("panel {}")
 

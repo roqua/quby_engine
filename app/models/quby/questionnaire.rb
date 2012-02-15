@@ -36,6 +36,7 @@ module Quby
     def initialize(key, definition = nil)
       @key = key
       @definition = definition if definition
+      @scores ||= []
 
       enhance_by_dsl
     end
