@@ -138,8 +138,10 @@ module Quby
       if Rails.env.development?
         raise exception
       elsif defined?(notify_airbrake)
+        logger.error "EXCEPTION #{exception.message} sent to Airbrake"
         notify_airbrake(exception)
       elsif defined?(ExceptionNotifier)
+        logger.error "EXCEPTION #{exception.message} sent to ExceptionNotifier"
         ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
       else
         logger.error("EXCEPTION: #{exception.message}")
