@@ -119,30 +119,31 @@ module Quby
     def bad_token(exception)
       @error = "Er is geen of een ongeldige token meegegeven."
       render :file => "errors/generic", :layout => "dialog"
-      if Rails.env.development?
-        raise exception
-      else 
-        ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
-      end
+      handle_exception exception
     end
     
     def bad_questionnaire(exception)
       @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]}) kon niet gevonden worden."
       render :file => "errors/generic", :layout => "dialog"
-      if Rails.env.development?
-        raise exception
-      else 
-        ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
-      end
+      handle_exception exception
     end
 
     def bad_timestamp(exception)
       @error = "Uw authenticatie is verlopen."
       render :file => "errors/generic", :layout => "dialog"
+      handle_exception exception
+    end
+
+    def handle_exception(exception)
       if Rails.env.development?
         raise exception
-      else 
+      elsif defined?(notify_airbrake)
+        notify_airbrake(exception)
+      elsif defined?(ExceptionNotifier)
         ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+      else
+        logger.error("EXCEPTION: #{exception.message}")
+        logger.error(exception.backtrace)
       end
     end
 
