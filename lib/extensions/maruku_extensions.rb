@@ -14,7 +14,7 @@ class Maruku
 end
 
 MaRuKu::In::Markdown.register_span_extension(
-  :chars => 123, #ASCII ordinal of {
+  :chars => (RUBY_VERSION >= '1.9' ? '{' : 123), #ASCII ordinal of {
   :regexp => TextVar,
   :handler => lambda do |doc, src, con|
     m = src.read_regexp3(TextVar)
@@ -29,7 +29,7 @@ end)
 # ~~url~~link_body~~ 
 LinkUrl = /(\~\~)(.+)(\~\~)(.+)(\~\~)/
 MaRuKu::In::Markdown.register_span_extension(
-  :chars => 126, #ASCII ordinal of ~
+  :chars => (RUBY_VERSION >= '1.9' ? '~' : 126), #ASCII ordinal of ~
   :regexp => LinkUrl,
   :handler => lambda do |doc, src, con|
     m = src.read_regexp3(LinkUrl)
