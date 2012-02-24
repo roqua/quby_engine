@@ -261,7 +261,7 @@ module Quby
       output_range = ""
       range_min = validations.find{|i| i[:type] == :minimum}.andand[:value]
       range_max = validations.find{|i| i[:type] == :maximum}.andand[:value]
-      output_range = "(#{[range_min, "value", range_max].compact.join(" <= ")})" if range_min || range_max
+      output_range = "(#{[range_min, "value", range_max].compact.join(" &lt;= ")})" if range_min || range_max
 
       case type
       when :date

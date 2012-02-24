@@ -42,6 +42,16 @@ module Quby
     describe '#scores' do
       Questionnaire.new("test").scores.should == []
     end
+    
+    describe '#to_codebook' do
+      let(:key)           { 'test' }
+      let(:definition)    { "title 'My Test' \n question(:v_1, :type => :radio) { option :a1, :value => 0; option :a2, :value => 1}" }
+      let(:questionnaire) { Questionnaire.new(key, definition) }
+
+      it "should be able to generate a codebook" do
+        questionnaire.to_codebook.should be
+      end
+    end
 
     #it "should support panels" do
       #@q = quest("panel {}")

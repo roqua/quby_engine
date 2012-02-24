@@ -206,7 +206,8 @@ module Quby
       #end
 
       output = output.join("\n")
-      strip_tags(output)
+      strip_tags(output).gsub("&lt;", "<")
+      
     end
 
     protected
