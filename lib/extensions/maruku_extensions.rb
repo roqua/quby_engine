@@ -35,7 +35,7 @@ MaRuKu::In::Markdown.register_span_extension(
     m = src.read_regexp3(LinkUrl)
     url = m.captures.compact[1]
     link_body = m.captures.compact[3]
-    string = "<a href='javascript:modalFrame(\"#{url}\");'>#{link_body}</a>"
+    string = "<a href='#' onclick='modalFrame(\"#{url}\");'>#{link_body}</a>"
     con.push doc.md_html(string)
     true
 end)
