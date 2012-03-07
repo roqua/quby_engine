@@ -170,7 +170,10 @@ module Quby
     end
 
     def verify_token
-      raise TokenValidationError unless @answer.token == (params[:token] || @answer_token)
+      unless (@answer.token == (params[:token] || @answer_token))
+        flash[:error] = I18n.t(:invalid_answer_get, :locale => :nl)
+        redirect_to "/" 
+      end
     end
 
     def verify_hmac
