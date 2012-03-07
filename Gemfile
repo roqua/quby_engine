@@ -43,6 +43,8 @@ group :test, :development do
   gem 'guard-rspec'
   gem 'spork'
   gem 'guard-spork'
+
+  gem "fakefs", :require => "fakefs/safe"
 end
 
 group :test do

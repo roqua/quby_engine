@@ -1,5 +1,7 @@
 module Quby
   class Answer
+    @@questionnaire_finder = Quby::QuestionnaireFinder.new(Quby.questionnaires_path)
+
     include ::Mongoid::Document
     include ::Mongoid::Timestamps
     include ScoreCalculations
@@ -20,7 +22,7 @@ module Quby
 
     # Faux belongs_to :questionnaire
     def questionnaire
-      @questionnaire_cache ||= Quby::Questionnaire.find_by_key(questionnaire_key)
+      @questionnaire_cache ||= @@questionnaire_finder.find(questionnaire_key)
     end
 
     after_initialize :enhance_by_dsl

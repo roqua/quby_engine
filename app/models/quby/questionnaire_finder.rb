@@ -14,7 +14,7 @@ module Quby
     def all
       Dir[File.join(@path, "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
-        self.new(key)
+        find(key)
       end
     end
 
@@ -22,22 +22,18 @@ module Quby
       if @questionnaire_cache[key]
         return @questionnaire_cache[key]
       else
-        definition = File.read(File.join(path, "#{key}.rb"))
-        questionnaire = questionnaire_class.new(key, definition)
-        @questionnaire_cache[key] = questionnaire
-      end
-    end
-
-    def find_by_key(key)
-      if exists?(key)
-        self.new(key)
-      else
-        raise RecordNotFound, key
+        if exists?(key)
+          definition = File.read(File.join(path, "#{key}.rb"))
+          questionnaire = questionnaire_class.new(key, definition)
+          @questionnaire_cache[key] = questionnaire
+        else
+          raise RecordNotFound, key
+        end
       end
     end
 
     def exists?(key)
-      path = File.join(path, "#{key}.rb")
+      path = File.join(@path, "#{key}.rb")
       File.exist?(path)
     end
   end

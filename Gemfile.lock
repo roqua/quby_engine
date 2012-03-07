@@ -77,6 +77,7 @@ GEM
     erubis (2.7.0)
     execjs (1.2.12)
       multi_json (~> 1.0)
+    fakefs (0.4.0)
     ffi (1.0.11)
     fssm (0.2.8.1)
     fuubar (0.0.6)
@@ -204,6 +205,7 @@ DEPENDENCIES
   coffee-rails (~> 3.1.0)
   compass (= 0.12.alpha.2)
   database_cleaner
+  fakefs
   fuubar
   guard-rspec
   guard-spork
