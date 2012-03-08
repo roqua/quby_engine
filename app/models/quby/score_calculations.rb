@@ -18,7 +18,8 @@ module Quby
           begin
             scores[score.key] = ScoreCalculator.calculate({:values => self.value_by_regular_values}, &score.scorer)
           rescue StandardError => e
-            scores[score.key] = {:error => e.message}
+            scores[score.key] = {:error => e.message,
+                                 :backtrace => e.backtrace}
           end
         end
         
