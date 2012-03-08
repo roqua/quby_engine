@@ -11,7 +11,7 @@ module Quby
     field :questionnaire_key, :type => String
     field :value,             :type => Hash
     field :value_by_values,   :type => Hash
-    field :patient_id,        :type => String
+    field :patient,           :type => Hash,    :default => {}
     field :token,             :type => String
     field :active,            :type => Boolean, :default => true
     field :test,              :type => Boolean, :default => false
@@ -61,6 +61,10 @@ module Quby
           Maruku.setTextVar(question.text_var, self.send(question.key))
         end rescue nil
       end
+    end
+
+    def patient_id
+      self[:patient][:id] || self[:patient_id]
     end
 
     def extra_question_values

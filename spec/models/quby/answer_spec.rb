@@ -22,6 +22,20 @@ module Quby
       Answer.any_instance.stub(:questionnaire) { questionnaire }
     end
 
+    describe '#patient_id' do
+      let(:answer) { Answer.create! }
+
+      it 'returns the patient[:id]' do
+        answer[:patient][:id] = 123
+        answer.patient_id.should == 123
+      end
+
+      it 'returns the patient_id if set in attributes' do
+        answer[:patient_id] = 123
+        answer.patient_id.should == 123
+      end
+    end
+
     describe "#completed_at" do
       let(:answer) { Answer.create! }
       let(:time)   { Time.gm(2011, 11, 5, 11, 24, 00) }
