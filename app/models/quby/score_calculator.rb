@@ -56,6 +56,18 @@ module Quby
       values.reduce(0, &:+)
     end
 
+    # Public: Returns the Integer age of the patient, or nil if it's not known.
+    def age
+      patient[:age]
+    end
+
+    # Public: Returns the Symbol describing the gender of the patient. 
+    # 
+    # The symbol :unknown is returned when gender is not known.
+    def gender
+      patient[:gender] || :unknown
+    end
+
     def require_percentage_filled(values, percentage)
       percentage = percentage / 100.0 if percentage > 1
       selects = values.select {|i| not i.nil? }

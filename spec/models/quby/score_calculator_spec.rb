@@ -55,6 +55,25 @@ module Quby
       end
     end
 
+    describe '#age' do
+      it 'returns the age' do
+        calculator = ScoreCalculator.new({}, {age: 42})
+        calculator.age.should == 42
+      end
+    end
+
+    describe '#gender' do
+      it 'returns the gender' do
+        calculator = ScoreCalculator.new({}, {gender: :male})
+        calculator.gender.should == :male
+      end
+
+      it 'returns :unknown when gender is not given' do
+        calculator = ScoreCalculator.new({}, {})
+        calculator.gender.should == :unknown
+      end
+    end
+
     describe '#require_percentage_filled' do
       let(:calculator) { ScoreCalculator.new({}) }
 
