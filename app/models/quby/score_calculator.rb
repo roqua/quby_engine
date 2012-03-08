@@ -1,16 +1,27 @@
 module Quby
   class ScoreCalculator
     attr_accessor :values
+    attr_accessor :patient
 
     # Evaluates block within the context of a new calculator
     # instance. All instance methods are accessible.
-    def self.calculate(options = {}, &block)
-      instance = self.new(options)
+    def self.calculate(*args, &block)
+      instance = self.new(*args)
       instance.instance_eval &block
     end
 
-    def initialize(options = {})
-      @values = options[:values]
+    # Public: Initialize a new ScoreCalculator
+    #
+    # values - The Hash values describes the keys of questions and the values
+    #          of the answer given to that question.
+    # patient - A Hash describing extra patient information (default: {})
+    #           :age - The Integer age of the patient to be used in
+    #                  score calculation (optional)
+    #           :gender - The Symbol gender of the patient, must be one of:
+    #                     :male, :female or :unknown (optional)
+    def initialize(values, patient = {})
+      @values = values
+      @patient = patient
       @score = {}
     end
 

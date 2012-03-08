@@ -5,20 +5,20 @@ module Quby
     describe '.calculate' do
       it 'calculates the value of a block' do
         score = stub
-        calculator = ScoreCalculator.calculate { score }.should == score
+        calculator = ScoreCalculator.calculate({}) { score }.should == score
       end
     end
 
     describe '#initialize' do
       it 'stores values passed' do
-        calculator = ScoreCalculator.new(values: {'v_1' => 1})
+        calculator = ScoreCalculator.new({'v_1' => 1})
         calculator.values.should == {'v_1' => 1}
       end
     end
 
     describe '#values' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:calculator) { ScoreCalculator.new(values: values) }
+      let(:calculator) { ScoreCalculator.new(values) }
 
       it 'returns the values hash if no args given' do
         calculator.values.should == values
@@ -40,7 +40,7 @@ module Quby
     end
 
     describe '#sum' do
-      let(:calculator) { ScoreCalculator.new }
+      let(:calculator) { ScoreCalculator.new({}) }
 
       it 'sums values given' do
         calculator.sum([1, 2, 3, 4]).should == 10
@@ -56,7 +56,7 @@ module Quby
     end
 
     describe '#require_percentage_filled' do
-      let(:calculator) { ScoreCalculator.new }
+      let(:calculator) { ScoreCalculator.new({}) }
 
       context 'when enough values are non-nil' do
         it 'returns the values' do
