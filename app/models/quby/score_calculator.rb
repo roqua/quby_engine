@@ -25,6 +25,14 @@ module Quby
       @score = {}
     end
 
+    # Public: Get values for given question keys
+    #
+    # *keys - A list of keys for which to return values
+    #
+    # Returns an Array of values. Values are whatever they may be defined as,
+    # usually they are either Integers of Floats, but remember that no such
+    # restriction is placed. And for open questions the value will probably
+    # be a String.
     def values(*keys)
       keys = keys.map(&:to_s)
 
@@ -39,6 +47,11 @@ module Quby
       end
     end
 
+    # Public: Sums values
+    #
+    # values - An Array of Numerics
+    #
+    # Returns the sum of the given values
     def sum(values)
       values.reduce(0, &:+)
     end
