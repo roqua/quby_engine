@@ -15,8 +15,8 @@ module Quby
     # values - The Hash values describes the keys of questions and the values
     #          of the answer given to that question.
     # patient - A Hash describing extra patient information (default: {})
-    #           :age - The Integer age of the patient to be used in
-    #                  score calculation (optional)
+    #           :birthyear - The Integer birthyear of the patient to be used in
+    #                        score calculation (optional)
     #           :gender - The Symbol gender of the patient, must be one of:
     #                     :male, :female or :unknown (optional)
     def initialize(values, patient = {})
@@ -58,14 +58,14 @@ module Quby
 
     # Public: Returns the Integer age of the patient, or nil if it's not known.
     def age
-      patient[:age]
+      patient.age
     end
 
     # Public: Returns the Symbol describing the gender of the patient. 
     # 
     # The symbol :unknown is returned when gender is not known.
     def gender
-      patient[:gender] || :unknown
+      patient.gender
     end
 
     def require_percentage_filled(values, percentage)

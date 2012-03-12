@@ -17,7 +17,7 @@ module Quby
         questionnaire.scores.each do |score|
           begin
             scores[score.key] = ScoreCalculator.calculate(self.value_by_regular_values,
-                                                          self.patient.andand.slice(:age, :gender),
+                                                          self.patient.andand.slice(:birthyear, :gender),
                                                           &score.scorer)
           rescue StandardError => e
             scores[score.key] = {:error => e.message,
