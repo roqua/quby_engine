@@ -19,9 +19,9 @@ module Quby
     #                        score calculation (optional)
     #           :gender - The Symbol gender of the patient, must be one of:
     #                     :male, :female or :unknown (optional)
-    def initialize(values, patient = {})
+    def initialize(values, patient_attrs = {})
       @values = values
-      @patient = patient
+      @patient = Patient.new(patient_attrs)
       @score = {}
     end
 

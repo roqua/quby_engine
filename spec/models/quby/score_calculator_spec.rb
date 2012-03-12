@@ -1,4 +1,4 @@
-require_relative "../../../app/models/quby/score_calculator"
+require "spec_helper"
 
 module Quby
   describe ScoreCalculator do
@@ -57,7 +57,7 @@ module Quby
 
     describe '#age' do
       it 'returns the age' do
-        calculator = ScoreCalculator.new({}, {age: 42})
+        calculator = ScoreCalculator.new({}, {birthyear: 42.years.ago.year})
         calculator.age.should == 42
       end
     end
