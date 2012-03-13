@@ -5,7 +5,7 @@ module Quby
       attr_reader :scorer
 
       def initialize(key, options = {}, &block)
-        @score = Score.new(key, options, &block)
+        @score = ::Quby::Score.new(key, options, &block)
       end
 
       def build
