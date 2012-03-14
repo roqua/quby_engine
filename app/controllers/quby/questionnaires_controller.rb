@@ -1,5 +1,5 @@
 module Quby
-  class QuestionnairesController < ApplicationController
+  class QuestionnairesController < Quby::ApplicationController
     respond_to :html, :json, :xml, :txt
 
     before_filter :ip_check_for_api_methods

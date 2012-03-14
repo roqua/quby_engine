@@ -1,4 +1,4 @@
 module Quby
-  class ApiAreaController < ApplicationController
+  class ApiAreaController < Quby::ApplicationController
   end
 end

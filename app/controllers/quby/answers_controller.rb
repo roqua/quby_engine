@@ -2,7 +2,7 @@
 require 'addressable/uri'
 
 module Quby
-  class AnswersController < ApplicationController
+  class AnswersController < Quby::ApplicationController
     class TokenValidationError < Exception; end
     class TimestampValidationError < Exception; end
     class QuestionnaireNotFound < StandardError; end
