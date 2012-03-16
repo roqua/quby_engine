@@ -5,7 +5,7 @@ module Quby
     attr_reader :path
     attr_reader :questionnaire_class
 
-    def initialize(path, questionnaire_class = Questionnaire)
+    def initialize(path, questionnaire_class = Quby::Questionnaire)
       @path = path
       @questionnaire_class = questionnaire_class
       @questionnaire_cache = {}
@@ -24,7 +24,9 @@ module Quby
       else
         if exists?(key)
           definition = File.read(File.join(path, "#{key}.rb"))
+          
           questionnaire = questionnaire_class.new(key, definition)
+          
           @questionnaire_cache[key] = questionnaire
         else
           raise RecordNotFound, key

@@ -222,7 +222,7 @@ module Quby
     def validate_definition_syntax
       ensure_linux_line_ends
 
-      q = Questionnaire.new(self.key)
+      q = Quby::Questionnaire.new(self.key)
       q.question_hash = {}
 
       begin

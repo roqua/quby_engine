@@ -5,14 +5,14 @@ module Quby
     before_filter :ip_check_for_api_methods
 
     def index
-      @questionnaires = Questionnaire.active.all
+      @questionnaires = Quby::Questionnaire.active.all
       respond_with @questionnaires
     end
 
     def show
-      return head(Questionnaire.exists?(params[:id]) ? 200 : 404) if request.head?
+      return head(Quby::Questionnaire.exists?(params[:id]) ? 200 : 404) if request.head?
       begin
-        @questionnaire = Questionnaire.find_by_key(params[:id])
+        @questionnaire = Quby::Questionnaire.find_by_key(params[:id])
         unless params[:extra_vars].blank?
           @extra_vars = params[:extra_vars].to_a.sort_by{|i| i[0].to_i}.map{|i| i[1]} rescue nil
         else
