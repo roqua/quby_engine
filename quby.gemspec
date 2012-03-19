@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.1"
 
   # Databases
-  s.add_dependency "mysql2", "~> 0.3.7"
   s.add_dependency "mongoid", "~> 2.2"
 
   # Views
