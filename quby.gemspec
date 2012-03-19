@@ -16,16 +16,16 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "~> 3.1.0"
+  s.add_dependency "rails", "~> 3.1"
 
   # Databases
-  s.add_dependency "mysql2", "=0.3.7"
+  s.add_dependency "mysql2", "~> 0.3.7"
   s.add_dependency "mongoid", "~> 2.2"
 
   # Views
   s.add_dependency "haml"
   s.add_dependency "maruku"
-  s.add_dependency "compass", "= 0.12.alpha.2"
+  s.add_dependency "compass"
 
   # Helpers
   s.add_dependency "andand"
