@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "compass"
 
   # Helpers
-  s.add_dependency "andand"
+  s.add_dependency "ryansch-andand"
   s.add_dependency "json"
   s.add_dependency "addressable"
   s.add_dependency "mongoid-app_settings"
