@@ -4,6 +4,7 @@ module Quby
   class Questionnaire # < ActiveRecord::Base
     extend  ActiveModel::Naming
     include ActiveModel::Validations
+    extend ActiveSupport::Memoizable
 
     class RecordNotFound < StandardError; end
     class ValidationError < StandardError; end
@@ -167,11 +168,13 @@ module Quby
         panel.items.map {|item| recurse.call(item) if Items::Question === item }
       end
     end
+    memoize :questions_tree
 
     def questions
       tree = questions_tree
       questions_tree.flatten rescue []
     end
+    memoize :questions
 
     def as_json(options = {})
       {
