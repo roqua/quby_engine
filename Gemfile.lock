@@ -47,7 +47,8 @@ GEM
     addressable (2.2.7)
     arel (2.2.3)
     bson (1.5.2)
-    bson_ext (1.5.1)
+    bson_ext (1.5.2)
+      bson (= 1.5.2)
     builder (3.0.0)
     capybara (1.1.2)
       mime-types (>= 1.16)
@@ -198,7 +199,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bson_ext
+  bson_ext (~> 1.5.2)
   capybara
   coffee-rails (~> 3.1.0)
   compass (= 0.12.alpha.2)
