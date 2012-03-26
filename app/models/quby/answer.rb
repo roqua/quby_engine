@@ -20,7 +20,7 @@ module Quby
     field :active,            :type => Boolean, :default => true
     field :test,              :type => Boolean, :default => false
     field :completed_at,      :type => Time
-    field :scores,            :type => Hash
+    field :scores,            :type => Hash,    :default => {}
 
     # Faux belongs_to :questionnaire
     def questionnaire
