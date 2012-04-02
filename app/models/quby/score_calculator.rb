@@ -43,7 +43,7 @@ module Quby
           raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
         end
 
-        @values.values_at(*keys).compact.map(&:to_i)
+        @values.values_at(*keys)
       end
     end
 
