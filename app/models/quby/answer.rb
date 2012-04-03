@@ -55,7 +55,7 @@ module Quby
 
     #for setting which questions should be hidden
     attr_accessor :to_hide
-    
+
     def enhance_by_dsl
       AnswerDsl.enhance(self)
 
@@ -116,12 +116,18 @@ module Quby
     def value_by_regular_values
       if value
         result = value.dup
-        value.each_key do |key|
+        value.each do |key, answer|
           question = questionnaire.questions.find(){|q| q.andand.key.to_s == key.to_s }
-          if question and (question.type == :radio || question.type == :scale || question.type == :select)
-            option = question.options.find(){|o| o.key.to_s == value[key].to_s }
-            if option
-              result[key] = option.value
+          if question
+            if (question.type == :radio || question.type == :scale || question.type == :select)
+              option = question.options.find(){|o| o.key.to_s == value[key].to_s }
+              if option
+                result[key] = option.value
+              end
+            elsif (question.type == :integer)
+              result[key] = answer.andand.to_i
+            elsif (question.type == :float)
+              result[key] = answer.andand.to_f
             end
           end
         end
@@ -270,8 +276,8 @@ module Quby
                 add_error(question, :answer_group_maximum, validation[:message] || "Needs at most #{validation[:value]} question(s) answered.")
               end
             end
-          end        
-        end      
+          end
+        end
       end
       #logger.info "ERRORS: #{errors.inspect}"
     end
