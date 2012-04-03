@@ -125,9 +125,9 @@ module Quby
                 result[key] = option.value
               end
             elsif (question.type == :integer)
-              result[key] = answer.andand.to_i
+              result[key] = answer.to_i if answer
             elsif (question.type == :float)
-              result[key] = answer.andand.to_f
+              result[key] = answer.to_f if answer
             end
           end
         end
