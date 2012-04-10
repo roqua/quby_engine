@@ -9,6 +9,9 @@ module Quby
     # What kind of question is this?
     attr_accessor :type
 
+    # How should we display this question
+    attr_accessor :as
+
     # To hide old questions
     attr_accessor :hidden
 
@@ -103,6 +106,7 @@ module Quby
       @options = []
       @key = key
       @type = options[:type]
+      @as = options[:as]
       @title = options[:title]
       @description = options[:description]
       @display_modes = options[:display_modes]
