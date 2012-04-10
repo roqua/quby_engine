@@ -3,9 +3,11 @@
 require 'rubygems'
 require 'mongoid'
 require 'mongoid-app_settings'
-require 'compass'
+require 'compass-rails'
 require 'jquery-rails'
+require 'fd-slider-rails'
 require 'andand'
+
 
 module Quby
   class Engine < Rails::Engine

@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   # Views
   s.add_dependency "haml"
   s.add_dependency "maruku"
-  s.add_dependency "compass"
+  s.add_dependency "compass-rails", '1.0.1'
 
   # Helpers
   s.add_dependency "ryansch-andand"
@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency "mongoid-app_settings"
 
   s.add_dependency "jquery-rails", "1.0.13"
+  s.add_dependency "fd-slider-rails", "~> 0.5.1"
 
   s.add_development_dependency "database_cleaner"
 end

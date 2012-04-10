@@ -15,7 +15,6 @@
     //= javascript_include_tag "jquery.custominput.js"
     - unless Rails.env.development?
       = javascript_include_tag "quby/disable_keys.js"
-    //= javascript_include_tag "modernizr-1.5.min.js"
     = javascript_include_tag "quby/" + controller.controller_name
     :css
       #{yield(:extra_css)}
