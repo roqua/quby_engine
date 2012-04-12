@@ -153,10 +153,22 @@ em {
                         @include column(2, true);
                     }
                     &.string , &.textarea {
-                        width:92%;
+                        width: 92%;
+                    }
+                    &.slider {
+                      width: 80%;
                     }
                     &.sized { width: auto;} 
                 }
+
+                .fd-slider {
+                  /* These properties get overriden by our table reset, so we have to re-apply them with a more specific selector */
+                  width: 100%;
+                  .fd-slider-wrapper { width: 100%; }
+                  .fd-slider-handle { width: 20px; }
+                  .fd-form-element-hidden { display: none; }
+                }
+
                 .unit {
                     vertical-align: -20%;
                     padding-left: 4px;
@@ -178,7 +190,7 @@ em {
             .option{
                 padding-left:1em;
                 padding-bottom: 0.5em;
-                vertical-align:bottom;                
+                vertical-align:bottom;
             }
         }
         .dark{
