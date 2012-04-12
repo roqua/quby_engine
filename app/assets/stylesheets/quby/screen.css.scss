@@ -547,6 +547,11 @@ em {
           }
           input, textarea { @include column(12,true); }
         }
+
+        &.integer.slider,
+        &.float.slider {
+          input { width: 99%; }
+        }
         
         &.bulkitem {
             padding: 0.5em 0em 0.5em 0.5em;

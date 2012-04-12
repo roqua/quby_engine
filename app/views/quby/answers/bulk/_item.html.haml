@@ -9,6 +9,7 @@
   - return if item.table
   - extra_data = item.extra_data
   - itemclasses << 'hidden-childs' unless extra_data[:hidden_by].blank?
+  - itemclasses << item.as if item.as
   - doublewide = item.options.size <= 5 
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
