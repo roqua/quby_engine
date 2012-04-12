@@ -13,6 +13,7 @@
   - itemclasses << item.question_group  if item.question_group
   - extra_data = item.extra_data
   - itemclasses << 'hidden-childs' unless extra_data[:hidden_by].blank?
+  - itemclasses << item.as if item.as
   
 - if item.raw_content
   - if item.raw_content.is_a?(Hash) and item.raw_content[:paged]

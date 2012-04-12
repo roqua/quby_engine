@@ -349,6 +349,11 @@ em {
           .sized { width: auto;}
         }
 
+        &.integer.slider,
+        &.float.slider {
+          input { width: 99%; }
+        }
+
         &.radio, &.check_box {
           .inner-title {
             @include column($blueprint-grid-columns - $mainlabel_columns, true);
