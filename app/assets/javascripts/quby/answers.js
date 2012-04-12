@@ -473,7 +473,7 @@ function handleDownHotKeys(event){
             }
             break;
         case 37: // left arrow
-            if (!$(lastInput).is("input[type=text]")) {
+            if (!$(lastInput).is("input[type=text]") && !$(lastInput).is("input[type=range]")) {
                 preventDefault(event);
                 focusPrevInput();
             }
@@ -487,7 +487,7 @@ function handleDownHotKeys(event){
             }
             break;
         case 39: //right arrow
-            if (!$(lastInput).is("input[type=text]")) {
+            if (!$(lastInput).is("input[type=text]") && !$(lastInput).is("input[type=range]")) {
                 preventDefault(event);
                 focusNextInput();
             }
