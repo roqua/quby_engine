@@ -1,6 +1,20 @@
 - available_width = question.presentation == :horizontal ? 100 : 66
 %td.item{:class => os_cycle, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   .fields{:class => question.type, :id => question.html_id}
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => question.type
+    - cls = [question.type]
+    - cls << question.as if question.as
+    - case question.as
+    - when :slider
+      - minimum_validation = question.validations.detect {|i| i[:type] == :minimum }
+      - minimum = minimum_validation && minimum_validation[:value]
+      - maximum_validation = question.validations.detect {|i| i[:type] == :maximum }
+      - maximum = maximum_validation && maximum_validation[:value]
+      = range_field :answer, question.key, :autocomplete => question.autocomplete, 
+                                           :class => cls, 
+                                           :size => (question.size || 30),
+                                           :min => nil,
+                                           :max => maximum
+    - else
+      = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls
     %span.unit= raw question.unit    
     = validations
