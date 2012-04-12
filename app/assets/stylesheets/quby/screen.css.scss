@@ -159,6 +159,9 @@ em {
                       width: 80%;
                     }
                     &.sized { width: auto;} 
+
+                    /* These properties get overriden by our table reset, so we have to re-apply them with a more specific selector */
+                    &.fd-form-element-hidden { display: none; }
                 }
 
                 .fd-slider {
@@ -166,7 +169,6 @@ em {
                   width: 100%;
                   .fd-slider-wrapper { width: 100%; }
                   .fd-slider-handle { width: 20px; }
-                  .fd-form-element-hidden { display: none; }
                 }
 
                 .unit {
