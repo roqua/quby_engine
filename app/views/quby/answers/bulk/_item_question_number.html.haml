@@ -18,7 +18,7 @@
                                            :class => cls, 
                                            :disabled => (disabled ? "" : nil),
                                            :size => (question.size || 30),
-                                           :min => nil,
+                                           :min => minimum,
                                            :max => maximum
     - else
       = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
