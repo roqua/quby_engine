@@ -109,7 +109,7 @@ module Quby
 
     #allow hotkeys for either :all views, just :bulk views (default), or :none for never
     attr_accessor :allow_hotkeys
-    # flag indicating wether a questionnaire was already persisted
+    # flag indicating whether a questionnaire was already persisted
     attr_accessor :persisted
 
     #default_scope :order => "key ASC"
