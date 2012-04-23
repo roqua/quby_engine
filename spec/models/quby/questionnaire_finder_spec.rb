@@ -10,6 +10,7 @@ module Quby
     let(:questionnaire_class) do
       Class.new do
         attr_reader :key, :definition
+        attr_accessor :persisted
 
         def initialize(key, definition)
           @key = key
@@ -25,15 +26,21 @@ module Quby
       let(:definition) { "title 'foo'" }
 
       it 'finds one questionnaire' do
-        questionnaire = stub
+        questionnaire = questionnaire_class.new(key, definition)
         questionnaire_class.stub(:new).with(key, definition).and_return { questionnaire }
         File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
         questionnaire_finder.find(key).should == questionnaire
       end
 
+      it "marks found questionnaires as persisted" do
+        questionnaire_finder.stub(:exists? => true)
+        File.stub(:read => "title \"hallo wereld\"")
+        questionnaire_finder.find(key).persisted.should be_true
+      end
+
       it 'raises RecordNotFound if it doesnt exist' do
-        QuestionnaireFinder.stub(:exists?).with(key).and_return(false)
-        expect { 
+        questionnaire_finder.stub(:exists?).with(key).and_return(false)
+        expect {
           questionnaire_finder.find(key)
         }.to raise_error(QuestionnaireFinder::RecordNotFound)
       end
@@ -42,7 +49,7 @@ module Quby
     describe '#exists?' do
       it 'returns true if file exists' do
         FileUtils.touch("/tmp/test.rb")
-        questionnaire_finder.exists?("test").should be_true         
+        questionnaire_finder.exists?("test").should be_true
       end
 
       it 'returns false if file does not exist' do

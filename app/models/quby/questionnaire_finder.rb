@@ -10,7 +10,7 @@ module Quby
       @questionnaire_class = questionnaire_class
       @questionnaire_cache = {}
     end
-    
+
     def all
       Dir[File.join(@path, "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
@@ -24,9 +24,10 @@ module Quby
       else
         if exists?(key)
           definition = File.read(File.join(path, "#{key}.rb"))
-          
+
           questionnaire = questionnaire_class.new(key, definition)
-          
+          questionnaire.persisted = true
+
           @questionnaire_cache[key] = questionnaire
         else
           raise RecordNotFound, key

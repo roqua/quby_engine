@@ -92,7 +92,7 @@ module Quby
           end
 
           if @return_url.blank?
-            render :action => "completed" and return 
+            render :action => "completed" and return
           else
             if @status
               redirect_to_roqua(:params => {:status => @status}) and return
@@ -104,7 +104,7 @@ module Quby
           flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
           if printing
             format.html { render :action => "#{@display_mode}/edit", :layout => "layouts/content_only" }
-          else 
+          else
             format.html { render :action => "#{@display_mode}/edit" }
           end
           format.json { render :json => @answer.errors.to_json }
@@ -121,7 +121,7 @@ module Quby
       render :file => "errors/generic", :layout => "dialog"
       handle_exception exception
     end
-    
+
     def bad_questionnaire(exception)
       @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]}) kon niet gevonden worden."
       render :file => "errors/generic", :layout => "dialog"
@@ -172,7 +172,7 @@ module Quby
     def verify_token
       unless (@answer.token == (params[:token] || @answer_token))
         flash[:error] = I18n.t(:invalid_answer_get, :locale => :nl)
-        redirect_to "/" 
+        redirect_to "/"
       end
     end
 
@@ -188,7 +188,7 @@ module Quby
 
       if our_hmac != hmac
         logger.error "ERROR::Authentication error: Token does not validate"
-        raise TokenValidationError.new("HMAC") 
+        raise TokenValidationError.new("HMAC")
       end
 
       if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)

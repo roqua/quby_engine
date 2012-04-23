@@ -3,8 +3,8 @@ PATH
   specs:
     quby (0.0.1)
       addressable
-      compass-rails
-      fd-slider-rails (~> 0.5)
+      compass-rails (= 1.0.1)
+      fd-slider-rails (~> 0.5.1)
       haml
       jquery-rails (= 1.0.13)
       json
@@ -80,7 +80,7 @@ GEM
     execjs (1.2.12)
       multi_json (~> 1.0)
     fakefs (0.4.0)
-    fd-slider-rails (0.5.0)
+    fd-slider-rails (0.5.1)
       rails (~> 3.1)
     ffi (1.0.11)
     fssm (0.2.9)
@@ -103,7 +103,7 @@ GEM
       thor (~> 0.14)
     json (1.6.3)
     libv8 (3.3.10.4)
-    mail (2.3.2)
+    mail (2.3.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)

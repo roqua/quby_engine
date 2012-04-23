@@ -1,4 +1,4 @@
-include ActionView::Helpers::SanitizeHelper 
+include ActionView::Helpers::SanitizeHelper
 
 module Quby
   class Questionnaire # < ActiveRecord::Base
@@ -12,13 +12,17 @@ module Quby
     def self.all
       Dir[File.join(Quby.questionnaires_path, "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
-        self.new(key)
+        questionnaire = self.new(key)
+        questionnaire.persisted = true
+        questionnaire
       end
     end
 
     def self.find_by_key(key)
       if exists?(key)
-        self.new(key)
+        questionnaire = self.new(key)
+        questionnaire.persisted = true
+        questionnaire
       else
         raise RecordNotFound, key
       end
@@ -46,8 +50,12 @@ module Quby
       path = File.join(Quby.questionnaires_path, "#{key}.rb")
     end
 
-    validate do 
+    validate do
       errors.add(:key, "Must be present") unless key.present?
+      errors.add(:key, "Must be unique") if Quby::Questionnaire.exists?(key) and not persisted?
+      errors.add(:key, "De key mag enkel kleine letters, cijfers en underscores bevatten, " +
+                       "moet beginnen met een letter en mag hoogstens 10 karakters lang zijn."
+                ) unless key =~ /^[a-z][a-z_0-9]{0,9}$/ or persisted?
     end
 
     validate :validate_definition_syntax
@@ -61,6 +69,7 @@ module Quby
       end
     end
 
+    # TODO remove this as it does not do anything
     def save!
       if valid?
         write_to_disk
@@ -69,6 +78,11 @@ module Quby
       end
 
       true
+    end
+
+    # whether the questionnaire was already persisted
+    def persisted?
+      persisted
     end
 
     #after_destroy :remove_from_disk
@@ -95,16 +109,11 @@ module Quby
 
     #allow hotkeys for either :all views, just :bulk views (default), or :none for never
     attr_accessor :allow_hotkeys
+    # flag indicating whether a questionnaire was already persisted
+    attr_accessor :persisted
 
     #default_scope :order => "key ASC"
     #scope :active, where(:active => true)
-
-    #validates_presence_of :key
-    #validates_uniqueness_of :key
-    #validates_format_of :key,
-      #:with => /^[a-z][a-z_0-9]*$/,
-      #:message => "De key mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter.",
-      #:on => :create
 
     def leave_page_alert
       @leave_page_alert || "Als u de pagina verlaat worden uw antwoorden niet opgeslagen."
@@ -210,7 +219,7 @@ module Quby
 
       output = output.join("\n")
       strip_tags(output).gsub("&lt;", "<")
-      
+
     end
 
     protected
