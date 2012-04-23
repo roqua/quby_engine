@@ -70,6 +70,10 @@ module Quby
           Questionnaire.new("Ks", "title \"hallo wereld\"").should_not be_valid
         end
 
+        it "requires that the key contains no more than 10 characters" do
+          Questionnaire.new("verylongkey", "title \"hallo wereld\"").should_not be_valid
+        end
+
         it "requires that the key contains no dashes" do
           Questionnaire.new("k-s", "title \"hallo wereld\"").should_not be_valid
         end

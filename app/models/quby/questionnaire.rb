@@ -53,7 +53,9 @@ module Quby
     validate do
       errors.add(:key, "Must be present") unless key.present?
       errors.add(:key, "Must be unique") if Quby::Questionnaire.exists?(key) and not persisted
-      errors.add(:key, "De key mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter.") unless key =~ /^[a-z][a-z_0-9]*$/ or Quby::Questionnaire.exists?(key)
+      errors.add(:key, "De key mag enkel kleine letters, cijfers en underscores bevatten, " +
+                       "moet beginnen met een letter en mag hoogstens 10 karakters lang zijn."
+                ) unless key =~ /^[a-z][a-z_0-9]{0,9}$/ or Quby::Questionnaire.exists?(key)
     end
 
     validate :validate_definition_syntax
