@@ -11,6 +11,7 @@ db/*.sqlite3
 config/database.yml
 config/mongoid.yml
 db/questionnaires
+spec/dummy/db/questionnaires
 tmp/restart.txt
 .bundle
 gems/*
