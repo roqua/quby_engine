@@ -99,12 +99,12 @@ module Quby
     #default_scope :order => "key ASC"
     #scope :active, where(:active => true)
 
-    #validates_presence_of :key
-    #validates_uniqueness_of :key
-    #validates_format_of :key,
-      #:with => /^[a-z][a-z_0-9]*$/,
-      #:message => "De key mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter.",
-      #:on => :create
+    validates_presence_of :key
+    validates_uniqueness_of :key
+    validates_format_of :key,
+      :with => /^[a-z][a-z_0-9]*$/,
+      :message => "De key mag enkel kleine letters, cijfers en underscores bevatten en moet beginnen met een letter.",
+      :on => :create
 
     def leave_page_alert
       @leave_page_alert || "Als u de pagina verlaat worden uw antwoorden niet opgeslagen."
