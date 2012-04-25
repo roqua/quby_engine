@@ -240,6 +240,18 @@ module Quby
       begin
         functions = Function.all.map(&:definition).join("\n\n")
         QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
+
+        #check if to be hidden questions actually exist
+        q.questions.compact.each do |question|
+          question.options.each do |option|
+            if option.hides_questions.present?
+              option.hides_questions.each do |key|
+                raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}" unless q.question_hash[key]
+              end
+            end
+          end
+        end
+
       #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
       rescue Exception => e
         errors.add(:definition, {:message => e.message, :backtrace => e.backtrace[0..5].join("<br/>")})

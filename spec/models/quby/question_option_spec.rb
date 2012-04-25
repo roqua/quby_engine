@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 module Quby
-  describe Items::Question do
-    describe "#hides_questions" do
+  describe QuestionOption do
+    describe "hides_questions" do
 
       it "throws an error if the question to be hidden does not exist" do
         @questionnaire = Quby::Questionnaire.new("test")
@@ -13,7 +13,7 @@ module Quby
           end
         END
 
-        lambda{@questionnaire.enhance_by_dsl}.should raise_error
+        @questionnaire.valid?.should be_false
       end
     end
   end
