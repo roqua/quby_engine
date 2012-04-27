@@ -9,7 +9,8 @@ module Quby
     end
 
     def age
-      ((Time.now - Time.gm(@birthyear, 1, 1)) / 1.year).floor
+      return nil unless @birthyear
+      ((Time.now - Time.gm(@birthyear, 1, 1)) / 1.year).floor      
     end
   end
 end
