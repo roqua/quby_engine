@@ -366,6 +366,17 @@ em {
         &.integer.slider,
         &.float.slider {
           input { width: 99%; }
+
+          .slider-label-left {
+            @include column(($blueprint-grid-columns - $mainlabel_columns)/2);
+            text-align: left;
+          }
+
+          .slider-label-right {
+            @include column(($blueprint-grid-columns - $mainlabel_columns)/2, true);
+            text-align: right;
+          }
+
         }
 
         &.radio, &.check_box {
