@@ -377,6 +377,10 @@ em {
             text-align: right;
           }
 
+          &.horizontal {
+            .slider-label-left  { @include column($blueprint-grid-columns/2); }
+            .slider-label-right { @include column($blueprint-grid-columns/2, true); }
+          }
         }
 
         &.radio, &.check_box {
