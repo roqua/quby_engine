@@ -53,7 +53,15 @@ module Quby
       def size(value)
         @question.size = value
       end
+
+      def left_label(value)
+        @question.left_label = value
+      end
       
+      def right_label(value)
+        @question.right_label = value
+      end
+
       def option(key, options = {}, &block)
         raise "Option with key #{key} already defined. Keys must be unique within a question." if @question.options.find {|i| i.key == key }
         raise "Question with key #{key} already defined. Checkbox option keys must be completely unique." if @question.type == :checkbox && @questionnaire.question_hash[key]
