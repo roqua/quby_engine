@@ -580,6 +580,17 @@ em {
         &.integer.slider,
         &.float.slider {
           input { width: 99%; }
+
+          .slider-label-left {
+            @include column(6);
+            text-align: left;
+          }
+
+          .slider-label-right {
+            @include column(6, true);
+            text-align: right;
+          }
+
         }
         
         &.bulkitem {
