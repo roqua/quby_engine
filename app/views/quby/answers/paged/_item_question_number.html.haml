@@ -18,7 +18,8 @@
                                            :class => cls, 
                                            :disabled => (disabled ? "" : nil),
                                            :min => nil,
-                                           :max => maximum
+                                           :max => maximum,
+                                           :step => (question.type == :float ? 0.01 : 1)
     - else
       = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
     %span.unit= raw question.unit
