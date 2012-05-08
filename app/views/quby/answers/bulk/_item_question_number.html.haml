@@ -19,7 +19,11 @@
                                            :disabled => (disabled ? "" : nil),
                                            :size => (question.size || 30),
                                            :min => minimum,
-                                           :max => maximum
+                                           :max => maximum,
+                                           :step => (question.type == :float ? 0.01 : 1)
+      - if question.left_label and question.right_label
+        %span.slider-label-left= question.left_label
+        %span.slider-label-right= question.right_label
     - else
       = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
     %span.unit= raw question.unit

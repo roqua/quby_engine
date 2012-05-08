@@ -366,6 +366,21 @@ em {
         &.integer.slider,
         &.float.slider {
           input { width: 99%; }
+
+          .slider-label-left {
+            @include column(($blueprint-grid-columns - $mainlabel_columns)/2);
+            text-align: left;
+          }
+
+          .slider-label-right {
+            @include column(($blueprint-grid-columns - $mainlabel_columns)/2, true);
+            text-align: right;
+          }
+
+          &.horizontal {
+            .slider-label-left  { @include column($blueprint-grid-columns/2); }
+            .slider-label-right { @include column($blueprint-grid-columns/2, true); }
+          }
         }
 
         &.radio, &.check_box {
@@ -565,6 +580,17 @@ em {
         &.integer.slider,
         &.float.slider {
           input { width: 99%; }
+
+          .slider-label-left {
+            @include column(6);
+            text-align: left;
+          }
+
+          .slider-label-right {
+            @include column(6, true);
+            text-align: right;
+          }
+
         }
         
         &.bulkitem {

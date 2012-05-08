@@ -6,6 +6,9 @@ module Quby
     attr_accessor :title
     attr_accessor :description
 
+    attr_accessor :left_label
+    attr_accessor :right_label
+
     # What kind of question is this?
     attr_accessor :type
 
