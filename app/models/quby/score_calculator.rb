@@ -21,7 +21,7 @@ module Quby
     #                     :male, :female or :unknown (optional)
     def initialize(values, patient_attrs = {})
       @values = values
-      @patient = Patient.new(patient_attrs)
+      @patient = ::Quby::Patient.new(patient_attrs)
       @score = {}
     end
 

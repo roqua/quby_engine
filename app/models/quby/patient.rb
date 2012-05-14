@@ -1,9 +1,10 @@
 require 'active_support/all'
 module Quby
   class Patient
-    attr_accessor :gender, :age_at_answer_creation, :answer_created_at
+    attr_accessor :gender, :birthyear
 
     def initialize(attributes = {})
+      attributes = attributes.with_indifferent_access
       @gender    = attributes[:gender] || :unknown
       @birthyear = attributes[:birthyear]
     end

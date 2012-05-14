@@ -60,11 +60,21 @@ module Quby
         calculator = ScoreCalculator.new({}, {birthyear: 42.years.ago.year})
         calculator.age.should == 42
       end
+
+      it 'returns the age when passed a string key' do
+        calculator = ScoreCalculator.new({}, {"birthyear" => 42.years.ago.year})
+        calculator.age.should == 42
+      end
     end
 
     describe '#gender' do
       it 'returns the gender' do
         calculator = ScoreCalculator.new({}, {gender: :male})
+        calculator.gender.should == :male
+      end
+
+      it 'returns the gender when passed a string key' do
+        calculator = ScoreCalculator.new({}, {"gender" => :male})
         calculator.gender.should == :male
       end
 
