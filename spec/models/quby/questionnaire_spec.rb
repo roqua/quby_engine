@@ -26,8 +26,9 @@ module Quby
       end
 
       it "should not save Windows linebreaks" do
-        Questionnaire.any_instance.stub(:path).and_return(@file.path)
-        Quby::Questionnaire.new('test', "title 'My Test'\r\nshort_description 'Test questionnaire'").save.should be
+
+        questionnaire.definition = "title 'My Test'\r\nshort_description 'Test questionnaire'"
+        questionnaire.save
         File.open(@file.path, 'r').read.should == "title 'My Test'\nshort_description 'Test questionnaire'"
       end
     end
@@ -43,23 +44,23 @@ module Quby
 
     describe ".find_by_key" do
       it "marks a questionnaire as persisted" do
-        
+
         questionnaire.save
-        
+
         #The following stub leaks into other tests, and you cannot unstub it either
         #QuestionnaireFinder.any_instance.stub(:questionnaire_path).and_return(@file.path)
-        
+
         #So we are forced to use this ugly hack to stub
-        @@temp_path = @file.path
+        $temp_path = @file.path
         Quby::Questionnaire.questionnaire_finder.instance_eval do
           def questionnaire_path(key)
-            @@temp_path
+            $temp_path
           end
         end
-        
+
         quest = Quby::Questionnaire.find_by_key 'test'
         quest.persisted?.should be_true
-        
+
         #Undo ugly hack
         Quby::Questionnaire.questionnaire_finder.instance_eval do
           def questionnaire_path(key)
@@ -142,115 +143,115 @@ module Quby
     end
 
     #it "should support panels" do
-      #@q = quest("panel {}")
+    #@q = quest("panel {}")
 
-      #@q.panels.size.should == 1
-      #@q.panels[0].class.should == Items::Panel
+    #@q.panels.size.should == 1
+    #@q.panels[0].class.should == Items::Panel
     #end
 
     #it "should support questions" do
-      #@q = quest("question(:myid, :title => 'Question 1') {}")
+    #@q = quest("question(:myid, :title => 'Question 1') {}")
 
-      #@q.panels.size.should == 1
-      #@q.panels[0].items[0].class.should == Items::Question
+    #@q.panels.size.should == 1
+    #@q.panels[0].items[0].class.should == Items::Question
     #end
 
     #it "should support text" do
-      #@q = quest("text 'The quick brown fox jumps over the lazy dog.'")
+    #@q = quest("text 'The quick brown fox jumps over the lazy dog.'")
 
-      #@q.panels.size.should == 1
-      #@q.panels[0].items[0].class.should == Items::Text
+    #@q.panels.size.should == 1
+    #@q.panels[0].items[0].class.should == Items::Text
     #end
 
     #it "should return a flat list of items in the questionnaire" do
-      #questionnaire = <<-END
-        #question :q01i, :type => :radio do
-          #title "Foo"
-          #option :a01, :description => "Foo1" do
-            #question(:q01sub, :type => :string, :title => "Blaat") {}
-          #end
-        #end
+    #questionnaire = <<-END
+    #question :q01i, :type => :radio do
+    #title "Foo"
+    #option :a01, :description => "Foo1" do
+    #question(:q01sub, :type => :string, :title => "Blaat") {}
+    #end
+    #end
 
-        #question :q02 do
-          #title "Bar"
-        #end
-      #END
+    #question :q02 do
+    #title "Bar"
+    #end
+    #END
 
-      #@q = quest(questionnaire)
-      #@q.questions.length.should == 3
+    #@q = quest(questionnaire)
+    #@q.questions.length.should == 3
     #end
 
     #it "should return a tree of items in the questionnaire" do
-      #questionnaire = <<-END
-        #question :q01i, :type => :radio do
-          #title "Foo"
-          #option :a01, :description => "Foo1" do
-            #question(:q01sub, :type => :string, :title => "Blaat") {}
-          #end
-        #end
+    #questionnaire = <<-END
+    #question :q01i, :type => :radio do
+    #title "Foo"
+    #option :a01, :description => "Foo1" do
+    #question(:q01sub, :type => :string, :title => "Blaat") {}
+    #end
+    #end
 
-        #question :q02 do
-          #title "Bar"
-        #end
-      #END
+    #question :q02 do
+    #title "Bar"
+    #end
+    #END
 
-      #@q = quest(questionnaire)
-      #@q.questions_tree.should be_an Array
+    #@q = quest(questionnaire)
+    #@q.questions_tree.should be_an Array
 
-      #pending "write more expectations"
+    #pending "write more expectations"
     #end
 
     #it "should not accept duplicate question keys" do
-      #questionnaire = <<-END
-        #question :q01, :type => :radio
+    #questionnaire = <<-END
+    #question :q01, :type => :radio
 
-        #question :q01
-      #END
+    #question :q01
+    #END
 
-      #quest(questionnaire).send(:validate_definition_syntax).should be_false
+    #quest(questionnaire).send(:validate_definition_syntax).should be_false
     #end
 
     #it "should not accept checkbox option keys that are the same as other question keys" do
-      #questionnaire = <<-END
-        #question :q01, :type => :radio
+    #questionnaire = <<-END
+    #question :q01, :type => :radio
 
-        #question :q02, :type => :checkbox do
-          #option :q03
-          #option :a1
-        #end
+    #question :q02, :type => :checkbox do
+    #option :q03
+    #option :a1
+    #end
 
-        #question :q03, :type => :radio
-      #END
+    #question :q03, :type => :radio
+    #END
 
-      #quest(questionnaire).send(:validate_definition_syntax).should be_false
+    #quest(questionnaire).send(:validate_definition_syntax).should be_false
     #end
 
     #context "with some answers" do
-      #before(:each) do
-        #questionnaire = <<-END
-          #default_answer_value :q01 => "antwoord"
-          #question :q01, :type => :string, :title => "Blaat"
-        #END
+    #before(:each) do
+    #questionnaire = <<-END
+    #default_answer_value :q01 => "antwoord"
+    #question :q01, :type => :string, :title => "Blaat"
+    #END
 
-        #@q = quest(questionnaire)
-        #unless @q.save
-          ##pp @q.errors and raise "Error saving questionnaire"
-        #end
+    #@q = quest(questionnaire)
+    #unless @q.save
+    ##pp @q.errors and raise "Error saving questionnaire"
+    #end
 
-        #@q.answers.create!(:questionnaire_id => @q.id)
-        #@q.answers.create!(:questionnaire_id => @q.id)
-        #@q.answers.create!(:questionnaire_id => @q.id)
-      #end
+    #@q.answers.create!(:questionnaire_id => @q.id)
+    #@q.answers.create!(:questionnaire_id => @q.id)
+    #@q.answers.create!(:questionnaire_id => @q.id)
+    #end
 
-      #it "should have some answers" do
-        #@q.answers.count.should == 3
-      #end
+    #it "should have some answers" do
+    #@q.answers.count.should == 3
+    #end
 
-      #it "should destroy dependent answers when questionnaire is destroyed" do
-        #id = @q.id
-        #@q.destroy
-        #Answer.where(:questionnaire_id => id).should be_empty
-      #end
+    #it "should destroy dependent answers when questionnaire is destroyed" do
+    #id = @q.id
+    #@q.destroy
+    #Answer.where(:questionnaire_id => id).should be_empty
+    #end
     #end
   end
 end

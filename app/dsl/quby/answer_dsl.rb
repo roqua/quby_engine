@@ -3,9 +3,9 @@ module Quby
     def self.enhance(target_instance)
       answer = target_instance
       questionnaire = target_instance.questionnaire
-      
+
       answer.dsl_last_update = questionnaire.last_update
-      
+
       answer.class_eval do
         questionnaire.questions.each do |question|
           next if question.andand.key.blank?
@@ -21,7 +21,7 @@ module Quby
               self.value ||= Hash.new
               self.value[question.year_key] = v
             end
-            
+
             define_method(question.month_key) do
               self.value ||= Hash.new
               self.value[question.month_key]
@@ -31,7 +31,7 @@ module Quby
               self.value ||= Hash.new
               self.value[question.month_key] = v
             end
-            
+
             define_method(question.day_key) do
               self.value ||= Hash.new
               self.value[question.day_key]
@@ -45,22 +45,22 @@ module Quby
             define_method(question.key) do
               self.value ||= Hash.new
               v = [self.value[question.day_key.to_s ||"#{question.key}_dd"],
-              self.value[question.month_key.to_s ||"#{question.key}_mm"],
-              self.value[question.year_key.to_s ||"#{question.key}_yyyy"]]
+                   self.value[question.month_key.to_s ||"#{question.key}_mm"],
+                   self.value[question.year_key.to_s ||"#{question.key}_yyyy"]]
               if v.inject(true) {|allblank, it| it.blank? and allblank}
                 return ""
               else
-                return v.join("-")              
-              end            
+                return v.join("-")
+              end
             end
 
           when :check_box
-          
+
             define_method(question.key) do
               self.value ||= Hash.new
               self.value[question.key.to_s] ||= Hash.new
             end
-              
+
             question.options.each do |opt|
               next if opt.andand.key.blank?
               define_method("#{opt.key}") do
@@ -68,18 +68,18 @@ module Quby
                 self.value[question.key.to_s] ||= Hash.new
                 self.value[opt.key.to_s] ||= 0
               end
-              
+
               define_method("#{opt.key}=") do |v|
                 v = v.to_i
                 self.value ||= Hash.new
                 self.value[question.key.to_s] ||= Hash.new
                 self.value[question.key.to_s][opt.key.to_s] = v
                 self.value[opt.key.to_s] = v
-              end  
+              end
             end
-          else 
+          else
             # Includes:
-            #question.type == :radio 
+            #question.type == :radio
             #question.type == :scale
             #question.type == :select
             #question.type == :string
@@ -95,19 +95,19 @@ module Quby
                 end
               end
             end
-          
+
             define_method(question.key) do
               self.value ||= Hash.new
               self.value[question.key.to_s]
             end
-    
+
             define_method(question.key.to_s + "=") do |v|
               self.value ||= Hash.new
               self.value[question.key.to_s] = v
             end
           end rescue nil
         end
-        
+
         if questionnaire.scores
           questionnaire.scores.each do |score|
             scorer = score.scorer

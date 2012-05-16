@@ -47,8 +47,8 @@ module Quby
       errors.add(:key, "Must be present") unless key.present?
       errors.add(:key, "Must be unique") if Quby::Questionnaire.exists?(key) and not persisted?
       errors.add(:key, "De key mag enkel kleine letters, cijfers en underscores bevatten, " +
-                       "moet beginnen met een letter en mag hoogstens 10 karakters lang zijn."
-                ) unless key =~ /^[a-z][a-z_0-9]{0,9}$/ or persisted?
+                 "moet beginnen met een letter en mag hoogstens 10 karakters lang zijn."
+                 ) unless key =~ /^[a-z][a-z_0-9]{0,9}$/ or persisted?
     end
 
     validate :validate_definition_syntax
@@ -83,7 +83,7 @@ module Quby
 
     attr_accessor :key
     attr_accessor :title
-    attr_reader :definition
+    attr_accessor :definition
     attr_accessor :description
     attr_accessor :outcome_description
     attr_accessor :short_description
@@ -105,7 +105,7 @@ module Quby
     attr_accessor :allow_hotkeys
     # flag indicating whether a questionnaire was already persisted
     attr_accessor :persisted
-    
+
     attr_accessor :last_update
 
     #default_scope :order => "key ASC"
@@ -240,7 +240,7 @@ module Quby
           end
         end
 
-      #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
+        #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
       rescue Exception => e
         errors.add(:definition, {:message => e.message, :backtrace => e.backtrace[0..5].join("<br/>")})
         return false
@@ -252,11 +252,11 @@ module Quby
     def write_to_disk
 
       #unless Rails.env.development?
-        #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
-        #result = $?.success?
-        #unless result
-          #logger.error "Git add, commit or push failed: #{output}"
-        #end
+      #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
+      #result = $?.success?
+      #unless result
+      #logger.error "Git add, commit or push failed: #{output}"
+      #end
       #end
     end
 
@@ -276,7 +276,7 @@ module Quby
     end
 
     #def remove_answers
-      #Answer.where(:questionnaire_id => self.id).delete
+    #Answer.where(:questionnaire_id => self.id).delete
     #end
   end
 end
