@@ -2,20 +2,23 @@ require 'spec_helper'
 
 module Quby
   describe Questionnaire do
+    let(:key)           { 'test' }
+    let(:definition)    { "title 'My Test'" }
+    let(:questionnaire) { Questionnaire.new(key, definition) }
+
+    before do
+      @file = Tempfile.new(["questionnaire_spec",".rb"])
+      @file.close
+      questionnaire.stub(:path).and_return( @file.path )
+      QuestionnaireFinder.any_instance.stub(:path).and_return(File.dirname(@file.path) )
+
+    end
+
+    after do
+      @file.unlink
+    end
+
     describe "persistence" do
-      let(:key)           { 'test' }
-      let(:definition)    { "title 'My Test'" }
-      let(:questionnaire) { Questionnaire.new(key, definition) }
-
-      before do
-        @file = Tempfile.new("questionnaire_spec")
-        @file.close
-        questionnaire.stub(:path) { @file.path }
-      end
-
-      after do
-        @file.unlink
-      end
 
       it "should save to disk" do
         questionnaire.save
@@ -23,15 +26,16 @@ module Quby
       end
 
       it "should not save Windows linebreaks" do
-        questionnaire.definition = "title 'My Test'\r\nshort_description 'Test questionnaire'"
-        questionnaire.save
+        Questionnaire.any_instance.stub(:path).and_return(@file.path)
+        Quby::Questionnaire.new('test', "title 'My Test'\r\nshort_description 'Test questionnaire'").save.should be
         File.open(@file.path, 'r').read.should == "title 'My Test'\nshort_description 'Test questionnaire'"
       end
     end
 
     describe ".all" do
       it "marks questionnaires as persisted" do
-        Dir.stub(:[] => ["key.rb"])
+        questionnaire.save
+
         quest = Quby::Questionnaire.all.first
         quest.persisted?.should be_true
       end
@@ -39,9 +43,29 @@ module Quby
 
     describe ".find_by_key" do
       it "marks a questionnaire as persisted" do
-        Quby::Questionnaire.stub(:exists? => true)
-        quest = Quby::Questionnaire.find_by_key "key"
+        
+        questionnaire.save
+        
+        #The following stub leaks into other tests, and you cannot unstub it either
+        #QuestionnaireFinder.any_instance.stub(:questionnaire_path).and_return(@file.path)
+        
+        #So we are forced to use this ugly hack to stub
+        @@temp_path = @file.path
+        Quby::Questionnaire.questionnaire_finder.instance_eval do
+          def questionnaire_path(key)
+            @@temp_path
+          end
+        end
+        
+        quest = Quby::Questionnaire.find_by_key 'test'
         quest.persisted?.should be_true
+        
+        #Undo ugly hack
+        Quby::Questionnaire.questionnaire_finder.instance_eval do
+          def questionnaire_path(key)
+            File.join(path, "#{key}.rb")
+          end
+        end
       end
     end
 

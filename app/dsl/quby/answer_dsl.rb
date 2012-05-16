@@ -4,6 +4,8 @@ module Quby
       answer = target_instance
       questionnaire = target_instance.questionnaire
       
+      answer.dsl_last_update = questionnaire.last_update
+      
       answer.class_eval do
         questionnaire.questions.each do |question|
           next if question.andand.key.blank?
@@ -112,7 +114,7 @@ module Quby
             define_method("score_" + score.key.to_s, &scorer)
           end
         end
-      end    
+      end
     end
   end
 end

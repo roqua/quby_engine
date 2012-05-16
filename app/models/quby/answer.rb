@@ -56,6 +56,8 @@ module Quby
     #for setting which questions should be hidden
     attr_accessor :to_hide
 
+    attr_accessor :dsl_last_update
+
     def enhance_by_dsl
       AnswerDsl.enhance(self)
 

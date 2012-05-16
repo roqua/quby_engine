@@ -15,7 +15,9 @@ module Quby
                               :validations => [{:type => :requires_answer}],
                               :extra_data => {})],
           :scores => [],
-          :default_answer_value => {})
+          :default_answer_value => {},
+          :last_update => Time.now,
+          )
     end
 
     before do

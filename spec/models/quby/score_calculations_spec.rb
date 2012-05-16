@@ -6,7 +6,7 @@ module Quby
       let(:scorer) { Proc.new { 3 } }
       let(:score) { stub(:key => :tot, :scorer => scorer) }
       let(:scores) { [score] }
-      let(:questionnaire) { stub(:scores => scores, :questions => []) }
+      let(:questionnaire) { stub(:scores => scores, :questions => [], :last_update => Time.now) }
 
       before do
         Answer.any_instance.stub(:questionnaire => questionnaire)
