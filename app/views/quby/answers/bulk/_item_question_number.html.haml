@@ -8,23 +8,6 @@
     - cls = [question.type]
     - cls << "subinput"  if subquestion
     - cls << question.as if question.as
-    - case question.as
-    - when :slider
-      - minimum_validation = question.validations.detect {|i| i[:type] == :minimum }
-      - minimum = minimum_validation && minimum_validation[:value]
-      - maximum_validation = question.validations.detect {|i| i[:type] == :maximum }
-      - maximum = maximum_validation && maximum_validation[:value]
-      = range_field :answer, question.key, :autocomplete => question.autocomplete, 
-                                           :class => cls, 
-                                           :disabled => (disabled ? "" : nil),
-                                           :size => (question.size || 30),
-                                           :min => minimum,
-                                           :max => maximum,
-                                           :step => (question.type == :float ? 0.01 : 1)
-      - if question.left_label and question.right_label
-        %span.slider-label-left= question.left_label
-        %span.slider-label-right= question.right_label
-    - else
-      = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
     %span.unit= raw question.unit
     
