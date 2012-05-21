@@ -12,32 +12,39 @@ module Quby
     end
 
     def all
-      Dir[File.join(@path, "*.rb")].map do |filename|
+      Dir[File.join(path, "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
         find(key)
       end
     end
 
     def find(key)
-      if @questionnaire_cache[key]
+      raise(RecordNotFound, key) unless exists?(key)
+
+      questionnaire_path = questionnaire_path(key)
+      last_update = Time.at(File.ctime(questionnaire_path).to_i)
+
+      if @questionnaire_cache[key] and last_update.to_i == @questionnaire_cache[key].last_update.to_i
         return @questionnaire_cache[key]
       else
-        if exists?(key)
-          definition = File.read(File.join(path, "#{key}.rb"))
+        definition = File.read(questionnaire_path)
 
-          questionnaire = questionnaire_class.new(key, definition)
-          questionnaire.persisted = true
+        questionnaire = questionnaire_class.new(key, definition, last_update)
+        questionnaire.persisted = true
 
-          @questionnaire_cache[key] = questionnaire
-        else
-          raise RecordNotFound, key
-        end
+        @questionnaire_cache[key] = questionnaire
       end
     end
 
     def exists?(key)
-      path = File.join(@path, "#{key}.rb")
-      File.exist?(path)
+      questionnaire_path = questionnaire_path(key)
+
+      File.exist?(questionnaire_path)
+    end
+
+
+    def questionnaire_path(key)
+      File.join(path, "#{key}.rb")
     end
   end
 end

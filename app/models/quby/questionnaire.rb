@@ -9,28 +9,20 @@ module Quby
     class RecordNotFound < StandardError; end
     class ValidationError < StandardError; end
 
+    def self.questionnaire_finder
+      @questionnaire_finder ||= Quby::QuestionnaireFinder.new(Quby.questionnaires_path)
+    end
+
     def self.all
-      Dir[File.join(Quby.questionnaires_path, "*.rb")].map do |filename|
-        key = File.basename(filename, '.rb')
-        questionnaire = self.new(key)
-        questionnaire.persisted = true
-        questionnaire
-      end
+      questionnaire_finder.all
     end
 
     def self.find_by_key(key)
-      if exists?(key)
-        questionnaire = self.new(key)
-        questionnaire.persisted = true
-        questionnaire
-      else
-        raise RecordNotFound, key
-      end
+      questionnaire_finder.find(key)
     end
 
     def self.exists?(key)
-      path = File.join(Quby.questionnaires_path, "#{key}.rb")
-      File.exist?(path)
+      questionnaire_finder.exists?(key)
     end
 
     # Faux has_many :answers
@@ -38,9 +30,10 @@ module Quby
       Quby::Answer.where(:questionnaire_key => self.key)
     end
 
-    def initialize(key, definition = nil)
+    def initialize(key, definition = nil, last_update = Time.now)
       @key = key
       @definition = definition if definition
+      @last_update = Time.at(last_update.to_i)
       @scores ||= []
 
       enhance_by_dsl
@@ -54,8 +47,8 @@ module Quby
       errors.add(:key, "Must be present") unless key.present?
       errors.add(:key, "Must be unique") if Quby::Questionnaire.exists?(key) and not persisted?
       errors.add(:key, "De key mag enkel kleine letters, cijfers en underscores bevatten, " +
-                       "moet beginnen met een letter en mag hoogstens 10 karakters lang zijn."
-                ) unless key =~ /^[a-z][a-z_0-9]{0,9}$/ or persisted?
+                 "moet beginnen met een letter en mag hoogstens 10 karakters lang zijn."
+                 ) unless key =~ /^[a-z][a-z_0-9]{0,9}$/ or persisted?
     end
 
     validate :validate_definition_syntax
@@ -90,6 +83,7 @@ module Quby
 
     attr_accessor :key
     attr_accessor :title
+    attr_accessor :definition
     attr_accessor :description
     attr_accessor :outcome_description
     attr_accessor :short_description
@@ -111,6 +105,8 @@ module Quby
     attr_accessor :allow_hotkeys
     # flag indicating whether a questionnaire was already persisted
     attr_accessor :persisted
+
+    attr_accessor :last_update
 
     #default_scope :order => "key ASC"
     #scope :active, where(:active => true)
@@ -135,14 +131,6 @@ module Quby
         functions_and_definition = [functions, self.definition].join("\n\n")
         QuestionnaireDsl.enhance(self, functions_and_definition || "")
       end
-    end
-
-    def definition
-      @definition ||= File.read(File.join(Quby.questionnaires_path, "#{key}.rb")) rescue nil
-    end
-
-    def definition=(value)
-      @definition = value.andand.gsub("\r\n", "\n")
     end
 
     def get_input_keys(keys)
@@ -225,7 +213,7 @@ module Quby
     protected
 
     def ensure_linux_line_ends
-      self.definition = self.definition.andand.gsub("\r\n", "\n")
+      @definition = @definition.andand.gsub("\r\n", "\n")
     end
 
     def require_key
@@ -252,7 +240,7 @@ module Quby
           end
         end
 
-      #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
+        #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
       rescue Exception => e
         errors.add(:definition, {:message => e.message, :backtrace => e.backtrace[0..5].join("<br/>")})
         return false
@@ -264,11 +252,11 @@ module Quby
     def write_to_disk
 
       #unless Rails.env.development?
-        #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
-        #result = $?.success?
-        #unless result
-          #logger.error "Git add, commit or push failed: #{output}"
-        #end
+      #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
+      #result = $?.success?
+      #unless result
+      #logger.error "Git add, commit or push failed: #{output}"
+      #end
       #end
     end
 
@@ -288,7 +276,7 @@ module Quby
     end
 
     #def remove_answers
-      #Answer.where(:questionnaire_id => self.id).delete
+    #Answer.where(:questionnaire_id => self.id).delete
     #end
   end
 end

@@ -1,4 +1,5 @@
 require 'fakefs/spec_helpers'
+require 'spec_helper'
 require_relative "../../../app/models/quby/questionnaire_finder"
 
 module Quby
@@ -11,10 +12,12 @@ module Quby
       Class.new do
         attr_reader :key, :definition
         attr_accessor :persisted
+        attr_accessor :last_update
 
-        def initialize(key, definition)
+        def initialize(key, definition, last_update = Time.now)
           @key = key
           @definition = definition
+          @last_update = last_update
         end
       end
     end
@@ -24,10 +27,12 @@ module Quby
     describe '#find' do
       let(:key) { "test" }
       let(:definition) { "title 'foo'" }
+      let(:definition_2) { "title 'bar'" }
 
       it 'finds one questionnaire' do
         questionnaire = questionnaire_class.new(key, definition)
-        questionnaire_class.stub(:new).with(key, definition).and_return { questionnaire }
+        questionnaire_class.stub(:new).with(key, definition, anything()).and_return { questionnaire }
+
         File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
         questionnaire_finder.find(key).should == questionnaire
       end
@@ -35,6 +40,7 @@ module Quby
       it "marks found questionnaires as persisted" do
         questionnaire_finder.stub(:exists? => true)
         File.stub(:read => "title \"hallo wereld\"")
+        File.stub(:ctime => Time.now)
         questionnaire_finder.find(key).persisted.should be_true
       end
 
@@ -44,6 +50,32 @@ module Quby
           questionnaire_finder.find(key)
         }.to raise_error(QuestionnaireFinder::RecordNotFound)
       end
+
+      it 'reloads a questionnaire if the definition updated on disk' do
+
+        File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
+
+        found_questionnaire = questionnaire_finder.find(key)
+        found_questionnaire.definition.should == definition
+
+        File.open("/tmp/#{key}.rb", "w") {|f| f.write definition_2}
+
+        #FakeFS does not implement ctime yet
+        File.stub(:ctime => Time.now+10.minutes)
+        found_questionnaire = questionnaire_finder.find(key)
+        found_questionnaire.definition.should == definition_2
+      end
+
+      it 'uses the cache if a questionnaire definition on disk has not changed' do
+
+        File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
+        questionnaire_finder.find(key)
+
+        #second find should hit cache
+        File.should_not_receive(:read)
+        questionnaire_finder.find(key)
+      end
+
     end
 
     describe '#exists?' do
