@@ -47,26 +47,10 @@ module Quby
 
         questionnaire.save
 
-        #The following stub leaks into other tests, and you cannot unstub it either
-        #QuestionnaireFinder.any_instance.stub(:questionnaire_path).and_return(@file.path)
-
-        #So we are forced to use this ugly hack to stub
-        $temp_path = @file.path
-        Quby::Questionnaire.questionnaire_finder.instance_eval do
-          def questionnaire_path(key)
-            $temp_path
-          end
-        end
+        Quby::Questionnaire.questionnaire_finder.stub(:questionnaire_path).and_return(@file.path)
 
         quest = Quby::Questionnaire.find_by_key 'test'
         quest.persisted?.should be_true
-
-        #Undo ugly hack
-        Quby::Questionnaire.questionnaire_finder.instance_eval do
-          def questionnaire_path(key)
-            File.join(path, "#{key}.rb")
-          end
-        end
       end
     end
 
