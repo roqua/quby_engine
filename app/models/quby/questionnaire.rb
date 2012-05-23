@@ -129,7 +129,11 @@ module Quby
 
         functions = Function.all.map(&:definition).join("\n\n")
         functions_and_definition = [functions, self.definition].join("\n\n")
-        QuestionnaireDsl.enhance(self, functions_and_definition || "")
+        begin
+          QuestionnaireDsl.enhance(self, functions_and_definition || "")
+        rescue SyntaxError => e
+          errors.add(:definition, {:message => "Questionnaire error: #{key} <br/> #{e.message}", :backtrace => e.backtrace[0..5].join("<br/>")})
+        end
       end
     end
 
@@ -242,7 +246,7 @@ module Quby
 
         #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
       rescue Exception => e
-        errors.add(:definition, {:message => e.message, :backtrace => e.backtrace[0..5].join("<br/>")})
+        errors.add(:definition, {:message => "Questionnaire error: #{key}\n#{e.message}", :backtrace => e.backtrace[0..5].join("<br/>")})
         return false
       end
 
