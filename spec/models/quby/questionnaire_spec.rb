@@ -9,9 +9,9 @@ module Quby
     before do
       @file = Tempfile.new(["questionnaire_spec",".rb"])
       @file.close
-      questionnaire.stub(:path).and_return( @file.path )
-      QuestionnaireFinder.any_instance.stub(:path).and_return(File.dirname(@file.path) )
-
+      dirname = File.dirname(@file.path)
+      QuestionnaireFinder.any_instance.stub(:path).and_return(dirname)
+      Quby::Questionnaire.questionnaire_finder.stub(:questionnaire_path).with(key).and_return(@file.path)
     end
 
     after do
@@ -21,8 +21,13 @@ module Quby
     describe "persistence" do
 
       it "should save to disk" do
+        Quby::Questionnaire.questionnaire_finder.should_receive(:questionnaire_path).with(key)
+        fail "#{questionnaire.path} #{Quby::Questionnaire.questionnaire_finder.questionnaire_path(key)}"
         questionnaire.save
-        File.open(@file.path, 'r').read.should == definition
+
+        #File.open(@file.path, "w") {|f| f.write( definition ) }
+        #fail "#{@file.path} #{Questionnaire.find_by_key(key).path}"
+        Questionnaire.find_by_key(key).definition.should == definition
       end
 
       it "should not save Windows linebreaks" do
@@ -46,8 +51,6 @@ module Quby
       it "marks a questionnaire as persisted" do
 
         questionnaire.save
-
-        Quby::Questionnaire.questionnaire_finder.stub(:questionnaire_path).and_return(@file.path)
 
         quest = Quby::Questionnaire.find_by_key 'test'
         quest.persisted?.should be_true

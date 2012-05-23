@@ -40,7 +40,7 @@ module Quby
     end
 
     def path
-      path = File.join(Quby.questionnaires_path, "#{key}.rb")
+      self.class.questionnaire_finder.questionnaire_path(key)
     end
 
     validate do

@@ -42,7 +42,6 @@ module Quby
       File.exist?(questionnaire_path)
     end
 
-
     def questionnaire_path(key)
       File.join(path, "#{key}.rb")
     end
