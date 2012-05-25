@@ -56,6 +56,7 @@ module Quby
     def save
       if valid?
         File.open(path, "w") {|f| f.write( self.definition ) }
+        @persisted = true
         return true
       else
         return false

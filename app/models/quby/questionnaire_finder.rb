@@ -22,7 +22,7 @@ module Quby
       raise(RecordNotFound, key) unless exists?(key)
 
       questionnaire_path = questionnaire_path(key)
-      last_update = Time.at(File.ctime(questionnaire_path).to_i)
+      last_update = last_update_on_disk(key)
 
       if @questionnaire_cache[key] and last_update.to_i == @questionnaire_cache[key].last_update.to_i
         return @questionnaire_cache[key]
@@ -40,6 +40,10 @@ module Quby
       questionnaire_path = questionnaire_path(key)
 
       File.exist?(questionnaire_path)
+    end
+
+    def last_update_on_disk(key)
+      Time.at(File.ctime(questionnaire_path(key)).to_i)
     end
 
     def questionnaire_path(key)

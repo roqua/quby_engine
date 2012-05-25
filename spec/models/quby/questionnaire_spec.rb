@@ -1,40 +1,37 @@
+require 'fakefs/spec_helpers'
 require 'spec_helper'
 
 module Quby
   describe Questionnaire do
+    include FakeFS::SpecHelpers
+
+    before do
+      FileUtils.mkdir_p("/tmp")
+      Quby.questionnaires_path = "/tmp"
+      QuestionnaireFinder.any_instance.stub(:path).and_return "/tmp"
+    end
+
     let(:key)           { 'test' }
     let(:definition)    { "title 'My Test'" }
     let(:questionnaire) { Questionnaire.new(key, definition) }
 
-    before do
-      @file = Tempfile.new(["questionnaire_spec",".rb"])
-      @file.close
-      dirname = File.dirname(@file.path)
-      QuestionnaireFinder.any_instance.stub(:path).and_return(dirname)
-      Quby::Questionnaire.questionnaire_finder.stub(:questionnaire_path).with(key).and_return(@file.path)
-    end
-
-    after do
-      @file.unlink
-    end
-
     describe "persistence" do
 
       it "should save to disk" do
-        Quby::Questionnaire.questionnaire_finder.should_receive(:questionnaire_path).with(key)
-        fail "#{questionnaire.path} #{Quby::Questionnaire.questionnaire_finder.questionnaire_path(key)}"
         questionnaire.save
 
-        #File.open(@file.path, "w") {|f| f.write( definition ) }
-        #fail "#{@file.path} #{Questionnaire.find_by_key(key).path}"
         Questionnaire.find_by_key(key).definition.should == definition
       end
 
       it "should not save Windows linebreaks" do
 
         questionnaire.definition = "title 'My Test'\r\nshort_description 'Test questionnaire'"
-        questionnaire.save
-        File.open(@file.path, 'r').read.should == "title 'My Test'\nshort_description 'Test questionnaire'"
+        questionnaire.save.should be
+
+        #FakeFS does not implement ctime yet
+        File.stub(:ctime => Time.now+10.minutes)
+
+        Questionnaire.find_by_key(key).definition.should == "title 'My Test'\nshort_description 'Test questionnaire'"
       end
     end
 
