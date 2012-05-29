@@ -34,17 +34,10 @@ module Quby
     # restriction is placed. And for open questions the value will probably
     # be a String.
     def values(*keys)
-      keys = keys.map(&:to_s)
-
-      if keys.empty?
-        @values
-      else
-        keys.each do |key|
-          raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
-        end
-
-        @values.values_at(*keys)
+      keys.map(&:to_s).each do |key|
+        raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
       end
+      values_with_nils(*keys)
     end
 
     # Public: Get values for given question keys, or nil if the question is not filled in
