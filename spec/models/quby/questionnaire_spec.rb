@@ -1,35 +1,37 @@
+require 'fakefs/spec_helpers'
 require 'spec_helper'
 
 module Quby
   describe Questionnaire do
+    include FakeFS::SpecHelpers
+
+    before do
+      FileUtils.mkdir_p("/tmp")
+      Quby.questionnaires_path = "/tmp"
+      QuestionnaireFinder.any_instance.stub(:path).and_return "/tmp"
+    end
+
     let(:key)           { 'test' }
     let(:definition)    { "title 'My Test'" }
     let(:questionnaire) { Questionnaire.new(key, definition) }
-
-    before do
-      @file = Tempfile.new(["questionnaire_spec",".rb"])
-      @file.close
-      questionnaire.stub(:path).and_return( @file.path )
-      QuestionnaireFinder.any_instance.stub(:path).and_return(File.dirname(@file.path) )
-
-    end
-
-    after do
-      @file.unlink
-    end
 
     describe "persistence" do
 
       it "should save to disk" do
         questionnaire.save
-        File.open(@file.path, 'r').read.should == definition
+
+        Questionnaire.find_by_key(key).definition.should == definition
       end
 
       it "should not save Windows linebreaks" do
 
         questionnaire.definition = "title 'My Test'\r\nshort_description 'Test questionnaire'"
-        questionnaire.save
-        File.open(@file.path, 'r').read.should == "title 'My Test'\nshort_description 'Test questionnaire'"
+        questionnaire.save.should be
+
+        #FakeFS does not implement ctime yet
+        File.stub(:ctime => Time.now+10.minutes)
+
+        Questionnaire.find_by_key(key).definition.should == "title 'My Test'\nshort_description 'Test questionnaire'"
       end
     end
 
@@ -46,8 +48,6 @@ module Quby
       it "marks a questionnaire as persisted" do
 
         questionnaire.save
-
-        Quby::Questionnaire.questionnaire_finder.stub(:questionnaire_path).and_return(@file.path)
 
         quest = Quby::Questionnaire.find_by_key 'test'
         quest.persisted?.should be_true
