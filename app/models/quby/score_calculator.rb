@@ -34,18 +34,31 @@ module Quby
     # restriction is placed. And for open questions the value will probably
     # be a String.
     def values(*keys)
+      keys.map(&:to_s).each do |key|
+        raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
+      end
+      values_with_nils(*keys)
+    end
+
+    # Public: Get values for given question keys, or nil if the question is not filled in
+    #
+    # *keys - A list of keys for which to return values
+    #
+    # Returns an Array of values. Values are whatever they may be defined as,
+    # usually they are either Integers of Floats, but remember that no such
+    # restriction is placed. And for open questions the value will probably
+    # be a String. If the question is not filled in or the question key is
+    # unknown, nil will be returned for that question.
+    def values_with_nils(*keys)
       keys = keys.map(&:to_s)
 
       if keys.empty?
         @values
       else
-        keys.each do |key|
-          raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
-        end
-
         @values.values_at(*keys)
       end
     end
+
 
     # Public: Sums values
     #
@@ -61,8 +74,8 @@ module Quby
       patient.age
     end
 
-    # Public: Returns the Symbol describing the gender of the patient. 
-    # 
+    # Public: Returns the Symbol describing the gender of the patient.
+    #
     # The symbol :unknown is returned when gender is not known.
     def gender
       patient.gender
