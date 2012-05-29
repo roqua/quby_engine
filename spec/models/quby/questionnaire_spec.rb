@@ -8,7 +8,7 @@ module Quby
     before do
       FileUtils.mkdir_p("/tmp")
       Quby.questionnaires_path = "/tmp"
-      QuestionnaireFinder.any_instance.stub(:path).and_return "/tmp"
+      Questionnaire.class_eval{ @questionnaire_finder = QuestionnaireFinder.new("/tmp") }
     end
 
     let(:key)           { 'test' }
