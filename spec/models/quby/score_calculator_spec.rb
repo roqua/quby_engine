@@ -39,6 +39,27 @@ module Quby
       end
     end
 
+    describe '#values_with_nils' do
+      let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
+      let(:calculator) { ScoreCalculator.new(values) }
+
+      it 'returns the values hash if no args given' do
+        calculator.values_with_nils.should == values
+      end
+
+      it 'returns an array of values if args given' do
+        calculator.values_with_nils(:v_1, :v_2).should == [values['v_1'], values['v_2']]
+      end
+
+      it 'finds values by string' do
+        calculator.values_with_nils('v_1').should == [values['v_1']]
+      end
+
+      it 'returns nil if a value is requested which is not filled in' do
+        calculator.values_with_nils(:v_3).should  == [nil]
+      end
+    end
+
     describe '#sum' do
       let(:calculator) { ScoreCalculator.new({}) }
 
@@ -103,8 +124,8 @@ module Quby
 
       context 'when not enough values are non-nil' do
         it 'raises' do
-          expect { 
-            calculator.require_percentage_filled([1, nil, nil, nil], 50) 
+          expect {
+            calculator.require_percentage_filled([1, nil, nil, nil], 50)
           }.to raise_error("Needed at least 50.0% answered, got 25.0%")
         end
       end
