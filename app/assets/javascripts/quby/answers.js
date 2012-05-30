@@ -8,9 +8,9 @@ var focusI = 0;
 var hashChangeEnabled;
 var lastInput;
 var nextButtonFocussed = false;
-var saveButtonFocussed = false; 
+var saveButtonFocussed = false;
 var isBulk;
-var qitems; 
+var qitems;
 var fail_vals = new Array();
 var validationI = 0;
 var hotkeysEnabled;
@@ -26,12 +26,12 @@ function loadcssfile(filename){
   fileref.setAttribute("rel", "stylesheet");
   fileref.setAttribute("type", "text/css");
   fileref.setAttribute("href", filename);
-  
+
  if (typeof fileref!="undefined")
   document.getElementsByTagName("head")[0].appendChild(fileref);
 }
 
-//For displaying answers differently within iframes 
+//For displaying answers differently within iframes
 if( self != top ) {
    loadcssfile("/assets/quby/answer_iframe.css");
    inIframe = true;
@@ -49,26 +49,26 @@ function activatePanel(panel, updateHash, forward) {
     shownFlash = true;
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
-    
+
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
     if (allInputsHidden(panel)) {
         if (forward) {
-            return activatePanel($(panel).next(), updateHash, true);            
+            return activatePanel($(panel).next(), updateHash, true);
         } else {
             return activatePanel($(panel).prev(), updateHash, false);
         }
     }
-    
+
     if (updateHash && !inIframe) {
         hashChangeEnabled = false;
-        window.location.hash = panel[0].id;        
+        window.location.hash = panel[0].id;
     }
-    window.scrollTo(0,0);    
-    
+    window.scrollTo(0,0);
+
     nextButtonFocussed = false;
     saveButtonFocussed = false;
     curPanel = panel;
-    if (hotkeysEnabled) {        
+    if (hotkeysEnabled) {
         panelInputs = getValidInputs();
         focusI = 1;
         focusInputIndex(focusI, true);
@@ -112,14 +112,14 @@ function validatePanel(panel) {
   panel.find(".errors").removeClass("errors");
   if (panel_validations[panel.attr("id")]) {
     var validations = panel_validations[panel.attr("id")];
-        
+
     for (var question_key in validations) {
       if(validations[question_key].length == 0){
           continue;
       }
-      
+
       var question_item = $("#answer_" + question_key + "_input").closest('.item');
-      
+
       var depends_on = eval(question_item.attr("data-depends_on"));
       if(depends_on){
         var dep_inputs = $($.map(depends_on, function(key){
@@ -129,15 +129,15 @@ function validatePanel(panel) {
             continue;
         }
       }
-      
+
       if(question_item.length == 0){
           question_item = panel.find("[data-for=" + question_key + "]");
       }
-      
+
       var inputs = question_item.find("input, textarea, select").not(":disabled, :hidden");
-      
+
       fail_vals = new Array();
-      
+
       for (var i in validations[question_key]) {
         var validation = validations[question_key][i];
         switch(validation.type) {
@@ -145,7 +145,7 @@ function validatePanel(panel) {
                 if (!is_answered(inputs, question_item)) {
                   pushFailVal(validation.type);
                 }
-                break;          
+                break;
             case "minimum":
                 var input = inputs[0];
                 if(input === undefined || input.value == ""){
@@ -191,7 +191,7 @@ function validatePanel(panel) {
                 var result = rgx.exec(input.value);
                 if(result == null || result[0] != input.value){
                     pushFailVal(validation.type);
-                }             
+                }
                 break;
             case "valid_float":
                 var input = inputs[0];
@@ -226,10 +226,10 @@ function validatePanel(panel) {
                 }
                 break;
             //These validations would only come into play if the javascript that makes it impossible
-            //to check an invalid combination of checkboxes fails. 
-            case "too_many_checked":            
+            //to check an invalid combination of checkboxes fails.
+            case "too_many_checked":
                 break;
-            case "not_all_checked":        
+            case "not_all_checked":
                 break;
             }
       }
@@ -249,7 +249,7 @@ function validatePanel(panel) {
 
 function get_answer_count(groupkey, panel){
     var answered = 0;
-    
+
     var quest_items = panel.find(".item."+ groupkey);
     for(var i = 0; i < quest_items.length; i++){
         var inputs = $(quest_items[i]).find(" input, textarea").not(":disabled, :hidden")
@@ -257,7 +257,7 @@ function get_answer_count(groupkey, panel){
             answered++;
         }
     }
-    
+
     return answered;
 }
 
@@ -265,7 +265,7 @@ function get_answer_count(groupkey, panel){
 // to "1" and "0" respectively
 function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
     if(checked){
-        
+
         // Setting all other checkboxes to checkValue
         check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)")
         if(check_boxes.length == 0){
@@ -282,7 +282,7 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
             handleDisableCheckboxSubQuestions(check_boxes[i]);
           }
         }
-        
+
         // Setting the 'check_all' and the 'uncheck_all' checkboxes appropriately, if both are used
         correctAllNothingCheckboxes(checkValue == "checked", allKey, nothingKey);
     }
@@ -321,7 +321,7 @@ function hashchangeEventHandler(){
         }
     } else {
         hashChangeEnabled = true;
-    }       
+    }
 }
 
 // Array Remove - By John Resig (MIT Licensed)
@@ -334,37 +334,38 @@ Array.prototype.remove = function(from, to) {
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
         var item = $("#answer_" + this + "_input").closest('.item:not(.table)');
-        
+
         if(item.length == 0){ //table
             item = $("[data-for^='" + this + "']").first();
         }
-        
+
         var hiddenby = item.first().data('hiddenBy');
         hiddenby = hiddenby || [];
-        
+
         var loc = $.inArray(element.attr('name'), hiddenby);
         if(loc != undefined && loc != -1){
           hiddenby.remove(loc,loc);
           item.first().data('hiddenBy', hiddenby);
         }
-        
+
         if (hiddenby.length == 0) {
-            item.removeClass('hidden-childs');            
+            item.removeClass('hidden-childs');
         }
-        
-        var panel = item.closest(".panel");
-        if( allInputsHidden(panel) && isBulk){
+
+        var panel;
+        if( isBulk && allInputsHidden(panel = item.closest(".panel")) ){
           panel.show();
         }
     });
+
     $.each(hidekeys, function(){
         if (element.attr('checked')) {
             var item = $("#answer_" + this + "_input").closest('.item');
-            
+
             if(item.length == 0){ //table
-                item = $("[data-for^='" + this + "']").first();            
-            } 
-            
+                item = $("[data-for^='" + this + "']").first();
+            }
+
             var hiddenby = item.first().data('hiddenBy');
             hiddenby = hiddenby || [];
             var loc = $.inArray(element.attr('name'), hiddenby);
@@ -372,15 +373,15 @@ function handleHideQuestions(element, hidekeys, allkeys){
                 hiddenby.push(element.attr('name'));
                 item.first().data('hiddenBy', hiddenby);
             }
-            
+
             item.addClass('hidden-childs');
-            
-            var panel = item.closest(".panel");
-            if( allInputsHidden(panel) && isBulk){
+
+            var panel;
+            if( isBulk && allInputsHidden(panel = item.closest(".panel")) ){
               panel.hide();
             }
         }
-    });    
+    });
 }
 
 
@@ -398,7 +399,7 @@ function handleDisableRadioSubQuestions(element){
     element.closest('.item').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
     if(element.attr('checked')){
         element.closest('.option').find('.item:not(.specifier)').find('.subinput').removeAttr("disabled");
-    } 
+    }
 }
 
 function handleDisableCheckboxSubQuestions(element){
@@ -414,12 +415,12 @@ function selectInput(value){
     var lastFocus = $('.focus');
     var values = lastFocus.find(".value");
     var selectedInput = $([]);
-    values.each(function(index, element){       
+    values.each(function(index, element){
        if(parseInt(element.textContent || element.innerHTML) == value){
            selectedInput = $(element).closest(".option").find("input[type='radio'][name='"+lastInput[0].name+"']:not(.subinput, :hidden, :disabled)");
        }
     });
-    
+
     if(selectedInput.length == 0){
         selectedInput = lastFocus.find("input[type='radio'][name='"+lastInput[0].name+"']:not(.subinput, :hidden, :disabled)").eq(value-1);
     }
@@ -427,7 +428,7 @@ function selectInput(value){
         setCurrent(selectedInput[0]);
         setCheck(selectedInput[0], selectedInput.is('.deselectable'));
         radioCheckboxEvents(selectedInput[0]);
-        focusNextInput();   
+        focusNextInput();
     }
 }
 
@@ -449,7 +450,7 @@ function preventDefault(event){
     event.stopPropagation();
 }
 
-function handleDownHotKeys(event){    
+function handleDownHotKeys(event){
     event.which = event.charCode || event.which || event.keyCode;
     if ($(lastInput).is("textarea") || $(lastInput).is("input[type=submit]") && (event.which == 32 || event.which == 13)) {
         return;
@@ -458,7 +459,7 @@ function handleDownHotKeys(event){
     switch (event.which) {
         //enter
         case 13:
-            
+
             if (!(nextButtonFocussed || saveButtonFocussed)) {
                 preventDefault(event);
                 focusNextInput();
@@ -505,10 +506,10 @@ function handleUpHotKeys(event){
     if ($(lastInput).is("input[type=submit]") && (event.which == 32 || event.which == 13)){
         event.target.click();
         return;
-    } else if($(lastInput).is("textarea, input[type=text]")){ 
+    } else if($(lastInput).is("textarea, input[type=text]")){
         return;
     }
-    
+
     if ($(lastInput).is("[type='radio']")) {
         switch (event.which) {
             //0
@@ -562,7 +563,7 @@ function handleUpHotKeys(event){
                 selectInput(9);
                 break;
         }
-    } 
+    }
     //space
     if(event.which == 32){
             preventDefault(event);
@@ -599,7 +600,7 @@ function focusInputIndex(index, forward){
     } else {
         lastInput = panelInputs.filter(':eq('+index+'), :lt(' + index + ')').not(':hidden, :disabled').last();
     }
-    
+
     if (index < 0 || index > panelInputs.length || lastInput.length == 0) {
         if(forward){
             index = 0
@@ -613,7 +614,7 @@ function focusInputIndex(index, forward){
         //IE7 disabled element focus hack
         $(lastInput[0]).show();
         lastInput[0].focus();
-        
+
         saveButtonFocussed = lastInput.is('#done-button');
         nextButtonFocussed = lastInput.is('.next');
         focusI = panelInputs.index(lastInput);
@@ -631,14 +632,14 @@ function getValidInputs(){
         }
         return true;
     });
-    
+
     var backI = inputs.index(inputs.filter('#back, [id^="prevButton"]').not(':hidden'));
     if(backI != -1){
         inputs = inputs.toArray();
         inputs.unshift(inputs.splice(backI, 1)[0]);
         inputs = $(inputs);
     }
-    
+
     return inputs;
 }
 
@@ -648,7 +649,7 @@ function focusNextInput(){
 }
 function focusPrevInput(){
     lastInput.blur();
-    setTimeout(function() { focusInputIndex(focusI-1, false);}, 50); 
+    setTimeout(function() { focusInputIndex(focusI-1, false);}, 50);
 }
 
 function hotkeyDialog(){;
@@ -661,18 +662,18 @@ function hotkeyDialog(){;
     });
 }
 
-//TODO: make this work for: 
+//TODO: make this work for:
 //* enabling/disabling subquestions,
 //* hiding other questions,
 //* dates,
 //* all/nothing checkboxes
 function assignValue(qkey, val){
     var inputs;
-    if(val instanceof Object){//checkbox vals are passed as an object hash 
+    if(val instanceof Object){//checkbox vals are passed as an object hash
         inputs = $("[name^='answer["+qkey+"_'][type!='hidden']");
     } else {
         inputs = $("[name='answer["+qkey+"]'][type!='hidden']");
-    } 
+    }
     if(inputs.length > 0){
         var type = inputs[inputs.length-1].type;
         if (type == "radio" || type == "scale") {
@@ -692,7 +693,7 @@ function assignValue(qkey, val){
                 if (cvalue == 1) {
                     input.attr("checked", "checked");
                 } else {
-                    input.removeAttr("checked");                    
+                    input.removeAttr("checked");
                 }
             });
         } else if (type == 'select-one'){
@@ -706,7 +707,7 @@ function assignValue(qkey, val){
 
 
 function processExtraData(){
-    
+
     if (typeof(extra_question_values) != "undefined") {
         $.each(extra_question_values, function(question, value){
             if (value != null) {
@@ -718,7 +719,7 @@ function processExtraData(){
         $.each(extra_failed_validations, function(question, hash){
             var item = $('#answer_' + question + "_input").closest('.item');
             item.addClass('errors');
-            
+
             if (hash instanceof Array) {
                 $.each(hash, function(){
                     item.find("." + this['valtype']).first().show();
@@ -731,7 +732,7 @@ function processExtraData(){
     }
 }
 
-function doDivPrint(url){    
+function doDivPrint(url){
     var result = $(document.createElement("div"));
     result.load(url, $('form').serializeArray(), function(){
         if(result.find(".notice").length == 0){
@@ -765,7 +766,7 @@ function modalFrame(url){
             $("#modalFrame").attr('src', "about:blank");
         }
     }
-    });    
+    });
 }
 
 function prepareBulk(){
@@ -795,9 +796,9 @@ function preparePaged(){
 
 //ONLY USE FOR KEYUP AND KEYDOWN
 function handlePreventDefault(event){
-    
+
     event.which = event.which || event.keyCode;
-    
+
     if($(event.target).is('textarea')){
         return;
     }
@@ -820,23 +821,23 @@ function handlePreventDefault(event){
 
 function registerDeselectables(){
     //FIXME: honos65+ performance opportunity
-    //lots of labels are selected individually  
+    //lots of labels are selected individually
     $('input[type=radio].deselectable').each( function(i, val){
         var label = $('label[for=' + $(this).attr("id") + ']');
-        
+
         $(this).bind('mousedown', function(e){
             setCurrent(e.target);
         });
-        
+
         label.bind('mousedown', function(e){
             e.target = $('#' + $(this).attr("for"));
             setCurrent(e.target);
         });
-        
+
         $(this).bind('click', function(e){
             setCheck(e.target, true);
         });
-    }); 
+    });
 }
 
 function showPrint(url){
@@ -855,30 +856,30 @@ function showPrint(url){
 var leave_page_text;
 $(document).ready(
     function() {
-        
+
         $('input').placeholder();
 
         leave_page_text = $("#leave_page_alert").html();
-        
+
         function leave_page_nag(e){
             var e = e || window.event;
-            
-            e.cancelBubble = true; 
-            
+
+            e.cancelBubble = true;
+
             //Firefox 4+ does not use this text
-            e.returnValue = leave_page_text; 
-            
-            if (e.stopPropagation) { 
+            e.returnValue = leave_page_text;
+
+            if (e.stopPropagation) {
                 e.stopPropagation();
                 e.preventDefault();
             }
-            
+
             return leave_page_text;
         }
         if(leave_page_text && leave_page_text.length > 0){
             window.onbeforeunload = leave_page_nag;
         }
-        
+
         //IE7 indexOf fix
         if(!Array.indexOf){
             Array.prototype.indexOf = function(obj){
@@ -890,11 +891,11 @@ $(document).ready(
             }
         }
         hotkeysEnabled = $(".hotkeyDialog").length > 0;
-        
+
         setCurrent = function(obj) {
             radioChecked = $(obj).attr('checked');
         };
-                            
+
         setCheck = function(obj, deselectable) {
             if (radioChecked){
                 if (deselectable) {
@@ -905,14 +906,14 @@ $(document).ready(
                 $("input[name='"+obj.name+"'][value='DESELECTED_RADIO_VALUE']").removeAttr('checked');
                 $(obj).attr('checked', 'checked');
             }
-        };    
+        };
 
         registerDeselectables();
-        
+
         $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
-        
+
         processExtraData();
-        
+
         isBulk = $('form.bulk, form.print').size() > 0;
         if (hotkeysEnabled) {
             $("body").live("keydown", handleDownHotKeys);
@@ -922,13 +923,13 @@ $(document).ready(
                 saveButtonFocussed = false;
             })
             $(".item input, .item textarea, .buttons input, select").live("click", function(event){
-                focusInput(event.target);                
+                focusInput(event.target);
             })
             $(".item input, .item textarea, .buttons input, select").live("focus", function(event){
                 focusInput(event.target);
             });
         }
-                
+
         if (isBulk) {
             prepareBulk();
         } else{
@@ -941,7 +942,7 @@ $(document).ready(
             //$.address.change( 'hashchange', hashchangeEventHandler);
             // Trigger the hashchange event (useful on page load).
             $(window).hashchange();
-            
+
             // show previous panel
             $(".panel .prev input").live("click",
                 function(event) {
@@ -957,25 +958,25 @@ $(document).ready(
                     event.preventDefault();
                     var nextPanel = $(this).parents('.panel').next();
                     if (validatePanel($(this).parents('.panel').first())) {
-                        activatePanel(nextPanel, true, true);                        
-                    }          
+                        activatePanel(nextPanel, true, true);
+                    }
                 }
             );
-            
+
             preparePaged();
         }
-        
+
         $('input[type="checkbox"]:not(.subinput), input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput)').each( function(index, element){
            radioCheckboxEvents(element);
         });
-        
-        $(document).keydown(handlePreventDefault); 
+
+        $(document).keydown(handlePreventDefault);
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');
             ele.blur(function (){
                 $("span[text_var='"+tvar+"']").attr('innerHTML', ele.attr('value'));
-            });  
+            });
         });
 
         // Don't submit if we've just submitted already
