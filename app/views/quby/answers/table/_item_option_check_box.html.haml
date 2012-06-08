@@ -1,11 +1,11 @@
 - available_width = question.presentation == :horizontal ? 100 : 66
 - if opt.inner_title
-  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= opt.description  
+  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= opt.description
 - else
   - checked = @answer.send(opt.key) == 1
   - return if( opt.hidden and not checked)
   - optionclasses =  [os_cycle]
-  
+
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     .radiocheckwrapper
       - if question.uncheck_all_option == opt.key
@@ -16,9 +16,9 @@
         -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);"}
       - attrs[:class] = question.type
       - attrs[:hides] = opt.hides_questions.to_json || "[]"
-      - attrs[:allhidden] = question.hides_questions.to_json ||"[]"
+      - attrs[:unhides] = opt.unhides_questions.to_json ||"[]"
       = check_box(:answer, "#{opt.key}", attrs)
-    
+
     -if question.table.show_option_desc
       .labelwrapper
         %label(for="answer_#{opt.key}")

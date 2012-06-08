@@ -1,11 +1,11 @@
 - available_width = question.presentation == :horizontal ? 100 : 66
 - if opt.inner_title
-  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= opt.description  
+  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= opt.description
 - else
   - checked = @answer.send(question.key) == opt.key.to_s
   - return if (opt.hidden and not checked)
   - handle_hide_questions(question,opt,@questionnaire) if checked
-  - optionclasses =  [os_cycle]  
+  - optionclasses =  [os_cycle]
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     - radio_classes = [question.type]
     - radio_classes << "deselectable" if question.deselectable
@@ -15,7 +15,7 @@
     .radiocheckwrapper
       - if show_values
         .value= opt.value
-      = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => radio_classes})          
+      = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :unhides => opt.unhides_questions.to_json ||"[]", :class => radio_classes})
     -if question.table.show_option_desc
       .labelwrapper
         %label(for="answer_#{question.key}_#{opt.key}")

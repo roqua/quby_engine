@@ -11,7 +11,7 @@
       :markdown
         #{raw question.description}
   - cls = []
-  - cls << "options#{question.options.size}" unless question.presentation == :horizontal 
+  - cls << "options#{question.options.size}" unless question.presentation == :horizontal
   .fields{:id => question.html_id, :class =>cls}
     %table(cellspacing=0 border=0)
       %tr
@@ -32,11 +32,11 @@
               - cls << "subinput" if subquestion
               - cls << "deselectable" if question.deselectable
               = radio_button(:answer, question.key, opt.key,
-                {:hides => opt.hides_questions.to_json || "[]", :allhidden => question.hides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
+                {:hides => opt.hides_questions.to_json || "[]", :unhides => opt.unhides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
               %br/
               %label(for="answer_#{question.key}_#{opt.key}")
                 %span
                   :markdown
                     #{raw opt.description}
         = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden", :name => "answer[#{question.key}]")
-        
+

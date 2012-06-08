@@ -2,18 +2,50 @@ require 'spec_helper'
 
 module Quby
   describe QuestionOption do
-    describe "hides_questions" do
 
+    let(:valid_questionnaire) do
+      questionnaire = Quby::Questionnaire.new("test", <<-END)
+        question :one, :type => :radio do
+          title "Testvraag"
+          option :a1, :hides_questions => [:two]
+          option :a2, :hides_questions => [:three]
+          option :a3, :hides_questions => [:four]
+        end
+
+        question :two, :type => :radio
+        question :three, :type => :radio
+        question :four, :type => :radio
+      END
+      questionnaire
+    end
+
+    let(:invalid_questionnaire) do
+      questionnaire = Quby::Questionnaire.new("test2")
+      questionnaire.stub(:definition).and_return(<<-END)
+        question :one, :type => :radio do
+          title "Testvraag"
+          option :a1, :hides_questions => [:two]
+        end
+      END
+      questionnaire
+    end
+
+    describe ":hides_questions" do
       it "throws an error if the question to be hidden does not exist" do
-        @questionnaire = Quby::Questionnaire.new("test")
-        @questionnaire.stub(:definition).and_return(<<-END)
-          question :one, :type => :radio do
-            title "Testvraag"
-            option :a1, :hides_questions => [:two]
-          end
-        END
+        invalid_questionnaire.valid?.should be_false
+      end
+    end
 
-        @questionnaire.valid?.should be_false
+    describe ".unhides_questions" do
+      it "returns a json array with the keys of the questions that are unhidden when this option is picked" do
+        valid_questionnaire.question_hash[:one].options.first.unhides_questions.should == [:three, :four]
+        valid_questionnaire.question_hash[:one].options.last.unhides_questions.should == [:two, :three]
+      end
+    end
+
+    describe ".hides_questions" do
+      it "returns a json array with the keys of the questions that are hidden when this option is picked" do
+        valid_questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
       end
     end
   end

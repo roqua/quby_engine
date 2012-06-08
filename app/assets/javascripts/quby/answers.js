@@ -392,7 +392,7 @@ function radioCheckboxEvents(event){
     } else {
         handleDisableCheckboxSubQuestions(element);
     }
-    handleHideQuestions(element, eval(element.attr('hides')) || [], eval(element.attr('allhidden')) || []);
+    handleHideQuestions(element, eval(element.attr('hides')) || [], eval(element.attr('unhides')) || []);
 }
 
 function handleDisableRadioSubQuestions(element){
