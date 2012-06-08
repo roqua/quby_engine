@@ -6,11 +6,11 @@
 - @answer.to_hide ||= []
 - case item.class.name
 - when "Quby::Items::Question"
-  -# return if item.table 
+  -# return if item.table
   -# return if @answer.send(item.key).blank?
   - extra_data = item.extra_data
   - itemclasses << 'hidden' unless extra_data[:hidden_by].blank?
-  - doublewide = item.options.size <= 5 
+  - doublewide = item.options.size <= 5
   - itemclasses << "notbulkitem"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
@@ -19,15 +19,16 @@
 - when "Quby::Items::Table"
   - return
 
-- if item.raw_content and item.class.name != "Quby::Items::Text" 
-  - if item.raw_content.is_a?(Hash) and item.raw_content[:print]
-    = raw item.raw_content[:print]
-  - elsif item.raw_content[:bulk]
-    = raw item.raw_content[:bulk]
+- if item.raw_content and item.class.name != "Quby::Items::Text"
+  - if item.raw_content.is_a?(Hash)
+    -if item.raw_content[:print]
+      = raw item.raw_content[:print]
+    - elsif item.raw_content[:bulk]
+      = raw item.raw_content[:bulk]
   - else
     = raw item.raw_content
 - else
-  
+
   - case item.class.name
   - when "Quby::Items::Css"
     .item{:class => itemclasses}
@@ -40,7 +41,7 @@
           = raw item.text
   - when "Quby::Items::Question"
     .item{:class => itemclasses}
-      - return if @answer.send(item.key).blank? 
+      - return if @answer.send(item.key).blank?
       - case item.type
       - when :string, :textarea, :integer, :float, :date
         = render :partial => "quby/answers/print/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
