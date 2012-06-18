@@ -48,7 +48,15 @@ module Quby
         t = TableBuilder.new(@panel, options.merge({:questionnaire => @panel.questionnaire, :default_question_options => @default_question_options}))
         t.instance_eval(&block) if block
       end
-      
+
+      protected
+
+      [:radio, :check_box, :scale, :string, :date, :integer, :float, :textarea, :hidden, :select].each do |type|
+        define_method type do
+          type
+        end
+      end
+
     end
   end
 end
