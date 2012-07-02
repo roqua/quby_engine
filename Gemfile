@@ -49,4 +49,7 @@ end
 group :test do
   gem 'fuubar'
   gem 'timecop'
+ 
+  # brew install phantomjs
+  gem 'poltergeist'
 end
