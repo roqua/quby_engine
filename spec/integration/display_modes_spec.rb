@@ -8,7 +8,13 @@ module Quby
 
     before do
       Quby.questionnaires_path = Rails.root.join("../../db/questionnaires")
-      puts Quby.questionnaires_path
+
+      # Don't verify HMACs or tokens
+      Quby::AnswersController.any_instance.stub(:verify_hmac => true)
+      Quby::AnswersController.any_instance.stub(:verify_token => true)
+
+      # Don't show warning when leaving page
+      Questionnaire.any_instance.stub(:leave_page_alert => nil)
     end
 
     after(:all) do
@@ -26,26 +32,37 @@ module Quby
     end
 
     def screenshot(name, options = {})
-      if height = options[:height]
-        page.driver.resize(screen_width, height)
-      end
-      page.driver.render "doc/manual_roqua/materiaal/#{name}.png"
+      page.driver.render "tmp/screenshots/#{name}.png", full: true
       if options[:height]
         page.driver.resize(screen_width, screen_height)
       end
     end
 
+    Questionnaire.all.each do |questionnaire|
+      describe "#{questionnaire.key}" do
+        let(:answer) { questionnaire.answers.create(:token => "abcd") }
 
-    it 'should work', js: true do
-      Quby::AnswersController.any_instance.stub(:verify_hmac => true)
-      Quby::AnswersController.any_instance.stub(:verify_token => true)
-      puts Rails.version
-      puts Rails.application.config.assets.paths
-      questionnaire = Questionnaire.find_by_key "honos"
-      answer        = questionnaire.answers.create(:token => "abcd")
-      visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?token=abcd"
-      screenshot "#{questionnaire.key}_paged"
+        it "screenshots #{questionnaire.key} in paged view", js: true do
+          visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=paged"
+
+          script = <<-END
+            (function() {
+              $(function() {
+                $(".panel").show();
+              });
+            }).call(this);
+          END
+
+          page.driver.execute_script(script)
+
+          screenshot "#{questionnaire.key}_paged"
+        end
+
+        it "screenshots #{questionnaire.key} in bulk view", js: true do
+          visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=bulk"
+          screenshot "#{questionnaire.key}_bulk"
+        end
+      end
     end
-    
   end
 end
