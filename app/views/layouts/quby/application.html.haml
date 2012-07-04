@@ -8,6 +8,8 @@
     = stylesheet_link_tag "quby/print", :media => "print"
     /[if IE]
       = stylesheet_link_tag 'quby/ie.css', :media => 'screen, projection'
+    - if @custom_stylesheet.present?
+      = stylesheet_link_tag @custom_stylesheet, :media => 'screen, projection'
     = javascript_include_tag "quby/application.js"
     = javascript_include_tag "quby/jquery.ba-hashchange.min.js"
     = javascript_include_tag "quby/printer"
