@@ -60,6 +60,72 @@ module Quby
       end
     end
 
+    describe '#mean' do
+      let(:calculator) { ScoreCalculator.new({}) }
+
+      it 'returns mean of values given' do
+        calculator.mean([1, 2, 3, 4, 5]).should == 3
+      end
+
+      it 'returns a float value' do
+        calculator.mean([2, 3]).should be_an_instance_of Float
+      end
+
+      it 'returns 0 for empty array' do
+        calculator.mean([]).should == 0
+      end
+
+      it 'raises for nil values' do
+        expect { calculator.mean([nil, 2]) }.to raise_error(/coerce/)
+      end
+    end
+
+    describe '#mean_ignoring_nils' do
+      let(:calculator) { ScoreCalculator.new({}) }
+
+      it 'returns mean of values given, not counting nils towards the amount of values' do
+        calculator.mean_ignoring_nils([nil, 1, 2, 3, 4, 5, nil]).should == 3
+      end
+
+      it 'returns 0 for empty array' do
+        calculator.mean_ignoring_nils([]).should == 0
+      end
+
+      it 'does not raise for nil values' do
+        expect { calculator.mean_ignoring_nils([nil, 2]) }.not_to raise_error(/coerce/)
+      end
+    end
+
+    describe '#sum_extrapolate' do
+      let(:calculator) { ScoreCalculator.new({}) }
+
+      it 'sums values given, taking nils to be the mean of the present values' do
+        calculator.sum_extrapolate([1, 2, 3, 4, 5, nil], 5).should == 18
+      end
+
+      it 'returns nil if there are less values than minimum_present present (not nil)' do
+        calculator.sum_extrapolate([nil, 1, 2], 3).should == nil
+      end
+    end
+
+    describe '#sum_extrapolate_80_pct' do
+      let(:calculator) { ScoreCalculator.new({}) }
+
+      it 'sums values given, taking nils to be the mean of the present values' do
+        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, nil]).should == 12.5
+      end
+
+      it 'returns nil if there are less than 80% values present (not nil)' do
+        calculator.sum_extrapolate_80_pct([1, 2, 3, nil, nil]).should == nil
+      end
+
+      it 'rounds upwards if the result of 0.8*values.length is not round' do
+        #0.8*8 = 6.4
+        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, nil, nil]).should nil
+        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, 7, nil]).should == 32
+      end
+    end
+
     describe '#sum' do
       let(:calculator) { ScoreCalculator.new({}) }
 

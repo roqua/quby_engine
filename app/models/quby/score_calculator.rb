@@ -59,6 +59,46 @@ module Quby
       end
     end
 
+    # Public: Gives mean of values
+    #
+    # values - An Array of Numerics
+    #
+    # Returns the mean of the given values
+    def mean(values)
+      return 0.0 if values.length == 0
+      values.reduce(0, &:+).to_f / values.length
+    end
+
+    # Public: Gives mean of values, ignoring nil values
+    #
+    # values - An Array of Numerics
+    #
+    # Returns the mean of the given values
+    def mean_ignoring_nils(values)
+      mean(values.reject(&:blank?))
+    end
+
+    # Public: Sums values, extrapolating nils to be valued as the mean of the present values
+    #
+    # values - An Array of Numerics
+    # minimum_answered - The minimum of values needed to be present, returns nil otherwise
+    #
+    # Returns the sum of the given values, or nil if minimum_present is not met
+    def sum_extrapolate(values, minimum_present)
+      return nil if values.reject(&:blank?).length < minimum_present
+      mean = mean_ignoring_nils(values)
+      values = values.map{|value| value ? value : mean}
+      values.reduce(0, &:+)
+    end
+
+    # Public: Sums values, extrapolating nils to be valued as the mean of the present values
+    #
+    # values - An Array of Numerics
+    #
+    # Returns the sum of the given values, or nil if less than 80% is present
+    def sum_extrapolate_80_pct(values)
+      sum_extrapolate(values, values.length*0.8)
+    end
 
     # Public: Sums values
     #
