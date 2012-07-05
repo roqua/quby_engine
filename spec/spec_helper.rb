@@ -13,28 +13,10 @@ Spork.prefork do
   require File.expand_path("../dummy/config/environment", __FILE__)
   require 'rspec/rails'
   require 'capybara/rspec'
+  require 'capybara/poltergeist'
 
-  #Dir[Rails.root.join('db', 'functions', '*.rb')].each do |path|
-    #filename = File.basename(path)
-    #q_key = filename.match(/^(.*)\.rb$/)[1]
-    #next if  Function.find_by_name(q_key)
-    #Function.create(:name => q_key, :definition => File.read(path))
-  #end
-
-  #Dir[Rails.root.join('db', 'questionnaires', '*.rb')].each do |path|
-    #filename = File.basename(path)
-    #q_key = filename.match(/^(.*)\.rb$/)[1]
-    #next if Questionnaire.find_by_key q_key
-
-    #begin
-      ##puts "Creating Questionnaire #{q_key}"
-      #q = Questionnaire.new(:key => q_key, :definition => File.read(path))
-      #q.save!(:validate => false)
-    #rescue => e
-      #puts "Questionnaire #{q_key} was not saved because it has errors:\n #{e}"
-    #end
-  #end
-
+  Capybara.default_selector = :css
+  Capybara.javascript_driver = :poltergeist
 end
 
 Spork.each_run do
