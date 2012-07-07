@@ -16,6 +16,7 @@ module Quby
 
     before_filter :remember_token_in_session
     before_filter :remember_return_url_in_session
+    before_filter :remember_custom_stylesheet
     before_filter :verify_token, :only => [:show, :edit, :update, :print]
     before_filter :verify_hmac, :only => [:edit, :print]
 
@@ -221,6 +222,10 @@ module Quby
       end
 
       @display_mode = "paged" if @display_mode.blank?
+    end
+
+    def remember_custom_stylesheet
+      @custom_stylesheet = params[:stylesheet]
     end
 
     def redirect_to_roqua(options = {})
