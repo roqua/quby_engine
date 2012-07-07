@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Questionnaire engine"
   s.description = "Quby is a Rails engine that can render and update answers for questionnaires defined in a custom DSL."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.markdown"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.1"
