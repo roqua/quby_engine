@@ -58,6 +58,12 @@ module Quby
       it 'returns nil if a value is requested which is not filled in' do
         calculator.values_with_nils(:v_3).should  == [nil]
       end
+
+      it 'raises if a value is requested more than once' do
+        expect do
+          calculator.values_with_nils(:v_1, 'v_1').should  == [nil]
+        end.to raise_error(/requested more than once/)
+      end
     end
 
     describe '#mean' do
@@ -120,8 +126,8 @@ module Quby
       end
 
       it 'rounds upwards if the result of 0.8*values.length is not round' do
-        #0.8*8 = 6.4
-        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, nil, nil]).should nil
+        # 0.8*8 = 6.4
+        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, nil, nil]).should == nil
         calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, 7, nil]).should == 32
       end
     end
