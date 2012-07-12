@@ -28,6 +28,7 @@ gem 'wirble'
 group :assets do
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
+  gem 'compass'
 end
 
 platforms :ruby, :jruby do
@@ -48,4 +49,7 @@ end
 group :test do
   gem 'fuubar'
   gem 'timecop'
+ 
+  # brew install phantomjs
+  gem 'poltergeist'
 end

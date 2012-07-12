@@ -51,6 +51,7 @@ module Quby
     # unknown, nil will be returned for that question.
     def values_with_nils(*keys)
       keys = keys.map(&:to_s)
+      raise ArgumentError.new('Key requested more than once') if keys.uniq!
 
       if keys.empty?
         @values
@@ -66,7 +67,7 @@ module Quby
     # Returns the mean of the given values
     def mean(values)
       return 0.0 if values.length == 0
-      values.reduce(0, &:+).to_f / values.length
+      sum(values).to_f / values.length
     end
 
     # Public: Gives mean of values, ignoring nil values
@@ -88,7 +89,7 @@ module Quby
       return nil if values.reject(&:blank?).length < minimum_present
       mean = mean_ignoring_nils(values)
       values = values.map{|value| value ? value : mean}
-      values.reduce(0, &:+)
+      sum(values)
     end
 
     # Public: Sums values, extrapolating nils to be valued as the mean of the present values
