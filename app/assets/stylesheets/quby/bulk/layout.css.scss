@@ -1,5 +1,5 @@
 .bulk {
-  $label-columns: 8;
+  $label-columns: 12;
   $field-columns: $total-columns - $label-columns;
   
   @include container;
@@ -39,8 +39,6 @@
       .print { @include pre(6); }
     }
     
-  .option.last, .description.last { @include omega; }
-  
   .options {
       @include pre(12);
       @include span-columns(12 omega);
@@ -69,6 +67,7 @@
           white-space:normal;        
       }
   }
+
     .item { 
       @include span-columns($total-columns omega);
       &.hidden{ display:none;}
@@ -86,7 +85,7 @@
       }
       
       label.main {
-        @include span-columns(12 omega);
+        @include span-columns($label-columns);
         //font-weight: bold;
         em { font-style: italic; }
         strong { font-weight: bold; }
@@ -98,11 +97,8 @@
       }
 
       .description-and-fields {
-        @include span-columns(12 omega);
-
-        // have to say div.description, because scale uses a table, and including column on tds would break
-        div.description { @include text; @include span-columns(12 omega); }
-        .fields { @include span-columns(12 omega); }
+        @include span-columns($field-columns omega);
+        .description { @include text; }
       }
 
       // Specific CSS for presentation styles
@@ -122,7 +118,9 @@
         &.bulkitem {
           margin-bottom: 0.0em;
         }
-        input, textarea { @include span-columns(12 omega); }
+        input, textarea { 
+          width: 99%;
+        }
       }
 
       &.integer.slider,
@@ -184,9 +182,8 @@
         padding: 0.5em 0em 0.5em 0.5em;
         margin-bottom: 1em;
 
-        $mainlabel_columns : 8;
         .main {
-          @include span-columns($mainlabel_columns);
+          @include span-columns($label-columns);
           .mainlabelwrap{
               float:left;
               width:85%;
@@ -202,35 +199,38 @@
 
         &.radio, &.check_box, &.scale {
           .inner-title {
-            @include span-columns($total-columns - $mainlabel-columns omega);
+            @include span-columns($field-columns omega, $field-columns);
             margin-top: 1.5em;
             margin-bottom: 1.5em;
             font-weight: bold;
           }
 
           .option {
-            @include span-columns($total-columns - $mainlabel-columns omega); 
-            display: block;
+            @include span-columns($field-columns omega, $field-columns); 
+            // display: block;
             .radiocheckwrapper { 
-              @include span-columns(1);
+              @include span-columns(1, $field-columns);
             }
             .labelwrapper      { 
-              @include span-columns(23-$mainlabel-columns omega); 
+              @include span-columns($field-columns - 1 omega, $field-columns); 
               label { white-space: normal; }
               p { display: inline; }
             }
 
             &.show_values {
-              .value { @include span-columns(1); text-align: center; }
+              .value { 
+                @include span-columns(1, $field-columns); 
+                text-align: center; 
+              }
               //.labelwrapper { @include span-columns(16, true); }
             }
 
             .subquestions {
                 @include pre(1);
-                @include span-columns(11);
+                @include span-columns($field-columns - 1, $field-columns);
 
                 .item { 
-                     @include span-columns(11); 
+                     @include span-columns($field-columns - 1, $field-columns); 
                      input { width: auto; }
                 }
             }
@@ -238,6 +238,7 @@
         }
       }
     }
+
     @include tablemix($total-columns, $label-columns, $field-columns);
   }
 }
