@@ -58,7 +58,8 @@
                 
                 input {
                     &.float , &.integer {
-                        @include span-columns(2 omega);
+                        width: 92%;
+                        float: left;
                     }
                     &.string , &.textarea {
                         width: 92%;
@@ -85,6 +86,9 @@
                 }
             }
             margin:0;
+        }
+        .item {
+            @include reset-columns;
         }
         .main {
             width: (100%/3);
