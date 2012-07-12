@@ -13,6 +13,10 @@ module Quby
     
     def answerable?; false; end
 
+    def presentation
+      @presentation || "vertical"
+    end
+
     def as_json(options = {})
       {
         :class => self.class.to_s
