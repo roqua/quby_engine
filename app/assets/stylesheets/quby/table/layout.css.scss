@@ -58,8 +58,8 @@
                 
                 input {
                     &.float , &.integer {
-                        width: 92%;
-                        float: left;
+                        width: 54px;
+                        // float: left;
                     }
                     &.string , &.textarea {
                         width: 92%;
@@ -92,8 +92,8 @@
         }
         .main {
             width: (100%/3);
-            float:none;
-            display:table-cell;
+            float:none !important;
+            display: table-cell !important;
             label small { font-size: 0.7em; }
         }
         .description{
