@@ -1,0 +1,66 @@
+.item {
+  @include span-columns($total-columns omega);
+  margin-bottom: 18px;
+}
+
+.item.horizontal,
+.item.vertical {
+  &.radio,
+  &.check_box {
+    .option {
+      @include span-columns($total-columns omega);
+      .radiocheckwrapper { @include span-columns(1); }
+      .labelwrapper { @include span-columns($total-columns - 1 omega); } 
+
+      // &.show_values {
+      //   .value { @include span-columns(1); }
+      //   .labelwrapper { @include span-columns($total-columns - 2 omega); }
+      // }
+
+      // .subquestions {
+      //   @include pre(1);
+      //   @include span-columns(23-$label-columns);
+
+      //   .item { 
+      //     @include span-columns(23-$label-columns); 
+      //     input { width: auto; }
+      //   }
+      // }
+    }
+
+  }
+
+  &.string, 
+  &.textarea {
+    input, textarea { @include span-columns($total-columns omega) }
+    .sized { width: auto; }
+  }
+
+  &.integer.slider,
+  &.float.slider {
+    .slider { @include span-columns($total-columns omega); }
+
+    .slider-label-left  { 
+      @include span-columns($total-columns/2);
+      text-align: left;
+    }
+
+    .slider-label-right { 
+      @include span-columns($total-columns/2 omega);
+      text-align: right;
+    }
+  }
+}
+
+.buttons {
+  @include span-columns($total-columns omega);
+  margin: 1.5em (-$blueprint-grid-outer-width) -1.5em;
+  padding: 1.5em $blueprint-grid-outer-width;
+
+  .back { @include span-columns(6); }
+  .prev { @include span-columns(6); }
+  .abort { @include span-columns(12); text-align: center; }
+  .print { @include span-columns(24); text-align: right; }
+  .next { @include span-columns(6 omega); text-align: right; }
+  .save { @include span-columns(6 omega); text-align: right; }
+}

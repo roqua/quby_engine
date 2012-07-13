@@ -1,8 +1,20 @@
 .paged {
+  $total-columns: 9;
+  $label-columns: 8;
+  $field-columns: $total-columns - $label-columns;
+  $break: 24;
+
+  .panel {
+    @include container($total-columns, $break);
+    @include tablemix($total-columns, $label-columns, $field-columns);
+  }
+
+  @import "paged/mobile";
+  @import "paged/desktop";
+
   .panel {
           
     background: white;
-    border: 10px solid #dddddd;
     margin-bottom: 2em;
     
     h1 {
@@ -36,10 +48,6 @@
       
       .main {
         font-weight: bold;
-        .mainlabelwrap{
-            float:left;
-            width:85%;
-        }
         em {
             font-style: italic;
         }

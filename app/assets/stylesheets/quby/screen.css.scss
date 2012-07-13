@@ -81,8 +81,6 @@ em {
   input[disabled] {
       background-color: #ddd;
   }
-
-  margin: 6em auto 0em auto;
   
   .flash {
     @include container;

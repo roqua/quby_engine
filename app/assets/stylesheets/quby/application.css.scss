@@ -12,9 +12,11 @@ $blueprint-grid-outer-width: $column-width + 2*$gutter-width;
 
 $masthead_bg: #0f72a4;
 
+// mixins that apply to specific layout sizes
+@import "general/desktop";
+
+// other stuff
 @import "screen";
-@import "paged";
 @import "table/layout";
-@import "paged/layout";
+@import "paged";
 @import "bulk/layout";
-@import "layout";
