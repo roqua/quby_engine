@@ -1,140 +1,147 @@
-@include at-breakpoint($break) {
-  $label-columns: 8;
-  $field-columns: $break - $label-columns;
+@mixin paged-desktop($width, $columns) {
+  @include at-breakpoint($width $columns) {
+    $label-columns: 8;
+    $field-columns: $columns - $label-columns;
+    $grid-padding: 2em;
 
-  @include general-desktop;
+    @include general-desktop;
 
-  .panel {
-    border: 10px solid #dddddd;
-    padding: 3em $blueprint-grid-outer-width 1.5em;
-  }
+    .panel {
+      @include container;
+      @include tablemix($columns, $label-columns, $field-columns);
 
-  .item {
-    @include span-columns($break omega);
+      border: 10px solid #dddddd;
+      padding: 3em $grid-padding 1.5em;
+    }
 
-    margin-bottom: 18px;
-  }
+    .item {
+      @include span-columns($columns omega);
 
-  .item.horizontal {
-    &.radio,
-    &.check_box {
-      .option {
-        @include span-columns($break omega); 
+      margin-bottom: 18px;
+    }
 
-        .radiocheckwrapper { @include span-columns(1); }
-        .labelwrapper { @include span-columns($break - 1 omega); } 
+    .item.horizontal {
+      &.radio,
+      &.check_box {
+        .option {
+          @include span-columns($columns omega); 
 
-        &.show_values {
-          .value { @include span-columns(1); }
-          .labelwrapper { @include span-columns(22 omega); }
-        }
+          .radiocheckwrapper { @include span-columns(1); }
+          .labelwrapper { @include span-columns($columns - 1 omega); } 
 
-        .subquestions {
-          @include pre(1);
-          @include span-columns(23-$label-columns);
+          &.show_values {
+            .value { @include span-columns(1); }
+            .labelwrapper { @include span-columns(22 omega); }
+          }
 
-          .item { 
-            @include span-columns(23-$label-columns); 
-            input { width: auto; }
+          .subquestions {
+            @include pre(1);
+            @include span-columns(23-$label-columns);
+
+            .item { 
+              @include span-columns(23-$label-columns); 
+              input { width: auto; }
+            }
           }
         }
+
+        .inner-title { @include span-columns($columns omega); }
       }
 
-      .inner-title { @include span-columns($break omega); }
-    }
-
-    &.string, 
-    &.textarea {
-      input, textarea { @include span-columns($break omega) }
-      .sized { width: auto; }
-    }
-
-    &.integer.slider,
-    &.float.slider {
-      .slider { @include span-columns($break omega); }
-
-      .slider-label-left  { 
-        @include span-columns($break/2);
-        text-align: left;
+      &.string, 
+      &.textarea {
+        input, textarea { @include span-columns($columns omega) }
+        .sized { width: auto; }
       }
 
-      .slider-label-right { 
-        @include span-columns($break/2 omega);
-        text-align: right;
-      }
-    }
-  }
+      &.integer.slider,
+      &.float.slider {
+        .slider { @include span-columns($columns omega); }
+        .fd-form-element-hidden { display: none; }
 
-  .item.vertical {
-    .main {
-      @include span-columns($label-columns);
-    }
-
-    .description-and-fields {
-      @include span-columns($field-columns omega);
-      .description { @include text; }
-    }
-
-    &.radio,
-    &.check_box {
-      .option {
-        @include span-columns($field-columns omega, $field-columns); 
-
-        .radiocheckwrapper { @include span-columns(1, $field-columns); }
-        .labelwrapper { @include span-columns($field-columns - 1 omega, $field-columns); } 
-
-        &.show_values {
-          .value { @include span-columns(1, $field-columns); }
-          .labelwrapper { @include span-columns($field-columns - 2 omega, $field-columns); }
+        .slider-label-left  { 
+          @include span-columns($columns/2);
+          text-align: left;
         }
 
-        .subquestions {
-          @include pre(1);
-          @include span-columns($field-columns - 1, $field-columns);
+        .slider-label-right { 
+          @include span-columns($columns/2 omega);
+          text-align: right;
+        }
+      }
+    }
 
-          .item { 
+    .item.vertical {
+      .main {
+        @include span-columns($label-columns);
+      }
+
+      .description-and-fields {
+        @include span-columns($field-columns omega);
+        .description { @include text; }
+      }
+
+      &.radio,
+      &.check_box {
+        .option {
+          @include span-columns($field-columns omega, $field-columns); 
+
+          .radiocheckwrapper { @include span-columns(1, $field-columns); }
+          .labelwrapper { @include span-columns($field-columns - 1 omega, $field-columns); } 
+
+          &.show_values {
+            .value { @include span-columns(1, $field-columns); }
+            .labelwrapper { @include span-columns($field-columns - 2 omega, $field-columns); }
+          }
+
+          .subquestions {
+            @include pre(1);
             @include span-columns($field-columns - 1, $field-columns);
-            .main { @include span-columns($field-columns - 1 omega, $field-columns - 1)}
-            input { width: auto; }
+
+            .item { 
+              @include span-columns($field-columns - 1, $field-columns);
+              .main { @include span-columns($field-columns - 1 omega, $field-columns - 1)}
+              input { width: auto; }
+            }
           }
         }
+
+        .inner-title { @include span-columns($field-columns omega, $field-columns); }
       }
 
-      .inner-title { @include span-columns($field-columns omega, $field-columns); }
-    }
-
-    &.string, 
-    &.textarea {
-      input, textarea { @include span-columns($field-columns omega, $field-columns) }
-      .sized { width: auto; }
-    }
-
-    &.integer.slider,
-    &.float.slider {
-      .slider { @include span-columns($field-columns omega, $field-columns) }
-      
-      .slider-label-left {
-        @include span-columns(($field-columns)/2, $field-columns);
-        text-align: left;
+      &.string, 
+      &.textarea {
+        input, textarea { @include span-columns($field-columns omega, $field-columns) }
+        .sized { width: auto; }
       }
 
-      .slider-label-right {
-        @include span-columns(($field-columns)/2 omega, $field-columns);
-        text-align: right;
+      &.integer.slider,
+      &.float.slider {
+        .slider { @include span-columns($field-columns omega, $field-columns) }
+        
+        .slider-label-left {
+          @include span-columns(($field-columns)/2, $field-columns);
+          text-align: left;
+        }
+
+        .slider-label-right {
+          @include span-columns(($field-columns)/2 omega, $field-columns);
+          text-align: right;
+        }
       }
     }
-  }
 
-  .buttons {
-    @include span-columns($total-columns omega);
-    margin: 1.5em (-$blueprint-grid-outer-width) -1.5em;
-    padding: 1.5em $blueprint-grid-outer-width;
+    .buttons {
+      @include span-columns($total-columns omega);
+      margin: 1.5em (-$grid-padding) -1.5em;
+      padding: 1.5em $grid-padding;
 
-    .back { @include span-columns(6); }
-    .prev { @include span-columns(6); }
-    .abort { @include span-columns(12); text-align: center; }
-    .print { @include span-columns(24); text-align: right; }
-    .next { @include span-columns(6 omega); text-align: right; }
-    .save { @include span-columns(6 omega); text-align: right; }
+      .back { @include span-columns(6); }
+      .prev { @include span-columns(6); }
+      .abort { @include span-columns(12); text-align: center; }
+      .print { @include span-columns(24); text-align: right; }
+      .next { @include span-columns(6 omega); text-align: right; }
+      .save { @include span-columns(6 omega); text-align: right; }
+    }
   }
 }

@@ -5,18 +5,16 @@
 @import "custom-inputs";
 @import "fd-slider";
 
-$total-columns: 24;
-$gutter-width: 0.769em;
-$column-width: (58.308em - (23*$gutter-width)) / 24;
-$blueprint-grid-outer-width: $column-width + 2*$gutter-width;
-
 $masthead_bg: #0f72a4;
 
 // mixins that apply to specific layout sizes
 @import "general/desktop";
 
 // other stuff
+@import "partials/text.scss";
 @import "screen";
 @import "table/layout";
+
+// display modes
 @import "paged";
 @import "bulk/layout";

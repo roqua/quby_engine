@@ -1,20 +1,31 @@
+@import "paged/mobile";
+@import "paged/desktop";
+
 .paged {
-  $total-columns: 9;
-  $label-columns: 8;
-  $field-columns: $total-columns - $label-columns;
-  $break: 24;
+  // grid setup
+  $column-width: 2em;
+  $gutter-width: 0.5em;
+  $grid-padding: 0;
+  $blueprint-grid-outer-width: $column-width + 2*$gutter-width;
+
+  // configure widths for responsive design
+  $desktop-width:   35em;
+  $desktop-columns: 20;
+  $mobile-width:    24em;
+  $mobile-columns:  12;
+
+  // set default number of columns to smallest supported style
+  // the number of columns will be enlarged for larger screens
+  $total-columns: $mobile-columns;
 
   .panel {
-    @include container($total-columns, $break);
-    @include tablemix($total-columns, $label-columns, $field-columns);
-  }
+     background: white;
+   }
 
-  @import "paged/mobile";
-  @import "paged/desktop";
+  @include paged-mobile($mobile-width, $mobile-columns);
+  @include paged-desktop($desktop-width, $desktop-columns);
 
   .panel {
-          
-    background: white;
     margin-bottom: 2em;
     
     h1 {
@@ -120,4 +131,3 @@
     // @include tablemix($total-columns, $label-columns, $field-columns);
   }
 }
-
