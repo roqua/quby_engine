@@ -10,7 +10,8 @@
       @include container;
       @include tablemix($columns, $label-columns, $field-columns);
 
-      border: 10px solid #dddddd;
+      border: 4px solid #dddddd;
+      margin-top: 6em;
       padding: 3em $grid-padding 1.5em;
     }
 
@@ -135,13 +136,14 @@
       @include span-columns($total-columns omega);
       margin: 1.5em (-$grid-padding) -1.5em;
       padding: 1.5em $grid-padding;
+      border-bottom: 0;
 
-      .back { @include span-columns(6); }
-      .prev { @include span-columns(6); }
-      .abort { @include span-columns(12); text-align: center; }
-      .print { @include span-columns(24); text-align: right; }
-      .next { @include span-columns(6 omega); text-align: right; }
-      .save { @include span-columns(6 omega); text-align: right; }
+      .back  { @include span-columns($columns / 4); }
+      .prev  { @include span-columns($columns / 4); }
+      .abort { @include span-columns($columns / 4); text-align: center; }
+      .print { @include span-columns($columns); text-align: right; }
+      .next  { @include span-columns($columns / 4 omega); text-align: right; }
+      .save  { @include span-columns($columns / 4 omega); text-align: right; }
     }
   }
 }

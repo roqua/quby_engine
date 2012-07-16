@@ -1,7 +1,9 @@
 @mixin paged-mobile($width, $columns) {
+  $grid-padding: 10px;
 
   .panel {
     @include container($columns);
+    padding-top: $grid-padding;
   }
 
   .item {
@@ -60,14 +62,17 @@
 
   .buttons {
     @include span-columns($columns omega);
-    // margin: 1.5em (-$blueprint-grid-outer-width) -1.5em;
-    // padding: 1.5em $blueprint-grid-outer-width;
+    margin-left: -$grid-padding;
+    margin-right: -$grid-padding;
+    padding: 1.5em $grid-padding;
+    border-bottom: 1px dotted #d0d0d0;
 
-    // .back { @include span-columns(6); }
-    // .prev { @include span-columns(6); }
-    // .abort { @include span-columns(12); text-align: center; }
-    // .print { @include span-columns(24); text-align: right; }
-    // .next { @include span-columns(6 omega); text-align: right; }
-    // .save { @include span-columns(6 omega); text-align: right; }
+    .back  { @include span-columns($columns / 2); }
+    .prev  { @include span-columns($columns / 2); }
+    .next  { @include span-columns($columns / 2 omega); text-align: right; }
+    .abort { display: none; }
+    .print { display: none; }
+    .print { @include span-columns($columns);           text-align: right; }
+    .save  { @include span-columns($columns / 2 omega); text-align: right; }
   }
 }
