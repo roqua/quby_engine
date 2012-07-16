@@ -336,7 +336,7 @@ function handleHideQuestions(element, hidekeys, allkeys){
         var item = $("#answer_" + this + "_input").closest('.item:not(.table)');
 
         if(item.length == 0){ //table
-            item = $("[data-for^='" + this + "']").first();
+            item = $("[data-for^='" + this + "']")
         }
 
         var hiddenby = item.first().data('hiddenBy');
@@ -363,7 +363,7 @@ function handleHideQuestions(element, hidekeys, allkeys){
             var item = $("#answer_" + this + "_input").closest('.item');
 
             if(item.length == 0){ //table
-                item = $("[data-for^='" + this + "']").first();
+                item = $("[data-for^='" + this + "']")
             }
 
             var hiddenby = item.first().data('hiddenBy');
