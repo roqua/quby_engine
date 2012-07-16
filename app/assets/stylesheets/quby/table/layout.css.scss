@@ -1,0 +1,117 @@
+@mixin tablemix($total-columns, $label-columns, $field-columns) {
+    .table {
+        @include nested-reset;
+        p, div {
+            display:inline;
+        }
+        
+        caption{
+            margin-bottom: 0.5em;
+        }
+        
+        .errors{
+            outline: 2px solid red !important;
+        }
+        
+        .error{
+            display: inline-block;
+            background: #ffbbbb;
+            outline: 1px solid #ff3333;
+            &.hidden{
+                display:none;
+            }
+        }
+        table{
+            *{
+                width:auto;
+            }
+            
+            .option {
+                white-space:normal;
+            }
+            
+            td > div > *{
+              margin-top: 0.5em;
+              margin-bottom: 0.5em;
+            }
+            
+            border-bottom: 1px solid black;
+            
+            border-collapse: collapse; 
+            .row{
+                td, th{
+                    display:table-cell;
+                    border: 0;
+                    border-bottom:1px solid #bbb;
+                    vertical-align:top;
+                    &.main{
+                        vertical-align:middle;
+                    }
+                    float: none;
+                }
+                &.inner_row td{border:0;}
+                &:first-child td{border-top:1px solid #bbb;}
+                 
+                @include span-columns($total-columns omega);
+                float:none;
+                display:table-row;
+                
+                input {
+                    &.float , &.integer {
+                        width: 54px;
+                        // float: left;
+                    }
+                    &.string , &.textarea {
+                        width: 92%;
+                    }
+                    &.slider {
+                      width: 80%;
+                    }
+                    &.sized { width: auto;} 
+
+                    /* These properties get overriden by our table reset, so we have to re-apply them with a more specific selector */
+                    &.fd-form-element-hidden { display: none; }
+                }
+
+                .fd-slider {
+                  /* These properties get overriden by our table reset, so we have to re-apply them with a more specific selector */
+                  width: 100%;
+                  .fd-slider-wrapper { width: 100%; }
+                  .fd-slider-handle { width: 20px; }
+                }
+
+                .unit {
+                    vertical-align: -20%;
+                    padding-left: 4px;
+                }
+            }
+            margin:0;
+        }
+        .item {
+            @include reset-columns;
+        }
+        .main {
+            width: (100%/3);
+            float:none !important;
+            display: table-cell !important;
+            label small { font-size: 0.7em; }
+        }
+        .description{
+            text-align: right;
+        }
+            
+        .option_sets{
+            .option{
+                padding-left:1em;
+                padding-bottom: 0.5em;
+                vertical-align:bottom;
+            }
+        }
+        .dark{
+            background-color: #eee;
+        }
+        .light{
+            background-color: #fff;
+        }
+    }
+}

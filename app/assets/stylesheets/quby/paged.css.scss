@@ -1,0 +1,115 @@
+.paged {
+  .panel {
+          
+    background: white;
+    border: 10px solid #dddddd;
+    margin-bottom: 2em;
+    
+    h1 {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 1.2em;
+      z-index: 400;
+    }
+
+    hr { height: 8px; border: 0; background: #ddd; }
+    
+    .buttons {
+      border-top: 1px dotted #d6d6d6;
+      background: #f3f3f3;
+    }
+    
+    .item { 
+      &.hidden{ display:none; }
+
+      &.errors {
+        outline: 1px solid red;
+        padding: 0.4em;
+        .error {
+          background: #ffaaaa;
+          color: #550000;
+          outline: 1px solid red;
+          padding: 0.3em;
+          margin-bottom: 0.3em;
+        }
+      }
+      
+      .main {
+        font-weight: bold;
+        .mainlabelwrap{
+            float:left;
+            width:85%;
+        }
+        em {
+            font-style: italic;
+        }
+        .qnumber{
+            float:left;
+            padding-right:0.2em;
+        }
+      }
+      
+      .text {
+        @include text;
+      }
+
+      .description-and-fields {
+        .description { @include text; }
+      }
+
+      &.horizontal {
+        .main { 
+          margin-bottom: 1em;
+          .mainlabelwrap{
+              width:90%;
+          }
+        }
+      }
+
+      &.radio, &.check_box {
+        .inner-title {
+          margin-top: 1.5em;
+          margin-bottom: 1.5em;
+          font-weight: bold;
+        }
+
+        .option {
+          .labelwrapper { 
+            p { display: inline; }
+          }
+
+          &.show_values {
+            .value { text-align: center; }
+          }
+
+        }
+      }
+
+      &.scale {
+          td {
+              border: 0;
+              text-align: center;
+          }
+          
+          .option, .description { 
+              &.optionwidth1{width:20%}
+              &.optionwidth2{width:20%}
+              &.optionwidth3{width:20%}
+              &.optionwidth4{width:20%}
+              &.optionwidth5{width:20%}
+              &.optionwidth6{width:(100%/6)}
+              &.optionwidth7{width:(100%/7)}
+              &.optionwidth8{width:(100%/8)}
+              &.optionwidth9{width:(100%/9)}
+              &.optionwidth10{width:(100%/10)}
+              &.optionwidth11{width:(100%/11)}
+              &.optionwidth12{width:(100%/12)}
+          }
+          
+      }
+    }
+
+    // @include tablemix($total-columns, $label-columns, $field-columns);
+  }
+}
+
