@@ -1,5 +1,5 @@
 @mixin paged-desktop($width, $columns) {
-  @include at-breakpoint($width $columns) {
+  @include at-breakpoint($width $columns lt-ie9) {
     $label-columns: 8;
     $field-columns: $columns - $label-columns;
     $grid-padding: 2em;
