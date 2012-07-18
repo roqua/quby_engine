@@ -1,8 +1,5 @@
 // Variables
 
-// Partials
-@import "partials/text.scss";
-
 #modalFrameDialog {
     padding: 0;
 }
@@ -81,8 +78,6 @@ em {
   input[disabled] {
       background-color: #ddd;
   }
-
-  margin: 6em auto 0em auto;
   
   .flash {
     @include container;

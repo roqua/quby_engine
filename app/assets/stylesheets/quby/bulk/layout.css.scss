@@ -5,14 +5,14 @@
   @include container;
   
   border: 10px solid #dddddd;
-  padding: 3em $blueprint-grid-outer-width 1.5em;
+  padding: 3em $grid-padding 1.5em;
   line-height: 18px;
   background: white;
   
   .buttons {
     @include span-columns($total-columns omega);
-    margin: 1.5em (-$blueprint-grid-outer-width) -1.5em;
-    padding: 1.5em $blueprint-grid-outer-width;
+    margin: 1.5em (-$grid-padding) -1.5em;
+    padding: 1.5em $grid-padding;
     border-top: 1px dotted #d6d6d6;
     background: #f3f3f3;
 
