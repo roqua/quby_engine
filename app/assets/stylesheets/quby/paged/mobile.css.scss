@@ -1,0 +1,78 @@
+@mixin paged-mobile($width, $columns) {
+  $grid-padding: 10px;
+
+  .panel {
+    @include container($columns);
+    padding-top: $grid-padding;
+  }
+
+  .item {
+    @include span-columns($columns omega);
+    margin-bottom: 18px;
+  }
+
+  .item.horizontal,
+  .item.vertical {
+    &.radio,
+    &.check_box {
+      .option {
+        @include span-columns($columns omega);
+        .radiocheckwrapper { @include span-columns(1); }
+        .labelwrapper { @include span-columns($columns - 1 omega); } 
+
+        // &.show_values {
+        //   .value { @include span-columns(1); }
+        //   .labelwrapper { @include span-columns($columns - 2 omega); }
+        // }
+
+        // .subquestions {
+        //   @include pre(1);
+        //   @include span-columns(23-$label-columns);
+
+        //   .item { 
+        //     @include span-columns(23-$label-columns); 
+        //     input { width: auto; }
+        //   }
+        // }
+      }
+
+    }
+
+    &.string, 
+    &.textarea {
+      input, textarea { @include span-columns($columns omega) }
+      .sized { width: auto; }
+    }
+
+    &.integer.slider,
+    &.float.slider {
+      .slider { @include span-columns($columns omega); }
+
+      .slider-label-left  { 
+        @include span-columns($columns/2);
+        text-align: left;
+      }
+
+      .slider-label-right { 
+        @include span-columns($columns/2 omega);
+        text-align: right;
+      }
+    }
+  }
+
+  .buttons {
+    @include span-columns($columns omega);
+    margin-left: -$grid-padding;
+    margin-right: -$grid-padding;
+    padding: 1.5em $grid-padding;
+    border-bottom: 1px dotted #d0d0d0;
+
+    .back  { @include span-columns($columns / 2); }
+    .prev  { @include span-columns($columns / 2); }
+    .next  { @include span-columns($columns / 2 omega); text-align: right; }
+    .abort { display: none; }
+    .print { display: none; }
+    .print { @include span-columns($columns);           text-align: right; }
+    .save  { @include span-columns($columns / 2 omega); text-align: right; }
+  }
+}

@@ -1,25 +1,20 @@
 @import "compass/reset";
-//@import "blueprint/grid";
+@import "compass/css3";
 @import 'susy';
 @import "blueprint/typography";
 @import "custom-inputs";
 @import "fd-slider";
 
-$blueprint-grid-columns: 24;
-$blueprint-container-size: 758px;
-$blueprint-grid-margin: 10px;
-$blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
-$blueprint-grid-outer-width: $blueprint_grid_width + $blueprint_grid_margin;
-
-$total-columns: 24;
-$gutter-width: 10px;
-$column-width: (758px - (23*$gutter-width)) / 24;
-
 $masthead_bg: #0f72a4;
 
+// mixins that apply to specific layout sizes
+@import "general/desktop";
+
+// other stuff
+@import "partials/text.scss";
 @import "screen";
-@import "paged";
 @import "table/layout";
-@import "paged/layout";
+
+// display modes
+@import "paged";
 @import "bulk/layout";
-@import "layout";
