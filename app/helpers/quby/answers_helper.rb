@@ -16,17 +16,17 @@ module Quby
           if val[:type] == :regexp
             valc = val.clone
             valc[:matcher] = "/#{valc[:matcher].source.to_s}/"
-            #Replace single backslashes with two backslashes 
+            #Replace single backslashes with two backslashes
             valc[:matcher].gsub!("\\","\\\\")
             valc
           else
             val
           end
-        end 
+        end
       end
       result.to_json
     end
-    
+
     #1: splits the question number off into a .qnumber when encountering things like (leading space optional):
     # 1
     # 1.
@@ -37,7 +37,7 @@ module Quby
     def marukufix(string, labelfor, title_insert=nil)
       string = "&nbsp;" if string.blank?
       string.gsub!(/\A\d+.?\./, '  \\0')
-      
+
       if labelfor
         string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
         if QUESTION_ID_REGEX.match(string)
@@ -50,9 +50,10 @@ module Quby
         raw Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
       end
     end
-    
+
     def table_marukufix(string, labelfor, rowspan, title_insert=nil)
       return '' unless string
+      string.gsub!(/\A\d+.?\./, '  \\0')
       string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
       if QUESTION_ID_REGEX.match(string)
         string.gsub!(QUESTION_ID_REGEX, "<td class='main' rowspan='#{rowspan}'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div>#{title_insert}</td>")
@@ -61,7 +62,7 @@ module Quby
       end
       raw string
     end
-    
+
     def different_header(item, previous_item)
       return true if (item.score_header != previous_item.andand.score_header or (not previous_item.respond_to?(:options)))
       case item.score_header
@@ -73,23 +74,23 @@ module Quby
         return previous_item.options.map(&:description) != item.options.map(&:description)
       end
     end
-    
+
     def get_question(table, rowi,j)
       q = get_item(table, rowi, j)
       q.class.name == "Quby::Items::Question" ? q : nil
     end
-    
+
     def get_item(table, rowi, j)
-      table.item_table[rowi][j] 
+      table.item_table[rowi][j]
     end
-    
+
     def handle_hide_questions(question,option,questionnaire)
       option.hides_questions.each do |key|
         questionnaire.question_hash[key].extra_data[:hidden_by] ||= []
         questionnaire.question_hash[key].extra_data[:hidden_by] << question.key.to_s
       end
     end
-    
+
     def light_dark_for(cyclei, same_question)
       if same_question
         return ""
@@ -97,8 +98,8 @@ module Quby
         return "light"
       else
         return "dark"
-      end     
+      end
     end
-    
+
   end
 end
