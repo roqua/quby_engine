@@ -25,22 +25,26 @@
       &.radio,
       &.check_box {
         .option {
-          @include span-columns($columns omega); 
+          @include span-columns($columns omega);
 
           .radiocheckwrapper { @include span-columns(1); }
-          .labelwrapper { @include span-columns($columns - 1 omega); } 
+          .labelwrapper {
+            @include span-columns($columns - 1 omega);
+          }
 
           &.show_values {
             .value { @include span-columns(1); }
-            .labelwrapper { @include span-columns(22 omega); }
+            .labelwrapper {
+              @include span-columns($columns - 2 omega);
+            }
           }
 
           .subquestions {
             @include pre(1);
             @include span-columns(23-$label-columns);
 
-            .item { 
-              @include span-columns(23-$label-columns); 
+            .item {
+              @include span-columns(23-$label-columns);
               input { width: auto; }
             }
           }
@@ -49,7 +53,7 @@
         .inner-title { @include span-columns($columns omega); }
       }
 
-      &.string, 
+      &.string,
       &.textarea {
         input, textarea { @include span-columns($columns omega) }
         .sized { width: auto; }
@@ -60,12 +64,12 @@
         .slider { @include span-columns($columns omega); }
         .fd-form-element-hidden { display: none; }
 
-        .slider-label-left  { 
+        .slider-label-left  {
           @include span-columns($columns/2);
           text-align: left;
         }
 
-        .slider-label-right { 
+        .slider-label-right {
           @include span-columns($columns/2 omega);
           text-align: right;
         }
@@ -85,10 +89,10 @@
       &.radio,
       &.check_box {
         .option {
-          @include span-columns($field-columns omega, $field-columns); 
+          @include span-columns($field-columns omega, $field-columns);
 
           .radiocheckwrapper { @include span-columns(1, $field-columns); }
-          .labelwrapper { @include span-columns($field-columns - 1 omega, $field-columns); } 
+          .labelwrapper { @include span-columns($field-columns - 1 omega, $field-columns); }
 
           &.show_values {
             .value { @include span-columns(1, $field-columns); }
@@ -99,7 +103,7 @@
             @include pre(1);
             @include span-columns($field-columns - 1, $field-columns);
 
-            .item { 
+            .item {
               @include span-columns($field-columns - 1, $field-columns);
               .main { @include span-columns($field-columns - 1 omega, $field-columns - 1)}
               input { width: auto; }
@@ -110,7 +114,7 @@
         .inner-title { @include span-columns($field-columns omega, $field-columns); }
       }
 
-      &.string, 
+      &.string,
       &.textarea {
         input, textarea { @include span-columns($field-columns omega, $field-columns) }
         .sized { width: auto; }
@@ -119,7 +123,7 @@
       &.integer.slider,
       &.float.slider {
         .slider { @include span-columns($field-columns omega, $field-columns) }
-        
+
         .slider-label-left {
           @include span-columns(($field-columns)/2, $field-columns);
           text-align: left;
