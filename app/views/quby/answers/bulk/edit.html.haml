@@ -9,7 +9,7 @@
 - content_for(:extra_css, @questionnaire.extra_css)
     
 - data = {}
-- data[:"log-activity"] = "#activity_log" if @questionnaire.log_user_activity
+- data[:"log-activity"] = "#answer_activity_log" if @questionnaire.log_user_activity
 = form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off", :data => data do
   = render :partial => "quby/answers/session_params"
   - if not @answer.errors.empty?
