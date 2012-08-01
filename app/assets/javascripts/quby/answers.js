@@ -55,6 +55,8 @@ function activatePanel(panel, updateHash, forward) {
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
 
+    panel.trigger("panelChange");
+
     //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
     if (allInputsHidden(panel)) {
         if (forward) {
