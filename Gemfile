@@ -5,8 +5,8 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-# jquery-rails is used by the dummy application
-gem "jquery-rails"
+gem 'rails', '3.2.2'
+
 gem "bson_ext", "~> 1.5.2"
 
 # Declare any dependencies that are still in development here instead of in
@@ -26,7 +26,7 @@ gem 'wirble'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'coffee-rails', "~> 3.1.0"
+  gem 'coffee-rails', "~> 3.2.2"
   gem 'uglifier'
   gem 'compass'
 end
@@ -49,7 +49,7 @@ end
 group :test do
   gem 'fuubar'
   gem 'timecop'
- 
+
   # brew install phantomjs
   gem 'poltergeist'
 end
