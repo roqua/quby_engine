@@ -96,6 +96,8 @@ module Quby
     attr_accessor :scores
     attr_accessor :default_answer_value
     attr_accessor :scroll_to_next_question
+    attr_accessor :log_user_activity
+
     attr_accessor :leave_page_alert
 
     attr_accessor :question_hash
