@@ -8,7 +8,9 @@
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)
     
-= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off" do
+- data = {}
+- data[:"log-activity"] = "#activity_log" if @questionnaire.log_user_activity
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off", :data => data do
   = render :partial => "quby/answers/session_params"
   - if not @answer.errors.empty?
     .force-submit
