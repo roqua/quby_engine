@@ -1,15 +1,21 @@
 require 'maruku'
 
-#Replace {{var_name}} with <span class='text_var' text_var=var_name></span> 
+#Replace {{var_name}} with <span class='text_var' text_var=var_name></span>
 #TODO: add ability to specify default text to use in case text_var is empty
-TextVar = /(\{\{)(.+)(\}\})/
+TextVar = /(\{\{)(.+?)(\}\})/
 class Maruku
   @@text_vars ||= {}
   def self.setTextVar(varname, value)
-    @@text_vars[varname] = value.blank? ? nil : value
+    text_vars[varname] = value.blank? ? nil : value
   end
   def self.getTextVar(varname)
-    @@text_vars[varname]
+    text_vars[varname]
+  end
+
+  private
+
+  def self.text_vars
+    @@text_vars
   end
 end
 
@@ -26,7 +32,7 @@ MaRuKu::In::Markdown.register_span_extension(
 end)
 
 #Modal pop up window link:
-# ~~url~~link_body~~ 
+# ~~url~~link_body~~
 LinkUrl = /(\~\~)(.+)(\~\~)(.+)(\~\~)/
 MaRuKu::In::Markdown.register_span_extension(
   :chars => (RUBY_VERSION >= '1.9' ? '~' : 126), #ASCII ordinal of ~

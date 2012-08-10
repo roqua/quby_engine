@@ -974,8 +974,8 @@ $(document).ready(
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');
-            ele.blur(function (){
-                $("span[text_var='"+tvar+"']").attr('innerHTML', ele.attr('value'));
+            ele.change(function (){
+                $("span[text_var='"+tvar+"']").html(ele.attr('value'));
             });
         });
 
