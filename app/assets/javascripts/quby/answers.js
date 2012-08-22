@@ -974,9 +974,13 @@ $(document).ready(
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');
+
             ele.change(function (){
                 $("span[text_var='"+tvar+"']").html(ele.attr('value'));
             });
+            if(ele.attr('value')) {
+              $("span[text_var='"+tvar+"']").html(ele.attr('value'));
+            }
         });
 
         // Don't submit if we've just submitted already

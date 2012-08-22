@@ -63,9 +63,6 @@ module Quby
 
       questionnaire.questions.each do |question|
         next unless question
-        if question.text_var
-          Maruku.setTextVar(question.text_var, self.send(question.key))
-        end rescue nil
       end
     end
 
