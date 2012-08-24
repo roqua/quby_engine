@@ -21,6 +21,10 @@ var skipValidations = false;
 var shownFlash = false;
 var inIframe = false;
 
+var scrollToNextQuestion = false;
+var curQuestionLabelIndex;
+var questionLabels;
+
 function loadcssfile(filename){
  var fileref=document.createElement("link");
   fileref.setAttribute("rel", "stylesheet");
@@ -913,6 +917,21 @@ $(document).ready(
         $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
 
         processExtraData();
+
+        scrollToNextQuestion = $("form").is(".scroll_to_next_question");
+        if(scrollToNextQuestion){
+          questionLabels = $(".mainlabelwrap label[for]");
+          curQuestionLabelIndex = 0;
+          $(".item input, .item textarea, .buttons input, select").live("click", function(event){
+              var iname = $(event.target).attr('name');
+              var qkey = iname.slice(7,iname.length-1);
+
+              curQuestionLabelIndex = questionLabels.index($(".mainlabelwrap label[for='answer_"+ qkey + "']"));
+              curQuestionLabelIndex += 1;
+              var nextQuestionLabel = questionLabels[curQuestionLabelIndex];
+              $.scrollTo(nextQuestionLabel, 200, {offset: -10});
+          })
+        }
 
         isBulk = $('form.bulk, form.print').size() > 0;
         if (hotkeysEnabled) {

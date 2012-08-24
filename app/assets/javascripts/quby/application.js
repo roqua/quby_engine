@@ -5,5 +5,6 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require quby/jquery_placeholder
+//= require quby/jquery.scrollTo-min.js
 //= require fd-slider.min.js
 //= require_self

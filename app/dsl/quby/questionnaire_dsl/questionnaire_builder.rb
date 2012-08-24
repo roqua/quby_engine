@@ -21,27 +21,31 @@ module Quby
       def description(description)
         @questionnaire.description = description
       end
-      
+
       def outcome_description(description)
         @questionnaire.outcome_description = description
       end
-      
+
       def short_description(description)
         @questionnaire.short_description = description
       end
-      
+
       def abortable
-        @questionnaire.abortable = true 
+        @questionnaire.abortable = true
       end
-      
+
       def allow_hotkeys(type = :all)
         @questionnaire.allow_hotkeys = type
       end
-      
+
       def enable_previous_questionnaire_button
         @questionnaire.enable_previous_questionnaire_button = true
       end
-      
+
+      def scroll_to_next_question
+        @questionnaire.scroll_to_next_question = true
+      end
+
       def css(value)
         @questionnaire.extra_css ||= ""
         @questionnaire.extra_css += value
@@ -50,11 +54,11 @@ module Quby
       def default_answer_value(value)
         @questionnaire.default_answer_value = value
       end
-      
+
       def panel(title = nil, options = {}, &block)
         p = PanelBuilder.new(title, options.merge(default_panel_options))
         p.instance_eval(&block)
-        
+
         @questionnaire.instance_eval do
           @panels ||= []
           @panels << p.build
@@ -78,14 +82,14 @@ module Quby
           text(value, options)
         end
       end
-      
+
       # Short-circuit the table command to perform an implicit panel
       def table(options = {}, &block)
         panel(nil, default_panel_options) do
           table(options, &block)
         end
       end
-      
+
       # score :totaal do
       #   # Plain old Ruby code here, executed in the scope of the answer
       #   q01 + q02 + q03
@@ -98,7 +102,7 @@ module Quby
           @scores << s.build
         end
       end
-      
+
       private
       def default_panel_options
         {:questionnaire => @questionnaire, :default_question_options => @default_question_options}

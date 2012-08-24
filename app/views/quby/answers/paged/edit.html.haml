@@ -10,7 +10,10 @@
 
 - target = params[:target_top] ? "_top" : nil
 
-= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => [@questionnaire.key, "paged"].join(" "), :autocomplete => "off" do
+- form_classes = [@questionnaire.key, "paged"]
+- form_classes << "scroll_to_next_question" if @questionnaire.scroll_to_next_question
+
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => form_classes, :autocomplete => "off" do
   = render :partial => "quby/answers/session_params"
   = render :partial => "quby/answers/paged/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}
 

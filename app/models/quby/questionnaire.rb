@@ -36,6 +36,8 @@ module Quby
       @last_update = Time.at(last_update.to_i)
       @scores ||= []
 
+      @scroll_to_next_question = false
+
       enhance_by_dsl
     end
 
@@ -93,7 +95,7 @@ module Quby
     attr_accessor :panels
     attr_accessor :scores
     attr_accessor :default_answer_value
-
+    attr_accessor :scroll_to_next_question
     attr_accessor :leave_page_alert
 
     attr_accessor :question_hash
