@@ -22,8 +22,9 @@ var shownFlash = false;
 var inIframe = false;
 
 var scrollToNextQuestion = false;
-var curQuestionLabelIndex;
-var questionLabels;
+var curQuestionInputIndex;
+var questionInputs;
+var nextQuestionInput;
 
 function loadcssfile(filename){
  var fileref=document.createElement("link");
@@ -920,16 +921,17 @@ $(document).ready(
 
         scrollToNextQuestion = $("form").hasClass("scroll_to_next_question");
         if(scrollToNextQuestion){
-          questionLabels = $(".mainlabelwrap label[for]");
-          curQuestionLabelIndex = 0;
-          $(".item input, .buttons input").on("click", function(event){
+          questionInputs = $("input[name][value!='DESELECTED_RADIO_VALUE'][type!='hidden']").filter(function(index){
+            var element = $(this);
+            return element.is($("input[name='"+ element.attr('name') +"'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']:first"));
+          });
+          curQuestionInputIndex = 0;
+          $(".item input[type!=checkbox], .buttons input").on("click", function(event){
               var iname = $(event.target).attr('name');
-              var qkey = iname.slice(7,iname.length-1);
-
-              curQuestionLabelIndex = questionLabels.index($(".mainlabelwrap label[for='answer_"+ qkey + "']"));
-              curQuestionLabelIndex += 1;
-              var nextQuestionLabel = questionLabels[curQuestionLabelIndex];
-              $.scrollTo(nextQuestionLabel, 200, {offset: -10});
+              curQuestionInputIndex = questionInputs.index($("input[name='"+ iname + "'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']"));
+              curQuestionInputIndex += 1;
+              nextQuestionInput = questionInputs[curQuestionInputIndex];
+              $.scrollTo(nextQuestionInput, 200, {offset: -50});
           })
         }
 
@@ -998,7 +1000,7 @@ $(document).ready(
                 $("span[text_var='"+tvar+"']").html(ele.attr('value'));
             });
             if(ele.attr('value')) {
-              $("span[text_var='"+tvar+"']").html(ele.attr('value'));
+              ele.change();
             }
         });
 
