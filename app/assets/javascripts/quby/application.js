@@ -7,4 +7,7 @@
 //= require quby/jquery_placeholder
 //= require quby/jquery.scrollTo-min.js
 //= require fd-slider.min.js
+//
+//= require quby/modules/activity_log
+//
 //= require_self
