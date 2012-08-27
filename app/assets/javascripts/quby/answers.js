@@ -918,11 +918,11 @@ $(document).ready(
 
         processExtraData();
 
-        scrollToNextQuestion = $("form").is(".scroll_to_next_question");
+        scrollToNextQuestion = $("form").hasClass("scroll_to_next_question");
         if(scrollToNextQuestion){
           questionLabels = $(".mainlabelwrap label[for]");
           curQuestionLabelIndex = 0;
-          $(".item input, .item textarea, .buttons input, select").live("click", function(event){
+          $(".item input, .buttons input").on("click", function(event){
               var iname = $(event.target).attr('name');
               var qkey = iname.slice(7,iname.length-1);
 
