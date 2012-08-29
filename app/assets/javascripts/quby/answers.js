@@ -923,18 +923,20 @@ $(document).ready(
 
         scrollToNextQuestion = $("form").hasClass("scroll_to_next_question");
         if(scrollToNextQuestion){
-          questionInputs = $("input[name][value!='DESELECTED_RADIO_VALUE'][type!='hidden']").filter(function(index){
+          questionInputs = $("input[name][value!='DESELECTED_RADIO_VALUE'][type!='hidden'], select").filter(function(index){
             var element = $(this);
-            return element.is($("input[name='"+ element.attr('name') +"'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']:first"));
+            return element.is($("[name='"+ element.attr('name') +"'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']:first")) || element.is('[name="commit"]');
           });
           curQuestionInputIndex = 0;
-          $(".item input[type!=checkbox], .buttons input").on("click", function(event){
+          var scrollToHandler = function(event){
               var iname = $(event.target).attr('name');
-              curQuestionInputIndex = questionInputs.index($("input[name='"+ iname + "'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']"));
+              curQuestionInputIndex = questionInputs.index($("[name='"+ iname + "'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']"));
               curQuestionInputIndex += 1;
               nextQuestionInput = questionInputs[curQuestionInputIndex];
               $.scrollTo(nextQuestionInput, 200, {offset: -50});
-          })
+          };
+          $(".item input[type=radio]").on("click", scrollToHandler);
+          $(".item select").on("change", scrollToHandler);
         }
 
         isBulk = $('form.bulk, form.print').size() > 0;
