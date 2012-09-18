@@ -340,7 +340,7 @@ Array.prototype.remove = function(from, to) {
 
 function handleHideQuestions(element, hidekeys, allkeys){
     $.each(allkeys, function(){
-        var item = $("#answer_" + this + "_input").closest('.item:not(.table)');
+        var item = $("#item_" + this);
 
         if(item.length == 0){ //table
             item = $("[data-for^='" + this + "']")
@@ -367,7 +367,7 @@ function handleHideQuestions(element, hidekeys, allkeys){
 
     $.each(hidekeys, function(){
         if (element.attr('checked')) {
-            var item = $("#answer_" + this + "_input").closest('.item');
+            var item = $("#item_" + this);
 
             if(item.length == 0){ //table
                 item = $("[data-for^='" + this + "']")

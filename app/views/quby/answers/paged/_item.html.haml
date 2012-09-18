@@ -4,8 +4,10 @@
 - @answer.to_hide ||= []
 - itemclasses = [item.type, item.presentation]
 - extra_data = nil
+- itemkey = nil
 - if item.class.name == "Quby::Items::Question"
   - return if item.table
+  - itemkey = "item_#{item.key}"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - if subquestion
     - itemclasses << 'subitem'
@@ -21,7 +23,7 @@
   - else
     = raw item.raw_content
 - else
-  .item{:class => itemclasses, :data => extra_data}
+  .item{:class => itemclasses, :data => extra_data, :id => itemkey}
     - case item.class.name
     - when "Quby::Items::Css"
       :css

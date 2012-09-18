@@ -182,15 +182,15 @@ module Quby
 
       @hides_questions = []
     end
-    
+
     def year_key
-      (@year_key || "#{key}_yyyy").to_s    
+      (@year_key || "#{key}_yyyy").to_s
     end
-    
+
     def month_key
       (@month_key || "#{key}_mm").to_s
     end
-    
+
     def day_key
       (@day_key || "#{key}_dd").to_s
     end
@@ -206,7 +206,7 @@ module Quby
     def depends_on
       @depends_on
     end
-    
+
     def col_span
       options.length > 0 && type != :select ? options.length : @col_span
     end
@@ -236,7 +236,7 @@ module Quby
         when :check_box
           { :options => @options }
         when :date
-          (year_key ? { :year_key => year_key,      :month_key => month_key,   :day_key => day_key } : 
+          (year_key ? { :year_key => year_key,      :month_key => month_key,   :day_key => day_key } :
                       { :year_key => "#{key}_yyyy", :month_key => "#{key}_mm", :day_key => "#{key}_dd" } )
         when :hidden
           { :options => @options }
