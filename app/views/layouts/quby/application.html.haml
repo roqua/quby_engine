@@ -1,4 +1,4 @@
-!!!HTML5
+!!!
 :plain
   <!--[if lt IE 9]><html class="no-js lt-ie9"><![endif]-->
   <!--[if !IE]> --><html class="no-js"><!-- <![endif]-->
@@ -7,7 +7,7 @@
   %title= content_for?(:page_title) ? yield(:page_title) : "Roqua Vragenlijsten"
   %meta(name="viewport" content="width=device-width, initial-scale=1.0 , user-scalable=no")
 
-  - if content_for?(:override_css) 
+  - if content_for?(:override_css)
     = yield(:override_css)
   - else
     = stylesheet_link_tag('quby/application', :media => 'screen, projection')
@@ -19,13 +19,17 @@
   = javascript_include_tag "quby/application.js"
   = javascript_include_tag "quby/jquery.ba-hashchange.min.js"
   = javascript_include_tag "quby/printer"
-  //= javascript_include_tag "jquery.address-1.3.min.js"  
+  //= javascript_include_tag "jquery.address-1.3.min.js"
   //= javascript_include_tag "jquery.custominput.js"
   - unless Rails.env.development?
     = javascript_include_tag "quby/disable_keys.js"
   = javascript_include_tag "quby/" + controller.controller_name
   :css
     #{yield(:extra_css)}
+  :coffeescript
+    $ ->
+      if navigator.userAgent.indexOf("Trident/5") > -1
+        $("html").addClass("lt-ie9")
 
 %body
   #masthead
@@ -43,8 +47,8 @@
           .success= flash[:success]
     = yield
 
-  .x_container  
-  
+  .x_container
+
   %noscript
     #noscript-warning Deze vragenlijst heeft ondersteuning voor JavaScript nodig.
 
