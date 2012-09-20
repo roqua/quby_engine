@@ -26,19 +26,8 @@ var curQuestionInputIndex;
 var questionInputs;
 var nextQuestionInput;
 
-function loadcssfile(filename){
- var fileref=document.createElement("link");
-  fileref.setAttribute("rel", "stylesheet");
-  fileref.setAttribute("type", "text/css");
-  fileref.setAttribute("href", filename);
-
- if (typeof fileref!="undefined")
-  document.getElementsByTagName("head")[0].appendChild(fileref);
-}
-
-//For displaying answers differently within iframes
+//For disabling location hash change within iframes
 if( self != top ) {
-   loadcssfile("/assets/quby/answer_iframe.css");
    inIframe = true;
 }
 
