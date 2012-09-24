@@ -9,7 +9,7 @@ require 'jquery-rails'
 require 'fd-slider-rails'
 require 'susy'
 require 'andand'
-
+require 'coffee-filter'
 
 module Quby
   class Engine < Rails::Engine
