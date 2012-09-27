@@ -17,6 +17,17 @@ module Quby
       end
     end
 
+    def action
+      alarm_scores      = scores.select {|key, value| value["status"].to_s == "alarm" }
+      alarm_answers     = actions[:alarm] || []
+      attention_scores  = scores.select {|key, value| value["status"].to_s == "attention" }
+      attention_answers = actions[:attention] || []
+
+      return :alarm     if alarm_scores.any?     or alarm_answers.any?
+      return :attention if attention_scores.any? or attention_answers.any?
+      nil
+    end
+
     def calculate_scores
       scores = {}
 
@@ -51,6 +62,9 @@ module Quby
       actions
     end
 
+    # Calculate scores and actions, write to the database but bypass any validations
+    # This function is called by parts of the system that only want to calculate
+    # stuff, and can't help it if an answer is not completed.
     def update_scores
       self.class.skip_callback :save, :before, :set_scores
       self.class.skip_callback :save, :before, :set_actions
