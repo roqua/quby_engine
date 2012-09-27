@@ -31,6 +31,28 @@ module Quby
       it "should be initialized as an empty hash" do
         answer.scores.should eq({})
       end
+
+      it 'can be accessed with indifferent access' do
+        Answer.any_instance.stub(:set_scores => nil)
+        answer = Answer.create!(scores: {:tot => {label: 'Totaal', value: 4}})
+        answer = Answer.find(answer.id)
+        answer.scores[:tot][:label].should == 'Totaal'
+        answer.scores["tot"]["value"].should == 4
+      end    end
+
+    describe '#actions' do
+      it 'is initialized with empty hash' do
+        answer = Answer.create!
+        answer.actions.should == {}
+      end
+
+      it 'can be accessed with indifferent access' do
+        Answer.any_instance.stub(:set_actions => nil)
+        answer = Answer.create!(actions: {:alarm => [:v1, :v2]})
+        answer = Answer.find(answer.id)
+        answer.actions[:alarm].should == [:v1, :v2]
+        answer.actions["alarm"].should == [:v1, :v2]
+      end
     end
 
     describe '#patient_id' do

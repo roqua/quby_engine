@@ -139,6 +139,14 @@ module Quby
       {}
     end
 
+    def scores
+      read_attribute(:scores).with_indifferent_access
+    end
+
+    def actions
+      read_attribute(:actions).with_indifferent_access
+    end
+
     def as_json(options = {})
       attributes.merge({
         :id => self.id,
