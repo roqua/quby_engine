@@ -107,6 +107,24 @@ module Quby
         end
       end
 
+      def attention(options = {}, &block)
+        s = ScoreBuilder.new(:attention, options, &block)
+
+        @questionnaire.instance_eval do
+          @actions ||= []
+          @actions << s.build
+        end
+      end
+
+      def alarm(options = {}, &block)
+        s = ScoreBuilder.new(:alarm, options, &block)
+
+        @questionnaire.instance_eval do
+          @actions ||= []
+          @actions << s.build
+        end
+      end
+
       private
       def default_panel_options
         {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
