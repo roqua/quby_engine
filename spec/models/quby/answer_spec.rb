@@ -15,6 +15,7 @@ module Quby
                               :validations => [{:type => :requires_answer}],
                               :extra_data => {})],
           :scores => [],
+          :actions => [],
           :default_answer_value => {},
           :last_update => Time.now,
           )
