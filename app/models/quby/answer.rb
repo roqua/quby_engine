@@ -6,7 +6,7 @@ module Quby
 
     include ::Mongoid::Document
     include ::Mongoid::Timestamps
-    include ScoreCalculations
+    include OutcomeCalculations
 
     store_in :answers
 
@@ -21,6 +21,7 @@ module Quby
     field :test,              :type => Boolean, :default => false
     field :completed_at,      :type => Time
     field :scores,            :type => Hash,    :default => {}
+    field :actions,           :type => Hash,    :default => {}
     field :activity_log,      :type => String,  :default => ""
 
     # Faux belongs_to :questionnaire

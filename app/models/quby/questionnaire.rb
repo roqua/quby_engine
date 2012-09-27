@@ -35,6 +35,7 @@ module Quby
       @definition = definition if definition
       @last_update = Time.at(last_update.to_i)
       @scores ||= []
+      @actions ||= []
 
       @scroll_to_next_question = false
 
@@ -94,6 +95,7 @@ module Quby
     attr_accessor :enable_previous_questionnaire_button
     attr_accessor :panels
     attr_accessor :scores
+    attr_accessor :actions
     attr_accessor :default_answer_value
     attr_accessor :scroll_to_next_question
     attr_accessor :log_user_activity
