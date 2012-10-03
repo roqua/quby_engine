@@ -35,6 +35,7 @@ module Quby
         begin
           scores[score.key] = ScoreCalculator.calculate(self.value_by_regular_values,
                                                         self.patient.andand.slice("birthyear", "gender"),
+                                                        scores,
                                                         &score.calculation)
         rescue StandardError => e
           scores[score.key] = {:exception => e.message,

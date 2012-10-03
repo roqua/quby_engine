@@ -70,6 +70,15 @@ module Quby
         answer = Answer.new(value: {'v1' => :a1})
         answer.calculate_scores.should == {:tot => [2]}
       end
+
+      it 'allows access to other scores' do
+        score1 = stub(key: :one, calculation: Proc.new { {value: 4} })
+        score2 = stub(key: :two, calculation: Proc.new { {value: score(:one)[:value] + 2} })
+        scores = [score1, score2]
+        questionnaire.stub(scores: scores)
+        answer = Answer.new(value: {})
+        answer.calculate_scores.should == {one: {value: 4}, two: {value: 6}}
+      end
     end
 
     describe '#update_scores' do
