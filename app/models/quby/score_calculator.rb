@@ -1,8 +1,5 @@
 module Quby
   class ScoreCalculator
-    attr_accessor :values
-    attr_accessor :patient
-
     # Evaluates block within the context of a new calculator
     # instance. All instance methods are accessible.
     def self.calculate(*args, &block)
@@ -19,9 +16,12 @@ module Quby
     #                        score calculation (optional)
     #           :gender - The Symbol gender of the patient, must be one of:
     #                     :male, :female or :unknown (optional)
-    def initialize(values, patient_attrs = {})
+    # scores - The Hash containing other scores calculated for the answer, so
+    #          that these scores can be accessed from the current calculation.
+    def initialize(values, patient_attrs = {}, scores = {})
       @values = values
       @patient = ::Quby::Patient.new(patient_attrs)
+      @scores = scores.with_indifferent_access
       @score = {}
     end
 
@@ -112,14 +112,22 @@ module Quby
 
     # Public: Returns the Integer age of the patient, or nil if it's not known.
     def age
-      patient.age
+      @patient.age
     end
 
     # Public: Returns the Symbol describing the gender of the patient.
     #
     # The symbol :unknown is returned when gender is not known.
     def gender
-      patient.gender
+      @patient.gender
+    end
+
+    # Public: Returns the Hash emitted by another score calculation
+    #
+    # key - The Symbol of another score.
+    def score(key)
+      raise "Score #{key.inspect} does not exist or is not calculated yet." unless @scores.has_key? key
+      @scores.fetch(key)
     end
 
     def require_percentage_filled(values, percentage)

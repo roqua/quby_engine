@@ -6,7 +6,7 @@ module Quby
 
     include ::Mongoid::Document
     include ::Mongoid::Timestamps
-    include ScoreCalculations
+    include OutcomeCalculations
 
     store_in :answers
 
@@ -21,6 +21,7 @@ module Quby
     field :test,              :type => Boolean, :default => false
     field :completed_at,      :type => Time
     field :scores,            :type => Hash,    :default => {}
+    field :actions,           :type => Hash,    :default => {}
     field :activity_log,      :type => String,  :default => ""
 
     # Faux belongs_to :questionnaire
@@ -136,6 +137,14 @@ module Quby
     rescue Exception => e
       logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
       {}
+    end
+
+    def scores
+      read_attribute(:scores).with_indifferent_access
+    end
+
+    def actions
+      read_attribute(:actions).with_indifferent_access
     end
 
     def as_json(options = {})

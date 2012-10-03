@@ -110,7 +110,7 @@ module Quby
 
         if questionnaire.scores
           questionnaire.scores.each do |score|
-            scorer = score.scorer
+            scorer = score.calculation
             define_method("score_" + score.key.to_s, &scorer)
           end
         end
