@@ -3,7 +3,7 @@ require 'spec_helper'
 module Quby
   describe OutcomeCalculations do
     let(:scorer) { Proc.new { 3 } }
-    let(:score) { stub(:key => :tot, :calculation => scorer) }
+    let(:score) { Score.new(:tot, {label: "Totaal"}, &scorer) }
     let(:scores) { [score] }
 
     let(:actioner) { Proc.new { 5} }
@@ -13,6 +13,7 @@ module Quby
     let(:questionnaire) { stub(:scores => scores,
                                :actions => actions,
                                :questions => [], :last_update => Time.now, :key => nil) }
+    let(:answer) { Answer.new }
 
     before do
       Answer.any_instance.stub(:questionnaire => questionnaire)
@@ -78,6 +79,18 @@ module Quby
         questionnaire.stub(scores: scores)
         answer = Answer.new(value: {})
         answer.calculate_scores.should == {one: {value: 4}, two: {value: 6}}
+      end
+
+      context 'when calculation throws an exception' do
+        before { score.stub(:calculation => Proc.new { raise "Foo" }) }
+
+        it 'stores the exception' do
+          answer.calculate_scores[:tot][:exception].should == 'Foo'
+        end
+
+        it 'includes the label' do
+          answer.calculate_scores[:tot][:label].should == "Totaal"
+        end
       end
     end
 

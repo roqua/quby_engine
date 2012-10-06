@@ -38,7 +38,8 @@ module Quby
                                                         scores,
                                                         &score.calculation)
         rescue StandardError => e
-          scores[score.key] = {:exception => e.message,
+          scores[score.key] = {:label => score.label,
+                               :exception => e.message,
                                :backtrace => e.backtrace}
         end
       end
