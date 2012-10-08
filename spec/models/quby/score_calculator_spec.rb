@@ -102,6 +102,27 @@ module Quby
       end
     end
 
+    describe '#mean_ignoring_nils_80_pct' do
+      let(:calculator) { ScoreCalculator.new({}) }
+
+      it 'returns mean of values given, not counting nils towards the amount of values' do
+        calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, 6]).should == 3.5
+      end
+
+      it 'returns nil if the amount of nils > 20% of all values' do
+        calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, nil]).should == nil
+      end
+
+      #returns 0 for consistency, but returning nil or raising would not be a weird choice either
+      it 'returns 0 for empty array' do
+        calculator.mean_ignoring_nils_80_pct([]).should == 0
+      end
+
+      it 'does not raise for nil values' do
+        expect { calculator.mean_ignoring_nils_80_pct([nil, 2]) }.not_to raise_error(/coerce/)
+      end
+    end
+
     describe '#sum_extrapolate' do
       let(:calculator) { ScoreCalculator.new({}) }
 

@@ -70,13 +70,24 @@ module Quby
       sum(values).to_f / values.length
     end
 
-    # Public: Gives mean of values, ignoring nil values
+    # Public: Gives mean of values,
     #
     # values - An Array of Numerics
     #
     # Returns the mean of the given values
     def mean_ignoring_nils(values)
       mean(values.reject(&:blank?))
+    end
+
+    # Public: Gives mean of values, ignoring nil values if >= 80% is filled in
+    #
+    # values - An Array of Numerics
+    #
+    # Returns the mean of the given values, or nil if less than 80% is present
+    def mean_ignoring_nils_80_pct(values)
+      vals = values.reject(&:blank?)
+      return nil if vals.length < values.length*0.8
+      mean(vals)
     end
 
     # Public: Sums values, extrapolating nils to be valued as the mean of the present values
