@@ -70,7 +70,7 @@ module Quby
       sum(values).to_f / values.length
     end
 
-    # Public: Gives mean of values,
+    # Public: Gives mean of values, ignoring nil values
     #
     # values - An Array of Numerics
     #
