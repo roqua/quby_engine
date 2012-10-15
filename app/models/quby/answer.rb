@@ -62,10 +62,6 @@ module Quby
 
     def enhance_by_dsl
       AnswerDsl.enhance(self)
-
-      questionnaire.questions.each do |question|
-        next unless question
-      end
     end
 
     def patient_id
