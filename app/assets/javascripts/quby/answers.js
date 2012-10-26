@@ -161,7 +161,9 @@ function validatePanel(panel) {
                 }
                 break;
             case "regexp":
-                var regex = eval(validation.matcher);
+                //super dirty regex replace /A to ^ and /Z to $
+                var jsregex = validation.matcher.replace("\\A", "^").replace("\\Z", "$")
+                var regex = eval(jsregex);
                 var value = undefined;
                 if (inputs.length == 3 && (inputs[0].value != "" || inputs[1].value != "" || inputs[2].value != "")) {
                     var vals = [];
