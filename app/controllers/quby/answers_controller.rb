@@ -120,7 +120,7 @@ module Quby
     def bad_token(exception)
       @error = "Er is geen of een ongeldige token meegegeven."
       render :file => "errors/generic", :layout => "dialog"
-      handle_exception exception
+      handle_exception exception unless exception.message =~ /Facebook/
     end
 
     def bad_questionnaire(exception)
@@ -139,7 +139,7 @@ module Quby
       logger.error("EXCEPTION: #{exception.message}")
       logger.error(exception.backtrace)
 
-      if Rails.env.development?
+      if Rails.env.development? or Rails.env.test?
         logger.error "Exception reraised"
         raise exception
       elsif defined?(notify_airbrake)
@@ -178,14 +178,17 @@ module Quby
     end
 
     def verify_hmac
-      #return true if Rails.env.development?
-
       hmac      = (params['hmac']      || @hmac         || '').strip
       token     = (params['token']     || @answer_token || '').strip
       timestamp = (params['timestamp'] || @timestamp    || '').strip
 
       plain_hmac = [Quby::Settings.shared_secret, token, timestamp].join('|')
       our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
+
+      if timestamp =~ /EB_PLUS/
+        logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
+        raise TokenValidationError.new("Facebook Spider with EB_PLUS in timestamp")
+      end
 
       if our_hmac != hmac
         logger.error "ERROR::Authentication error: Token does not validate"
