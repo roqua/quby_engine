@@ -5,6 +5,7 @@ module Quby
     describe 'Facebook spider does not report' do
       it 'does not report' do
         finder = stub(:find => Questionnaire.new("honos"))
+        Quby::Questionnaire.stub(questionnaire_finder: finder)
         Quby::Answer.stub(questionnaire_finder: finder)
 
         answer = Quby::Answer.create(:questionnaire_key => "honos")
