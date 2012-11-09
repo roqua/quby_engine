@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'benchmark'
 
 module Quby
-  describe "Benchmarks" do
+  describe "Benchmarks", benchmark: true do
     let(:questionnaire_finder) { QuestionnaireFinder.new(Rails.root.join("../../spec/fixtures")) }
     let(:questionnaire) { questionnaire_finder.find("big") }
     before { Answer.stub(:questionnaire_finder => questionnaire_finder) }
