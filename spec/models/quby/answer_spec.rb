@@ -16,6 +16,7 @@ module Quby
                               :extra_data => {})],
           :scores => [],
           :actions => [],
+          :completion => nil,
           :default_answer_value => {},
           :last_update => Time.now,
           )
