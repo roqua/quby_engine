@@ -96,6 +96,7 @@ module Quby
     attr_accessor :panels
     attr_accessor :scores
     attr_accessor :actions
+    attr_accessor :completion
     attr_accessor :default_answer_value
     attr_accessor :scroll_to_next_question
     attr_accessor :log_user_activity
