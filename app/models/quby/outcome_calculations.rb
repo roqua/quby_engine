@@ -74,6 +74,7 @@ module Quby
         {
           value: ScoreCalculator.calculate(self.value_by_regular_values,
                                           self.patient.andand.slice("birthyear", "gender"),
+                                          scores,
                                           &questionnaire.completion.calculation)
         }.stringify_keys
       else
