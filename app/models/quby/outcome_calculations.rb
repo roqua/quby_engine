@@ -7,6 +7,7 @@ module Quby
     included do
       before_save :set_scores
       before_save :set_actions
+      before_save :set_completion
 
       def set_scores
         self.scores = calculate_scores
@@ -14,6 +15,10 @@ module Quby
 
       def set_actions
         self.actions = calculate_actions
+      end
+
+      def set_completion
+        self.completion = calculate_completion
       end
     end
 
@@ -64,16 +69,34 @@ module Quby
       actions
     end
 
+    def calculate_completion
+      if questionnaire.completion
+        {
+          value: ScoreCalculator.calculate(self.value_by_regular_values,
+                                          self.patient.andand.slice("birthyear", "gender"),
+                                          &questionnaire.completion.calculation)
+        }.stringify_keys
+      else
+        {}
+      end
+    rescue StandardError => e
+      {:exception => e.message,
+       :backtrace => e.backtrace}
+    end
+
     # Calculate scores and actions, write to the database but bypass any validations
     # This function is called by parts of the system that only want to calculate
     # stuff, and can't help it if an answer is not completed.
     def update_scores
       self.class.skip_callback :save, :before, :set_scores
       self.class.skip_callback :save, :before, :set_actions
-      update_attribute(:scores,  calculate_scores)
-      update_attribute(:actions, calculate_actions)
+      self.class.skip_callback :save, :before, :set_completion
+      update_attribute(:scores,     calculate_scores)
+      update_attribute(:actions,    calculate_actions)
+      update_attribute(:completion, calculate_completion)
       self.class.set_callback :save, :before, :set_scores
       self.class.set_callback :save, :before, :set_actions
+      self.class.set_callback :save, :before, :set_completion
     end
   end
 end

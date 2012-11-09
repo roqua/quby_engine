@@ -22,6 +22,7 @@ module Quby
     field :completed_at,      :type => Time
     field :scores,            :type => Hash,    :default => {}
     field :actions,           :type => Hash,    :default => {}
+    field :completion,        :type => Hash,    :default => {}
     field :activity_log,      :type => String,  :default => ""
 
     # Faux belongs_to :questionnaire

@@ -10,8 +10,12 @@ module Quby
     let(:action) { stub(:key => 'attention', :calculation => actioner) }
     let(:actions) { [action] }
 
+    let(:completioner) { Proc.new { 0.9 } }
+    let(:completion) { stub(:calculation => completioner) }
+
     let(:questionnaire) { stub(:scores => scores,
                                :actions => actions,
+                               :completion => completion,
                                :questions => [], :last_update => Time.now, :key => nil) }
     let(:answer) { Answer.new }
 
@@ -93,10 +97,32 @@ module Quby
       end
     end
 
+    describe '#calculate_completion' do
+      it 'calculates completion percentage' do
+        completion.stub(:calculation => Proc.new { 0.9 })
+        answer.calculate_completion.should == {'value' => 0.9}
+      end
+
+      context 'when calculation throws an exception' do
+        it 'stores the exception' do
+          completion.stub(:calculation => Proc.new { raise "Foo" })
+          answer.calculate_completion[:exception].should == 'Foo'
+        end
+      end
+
+      context 'when questionnaire has no calculation' do
+        it 'returns an empty hash' do
+          questionnaire.stub(completion: nil)
+          answer.calculate_completion.should == {}
+        end
+      end
+    end
+
     describe '#update_scores' do
       it 'calculates scores' do
         answer.should_receive(:calculate_scores)
         answer.should_receive(:calculate_actions)
+        answer.should_receive(:calculate_completion)
         answer.update_scores
       end
 
@@ -110,6 +136,11 @@ module Quby
         answer.actions.should == {'attention' => 5}
       end
 
+      it 'assigns the calculated completion to self.completion' do
+        answer.update_scores
+        answer.completion.should == {'value' => 0.9}
+      end
+
       it 'skips the set_score callback' do
         answer.update_scores
         answer.should_not_receive(:set_scores)
@@ -118,6 +149,11 @@ module Quby
       it 'skips the set_actions callback' do
         answer.update_scores
         answer.should_not_receive(:set_actions)
+      end
+
+      it 'skips the set_completion callback' do
+        answer.update_scores
+        answer.should_not_receive(:set_completion)
       end
     end
   end

@@ -125,6 +125,12 @@ module Quby
         end
       end
 
+      def completion(options = {}, &block)
+        s = ScoreBuilder.new(:completion, options, &block)
+
+        @questionnaire.completion = s.build
+      end
+
       private
       def default_panel_options
         {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
