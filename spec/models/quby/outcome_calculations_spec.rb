@@ -2,11 +2,11 @@ require 'spec_helper'
 
 module Quby
   describe OutcomeCalculations do
-    let(:scorer) { Proc.new { 3 } }
+    let(:scorer) { Proc.new { {value: 3} } }
     let(:score) { Score.new(:tot, {label: "Totaal"}, &scorer) }
     let(:scores) { [score] }
 
-    let(:actioner) { Proc.new { 5} }
+    let(:actioner) { Proc.new { 5 } }
     let(:action) { stub(:key => 'attention', :calculation => actioner) }
     let(:actions) { [action] }
 
@@ -60,12 +60,11 @@ module Quby
 
     describe '#calculate_scores' do
       it 'calculates scores' do
-        score.stub(:calculation => Proc.new { 3 })
-        answer.calculate_scores.should == {:tot => 3}
+        answer.calculate_scores.should == {:tot => {label: 'Totaal', value: 3}}
       end
 
       it 'calculates scores with integer values' do
-        score.stub(:calculation => Proc.new { values(:v1) })
+        score.stub(:calculation => Proc.new { {value: values(:v1)} })
         questionnaire.stub(:questions => [stub(:key => :v1,
                                                :type => :radio,
                                                :options => [
@@ -73,12 +72,12 @@ module Quby
                                                  ],
                                                :text_var => false)])
         answer.value = {'v1' => :a1}
-        answer.calculate_scores.should == {:tot => [2]}
+        answer.calculate_scores.should == {:tot => {label: 'Totaal', value: [2]}}
       end
 
       it 'allows access to other scores' do
-        score1 = stub(key: :one, calculation: Proc.new { {value: 4} })
-        score2 = stub(key: :two, calculation: Proc.new { {value: score(:one)[:value] + 2} })
+        score1 = stub(key: :one, options: {}, calculation: Proc.new { {value: 4} })
+        score2 = stub(key: :two, options: {}, calculation: Proc.new { {value: score(:one)[:value] + 2} })
         scores = [score1, score2]
         questionnaire.stub(scores: scores)
         answer.calculate_scores.should == {one: {value: 4}, two: {value: 6}}
@@ -128,7 +127,7 @@ module Quby
 
       it 'assigns the calculated score to self.scores' do
         answer.update_scores
-        answer.scores.should == {'tot' => 3}
+        answer.scores.should == {'tot' => {label: 'Totaal', value: 3}.stringify_keys}
       end
 
       it 'assigns the calculated actions to self.actions' do

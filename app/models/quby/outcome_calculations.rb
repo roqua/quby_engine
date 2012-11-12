@@ -38,14 +38,14 @@ module Quby
 
       questionnaire.scores.each do |score|
         begin
-          scores[score.key] = ScoreCalculator.calculate(self.value_by_regular_values,
-                                                        self.patient.andand.slice("birthyear", "gender"),
-                                                        scores,
-                                                        &score.calculation)
+          result = ScoreCalculator.calculate(self.value_by_regular_values,
+                                             self.patient.andand.slice("birthyear", "gender"),
+                                             scores,
+                                             &score.calculation)
+          scores[score.key] = result.reverse_merge(score.options)
         rescue StandardError => e
-          scores[score.key] = {:label => score.label,
-                               :exception => e.message,
-                               :backtrace => e.backtrace}
+          scores[score.key] = {:exception => e.message,
+                               :backtrace => e.backtrace}.reverse_merge(score.options)
         end
       end
 
