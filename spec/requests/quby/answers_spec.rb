@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Quby
-  describe "Answers" do
+  describe AnswersController do
     describe 'Facebook spider does not report' do
       it 'does not report' do
         finder = stub(:find => Questionnaire.new("honos"))
@@ -20,8 +20,46 @@ module Quby
       end
     end
 
-    Questionnaire.all.each do |questionnaire|
-      describe "GET /questionnaires/#{questionnaire.key}/answers/some_id" do
+    def create_answer(questionnaire)
+      Quby::Questionnaire.questionnaire_finder
+        .stub(:find)
+        .with(questionnaire.key)
+        .and_return(questionnaire)
+
+      Quby::Answer.questionnaire_finder
+        .stub(:find)
+        .with(questionnaire.key)
+        .and_return(questionnaire)
+
+      Quby::Answer.create(:questionnaire_key => questionnaire.key)
+    end
+
+    describe '#update' do
+      before do
+        AnswersController.any_instance.stub(:verify_hmac => true)
+        AnswersController.any_instance.stub(:verify_token => true)
+      end
+
+      it 'saves the answer' do
+        honos  = Questionnaire.new("honos", "question(:v1, type: :string)")
+        answer = create_answer(honos)
+        put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
+
+        response.should render_template(:completed)
+      end
+
+      it 'does not save invalid answers' do
+        honos  = Questionnaire.new("honos", "question(:v1, type: :string, required: true)")
+        answer = create_answer(honos)
+        put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
+
+        response.should render_template(:edit)
+        flash[:notice].should match(/nog niet volledig ingevuld/)
+      end
+    end
+
+    # Questionnaire.all.each do |questionnaire|
+      # describe "GET /questionnaires/#{questionnaire.key}/answers/some_id" do
         #before(:each) do
           #@answer = Answer.create!(:test => true,
                                   #:value => questionnaire.default_answer_value,
@@ -50,7 +88,7 @@ module Quby
           #get path
           #response.status.should be(200)
         #end
-      end
-    end
+      # end
+    # end
   end
 end
