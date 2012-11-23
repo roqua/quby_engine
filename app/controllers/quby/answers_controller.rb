@@ -80,10 +80,12 @@ module Quby
 
     def update(printing=false)
       respond_to do |format|
-        #Update_attributes also validates
         @answer.attributes = params[:answer]
+
+        @answer.extend AnswerValidations
         @answer.cleanup_input
         @answer.validate_answers
+
         if @answer.errors.empty? and @answer.save
           if printing
             render :action => "print/show", :layout => "layouts/content_only" and return
