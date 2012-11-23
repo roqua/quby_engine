@@ -33,7 +33,7 @@ module Quby
     after_initialize :enhance_by_dsl
     before_validation(:on => :create) { set_default_answer_values }
     before_validation(:on => :create) { generate_random_token }
-    before_validation(:on => :update) { cleanup_input }
+    # before_validation(:on => :update) { cleanup_input }
 
     before_save do
       self[:questionnaire_key] = questionnaire.key
@@ -46,7 +46,7 @@ module Quby
 
     validates_presence_of :token
     validates_length_of :token, :minimum => 4
-    validate :validate_answers, :on => :update
+    # validate :validate_answers, :on => :update
 
     attr_accessor :aborted
     #Values in globalpark coding that need to be recoded and used to initialize this answer
