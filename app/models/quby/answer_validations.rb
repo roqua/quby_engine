@@ -27,6 +27,17 @@ module Quby
       end
     end
 
+    def clear_question(question)
+      value.delete(question.key.to_s)
+      if question.type == :check_box
+        question.options.each do |opt|
+          value.delete(opt.key.to_s)
+        end
+      end
+    end
+
+
+
     def validate_answers
       questionnaire.questions.each do |question|
         next unless question

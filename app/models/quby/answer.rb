@@ -151,15 +151,6 @@ module Quby
       })
     end
 
-    def clear_question(question)
-      value.delete(question.key.to_s)
-      if question.type == :check_box
-        question.options.each do |opt|
-          value.delete(opt.key.to_s)
-        end
-      end
-    end
-
     def completed?
   #    questionnaire.panels.reduce(true) do |valid_so_far, panel|
   #      next valid_so_far unless panel
