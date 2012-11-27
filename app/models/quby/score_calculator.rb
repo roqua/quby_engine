@@ -4,7 +4,7 @@ module Quby
     # instance. All instance methods are accessible.
     def self.calculate(*args, &block)
       instance = self.new(*args)
-      instance.instance_eval &block
+      instance.instance_eval(&block) || {}
     end
 
     # Public: Initialize a new ScoreCalculator
