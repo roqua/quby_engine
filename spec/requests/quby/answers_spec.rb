@@ -74,18 +74,29 @@ module Quby
         end
 
         it 'redirects to roqua if return url is set' do
-          put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil},
-                                                                 return_url: url,
-                                                                 return_token: "abcd"
+          put "/quby/questionnaires/honos/answers/#{answer.id}",
+              answer: {v_1: nil},
+              return_url: url,
+              return_token: "abcd"
 
           response.should redirect_to(return_url)
         end
 
+        it 'respects existing query parameters in return url' do
+          put "/quby/questionnaires/honos/answers/#{answer.id}",
+              answer: {v_1: nil},
+              return_url: url + "?a=b",
+              return_token: "abcd"
+
+          response.should redirect_to(url + "?a=b&key=abcd&return_from=quby")
+        end
+
         it 'redirects with status of "close" if abort button was clicked' do
-          put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil},
-                                                                 return_url: url,
-                                                                 return_token: "abcd",
-                                                                 commit: "Onderbreken"
+          put "/quby/questionnaires/honos/answers/#{answer.id}",
+              answer: {v_1: nil},
+              return_url: url,
+              return_token: "abcd",
+              commit: "Onderbreken"
 
           response.should redirect_to(return_url + "&status=close")
         end
