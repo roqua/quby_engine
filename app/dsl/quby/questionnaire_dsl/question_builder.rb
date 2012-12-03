@@ -27,7 +27,7 @@ module Quby
       end
 
       def title(value)
-        @question.title = value
+        @question.title = value.gsub!(/\A\d+.?\./, '  \\0')
       end
 
       def inner_title(value)

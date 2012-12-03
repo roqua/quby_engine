@@ -34,9 +34,9 @@ module Quby
     #2: lops off enclosing p tags
     #3: adds .main and %label(for=labelfor) around content
     QUESTION_ID_REGEX = /\A\s*(\d+.?\.|\A\w\)|\A\w\.)(.*)/
-    def marukufix(string, labelfor, title_insert=nil)
+    def marukufix(stringin, labelfor, title_insert=nil)
+      string = stringin.clone
       string = "&nbsp;" if string.blank?
-      string.gsub!(/\A\d+.?\./, '  \\0')
 
       if labelfor
         string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
@@ -51,9 +51,9 @@ module Quby
       end
     end
 
-    def table_marukufix(string, labelfor, rowspan, title_insert=nil)
-      return '' unless string
-      string.gsub!(/\A\d+.?\./, '  \\0')
+    def table_marukufix(stringin, labelfor, rowspan, title_insert=nil)
+      return '' unless stringin
+      string = stringin.clone
       string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
       if QUESTION_ID_REGEX.match(string)
         string.gsub!(QUESTION_ID_REGEX, "<td class='main' rowspan='#{rowspan}'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div>#{title_insert}</td>")
