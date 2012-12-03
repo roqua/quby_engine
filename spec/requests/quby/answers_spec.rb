@@ -56,6 +56,40 @@ module Quby
         response.should render_template(:edit)
         flash[:notice].should match(/nog niet volledig ingevuld/)
       end
+
+      context 'upon successful save' do
+        let(:honos)      { Questionnaire.new("honos", "question(:v1, type: :string)") }
+        let(:answer)     { create_answer(honos) }
+        let(:url)        { "http://example.org" }
+        let(:return_url) { url + "?key=abcd&return_from=quby" }
+
+        it 'renders print view if printing' do
+          put "/quby/questionnaires/honos/answers/#{answer.id}/print", answer: {v_1: nil}
+          response.should render_template('print/show')
+        end
+
+        it 'renders completed view if no return url' do
+          put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
+          response.should render_template('completed')
+        end
+
+        it 'redirects to roqua if return url is set' do
+          put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil},
+                                                                 return_url: url,
+                                                                 return_token: "abcd"
+
+          response.should redirect_to(return_url)
+        end
+
+        it 'redirects with status of "close" if abort button was clicked' do
+          put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil},
+                                                                 return_url: url,
+                                                                 return_token: "abcd",
+                                                                 commit: "Onderbreken"
+
+          response.should redirect_to(return_url + "&status=close")
+        end
+      end
     end
   end
 end
