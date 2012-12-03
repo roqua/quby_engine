@@ -80,13 +80,9 @@ module Quby
 
     def update(printing=false)
       respond_to do |format|
-        @answer.attributes = params[:answer]
+        updater = UpdatesAnswers.new(@answer)
 
-        @answer.extend AnswerValidations
-        @answer.cleanup_input
-        @answer.validate_answers
-
-        if @answer.errors.empty? and @answer.save
+        updater.on_success do
           if printing
             render :action => "print/show", :layout => "layouts/content_only" and return
           end
@@ -106,7 +102,9 @@ module Quby
               redirect_to_roqua and return
             end
           end
-        else
+        end
+
+        updater.on_failure do
           flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
           if printing
             format.html { render :action => "#{@display_mode}/edit", :layout => "layouts/content_only" }
@@ -115,6 +113,8 @@ module Quby
           end
           format.json { render :json => @answer.errors.to_json }
         end
+
+        updater.update(params[:answer])
       end
     end
 
