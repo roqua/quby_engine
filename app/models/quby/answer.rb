@@ -1,7 +1,7 @@
 module Quby
   class Answer
     def self.questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireFinder.new(Quby.questionnaires_path)
+      Quby.questionnaire_finder
     end
 
     include ::Mongoid::Document
@@ -27,7 +27,7 @@ module Quby
 
     # Faux belongs_to :questionnaire
     def questionnaire
-      @questionnaire_cache ||= self.class.questionnaire_finder.find(questionnaire_key)
+      self.class.questionnaire_finder.find(questionnaire_key)
     end
 
     after_initialize :enhance_by_dsl
