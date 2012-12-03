@@ -21,12 +21,7 @@ module Quby
     end
 
     def create_answer(questionnaire)
-      Quby::Questionnaire.questionnaire_finder
-        .stub(:find)
-        .with(questionnaire.key)
-        .and_return(questionnaire)
-
-      Quby::Answer.questionnaire_finder
+      Quby.questionnaire_finder
         .stub(:find)
         .with(questionnaire.key)
         .and_return(questionnaire)
