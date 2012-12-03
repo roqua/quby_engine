@@ -47,6 +47,15 @@
               @include span-columns(23-$label-columns);
               input { width: auto; }
             }
+
+            .radiocheckwrapper {
+              width: 10px;
+              padding-right: 20px;
+            }
+            .labelwrapper {
+              width: auto;
+              float: none;
+            }
           }
         }
 
