@@ -58,7 +58,7 @@ module Quby
       def log_user_activity(value = true)
         @questionnaire.log_user_activity = value
       end
-      
+
       def panel(title = nil, options = {}, &block)
         p = PanelBuilder.new(title, options.merge(default_panel_options))
         p.instance_eval(&block)
@@ -100,7 +100,6 @@ module Quby
       # end
       def score(key, options = {}, &block)
         s = ScoreBuilder.new(key, options, &block)
-
         @questionnaire.instance_eval do
           @scores ||= []
           @scores << s.build

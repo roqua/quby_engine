@@ -55,7 +55,7 @@
 
       &.string,
       &.textarea {
-        input, textarea { @include span-columns($columns omega) }
+        input, textarea { @include span-columns($columns omega); }
         .sized { width: auto; }
       }
 
@@ -105,8 +105,17 @@
 
             .item {
               @include span-columns($field-columns - 1, $field-columns);
-              .main { @include span-columns($field-columns - 1 omega, $field-columns - 1)}
+              .main { @include span-columns($field-columns - 1 omega, $field-columns - 1); }
               input { width: auto; }
+            }
+
+            .radiocheckwrapper {
+              width: 10px;
+              padding-right: 20px;
+            }
+            .labelwrapper {
+              width: auto;
+              float: none;
             }
           }
         }
@@ -116,13 +125,13 @@
 
       &.string,
       &.textarea {
-        input, textarea { @include span-columns($field-columns omega, $field-columns) }
+        input, textarea { @include span-columns($field-columns omega, $field-columns); }
         .sized { width: auto; }
       }
 
       &.integer.slider,
       &.float.slider {
-        .slider { @include span-columns($field-columns omega, $field-columns) }
+        .slider { @include span-columns($field-columns omega, $field-columns); }
 
         .slider-label-left {
           @include span-columns(($field-columns)/2, $field-columns);
