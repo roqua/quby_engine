@@ -310,7 +310,7 @@ function hashchangeEventHandler(){
     if (hashChangeEnabled) {
         // if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
         if (window.location.hash != "" && window.location.hash != $(".panel:first").id) {
-            var panel = $(".panel#" + window.location.hash);
+            var panel = $(window.location.hash);
             if (panel[0]) {
                 activatePanel(panel, true, true);
             }
