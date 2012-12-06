@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 module Quby
@@ -94,6 +95,16 @@ module Quby
               commit: "Onderbreken"
 
           response.should redirect_to(return_url + "&status=close")
+        end
+
+        it 'redirects with status of "back" when a user navigates back' do
+          put "/quby/questionnaires/honos/answers/#{answer.id}",
+              answer: {v_1: nil},
+              return_url: url,
+              return_token: "abcd",
+              commit: "← Vorige vragenlijst"
+
+          response.should redirect_to(return_url + "&status=back")
         end
       end
     end
