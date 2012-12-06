@@ -20,6 +20,7 @@ module Quby
           @questionnaire.enhance_by_dsl
           Answer.any_instance.stub(:questionnaire).and_return(@questionnaire)
           @answer = Answer.new
+          @answer.extend AnswerValidations
         end
 
         it "should add a validation to the question" do

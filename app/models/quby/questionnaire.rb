@@ -10,7 +10,7 @@ module Quby
     class ValidationError < StandardError; end
 
     def self.questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireFinder.new(Quby.questionnaires_path)
+      Quby.questionnaire_finder
     end
 
     def self.all

@@ -7,15 +7,7 @@ module Quby
 
     before do
       FileUtils.mkdir_p("/tmp")
-      @old_path = Quby.questionnaires_path
-      @old_finder = Questionnaire.class_eval {@questionnaire_finder}
       Quby.questionnaires_path = "/tmp"
-      Questionnaire.class_eval{ @questionnaire_finder = QuestionnaireFinder.new("/tmp") }
-    end
-
-    after do
-      Quby.questionnaires_path = @old_path
-      Questionnaire.class_eval{ @questionnaire_finder = @old_finder }
     end
 
     let(:key)           { 'test' }

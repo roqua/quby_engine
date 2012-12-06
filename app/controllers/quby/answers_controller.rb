@@ -80,28 +80,15 @@ module Quby
 
     def update(printing=false)
       respond_to do |format|
-        #Update_attributes also validates
-        if @answer.update_attributes(params[:answer])
-          if printing
-            render :action => "print/show", :layout => "layouts/content_only" and return
-          end
-          case params[:commit]
-          when "Onderbreken"
-            @status = "close"
-          when "← Vorige vragenlijst"
-            @status = "back"
-          end
+        updater = UpdatesAnswers.new(@answer)
 
-          if @return_url.blank?
-            render :action => "completed" and return
-          else
-            if @status
-              redirect_to_roqua(:params => {:status => @status}) and return
-            else
-              redirect_to_roqua and return
-            end
-          end
-        else
+        updater.on_success do
+          render :action => "print/show", :layout => "layouts/content_only" and return if printing
+          render :action => "completed" and return if @return_url.blank?
+          redirect_to_roqua(:status => return_status) and return
+        end
+
+        updater.on_failure do
           flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
           if printing
             format.html { render :action => "#{@display_mode}/edit", :layout => "layouts/content_only" }
@@ -110,6 +97,8 @@ module Quby
           end
           format.json { render :json => @answer.errors.to_json }
         end
+
+        updater.update(params[:answer])
       end
     end
 
@@ -202,7 +191,7 @@ module Quby
 
       if time < 24.hours.ago or 1.hour.since < time
         logger.error "ERROR::Authentication error: Request expired"
-        redirect_to_roqua(:params => {:expired_session => "true"}) and return
+        redirect_to_roqua(:expired_session => "true") and return
       end
     end
 
@@ -231,11 +220,28 @@ module Quby
       @custom_stylesheet = params[:stylesheet]
     end
 
+    def return_status
+      case params[:commit]
+      when "Onderbreken"
+        "close"
+      when "← Vorige vragenlijst"
+        "back"
+      else
+        nil
+      end
+    end
+
     def redirect_to_roqua(options = {})
-      #FIXME: Flash proper error message when return_url is empty
       address = Addressable::URI.parse(@return_url)
-      address.query_values = (address.query_values || {}).merge(:key => @return_token, :return_from => "quby")
-      address.query_values = address.query_values.merge(options[:params]||{})
+
+      # Addressable behaves strangely if were to do this directly on
+      # it's own hash, hence the (otherwise unneeded) temporary variable
+      query_values = (address.query_values || {})
+      query_values.merge!(:key => @return_token, :return_from => "quby")
+      options.each {|key, value| query_values[key] = value if value }
+
+      address.query_values = query_values
+
       logger.info address.to_s
       redirect_to address.to_s
     end
