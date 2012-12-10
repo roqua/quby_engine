@@ -26,13 +26,13 @@
             %div.main(class = "horizontal")
               %label(for="answer_#{question.key}")
                 :markdown
-                  #{question.title}
+                  #{question.title.gsub(/\A\d+.?\./, '  \\0')}
         - else
           %tr.row
             %td.main{:class => "horizontal", :colspan => table.columns}
               %label(for="answer_#{question.key}")
                 :markdown
-                  #{question.title}
+                  #{question.title.gsub(/\A\d+.?\./, '  \\0')}
       -if rowi == 0
         - if table.title
           %caption
