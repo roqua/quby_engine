@@ -36,7 +36,7 @@ module Quby
     QUESTION_ID_REGEX = /\A\s*(\d+.?\.|\A\w\)|\A\w\.)(.*)/
     def marukufix(stringin, labelfor, title_insert=nil)
       stringin = "&nbsp;" if stringin.blank?
-      string = stringin.clone
+      string = stringin.clone.gsub(/\A\d+.?\./, '  \\0')
 
       if labelfor
         string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
@@ -53,7 +53,7 @@ module Quby
 
     def table_marukufix(stringin, labelfor, rowspan, title_insert=nil)
       return '' unless stringin
-      string = stringin.clone
+      string = stringin.clone.gsub(/\A\d+.?\./, '  \\0')
       string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
       if QUESTION_ID_REGEX.match(string)
         string.gsub!(QUESTION_ID_REGEX, "<td class='main' rowspan='#{rowspan}'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div>#{title_insert}</td>")
