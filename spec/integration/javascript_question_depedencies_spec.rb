@@ -64,6 +64,8 @@ feature 'Dependencies between questions', js: true do
       within("#item_v1") { choose "Ja" }
       page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
     end
+
+    scenario 'hiding all questions on another page skips the entire page'
   end
 
   context 'checkbox questions' do
