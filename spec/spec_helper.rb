@@ -14,9 +14,11 @@ Spork.prefork do
   require 'rspec/rails'
   require 'capybara/rspec'
   require 'capybara/poltergeist'
+  require 'launchy'
 
   Capybara.default_selector = :css
   Capybara.javascript_driver = :poltergeist
+
 end
 
 Spork.each_run do
@@ -24,7 +26,7 @@ Spork.each_run do
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+  Dir[Rails.root.join("../../spec/support/**/*.rb")].each {|f| require f}
 
   RSpec.configure do |config|
     # == Mock Framework
@@ -43,6 +45,7 @@ Spork.each_run do
 
     config.before(:each) do
       DatabaseCleaner.start
+      Quby.questionnaires_path = Rails.root.join("..", "..", "spec", "fixtures")
     end
 
     config.after(:each) do
