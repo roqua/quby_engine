@@ -16,9 +16,9 @@ feature 'Trying to fill out an invalid answer', js: true do
     END
 
     visit_new_answer_for(questionnaire)
-    find("#item_v1").should have_css(".error.requires_answer.hidden")
+    find("#item_v1 .error.requires_answer").should_not be_visible
     click_on "Volgende vraag"
-    find("#item_v1").should have_no_css(".error.requires_answer.hidden")
+    find("#item_v1 .error.requires_answer").should be_visible
   end
 
   scenario 'by leaving a required string field empty' do
@@ -52,10 +52,9 @@ feature 'Trying to fill out an invalid answer', js: true do
   end
 
   def filling_in(options = {})
-    error_css_selector = "#{options[:should_show]}.hidden"
-    find(options[:within]).should have_css(error_css_selector)
+    find(options[:within] + " " + options[:should_show]).should_not be_visible
     fill_in options[:answering], with: options[:with]
     click_on "Volgende vraag"
-    find(options[:within]).should have_no_css(error_css_selector)
+    find(options[:within] + " " + options[:should_show]).should be_visible
   end
 end
