@@ -95,8 +95,72 @@ feature 'Dependencies between questions', js: true do
       page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
     end
 
-    scenario 'uncheck_all'
-    scenario 'check_all'
+    scenario 'options can force the unchecking of all other options' do
+      questionnaire = inject_questionnaire("test", <<-END)
+        question :v1, type: :check_box, uncheck_all_option: :a3 do
+          title "Verbergt vraag 2"
+          option :a1, value: 1, description: "One"
+          option :a2, value: 2, description: "Two"
+          option :a3, value: 3, description: "None"
+        end; end_panel
+      END
+
+      visit_new_answer_for(questionnaire)
+
+      check "One"
+      check "Two"
+
+      # Checking the none-option unchecks other options
+      check "None"
+      find('#answer_a1').should_not be_checked
+      find('#answer_a2').should_not be_checked
+
+      # Checking another option after none was selected unchecks the none-option
+      check "Two"
+      find('#answer_a3').should_not be_checked
+    end
+
+    scenario 'options can force the checking of all other options' do
+      questionnaire = inject_questionnaire("test", <<-END)
+        question :v1, type: :check_box, check_all_option: :a3 do
+          title "Verbergt vraag 2"
+          option :a1, value: 1, description: "One"
+          option :a2, value: 2, description: "Two"
+          option :a3, value: 3, description: "Both"
+        end; end_panel
+      END
+
+      visit_new_answer_for(questionnaire)
+
+      # Sanity check
+      find('#answer_a1').should_not be_checked
+      find('#answer_a2').should_not be_checked
+
+      # Checking the all-option should check the other options
+      check "Both"
+      find('#answer_a1').should be_checked
+      find('#answer_a2').should be_checked
+
+      # Unchecking one of the checks should uncheck the all-option
+      uncheck "Two"
+      find('#answer_a3').should_not be_checked
+    end
+
+    scenario 'force-checking all options does not check the none-option' do
+      questionnaire = inject_questionnaire("test", <<-END)
+        question :v1, type: :check_box, check_all_option: :a2, uncheck_all_option: :a3 do
+          title "Verbergt vraag 2"
+          option :a1, value: 1, description: "One"
+          option :a2, value: 2, description: "All"
+          option :a3, value: 3, description: "None"
+        end; end_panel
+      END
+
+      visit_new_answer_for(questionnaire)
+      check "All"
+      find('#answer_a1').should be_checked
+      find('#answer_a3').should_not be_checked
+    end
   end
 
   context 'question groups' do
