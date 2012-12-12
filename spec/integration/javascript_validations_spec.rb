@@ -67,6 +67,17 @@ feature 'Trying to fill out an invalid answer', js: true do
     filling_in(within: "#item_v1", answering: "answer_v1", with: 'OHAI', should_show: '.error.valid_integer')
   end
 
+  scenario 'by entering a number that is not a float' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      question :v1, type: :float do
+        title "Example question"
+      end; end_panel
+    END
+
+    visit_new_answer_for(questionnaire)
+    filling_in(within: "#item_v1", answering: "answer_v1", with: 'OHAI', should_show: '.error.valid_float')
+  end
+
   def filling_in(options = {})
     error_css_selector = "#{options[:should_show]}.hidden"
     find(options[:within]).should have_css(error_css_selector)
