@@ -16,6 +16,12 @@ feature 'Completing a questionnaire' do
     click_on "Volgende vraag"
     find("#panel2").should be_visible
 
+    click_on "Vorige vraag"
+    find("#panel1").should be_visible
+
+    click_on "Volgende vraag"
+    find("#panel2").should be_visible
+
     within("#item_v_8") { choose "gemengd" }
     within("#item_v_9") { choose "ontevreden" }
     within("#item_v_10") { choose "tevreden" }
