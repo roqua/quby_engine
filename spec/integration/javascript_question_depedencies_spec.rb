@@ -100,7 +100,7 @@ feature 'Dependencies between questions', js: true do
   end
 
   context 'question groups' do
-    scenario 'minumum number of answered of group'
+    scenario 'minimum number of answered of group'
     scenario 'maximum number of answered of group'
   end
 end
