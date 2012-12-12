@@ -4,22 +4,31 @@ feature 'Completing a questionnaire' do
   let(:mansa) { Quby::Questionnaire.find_by_key("mansa") }
   scenario 'by filling out pages', js: true do
     visit_new_answer_for(mansa)
+    find("#panel0").should be_visible
+
     click_on "Volgende vraag"
+    find("#panel1").should be_visible
 
     within("#item_v_1") { choose "gemengd" }
     within("#item_v_6") { choose "ontevreden" }
     within("#item_v_7") { choose "tevreden" }
+    
     click_on "Volgende vraag"
+    find("#panel2").should be_visible
 
     within("#item_v_8") { choose "gemengd" }
     within("#item_v_9") { choose "ontevreden" }
     within("#item_v_10") { choose "tevreden" }
+
     click_on "Volgende vraag"
+    find("#panel3").should be_visible
 
     within("#item_v_11") { choose "Ja" }
     within("#item_v_12") { choose "ontevreden" }
     within("#item_v_13") { choose "Nee" }
+
     click_on "Volgende vraag"
+    find("#panel4").should be_visible
 
     click_on "Klaar"
     page.should have_content("Bedankt voor het invullen")
