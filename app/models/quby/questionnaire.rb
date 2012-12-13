@@ -174,7 +174,7 @@ module Quby
         [question, question.subquestions.map(&recurse) ]
       end
 
-      @questions_tree = (@panels && @panels.map do |panel|
+      @questions_tree_cache = (@panels && @panels.map do |panel|
         panel.items.map {|item| recurse.call(item) if Items::Question === item }
       end)
     end
