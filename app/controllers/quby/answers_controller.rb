@@ -7,9 +7,9 @@ module Quby
     class TimestampValidationError < Exception; end
     class QuestionnaireNotFound < StandardError; end
 
-    before_filter :find_questionnaire, :only => [:show, :edit, :update, :print]
+    before_filter :find_questionnaire
     before_filter :find_patient
-    append_before_filter :find_answer, :only => [:show, :edit, :update, :print]
+    append_before_filter :find_answer
 
     before_filter :remember_token_in_session
     before_filter :remember_return_url_in_session
