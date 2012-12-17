@@ -7,7 +7,7 @@ module Quby
     class TimestampValidationError < Exception; end
     class QuestionnaireNotFound < StandardError; end
 
-    before_filter :find_questionnaire, :only => [:index, :show, :edit, :create, :update, :print]
+    before_filter :find_questionnaire, :only => [:show, :edit, :update, :print]
     before_filter :find_patient
     append_before_filter :find_answer, :only => [:show, :edit, :update, :print]
 
@@ -45,19 +45,6 @@ module Quby
       end
     end
 
-    def index
-      @answers = if @patient_id and @questionnaire
-                  Answer.where(:patient_id => @patient_id, :questionnaire_key => @questionnaire.key)
-                elsif @questionnaire
-                  @questionnaire.answers.all
-                elsif @patient_id
-                  Answer.where(:patient_id => @patient_id)
-                else
-                  Answer.all
-                end
-      respond_with @answers
-    end
-
     def show
       respond_to do |format|
         format.html { redirect_to :action => "edit" }
@@ -67,15 +54,6 @@ module Quby
 
     def edit
       render :action => "#{@display_mode}/edit"
-    end
-
-    def create
-      @answer = @questionnaire.answers.create({:questionnaire_key => @questionnaire.key, :value => @questionnaire.default_answer_value}.merge(params[:answer]||{}))
-      logger.info "  Created answer #{@answer.id}"
-
-      respond_to do |format|
-        format.json { render :json => @answer.to_json }
-      end
     end
 
     def update(printing=false)
