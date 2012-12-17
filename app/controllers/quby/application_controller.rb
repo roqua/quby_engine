@@ -8,9 +8,6 @@ module Quby
     around_filter :log_session_hash
     before_filter :fix_ie_trusted_party_warning
 
-    # TODO: Rails3
-    # filter_parameter_logging :password
-
     protected
 
     def prevent_browser_cache
