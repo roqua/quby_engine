@@ -24,7 +24,7 @@ module Quby
 
     protect_from_forgery :except => [:edit, :update], :secret => "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d5d88bfd8481868d9"
 
-    respond_to :html, :json, :xml
+    respond_to :html
 
     rescue_from TokenValidationError, :with => :bad_token
     rescue_from QuestionnaireNotFound, :with => :bad_questionnaire
@@ -43,10 +43,7 @@ module Quby
     end
 
     def show
-      respond_to do |format|
-        format.html { redirect_to :action => "edit" }
-        format.json { render :json => @answer.to_json }
-      end
+      redirect_to :action => "edit"
     end
 
     def edit
@@ -54,27 +51,24 @@ module Quby
     end
 
     def update(printing=false)
-      respond_to do |format|
-        updater = UpdatesAnswers.new(@answer)
+      updater = UpdatesAnswers.new(@answer)
 
-        updater.on_success do
-          render :action => "print/show", :layout => "layouts/content_only" and return if printing
-          render :action => "completed" and return if @return_url.blank?
-          redirect_to_roqua(:status => return_status) and return
-        end
-
-        updater.on_failure do
-          flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
-          if printing
-            format.html { render :action => "#{@display_mode}/edit", :layout => "layouts/content_only" }
-          else
-            format.html { render :action => "#{@display_mode}/edit" }
-          end
-          format.json { render :json => @answer.errors.to_json }
-        end
-
-        updater.update(params[:answer])
+      updater.on_success do
+        render :action => "print/show", :layout => "layouts/content_only" and return if printing
+        render :action => "completed" and return if @return_url.blank?
+        redirect_to_roqua(:status => return_status) and return
       end
+
+      updater.on_failure do
+        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
+        if printing
+          render :action => "#{@display_mode}/edit", :layout => "layouts/content_only"
+        else
+          render :action => "#{@display_mode}/edit"
+        end
+      end
+
+      updater.update(params[:answer])
     end
 
     def print
