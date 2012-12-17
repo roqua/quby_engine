@@ -11,9 +11,6 @@ module Quby
     before_filter :find_patient
     append_before_filter :find_answer, :only => [:show, :edit, :update, :print]
 
-    # SECURITY CRITICAL
-    before_filter :ip_check_for_api_methods, :only => [:index, :create]
-
     before_filter :remember_token_in_session
     before_filter :remember_return_url_in_session
     before_filter :remember_custom_stylesheet

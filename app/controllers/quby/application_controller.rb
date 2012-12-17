@@ -32,15 +32,5 @@ module Quby
       yield
       logger.info "  Post-request session: #{session.inspect}"
     end
-
-    def ip_check_for_api_methods
-      # SECURITY CRITICAL : Checks whether this API method call is coming from one of our own servers
-      return true if Rails.env.development?
-      return true if Settings.api_allowed_ip_ranges.blank?
-
-      if not Settings.api_allowed_ip_ranges.find { |range_or_addr| IPAddr.new(range_or_addr).include?(IPAddr.new(request.remote_ip)) }
-        head(403)
-      end
-    end
   end
 end
