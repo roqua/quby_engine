@@ -30,18 +30,6 @@ module Quby
     rescue_from QuestionnaireNotFound, :with => :bad_questionnaire
     rescue_from TimestampValidationError, :with => :bad_questionnaire
 
-    def check_aborted
-      if (params[:commit] == "Onderbreken" and @questionnaire.abortable) or
-        (params[:commit] == "Toch opslaan" and @display_mode == "bulk") or
-        (params[:commit] == "← Vorige vragenlijst")
-        params[:answer] ||= HashWithIndifferentAccess.new
-        params[:answer][:aborted] = true
-      else
-        params[:answer] ||= HashWithIndifferentAccess.new
-        params[:answer][:aborted] = false
-      end
-    end
-
     def show
       redirect_to :action => "edit"
     end
@@ -126,6 +114,18 @@ module Quby
 
     def find_answer
       @answer = @questionnaire.answers.find(params[:id])
+    end
+
+    def check_aborted
+      if (params[:commit] == "Onderbreken" and @questionnaire.abortable) or
+        (params[:commit] == "Toch opslaan" and @display_mode == "bulk") or
+        (params[:commit] == "← Vorige vragenlijst")
+        params[:answer] ||= HashWithIndifferentAccess.new
+        params[:answer][:aborted] = true
+      else
+        params[:answer] ||= HashWithIndifferentAccess.new
+        params[:answer][:aborted] = false
+      end
     end
 
     def verify_token
