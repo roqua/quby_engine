@@ -99,6 +99,10 @@ module Quby
       #   q01 + q02 + q03
       # end
       def score(key, options = {}, &block)
+        if @questionnaire.question_hash.key?(key)
+          raise SyntaxError.new "score key #{key} already in use by question"
+        end
+
         s = ScoreBuilder.new(key, options, &block)
         @questionnaire.instance_eval do
           @scores ||= []

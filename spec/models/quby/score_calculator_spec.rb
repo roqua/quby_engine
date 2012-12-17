@@ -11,17 +11,24 @@ module Quby
 
     describe '#initialize' do
       it 'stores values passed' do
-        calculator = ScoreCalculator.new({'v_1' => 1})
-        calculator.values.should == {'v_1' => 1}
+        calculator = ScoreCalculator.new({v_1: 1}, {gender: :male}, {score1: 2}, {var1: 3})
+        calculator.instance_variable_get("@values").should == {v_1: 1}
+        calculator.instance_variable_get("@patient").instance_variables.should == ::Quby::Patient.new({gender: :male}).instance_variables
+        calculator.instance_variable_get("@scores").should == {score1: 2}.with_indifferent_access
+        calculator.instance_variable_get("@variables").should == {var1: 3}.with_indifferent_access
       end
     end
 
     describe '#values' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:calculator) { ScoreCalculator.new(values) }
+      let(:scores) { {'score1' => 22} }
+      let(:variables) { {'var1' => 11} }
+      let(:calculator) { ScoreCalculator.new(values, {}, scores, variables) }
 
-      it 'returns the values hash if no args given' do
-        calculator.values.should == values
+      it 'raises if no args given' do
+        expect do
+          calculator.values
+        end.to raise_error
       end
 
       it 'returns an array of values if args given' do
@@ -30,6 +37,14 @@ module Quby
 
       it 'finds values by string' do
         calculator.values('v_1').should == [values['v_1']]
+      end
+
+      it 'finds scores by string' do
+        calculator.values('score1').should == [scores['score1']]
+      end
+
+      it 'finds variables by string' do
+        calculator.values('var1').should == [variables['var1']]
       end
 
       it 'raises if a value is requested which does not exist' do
@@ -41,10 +56,14 @@ module Quby
 
     describe '#values_with_nils' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:calculator) { ScoreCalculator.new(values) }
+      let(:scores) { {'score1' => 22} }
+      let(:variables) { {'var1' => 11} }
+      let(:calculator) { ScoreCalculator.new(values, {}, scores, variables) }
 
-      it 'returns the values hash if no args given' do
-        calculator.values_with_nils.should == values
+      it 'raises if no args given' do
+        expect do
+          calculator.values_with_nils
+        end.to raise_error
       end
 
       it 'returns an array of values if args given' do
@@ -55,7 +74,15 @@ module Quby
         calculator.values_with_nils('v_1').should == [values['v_1']]
       end
 
-      it 'returns nil if a value is requested which is not filled in' do
+      it 'finds scores by string' do
+        calculator.values_with_nils('score1').should == [scores['score1']]
+      end
+
+      it 'finds variables by string' do
+        calculator.values_with_nils('var1').should == [variables['var1']]
+      end
+
+      it 'returns nil if a value is requested which is not available' do
         calculator.values_with_nils(:v_3).should  == [nil]
       end
 

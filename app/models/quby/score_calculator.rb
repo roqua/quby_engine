@@ -18,14 +18,16 @@ module Quby
     #                     :male, :female or :unknown (optional)
     # scores - The Hash containing other scores calculated for the answer, so
     #          that these scores can be accessed from the current calculation.
-    def initialize(values, patient_attrs = {}, scores = {})
+    # variables - intermediate score values that are kept private to the score calculator
+    def initialize(values, patient_attrs = {}, scores = {}, variables = {})
       @values = values
       @patient = ::Quby::Patient.new(patient_attrs)
       @scores = scores.with_indifferent_access
+      @variables = variables.with_indifferent_access
       @score = {}
     end
 
-    # Public: Get values for given question keys
+    # Public: Get values for given question, score or variable keys
     #
     # *keys - A list of keys for which to return values
     #
@@ -34,13 +36,16 @@ module Quby
     # restriction is placed. And for open questions the value will probably
     # be a String.
     def values(*keys)
+      raise ArgumentError.new('empty keys array') if keys.blank?
       keys.map(&:to_s).each do |key|
-        raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
+        all_keys = @values.keys | @scores.keys | @variables.keys
+        raise ArgumentError.new("Key #{key.inspect} not found: #{@values.inspect}") unless all_keys.include?(key)
       end
       values_with_nils(*keys)
     end
 
-    # Public: Get values for given question keys, or nil if the question is not filled in
+    # Public: Get values for given question, score or variable keys
+    # or nil if the key is not filled in or found
     #
     # *keys - A list of keys for which to return values
     #
@@ -50,13 +55,12 @@ module Quby
     # be a String. If the question is not filled in or the question key is
     # unknown, nil will be returned for that question.
     def values_with_nils(*keys)
+      raise ArgumentError.new('empty keys array') if keys.blank?
       keys = keys.map(&:to_s)
       raise ArgumentError.new('Key requested more than once') if keys.uniq!
 
-      if keys.empty?
-        @values
-      else
-        @values.values_at(*keys)
+      keys.map do |key|
+        @values[key] || @scores[key] || @variables[key]
       end
     end
 
