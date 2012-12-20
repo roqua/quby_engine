@@ -19,11 +19,10 @@ module Quby
     # scores - The Hash containing other scores calculated for the answer, so
     #          that these scores can be accessed from the current calculation.
     # variables - intermediate score values that are kept private to the score calculator
-    def initialize(values, patient_attrs = {}, scores = {}, variables = {})
+    def initialize(values, patient_attrs = {}, scores = {})
       @values = values
       @patient = ::Quby::Patient.new(patient_attrs)
       @scores = scores.with_indifferent_access
-      @variables = variables.with_indifferent_access
       @score = {}
     end
 
@@ -38,7 +37,7 @@ module Quby
     def values(*keys)
       raise ArgumentError.new('empty keys array') if keys.blank?
       keys.map(&:to_s).each do |key|
-        all_keys = @values.keys | @scores.keys | @variables.keys
+        all_keys = @values.keys | @scores.keys
         raise ArgumentError.new("Key #{key.inspect} not found: #{@values.inspect}") unless all_keys.include?(key)
       end
       values_with_nils(*keys)
@@ -60,7 +59,7 @@ module Quby
       raise ArgumentError.new('Key requested more than once') if keys.uniq!
 
       keys.map do |key|
-        @values[key] || @scores[key] || @variables[key]
+        @values[key] || @scores[key]
       end
     end
 

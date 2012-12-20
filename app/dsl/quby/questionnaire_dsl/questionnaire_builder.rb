@@ -94,51 +94,37 @@ module Quby
         end
       end
 
-      # score :totaal do
+      # variable :totaal do
       #   # Plain old Ruby code here, executed in the scope of the answer
+      #   # variables start out as private to the score calculation
       #   q01 + q02 + q03
       # end
-      def score(key, options = {}, &block)
-        if @questionnaire.question_hash.key?(key)
-          raise SyntaxError.new "score key #{key} already in use by question"
-        end
-
+      def variable(key, options = {}, &block)
         s = ScoreBuilder.new(key, options, &block)
-        @questionnaire.instance_eval do
-          @scores ||= []
-          @scores << s.build
-        end
+        @questionnaire.push_score_builder s.build
+      end
+
+      def score(key, options = {}, &block)
+        variable(key, options.reverse_merge(:public => true, :score => true), &block)
       end
 
       def attention(options = {}, &block)
-        s = ScoreBuilder.new(:attention, options, &block)
-
-        @questionnaire.instance_eval do
-          @actions ||= []
-          @actions << s.build
-        end
+        variable(:attention, options.reverse_merge(:public => true, :action => true), &block)
       end
 
       def alarm(options = {}, &block)
-        s = ScoreBuilder.new(:alarm, options, &block)
-
-        @questionnaire.instance_eval do
-          @actions ||= []
-          @actions << s.build
-        end
+        variable(:alarm, options.reverse_merge(:public => true, :action => true), &block)
       end
 
       def completion(options = {}, &block)
-        s = ScoreBuilder.new(:completion, options, &block)
-
-        @questionnaire.completion = s.build
+        variable(:completion, options.reverse_merge(:public => true, :completion => true), &block)
       end
 
       private
+
       def default_panel_options
         {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
       end
     end
-
   end
 end

@@ -13,5 +13,18 @@ module Quby
       subject { Score.new(:tot, {}, &calculation) }
       its(:label) { should be_nil }
     end
+
+    context 'when having a score option set to true' do
+      subject { Score.new(:tot, {:score => true}, &calculation) }
+      its(:score) { should be_true }
+    end
+    context 'when having a alerting option set to true' do
+      subject { Score.new(:tot, {:alerting => true}, &calculation) }
+      its(:alerting) { should be_true }
+    end
+    context 'when having a completion option set to true' do
+      subject { Score.new(:tot, {:completion => true}, &calculation) }
+      its(:completion) { should be_true }
+    end
   end
 end
