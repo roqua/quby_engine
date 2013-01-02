@@ -18,9 +18,9 @@ module Quby
       subject { Score.new(:tot, {:score => true}, &calculation) }
       its(:score) { should be_true }
     end
-    context 'when having a alerting option set to true' do
-      subject { Score.new(:tot, {:alerting => true}, &calculation) }
-      its(:alerting) { should be_true }
+    context 'when having an action option set to true' do
+      subject { Score.new(:tot, {:action => true}, &calculation) }
+      its(:action) { should be_true }
     end
     context 'when having a completion option set to true' do
       subject { Score.new(:tot, {:completion => true}, &calculation) }

@@ -5,13 +5,10 @@ module Quby
     extend ActiveSupport::Concern
 
     included do
-      before_save :set_scores
+      before_save :set_outcomes
 
-      def set_scores
-        results = calculate_builders
-        self.scores = results.select(&:score)
-        self.actions = results.select(&:alerting)
-        self.completion = results.select(&:completion).first || {}
+      def set_outcomes
+        calculate_builders
       end
     end
 
@@ -28,6 +25,9 @@ module Quby
 
     def calculate_builders
       results = {}
+      score_results = {}
+      action_results = {}
+      completion_result = {}
 
       questionnaire.score_builders.each do |key, builder|
         begin
@@ -36,26 +36,36 @@ module Quby
                                              results,
                                              &builder.calculation)
           result.reverse_merge!(builder.options) if builder.score
+          result = {"value" => result} if builder.completion
           results[key] = result
         rescue StandardError => e
           results[key] = {:exception => e.message,
-                               :backtrace => e.backtrace}.reverse_merge(builder.options)
+                          :backtrace => e.backtrace}.reverse_merge(builder.options)
         end
+
+        score_results[key] = results[key] if builder.score
+        action_results[key] = results[key] if builder.action
+        completion_result = results[key] if builder.completion
+
       end
 
-      results
+      self.scores = score_results
+      self.actions = action_results
+      self.completion = completion_result
     end
+
 
     # Calculate scores and actions, write to the database but bypass any validations
     # This function is called by parts of the system that only want to calculate
     # stuff, and can't help it if an answer is not completed.
     def update_scores
-      self.class.skip_callback :save, :before, :set_scores
+      self.class.skip_callback :save, :before, :set_outcomes
       calculate_builders
       update_attribute(:scores, scores)
       update_attribute(:actions, actions)
       update_attribute(:completion, completion)
-      self.class.set_callback :save, :before, :set_scores
+      self.class.set_callback :save, :before, :set_outcomes
     end
+
   end
 end
