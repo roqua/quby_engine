@@ -96,7 +96,7 @@ module Quby
 
       # variable :totaal do
       #   # Plain old Ruby code here, executed in the scope of the answer
-      #   # variables start out as private to the score calculation
+      #   # variables are private to the score calculation
       #   q01 + q02 + q03
       # end
       def variable(key, options = {}, &block)
@@ -105,23 +105,22 @@ module Quby
       end
 
       def score(key, options = {}, &block)
-        variable(key, options.reverse_merge(:public => true, :score => true), &block)
+        variable(key, options.reverse_merge(:score => true), &block)
       end
 
       def attention(options = {}, &block)
-        variable(:attention, options.reverse_merge(:public => true, :action => true), &block)
+        variable(:attention, options.reverse_merge(:action => true), &block)
       end
 
       def alarm(options = {}, &block)
-        variable(:alarm, options.reverse_merge(:public => true, :action => true), &block)
+        variable(:alarm, options.reverse_merge(:action => true), &block)
       end
 
       def completion(options = {}, &block)
-        variable(:completion, options.reverse_merge(:public => true, :completion => true), &block)
+        variable(:completion, options.reverse_merge(:completion => true), &block)
       end
 
       private
-
       def default_panel_options
         {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
       end

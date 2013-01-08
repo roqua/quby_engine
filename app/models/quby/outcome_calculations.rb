@@ -5,11 +5,7 @@ module Quby
     extend ActiveSupport::Concern
 
     included do
-      before_save :set_outcomes
-
-      def set_outcomes
-        calculate_builders
-      end
+      before_save :calculate_builders
     end
 
     def action
@@ -46,12 +42,13 @@ module Quby
         score_results[key] = results[key] if builder.score
         action_results[key] = results[key] if builder.action
         completion_result = results[key] if builder.completion
-
       end
 
       self.scores = score_results
       self.actions = action_results
       self.completion = completion_result
+
+      results
     end
 
 
@@ -59,12 +56,12 @@ module Quby
     # This function is called by parts of the system that only want to calculate
     # stuff, and can't help it if an answer is not completed.
     def update_scores
-      self.class.skip_callback :save, :before, :set_outcomes
+      self.class.skip_callback :save, :before, :calculate_builders
       calculate_builders
       update_attribute(:scores, scores)
       update_attribute(:actions, actions)
       update_attribute(:completion, completion)
-      self.class.set_callback :save, :before, :set_outcomes
+      self.class.set_callback :save, :before, :calculate_builders
     end
 
   end

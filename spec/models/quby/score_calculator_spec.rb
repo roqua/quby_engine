@@ -23,10 +23,8 @@ module Quby
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(values, {}, scores) }
 
-      it 'raises if no args given' do
-        expect do
-          calculator.values
-        end.to raise_error
+      it 'returns the values hash if no args given' do
+        calculator.values_with_nils.should == values
       end
 
       it 'returns an array of values if args given' do
@@ -35,10 +33,6 @@ module Quby
 
       it 'finds values by string' do
         calculator.values('v_1').should == [values['v_1']]
-      end
-
-      it 'finds scores by string' do
-        calculator.values('score1').should == [scores['score1']]
       end
 
       it 'raises if a value is requested which does not exist' do
@@ -53,10 +47,8 @@ module Quby
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(values, {}, scores) }
 
-      it 'raises if no args given' do
-        expect do
-          calculator.values_with_nils
-        end.to raise_error
+      it 'returns the values hash if no args given' do
+        calculator.values_with_nils.should == values
       end
 
       it 'returns an array of values if args given' do
@@ -65,10 +57,6 @@ module Quby
 
       it 'finds values by string' do
         calculator.values_with_nils('v_1').should == [values['v_1']]
-      end
-
-      it 'finds scores by string' do
-        calculator.values_with_nils('score1').should == [scores['score1']]
       end
 
       it 'returns nil if a value is requested which is not available' do

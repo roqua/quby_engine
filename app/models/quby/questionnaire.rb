@@ -224,10 +224,6 @@ module Quby
     end
 
     def push_score_builder(builder)
-      if key_in_use? builder.key
-        raise SyntaxError.new "key #{builder.key} already used"
-      end
-
       score_builders[builder.key] = builder
     end
 

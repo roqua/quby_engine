@@ -130,11 +130,12 @@ module Quby
         questionnaire.score_builders.keys.should == ['c','a','d']
       end
 
-      it 'throws exception if there already is a score builder known for this key' do
+      it 'overwrites the score builder if there already is a score builder known for this key' do
         questionnaire.push_score_builder stub(:key => "c")
-        expect do
-          questionnaire.push_score_builder stub(:key => "c")
-        end.to raise_error
+
+        new_builder = stub(:key => "c")
+        questionnaire.push_score_builder new_builder
+        questionnaire.score_builders.shift.last.should == new_builder
       end
     end
 

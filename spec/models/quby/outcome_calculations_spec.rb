@@ -62,9 +62,9 @@ module Quby
       end
     end
 
-    describe '#set_outcomes' do
+    describe '#calculate_builders' do
       it 'calculates scores, alerts and completion' do
-        answer.set_outcomes
+        answer.calculate_builders
         
         answer.scores.should == {"tot"=>{"value"=>3, "label"=>"Totaal", "score"=>true}}
         answer.actions.should == {"attention" => 5}
@@ -80,44 +80,44 @@ module Quby
                                                  ],
                                                :text_var => false)])
         answer.value = {'v1' => :a1}
-        answer.tap(&:set_outcomes).scores[:tot].should == {"value"=>[2], "label"=>"Totaal", "score"=>true}
+        answer.tap(&:calculate_builders).scores[:tot].should == {"value"=>[2], "label"=>"Totaal", "score"=>true}
       end
 
       it 'allows access to other scores' do
         score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &Proc.new { {value: score(:tot)[:value] + 2} })
 
         questionnaire.push_score_builder score2
-        answer.tap(&:set_outcomes).scores[:tot2].should == {"value"=>5, "label"=>"Totaal2", "score"=>true}
+        answer.tap(&:calculate_builders).scores[:tot2].should == {"value"=>5, "label"=>"Totaal2", "score"=>true}
       end
 
       context 'when calculation throws an exception' do
         before { score.stub(:calculation => Proc.new { raise "Foo" }) }
 
         it 'stores the exception' do
-          answer.tap(&:set_outcomes).scores[:tot][:exception].should == 'Foo'
+          answer.tap(&:calculate_builders).scores[:tot][:exception].should == 'Foo'
         end
 
         it 'includes the label' do
-          answer.tap(&:set_outcomes).scores[:tot][:label].should == "Totaal"
+          answer.tap(&:calculate_builders).scores[:tot][:label].should == "Totaal"
         end
       end
 
       it 'calculates completion percentage' do
         completion.stub(:calculation => Proc.new { 0.9 })
-        answer.tap(&:set_outcomes).completion.should == {'value' => 0.9}
+        answer.tap(&:calculate_builders).completion.should == {'value' => 0.9}
       end
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
           completion.stub(:calculation => Proc.new { raise "Foo" })
-          answer.tap(&:set_outcomes).completion[:exception].should == 'Foo'
+          answer.tap(&:calculate_builders).completion[:exception].should == 'Foo'
         end
       end
 
       context 'when questionnaire has no calculation' do
         it 'returns an empty hash' do
           questionnaire.score_builders.delete(:completion)
-          answer.tap(&:set_outcomes).completion.should == {}
+          answer.tap(&:calculate_builders).completion.should == {}
         end
       end
     end
@@ -144,7 +144,7 @@ module Quby
       end
 
       it 'skips the set_outcomes callback' do
-        answer.should_not_receive(:set_outcomes)
+        answer.should_receive(:calculate_builders).once
         answer.update_scores
       end
     end
