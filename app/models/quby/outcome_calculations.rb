@@ -5,21 +5,7 @@ module Quby
     extend ActiveSupport::Concern
 
     included do
-      before_save :set_scores
-      before_save :set_actions
-      before_save :set_completion
-
-      def set_scores
-        self.scores = calculate_scores
-      end
-
-      def set_actions
-        self.actions = calculate_actions
-      end
-
-      def set_completion
-        self.completion = calculate_completion
-      end
+      before_save :calculate_builders
     end
 
     def action
@@ -33,71 +19,50 @@ module Quby
       nil
     end
 
-    def calculate_scores
-      scores = {}
+    def calculate_builders
+      results = {}
+      score_results = {}
+      action_results = {}
+      completion_result = {}
 
-      questionnaire.scores.each do |score|
+      questionnaire.score_builders.each do |key, builder|
         begin
           result = ScoreCalculator.calculate(self.value_by_regular_values,
                                              self.patient.andand.slice("birthyear", "gender"),
-                                             scores,
-                                             &score.calculation)
-          scores[score.key] = result.reverse_merge(score.options)
+                                             results,
+                                             &builder.calculation)
+          result.reverse_merge!(builder.options) if builder.score
+          result = {"value" => result} if builder.completion
+          results[key] = result
         rescue StandardError => e
-          scores[score.key] = {:exception => e.message,
-                               :backtrace => e.backtrace}.reverse_merge(score.options)
+          results[key] = {:exception => e.message,
+                          :backtrace => e.backtrace}.reverse_merge(builder.options)
         end
+
+        score_results[key] = results[key] if builder.score
+        action_results[key] = results[key] if builder.action
+        completion_result = results[key] if builder.completion
       end
 
-      scores
+      self.scores = score_results
+      self.actions = action_results
+      self.completion = completion_result
+
+      results
     end
 
-    def calculate_actions
-      actions = {}
-
-      questionnaire.actions.each do |action|
-        begin
-          actions[action.key] = ScoreCalculator.calculate(self.value_by_regular_values,
-                                                          self.patient.andand.slice("birthyear", "gender"),
-                                                          &action.calculation)
-        rescue StandardError => e
-          actions[action.key] = {:exception => e.message,
-                                 :backtrace => e.backtrace}
-        end
-      end
-
-      actions
-    end
-
-    def calculate_completion
-      if questionnaire.completion
-        {
-          value: ScoreCalculator.calculate(self.value_by_regular_values,
-                                          self.patient.andand.slice("birthyear", "gender"),
-                                          scores,
-                                          &questionnaire.completion.calculation)
-        }.stringify_keys
-      else
-        {}
-      end
-    rescue StandardError => e
-      {:exception => e.message,
-       :backtrace => e.backtrace}
-    end
 
     # Calculate scores and actions, write to the database but bypass any validations
     # This function is called by parts of the system that only want to calculate
     # stuff, and can't help it if an answer is not completed.
     def update_scores
-      self.class.skip_callback :save, :before, :set_scores
-      self.class.skip_callback :save, :before, :set_actions
-      self.class.skip_callback :save, :before, :set_completion
-      update_attribute(:scores,     calculate_scores)
-      update_attribute(:actions,    calculate_actions)
-      update_attribute(:completion, calculate_completion)
-      self.class.set_callback :save, :before, :set_scores
-      self.class.set_callback :save, :before, :set_actions
-      self.class.set_callback :save, :before, :set_completion
+      self.class.skip_callback :save, :before, :calculate_builders
+      calculate_builders
+      update_attribute(:scores, scores)
+      update_attribute(:actions, actions)
+      update_attribute(:completion, completion)
+      self.class.set_callback :save, :before, :calculate_builders
     end
+
   end
 end

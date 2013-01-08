@@ -33,8 +33,8 @@ module Quby
       @key = key
       @definition = definition if definition
       @last_update = Time.at(last_update.to_i)
-      @scores ||= []
-      @actions ||= []
+      @score_builders ||= {}
+      @question_hash ||= {}
 
       @scroll_to_next_question = false
 
@@ -93,9 +93,7 @@ module Quby
     attr_accessor :abortable
     attr_accessor :enable_previous_questionnaire_button
     attr_accessor :panels
-    attr_accessor :scores
-    attr_accessor :actions
-    attr_accessor :completion
+    attr_accessor :score_builders
     attr_accessor :default_answer_value
     attr_accessor :scroll_to_next_question
     attr_accessor :log_user_activity
@@ -218,6 +216,27 @@ module Quby
       output = output.join("\n")
       strip_tags(output).gsub("&lt;", "<")
 
+    end
+
+    def key_in_use?(key)
+      question_hash.with_indifferent_access.key?(key) ||
+        score_builders.key?(key)
+    end
+
+    def push_score_builder(builder)
+      score_builders[builder.key] = builder
+    end
+
+    def scores
+      score_builders.values.select(&:score)
+    end
+
+    def actions
+      score_builders.values.select(&:action)
+    end
+
+    def completion
+      score_builders.values.select(&:completion).first
     end
 
     protected

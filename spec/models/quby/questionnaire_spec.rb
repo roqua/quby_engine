@@ -110,6 +110,50 @@ module Quby
       Questionnaire.new("test").scores.should == []
     end
 
+    describe '#score_builders' do
+      Questionnaire.new("test").score_builders.should == {}
+    end
+
+    describe '#push_score_builder' do
+      let(:questionnaire) { Questionnaire.new("test") }
+
+      it 'adds the score builder to the list of score builders' do
+        builder = double("Quby::Score", :key => "c")
+        questionnaire.push_score_builder builder
+        questionnaire.score_builders['c'].should == builder
+      end
+
+      it 'preserves order of added score builders' do
+        questionnaire.push_score_builder double("Quby::Score", :key => "c")
+        questionnaire.push_score_builder double("Quby::Score", :key => "a")
+        questionnaire.push_score_builder double("Quby::Score", :key => "d")
+        questionnaire.score_builders.keys.should == ['c','a','d']
+      end
+
+      it 'overwrites the score builder if there already is a score builder known for this key' do
+        questionnaire.push_score_builder stub(:key => "c")
+
+        new_builder = stub(:key => "c")
+        questionnaire.push_score_builder new_builder
+        questionnaire.score_builders.shift.last.should == new_builder
+      end
+    end
+
+    describe '#key_in_use?' do
+      let(:definition)    { "title 'My Test' \n question :v_1 \n score :score_1 \n variable :var_1" }
+      let(:questionnaire) { Questionnaire.new("test", definition) }
+
+      it "should check if key is used by a question" do
+        questionnaire.key_in_use?(:v_1).should be_true
+      end
+      it "should check if key is used by a score" do
+        questionnaire.key_in_use?(:score_1).should be_true
+      end
+      it "should check if key is used by a variable" do
+        questionnaire.key_in_use?(:var_1).should be_true
+      end
+    end
+
     describe '#to_codebook' do
       let(:definition)    { "title 'My Test' \n question(:v_1, :type => :radio) { option :a1, :value => 0; option :a2, :value => 1}" }
       let(:questionnaire) { Questionnaire.new("test", definition) }

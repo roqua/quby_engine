@@ -11,17 +11,20 @@ module Quby
 
     describe '#initialize' do
       it 'stores values passed' do
-        calculator = ScoreCalculator.new({'v_1' => 1})
-        calculator.values.should == {'v_1' => 1}
+        calculator = ScoreCalculator.new({v_1: 1}, {gender: :male}, {score1: 2})
+        calculator.instance_variable_get("@values").should == {v_1: 1}
+        calculator.instance_variable_get("@patient").instance_variables.should == ::Quby::Patient.new({gender: :male}).instance_variables
+        calculator.instance_variable_get("@scores").should == {score1: 2}.with_indifferent_access
       end
     end
 
     describe '#values' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:calculator) { ScoreCalculator.new(values) }
+      let(:scores) { {'score1' => 22} }
+      let(:calculator) { ScoreCalculator.new(values, {}, scores) }
 
       it 'returns the values hash if no args given' do
-        calculator.values.should == values
+        calculator.values_with_nils.should == values
       end
 
       it 'returns an array of values if args given' do
@@ -41,7 +44,8 @@ module Quby
 
     describe '#values_with_nils' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:calculator) { ScoreCalculator.new(values) }
+      let(:scores) { {'score1' => 22} }
+      let(:calculator) { ScoreCalculator.new(values, {}, scores) }
 
       it 'returns the values hash if no args given' do
         calculator.values_with_nils.should == values
@@ -55,7 +59,7 @@ module Quby
         calculator.values_with_nils('v_1').should == [values['v_1']]
       end
 
-      it 'returns nil if a value is requested which is not filled in' do
+      it 'returns nil if a value is requested which is not available' do
         calculator.values_with_nils(:v_3).should  == [nil]
       end
 
