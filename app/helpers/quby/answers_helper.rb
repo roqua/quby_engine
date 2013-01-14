@@ -33,9 +33,10 @@ module Quby
     # 1a.
     #2: lops off enclosing p tags
     #3: adds .main and %label(for=labelfor) around content
+    #4. Leaves out the .main if it is empty
     QUESTION_ID_REGEX = /\A\s*(\d+.?\.|\A\w\)|\A\w\.)(.*)/
     def marukufix(stringin, labelfor, title_insert=nil)
-      stringin = "&nbsp;" if stringin.blank?
+      return "" if stringin.blank?
       string = stringin.clone.gsub(/\A\d+.?\./, '  \\0')
       string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
 

@@ -92,6 +92,7 @@
 
       .description-and-fields {
         @include span-columns($field-columns omega);
+        float: left;
         .description { @include text; }
       }
 

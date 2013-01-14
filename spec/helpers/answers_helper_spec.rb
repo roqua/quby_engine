@@ -3,6 +3,10 @@ require 'spec_helper'
 describe Quby::AnswersHelper do
 
   describe ".marukufix" do
+
+    it "returns an empty string if it gets an empty title string" do
+      marukufix("", "v_1").should == ""
+    end
     it 'wraps the title in a div structure' do
       marukufix("test", "v_1").should == " <div class='main'><label for='v_1'>test</label> </div>"
     end
