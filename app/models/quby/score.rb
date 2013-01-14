@@ -11,5 +11,17 @@ module Quby
       @options = options
       @calculation = block
     end
+
+    def score
+      @options[:score]
+    end
+
+    def completion
+      @options[:completion]
+    end
+
+    def action
+      @options[:action]
+    end
   end
 end

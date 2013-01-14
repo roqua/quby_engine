@@ -3,20 +3,24 @@ require 'spec_helper'
 module Quby
   describe OutcomeCalculations do
     let(:scorer) { Proc.new { {value: 3} } }
-    let(:score) { Score.new(:tot, {label: "Totaal"}, &scorer) }
-    let(:scores) { [score] }
+    let(:score) { Score.new(:tot, {label: "Totaal", score: true}, &scorer) }
 
     let(:actioner) { Proc.new { 5 } }
-    let(:action) { stub(:key => 'attention', :calculation => actioner) }
-    let(:actions) { [action] }
+    let(:action) { Score.new(:attention, {action: true}, &actioner) }
 
     let(:completioner) { Proc.new { 0.9 } }
-    let(:completion) { stub(:calculation => completioner) }
+    let(:completion) { Score.new(:completion, {completion: true}, &completioner) }
 
-    let(:questionnaire) { stub(:scores => scores,
-                               :actions => actions,
-                               :completion => completion,
-                               :questions => [], :last_update => Time.now, :key => nil) }
+    let(:questionnaire) do
+      quest = Questionnaire.new "test"
+
+      quest.push_score_builder score
+      quest.push_score_builder action
+      quest.push_score_builder completion
+
+      quest.stub(:questions => [], :last_update => Time.now, :key => nil)
+      quest
+    end
     let(:answer) { Answer.new }
 
     before do
@@ -58,9 +62,13 @@ module Quby
       end
     end
 
-    describe '#calculate_scores' do
-      it 'calculates scores' do
-        answer.calculate_scores.should == {:tot => {label: 'Totaal', value: 3}}
+    describe '#calculate_builders' do
+      it 'calculates scores, alerts and completion' do
+        answer.calculate_builders
+        
+        answer.scores.should == {"tot"=>{"value"=>3, "label"=>"Totaal", "score"=>true}}
+        answer.actions.should == {"attention" => 5}
+        answer.completion.should == {"value"=>0.9}
       end
 
       it 'calculates scores with integer values' do
@@ -72,62 +80,57 @@ module Quby
                                                  ],
                                                :text_var => false)])
         answer.value = {'v1' => :a1}
-        answer.calculate_scores.should == {:tot => {label: 'Totaal', value: [2]}}
+        answer.tap(&:calculate_builders).scores[:tot].should == {"value"=>[2], "label"=>"Totaal", "score"=>true}
       end
 
       it 'allows access to other scores' do
-        score1 = stub(key: :one, options: {}, calculation: Proc.new { {value: 4} })
-        score2 = stub(key: :two, options: {}, calculation: Proc.new { {value: score(:one)[:value] + 2} })
-        scores = [score1, score2]
-        questionnaire.stub(scores: scores)
-        answer.calculate_scores.should == {one: {value: 4}, two: {value: 6}}
+        score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &Proc.new { {value: score(:tot)[:value] + 2} })
+
+        questionnaire.push_score_builder score2
+        answer.tap(&:calculate_builders).scores[:tot2].should == {"value"=>5, "label"=>"Totaal2", "score"=>true}
       end
 
       context 'when calculation throws an exception' do
         before { score.stub(:calculation => Proc.new { raise "Foo" }) }
 
         it 'stores the exception' do
-          answer.calculate_scores[:tot][:exception].should == 'Foo'
+          answer.tap(&:calculate_builders).scores[:tot][:exception].should == 'Foo'
         end
 
         it 'includes the label' do
-          answer.calculate_scores[:tot][:label].should == "Totaal"
+          answer.tap(&:calculate_builders).scores[:tot][:label].should == "Totaal"
         end
       end
-    end
 
-    describe '#calculate_completion' do
       it 'calculates completion percentage' do
         completion.stub(:calculation => Proc.new { 0.9 })
-        answer.calculate_completion.should == {'value' => 0.9}
+        answer.tap(&:calculate_builders).completion.should == {'value' => 0.9}
       end
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
           completion.stub(:calculation => Proc.new { raise "Foo" })
-          answer.calculate_completion[:exception].should == 'Foo'
+          answer.tap(&:calculate_builders).completion[:exception].should == 'Foo'
         end
       end
 
       context 'when questionnaire has no calculation' do
         it 'returns an empty hash' do
-          questionnaire.stub(completion: nil)
-          answer.calculate_completion.should == {}
+          questionnaire.score_builders.delete(:completion)
+          answer.tap(&:calculate_builders).completion.should == {}
         end
       end
     end
 
     describe '#update_scores' do
       it 'calculates scores' do
-        answer.should_receive(:calculate_scores)
-        answer.should_receive(:calculate_actions)
-        answer.should_receive(:calculate_completion)
+        answer.should_receive(:calculate_builders)
         answer.update_scores
       end
 
       it 'assigns the calculated score to self.scores' do
         answer.update_scores
-        answer.scores.should == {'tot' => {label: 'Totaal', value: 3}.stringify_keys}
+        answer.scores.should == {"tot"=>{"value"=>3, "label"=>"Totaal", "score"=>true}}
       end
 
       it 'assigns the calculated actions to self.actions' do
@@ -140,19 +143,9 @@ module Quby
         answer.completion.should == {'value' => 0.9}
       end
 
-      it 'skips the set_score callback' do
+      it 'skips the set_outcomes callback' do
+        answer.should_receive(:calculate_builders).once
         answer.update_scores
-        answer.should_not_receive(:set_scores)
-      end
-
-      it 'skips the set_actions callback' do
-        answer.update_scores
-        answer.should_not_receive(:set_actions)
-      end
-
-      it 'skips the set_completion callback' do
-        answer.update_scores
-        answer.should_not_receive(:set_completion)
       end
     end
   end
