@@ -37,6 +37,11 @@ module Quby
         questionnaire.panels.first.title.should == 'My Title'
       end
 
+      it 'builds line charts' do
+        dsl { line_chart(:tot) { title 'My Title' } }
+        questionnaire.charts[:tot].title.should == 'My Title'
+      end
+
       def dsl(&block)
         builder.instance_eval(&block)
       end

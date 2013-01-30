@@ -34,6 +34,7 @@ module Quby
       @definition = definition if definition
       @last_update = Time.at(last_update.to_i)
       @score_builders ||= {}
+      @charts = {}
       @question_hash ||= {}
 
       @scroll_to_next_question = false
@@ -112,6 +113,8 @@ module Quby
     attr_accessor :persisted
 
     attr_accessor :last_update
+
+    attr_accessor :charts
 
     #default_scope :order => "key ASC"
     #scope :active, where(:active => true)
@@ -239,6 +242,10 @@ module Quby
       score_builders.values.select(&:completion).first
     end
 
+    def add_chart(chart)
+      charts[chart.key] = chart
+    end
+
     protected
 
     def ensure_linux_line_ends
@@ -303,9 +310,5 @@ module Quby
         end
       end
     end
-
-    #def remove_answers
-    #Answer.where(:questionnaire_id => self.id).delete
-    #end
   end
 end
