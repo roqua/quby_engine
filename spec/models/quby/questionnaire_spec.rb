@@ -171,10 +171,12 @@ module Quby
 
     describe '#add_chart' do
       it 'adds charts' do
+        charts = stub
+        chart = stub
         questionnaire = Questionnaire.new('test')
-        chart = stub(key: 'foo')
+        questionnaire.stub(charts: charts)
+        charts.should_receive(:add).with(chart)
         questionnaire.add_chart(chart)
-        questionnaire.charts.should == {'foo' => chart}
       end
     end
   end

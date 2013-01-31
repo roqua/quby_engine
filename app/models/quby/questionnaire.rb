@@ -34,7 +34,7 @@ module Quby
       @definition = definition if definition
       @last_update = Time.at(last_update.to_i)
       @score_builders ||= {}
-      @charts = {}
+      @charts = Charting::Charts.new
       @question_hash ||= {}
 
       @scroll_to_next_question = false
@@ -243,7 +243,7 @@ module Quby
     end
 
     def add_chart(chart)
-      charts[chart.key] = chart
+      charts.add chart
     end
 
     protected
