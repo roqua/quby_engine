@@ -33,6 +33,10 @@ module Quby
         @chart.clinically_relevant_change = value
       end
 
+      def scores(*keys)
+        @chart.scores = keys
+      end
+
       def build(&block)
         instance_eval &block
         @chart

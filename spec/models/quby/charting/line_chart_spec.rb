@@ -10,6 +10,10 @@ module Quby
       it 'coerces keys to be symbols' do
         LineChart.new('tot').key.should == :tot
       end
+
+      it 'has scores' do
+        LineChart.new(:tot, scores: [:tot, :sym]).scores.should == [:tot, :sym]
+      end
     end
   end
 end

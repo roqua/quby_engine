@@ -35,6 +35,10 @@ module Quby
         dsl { clinically_relevant_change 5 }.clinically_relevant_change.should == 5.0
       end
 
+      it 'sets scores' do
+        dsl { scores :tot, :soc }.scores.should == [:tot, :soc]
+      end
+
       def dsl(key = :test, options = {}, &block)
         builder = LineChartBuilder.new(key, options)
         builder.build(&block)

@@ -13,6 +13,7 @@ module Quby
       attribute :tonality,                   Symbol
       attribute :baseline,                   Float
       attribute :clinically_relevant_change, Float
+      attribute :scores,                     Array[Symbol]
 
       def initialize(key, options = {})
         self.key = key

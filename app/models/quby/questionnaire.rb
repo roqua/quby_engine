@@ -243,6 +243,8 @@ module Quby
     end
 
     def add_chart(chart)
+      missing_score_keys = chart.scores.reject {|i| scores.map(&:key).include? i }
+      raise "Chart #{chart.key} references unknown scores #{missing_score_keys}" if missing_score_keys.present?
       charts.add chart
     end
 

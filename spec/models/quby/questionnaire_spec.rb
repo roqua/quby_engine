@@ -170,13 +170,20 @@ module Quby
     end
 
     describe '#add_chart' do
+      let(:chart) { stub(key: 'tot', scores: ['tot']) }
+
       it 'adds charts' do
         charts = stub
-        chart = stub
         questionnaire = Questionnaire.new('test')
         questionnaire.stub(charts: charts)
+        questionnaire.stub(scores: [stub(key: 'tot')])
         charts.should_receive(:add).with(chart)
         questionnaire.add_chart(chart)
+      end
+
+      it 'raises when adding score that references unknown scores' do
+        chart.stub(scores: ['tot', 'unknown'])
+        expect { questionnaire.add_chart chart }.to raise_error(/references unknown scores/)
       end
     end
   end
