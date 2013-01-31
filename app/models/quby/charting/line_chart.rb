@@ -10,7 +10,7 @@ module Quby
       attribute :y_label,                    String
       attribute :y_range,                    Range
       attribute :y_stepsize,                 Float
-      attribute :tonality,                   Symbol
+      attribute :tonality,                   Symbol, default: :lower_is_better
       attribute :baseline,                   Float
       attribute :clinically_relevant_change, Float
       attribute :scores,                     Array[Symbol]
