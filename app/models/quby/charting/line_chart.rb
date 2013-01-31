@@ -19,6 +19,11 @@ module Quby
         self.key = key
         super(options)
       end
+
+      def tonality=(value)
+        raise "Invalid tonality: #{value}" unless [:higher_is_better, :lower_is_better].include?(value)
+        super
+      end
     end
   end
 end

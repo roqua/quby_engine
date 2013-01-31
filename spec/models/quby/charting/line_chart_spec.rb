@@ -14,6 +14,13 @@ module Quby
       it 'has scores' do
         LineChart.new(:tot, scores: [:tot, :sym]).scores.should == [:tot, :sym]
       end
+
+      it 'can set tonality to valid values only' do
+        chart = LineChart.new(:tot, tonality: :higher_is_better)
+        chart.tonality.should == :higher_is_better
+
+        expect { LineChart.new(:tot, tonality: :positive) }.to raise_error(/Invalid tonality/)
+      end
     end
   end
 end
