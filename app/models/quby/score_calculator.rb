@@ -18,8 +18,9 @@ module Quby
     #                     :male, :female or :unknown (optional)
     # scores - The Hash containing other scores calculated for the answer, so
     #          that these scores can be accessed from the current calculation.
-    def initialize(values, patient_attrs = {}, scores = {})
+    def initialize(values, timestamp, patient_attrs = {}, scores = {})
       @values = values
+      @timestamp = timestamp
       @patient = ::Quby::Patient.new(patient_attrs)
       @scores = scores.with_indifferent_access
       @score = {}
@@ -123,7 +124,7 @@ module Quby
 
     # Public: Returns the Integer age of the patient, or nil if it's not known.
     def age
-      @patient.age
+      @patient.age_at @timestamp
     end
 
     # Public: Returns the Symbol describing the gender of the patient.

@@ -9,9 +9,9 @@ module Quby
       @birthyear = attributes[:birthyear]
     end
 
-    def age
-      return nil unless @birthyear
-      ((Time.now - Time.gm(@birthyear, 1, 1)) / 1.year).floor      
+    def age_at(timestamp)
+      return nil unless @birthyear and timestamp
+      ((timestamp - Time.gm(@birthyear, 1, 1)) / 1.year).floor
     end
   end
 end

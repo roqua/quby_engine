@@ -2,18 +2,23 @@ require "spec_helper"
 
 module Quby
   describe ScoreCalculator do
+
+    let(:timestamp) { Time.now }
+
     describe '.calculate' do
       it 'calculates the value of a block' do
         score = stub
-        calculator = ScoreCalculator.calculate({}) { score }.should == score
+        calculator = ScoreCalculator.calculate({}, timestamp) { score }.should == score
       end
     end
 
     describe '#initialize' do
       it 'stores values passed' do
-        calculator = ScoreCalculator.new({v_1: 1}, {gender: :male}, {score1: 2})
+        calculator = ScoreCalculator.new({v_1: 1}, timestamp, {gender: :male}, {score1: 2})
         calculator.instance_variable_get("@values").should == {v_1: 1}
-        calculator.instance_variable_get("@patient").instance_variables.should == ::Quby::Patient.new({gender: :male}).instance_variables
+        calculator.instance_variable_get('@timestamp').should eq(timestamp)
+        calculator.instance_variable_get("@patient").instance_variables
+                  .should == ::Quby::Patient.new({gender: :male}).instance_variables
         calculator.instance_variable_get("@scores").should == {score1: 2}.with_indifferent_access
       end
     end
@@ -21,7 +26,7 @@ module Quby
     describe '#values' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
       let(:scores) { {'score1' => 22} }
-      let(:calculator) { ScoreCalculator.new(values, {}, scores) }
+      let(:calculator) { ScoreCalculator.new(values, timestamp, {}, scores) }
 
       it 'returns the values hash if no args given' do
         calculator.values_with_nils.should == values
@@ -45,7 +50,7 @@ module Quby
     describe '#values_with_nils' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
       let(:scores) { {'score1' => 22} }
-      let(:calculator) { ScoreCalculator.new(values, {}, scores) }
+      let(:calculator) { ScoreCalculator.new(values, timestamp, {}, scores) }
 
       it 'returns the values hash if no args given' do
         calculator.values_with_nils.should == values
@@ -71,7 +76,7 @@ module Quby
     end
 
     describe '#mean' do
-      let(:calculator) { ScoreCalculator.new({}) }
+      let(:calculator) { ScoreCalculator.new({}, timestamp) }
 
       it 'returns mean of values given' do
         calculator.mean([1, 2, 3, 4, 5]).should == 3
@@ -91,7 +96,7 @@ module Quby
     end
 
     describe '#mean_ignoring_nils' do
-      let(:calculator) { ScoreCalculator.new({}) }
+      let(:calculator) { ScoreCalculator.new({}, timestamp) }
 
       it 'returns mean of values given, not counting nils towards the amount of values' do
         calculator.mean_ignoring_nils([nil, 1, 2, 3, 4, 5, nil]).should == 3
@@ -107,7 +112,7 @@ module Quby
     end
 
     describe '#mean_ignoring_nils_80_pct' do
-      let(:calculator) { ScoreCalculator.new({}) }
+      let(:calculator) { ScoreCalculator.new({}, timestamp) }
 
       it 'returns mean of values given, not counting nils towards the amount of values' do
         calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, 6]).should == 3.5
@@ -128,7 +133,7 @@ module Quby
     end
 
     describe '#sum_extrapolate' do
-      let(:calculator) { ScoreCalculator.new({}) }
+      let(:calculator) { ScoreCalculator.new({}, timestamp) }
 
       it 'sums values given, taking nils to be the mean of the present values' do
         calculator.sum_extrapolate([1, 2, 3, 4, 5, nil], 5).should == 18
@@ -140,7 +145,7 @@ module Quby
     end
 
     describe '#sum_extrapolate_80_pct' do
-      let(:calculator) { ScoreCalculator.new({}) }
+      let(:calculator) { ScoreCalculator.new({}, timestamp) }
 
       it 'sums values given, taking nils to be the mean of the present values' do
         calculator.sum_extrapolate_80_pct([1, 2, 3, 4, nil]).should == 12.5
@@ -158,7 +163,7 @@ module Quby
     end
 
     describe '#sum' do
-      let(:calculator) { ScoreCalculator.new({}) }
+      let(:calculator) { ScoreCalculator.new({}, timestamp) }
 
       it 'sums values given' do
         calculator.sum([1, 2, 3, 4]).should == 10
@@ -175,47 +180,53 @@ module Quby
 
     describe '#age' do
       it 'returns the age' do
-        calculator = ScoreCalculator.new({}, {birthyear: 42.years.ago.year})
+        calculator = ScoreCalculator.new({}, timestamp, {birthyear: 42.years.ago.year})
         calculator.age.should == 42
       end
 
       it 'returns the age when passed a string key' do
-        calculator = ScoreCalculator.new({}, {"birthyear" => 42.years.ago.year})
+        calculator = ScoreCalculator.new({}, timestamp, {"birthyear" => 42.years.ago.year})
         calculator.age.should == 42
+      end
+
+      it 'calls the patient age accessor method with its timestamp' do
+        calculator = ScoreCalculator.new({}, timestamp, {"birthyear" => 42.years.ago.year})
+        calculator.instance_variable_get('@patient').should_receive(:age_at).with(timestamp)
+        calculator.age
       end
     end
 
     describe '#gender' do
       it 'returns the gender' do
-        calculator = ScoreCalculator.new({}, {gender: :male})
+        calculator = ScoreCalculator.new({}, timestamp, {gender: :male})
         calculator.gender.should == :male
       end
 
       it 'returns the gender when passed a string key' do
-        calculator = ScoreCalculator.new({}, {"gender" => :male})
+        calculator = ScoreCalculator.new({}, timestamp, {"gender" => :male})
         calculator.gender.should == :male
       end
 
       it 'returns :unknown when gender is not given' do
-        calculator = ScoreCalculator.new({}, {})
+        calculator = ScoreCalculator.new({}, timestamp, {})
         calculator.gender.should == :unknown
       end
     end
 
     describe '#score' do
       it 'returns the value of another score' do
-        calculator = ScoreCalculator.new({}, {}, {:other => 1})
+        calculator = ScoreCalculator.new({}, timestamp, {}, {:other => 1})
         calculator.score(:other).should == 1
       end
 
       it 'raises an exception when score is not known' do
-        calculator = ScoreCalculator.new({}, {}, {:other => 1})
+        calculator = ScoreCalculator.new({}, timestamp, {}, {:other => 1})
         expect { calculator.score(:missing) }.to raise_error(/does not exist or is not calculated/)
       end
     end
 
     describe '#require_percentage_filled' do
-      let(:calculator) { ScoreCalculator.new({}) }
+      let(:calculator) { ScoreCalculator.new({}, timestamp) }
 
       context 'when enough values are non-nil' do
         it 'returns the values' do
@@ -239,5 +250,6 @@ module Quby
         end
       end
     end
+
   end
 end
