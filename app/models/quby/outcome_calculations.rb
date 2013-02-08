@@ -28,6 +28,7 @@ module Quby
       questionnaire.score_builders.each do |key, builder|
         begin
           result = ScoreCalculator.calculate(self.value_by_regular_values,
+                                             self.completed_at,
                                              self.patient.andand.slice("birthyear", "gender"),
                                              results,
                                              &builder.calculation)

@@ -63,9 +63,16 @@ module Quby
     end
 
     describe '#calculate_builders' do
+      it 'passes in the regular values and completed_at to the score calculator' do
+        answer.stub(value_by_regular_values: 'regular_values',
+                    completed_at: 'completed_at')
+        ScoreCalculator.should_receive(:calculate).with('regular_values', 'completed_at', {}, {})
+        answer.calculate_builders
+      end
+
       it 'calculates scores, alerts and completion' do
         answer.calculate_builders
-        
+
         answer.scores.should == {"tot"=>{"value"=>3, "label"=>"Totaal", "score"=>true}}
         answer.actions.should == {"attention" => 5}
         answer.completion.should == {"value"=>0.9}
