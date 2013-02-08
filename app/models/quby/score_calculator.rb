@@ -124,7 +124,7 @@ module Quby
 
     # Public: Returns the Integer age of the patient, or nil if it's not known.
     def age
-      @patient.age
+      @patient.age_at @timestamp
     end
 
     # Public: Returns the Symbol describing the gender of the patient.

@@ -188,6 +188,12 @@ module Quby
         calculator = ScoreCalculator.new({}, timestamp, {"birthyear" => 42.years.ago.year})
         calculator.age.should == 42
       end
+
+      it 'calls the patient age accessor method with its timestamp' do
+        calculator = ScoreCalculator.new({}, timestamp, {"birthyear" => 42.years.ago.year})
+        calculator.instance_variable_get('@patient').should_receive(:age_at).with(timestamp)
+        calculator.age
+      end
     end
 
     describe '#gender' do
