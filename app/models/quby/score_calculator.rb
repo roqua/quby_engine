@@ -18,8 +18,9 @@ module Quby
     #                     :male, :female or :unknown (optional)
     # scores - The Hash containing other scores calculated for the answer, so
     #          that these scores can be accessed from the current calculation.
-    def initialize(values, patient_attrs = {}, scores = {})
+    def initialize(values, timestamp, patient_attrs = {}, scores = {})
       @values = values
+      @timestamp = timestamp
       @patient = ::Quby::Patient.new(patient_attrs)
       @scores = scores.with_indifferent_access
       @score = {}
