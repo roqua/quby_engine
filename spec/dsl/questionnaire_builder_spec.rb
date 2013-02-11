@@ -47,6 +47,11 @@ module Quby
         questionnaire.charts.find(:tot).title.should == 'My Title'
       end
 
+      it 'builds radar charts' do
+        dsl { radar_chart(:tot) { title 'My Title' } }
+        questionnaire.charts.find(:tot).title.should == 'My Title'
+      end
+
       def dsl(&block)
         builder.instance_eval(&block)
       end

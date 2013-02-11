@@ -130,7 +130,13 @@ module Quby
         @questionnaire.add_chart(builder.build(&block))
       end
 
+      def radar_chart(*args, &block)
+        builder = RadarChartBuilder.new(@questionnaire, *args)
+        @questionnaire.add_chart(builder.build(&block))
+      end
+
       private
+
       def default_panel_options
         {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
       end
