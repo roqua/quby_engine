@@ -139,6 +139,14 @@ module Quby
       end
     end
 
+    describe '#find_score' do
+      it 'finds score builders' do
+        score = stub(:key => 'a')
+        questionnaire.push_score_builder score
+        questionnaire.find_score('a').should == score
+      end
+    end
+
     describe '#key_in_use?' do
       let(:definition)    { "title 'My Test' \n question :v_1 \n score :score_1 \n variable :var_1" }
       let(:questionnaire) { Questionnaire.new("test", definition) }
@@ -170,20 +178,14 @@ module Quby
     end
 
     describe '#add_chart' do
-      let(:chart) { stub(key: 'tot', scores: ['tot']) }
+      let(:charts)        { stub }
+      let(:chart)         { stub(key: 'tot', scores: [mock("Score")]) }
+      let(:questionnaire) { Questionnaire.new('test') }
 
       it 'adds charts' do
-        charts = stub
-        questionnaire = Questionnaire.new('test')
         questionnaire.stub(charts: charts)
-        questionnaire.stub(scores: [stub(key: 'tot')])
         charts.should_receive(:add).with(chart)
         questionnaire.add_chart(chart)
-      end
-
-      it 'raises when adding score that references unknown scores' do
-        chart.stub(scores: ['tot', 'unknown'])
-        expect { questionnaire.add_chart chart }.to raise_error(/references unknown scores/)
       end
     end
   end

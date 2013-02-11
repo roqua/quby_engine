@@ -13,7 +13,7 @@ module Quby
       attribute :tonality,                   Symbol, default: :lower_is_better
       attribute :baseline,                   Float
       attribute :clinically_relevant_change, Float
-      attribute :scores,                     Array[Symbol]
+      attribute :scores,                     Array[::Quby::Score]
 
       def initialize(key, options = {})
         self.key = key

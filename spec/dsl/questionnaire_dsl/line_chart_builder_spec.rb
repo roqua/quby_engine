@@ -3,6 +3,8 @@ require 'spec_helper'
 module Quby
   module QuestionnaireDsl
     describe LineChartBuilder do
+      let(:questionnaire) { stub }
+
       it 'makes a line chart' do
         dsl { }.should be_an_instance_of(::Quby::Charting::LineChart)
       end
@@ -36,11 +38,20 @@ module Quby
       end
 
       it 'sets scores' do
-        dsl { scores :tot, :soc }.scores.should == [:tot, :soc]
+        tot_score = stub(key: :tot, label: 'Totaal')
+        soc_score = stub(key: :soc, label: 'Sociaal')
+        questionnaire.stub(:find_score).with(:tot).and_return(tot_score)
+        questionnaire.stub(:find_score).with(:soc).and_return(soc_score)
+        dsl { scores :tot, :soc }.scores.should == [tot_score, soc_score]
+      end
+
+      it 'raises when adding score that references unknown scores' do
+        questionnaire.stub(:find_score).with(:tot).and_return(nil)
+        expect { dsl(){ scores :tot } }.to raise_error(/references unknown scores/)
       end
 
       def dsl(key = :test, options = {}, &block)
-        builder = LineChartBuilder.new(key, options)
+        builder = LineChartBuilder.new(questionnaire, key, options)
         builder.build(&block)
       end
     end

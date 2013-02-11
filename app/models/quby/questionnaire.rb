@@ -234,6 +234,10 @@ module Quby
       score_builders.values.select(&:score)
     end
 
+    def find_score(key)
+      score_builders.fetch(key)
+    end
+
     def actions
       score_builders.values.select(&:action)
     end
@@ -243,8 +247,6 @@ module Quby
     end
 
     def add_chart(chart)
-      missing_score_keys = chart.scores.reject {|i| scores.map(&:key).include? i }
-      raise "Chart #{chart.key} references unknown scores #{missing_score_keys}" if missing_score_keys.present?
       charts.add chart
     end
 

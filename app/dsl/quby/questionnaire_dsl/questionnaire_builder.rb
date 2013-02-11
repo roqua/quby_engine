@@ -121,7 +121,7 @@ module Quby
       end
 
       def line_chart(*args, &block)
-        builder = LineChartBuilder.new(*args)
+        builder = LineChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
