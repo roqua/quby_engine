@@ -25,6 +25,14 @@ module Quby
         @chart.scores = keys.map {|key| @questionnaire.find_score(key) }
       end
 
+      def chart_type(type)
+        @chart.chart_type = type
+      end
+
+      def score_sub_key(key)
+        @chart.score_sub_key = key
+      end
+
       def build(&block)
         instance_eval &block
         @chart

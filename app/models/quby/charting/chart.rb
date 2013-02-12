@@ -8,6 +8,8 @@ module Quby
       attribute :key,                        Symbol
       attribute :title,                      String
       attribute :scores,                     Array[::Quby::Score]
+      attribute :score_sub_key,              Symbol, default: :value
+      attribute :chart_type,                 Symbol
 
       def initialize(key, options = {})
         self.key = key
