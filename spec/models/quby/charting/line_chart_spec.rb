@@ -11,6 +11,10 @@ module Quby
 
         expect { LineChart.new(:tot, tonality: :positive) }.to raise_error(/Invalid tonality/)
       end
+
+      it 'has a type' do
+        chart = LineChart.new(:tot).type.should == 'line_chart'
+      end
     end
   end
 end

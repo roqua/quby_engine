@@ -11,4 +11,5 @@ shared_examples_for Quby::Charting::Chart do
     score1, score2 = stub, stub
     Quby::Charting::Chart.new(:tot, scores: [score1, score2]).scores.should == [score1, score2]
   end
+
 end

@@ -13,6 +13,10 @@ module Quby
         self.key = key
         super(options)
       end
+
+      def type
+        self.class.name.to_s.demodulize.underscore
+      end
     end
   end
 end
