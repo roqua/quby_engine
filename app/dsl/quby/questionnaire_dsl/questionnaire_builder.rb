@@ -121,17 +121,17 @@ module Quby
       end
 
       def line_chart(*args, &block)
-        builder = LineChartBuilder.new(@questionnaire, *args)
+        builder = Quby::QuestionnaireDsl::LineChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
       def bar_chart(*args, &block)
-        builder = BarChartBuilder.new(@questionnaire, *args)
+        builder = Quby::QuestionnaireDsl::BarChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
       def radar_chart(*args, &block)
-        builder = RadarChartBuilder.new(@questionnaire, *args)
+        builder = Quby::QuestionnaireDsl::RadarChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
