@@ -6,7 +6,7 @@ development:
   
 test:
   host: localhost
-  database: r_test
+  database: <%= ENV['MONGOID_DATABASE'] || 'r_test' %>
   autocreate_indexes: true
   persist_in_safe_mode: true
   
