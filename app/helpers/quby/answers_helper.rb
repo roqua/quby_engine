@@ -77,7 +77,7 @@ module Quby
 
     def get_question(table, rowi,j)
       q = get_item(table, rowi, j)
-      q.class.name == "Quby::Items::Question" ? q : nil
+      q.is_a?(Quby::Items::Question) ? q : nil
     end
 
     def get_item(table, rowi, j)

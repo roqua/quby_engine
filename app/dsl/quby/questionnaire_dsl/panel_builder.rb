@@ -5,7 +5,7 @@ module Quby
       attr_reader :questionnaire
 
       def initialize(title, options = {})
-        @panel = Items::Panel.new(options.merge({:title => title, :items => []}))
+        @panel = Quby::Items::Panel.new(options.merge({:title => title, :items => []}))
         @default_question_options = options[:default_question_options] || {}
         @questionnaire = options[:questionnaire]
       end
@@ -19,15 +19,15 @@ module Quby
       end
 
       def text(value, options = {})
-        @panel.items << Items::Text.new(value.to_s, options)
+        @panel.items << Quby::Items::Text.new(value.to_s, options)
       end
 
       def html(value)
-        @panel.items << Items::Text.new('', :html_content => value.to_s)
+        @panel.items << Quby::Items::Text.new('', :html_content => value.to_s)
       end
 
       def raw_html(value)
-        @panel.items << Items::Text.new('', :raw_content => value.to_s)
+        @panel.items << Quby::Items::Text.new('', :raw_content => value.to_s)
       end
 
       def default_question_options(options = {})

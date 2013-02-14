@@ -61,7 +61,7 @@ module Quby
           end
         end
         
-        if item.class.name == "Items::Text" or not ([:check_box, :radio, :scale].include? item.type)
+        if item.is_a(Quby::Items::Text) or not ([:check_box, :radio, :scale].include? item.type)
           if item.row_span > 1
             skips << [item.row_span, filled_columns, item.col_span]
           end

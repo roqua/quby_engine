@@ -8,7 +8,7 @@ module Quby
       attr_reader :questionnaire
 
       def initialize(key, options = {})
-        @question = Items::Question.new(key, options)
+        @question = Quby::Items::Question.new(key, options)
         @default_question_options = options[:default_question_options] || {}
         @questionnaire = options[:questionnaire]
         @title_question = nil

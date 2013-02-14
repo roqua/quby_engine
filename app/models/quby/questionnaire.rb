@@ -173,7 +173,7 @@ module Quby
       end
 
       @questions_tree_cache = (@panels && @panels.map do |panel|
-        panel.items.map {|item| recurse.call(item) if Items::Question === item }
+        panel.items.map {|item| recurse.call(item) if Quby::Items::Question === item }
       end)
     end
 
