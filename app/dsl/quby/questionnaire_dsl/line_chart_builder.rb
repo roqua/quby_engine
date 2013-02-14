@@ -19,8 +19,21 @@ module Quby
         @chart.tonality = value
       end
 
-      def baseline(value)
-        @chart.baseline = value
+      def baseline(value = nil, &block)
+        if (not value and not block) or (value and block)
+          raise ArgumentError, "Must give either value or a block"
+        end
+
+        if value
+          @chart.baseline = lambda {|age, gender| value }
+        end
+
+        if block
+          if block.arity != 2
+            raise ArgumentError, "Given block must take two arguments"
+          end
+          @chart.baseline = block
+        end
       end
 
       def clinically_relevant_change(value)

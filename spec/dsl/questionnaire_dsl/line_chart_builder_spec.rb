@@ -37,8 +37,18 @@ module Quby
         dsl { tonality :higher_is_better }.tonality.should == :higher_is_better
       end
 
-      it 'sets baseline' do
-        dsl { baseline 5 }.baseline.should == 5.0
+      it 'sets baseline to constant value' do
+        dsl { baseline 5 }.baseline.call(1, :male).should == 5.0
+      end
+
+      it 'sets baseline to proc' do
+        dsl { baseline {|age, gender| age } }.baseline.call(5, :male).should == 5.0
+        expect { dsl { baseline {|age| age } } }.to raise_error(ArgumentError, /must take two arguments/)
+      end
+
+      it 'raises error if not giving baseline value or block' do
+        expect { dsl { baseline } }.to raise_error(ArgumentError, /either value or a block/)
+        expect { dsl { baseline(5.0) {|age, gender| age } } }.to raise_error(ArgumentError, /either value or a block/)
       end
 
       it 'sets clinically relevant change' do

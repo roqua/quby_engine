@@ -7,7 +7,7 @@ module Quby
       attribute :y_range,                    Range
       attribute :y_stepsize,                 Float
       attribute :tonality,                   Symbol, default: :lower_is_better
-      attribute :baseline,                   Float
+      attribute :baseline,                   Proc
       attribute :clinically_relevant_change, Float
 
       def tonality=(value)
