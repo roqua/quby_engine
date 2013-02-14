@@ -27,6 +27,18 @@ module Quby
       Answer.any_instance.stub(:questionnaire) { questionnaire }
     end
 
+    describe '#value_by_values' do
+      it 'returns an empty hash when value is nil' do
+        Answer.new.value_by_values.should eq({})
+      end
+    end
+
+    describe '#value_by_regular_values' do
+      it 'returns an empty hash when value is nil' do
+        Answer.new.value_by_regular_values.should eq({})
+      end
+    end
+
     describe "#scores" do
       let(:answer) { Answer.create! }
 

@@ -91,6 +91,7 @@ module Quby
     end
 
     def value_by_values
+      result = {}
       if value
         result = value.dup
         value.each_key do |key|
@@ -110,6 +111,7 @@ module Quby
     end
 
     def value_by_regular_values
+      result = {}
       if value
         result = value.dup
         value.each do |key, answer|
