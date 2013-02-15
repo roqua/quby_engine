@@ -17,10 +17,6 @@ module Quby
         dsl { chart_type :bar }.chart_type.should == :bar
       end
 
-      it 'sets score_sub_key' do
-        dsl { score_sub_key :perc }.score_sub_key.should == :perc
-      end
-
       it 'sets y-axis label' do
         dsl { y_axis_label 'Label' }.y_label.should == 'Label'
       end

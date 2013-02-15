@@ -28,10 +28,6 @@ module Quby
         @chart.chart_type = type
       end
 
-      def score_sub_key(key)
-        @chart.score_sub_key = key
-      end
-
       def build(&block)
         instance_eval &block
         @chart
