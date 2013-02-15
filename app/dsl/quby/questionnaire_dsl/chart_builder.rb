@@ -29,7 +29,7 @@ module Quby
       end
 
       def build(&block)
-        instance_eval &block
+        instance_eval(&block)
         @chart
       end
     end

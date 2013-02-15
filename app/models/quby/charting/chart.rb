@@ -7,7 +7,7 @@ module Quby
 
       attribute :key,                        Symbol
       attribute :title,                      String
-      attribute :scores,                     Array[::Quby::Score]
+      attribute :scores,                     Array
       attribute :chart_type,                 Symbol
 
       def initialize(key, options = {})
