@@ -13,17 +13,30 @@ module Quby
         dsl { title 'Totaalscore' }.title.should == "Totaalscore"
       end
 
-      it 'sets scores' do
-        tot_score = stub(key: :tot, label: 'Totaal')
-        soc_score = stub(key: :soc, label: 'Sociaal')
-        questionnaire.stub(:find_score).with(:tot).and_return(tot_score)
-        questionnaire.stub(:find_score).with(:soc).and_return(soc_score)
-        dsl { scores :tot, :soc }.scores.should == [tot_score, soc_score]
-      end
+      describe 'setting which scores should be included in the chart' do
+        let(:tot_score) { stub(key: :tot, label: 'Totaal') }
+        let(:soc_score) { stub(key: :soc, label: 'Sociaal') }
+        let(:plotted_tot_score) { Quby::Charting::PlottedScore.new(:tot, label: 'Totaal') }
+        let(:plotted_soc_score) { Quby::Charting::PlottedScore.new(:soc, label: 'Sociaal') }
 
-      it 'raises when adding score that references unknown scores' do
-        questionnaire.stub(:find_score).with(:tot).and_return(nil)
-        expect { dsl(){ scores :tot } }.to raise_error(/references unknown scores/)
+        before do
+          questionnaire.stub(:find_score).with(:tot).and_return(tot_score)
+          questionnaire.stub(:find_score).with(:soc).and_return(soc_score)
+        end
+
+        it 'can be done by passing score keys individually' do
+          dsl { plot :tot; plot :soc }.scores.should == [plotted_tot_score, plotted_soc_score]
+        end
+
+        it 'can specify which item from the score hash to plot' do
+          plotted_score = Quby::Charting::PlottedScore.new(:tot, label: 'Totaal', plotted_key: :t_score)
+          dsl { plot :tot, :t_score }.scores.should == [plotted_score]
+        end
+
+        it 'raises when adding score that references unknown scores' do
+          questionnaire.stub(:find_score).with(:tot).and_return(nil)
+          expect { dsl { plot :tot } }.to raise_error(/references unknown score/)
+        end
       end
 
       def dsl(key = :test, options = {}, &block)

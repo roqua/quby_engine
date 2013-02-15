@@ -18,11 +18,10 @@ module Quby
         @chart.title = title
       end
 
-      def scores(*keys)
-        missing_score_keys = keys.reject {|key| @questionnaire.find_score(key) }
-        raise "Chart #{@chart.key} references unknown scores #{missing_score_keys}" if missing_score_keys.present?
-
-        @chart.scores = keys.map {|key| @questionnaire.find_score(key) }
+      def plot(key, plotted_key = :value)
+        score = @questionnaire.find_score(key)
+        raise "Chart #{@chart.key} references unknown score #{key}" unless score.present?
+        @chart.scores << Quby::Charting::PlottedScore.new(score.key, label: score.label, plotted_key: plotted_key)
       end
 
       def chart_type(type)
