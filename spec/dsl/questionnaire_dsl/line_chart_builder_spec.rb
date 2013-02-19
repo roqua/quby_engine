@@ -3,7 +3,7 @@ require 'spec_helper'
 module Quby
   module QuestionnaireDsl
     describe LineChartBuilder do
-      let(:questionnaire) { stub }
+      let(:questionnaire) { stub(key: 'questionnaire_key') }
 
       it 'makes a line chart' do
         dsl { }.should be_an_instance_of(::Quby::Charting::LineChart)

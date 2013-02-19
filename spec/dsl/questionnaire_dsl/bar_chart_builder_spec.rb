@@ -3,7 +3,7 @@ require 'spec_helper'
 module Quby
   module QuestionnaireDsl
     describe BarChartBuilder do
-      let(:questionnaire) { stub }
+      let(:questionnaire) { stub(key: 'questionnaire_key') }
 
       it 'makes a bar chart' do
         dsl { }.should be_an_instance_of(::Quby::Charting::BarChart)
@@ -34,7 +34,7 @@ module Quby
         end
 
         it 'raises when adding score that references unknown scores' do
-          questionnaire.stub(:find_score).with(:tot).and_return(nil)
+          questionnaire.stub(:find_score).with(:tot) { raise KeyError }
           expect { dsl { plot :tot } }.to raise_error(/references unknown score/)
         end
       end
