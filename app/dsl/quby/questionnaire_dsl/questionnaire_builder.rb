@@ -120,7 +120,23 @@ module Quby
         variable(:completion, options.reverse_merge(:completion => true), &block)
       end
 
+      def line_chart(*args, &block)
+        builder = Quby::QuestionnaireDsl::LineChartBuilder.new(@questionnaire, *args)
+        @questionnaire.add_chart(builder.build(&block))
+      end
+
+      def bar_chart(*args, &block)
+        builder = Quby::QuestionnaireDsl::BarChartBuilder.new(@questionnaire, *args)
+        @questionnaire.add_chart(builder.build(&block))
+      end
+
+      def radar_chart(*args, &block)
+        builder = Quby::QuestionnaireDsl::RadarChartBuilder.new(@questionnaire, *args)
+        @questionnaire.add_chart(builder.build(&block))
+      end
+
       private
+
       def default_panel_options
         {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
       end

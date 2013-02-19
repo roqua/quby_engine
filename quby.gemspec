@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency "json"
   s.add_dependency "addressable"
   s.add_dependency "mongoid-app_settings"
+  s.add_dependency "virtus", "~> 0.5.4"
 
   s.add_dependency "jquery-rails", "~> 2.1.3"
   s.add_dependency "fd-slider-rails", "~> 0.5.1"
