@@ -72,7 +72,7 @@ module Quby
         end
 
         it 'raises when adding score that references unknown scores' do
-          questionnaire.stub(:find_score).with(:tot).and_return(nil)
+          questionnaire.stub(:find_score).with(:tot) { raise KeyError }
           expect { dsl { plot :tot } }.to raise_error(/references unknown score/)
         end
       end

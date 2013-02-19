@@ -19,8 +19,11 @@ module Quby
       end
 
       def plot(key, plotted_key = :value)
-        score = @questionnaire.find_score(key)
-        raise "Chart #{@chart.key} references unknown score #{key}" unless score.present?
+        begin
+          score = @questionnaire.find_score(key)
+        rescue KeyError
+          raise "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score #{key}"
+        end
         @chart.scores << Quby::Charting::PlottedScore.new(score.key, label: score.label, plotted_key: plotted_key)
       end
 
