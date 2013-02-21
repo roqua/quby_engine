@@ -134,6 +134,8 @@ module Quby
     def enhance_by_dsl
       if self.definition
         @question_hash = {}
+        @score_builders = {}
+        @charts = Charting::Charts.new
 
         functions = Function.all.map(&:definition).join("\n\n")
         functions_and_definition = [functions, self.definition].join("\n\n")
