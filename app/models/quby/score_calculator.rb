@@ -11,6 +11,7 @@ module Quby
     #
     # values - The Hash values describes the keys of questions and the values
     #          of the answer given to that question.
+    # timestamp - The Time to be used to calculate the age of the patient.
     # patient - A Hash describing extra patient information (default: {})
     #           :birthyear - The Integer birthyear of the patient to be used in
     #                        score calculation (optional)
