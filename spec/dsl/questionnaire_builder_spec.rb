@@ -38,7 +38,7 @@ module Quby
       end
 
       it 'builds line charts' do
-        dsl { line_chart(:tot) { title 'My Title' } }
+        dsl { line_chart(:tot) { title 'My Title'; range 0..40 } }
         questionnaire.charts.find(:tot).title.should == 'My Title'
       end
 

@@ -39,6 +39,10 @@ module Quby
       def clinically_relevant_change(value)
         @chart.clinically_relevant_change = value
       end
+
+      def validate!
+        raise "Chart #{@chart.key} has no range specified" unless @chart.y_range
+      end
     end
   end
 end

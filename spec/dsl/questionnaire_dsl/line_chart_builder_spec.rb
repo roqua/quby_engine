@@ -25,6 +25,10 @@ module Quby
         dsl { range 0..40 }.y_range.should == (0..40)
       end
 
+      it 'raises when y-axis range is not specified' do
+        expect { dsl(:test, {}) { } }.to raise_error(/no range specified/)
+      end
+
       it 'sets y-axis stepsize' do
         dsl { stepsize 4 }.y_stepsize.should == 4.0
       end
@@ -77,7 +81,7 @@ module Quby
         end
       end
 
-      def dsl(key = :test, options = {}, &block)
+      def dsl(key = :test, options = {y_range: (0..20)}, &block)
         builder = LineChartBuilder.new(questionnaire, key, options)
         builder.build(&block)
       end

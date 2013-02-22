@@ -10,7 +10,7 @@ module Quby
       end
 
       def initialize(questionnaire, key, options = {})
-        @chart = self.class.chart_class.new(key, options = {})
+        @chart = self.class.chart_class.new(key, options)
         @questionnaire = questionnaire
       end
 
@@ -33,7 +33,12 @@ module Quby
 
       def build(&block)
         instance_eval(&block)
+        validate!
         @chart
+      end
+
+      def validate!
+        true
       end
     end
   end
