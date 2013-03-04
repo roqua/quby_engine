@@ -18,7 +18,7 @@
         - question.options.each_with_index do |opt, idx|
           - checked = @answer.send(question.key) == opt.key.to_s
           - next if (opt.hidden and not checked)
-          - handle_hide_questions(question,opt,@questionnaire) if checked
+          - handle_hide_questions(question,opt,@answer) if checked
           - cls = []
           - cls << "first" if idx <= 0
           - cls << "last" if idx >= (question.options.size - 1)

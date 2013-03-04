@@ -84,10 +84,9 @@ module Quby
       table.item_table[rowi][j]
     end
 
-    def handle_hide_questions(question,option,questionnaire)
+    def handle_hide_questions(question, option, answer)
       option.hides_questions.each do |key|
-        questionnaire.question_hash[key].extra_data[:hidden_by] ||= []
-        questionnaire.question_hash[key].extra_data[:hidden_by] << question.key.to_s
+        answer.to_hide["answer_#{question.key}_#{option.key}"] = key
       end
     end
 

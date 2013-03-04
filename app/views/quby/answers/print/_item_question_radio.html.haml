@@ -5,7 +5,7 @@
     - question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next unless checked
-      - handle_hide_questions(question,opt,@questionnaire)
+      - handle_hide_questions(question,opt,@answer)
       .option(class="#{show_values ? 'show_values' : nil}")
         .labelwrapper
           - if show_values

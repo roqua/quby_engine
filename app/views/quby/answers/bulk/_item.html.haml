@@ -3,14 +3,13 @@
 - subquestion ||= false
 - disabled ||= false
 - itemclasses = [item.type, item.presentation]
-- @answer.to_hide ||= []
 - extra_data = nil
 - itemkey = nil
 - if item.is_a?(Quby::Items::Question)
   - return if item.table
   - itemkey = "item_#{item.key}"
   - extra_data = item.extra_data
-  - itemclasses << 'hidden-childs' unless extra_data[:hidden_by].blank?
+  - itemclasses << 'hidden-childs' if @answer.to_hide.values.include?(item.key)
   - itemclasses << item.as if item.as
   - doublewide = item.options.size <= 5
   - itemclasses << "errors" unless @answer.errors[item.key].empty?

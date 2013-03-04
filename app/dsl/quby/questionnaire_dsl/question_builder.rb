@@ -84,8 +84,10 @@ module Quby
 
         q = QuestionBuilder.new(key, options)
         q.instance_eval(&block) if block
-        @questionnaire.question_hash[key] = q.build
-        @title_question = q.build
+        question = q.build
+
+        @questionnaire.question_hash[key] = question
+        @title_question = question
       end
 
       def question(key, options = {}, &block)
@@ -93,8 +95,9 @@ module Quby
 
         q = QuestionBuilder.new(key, @default_question_options.merge(options.merge({:questionnaire => @questionnaire, :parent => @question, :parent_option_key => @question.options.last.key})))
         q.instance_eval(&block) if block
-        @questionnaire.question_hash[key] = q.build
-        @question.options.last.questions << q.build
+        question = q.build
+        @questionnaire.question_hash[key] = question
+        @question.options.last.questions << question
       end
 
       def depends_on(keys)

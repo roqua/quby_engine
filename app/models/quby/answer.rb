@@ -60,6 +60,7 @@ module Quby
     attr_accessor :dsl_last_update
 
     def enhance_by_dsl
+      @to_hide = {}
       AnswerDsl.enhance(self)
     end
 

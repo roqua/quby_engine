@@ -4,7 +4,7 @@
 - else
   - checked = @answer.send(question.key) == opt.key.to_s
   - return if (opt.hidden and not checked)
-  - handle_hide_questions(question,opt,@questionnaire) if checked
+  - handle_hide_questions(question,opt,@answer) if checked
   - optionclasses =  [os_cycle]
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     - radio_classes = [question.type]

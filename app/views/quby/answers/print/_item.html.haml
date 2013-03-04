@@ -3,13 +3,12 @@
 - disabled ||= false
 - previous_item ||= nil
 - itemclasses = [item.type, item.presentation]
-- @answer.to_hide ||= []
 - case item.class.name
 - when "Quby::Items::Question"
   -# return if item.table
   -# return if @answer.send(item.key).blank?
   - extra_data = item.extra_data
-  - itemclasses << 'hidden' unless extra_data[:hidden_by].blank?
+  - itemclasses << 'hidden' if @answer.to_hide.values.include?(item.key)
   - doublewide = item.options.size <= 5
   - itemclasses << "notbulkitem"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
@@ -18,7 +17,6 @@
   - itemclasses << 'first' unless previous_item
 - when "Quby::Items::Table"
   - return
-
 - if item.raw_content and item.class.name != "Quby::Items::Text"
   - if item.raw_content.is_a?(Hash)
     -if item.raw_content[:print]
