@@ -25,6 +25,7 @@ gem 'roqua-support', git: 'git://github.com/roqua/roqua-support.git'
 
 gem 'open4'
 gem 'wirble'
+gem 'rails-backbone'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -46,10 +47,14 @@ group :test, :development do
   gem 'spork'
   gem 'guard-spork'
 
+  gem 'jasminerice'
+  gem 'jasmine-jquery-rails'
+
   gem "fakefs", :require => "fakefs/safe"
 end
 
 group :test do
+  gem 'guard-jasmine'
   gem 'fuubar'
   gem 'timecop'
 

@@ -19,6 +19,7 @@ gems/*
 !gems/bundler
 #*#
 .#*
+.DS_Store
 public/assets
 
 spec/dummy/config/database.yml
