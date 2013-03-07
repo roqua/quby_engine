@@ -1,4 +1,5 @@
-#!/bin/bash -l -e
+#!/bin/bash -l
+set -e
 rvm use ruby-1.9.3-p0@quby
 bundle install > /dev/null
 
