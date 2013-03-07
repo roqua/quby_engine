@@ -9,6 +9,9 @@ gem 'rails', '3.2.2'
 
 gem "bson_ext", "~> 1.5.2"
 
+# Optional dependency on RoQua Support gem.
+gem 'roqua-support', git: 'git://github.com/roqua/roqua-support.git'
+
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing

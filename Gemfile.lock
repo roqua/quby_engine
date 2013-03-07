@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/roqua/roqua-support.git
+  revision: e5f5d4f34cee54a2c326d69ef88f3d61bbd893fb
+  specs:
+    roqua-support (0.0.1)
+      activesupport (~> 3.2)
+
 PATH
   remote: .
   specs:
@@ -13,6 +20,7 @@ PATH
       mongoid (~> 2.2)
       mongoid-app_settings
       rails (~> 3.1)
+      roqua-support
       ryansch-andand
       sass-rails
       susy (~> 1.0.rc)
@@ -262,6 +270,7 @@ DEPENDENCIES
   pry
   quby!
   rails (= 3.2.2)
+  roqua-support!
   rspec-rails
   spork
   therubyracer

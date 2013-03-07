@@ -2,7 +2,7 @@ require 'ipaddr'
 
 module Quby
   class ApplicationController < ActionController::Base
-    include Roqua::Support::RequestLogging
+    include Roqua::Support::RequestLogging if defined?(Roqua::Support::RequestLogging)
 
     helper :all # include all helpers, all the time
     protect_from_forgery
@@ -29,9 +29,11 @@ module Quby
       logger.info "  Process PID: #{Process.pid}" unless Rails.env.development?
       logger.info "  Pre-request session: #{session.inspect}"
 
-      add_log_information :useragent,  request.headers['User-Agent']
-      add_log_information :session_id, request.session_options[:id]
-      add_log_information :session,    session
+      if respond_to?(:add_log_information)
+        add_log_information :useragent,  request.headers['User-Agent']
+        add_log_information :session_id, request.session_options[:id]
+        add_log_information :session,    session
+      end
 
       yield
 
