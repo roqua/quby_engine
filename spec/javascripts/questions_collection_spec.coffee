@@ -5,5 +5,6 @@ describe "Questions", ->
     @questionC = new Questions
   describe "#hidden", ->
     it "returns all questions that are hidden", ->
-      console.log @questionC
+      console.log "AAAAA" + @questionC
+
       expect(true).toEqual(false)

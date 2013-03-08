@@ -3,6 +3,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+
+//= require underscore
+//= require backbone
+//= require ./backbone/quby
+
 //= require jquery-ui
 //= require quby/jquery_placeholder
 //= require quby/jquery.scrollTo-min.js

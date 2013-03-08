@@ -26,6 +26,7 @@ gem 'roqua-support', git: 'git://github.com/roqua/roqua-support.git'
 gem 'open4'
 gem 'wirble'
 gem 'rails-backbone'
+gem 'underscore-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
