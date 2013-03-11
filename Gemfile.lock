@@ -20,6 +20,7 @@ PATH
       mongoid (~> 2.2)
       mongoid-app_settings
       rails (~> 3.1)
+      rails-backbone
       ryansch-andand
       sass-rails
       susy (~> 1.0.rc)
@@ -258,7 +259,6 @@ GEM
     uglifier (1.2.6)
       execjs (>= 0.3.0)
       multi_json (~> 1.3)
-    underscore-rails (1.4.3)
     virtus (0.5.4)
       backports (~> 2.6.1)
       descendants_tracker (~> 0.0.1)
@@ -295,5 +295,4 @@ DEPENDENCIES
   therubyracer
   timecop
   uglifier
-  underscore-rails
   wirble

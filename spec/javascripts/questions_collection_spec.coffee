@@ -1,10 +1,10 @@
-describe "Questions", ->
+describe "Quby.Collections.Questions", ->
   beforeEach ->
-    @view = new Backbone.View
-    @question = new Question
-    @questionC = new Questions
+    @questionOption = new Quby.Models.QuestionOption
+    @question = new Quby.Models.Question(hiddenByOptions: [@questionOption])
+    @questionC = new Quby.Collections.Questions
+    @questionC.add([@question, {}])
+
   describe "#hidden", ->
     it "returns all questions that are hidden", ->
-      console.log "AAAAA" + @questionC
-
-      expect(true).toEqual(false)
+      expect(@questionC.hidden()).toEqual([@question])

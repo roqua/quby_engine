@@ -1,5 +1,4 @@
 class Quby.Models.QuestionOption extends Backbone.Model
-  defaults:
-    element_id: ""
-    hides_questions: []
-    shows_questions: []
+  defaults: ->
+    hidesQuestions: new Quby.Collections.Questions
+    showsQuestions: new Quby.Collections.Questions
