@@ -52,18 +52,22 @@ module Quby
       results
     end
 
-
     # Calculate scores and actions, write to the database but bypass any validations
     # This function is called by parts of the system that only want to calculate
     # stuff, and can't help it if an answer is not completed.
     def update_scores
       self.class.skip_callback :save, :before, :calculate_builders
+      # MongoDB won't save new hash order if we don't clear it first.
+      update_attribute(:scores, {})
+      update_attribute(:actions, {})
+      update_attribute(:completion, {})
+
+      # Now we can fill it back up
       calculate_builders
       update_attribute(:scores, scores)
       update_attribute(:actions, actions)
       update_attribute(:completion, completion)
       self.class.set_callback :save, :before, :calculate_builders
     end
-
   end
 end

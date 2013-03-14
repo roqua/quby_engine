@@ -150,6 +150,26 @@ module Quby
         answer.completion.should == {'value' => 0.9}
       end
 
+      it 'saves reorderings of scores' do
+        scorer1 = Proc.new { {value: 1} }
+        score1  = Score.new(:tot, {label: "Totaalscore", score: true}, &scorer)
+        scorer2 = Proc.new { {value: 2} }
+        score2  = Score.new(:sub, {label: "Subscore", score: true}, &scorer)
+        questionnaire.score_builders = {}
+        questionnaire.push_score_builder score1
+        questionnaire.push_score_builder score2
+        answer.update_scores
+        answer.scores.keys.should == ["tot", "sub"]
+        answer.reload.scores.keys.should == ["tot", "sub"]
+
+        questionnaire.score_builders = {}
+        questionnaire.push_score_builder score2
+        questionnaire.push_score_builder score1
+        answer.update_scores
+        answer.scores.keys.should == ["sub" ,"tot"]
+        answer.reload.scores.keys.should == ["sub" ,"tot"]
+      end
+
       it 'skips the set_outcomes callback' do
         answer.should_receive(:calculate_builders).once
         answer.update_scores
