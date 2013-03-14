@@ -35,8 +35,8 @@
     - when "Quby::Items::Question"
       - return if (item.hidden?) and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:paged)))
-      = render :partial => 'quby/answers/shared/validations', :locals => {:question => item, :answer => @answer}
 
+      = render :partial => 'quby/answers/shared/validations', :locals => {:question => item, :answer => @answer}
       - case item.type
       - when :string
         = render :partial => "quby/answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
@@ -56,6 +56,8 @@
         = render :partial => "quby/answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
         - raise "Unknown question type #{item.type} for question #{item.key}"
+
+      = render :partial => 'quby/answers/shared/backbone_question', :locals => {:questionViewSelector => "#item_#{item.key}", :item => item}
     - when "Quby::Items::Table"
       = render :partial => "quby/answers/table/table", :locals => {:table => item}
     - else

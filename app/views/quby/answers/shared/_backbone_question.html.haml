@@ -1,0 +1,13 @@
+- if item.is_a? Quby::Items::Question
+  - options = item.options.map do |option|
+    - "#answer_#{item.key}_#{option.key}"
+  :coffeescript
+    $ ->
+      optionSelectors = #{options.as_json}
+      options = new Quby.Collections.QuestionOptions
+      _.each optionSelectors, (selector) ->
+        option = new Quby.Models.QuestionOption
+        element = $(selector)[0]
+        optionView = new Quby.Views.QuestionOptionView(model: option, el: element)
+        options.add option
+      window.questions.add new Quby.Models.Question(viewSelector: "#{questionViewSelector}", options: options)

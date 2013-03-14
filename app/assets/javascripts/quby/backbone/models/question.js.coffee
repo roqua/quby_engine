@@ -4,9 +4,12 @@ class Quby.Models.Question extends Backbone.Model
     hiddenByOptions: new Quby.Collections.QuestionOptions
     shownByOptions: new Quby.Collections.QuestionOptions
     lastClickedOption: null
-    view: new Quby.Views.QuestionView(model: @)
+    viewSelector: ""
   initialize: ->
     @get("options").on "clicked", @optionClicked, @
+    viewSelector = @get("viewSelector")
+    if not _.isEmpty viewSelector
+      @set("view", new Quby.Views.QuestionView(model: @, element: $(viewSelector)[0]))
   hidden: ->
     (@get("hiddenByOptions").length > 0) && (@get("shownByOptions").length == 0)
 
