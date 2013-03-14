@@ -10,4 +10,9 @@
         element = $(selector)[0]
         optionView = new Quby.Views.QuestionOptionView(model: option, el: element)
         options.add option
-      window.questions.add new Quby.Models.Question(viewSelector: "#{questionViewSelector}", options: options)
+      question = new Quby.Models.Question(
+        viewSelector: "#{questionViewSelector}",
+        options: options,
+        type: "#{item.type}"
+      )
+      window.questions.add question
