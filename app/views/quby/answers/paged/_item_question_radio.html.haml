@@ -14,7 +14,6 @@
     - question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next if (opt.hidden and not checked)
-      - handle_hide_questions(question,opt,@answer) if checked
       - if opt.inner_title
         .inner-title
           :markdown
@@ -25,8 +24,7 @@
             - radio_classes = [question.type]
             - radio_classes << "subinput" if subquestion
             - radio_classes << "deselectable" if question.deselectable
-            = radio_button(:answer, question.key, opt.key,
-              {:hides => opt.hides_questions.to_json || "[]", :unhides => opt.unhides_questions.to_json ||"[]", :class => radio_classes, :disabled => disabled ? "" : nil})
+            = radio_button(:answer, question.key, opt.key, {:class => radio_classes, :disabled => disabled ? "" : nil})
           - if show_values
             .value= opt.value
           .labelwrapper

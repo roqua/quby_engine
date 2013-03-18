@@ -84,12 +84,6 @@ module Quby
       table.item_table[rowi][j]
     end
 
-    def handle_hide_questions(question, option, answer)
-      option.hides_questions.each do |key|
-        answer.to_hide["answer_#{question.key}_#{option.key}"] = key
-      end
-    end
-
     def light_dark_for(cyclei, same_question)
       if same_question
         return ""

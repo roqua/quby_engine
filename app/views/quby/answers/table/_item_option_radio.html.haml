@@ -4,7 +4,6 @@
 - else
   - checked = @answer.send(question.key) == opt.key.to_s
   - return if (opt.hidden and not checked)
-  - handle_hide_questions(question,opt,@answer) if checked
   - optionclasses =  [os_cycle]
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     - radio_classes = [question.type]
@@ -15,7 +14,7 @@
     .radiocheckwrapper
       - if show_values
         .value= opt.value
-      = radio_button(:answer, question.key, opt.key, {:hides => opt.hides_questions.to_json || "[]", :unhides => opt.unhides_questions.to_json ||"[]", :class => radio_classes})
+      = radio_button(:answer, question.key, opt.key, {:class => radio_classes})
     -if question.table.show_option_desc
       .labelwrapper
         %label(for="answer_#{question.key}_#{opt.key}")

@@ -18,7 +18,6 @@
         - question.options.each_with_index do |opt, idx|
           - checked = @answer.send(question.key) == opt.key.to_s
           - next if (opt.hidden and not checked)
-          - handle_hide_questions(question,opt,@answer) if checked
           - cls = []
           - cls << "first" if idx <= 0
           - cls << "last" if idx >= (question.options.size - 1)
@@ -31,8 +30,7 @@
               - cls = [question.type]
               - cls << "subinput" if subquestion
               - cls << "deselectable" if question.deselectable
-              = radio_button(:answer, question.key, opt.key,
-                {:hides => opt.hides_questions.to_json || "[]", :unhides => opt.unhides_questions.to_json ||"[]", :class => cls, :disabled => disabled ? "" : nil})
+              = radio_button(:answer, question.key, opt.key, {:class => cls, :disabled => disabled ? "" : nil})
               %br/
               %label(for="answer_#{question.key}_#{opt.key}")
                 %span

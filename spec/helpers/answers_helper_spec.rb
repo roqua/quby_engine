@@ -35,17 +35,4 @@ describe Quby::AnswersHelper do
       table_marukufix("test", "v_1", 1, "<div>insert</div>").include?("<div>insert</div>").should be_true
     end
   end
-
-  describe "#handle_hide_questions" do
-
-    let(:questionnaire) { Quby::Questionnaire.find_by_key("question_hiding") }
-    let(:question) { questionnaire.question_hash[:v_6] }
-    let(:option) { question.options[5] }
-
-    it "should set to_hide on answer if a given option hides questions" do
-      answer = create_new_answer_for(questionnaire, "v_6" => "a6")
-      handle_hide_questions(question, option, answer)
-      answer.to_hide.should == {"answer_v_6_a6" => :v_8}
-    end
-  end
 end

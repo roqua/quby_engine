@@ -19,10 +19,6 @@ module Quby
           @question.options.last.questions << @title_question
           @title_question = nil
         end
-
-        @question.options.each do |option|
-          option.init_unhides_questions(@question)
-        end
         @question
       end
 

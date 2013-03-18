@@ -329,63 +329,6 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-function handleHideQuestions(element, hidekeys, allkeys, showkeys){
-
-    $.each(allkeys, function(){
-        var item = $("#item_" + this);
-
-        if(item.length == 0){ //table
-            item = $("[data-for^='" + this + "']")
-        }
-
-        var hiddenby = item.first().data('hidden_by');
-        hiddenby = hiddenby || [];
-
-        var loc = $.inArray(element.attr('name'), hiddenby);
-        if(loc != undefined && loc != -1){
-          hiddenby.remove(loc,loc);
-          item.first().data('hidden_by', hiddenby);
-        }
-
-        if (hiddenby.length == 0) {
-            item.removeClass('hidden-childs');
-        }
-
-        var panel;
-        if( isBulk && allInputsHidden(panel = item.closest(".panel")) ){
-          panel.show();
-        }
-    });
-
-    $.each(hidekeys, function(){
-        if (element.attr('checked')) {
-            var item = $("#item_" + this);
-
-            if(item.length == 0){ //table
-                item = $("[data-for^='" + this + "']")
-            }
-
-            var hiddenby = item.first().data('hidden_by');
-            hiddenby = hiddenby || [];
-            var loc = $.inArray(element.attr('name'), hiddenby);
-            if(loc == undefined || loc == -1){
-                hiddenby.push(element.attr('name'));
-                item.first().data('hidden_by', hiddenby);
-            }
-
-            //if(!$.inArray(this, showkeys)){
-                item.addClass('hidden-childs');
-            //}
-
-            var panel;
-            if( isBulk && allInputsHidden(panel = item.closest(".panel")) ){
-              panel.hide();
-            }
-        }
-    });
-}
-
-
 function radioCheckboxEvents(event){
     var element = $(event.target || event);
     if(element.is("[type=radio]")){
@@ -393,10 +336,6 @@ function radioCheckboxEvents(event){
     } else {
         handleDisableCheckboxSubQuestions(element);
     }
-//    handleHideQuestions(element, eval(element.attr('hides')) || [],
-//        eval(element.attr('unhides')) || [],
-//        eval(element.attr('shows')) || []
-//    );
 }
 
 function handleDisableRadioSubQuestions(element){

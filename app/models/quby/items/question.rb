@@ -58,9 +58,6 @@ module Quby
     # To specify size of string/number input boxes
     attr_accessor :size
 
-    #A collection of all questions that can be hidden by all the options of this question
-    attr_accessor :hides_questions
-
     #Whether this radio question is deselectable
     attr_accessor :deselectable
 
@@ -179,8 +176,6 @@ module Quby
           @validations << {:type => :answer_group_maximum, :group => @question_group, :value => @group_maximum_answered, :explanation => options[:error_explanation]}
         end
       end
-
-      @hides_questions = []
     end
 
     def year_key
