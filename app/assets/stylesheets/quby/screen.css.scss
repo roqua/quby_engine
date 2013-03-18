@@ -172,6 +172,11 @@ pre {
 
 .hidden { display: none;}
 
+.hidden-childs {
+  border-bottom:  none !important;
+  padding: 0 !important;
+}
+
 .hidden-childs > * {
   display: none !important;
 }

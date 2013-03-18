@@ -23,14 +23,14 @@
       - if question.andand.presentation == :horizontal and not same_question
         - if rowi == 0
           %caption
-            %div.main(class = "horizontal")
-              %label(for="answer_#{question.key}"){:data => {:for => question.key}}
+            %div.main(class = "horizontal"){:data => {:for => question.key}}
+              %label(for="answer_#{question.key}")
                 :markdown
                   #{question.title.gsub(/\A\d+.?\./, '  \\0')}
         - else
           %tr.row
-            %td.main{:class => "horizontal", :colspan => table.columns}
-              %label(for="answer_#{question.key}"){:data => {:for => question.key}}
+            %td.main{:class => "horizontal", :colspan => table.columns, :data => {:for => question.key}}
+              %label(for="answer_#{question.key}")
                 :markdown
                   #{question.title.gsub(/\A\d+.?\./, '  \\0')}
       -if rowi == 0
