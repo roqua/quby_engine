@@ -393,10 +393,10 @@ function radioCheckboxEvents(event){
     } else {
         handleDisableCheckboxSubQuestions(element);
     }
-    handleHideQuestions(element, eval(element.attr('hides')) || [],
-        eval(element.attr('unhides')) || [],
-        eval(element.attr('shows')) || []
-    );
+//    handleHideQuestions(element, eval(element.attr('hides')) || [],
+//        eval(element.attr('unhides')) || [],
+//        eval(element.attr('shows')) || []
+//    );
 }
 
 function handleDisableRadioSubQuestions(element){

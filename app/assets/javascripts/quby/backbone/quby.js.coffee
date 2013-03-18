@@ -8,6 +8,7 @@
 @Quby.Models = {}
 @Quby.Collections = {}
 @Quby.Views = {}
-
+@Quby.questions = null
+window.quby = @Quby
 $ ->
-  window.questions = new Quby.Collections.Questions
+  window.quby.questions = new Quby.Collections.Questions

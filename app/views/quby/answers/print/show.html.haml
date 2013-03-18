@@ -1,9 +1,9 @@
-:javascript
-  var panel_validations = {}
-  //for setting values of raw_content
-  var extra_question_values = #{@answer.extra_question_values}
-  //for showing validations of raw content
-  var extra_failed_validations = #{@answer.extra_failed_validations}
+:coffeescript
+  @panel_validations = {}
+  #for setting values of raw_content
+  @extra_question_values = #{@answer.extra_question_values}
+  #for showing validations of raw content
+  @extra_failed_validations = #{@answer.extra_failed_validations}
   
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)

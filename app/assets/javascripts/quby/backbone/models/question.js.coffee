@@ -3,6 +3,7 @@ class Quby.Models.Question extends Backbone.Model
     options: new Quby.Collections.QuestionOptions
     hiddenByOptions: new Quby.Collections.QuestionOptions
     shownByOptions: new Quby.Collections.QuestionOptions
+    views: []
     lastClickedOption: null
     key: ""
     viewSelector: ""
@@ -10,11 +11,15 @@ class Quby.Models.Question extends Backbone.Model
   initialize: ->
     @get("options").on "clicked", @optionClicked, @
     @on "add", @addedToCollection
+
     viewSelector = @get("viewSelector")
-    if not _.isEmpty viewSelector
-      @set("view", new Quby.Views.QuestionView(model: @, element: $(viewSelector)[0]))
+    views = @get("views")
+    questionModel = @
+    if _.isEmpty viewSelector
+      views.push new Quby.Views.QuestionView(model: questionModel)
     else
-      @set("view", new Quby.Views.QuestionView(model: @))
+      $(viewSelector).each (index, element) ->
+        views.push new Quby.Views.QuestionView(model: questionModel, element: element)
   addedToCollection: ->
     options = @get("options")
     initShowHidesCallback = ->
@@ -22,7 +27,8 @@ class Quby.Models.Question extends Backbone.Model
     @collection.on "initShowsHides", initShowHidesCallback, @
 
   hidden: ->
-    @get("view").hidden()
+    _.every @get("views"), (view) ->
+      view.hidden()
 
   #we cant do this purely with event handlers on the options because we also need to call unhide on
   #the last clicked option and there is no js event for unchecking radio options
