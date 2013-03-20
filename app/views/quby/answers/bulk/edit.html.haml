@@ -23,10 +23,11 @@
   - previous_item = nil
   
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
-    %fieldset{:id => "panel#{panel_counter}", :class => "panel"}
+    - panel_id = "panel#{panel_counter}"
+    %fieldset{:id => panel_id, :class => "panel"}
       :javascript
         panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
-
+      = render :partial => 'quby/answers/shared/backbone_panel', :locals => {:panel => panel, :panel_id => panel_id}
       - if panel.title
         %h1&= panel.title
 

@@ -1,23 +1,23 @@
-- if item.is_a? Quby::Items::Question
-  - options = item.options.map do |option|
-    - {selector: "#answer_#{item.key}_#{option.key}",
-      showsQuestionsKeys: option.shows_questions || [],
-      hidesQuestionsKeys: option.hides_questions || []}
-  :coffeescript
-    $ ->
-      optionAttributes = #{options.to_json}
-      options = new Quby.Collections.QuestionOptions
-      _.each optionAttributes, (attrs) ->
-        option = new Quby.Models.QuestionOption
-          showsQuestionsKeys: attrs.showsQuestionsKeys
-          hidesQuestionsKeys: attrs.hidesQuestionsKeys
-        element = $(attrs.selector)[0]
-        optionView = new Quby.Views.QuestionOptionView(model: option, el: element)
-        options.add option
-      question = new Quby.Models.Question(
-        key: "#{item.key}"
-        viewSelector: "#{questionViewSelector}",
-        options: options,
-        type: "#{item.type}"
-      )
-      window.quby.questions.add question
+- options = question.options.map do |option|
+  - {selector: "#answer_#{question.key}_#{option.key}",
+    showsQuestionsKeys: option.shows_questions || [],
+    hidesQuestionsKeys: option.hides_questions || []}
+:coffeescript
+  $ ->
+    optionAttributes = #{options.to_json}
+    options = new Quby.Collections.QuestionOptions
+    _.each optionAttributes, (attrs) ->
+      option = new Quby.Models.QuestionOption
+        showsQuestionsKeys: attrs.showsQuestionsKeys
+        hidesQuestionsKeys: attrs.hidesQuestionsKeys
+      element = $(attrs.selector)[0]
+      optionView = new Quby.Views.QuestionOptionView(model: option, el: element)
+      options.add option
+    question = new Quby.Models.Question(
+      key: "#{question.key}"
+      viewSelector: "#{viewSelector}",
+      options: options,
+      type: "#{question.type}"
+    )
+    window.quby.questions.add question
+    window.quby.currentPanelQuestions.add question

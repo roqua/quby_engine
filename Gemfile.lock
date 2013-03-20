@@ -269,7 +269,6 @@ PLATFORMS
 DEPENDENCIES
   bson_ext (~> 1.5.2)
   capybara
-  coffee-filter
   coffee-rails (~> 3.2.2)
   compass
   database_cleaner

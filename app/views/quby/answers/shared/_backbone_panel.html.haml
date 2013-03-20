@@ -1,0 +1,10 @@
+:coffeescript
+  $ ->
+    window.quby.currentPanelQuestions = new Quby.Collections.Questions
+- panel.items.select{ |item| item.is_a? Quby::Items::Question}.each do |question|
+  - questionViewSelector = question.table.blank? ? "#item_#{question.key}" : "[data-for=#{question.key}]"
+  = render :partial => 'quby/answers/shared/backbone_question', :locals => {:viewSelector => questionViewSelector, :question => question}
+
+:coffeescript
+  $ ->
+    window.quby.panels.add new Quby.Models.Panel(viewSelector: "##{panel_id}", questions: window.quby.currentPanelQuestions)

@@ -26,7 +26,9 @@ panel do
     option :a6, :value => 6, :description => "ernstig hide 3", :hides_questions => [:v_8]
     option :a7, :value => 7, :description => "extreem unhide 3", :shows_questions => [:v_8]
   end
-
+end
+panel do
+  text "This panel and text should disappear in bulk", :display_in => [:paged, :bulk]
   question :v_8, :type => :radio do
     title "P3"
     description ""
@@ -39,3 +41,5 @@ panel do
     option :a7, :value => 7, :description => "extreem"
   end
 end
+
+end_panel

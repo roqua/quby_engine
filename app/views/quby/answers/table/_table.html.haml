@@ -83,7 +83,6 @@
           - cyclei += 1
           - filled_columns += item.andand.col_span || 1 
           - next unless item
-          = render :partial => 'quby/answers/shared/backbone_question', :locals => {:questionViewSelector => "[data-for=#{item.key}]", :item => item}
           - opt_set.each_with_index do |opt, i|
             
             -if item.class.name == "Quby::Items::Question"

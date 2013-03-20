@@ -38,13 +38,6 @@ module Quby
       end
     end
 
-    describe ".unhides_questions" do
-      it "returns an array with the keys of the questions that are unhidden when this option is picked" do
-        valid_questionnaire.question_hash[:one].options.first.unhides_questions.should == [:three, :four]
-        valid_questionnaire.question_hash[:one].options[-2].unhides_questions.should == [:two, :three]
-      end
-    end
-
     describe ".hides_questions" do
       it "returns an array with the keys of the questions that are hidden when this option is picked" do
         valid_questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
