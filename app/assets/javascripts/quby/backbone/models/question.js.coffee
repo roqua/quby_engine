@@ -1,8 +1,6 @@
 class Quby.Models.Question extends Backbone.Model
   defaults: ->
     options: new Quby.Collections.QuestionOptions
-    hiddenByOptions: new Quby.Collections.QuestionOptions
-    shownByOptions: new Quby.Collections.QuestionOptions
     views: []
     lastClickedOption: null
     key: ""
@@ -31,11 +29,11 @@ class Quby.Models.Question extends Backbone.Model
       view.hidden()
 
   #we cant do this purely with event handlers on the options because we also need to call unhide on
-  #the last clicked option and there is no js event for unchecking radio options
+  #the last clicked option and there is no js event for unchecking radio/select options
   optionClicked: (optionModel) ->
     lastClickedOption = @get "lastClickedOption"
     if lastClickedOption != optionModel
-      if lastClickedOption != null && @get("type") == "radio"
+      if lastClickedOption != null && _.contains(["radio", "select"], @get("type"))
         lastClickedOption.trigger "unhideQuestions"
       optionModel.trigger "hideQuestions"
       @set "lastClickedOption", optionModel

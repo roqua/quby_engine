@@ -23,6 +23,8 @@ class Quby.Models.QuestionOption extends Backbone.Model
       _.contains(hidesQuestionsKeys, question.get("key"))
     )
     @get("hidesQuestions").add(hidesQuestions)
+    if @get("view").chosen()
+      @trigger "clicked", @
 
   hideQuestions: ->
     @get("hidesQuestions").each (question) ->

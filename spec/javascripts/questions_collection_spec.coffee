@@ -5,7 +5,11 @@ describe "Quby.Collections.Questions", ->
     @questionC = new Quby.Collections.Questions
     @questionC.add([@question, {}])
 
-  describe "#hidden", ->
-    it "returns all questions that are hidden", ->
-      @question.trigger "hide"
-      expect(@questionC.hidden()).toEqual([@question])
+  describe "#allHidden", ->
+    it "returns true if all questions are hidden", ->
+      @questionC.each (question) ->
+        question.trigger "hide"
+      expect(@questionC.allHidden()).toEqual(true)
+    it "returns false if not all questions are hidden", ->
+      expect(@questionC.allHidden()).toEqual(false)
+

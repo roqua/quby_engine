@@ -14,13 +14,11 @@ class Quby.Models.Panel extends Backbone.Model
     @get("questions").on "unhide", hidePanelTrigger, @
     @on "hidePanelCheck", @hidePanelCheck, @
   hidePanelCheck: ->
-    questionHidden = (question) ->
-      question.hidden()
     if @hidden()
-      if !@get("questions").every questionHidden
+      if !@get("questions").allHidden()
         @trigger "unhide"
     else
-      if @get("questions").every questionHidden
+      if @get("questions").allHidden()
         @trigger "hide"
 
   hidden: ->
