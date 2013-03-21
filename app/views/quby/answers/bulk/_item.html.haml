@@ -9,7 +9,6 @@
   - return if item.table
   - itemkey = "item_#{item.key}"
   - extra_data = item.extra_data
-  - itemclasses << 'hidden-childs' if @answer.to_hide.values.include?(item.key)
   - itemclasses << item.as if item.as
   - doublewide = item.options.size <= 5
   - itemclasses << "errors" unless @answer.errors[item.key].empty?

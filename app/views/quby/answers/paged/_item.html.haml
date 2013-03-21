@@ -13,7 +13,6 @@
     - return if item.presentation == :next_to_title
   - itemclasses << item.question_group  if item.question_group
   - extra_data = item.extra_data
-  - itemclasses << 'hidden-childs' if @answer.to_hide.values.include?(item.key)
   - itemclasses << item.as if item.as
 
 - if item.raw_content

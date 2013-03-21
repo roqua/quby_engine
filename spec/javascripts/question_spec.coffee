@@ -15,21 +15,21 @@ describe "Quby.Models.Question", ->
     @question = new Quby.Models.Question(options: col, type: "radio")
 
   describe "#optionClicked", ->
-    it 'triggers hideQuestions on the clicked option', ->
+    it 'triggers chosen on the clicked option', ->
       spy = sinon.spy()
-      @questionOption.bind("hideQuestions", spy)
+      @questionOption.bind("chosen", spy)
       @question.optionClicked @questionOption
       expect(spy).toHaveBeenCalled()
-    it 'calls unhideQuestions on the previously clicked option if the question type is radio', ->
+    it 'calls unchosen on the previously clicked option if the question type is radio', ->
       spy = sinon.spy()
-      @questionOption.bind("unhideQuestions", spy)
+      @questionOption.bind("unchosen", spy)
       @question.optionClicked @questionOption
       @question.optionClicked @questionOption2
       expect(spy).toHaveBeenCalled()
-    it 'it does not call unhideQuestions on the previously clicked option if the question type is not radio', ->
+    it 'it does not call unchosen on the previously clicked option if the question type is not radio', ->
       @question.set("type", "")
       spy = sinon.spy()
-      @questionOption.bind("unhideQuestions", spy)
+      @questionOption.bind("unchosen", spy)
       @question.optionClicked @questionOption
       @question.optionClicked @questionOption2
       expect(spy).not.toHaveBeenCalled()

@@ -5,8 +5,8 @@ class Quby.Models.QuestionOption extends Backbone.Model
     hidesQuestionsKeys: []
     showsQuestionsKeys: []
   initialize: ->
-    @on "hideQuestions", @hideQuestions, @
-    @on "unhideQuestions", @unhideQuestions, @
+    @on "chosen", @chosen, @
+    @on "unchosen", @unchosen, @
     @on "add", @addedToCollection, @
   addedToCollection: ->
     if !_.isEmpty(@get("hidesQuestionsKeys")) or !_.isEmpty(@get("showsQuestionsKeys"))
@@ -26,9 +26,21 @@ class Quby.Models.QuestionOption extends Backbone.Model
     if @get("view").chosen()
       @trigger "clicked", @
 
+  chosen: ->
+    @hideQuestions()
+    @showQuestions()
+  unchosen: ->
+    @unhideQuestions()
+    @unshowQuestions()
   hideQuestions: ->
     @get("hidesQuestions").each (question) ->
       question.trigger "hide"
   unhideQuestions: ->
     @get("hidesQuestions").each (question) ->
       question.trigger "unhide"
+  showQuestions: ->
+    @get("showsQuestions").each (question) ->
+      question.trigger "show"
+  unshowQuestions: ->
+    @get("showsQuestions").each (question) ->
+      question.trigger "unshow"

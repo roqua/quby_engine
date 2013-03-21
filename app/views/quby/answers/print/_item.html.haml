@@ -8,7 +8,6 @@
   -# return if item.table
   -# return if @answer.send(item.key).blank?
   - extra_data = item.extra_data
-  - itemclasses << 'hidden' if @answer.to_hide.values.include?(item.key)
   - doublewide = item.options.size <= 5
   - itemclasses << "notbulkitem"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?

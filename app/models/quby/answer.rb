@@ -54,13 +54,9 @@ module Quby
     attr_accessor :extra_question_values
     attr_accessor :extra_failed_validations
 
-    #for setting which questions should be hidden
-    attr_accessor :to_hide
-
     attr_accessor :dsl_last_update
 
     def enhance_by_dsl
-      @to_hide = {}
       AnswerDsl.enhance(self)
     end
 

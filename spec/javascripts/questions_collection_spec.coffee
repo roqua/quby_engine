@@ -5,11 +5,12 @@ describe "Quby.Collections.Questions", ->
     @questionC = new Quby.Collections.Questions
     @questionC.add([@question, {}])
 
-  describe "#allHidden", ->
-    it "returns true if all questions are hidden", ->
+  describe "#noneVisible", ->
+    it "returns true if all questions are not visible", ->
       @questionC.each (question) ->
-        question.trigger "hide"
-      expect(@questionC.allHidden()).toEqual(true)
-    it "returns false if not all questions are hidden", ->
-      expect(@questionC.allHidden()).toEqual(false)
+        question.isVisible = sinon.stub().returns false
+      expect(@questionC.noneVisible()).toEqual(true)
+    it "returns false if some questions are visible", ->
+      @question.isVisible = sinon.stub().returns true
+      expect(@questionC.noneVisible()).toEqual(false)
 

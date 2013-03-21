@@ -24,9 +24,9 @@ class Quby.Models.Question extends Backbone.Model
       options.trigger "initShowsHides", @collection
     @collection.on "initShowsHides", initShowHidesCallback, @
 
-  hidden: ->
+  isVisible: ->
     _.every @get("views"), (view) ->
-      view.hidden()
+      view.isVisible()
 
   #we cant do this purely with event handlers on the options because we also need to call unhide on
   #the last clicked option and there is no js event for unchecking radio/select options
@@ -34,6 +34,6 @@ class Quby.Models.Question extends Backbone.Model
     lastClickedOption = @get "lastClickedOption"
     if lastClickedOption != optionModel
       if lastClickedOption != null && _.contains(["radio", "select"], @get("type"))
-        lastClickedOption.trigger "unhideQuestions"
-      optionModel.trigger "hideQuestions"
+        lastClickedOption.trigger "unchosen"
+      optionModel.trigger "chosen"
       @set "lastClickedOption", optionModel
