@@ -31,10 +31,6 @@ if( self != top ) {
    inIframe = true;
 }
 
-function allInputsHidden(panel){
-    var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden, .item select:hidden");
-    return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea, .item select").length;
-}
 
 function activatePanel(panel, updateHash, forward) {
     if (shownFlash) {
@@ -46,12 +42,12 @@ function activatePanel(panel, updateHash, forward) {
 
     panel.trigger("panelChange");
 
-    //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
-    if (allInputsHidden(panel)) {
+    //If panel has no visible questions, skip to the next or previous panel based on 'forward'
+    if (panel.is(".noVisibleQuestions")) {
         if (forward) {
-            return activatePanel($(panel).next(), updateHash, true);
+            return activatePanel(panel.next(), updateHash, true);
         } else {
-            return activatePanel($(panel).prev(), updateHash, false);
+            return activatePanel(panel.prev(), updateHash, false);
         }
     }
 

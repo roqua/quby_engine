@@ -13,4 +13,5 @@ describe "Quby.Collections.Questions", ->
     it "returns false if some questions are visible", ->
       @question.isVisible = sinon.stub().returns true
       expect(@questionC.noneVisible()).toEqual(false)
-
+    it "returns false if there are no questions in the collection", ->
+      expect(new Quby.Collections.Questions().noneVisible()).toEqual(false)

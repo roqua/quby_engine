@@ -4,8 +4,8 @@ class Quby.Views.PanelView extends Backbone.View
     @model.on "hide", @hide, @
     @model.on "unhide", @unhide, @
   hide: ->
-    @$el.hide()
+    @$el.addClass "noVisibleQuestions"
   unhide: ->
-    @$el.show()
+    @$el.removeClass "noVisibleQuestions"
   hidden: ->
-    @$el.is ":hidden"
+    @$el.is ".noVisibleQuestions"
