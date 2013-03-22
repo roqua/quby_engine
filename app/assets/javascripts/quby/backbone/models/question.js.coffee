@@ -7,9 +7,16 @@ class Quby.Models.Question extends Backbone.Model
     viewSelector: ""
     type: ""
     defaultInvisible: false
+    hiddenByOptions: new Quby.Collections.QuestionOptions
+    shownByOptions: new Quby.Collections.QuestionOptions
+
   initialize: ->
     @get("options").on "clicked", @optionClicked, @
     @on "add", @addedToCollection
+    @on "hide", @hide, @
+    @on "unhide", @unhide, @
+    @on "show", @show, @
+    @on "unshow", @unshow, @
 
     viewSelector = @get("viewSelector")
     views = @get("views")
@@ -34,7 +41,21 @@ class Quby.Models.Question extends Backbone.Model
   optionClicked: (optionModel) ->
     lastClickedOption = @get "lastClickedOption"
     if lastClickedOption != optionModel
-      if lastClickedOption != null && _.contains(["radio", "select"], @get("type"))
+      if lastClickedOption != null && _.contains(["radio", "select", "scale"], @get("type"))
         lastClickedOption.trigger "unchosen"
       optionModel.trigger "chosen"
       @set "lastClickedOption", optionModel
+
+  hide: (hidingOption)->
+    @get("hiddenByOptions").add hidingOption
+    @trigger "decideVisibility"
+  unhide: (hidingOption)->
+    @get("hiddenByOptions").remove hidingOption
+    @trigger "decideVisibility"
+
+  show: (showingOption)->
+    @get("shownByOptions").add showingOption
+    @trigger "decideVisibility"
+  unshow: (showingOption)->
+    @get("shownByOptions").remove showingOption
+    @trigger "decideVisibility"

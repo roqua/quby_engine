@@ -33,14 +33,18 @@ class Quby.Models.QuestionOption extends Backbone.Model
     @unhideQuestions()
     @unshowQuestions()
   hideQuestions: ->
+    option = @
     @get("hidesQuestions").each (question) ->
-      question.trigger "hide"
+      question.trigger "hide", option
   unhideQuestions: ->
+    option = @
     @get("hidesQuestions").each (question) ->
-      question.trigger "unhide"
+      question.trigger "unhide", option
   showQuestions: ->
+    option = @
     @get("showsQuestions").each (question) ->
-      question.trigger "show"
+      question.trigger "show", option
   unshowQuestions: ->
+    option = @
     @get("showsQuestions").each (question) ->
-      question.trigger "unshow"
+      question.trigger "unshow", option

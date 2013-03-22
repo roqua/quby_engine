@@ -6,6 +6,9 @@ feature 'Hiding questions' do
   scenario 'by clicking an option that hides a question', :js => true do
     visit_new_answer_for(questionnaire)
     choose "answer_v_6_a6"
+    #to test whether it wont show the question after switching away from a second option that hides the question
+    choose "answer_v_7_a6"
+    choose "answer_v_7_a3"
     page.should have_selector("#item_v_8.hide")
   end
 
