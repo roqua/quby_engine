@@ -6,6 +6,7 @@ class Quby.Models.Question extends Backbone.Model
     key: ""
     viewSelector: ""
     type: ""
+    defaultInvisible: false
   initialize: ->
     @get("options").on "clicked", @optionClicked, @
     @on "add", @addedToCollection

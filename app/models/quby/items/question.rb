@@ -98,6 +98,8 @@ module Quby
     attr_accessor :col_span
     attr_accessor :row_span
 
+    attr_accessor :default_invisible
+
     ##########################################################
 
     def initialize(key, options = {})
@@ -127,6 +129,7 @@ module Quby
       @unit = options[:unit]
       @lines = options[:lines] || 6
       @cols = options[:cols] || 40
+      @default_invisible = options[:default_invisible] || false
 
       @col_span = options[:col_span] || 1
       @row_span = options[:row_span] || 1

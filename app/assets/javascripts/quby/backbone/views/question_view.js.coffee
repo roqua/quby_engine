@@ -6,6 +6,7 @@ class Quby.Views.QuestionView extends Backbone.View
     @model.on "unhide", @unhide, @
     @model.on "show", @show, @
     @model.on "unshow", @unshow, @
+    @decideVisibility()
   hide: ->
     @hidden = true
     @decideVisibility()
@@ -31,4 +32,4 @@ class Quby.Views.QuestionView extends Backbone.View
       @$el.find(":not(.hidden)").hide()
 
   isVisible: ->
-    @shown || !@hidden
+    @shown || (!@hidden && !@model.get("defaultInvisible"))
