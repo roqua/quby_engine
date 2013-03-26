@@ -40,11 +40,13 @@ class Quby.Models.Question extends Backbone.Model
   #the last clicked option and there is no js event for unchecking radio/select options
   optionClicked: (optionModel) ->
     lastClickedOption = @get "lastClickedOption"
-    if lastClickedOption != optionModel
-      if lastClickedOption != null && _.contains(["radio", "select", "scale"], @get("type"))
-        lastClickedOption.trigger "unchosen"
-      optionModel.trigger "chosen"
-      @set "lastClickedOption", optionModel
+    if lastClickedOption != null && lastClickedOption != optionModel && @unchecksLastClicked()
+      lastClickedOption.trigger "checkChosen"
+    optionModel.trigger "checkChosen"
+    @set "lastClickedOption", optionModel
+
+  unchecksLastClicked: ->
+    _.contains(["radio", "select", "scale"], @get("type"))
 
   hide: (hidingOption)->
     @get("hiddenByOptions").add hidingOption

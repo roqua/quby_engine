@@ -3,6 +3,8 @@ short_description ""
 description ""
 outcome_description ""
 
+default_question_options deselectable: true
+
 panel do
   question :v_6, :type => :radio do
     title "P1"

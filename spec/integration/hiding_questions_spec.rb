@@ -17,6 +17,13 @@ feature 'Hiding questions' do
     visit_new_answer_for(questionnaire, "paged", answer)
     page.should have_selector("#item_v_8.hide")
   end
+
+  scenario 'unhiding by deselecting a question', :js => true do
+    visit_new_answer_for(questionnaire)
+    choose "answer_v_6_a6"
+    choose "answer_v_6_a6"
+    page.should have_selector("#item_v_8.show")
+  end
 end
 
 feature 'Hiding all questions hides panels' do
@@ -61,6 +68,13 @@ feature 'Showing questions' do
     answer = create_new_answer_for(questionnaire, "v_6" => "a6", "v_7" => "a5")
     visit_new_answer_for(questionnaire, "paged", answer)
     page.should have_selector("#item_v_8.show")
+  end
+  scenario 'unshowing by deselecting a question', :js => true do
+    visit_new_answer_for(questionnaire)
+    choose "answer_v_6_a6"
+    choose "answer_v_7_a5"
+    choose "answer_v_7_a5"
+    page.should have_selector("#item_v_8.hide")
   end
 end
 
