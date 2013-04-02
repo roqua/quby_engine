@@ -43,6 +43,7 @@ panel do
     option :a7, :value => 7, :description => "extreem"
   end
 
+#This question is only visible if it is shown by a checked option that has its key in :shows_questions
   question :v_9, :type => :radio, :default_invisible => true do
     title "P4"
     description ""

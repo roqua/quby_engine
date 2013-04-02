@@ -11,12 +11,15 @@ class Quby.Models.Question extends Backbone.Model
     shownByOptions: new Quby.Collections.QuestionOptions
 
   initialize: ->
-    @get("options").on "clicked", @optionClicked, @
+    options = @get("options")
+    options.on "clicked", @optionClicked, @
+    options.on "setLastClickedOption", @setLastClickedOption, @
     @on "add", @addedToCollection
     @on "hide", @hide, @
     @on "unhide", @unhide, @
     @on "show", @show, @
     @on "unshow", @unshow, @
+
 
     viewSelector = @get("viewSelector")
     views = @get("views")
@@ -43,6 +46,9 @@ class Quby.Models.Question extends Backbone.Model
     if lastClickedOption != null && lastClickedOption != optionModel && @unchecksLastClicked()
       lastClickedOption.trigger "checkChosen"
     optionModel.trigger "checkChosen"
+    @setLastClickedOption optionModel
+
+  setLastClickedOption: (optionModel) ->
     @set "lastClickedOption", optionModel
 
   unchecksLastClicked: ->
