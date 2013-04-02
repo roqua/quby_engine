@@ -17,7 +17,8 @@ module Quby
     isolate_namespace Quby
 
     initializer "QubyEngine precompile hook" do |app|
-      app.config.assets.precompile = %w(quby)
+      app.config.assets.precompile += ["quby/application.css", "quby/print.css"]
+      app.config.assets.precompile += ["quby/application.js", "quby/answers.js", "quby/disable_keys.js"]
     end
   end
 end

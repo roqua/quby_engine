@@ -7,20 +7,13 @@
   %title= content_for?(:page_title) ? yield(:page_title) : "Roqua Vragenlijsten"
   %meta(name="viewport" content="width=device-width, initial-scale=1.0 , user-scalable=no")
 
-  - if content_for?(:override_css)
-    = yield(:override_css)
-  - else
-    = stylesheet_link_tag('quby/application', :media => 'screen, projection')
-  = stylesheet_link_tag 'quby/redmond/jquery-ui-1.8.7.custom.css'
+  = stylesheet_link_tag('quby/application', :media => 'screen, projection')
   = stylesheet_link_tag "quby/print", :media => "print"
 
   - if @custom_stylesheet.present?
     = stylesheet_link_tag @custom_stylesheet, :media => 'screen, projection'
   = javascript_include_tag "quby/application.js"
-  = javascript_include_tag "quby/jquery.ba-hashchange.min.js"
-  = javascript_include_tag "quby/printer"
-  //= javascript_include_tag "jquery.address-1.3.min.js"
-  //= javascript_include_tag "jquery.custominput.js"
+
   - unless Rails.env.development?
     = javascript_include_tag "quby/disable_keys.js"
   = javascript_include_tag "quby/" + controller.controller_name

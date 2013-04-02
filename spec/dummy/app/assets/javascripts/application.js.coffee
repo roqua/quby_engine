@@ -6,5 +6,5 @@
 #
 #= require jquery
 #= require jquery_ujs
-#= require quby
+#= require quby/application
 #= require_tree .
