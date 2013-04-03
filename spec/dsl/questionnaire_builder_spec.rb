@@ -52,6 +52,26 @@ module Quby
         questionnaire.charts.find(:tot).title.should == 'My Title'
       end
 
+      it 'checks for duplicate question keys' do
+        expect {
+          dsl do
+            question :v_1, type: :string
+            question :v_1, type: :string
+          end
+        }.to raise_exception
+      end
+
+      it 'checks for duplicate checkbox option keys' do
+        expect {
+          dsl do
+            question :v_1, type: :string
+            question :v_2, type: :check_box do
+              option :v_1
+            end
+          end
+        }.to raise_exception
+      end
+
       def dsl(&block)
         builder.instance_eval(&block)
       end
