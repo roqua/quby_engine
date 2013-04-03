@@ -1,10 +1,10 @@
 - available_width = question.presentation == :horizontal ? 100 : 66
 %td.item{:class => os_cycle, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   .fields{:class => question.type, :id => question.html_id}
-    %select(name="answer[#{question.key}]")
+    %select(name="answer[#{question.key}]" onchange="$(\"#answer_#{question.key}_\"+this.value).trigger(\"click\")")
       -question.options.each do |opt|
         - checked = @answer.send(question.key) == opt.key.to_s
-        - hash = {:value => opt.key, :class => question.type}
+        - hash = {:value => opt.key, :class => question.type, :id => opt.view_id}
         - hash[:selected] = 'selected' if checked
         %option{hash}
           =opt.description

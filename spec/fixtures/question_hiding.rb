@@ -6,6 +6,20 @@ outcome_description ""
 default_question_options deselectable: true
 
 panel do
+  question :v_4, :type => :select do
+    title "P00"
+    description ""
+    option :a1, :value => 1, :description => "show 2, 4", :shows_questions => [:v_7, :v_9]
+    option :a2, :value => 2, :description => "hide 2", :hides_questions => [:v_7]
+    option :a3, :value => 3, :description => "licht"
+  end
+  question :v_5, :type => :check_box do
+    title "P0"
+    description ""
+    option :v_5_a1, :value => 1, :description => "show 2, 4", :shows_questions => [:v_7, :v_9]
+    option :v_5_a2, :value => 2, :description => "hide 2", :hides_questions => [:v_7]
+    option :v_5_a3, :value => 3, :description => "licht"
+  end
   question :v_6, :type => :radio do
     title "P1"
     description ""

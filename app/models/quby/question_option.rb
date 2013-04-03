@@ -9,7 +9,7 @@ module Quby
     attr_accessor :shows_questions
     attr_accessor :hidden
     attr_accessor :placeholder
-    attr_accessor :view_selector
+    attr_accessor :view_id
 
     attr_accessor :start_chosen
 
@@ -22,7 +22,7 @@ module Quby
       @hides_questions = options[:hides_questions] || []
       @shows_questions = options[:shows_questions] || []
       @hidden = options[:hidden] || false
-      @view_selector = "#answer_#{question.key}_#{key}"
+      @view_id = question.type == :check_box ? "answer_#{key}" : "answer_#{question.key}_#{key}"
       @placeholder = options[:placeholder] || false
       question.extra_data[:placeholder] = key if @placeholder
       question.options << self

@@ -17,7 +17,7 @@
           showsQuestionsKeys: attrs.shows_questions
           hidesQuestionsKeys: attrs.hides_questions
           startChosen: attrs.start_chosen
-        element = $(attrs.view_selector)[0]
+        element = $("#" + attrs.view_id)[0]
         optionView = new Quby.Views.QuestionOptionView(model: option, el: element)
         options.add option
       question = new Quby.Models.Question(
