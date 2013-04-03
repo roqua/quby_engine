@@ -1,7 +1,8 @@
 class Quby.Views.QuestionView extends Backbone.View
   initialize: ->
     @model.on "decideVisibility", @decideVisibility, @
-    @decideVisibility()
+    if @model.get("defaultInvisible")
+      @decideVisibility()
 
   decideVisibility: ->
     if @isVisible()

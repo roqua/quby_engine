@@ -218,7 +218,9 @@ module Quby
         :validations => validations,
         :unit => unit,
         :hidden => !!hidden?,
-        :display_modes => display_modes
+        :display_modes => display_modes,
+        :default_invisible => default_invisible,
+        :viewSelector => view_selector
       }).merge(
         case type
         when :string
@@ -246,6 +248,10 @@ module Quby
 
     def html_id
       "answer_#{key}_input"
+    end
+
+    def view_selector
+      table.blank? ? "#item_#{key}" : "[data-for=#{key}]"
     end
 
     def answerable?; true; end
