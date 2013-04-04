@@ -9,6 +9,7 @@ panel do
   question :v_4, :type => :select do
     title "P00"
     description ""
+    option :a0, :value => 0, :description => "--- Selecteer ---", :placeholder => true
     option :a1, :value => 1, :description => "show 2, 4", :shows_questions => [:v_7, :v_9]
     option :a2, :value => 2, :description => "hide 2", :hides_questions => [:v_7]
     option :a3, :value => 3, :description => "licht"

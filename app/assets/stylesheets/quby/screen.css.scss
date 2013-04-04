@@ -172,15 +172,13 @@ pre {
 
 .noVisibleQuestions, .hidden { display: none;}
 
-.hidden-childs {
-  //border-bottom:  none !important;
-  padding: 0 !important;
+.hide {
+  margin:  0 !important;
 }
 
 .hide > * {
   display: none !important;
 }
-
 
 
 .question {
