@@ -163,7 +163,7 @@
 
       .back  { @include span-columns($columns / 4); }
       .prev  { @include span-columns($columns / 4); }
-      .abort { @include span-columns($columns / 4); text-align: center; }
+      .abort { @include span-columns($columns / 4); text-align: center; display: block; }
       .print { @include span-columns($columns); text-align: right; }
       .next  { @include span-columns($columns / 4 omega); text-align: right; }
       .save  { @include span-columns($columns / 4 omega); text-align: right; }
