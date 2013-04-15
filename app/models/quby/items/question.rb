@@ -58,9 +58,6 @@ module Quby
     # To specify size of string/number input boxes
     attr_accessor :size
 
-    #A collection of all questions that can be hidden by all the options of this question
-    attr_accessor :hides_questions
-
     #Whether this radio question is deselectable
     attr_accessor :deselectable
 
@@ -101,6 +98,8 @@ module Quby
     attr_accessor :col_span
     attr_accessor :row_span
 
+    attr_accessor :default_invisible
+
     ##########################################################
 
     def initialize(key, options = {})
@@ -130,6 +129,7 @@ module Quby
       @unit = options[:unit]
       @lines = options[:lines] || 6
       @cols = options[:cols] || 40
+      @default_invisible = options[:default_invisible] || false
 
       @col_span = options[:col_span] || 1
       @row_span = options[:row_span] || 1
@@ -179,8 +179,6 @@ module Quby
           @validations << {:type => :answer_group_maximum, :group => @question_group, :value => @group_maximum_answered, :explanation => options[:error_explanation]}
         end
       end
-
-      @hides_questions = []
     end
 
     def year_key
@@ -220,7 +218,9 @@ module Quby
         :validations => validations,
         :unit => unit,
         :hidden => !!hidden?,
-        :display_modes => display_modes
+        :display_modes => display_modes,
+        :default_invisible => default_invisible,
+        :viewSelector => view_selector
       }).merge(
         case type
         when :string
@@ -248,6 +248,10 @@ module Quby
 
     def html_id
       "answer_#{key}_input"
+    end
+
+    def view_selector
+      table.blank? ? "#item_#{key}" : "[data-for=#{key}]"
     end
 
     def answerable?; true; end

@@ -23,13 +23,13 @@
       - if question.andand.presentation == :horizontal and not same_question
         - if rowi == 0
           %caption
-            %div.main(class = "horizontal")
+            %div.main(class = "horizontal"){:data => {:for => question.key}}
               %label(for="answer_#{question.key}")
                 :markdown
                   #{question.title.gsub(/\A\d+.?\./, '  \\0')}
         - else
           %tr.row
-            %td.main{:class => "horizontal", :colspan => table.columns}
+            %td.main{:class => "horizontal", :colspan => table.columns, :data => {:for => question.key}}
               %label(for="answer_#{question.key}")
                 :markdown
                   #{question.title.gsub(/\A\d+.?\./, '  \\0')}
@@ -82,7 +82,7 @@
           - cos_cycle = light_dark_for(cyclei, same_question)
           - cyclei += 1
           - filled_columns += item.andand.col_span || 1 
-          - next unless item          
+          - next unless item
           - opt_set.each_with_index do |opt, i|
             
             -if item.class.name == "Quby::Items::Question"

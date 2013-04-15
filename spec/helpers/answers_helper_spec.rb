@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Quby::AnswersHelper do
 
-  describe ".marukufix" do
+  describe "#marukufix" do
 
     it "returns an empty string if it gets an empty title string" do
       marukufix("", "v_1").should == ""
@@ -21,7 +21,7 @@ describe Quby::AnswersHelper do
     end
   end
 
-  describe ".table_marukufix" do
+  describe "#table_marukufix" do
     it 'wraps the title in a td structure' do
       table_marukufix("test", "v_1", 1).should == " <td class='main'><label for='v_1'>test</label></td>"
     end
@@ -35,5 +35,4 @@ describe Quby::AnswersHelper do
       table_marukufix("test", "v_1", 1, "<div>insert</div>").include?("<div>insert</div>").should be_true
     end
   end
-
 end

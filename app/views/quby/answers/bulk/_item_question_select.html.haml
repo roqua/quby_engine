@@ -5,12 +5,12 @@
       :markdown
         #{raw question.description}
   .fields{:id => question.html_id}
-    %select(name="answer[#{question.key}]")
+    %select(name="answer[#{question.key}]" onchange="$(\"#answer_#{question.key}_\"+this.value).trigger(\"click\")")
       -question.options.each do |opt|
         - checked = @answer.send(question.key) == opt.key.to_s
         - next if (opt.hidden and not checked)
-        - handle_hide_questions(question,opt,@questionnaire) if checked
-        - hash = {:value => opt.key, :hides => opt.hides_questions.to_json || "[]", :unhides => opt.unhides_questions.to_json ||"[]", :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil}
+        - hash = {:value => opt.key, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil,
+          :id => opt.view_id}
         - hash[:selected] = 'selected' if @answer.send(question.key) == opt.key.to_s
         %option{hash}
           =opt.description

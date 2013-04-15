@@ -31,10 +31,6 @@ if( self != top ) {
    inIframe = true;
 }
 
-function allInputsHidden(panel){
-    var hiddenInputs = $(panel).find(".item input:hidden, .item textarea:hidden, .item select:hidden");
-    return hiddenInputs.length > 0 && hiddenInputs.length == $(panel).find(".item input, .item textarea, .item select").length;
-}
 
 function activatePanel(panel, updateHash, forward) {
     if (shownFlash) {
@@ -46,12 +42,12 @@ function activatePanel(panel, updateHash, forward) {
 
     panel.trigger("panelChange");
 
-    //If all questions on this panel are hidden, skip to the next or previous panel based on 'forward'
-    if (allInputsHidden(panel)) {
+    //If panel has no visible questions, skip to the next or previous panel based on 'forward'
+    if (panel.is(".noVisibleQuestions")) {
         if (forward) {
-            return activatePanel($(panel).next(), updateHash, true);
+            return activatePanel(panel.next(), updateHash, true);
         } else {
-            return activatePanel($(panel).prev(), updateHash, false);
+            return activatePanel(panel.prev(), updateHash, false);
         }
     }
 
@@ -329,60 +325,6 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-function handleHideQuestions(element, hidekeys, allkeys){
-    $.each(allkeys, function(){
-        var item = $("#item_" + this);
-
-        if(item.length == 0){ //table
-            item = $("[data-for^='" + this + "']")
-        }
-
-        var hiddenby = item.first().data('hiddenBy');
-        hiddenby = hiddenby || [];
-
-        var loc = $.inArray(element.attr('name'), hiddenby);
-        if(loc != undefined && loc != -1){
-          hiddenby.remove(loc,loc);
-          item.first().data('hiddenBy', hiddenby);
-        }
-
-        if (hiddenby.length == 0) {
-            item.removeClass('hidden-childs');
-        }
-
-        var panel;
-        if( isBulk && allInputsHidden(panel = item.closest(".panel")) ){
-          panel.show();
-        }
-    });
-
-    $.each(hidekeys, function(){
-        if (element.attr('checked')) {
-            var item = $("#item_" + this);
-
-            if(item.length == 0){ //table
-                item = $("[data-for^='" + this + "']")
-            }
-
-            var hiddenby = item.first().data('hiddenBy');
-            hiddenby = hiddenby || [];
-            var loc = $.inArray(element.attr('name'), hiddenby);
-            if(loc == undefined || loc == -1){
-                hiddenby.push(element.attr('name'));
-                item.first().data('hiddenBy', hiddenby);
-            }
-
-            item.addClass('hidden-childs');
-
-            var panel;
-            if( isBulk && allInputsHidden(panel = item.closest(".panel")) ){
-              panel.hide();
-            }
-        }
-    });
-}
-
-
 function radioCheckboxEvents(event){
     var element = $(event.target || event);
     if(element.is("[type=radio]")){
@@ -390,7 +332,6 @@ function radioCheckboxEvents(event){
     } else {
         handleDisableCheckboxSubQuestions(element);
     }
-    handleHideQuestions(element, eval(element.attr('hides')) || [], eval(element.attr('unhides')) || []);
 }
 
 function handleDisableRadioSubQuestions(element){
