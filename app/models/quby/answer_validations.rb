@@ -11,9 +11,9 @@ module Quby
           clear_question(question)
         end
 
-        if answer and [:radio, :scale].include?(question.type) and not question.hides_questions.blank?
+        if answer and [:radio, :scale].include?(question.type)
           question.options.each do |opt|
-            if answer.to_sym == opt.key
+            if answer.to_sym == opt.key && opt.hides_questions.present?
               @hidden_questions.concat(opt.hides_questions)
             end
           end

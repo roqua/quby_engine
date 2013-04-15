@@ -132,6 +132,5 @@ module Quby
     def type
       "table"
     end
-
   end
 end

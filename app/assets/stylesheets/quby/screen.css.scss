@@ -170,11 +170,16 @@ pre {
   font-family: "Deja Vu Sans Mono", "Courier New", "Courier", monospace;
 }
 
-.hidden { display: none;}
+.noVisibleQuestions, .hidden { display: none;}
 
-.hidden-childs > * {
+.hide {
+  margin:  0 !important;
+}
+
+.hide > * {
   display: none !important;
 }
+
 
 .question {
   background: #e5e5e5;

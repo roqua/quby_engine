@@ -7,6 +7,7 @@ require 'sass-rails'
 require 'compass-rails'
 require 'jquery-rails'
 require 'fd-slider-rails'
+require 'backbone-rails'
 require 'susy'
 require 'andand'
 require 'coffee-filter'
@@ -16,8 +17,8 @@ module Quby
     isolate_namespace Quby
 
     initializer "QubyEngine precompile hook" do |app|
-      app.config.assets.precompile += %w(quby/application.css quby/dialog.css quby/redmond/jquery-ui-1.8.7.custom.css quby/print.css)
-      app.config.assets.precompile += %w(quby/application.js quby/questionnaires.js quby/answers.js quby/disable_keys.js quby/jquery.ba-hashchange.min.js quby/jquery.placeholder.js quby/printer.js )
+      app.config.assets.precompile += ["quby/application.css", "quby/print.css", "quby/dialog.css"]
+      app.config.assets.precompile += ["quby/application.js", "quby/answers.js", "quby/disable_keys.js"]
     end
   end
 end

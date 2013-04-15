@@ -4,6 +4,5 @@
     -question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next unless checked
-      - handle_hide_questions(question,opt,@questionnaire) if checked
       .option
         =opt.description

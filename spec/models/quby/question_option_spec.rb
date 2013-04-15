@@ -10,11 +10,13 @@ module Quby
           option :a1, :hides_questions => [:two]
           option :a2, :hides_questions => [:three]
           option :a3, :hides_questions => [:four]
+          option :a4, :shows_questions => [:five]
         end
 
         question :two, :type => :radio
         question :three, :type => :radio
         question :four, :type => :radio
+        question :five, :type => :radio
       END
       questionnaire
     end
@@ -36,16 +38,15 @@ module Quby
       end
     end
 
-    describe ".unhides_questions" do
-      it "returns a json array with the keys of the questions that are unhidden when this option is picked" do
-        valid_questionnaire.question_hash[:one].options.first.unhides_questions.should == [:three, :four]
-        valid_questionnaire.question_hash[:one].options.last.unhides_questions.should == [:two, :three]
+    describe ".hides_questions" do
+      it "returns an array with the keys of the questions that are hidden when this option is picked" do
+        valid_questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
       end
     end
 
-    describe ".hides_questions" do
-      it "returns a json array with the keys of the questions that are hidden when this option is picked" do
-        valid_questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
+    describe ".shows_questions" do
+      it "returns an array with the keys of the questions that are shown when this option is picked" do
+        valid_questionnaire.question_hash[:one].options.last.shows_questions.should == [:five]
       end
     end
   end

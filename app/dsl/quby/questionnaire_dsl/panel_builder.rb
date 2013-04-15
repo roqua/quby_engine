@@ -38,10 +38,10 @@ module Quby
         raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
 
         q = QuestionBuilder.new(key, @default_question_options.merge(options).merge({:questionnaire => @panel.questionnaire}))
-        @questionnaire.question_hash[key] = q.build
         q.instance_eval(&block) if block
-
-        @panel.items << q.build
+        question = q.build
+        @questionnaire.question_hash[key] = question
+        @panel.items << question
       end
 
       def table(options = {}, &block)

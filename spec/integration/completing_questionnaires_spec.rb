@@ -6,34 +6,35 @@ feature 'Completing a questionnaire' do
     visit_new_answer_for(mansa)
     find("#panel0").should be_visible
 
-    click_on "Volgende vraag"
+    click_on "nextButton0"
     find("#panel1").should be_visible
 
     within("#item_v_1") { choose "gemengd" }
-    within("#item_v_6") { choose "ontevreden" }
-    within("#item_v_7") { choose "tevreden" }
-    
-    click_on "Volgende vraag"
+    within("#item_v_6") { choose "zeer ontevreden" }
+    within("#item_v_7") { choose "zeer tevreden" }
+
+    click_on "nextButton1"
     find("#panel2").should be_visible
 
-    click_on "Vorige vraag"
+    click_on "prevButton2"
     find("#panel1").should be_visible
+    find("#panel2").should_not be_visible
 
-    click_on "Volgende vraag"
+    click_on "nextButton1"
     find("#panel2").should be_visible
 
     within("#item_v_8") { choose "gemengd" }
-    within("#item_v_9") { choose "ontevreden" }
-    within("#item_v_10") { choose "tevreden" }
+    within("#item_v_9") { choose "zeer ontevreden" }
+    within("#item_v_10") { choose "zeer tevreden" }
 
-    click_on "Volgende vraag"
+    click_on "nextButton2"
     find("#panel3").should be_visible
 
     within("#item_v_11") { choose "Ja" }
-    within("#item_v_12") { choose "ontevreden" }
+    within("#item_v_12") { choose "zeer ontevreden" }
     within("#item_v_13") { choose "Nee" }
 
-    click_on "Volgende vraag"
+    click_on "nextButton3"
     find("#panel4").should be_visible
 
     click_on "Klaar"

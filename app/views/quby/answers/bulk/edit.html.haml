@@ -1,9 +1,9 @@
-:javascript
-  var panel_validations = {}
-  //for setting values of raw_content
-  var extra_question_values = #{@answer.extra_question_values}
-  //for showing validations of raw content
-  var extra_failed_validations = #{@answer.extra_failed_validations}
+:coffeescript
+  @panel_validations = {}
+  #for setting values of raw_content
+  @extra_question_values = #{@answer.extra_question_values}
+  #for showing validations of raw content
+  @extra_failed_validations = #{@answer.extra_failed_validations}
 
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)
@@ -23,10 +23,13 @@
   - previous_item = nil
   
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
-    %fieldset{:id => "panel#{panel_counter}", :class => "panel"}
+    - panel_id = "panel#{panel_counter}"
+    %fieldset{:id => panel_id, :class => "panel"}
       :javascript
         panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
-
+      = render :partial => 'quby/answers/shared/backbone_panel', :locals => {:panel => panel, |
+                                                                 :panel_id => panel_id, |
+                                                                 :answer => @answer} |
       - if panel.title
         %h1&= panel.title
 
@@ -45,5 +48,9 @@
       %a.print_button{:onclick => raw("doDivPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
         = image_tag "quby/print.gif"
         Print Antwoorden
+
+:coffeescript
+  $ ->
+    window.quby.questions.trigger "initShowsHides"
 
 = render :partial => "quby/answers/modal_iframe"

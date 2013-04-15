@@ -1,7 +1,6 @@
 / Begin _item.html.haml
 - subquestion ||= false
 - disabled ||= false
-- @answer.to_hide ||= []
 - itemclasses = [item.type, item.presentation]
 - extra_data = nil
 - itemkey = nil
@@ -14,7 +13,6 @@
     - return if item.presentation == :next_to_title
   - itemclasses << item.question_group  if item.question_group
   - extra_data = item.extra_data
-  - itemclasses << 'hidden-childs' unless extra_data[:hidden_by].blank?
   - itemclasses << item.as if item.as
 
 - if item.raw_content
@@ -36,8 +34,8 @@
     - when "Quby::Items::Question"
       - return if (item.hidden?) and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:paged)))
-      = render :partial => 'quby/answers/shared/validations', :locals => {:question => item, :answer => @answer}
 
+      = render :partial => 'quby/answers/shared/validations', :locals => {:question => item, :answer => @answer}
       - case item.type
       - when :string
         = render :partial => "quby/answers/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}

@@ -1,0 +1,32 @@
+- questions = []
+- panel.items.select{ |item| item.is_a? Quby::Items::Question}.each do |question|
+  - question_hash = question.as_json
+  - question_hash[:options].andand.map do |option|
+    - option.start_chosen = (answer.send(question.key).to_s == option.key.to_s)
+  - questions << question_hash
+
+:coffeescript
+  $ ->
+    window.quby.currentPanelQuestions = new Quby.Collections.Questions
+    questions = #{questions.to_json}
+    _.each questions, (question) ->
+      optionAttributes = question.options
+      options = new Quby.Collections.QuestionOptions
+      _.each optionAttributes, (attrs) ->
+        option = new Quby.Models.QuestionOption
+          showsQuestionsKeys: attrs.shows_questions
+          hidesQuestionsKeys: attrs.hides_questions
+          startChosen: attrs.start_chosen
+        element = $("#" + attrs.view_id)[0]
+        optionView = new Quby.Views.QuestionOptionView(model: option, el: element)
+        options.add option
+      question = new Quby.Models.Question(
+        key: question.key
+        viewSelector: question.viewSelector,
+        options: options,
+        type: question.type
+        defaultInvisible: question.default_invisible
+      )
+      window.quby.questions.add question
+      window.quby.currentPanelQuestions.add question
+    window.quby.panels.add new Quby.Models.Panel(viewSelector: "##{panel_id}", questions: window.quby.currentPanelQuestions)

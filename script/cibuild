@@ -8,3 +8,4 @@ if [ -f spec/dummy/config/mongoid.yml.tpl ]; then
 fi
 
 MONGOID_DATABASE=$JOB_NAME bundle exec rspec spec -b --format=documentation --color
+bundle exec guard-jasmine --server=webrick --rackup-config=spec/dummy/config.ru --server-timeout=120 --timeout=60000 --specdoc=failure
