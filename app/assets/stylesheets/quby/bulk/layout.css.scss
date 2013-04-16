@@ -186,16 +186,8 @@
 
           .main {
             @include span-columns($label-columns);
-            .mainlabelwrap{
-                float:left;
-                width:85%;
-            }
             em {
                 font-style: italic;
-            }
-            .qnumber{
-                float:left;
-                padding-right:0.2em;
             }
           }
 

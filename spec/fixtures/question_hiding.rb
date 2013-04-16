@@ -46,29 +46,31 @@ panel do
 end
 panel do
   text "This panel and text should disappear in bulk", :display_in => [:paged, :bulk]
-  question :v_8, :type => :radio do
-    title "P3"
-    description ""
-    option :a1, :value => 1, :description => "afwezig"
-    option :a2, :value => 2, :description => "minimaal"
-    option :a3, :value => 3, :description => "licht"
-    option :a4, :value => 4, :description => "matig"
-    option :a5, :value => 5, :description => "matig ernstig"
-    option :a6, :value => 6, :description => "ernstig"
-    option :a7, :value => 7, :description => "extreem"
-  end
+  table :columns => 7, :show_option_desc => true do
+    question :v_8, :type => :radio do
+      title "P3"
+      description ""
+      option :a1, :value => 1, :description => "afwezig"
+      option :a2, :value => 2, :description => "minimaal"
+      option :a3, :value => 3, :description => "licht"
+      option :a4, :value => 4, :description => "matig"
+      option :a5, :value => 5, :description => "matig ernstig"
+      option :a6, :value => 6, :description => "ernstig"
+      option :a7, :value => 7, :description => "extreem"
+    end
 
-#This question is only visible if it is shown by a checked option that has its key in :shows_questions
-  question :v_9, :type => :radio, :default_invisible => true do
-    title "P4"
-    description ""
-    option :a1, :value => 1, :description => "afwezig"
-    option :a2, :value => 2, :description => "minimaal"
-    option :a3, :value => 3, :description => "licht"
-    option :a4, :value => 4, :description => "matig"
-    option :a5, :value => 5, :description => "matig ernstig"
-    option :a6, :value => 6, :description => "ernstig"
-    option :a7, :value => 7, :description => "extreem"
+    #This question is only visible if it is shown by a checked option that has its key in :shows_questions
+    question :v_9, :type => :radio, :default_invisible => true do
+      title "P4"
+      description ""
+      option :a1, :value => 1, :description => "afwezig"
+      option :a2, :value => 2, :description => "minimaal"
+      option :a3, :value => 3, :description => "licht"
+      option :a4, :value => 4, :description => "matig"
+      option :a5, :value => 5, :description => "matig ernstig"
+      option :a6, :value => 6, :description => "ernstig"
+      option :a7, :value => 7, :description => "extreem"
+    end
   end
 end
 

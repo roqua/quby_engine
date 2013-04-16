@@ -1,4 +1,4 @@
-=marukufix(question.title, "answer_#{question.key}")
+= render :partial => "quby/answers/shared/main_label", :locals => {:question => question}
 - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :print)
 .description-and-fields
   .fields{:id => question.html_id}

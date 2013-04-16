@@ -1,0 +1,9 @@
+- title_text = question.title
+- label_for = "answer_#{question.key}"
+- if title_text.present?
+  .main{:data => {:for => question.key}}
+    %label(for= label_for)= raw Maruku.new(title_text).to_html
+    - if (title_insert rescue nil)
+      =title_insert
+- else
+  =''

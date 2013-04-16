@@ -62,7 +62,6 @@
       - cyclei = 0
       %tr.row(class = cls)
         - cyclei = 1 if ros_cycle == "dark"
-           
         - if question and question.presentation != :horizontal
           - unless same_question
             - rowspan = (question.options.length.to_f/table.columns).ceil
@@ -71,8 +70,7 @@
             - subq = question.options.last.andand.questions.andand.first
             - if subq and (subq.presentation == :next_to_title and subq.type == :string)
               - title_insert = render :partial => "quby/answers/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
-            :markdown
-              #{table_marukufix question.title, "answer_#{question.key}", rowspan, title_insert}
+            = render :partial => "quby/answers/table/main_label", :locals => {:question => question, :rowspan => rowspan, :title_insert => title_insert}
                 
         - opt_sets.each_with_index do |opt_set, j| 
           - item = get_item(table, rowi, j)

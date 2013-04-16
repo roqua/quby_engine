@@ -63,10 +63,6 @@
         em {
             font-style: italic;
         }
-        .qnumber{
-            float:left;
-            padding-right:0.2em;
-        }
       }
       
       .text {
@@ -80,9 +76,6 @@
       &.horizontal {
         .main { 
           margin-bottom: 1em;
-          .mainlabelwrap{
-              width:90%;
-          }
         }
       }
 

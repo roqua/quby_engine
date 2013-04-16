@@ -3,7 +3,7 @@
 - if subq.andand.presentation == :next_to_title and subq.type == :string
   -insert = render :partial => "quby/answers/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
 
-=marukufix(question.title, "answer_#{question.key}", insert)
+= render :partial => "quby/answers/shared/main_label", :locals => {:question => question, :title_insert => insert}
 - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :print)
 .description-and-fields
   .description

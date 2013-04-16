@@ -27,42 +27,6 @@ module Quby
       result.to_json
     end
 
-    #1: splits the question number off into a .qnumber when encountering things like (leading space optional):
-    # 1
-    # 1.
-    # 1a.
-    #2: lops off enclosing p tags
-    #3: adds .main and %label(for=labelfor) around content
-    #4. Leaves out the .main if it is empty
-    QUESTION_ID_REGEX = /\A\s*(\d+.?\.|\A\w\)|\A\w\.)(.*)/
-    def marukufix(stringin, labelfor, title_insert=nil)
-      return "" if stringin.blank?
-      string = stringin.clone.gsub(/\A\d+.?\./, '  \\0')
-      string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
-
-      if QUESTION_ID_REGEX.match(string)
-        string.gsub!(QUESTION_ID_REGEX, "<div class='main'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label>#{title_insert}</div></div>")
-      else
-        string = " <div class='main'><label for='#{labelfor}'>#{string}</label> #{title_insert}</div>"
-      end
-
-      raw string
-    end
-
-    def table_marukufix(stringin, labelfor, rowspan, title_insert=nil)
-      return '' unless stringin
-      string = stringin.clone.gsub(/\A\d+.?\./, '  \\0')
-      string = Maruku.new(string).to_html.gsub('<p>', '').gsub('</p>','')
-
-      if QUESTION_ID_REGEX.match(string)
-        string.gsub!(QUESTION_ID_REGEX, "<td class='main' rowspan='#{rowspan}'> <div class='qnumber'>\\1</div> <div class='mainlabelwrap'><label for='#{labelfor}'>\\2</label></div>#{title_insert}</td>")
-      else
-        string = " <td class='main'><label for='#{labelfor}'>#{string}</label>#{title_insert}</td>"
-      end
-
-      raw string
-    end
-
     def different_header(item, previous_item)
       return true if (item.score_header != previous_item.andand.score_header or (not previous_item.respond_to?(:options)))
       case item.score_header

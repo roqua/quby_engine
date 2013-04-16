@@ -1,4 +1,4 @@
-=marukufix(question.title, "answer_#{question.key}")
+= render :partial => "quby/answers/shared/main_label", :locals => {:question => question}
 .description-and-fields
   .fields{:id => question.html_id}
     - question.options.each do |opt|

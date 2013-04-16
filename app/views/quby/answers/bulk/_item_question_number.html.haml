@@ -1,4 +1,5 @@
-%label.main(for="answer_#{question.key}")= sanitize(marukufix(question.title, nil), :tags => %w(em)) || raw("&nbsp;")
+%label.main(for="answer_#{question.key}")
+  = render :partial => "quby/answers/shared/main_label", :locals => {:question => question} || raw("&nbsp;")
 .description-and-fields
   .description
     - unless question.description.blank?
