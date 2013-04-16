@@ -9,7 +9,7 @@ feature 'Hiding questions' do
     #to test whether it wont show the question after switching away from a second option that hides the question
     choose "answer_v_7_a6"
     choose "answer_v_7_a3"
-    page.should have_selector("#item_v_8.hide")
+    page.should have_selector("[data-for=v_8].hide", :count => 8)
   end
 
   scenario 'by clicking a checkbox option that hides a question', :js => true do
@@ -31,14 +31,14 @@ feature 'Hiding questions' do
   scenario 'by visiting an answer that has an option that hides something filled in', :js => true do
     answer = create_new_answer_for(questionnaire, "v_6" => "a6")
     visit_new_answer_for(questionnaire, "paged", answer)
-    page.should have_selector("#item_v_8.hide")
+    page.should have_selector("[data-for=v_8].hide", :count => 8)
   end
 
   scenario 'unhiding by deselecting a question', :js => true do
     visit_new_answer_for(questionnaire)
     choose "answer_v_6_a6"
     choose "answer_v_6_a6"
-    page.should have_selector("#item_v_8.show")
+    page.should have_selector("[data-for=v_8].show", :count => 8)
   end
 end
 
@@ -79,7 +79,7 @@ feature 'Showing questions' do
     visit_new_answer_for(questionnaire)
     choose "answer_v_6_a6"
     choose "answer_v_7_a5"
-    page.should have_selector("#item_v_8.show")
+    page.should have_selector("[data-for=v_8].show", :count => 8)
   end
 
   scenario 'by clicking a checkbox option that shows a question', :js => true do
@@ -94,20 +94,20 @@ feature 'Showing questions' do
     select "show 2, 4", :from => "answer[v_4]"
     select "hide 2", :from => "answer[v_4]"
     select "show 2, 4", :from => "answer[v_4]"
-    page.should have_selector("#item_v_9.show")
+    page.should have_selector("[data-for=v_9].show", :count => 8)
   end
 
   scenario 'by visiting an answer that has an option that shows something filled in', :js => true do
     answer = create_new_answer_for(questionnaire, "v_6" => "a6", "v_7" => "a5")
     visit_new_answer_for(questionnaire, "paged", answer)
-    page.should have_selector("#item_v_8.show")
+    page.should have_selector("[data-for=v_8].show", :count => 8)
   end
   scenario 'unshowing by deselecting a question', :js => true do
     visit_new_answer_for(questionnaire)
     choose "answer_v_6_a6"
     choose "answer_v_7_a5"
     choose "answer_v_7_a5"
-    page.should have_selector("#item_v_8.hide")
+    page.should have_selector("[data-for=v_8].hide", :count => 8)
   end
 end
 
@@ -115,11 +115,11 @@ feature 'Default invisible questions' do
   let(:questionnaire) { Quby::Questionnaire.find_by_key("question_hiding") }
   scenario 'having :default_invisible => true set on a question start out invisible', :js => true do
     visit_new_answer_for(questionnaire)
-    page.should have_selector("#item_v_9.hide")
+    page.should have_selector("[data-for=v_9].hide", :count => 8)
   end
   scenario 'can be shown with show_questions', :js => true do
     visit_new_answer_for(questionnaire)
     choose "answer_v_7_a5"
-    page.should have_selector("#item_v_9.show")
+    page.should have_selector("[data-for=v_9].show", :count => 8)
   end
 end

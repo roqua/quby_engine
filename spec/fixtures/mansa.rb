@@ -15,7 +15,7 @@ default_question_options :score_header => :none
 
 panel do
 question :v_1, :type => :scale, :presentation => :horizontal, :required => true do
-  title "1. Hoe tevreden bent u met uw leven als geheel?"
+  title "  1. Hoe tevreden bent u met uw leven als geheel?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
@@ -28,7 +28,7 @@ end
 
 question :v_6, :type => :scale, :presentation => :horizontal, :required => true do
 
-  title "2. Hoe tevreden bent u met uw woning?"
+  title "  2. Hoe tevreden bent u met uw woning?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
@@ -41,7 +41,7 @@ end
 
 question :v_7, :type => :scale, :presentation => :horizontal, :required => true do
 
-  title "3. Hoe tevreden bent u met uw huisgenoten of als u alleen woont, hoe tevreden bent u met het feit dat u alleen woont?"
+  title "  3. Hoe tevreden bent u met uw huisgenoten of als u alleen woont, hoe tevreden bent u met het feit dat u alleen woont?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
@@ -55,7 +55,7 @@ end
 
 panel do
 question :v_8, :type => :scale, :presentation => :horizontal, :required => true do
-  title "4. Hoe tevreden bent u met uw dagbesteding?"
+  title "  4. Hoe tevreden bent u met uw dagbesteding?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
@@ -68,7 +68,7 @@ end
 
 question :v_9, :type => :scale, :presentation => :horizontal, :required => true do
 
-  title "5. Hoe tevreden bent u met uw lichamelijke gezondheid?"
+  title "  5. Hoe tevreden bent u met uw lichamelijke gezondheid?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
@@ -81,7 +81,7 @@ end
 
 question :v_10, :type => :scale, :presentation => :horizontal, :required => true do
 
-  title "6. Hoe tevreden bent u met uw psychische gezondheid?"
+  title "  6. Hoe tevreden bent u met uw psychische gezondheid?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
@@ -95,7 +95,7 @@ end
 
 panel do
 question :v_11, :type => :radio, :presentation => :horizontal,:score_header => :description, :required => true do
-  title "7. Bent u in het afgelopen jaar slachtoffer geweest van geweld?"
+  title "  7. Bent u in het afgelopen jaar slachtoffer geweest van geweld?"
   description ""
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 2, :description => "Nee"
@@ -103,7 +103,7 @@ end
 
 question :v_12, :type => :scale, :presentation => :horizontal, :required => true do
 
-  title "8. Hoe tevreden bent u met uw persoonlijke veiligheid?"
+  title "  8. Hoe tevreden bent u met uw persoonlijke veiligheid?"
   description ""
   option :a1, :value => 1, :description => "zeer ontevreden"
   option :a2, :value => 2, :description => "ontevreden"
@@ -115,7 +115,7 @@ question :v_12, :type => :scale, :presentation => :horizontal, :required => true
 end
 
 question :v_13, :type => :radio, :presentation => :horizontal,:score_header => :description, :required => true do
-  title "9. Bent u in het afgelopen jaar beschuldigd van een misdrijf?"
+  title "  9. Bent u in het afgelopen jaar beschuldigd van een misdrijf?"
   description ""
   option :a1, :value => 1, :description => "Ja"
   option :a2, :value => 2, :description => "Nee"
