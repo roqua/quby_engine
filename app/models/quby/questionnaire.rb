@@ -236,8 +236,8 @@ module Quby
       score_builders.values.select(&:score)
     end
 
-    def find_score(key)
-      score_builders.fetch(key)
+    def find_plottable(key)
+      score_builders[key] || question_hash.with_indifferent_access[key]
     end
 
     def actions

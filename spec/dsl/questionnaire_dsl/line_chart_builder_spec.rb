@@ -55,29 +55,38 @@ module Quby
         dsl { clinically_relevant_change 5 }.clinically_relevant_change.should == 5.0
       end
 
-      describe 'setting which scores should be included in the chart' do
+      describe 'setting which scores & answers should be included in the chart' do
         let(:tot_score) { stub(key: :tot, label: 'Totaal') }
         let(:soc_score) { stub(key: :soc, label: 'Sociaal') }
-        let(:plotted_tot_score) { Quby::Charting::PlottedScore.new(:tot, label: 'Totaal') }
-        let(:plotted_soc_score) { Quby::Charting::PlottedScore.new(:soc, label: 'Sociaal') }
+        let(:float_question) { stub(:key => :v_1, :type => :float) }
+        let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal') }
+        let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal') }
+        let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label')}
 
         before do
-          questionnaire.stub(:find_score).with(:tot).and_return(tot_score)
-          questionnaire.stub(:find_score).with(:soc).and_return(soc_score)
+          questionnaire.stub(:find_plottable).with(:tot).and_return(tot_score)
+          questionnaire.stub(:find_plottable).with(:soc).and_return(soc_score)
+          questionnaire.stub(:find_plottable).with('v_1').and_return(float_question)
         end
 
         it 'can be done by passing score keys individually' do
-          dsl { plot :tot; plot :soc }.scores.should == [plotted_tot_score, plotted_soc_score]
+          dsl { plot :tot; plot :soc }.plottables.should == [plotted_tot_score, plotted_soc_score]
         end
 
         it 'can specify which item from the score hash to plot' do
-          plotted_score = Quby::Charting::PlottedScore.new(:tot, label: 'Totaal', plotted_key: :t_score)
-          dsl { plot :tot, :t_score }.scores.should == [plotted_score]
+          plottable = Quby::Charting::Plottable.new(:tot, label: 'Totaal', plotted_key: :t_score)
+          dsl { plot :tot, :t_score }.plottables.should == [plottable]
         end
 
-        it 'raises when adding score that references unknown scores' do
-          questionnaire.stub(:find_score).with(:tot) { raise KeyError }
+        it 'raises when adding score that references unknown scores or questions' do
+          questionnaire.stub(:find_plottable).with(:tot).and_return nil
           expect { dsl { plot :tot } }.to raise_error(/references unknown score/)
+        end
+
+        it 'can plot answers' do
+          dsl {
+            plot 'v_1', :value, :label => 'Answer Label'
+          }.plottables.should == [plotted_question]
         end
       end
 
@@ -88,3 +97,4 @@ module Quby
     end
   end
 end
+

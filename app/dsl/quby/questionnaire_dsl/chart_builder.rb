@@ -18,13 +18,14 @@ module Quby
         @chart.title = title
       end
 
-      def plot(key, plotted_key = :value)
-        begin
-          score = @questionnaire.find_score(key)
-        rescue KeyError
-          raise "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score #{key}"
+      def plot(key, plotted_key = :value, options = {})
+        plottable = @questionnaire.find_plottable(key)
+        unless plottable
+          raise "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"
+          return
         end
-        @chart.scores << Quby::Charting::PlottedScore.new(score.key, label: score.label, plotted_key: plotted_key)
+        label = options[:label] || plottable.label
+        @chart.plottables << Quby::Charting::Plottable.new(plottable.key, label: label, plotted_key: plotted_key)
       end
 
       def chart_type(type)

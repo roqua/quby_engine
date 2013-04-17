@@ -1,6 +1,6 @@
 module Quby
   module Charting
-    class PlottedScore < Struct.new(:key, :label, :plotted_key)
+    class Plottable  < Struct.new(:key, :label, :plotted_key)
       def initialize(key, options = {})
         key         = key
         label       = options[:label]

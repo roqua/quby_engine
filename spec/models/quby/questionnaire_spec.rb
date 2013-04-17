@@ -139,11 +139,17 @@ module Quby
       end
     end
 
-    describe '#find_score' do
+    describe '#find_plottable' do
       it 'finds score builders' do
         score = stub(:key => 'a')
         questionnaire.push_score_builder score
-        questionnaire.find_score('a').should == score
+        questionnaire.find_plottable('a').should == score
+      end
+
+      it 'finds questions by key with indifferent access' do
+        question = stub(:key => 'a')
+        questionnaire.question_hash['a'] = question
+        questionnaire.find_plottable(:a).should == question
       end
     end
 

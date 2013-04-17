@@ -7,8 +7,10 @@ shared_examples_for Quby::Charting::Chart do
     described_class.new('tot').key.should == :tot
   end
 
-  it 'has scores' do
+  it 'has plottables' do
     score1, score2 = stub, stub
-    described_class.new(:tot, scores: [score1, score2]).scores.should == [score1, score2]
+    described_class.new(:tot, plottables: [score1, score2]).plottables.should == [score1, score2]
   end
+
+
 end
