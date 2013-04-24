@@ -3,14 +3,12 @@ require 'spec_helper'
 module Quby
   module QuestionnaireDsl
     describe RadarChartBuilder do
+      it_behaves_like ChartBuilder
+
       let(:questionnaire) { stub(key: 'questionnaire_key') }
 
       it 'makes a radar chart' do
         dsl { }.should be_an_instance_of(::Quby::Charting::RadarChart)
-      end
-
-      it 'subclasses ChartBuilder' do
-        (RadarChartBuilder < (::Quby::QuestionnaireDsl::ChartBuilder)).should be_true
       end
 
       def dsl(key = :test, options = {}, &block)
