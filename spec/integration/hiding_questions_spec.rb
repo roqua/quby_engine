@@ -10,10 +10,10 @@ feature 'Hiding questions' do
     choose "answer_v_7_a6"
     choose "answer_v_7_a3"
     page.should have_selector("[data-for=v_8].hide", :count => 8)
-    page.should have_selector("[data-for=v_10].hide, #answer_v_10_input.hide", :count => 1)
-    page.should have_selector("[data-for=v_11].hide, #answer_v_11_input.hide", :count => 1)
-    page.should have_selector("[data-for=v_12].hide, #answer_v_12_input.hide", :count => 1)
-    page.should have_selector("[data-for=v_13].hide, #answer_v_13_input.hide", :count => 1)
+    page.should have_selector("[data-for=v_10].hide, #answer_v_10_input.hide", :count => 2)
+    page.should have_selector("[data-for=v_11].hide, #answer_v_11_input.hide", :count => 2)
+    page.should have_selector("[data-for=v_12].hide, #answer_v_12_input.hide", :count => 2)
+    page.should have_selector("[data-for=v_13].hide, #answer_v_13_input.hide", :count => 2)
   end
 
   scenario 'by clicking a checkbox option that hides a question', :js => true do
@@ -84,10 +84,10 @@ feature 'Showing questions' do
     choose "answer_v_6_a6"
     choose "answer_v_7_a5"
     page.should have_selector("[data-for=v_8].show", :count => 8)
-    page.should have_selector("[data-for=v_10].show, #answer_v_10_input.show", :count => 1)
-    page.should have_selector("[data-for=v_11].show, #answer_v_11_input.show", :count => 1)
-    page.should have_selector("[data-for=v_12].show, #answer_v_12_input.show", :count => 1)
-    page.should have_selector("[data-for=v_13].show, #answer_v_13_input.show", :count => 1)
+    page.should have_selector("[data-for=v_10].show, #answer_v_10_input.show", :count => 2)
+    page.should have_selector("[data-for=v_11].show, #answer_v_11_input.show", :count => 2)
+    page.should have_selector("[data-for=v_12].show, #answer_v_12_input.show", :count => 2)
+    page.should have_selector("[data-for=v_13].show, #answer_v_13_input.show", :count => 2)
   end
 
   scenario 'by clicking a checkbox option that shows a question', :js => true do
