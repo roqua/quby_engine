@@ -10,6 +10,10 @@ feature 'Hiding questions' do
     choose "answer_v_7_a6"
     choose "answer_v_7_a3"
     page.should have_selector("[data-for=v_8].hide", :count => 8)
+    page.should have_selector("[data-for=v_10].hide, #answer_v_10_input.hide", :count => 1)
+    page.should have_selector("[data-for=v_11].hide, #answer_v_11_input.hide", :count => 1)
+    page.should have_selector("[data-for=v_12].hide, #answer_v_12_input.hide", :count => 1)
+    page.should have_selector("[data-for=v_13].hide, #answer_v_13_input.hide", :count => 1)
   end
 
   scenario 'by clicking a checkbox option that hides a question', :js => true do
@@ -23,7 +27,7 @@ feature 'Hiding questions' do
   scenario 'by clicking a select option that hides a question', :js => true do
     visit_new_answer_for(questionnaire)
     select "hide 2", :from => "answer[v_4]"
-    select "show 2, 4", :from => "answer[v_4]"
+    select "show 2,4,5,6,7,8", :from => "answer[v_4]"
     select "hide 2", :from => "answer[v_4]"
     page.should have_selector("#item_v_7.hide")
   end
@@ -80,6 +84,10 @@ feature 'Showing questions' do
     choose "answer_v_6_a6"
     choose "answer_v_7_a5"
     page.should have_selector("[data-for=v_8].show", :count => 8)
+    page.should have_selector("[data-for=v_10].show, #answer_v_10_input.show", :count => 1)
+    page.should have_selector("[data-for=v_11].show, #answer_v_11_input.show", :count => 1)
+    page.should have_selector("[data-for=v_12].show, #answer_v_12_input.show", :count => 1)
+    page.should have_selector("[data-for=v_13].show, #answer_v_13_input.show", :count => 1)
   end
 
   scenario 'by clicking a checkbox option that shows a question', :js => true do
@@ -91,9 +99,9 @@ feature 'Showing questions' do
 
   scenario 'by clicking a select option that shows a question', :js => true do
     visit_new_answer_for(questionnaire)
-    select "show 2, 4", :from => "answer[v_4]"
+    select "show 2,4,5,6,7,8", :from => "answer[v_4]"
     select "hide 2", :from => "answer[v_4]"
-    select "show 2, 4", :from => "answer[v_4]"
+    select "show 2,4,5,6,7,8", :from => "answer[v_4]"
     page.should have_selector("[data-for=v_9].show", :count => 8)
   end
 

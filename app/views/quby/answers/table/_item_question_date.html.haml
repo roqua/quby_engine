@@ -2,8 +2,8 @@
 %td.item{:class => os_cycle, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   %span.nowrap.fields{:id => question.html_id, :class => question.type}
     = text_field :answer, question.day_key || "#{question.key}_dd",   :placeholder => "DD",   :size => 2, :autocomplete => question.autocomplete
-    = "-"
+    %span= "-"
     = text_field :answer, question.month_key || "#{question.key}_mm",   :placeholder => "MM",   :size => 2, :autocomplete => question.autocomplete
-    = "-"
+    %span= "-"
     = text_field :answer, question.year_key || "#{question.key}_yyyy", :placeholder => "JJJJ", :size => 4, :autocomplete => question.autocomplete
   = validations

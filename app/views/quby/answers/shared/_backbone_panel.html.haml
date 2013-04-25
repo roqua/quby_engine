@@ -1,5 +1,5 @@
 - questions = []
-- panel.items.select{ |item| item.is_a? Quby::Items::Question}.each do |question|
+- panel.items.select{ |item| item.is_a? ::Quby::Items::Question}.each do |question|
   - question_hash = question.as_json
   - question_hash[:options].andand.map do |option|
     - option.start_chosen = (answer.send(question.key).to_s == option.key.to_s)

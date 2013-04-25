@@ -251,7 +251,7 @@ module Quby
     end
 
     def view_selector
-      table.blank? ? "#item_#{key}" : "[data-for=#{key}]"
+      table.blank? ? "#item_#{key}" : "[data-for=#{key}], #answer_#{key}_input"
     end
 
     def answerable?; true; end
