@@ -9,12 +9,12 @@
 //= require ./backbone/quby
 
 //= require jquery-ui
-//= require quby/jquery_placeholder
-//= require quby/jquery.scrollTo-min.js
+//= require jquery_placeholder
+//= require jquery.scrollTo-min.js
 //= require fd-slider.min.js
-//= require quby/jquery.ba-hashchange.min.js
-//= require quby/printer
+//= require jquery.ba-hashchange.min.js
+//= require ./printer.js
 //
-//= require quby/modules/activity_log
+//= require ./modules/activity_log
 //
 //= require_self
