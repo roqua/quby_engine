@@ -24,9 +24,8 @@ module Quby
           raise "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"
           return
         end
-        plottable_options = plottable.options.merge options
-        plottable_options[:plotted_key] = plotted_key
-        @chart.plottables << Quby::Charting::Plottable.new(plottable.key, plottable_options)
+        label = options[:label] || plottable.label
+        @chart.plottables << Quby::Charting::Plottable.new(plottable.key, label: label, plotted_key: plotted_key)
       end
 
       def chart_type(type)
