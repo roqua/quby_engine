@@ -11,9 +11,9 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
   end
 
   describe 'setting which scores & answers should be included in the chart' do
-    let(:tot_score) { stub(key: :tot, label: 'Totaal') }
-    let(:soc_score) { stub(key: :soc, label: 'Sociaal') }
-    let(:float_question) { stub(:key => :v_1, :type => :float) }
+    let(:tot_score) { stub(key: :tot, label: 'Totaal', options: {label: 'Totaal'}) }
+    let(:soc_score) { stub(key: :soc, label: 'Sociaal', options: {label: 'Sociaal'}) }
+    let(:float_question) { stub(:key => :v_1, :type => :float, options: {}) }
     let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal') }
     let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal') }
     let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label')}
@@ -30,7 +30,7 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
 
     it 'can specify which item from the score hash to plot' do
       plottable = Quby::Charting::Plottable.new(:tot, label: 'Totaal', plotted_key: :t_score)
-      dsl { plot :tot, :t_score }.plottables.should == [plottable]
+      dsl { plot :tot, plotted_key: :t_score }.plottables.should == [plottable]
     end
 
     it 'raises when adding score that references unknown scores or questions' do
@@ -40,7 +40,7 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
 
     it 'can plot answers' do
       dsl {
-        plot 'v_1', :value, :label => 'Answer Label'
+        plot 'v_1', label: 'Answer Label'
       }.plottables.should == [plotted_question]
     end
   end
