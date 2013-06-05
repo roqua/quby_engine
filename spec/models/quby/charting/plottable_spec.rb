@@ -21,6 +21,11 @@ module Quby
         score = Plottable.new(:tot, plotted_key: :tscore)
         score.plotted_key.should == :tscore
       end
+
+      it 'stores a global flag' do
+        score = Plottable.new(:tot, global: true)
+        score.global.should be_true
+      end
     end
   end
 end
