@@ -1,5 +1,7 @@
 require 'spec_helper'
+
 shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
+
   let(:questionnaire) { stub(key: 'questionnaire_key') }
 
   it 'sets title' do
@@ -11,9 +13,9 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
   end
 
   describe 'setting which scores & answers should be included in the chart' do
-    let(:tot_score) { stub(key: :tot, label: 'Totaal', options: {label: 'Totaal'}) }
-    let(:soc_score) { stub(key: :soc, label: 'Sociaal', options: {label: 'Sociaal'}) }
-    let(:float_question) { stub(:key => :v_1, :type => :float, options: {}) }
+    let(:tot_score) { Quby::Score.new :tot, label: 'Totaal' }
+    let(:soc_score) { Quby::Score.new :soc, label: 'Sociaal' }
+    let(:float_question) { mock(:key => :v_1, :type => :radio, options: []) }
     let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal') }
     let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal') }
     let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label')}
@@ -44,4 +46,5 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
       }.plottables.should == [plotted_question]
     end
   end
+
 end
