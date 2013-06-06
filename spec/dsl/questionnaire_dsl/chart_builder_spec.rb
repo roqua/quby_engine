@@ -7,7 +7,7 @@ module Quby
       let(:plottable_key) { 'some_key' }
       let(:plottable) { Quby::Score.new plottable_key, {} }
       let(:questionnaire) do
-        mock.tap do |questionnaire|
+        stub(:key => 'questionnaire_key').tap do |questionnaire|
           questionnaire.stub(:find_plottable).with(plottable_key).and_return plottable
         end
       end
@@ -25,7 +25,8 @@ module Quby
         it 'creates a plottable with the options merged into the plottable options' do
           plottable.stub(options: {some: 'options', other: 'options'})
           Quby::Charting::Plottable.should_receive(:new)
-                                   .with(plottable.key, some: 'different_options', other: 'options')
+                                   .with(plottable.key, some: 'different_options', other: 'options',
+                                         questionnaire_key: 'questionnaire_key')
           chart_builder.plot plottable_key, some: 'different_options'
         end
       end

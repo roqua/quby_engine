@@ -8,6 +8,11 @@ module Quby
         score.key.should == :tot
       end
 
+      it 'stores the questionnaire_key' do
+        score = Plottable.new(:tot, questionnaire_key: 'qkey')
+        score.questionnaire_key.should == 'qkey'
+      end
+
       it 'stores the label' do
         score = Plottable.new(:tot, label: 'Label')
         score.label.should == 'Label'

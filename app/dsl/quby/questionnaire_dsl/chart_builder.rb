@@ -22,7 +22,9 @@ module Quby
         unless plottable = @questionnaire.find_plottable(key)
           raise "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"
         end
+
         options.reverse_merge! plottable.options if plottable.is_a? Quby::Score
+        options[:questionnaire_key] = @questionnaire.key
         @chart.plottables << Quby::Charting::Plottable.new(plottable.key, options)
       end
 
