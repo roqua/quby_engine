@@ -76,7 +76,7 @@ function is_answered(inputs, item){
     for (var j = 0; j < inputs.length; j++){
         var input = $(inputs[j]);
         if(input.is("[type=text], textarea")){
-          if (input.attr("value") != "") {
+          if (/\S/.test(input.attr("value"))) {
               return true;
           }
         }
