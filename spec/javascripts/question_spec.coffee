@@ -13,6 +13,8 @@ describe "Quby.Models.Question", ->
     col = new Quby.Collections.QuestionOptions([@questionOption, @questionOption2])
     @question = new Quby.Models.Question(options: col, type: "radio")
 
+    @targetQuestion.attributes.views[0].$el.html("<input> <textarea></textarea> <select></select>")
+
   describe "#optionClicked", ->
     it 'triggers checkChosen on the clicked option', ->
       spy = sinon.spy()
@@ -52,3 +54,23 @@ describe "Quby.Models.Question", ->
     it 'removes the option that is hiding this question to the hiddenByOptions collection', ->
       @questionOption.unshowQuestions()
       expect(@targetQuestion2.get("shownByOptions")).toBeEmpty()
+
+  describe "view#decideVisibility", ->
+    it 'disables input elements when it becomes invisible', ->
+      @questionOption.hideQuestions()
+      @questionOption.unhideQuestions()
+      @questionOption.hideQuestions()
+      expect(@targetQuestion.attributes.views[0].$el.find('input[disabled=disabled], select[disabled=disabled], textarea[disabled=disabled]').length).toEqual(3)
+    it 'enables input elements when it becomes visible', ->
+      @questionOption.hideQuestions()
+      @questionOption.unhideQuestions()
+      expect(@targetQuestion.attributes.views[0].$el.find('input[disabled!=disabled], select[disabled!=disabled], textarea[disabled!=disabled]').length).toEqual(3)
+    it 'replaces show class with hide when it becomes invisible', ->
+      @questionOption.hideQuestions()
+      @questionOption.unhideQuestions()
+      @questionOption.hideQuestions()
+      expect(@targetQuestion.attributes.views[0].$el.is('.hide, :not(.show)')).toEqual(true)
+    it 'replaces hide class with show when it becomes visible', ->
+      @questionOption.hideQuestions()
+      @questionOption.unhideQuestions()
+      expect(@targetQuestion.attributes.views[0].$el.is('.show, :not(.hide)')).toEqual(true)

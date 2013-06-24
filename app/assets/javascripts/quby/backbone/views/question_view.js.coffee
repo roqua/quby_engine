@@ -8,9 +8,13 @@ class Quby.Views.QuestionView extends Backbone.View
     if @isVisible()
       @$el.addClass "show"
       @$el.removeClass "hide"
+      @$el.find('input, select, textarea').each (index, element)->
+        $(element).attr("disabled", false)
     else
       @$el.addClass "hide"
       @$el.removeClass "show"
+      @$el.find('input, select, textarea').each  (index, element)->
+        $(element).attr("disabled", true)
 
   isVisible: ->
     @shown() || (!@hidden() && !@model.get("defaultInvisible"))
