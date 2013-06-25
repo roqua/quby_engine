@@ -59,5 +59,5 @@ group :test do
   gem 'timecop'
 
   # brew install phantomjs
-  gem 'poltergeist'
+  #gem 'poltergeist'
 end
