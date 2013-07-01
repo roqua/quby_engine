@@ -2,10 +2,14 @@ module Quby
   module AnswerValidations
     def cleanup_input
       @hidden_questions = []
+      @shown_questions = []
       @question_groups = {}
 
       questionnaire.questions.each do |question|
         next unless question
+        next if question.hidden?
+
+
         answer = self.send(question.key)
         if answer and (answer == "DESELECTED_RADIO_VALUE" or answer == question.extra_data[:placeholder].to_s)
           clear_question(question)
@@ -13,8 +17,14 @@ module Quby
 
         if answer and [:radio, :scale].include?(question.type)
           question.options.each do |opt|
-            if answer.to_sym == opt.key && opt.hides_questions.present?
-              @hidden_questions.concat(opt.hides_questions)
+            if answer.to_sym == opt.key
+              if opt.hides_questions.present?
+                @hidden_questions.concat(opt.hides_questions.reject{|key| @shown_questions.include? key}).uniq
+              end
+              if opt.shows_questions.present?
+                @hidden_questions.delete_if{|key| opt.shows_questions.include? key}
+                @shown_questions.concat(opt.shows_questions).uniq
+              end
             end
           end
         end
@@ -23,7 +33,6 @@ module Quby
           @question_groups[question.question_group] = [] unless @question_groups[question.question_group]
           @question_groups[question.question_group] << question.key
         end
-
       end
     end
 
@@ -36,12 +45,10 @@ module Quby
       end
     end
 
-
-
     def validate_answers
       questionnaire.questions.each do |question|
         next unless question
-        next if question.type == :hidden or question.hidden?
+        next if question.hidden?
 
         if (question.parent and question.parent_option_key and
             ((question.parent.type == :radio     and value[question.parent.key.to_s] != question.parent_option_key.to_s) or
@@ -62,7 +69,7 @@ module Quby
         answer = self.send(question.key)
         validations = question.validations
 
-        if not validations.empty?
+        if validations.present?
           #logger.info "Validating #{question.key} = #{question.validations.inspect}."
 
           question.validations.each do |validation|
@@ -104,8 +111,6 @@ module Quby
               if self.send(question.check_all_option) == 1 and answer.values.reduce(:+) < answer.length - (question.uncheck_all_option ? 1 : 0)
                 add_error(question, :not_all_checked, validation[:message] || "Invalid combination of options.")
               end
-            when :one_of
-              add_error(question, :one_of, validation[:message] || "Not one of the options.") if not answer.blank? and not validation[:array].include?(answer.to_f)
             when :answer_group_minimum
               next if @aborted
               answered = calc_answered(@question_groups[validation[:group]])

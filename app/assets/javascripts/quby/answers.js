@@ -198,15 +198,6 @@ function validatePanel(panel) {
                     pushFailVal(validation.type);
                 }
                 break;
-            case "one_of":
-                var input = inputs[0];
-                if(input == undefined || input.value == ""){
-                    continue;
-                }
-                if(validation.array.indexOf(parseFloat(input.value)) == -1){
-                    pushFailVal(validation.type);
-                }
-                break;
             case "answer_group_minimum":
                 var count = get_answer_count(validation.group, panel);
                 if(count < validation.value){

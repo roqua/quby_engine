@@ -125,11 +125,6 @@ module Quby
         @question.validations << {:type => :minimum, :value => range.first}.reverse_merge(options)
         @question.validations << {:type => :maximum, :value => range.last}.reverse_merge(options)
       end
-
-      def validates_one_of(array, options = {})
-        @question.validations ||= []
-        @question.validations << {:type => :one_of, :array => array}.reverse_merge(options)
-      end
     end
   end
 end

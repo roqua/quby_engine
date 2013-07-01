@@ -5,6 +5,10 @@ module Quby
     end
 
     def update(new_attributes = {})
+      valid_attribute_keys = @answer.questionnaire.questions.compact.map(&:key).map(&:to_s) + ["activity_log"]
+      new_attributes = new_attributes.keep_if do |key, value|
+        valid_attribute_keys.include? key
+      end
       @answer.attributes = new_attributes
 
       @answer.extend AnswerValidations
