@@ -62,22 +62,40 @@ module Quby
     before do
       answer.extend AnswerValidations
     end
+
+    describe '#hidden_questions' do
+      it 'sets the @hidden_questions attribute to the hidden questions' do
+        answer.hidden_questions.should include(:v_hidden)
+      end
+      it 'does not add the hidden questions keys to @hidden_questions if it is already shown' do
+        answer.hidden_questions.should_not include(:v_shown_and_hidden)
+      end
+      it 'removes the hidden questions keys from @hidden_questions if it is shown' do
+        answer.hidden_questions.should_not include(:v_hidden_and_shown)
+      end
+    end
+
+    describe '#shown_questions' do
+      it 'sets the @shown_questions attribute to the shown questions' do
+        answer.shown_questions.should include(:v_hidden_and_shown, :v_shown_and_hidden, :v_default_invisible_shown)
+      end
+    end
+
+    describe '#question_groups' do
+      it 'sets the @question_groups attribute to a hash of the question groups' do
+        answer.question_groups.should ==
+            {group1: [:v_answer_group_under_minimum, :v_answer_group_under_minimum1],
+             group2: [:v_answer_group_over_minimum, :v_answer_group_over_minimum1],
+             group3: [:v_answer_group_under_maximum, :v_answer_group_under_maximum1],
+             group4: [:v_answer_group_over_maximum, :v_answer_group_over_maximum1]
+            }
+      end
+    end
+
     describe '#cleanup_input' do
       before do
         answer.cleanup_input
-        answer.validate_answers
       end
-
-      it 'adds the hidden questions keys to @hidden_questions if an option hides something' do
-        answer.instance_variable_get(:@hidden_questions).should include(:v_hidden)
-      end
-      it 'does not add the hidden questions keys to @hidden_questions if it is already shown' do
-        answer.instance_variable_get(:@hidden_questions).should_not include(:v_shown_and_hidden)
-      end
-      it 'removes the hidden questions keys from @hidden_questions if it is shown' do
-        answer.instance_variable_get(:@hidden_questions).should_not include(:v_hidden_and_shown)
-      end
-
       it 'clears deselected answers' do
         answer.v_deselected.should == nil
       end
@@ -102,8 +120,6 @@ module Quby
       it 'skips questions that have the :hidden type (deprecated questions)' do
         answer.v_hidden_type.should == "a0"
       end
-
-      #just to document this is intended behavior
       it 'does not clear questions that depend on unfilled questions' do
         answer.v_depends_on.should == "a0"
       end
@@ -111,7 +127,6 @@ module Quby
 
     describe '#validate_answers' do
       before do
-        answer.cleanup_input
         answer.validate_answers
       end
 
