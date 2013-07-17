@@ -31,55 +31,20 @@ module Quby
       end
     end
 
-    def calculate_attributes
-      if @hidden_questions == nil
-        @hidden_questions = []
-        @shown_questions = []
-        @question_groups = {}
-
-        questionnaire.questions.each do |question|
-          next unless question
-          next if question.hidden?
-
-          answer = self.send(question.key)
-
-          if question.default_invisible && !@shown_questions.include?(question.key)
-            @hidden_questions.push question.key
-          end
-
-          if answer and [:radio, :scale].include?(question.type)
-            question.options.each do |opt|
-              if answer.to_sym == opt.key
-                if opt.hides_questions.present?
-                  @hidden_questions.concat(opt.hides_questions.reject{|key| @shown_questions.include? key}).uniq
-                end
-                if opt.shows_questions.present?
-                  @hidden_questions.delete_if{|key| opt.shows_questions.include? key}
-                  @shown_questions.concat(opt.shows_questions).uniq
-                end
-              end
-            end
-          end
-
-          if question.question_group
-            @question_groups[question.question_group] = [] unless @question_groups[question.question_group]
-            @question_groups[question.question_group] << question.key
-          end
-        end
-      end
+    def calculated_attributes
+      @calculated_attributes ||= AttributeCalculator.new(questionnaire, self)
     end
 
     def hidden_questions
-      calculate_attributes
-      @hidden_questions
+      calculated_attributes.hidden
     end
+
     def shown_questions
-      calculate_attributes
-      @shown_questions
+      calculated_attributes.shown
     end
+
     def question_groups
-      calculate_attributes
-      @question_groups
+      calculated_attributes.groups
     end
 
     def validate_answers
