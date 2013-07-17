@@ -5,7 +5,8 @@ module Quby
     end
 
     def update(new_attributes = {})
-      @answer.attributes = new_attributes
+      attribute_filter   = FiltersAnswerValue.new(@answer.questionnaire)
+      @answer.attributes = attribute_filter.filter(new_attributes)
 
       @answer.extend AnswerValidations
       @answer.cleanup_input
