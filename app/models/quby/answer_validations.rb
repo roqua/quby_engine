@@ -88,11 +88,7 @@ module Quby
         next if question.hidden?
 
         if question.depends_on.present?
-          should_validate = false
-          question.depends_on.any? do |key|
-            should_validate = should_validate || self.send(key)
-          end
-          next unless should_validate
+          next unless question.depends_on.any? {|key| self.send(key) }
         end
 
         answer = self.send(question.key)
