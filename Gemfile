@@ -5,7 +5,7 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem 'rails', '3.2.2'
+gem 'rails', '3.2.14'
 
 gem "bson_ext", "~> 1.5.2"
 
