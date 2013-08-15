@@ -57,4 +57,12 @@ feature 'Completing a questionnaire' do
     click_on "Klaar"
     page.should have_content("Bedankt voor het invullen")
   end
+
+  scenario 'by not filling in answers, but asking to save regardless', js: true do
+    visit_new_answer_for(mansa, "bulk")
+
+    click_on "Klaar"
+    click_on "Toch opslaan"
+    page.should have_content("Bedankt voor het invullen")
+  end
 end
