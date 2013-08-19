@@ -33,12 +33,16 @@ panel do
   question :v_default_invisible_shown, default_invisible: true, type: :radio do
     option :a0, value: 0
   end
-  question :v_parent, type: :radio do
-    option :a0, value: 0
-    option :a1, value: 1 do
-      question :v_child, type: :radio do
-        option :a0, value: 0
-      end
+  question :v_parent, type: :radio, required: true do
+    option :a1, value: 1
+    option :a0, value: 0 do
+      question :v_child, type: :string
+    end
+  end
+  question :v_parent2, type: :radio, required: true do
+    option :a1, value: 1
+    option :a0, value: 0 do
+      question :v_child2, type: :string
     end
   end
   question :v_hidden_type, type: :hidden

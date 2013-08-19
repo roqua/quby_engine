@@ -6,19 +6,7 @@ module Quby
         next if question.hidden?
 
         answer = self.send(question.key)
-
-        if answer
-          if answer == "DESELECTED_RADIO_VALUE" or
-             answer == question.extra_data[:placeholder].to_s or
-              (question.parent and question.parent_option_key and
-              ((question.parent.type == :radio     and
-                  value[question.parent.key.to_s] != question.parent_option_key.to_s) or
-                (question.parent.type == :check_box and
-                  value[question.parent.key.to_s].andand[question.parent_option_key.to_s] != 1))) or
-             hidden_questions.andand.include?(question.key)
-            clear_question(question)
-          end
-        end
+        clear_question(question) if answer && clear_and_skip(answer, question)
       end
     end
 
@@ -47,7 +35,20 @@ module Quby
       calculated_attributes.groups
     end
 
+    def clear_and_skip(answer, question)
+      answer == "DESELECTED_RADIO_VALUE" or
+      answer == question.extra_data[:placeholder].to_s or
+        (question.parent and question.parent_option_key and
+              ((question.parent.type == :radio     and
+                  value[question.parent.key.to_s] != question.parent_option_key.to_s) or
+                  (question.parent.type == :check_box and
+                      value[question.parent.key.to_s].andand[question.parent_option_key.to_s] != 1))) or
+      hidden_questions.andand.include?(question.key)
+    end
+
     def validate_answers
+      return if aborted
+
       questionnaire.questions.each do |question|
         next unless question
         next if question.hidden?
@@ -57,6 +58,8 @@ module Quby
         end
 
         answer = self.send(question.key)
+        next if clear_and_skip(answer, question)
+
         question.validations.each do |validation|
           case validation[:type]
           when :valid_integer
@@ -78,7 +81,6 @@ module Quby
             match = validation[:matcher].match(answer)
             add_error(question, validation[:type], validation[:message] || "Does not match pattern expected.") if not match or match[0] != answer
           when :requires_answer
-            next if (hidden_questions.include?(question.key) or @aborted)
             if question.type == :check_box
               add_error(question, validation[:type], validation[:message] || "Must be answered.") if answer.values.reduce(:+) == 0
             else
@@ -97,7 +99,6 @@ module Quby
               add_error(question, :not_all_checked, validation[:message] || "Invalid combination of options.")
             end
           when :answer_group_minimum
-            next if @aborted
             answered = calc_answered(question_groups[validation[:group]])
             if answered < validation[:value]
               add_error(question, :answer_group_minimum, validation[:message] || "Needs at least #{validation[:value]} question(s) answered.")
