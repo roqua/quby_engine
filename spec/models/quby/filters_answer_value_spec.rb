@@ -2,8 +2,11 @@ require 'spec_helper'
 
 module Quby
   describe FiltersAnswerValue do
-    let(:question)         { double("Question", key: :v_6) }
-    let(:questionnaire)    { double("Questionnaire", questions: [question]) }
+    let(:question)         { double("Question", key: :v_6, type: :radio) }
+    let(:checkbox_question){ double("Question", key: :v_7, type: :check_box,
+                                    options: [double("QuestionOption", key: "v_7a1"),
+                                              double("QuestionOption", key: "v_7a2")]) }
+    let(:questionnaire)    { double("Questionnaire", questions: [question, checkbox_question]) }
     let(:attribute_filter) { FiltersAnswerValue.new questionnaire }
 
     describe '#update' do
@@ -17,6 +20,16 @@ module Quby
 
       it 'passes through activity_log' do
         expect(attribute_filter.filter("activity_log" => "value")).to eq({"activity_log" => "value"})
+      end
+
+      it 'passes through aborted' do
+        expect(attribute_filter.filter("aborted" => "value")).to eq({"aborted" => "value"})
+      end
+
+      it 'allows checkbox options' do
+        expect(attribute_filter.filter("v_7" => "value")).to eq({"v_7" => "value"})
+        expect(attribute_filter.filter("v_7a1" => "value")).to eq({"v_7a1" => "value"})
+        expect(attribute_filter.filter("v_7a2" => "value")).to eq({"v_7a2" => "value"})
       end
     end
   end

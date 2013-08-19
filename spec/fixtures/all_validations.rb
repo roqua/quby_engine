@@ -45,6 +45,13 @@ panel do
       question :v_child2, type: :string
     end
   end
+
+  question :v_check_box, type: :check_box do
+    option :v_c1
+    option :v_c2
+    option :v_c3
+  end
+
   question :v_hidden_type, type: :hidden
 
   question :v_depend, type: :string

@@ -17,6 +17,8 @@ module Quby
           "v_parent" => "a1",
           "v_child" => "a0",
           "v_parent2" => "a0",
+          "v_check_box" => {"v_c1" => 0, "v_c2" => 1, "v_c3" => 1},
+          "v_c1" => 0, "v_c2" => 1, "v_c3" => 1,
           "v_hidden_type" => "a0",
           "v_depend" => nil,
           "v_depends_on" => "a0",
@@ -123,6 +125,12 @@ module Quby
       end
       it 'does not clear questions that depend on unfilled questions' do
         answer.v_depends_on.should == "a0"
+      end
+      it 'does not clear checkbox questions' do
+        answer.v_check_box.should == {"v_c1" => 0, "v_c2" => 1, "v_c3" => 1}
+        answer.v_c1.should == 0
+        answer.v_c2.should == 1
+        answer.v_c3.should == 1
       end
     end
 
