@@ -194,5 +194,14 @@ module Quby
         questionnaire.add_chart(chart)
       end
     end
+
+    describe '#questions_of_type' do
+      let(:definition)    { "text 'text thing' \n question :v_1, type: :radio \n question :v_2, type: :string" }
+      let(:questionnaire) { Questionnaire.new(:questions_of_type_test, definition) }
+      it 'returns questions of the given type' do
+        questionnaire.questions_of_type(:string).count.should == 1
+        questionnaire.questions_of_type(:string).first.type.should == :string
+      end
+    end
   end
 end

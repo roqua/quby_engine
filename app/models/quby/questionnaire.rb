@@ -186,6 +186,10 @@ module Quby
       @questions_cache ||= (questions_tree.flatten rescue [])
     end
 
+    def questions_of_type(type)
+      questions.compact.select{|question| question.type == type}
+    end
+
     def as_json(options = {})
       {
         :key => self.key,

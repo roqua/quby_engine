@@ -13,7 +13,7 @@ module Quby
     private
 
     def valid_attribute_keys
-      check_box_questions = @questionnaire.questions.compact.select{|question| question.type == :check_box}
+      check_box_questions = @questionnaire.questions_of_type :check_box
 
       @valid_attribute_keys ||= @questionnaire.questions.compact.map(&:key).map(&:to_s) +
           check_box_questions.map(&:options).flatten.map(&:key).map(&:to_s) +
