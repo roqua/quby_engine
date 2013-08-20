@@ -6,7 +6,7 @@ module Quby
         next if question.hidden?
 
         answer = self.send(question.key)
-        clear_question(question) if answer && clear_and_skip(answer, question)
+        clear_question(question) if answer && clear_and_skip?(answer, question)
       end
     end
 
@@ -35,7 +35,7 @@ module Quby
       calculated_attributes.groups
     end
 
-    def clear_and_skip(answer, question)
+    def clear_and_skip?(answer, question)
       answer == "DESELECTED_RADIO_VALUE" or
       answer == question.extra_data[:placeholder].to_s or
         (question.parent and question.parent_option_key and
@@ -58,7 +58,7 @@ module Quby
         end
 
         answer = self.send(question.key)
-        next if clear_and_skip(answer, question)
+        next if clear_and_skip?(answer, question)
 
         question.validations.each do |validation|
           case validation[:type]
