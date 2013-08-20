@@ -13,8 +13,10 @@ module Quby
     private
 
     def valid_attribute_keys
+      check_box_questions = @questionnaire.questions.compact.select{|question| question.type == :check_box}
+
       @valid_attribute_keys ||= @questionnaire.questions.compact.map(&:key).map(&:to_s) +
-          @questionnaire.questions.select{|question| question.type == :check_box}.map(&:options).flatten.map(&:key).map(&:to_s) +
+          check_box_questions.map(&:options).flatten.map(&:key).map(&:to_s) +
           ["activity_log", "aborted"]
     end
   end

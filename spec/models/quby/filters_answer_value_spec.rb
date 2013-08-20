@@ -6,7 +6,7 @@ module Quby
     let(:checkbox_question){ double("Question", key: :v_7, type: :check_box,
                                     options: [double("QuestionOption", key: "v_7a1"),
                                               double("QuestionOption", key: "v_7a2")]) }
-    let(:questionnaire)    { double("Questionnaire", questions: [question, checkbox_question]) }
+    let(:questionnaire)    { double("Questionnaire", questions: [question, checkbox_question, nil]) }
     let(:attribute_filter) { FiltersAnswerValue.new questionnaire }
 
     describe '#update' do
