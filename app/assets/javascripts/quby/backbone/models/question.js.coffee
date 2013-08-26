@@ -20,7 +20,6 @@ class Quby.Models.Question extends Backbone.Model
     @on "show", @show, @
     @on "unshow", @unshow, @
 
-
     viewSelector = @get("viewSelector")
     views = @get("views")
     questionModel = @
@@ -29,6 +28,7 @@ class Quby.Models.Question extends Backbone.Model
     else
       $(viewSelector).each (index, element) ->
         views.push new Quby.Views.QuestionView(model: questionModel, el: element)
+
   addedToCollection: ->
     options = @get("options")
     initShowHidesCallback = ->
