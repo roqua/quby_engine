@@ -203,6 +203,7 @@ module Quby
       # it's own hash, hence the (otherwise unneeded) temporary variable
       query_values = (address.query_values || {})
       query_values.merge!(:key => @return_token, :return_from => "quby")
+      query_values.merge!(:return_from_answer => @answer.id)
       options.each {|key, value| query_values[key] = value if value }
 
       address.query_values = query_values
