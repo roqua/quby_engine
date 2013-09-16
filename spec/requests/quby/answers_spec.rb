@@ -57,7 +57,7 @@ module Quby
         let(:honos)      { Questionnaire.new("honos", "question(:v1, type: :string)") }
         let(:answer)     { create_answer(honos) }
         let(:url)        { "http://example.org" }
-        let(:return_url) { url + "?key=abcd&return_from=quby" }
+        let(:return_url) { url + "?key=abcd&return_from=quby&return_from_answer=#{answer.id}" }
 
         it 'renders print view if printing' do
           put "/quby/questionnaires/honos/answers/#{answer.id}/print", answer: {v_1: nil}
@@ -84,7 +84,7 @@ module Quby
               return_url: url + "?a=b",
               return_token: "abcd"
 
-          response.should redirect_to(url + "?a=b&key=abcd&return_from=quby")
+          response.should redirect_to(url + "?a=b&key=abcd&return_from=quby&return_from_answer=#{answer.id}")
         end
 
         it 'redirects with status of "close" if abort button was clicked' do
