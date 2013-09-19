@@ -7,7 +7,7 @@
 
 :coffeescript
   $ ->
-    window.quby.currentPanelQuestions = new Quby.Collections.Questions
+    Quby.currentPanelQuestions = new Quby.Collections.Questions
     questions = #{questions.to_json}
     _.each questions, (question) ->
       optionAttributes = question.options
@@ -22,11 +22,11 @@
         options.add option
       question = new Quby.Models.Question(
         key: question.key
-        viewSelector: question.viewSelector,
-        options: options,
+        viewSelector: question.viewSelector
+        options: options
         type: question.type
         defaultInvisible: question.default_invisible
       )
-      window.quby.questions.add question
-      window.quby.currentPanelQuestions.add question
-    window.quby.panels.add new Quby.Models.Panel(viewSelector: "##{panel_id}", questions: window.quby.currentPanelQuestions)
+      Quby.questions.add question
+      Quby.currentPanelQuestions.add question
+    Quby.panels.add new Quby.Models.Panel(viewSelector: "##{panel_id}", questions: Quby.currentPanelQuestions)
