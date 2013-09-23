@@ -1,13 +1,14 @@
-require 'fakefs/spec_helpers'
 require 'spec_helper'
 
 module Quby
   describe Questionnaire do
-    include FakeFS::SpecHelpers
-
     before do
-      FileUtils.mkdir_p("/tmp")
-      Quby.questionnaires_path = "/tmp"
+      @temp_dir = Dir.mktmpdir
+      Quby.questionnaires_path = @temp_dir
+    end
+
+    after do
+      FileUtils.remove_entry_secure @temp_dir
     end
 
     let(:key)           { 'test' }
@@ -23,7 +24,6 @@ module Quby
       end
 
       it "should not save Windows linebreaks" do
-
         questionnaire.definition = "title 'My Test'\r\nshort_description 'Test questionnaire'"
         questionnaire.save.should be
 
