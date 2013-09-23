@@ -220,7 +220,9 @@ module Quby
         :hidden => !!hidden?,
         :display_modes => display_modes,
         :default_invisible => default_invisible,
-        :viewSelector => view_selector
+        :viewSelector => view_selector,
+        :parentKey => parent.andand.key,
+        :parentOptionKey => parent_option_key
       }).merge(
         case type
         when :string

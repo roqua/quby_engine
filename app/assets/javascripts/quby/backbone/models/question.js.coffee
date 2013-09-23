@@ -3,6 +3,8 @@ class Quby.Models.Question extends Backbone.Model
     options: new Quby.Collections.QuestionOptions
     views: []
     lastClickedOption: null
+    parentQuestion: null
+    parentOption: null
     key: ""
     viewSelector: ""
     type: ""
