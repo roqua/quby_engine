@@ -4,10 +4,6 @@ module Quby
   module OutcomeCalculations
     extend ActiveSupport::Concern
 
-    included do
-      before_save :calculate_builders
-    end
-
     def action
       alarm_scores      = scores.select {|key, value| value["status"].to_s == "alarm" }
       alarm_answers     = actions[:alarm] || []
@@ -56,7 +52,6 @@ module Quby
     # This function is called by parts of the system that only want to calculate
     # stuff, and can't help it if an answer is not completed.
     def update_scores
-      self.class.skip_callback :save, :before, :calculate_builders
       # MongoDB won't save new hash order if we don't clear it first.
       update_attribute(:scores, {})
       update_attribute(:actions, {})
@@ -67,7 +62,6 @@ module Quby
       update_attribute(:scores, scores)
       update_attribute(:actions, actions)
       update_attribute(:completion, completion)
-      self.class.set_callback :save, :before, :calculate_builders
     end
   end
 end
