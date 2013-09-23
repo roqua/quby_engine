@@ -47,7 +47,6 @@ module Quby
       end
 
       it 'can be accessed with indifferent access' do
-        Answer.any_instance.stub(:calculate_builders => nil)
         answer = Answer.create!(scores: {:tot => {label: 'Totaal', value: 4}})
         answer = Answer.find(answer.id)
         answer.scores[:tot][:label].should == 'Totaal'
@@ -62,7 +61,6 @@ module Quby
       end
 
       it 'can be accessed with indifferent access' do
-        Answer.any_instance.stub(:calculate_builders => nil)
         answer = Answer.create!(actions: {:alarm => [:v1, :v2]})
         answer = Answer.find(answer.id)
         answer.actions[:alarm].should == [:v1, :v2]

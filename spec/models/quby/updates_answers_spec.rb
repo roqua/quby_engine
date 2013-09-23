@@ -30,6 +30,11 @@ module Quby
         answer.should_receive :cleanup_input
         updates_answers.update
       end
+
+      it 'calculates scores' do
+        answer.should_receive :calculate_builders
+        updates_answers.update
+      end
     end
   end
 end
