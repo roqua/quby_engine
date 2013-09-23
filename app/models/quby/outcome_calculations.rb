@@ -44,6 +44,7 @@ module Quby
       self.scores = score_results
       self.actions = action_results
       self.completion = completion_result
+      self.outcome_generated_at = Time.now
 
       results
     end
@@ -53,15 +54,11 @@ module Quby
     # stuff, and can't help it if an answer is not completed.
     def update_scores
       # MongoDB won't save new hash order if we don't clear it first.
-      update_attribute(:scores, {})
-      update_attribute(:actions, {})
-      update_attribute(:completion, {})
+      update_attributes(scores: {}, actions: {}, completion: {})
 
       # Now we can fill it back up
       calculate_builders
-      update_attribute(:scores, scores)
-      update_attribute(:actions, actions)
-      update_attribute(:completion, completion)
+      save!
     end
   end
 end
