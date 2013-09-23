@@ -11,19 +11,20 @@ module Quby
     store_in :answers
 
     identity type: String
-    field :questionnaire_id,  :type => Integer
-    field :questionnaire_key, :type => String
-    field :value,             :type => Hash
-    field :value_by_values,   :type => Hash
-    field :patient,           :type => Hash,    :default => {}
-    field :token,             :type => String
-    field :active,            :type => Boolean, :default => true
-    field :test,              :type => Boolean, :default => false
-    field :completed_at,      :type => Time
-    field :scores,            :type => Hash,    :default => {}
-    field :actions,           :type => Hash,    :default => {}
-    field :completion,        :type => Hash,    :default => {}
-    field :activity_log,      :type => String,  :default => ""
+    field :questionnaire_id,     :type => Integer
+    field :questionnaire_key,    :type => String
+    field :value,                :type => Hash
+    field :value_by_values,      :type => Hash
+    field :patient,              :type => Hash,    :default => {}
+    field :token,                :type => String
+    field :active,               :type => Boolean, :default => true
+    field :test,                 :type => Boolean, :default => false
+    field :completed_at,         :type => Time
+    field :outcome_generated_at, :type => Time
+    field :scores,               :type => Hash,    :default => {}
+    field :actions,              :type => Hash,    :default => {}
+    field :completion,           :type => Hash,    :default => {}
+    field :activity_log,         :type => String,  :default => ""
 
     # Faux belongs_to :questionnaire
     def questionnaire

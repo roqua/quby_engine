@@ -12,6 +12,8 @@ module Quby
       @answer.cleanup_input
       @answer.validate_answers
 
+      @answer.calculate_builders
+
       if @answer.errors.empty? and @answer.save
         succeed!
       else

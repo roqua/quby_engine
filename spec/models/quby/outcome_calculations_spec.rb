@@ -114,6 +114,12 @@ module Quby
         answer.tap(&:calculate_builders).completion.should == {'value' => 0.9}
       end
 
+      it 'updates outcome generation timestamp' do
+        Timecop.freeze do
+          answer.tap(&:calculate_builders).outcome_generated_at.to_i.should == Time.now.to_i
+        end
+      end
+
       context 'when calculation throws an exception' do
         it 'stores the exception' do
           completion.stub(:calculation => Proc.new { raise "Foo" })
@@ -168,11 +174,6 @@ module Quby
         answer.update_scores
         answer.scores.keys.should == ["sub" ,"tot"]
         answer.reload.scores.keys.should == ["sub" ,"tot"]
-      end
-
-      it 'skips the set_outcomes callback' do
-        answer.should_receive(:calculate_builders).once
-        answer.update_scores
       end
     end
   end
