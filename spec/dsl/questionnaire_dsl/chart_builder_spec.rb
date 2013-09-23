@@ -29,6 +29,22 @@ module Quby
                                          questionnaire_key: 'questionnaire_key')
           chart_builder.plot plottable_key, some: 'different_options'
         end
+
+        it 'sets the label from a question title when no label is present' do
+          plottable = Quby::Items::Question.new plottable_key, title: 'some_title'
+          questionnaire.stub(:find_plottable).with(plottable_key).and_return plottable
+          Quby::Charting::Plottable.should_receive(:new)
+                                   .with(plottable_key, questionnaire_key: 'questionnaire_key', label: 'some_title')
+          chart_builder.plot plottable_key
+        end
+
+        it 'does not set the label when it is given in the options' do
+          plottable = Quby::Items::Question.new plottable_key, title: 'some_title'
+          questionnaire.stub(:find_plottable).with(plottable_key).and_return plottable
+          Quby::Charting::Plottable.should_receive(:new)
+                                   .with(plottable_key, questionnaire_key: 'questionnaire_key', label: 'some_label')
+          chart_builder.plot plottable_key, label: 'some_label'
+        end
       end
 
     end

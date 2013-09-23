@@ -23,8 +23,8 @@ module Quby
           raise "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"
         end
 
-        options.reverse_merge! plottable.options if plottable.is_a? Quby::Score
-        options[:questionnaire_key] = @questionnaire.key
+        configure_options plottable, options
+
         @chart.plottables << Quby::Charting::Plottable.new(plottable.key, options)
       end
 
@@ -40,6 +40,18 @@ module Quby
 
       def validate!
         true
+      end
+
+      private
+
+      def configure_options(plottable, options)
+        case plottable
+        when Quby::Score
+          options.reverse_merge! plottable.options
+        when Quby::Items::Question
+          options[:label] ||= plottable.title
+        end
+        options[:questionnaire_key] = @questionnaire.key
       end
     end
   end
