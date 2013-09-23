@@ -27,7 +27,6 @@ Spork.prefork do
     Capybara::Poltergeist::Driver.new(app, inspector: true, timeout: 120)
   end
   Capybara.javascript_driver = :poltergeist
-
 end
 
 Spork.each_run do

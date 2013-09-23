@@ -16,7 +16,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     END
 
     visit_new_answer_for(questionnaire)
-    find("#item_v1 .error.requires_answer").should_not be_visible
+    find("#item_v1 .error.requires_answer", visible: false).should_not be_visible
     click_on "Volgende vraag"
     find("#item_v1 .error.requires_answer").should be_visible
   end
@@ -52,9 +52,11 @@ feature 'Trying to fill out an invalid answer', js: true do
   end
 
   def filling_in(options = {})
-    find(options[:within] + " " + options[:should_show]).should_not be_visible
-    fill_in options[:answering], with: options[:with]
-    click_on "Volgende vraag"
-    find(options[:within] + " " + options[:should_show]).should be_visible
+    within ".panel.current" do
+      find(options[:within] + " " + options[:should_show], visible: false).should_not be_visible
+      fill_in options[:answering], with: options[:with]
+      click_on "Volgende vraag"
+      find(options[:within] + " " + options[:should_show]).should be_visible
+    end
   end
 end

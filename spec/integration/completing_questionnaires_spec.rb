@@ -18,7 +18,7 @@ feature 'Completing a questionnaire' do
 
     click_on "prevButton2"
     find("#panel1").should be_visible
-    find("#panel2").should_not be_visible
+    find("#panel2", visible: false).should_not be_visible
 
     click_on "nextButton1"
     find("#panel2").should be_visible

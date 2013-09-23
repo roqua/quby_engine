@@ -63,6 +63,7 @@ panel do
     end
   end
 end
+
 panel do
   text "This panel and text should disappear in bulk", :display_in => [:paged, :bulk]
   table :columns => 7, :show_option_desc => true do

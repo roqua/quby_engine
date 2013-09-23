@@ -14,8 +14,8 @@ feature 'Dependencies between questions', js: true do
           title "Verbergt vraag 2"
           option :a1, value: 1, description: "Ja", :hides_questions => [:v2]
           option :a2, value: 2, description: "Nee"
-        end; 
-        
+        end;
+
         question :v2, type: :string, required: true do
           title "Vul dit in"
         end
@@ -30,13 +30,13 @@ feature 'Dependencies between questions', js: true do
 
       # Choosing hiding option should hide question
       within("#item_v1") { choose "Ja" }
-      find("#item_v2").find('.main').should_not be_visible
+      find("#item_v2").find('.main', visible: false).should_not be_visible
 
       # Choosing first option again should unhide question
       within("#item_v1") { choose "Nee" }
       find("#item_v2").find('.main').should be_visible
     end
-    
+
     scenario 'subquestions are disabled unless parent option selected' do
       questionnaire = inject_questionnaire("test", <<-END)
         question :v1, type: :radio, required: true do
