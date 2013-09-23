@@ -203,5 +203,18 @@ module Quby
         questionnaire.questions_of_type(:string).first.type.should == :string
       end
     end
+
+    describe '#leave_page_alert' do
+      it 'returns a given string' do
+        questionnaire = Questionnaire.new 'test'
+        questionnaire.leave_page_alert = "ALERT"
+        expect(questionnaire.leave_page_alert).to eq("ALERT")
+      end
+
+      it 'returns a default string' do
+        questionnaire = Questionnaire.new 'test'
+        expect(questionnaire.leave_page_alert).to eq("Als u de pagina verlaat worden uw antwoorden niet opgeslagen.")
+      end
+    end
   end
 end
