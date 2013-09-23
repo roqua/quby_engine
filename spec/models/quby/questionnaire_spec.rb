@@ -215,6 +215,12 @@ module Quby
         questionnaire = Questionnaire.new 'test'
         expect(questionnaire.leave_page_alert).to eq("Als u de pagina verlaat worden uw antwoorden niet opgeslagen.")
       end
+
+      it 'returns nil if leave page alerts are disabled' do
+        Settings.stub(enable_leave_page_alert: false)
+        questionnaire = Questionnaire.new 'test'
+        expect(questionnaire.leave_page_alert).to be_nil
+      end
     end
   end
 end
