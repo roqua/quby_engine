@@ -102,8 +102,8 @@ module Quby
         calculator.mean_ignoring_nils([nil, 1, 2, 3, 4, 5, nil]).should == 3
       end
 
-      it 'returns 0 for empty array' do
-        calculator.mean_ignoring_nils([]).should == 0
+      it 'returns nil for empty array' do
+        calculator.mean_ignoring_nils([]).should be_nil
       end
 
       it 'does not raise for nil values' do
@@ -122,9 +122,8 @@ module Quby
         calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, nil]).should == nil
       end
 
-      #returns 0 for consistency, but returning nil or raising would not be a weird choice either
-      it 'returns 0 for empty array' do
-        calculator.mean_ignoring_nils_80_pct([]).should == 0
+      it 'returns nil for empty array' do
+        calculator.mean_ignoring_nils_80_pct([]).should be_nil
       end
 
       it 'does not raise for nil values' do
