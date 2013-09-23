@@ -1,13 +1,14 @@
-require 'fakefs/spec_helpers'
 require 'spec_helper'
 
 module Quby
   describe Questionnaire do
-    include FakeFS::SpecHelpers
-
     before do
-      FileUtils.mkdir_p("/tmp")
-      Quby.questionnaires_path = "/tmp"
+      @temp_dir = Dir.mktmpdir
+      Quby.questionnaires_path = @temp_dir
+    end
+
+    after do
+      FileUtils.remove_entry_secure @temp_dir
     end
 
     let(:key)           { 'test' }
@@ -23,7 +24,6 @@ module Quby
       end
 
       it "should not save Windows linebreaks" do
-
         questionnaire.definition = "title 'My Test'\r\nshort_description 'Test questionnaire'"
         questionnaire.save.should be
 
@@ -201,6 +201,25 @@ module Quby
       it 'returns questions of the given type' do
         questionnaire.questions_of_type(:string).count.should == 1
         questionnaire.questions_of_type(:string).first.type.should == :string
+      end
+    end
+
+    describe '#leave_page_alert' do
+      it 'returns a given string' do
+        questionnaire = Questionnaire.new 'test'
+        questionnaire.leave_page_alert = "ALERT"
+        expect(questionnaire.leave_page_alert).to eq("ALERT")
+      end
+
+      it 'returns a default string' do
+        questionnaire = Questionnaire.new 'test'
+        expect(questionnaire.leave_page_alert).to eq("Als u de pagina verlaat worden uw antwoorden niet opgeslagen.")
+      end
+
+      it 'returns nil if leave page alerts are disabled' do
+        Settings.stub(enable_leave_page_alert: false)
+        questionnaire = Questionnaire.new 'test'
+        expect(questionnaire.leave_page_alert).to be_nil
       end
     end
   end
