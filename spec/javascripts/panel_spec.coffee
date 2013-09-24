@@ -3,7 +3,9 @@ describe "Quby.Models.Panel", ->
     beforeEach ->
       @question = new Quby.Models.Question
       @question2 = new Quby.Models.Question
-      @panel = new Quby.Models.Panel(questions: new Quby.Collections.Questions([@question, @question2]))
+      @questionC = new Quby.Collections.Questions([@question, @question2])
+      #@questionC.addAndRegisterInit @questionC
+      @panel = new Quby.Models.Panel(questions: @questionC)
     it 'is triggered if a question is hidden', ->
       spy = sinon.spy()
       @panel.on "hidePanelCheck", spy
@@ -15,14 +17,15 @@ describe "Quby.Models.Panel", ->
       @question.trigger "unhide"
       expect(spy).toHaveBeenCalled()
     it 'triggers the hide event if all questions are hidden', ->
-      @panel.hidden = sinon.stub().returns false
+      sinon.stub(@panel, 'hidden').returns false
+      sinon.stub(@questionC, 'noneVisible').returns true
       spy = sinon.spy()
       @panel.on "hide", spy
       @question.trigger "hide"
-      @question2.trigger "hide"
       expect(spy).toHaveBeenCalled()
     it 'triggers the unhide event if any question is unhidden', ->
       @panel.hidden = sinon.stub().returns true
+      sinon.stub(@questionC, 'noneVisible').returns false
       spy = sinon.spy()
       @panel.on "unhide", spy
       @question.trigger "unhide"

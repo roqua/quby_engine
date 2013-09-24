@@ -19,6 +19,13 @@ describe "Quby.Logic.InitQuestions", ->
       "parentOptionKey": null
       "options": @optionAttributes
     ,
+      "key": "v_5"
+      "type": "string"
+      "default_invisible": false
+      "viewSelector": "#item_v_5"
+      "parentKey": "v_4"
+      "parentOptionKey": "a1"
+    ,
       "key": "v_7"
       "type": "radio"
       "default_invisible": false,
@@ -58,11 +65,10 @@ describe "Quby.Logic.InitQuestions", ->
 
     it 'the options have the right attributes', ->
       @options = @initializer.initializeOptions(@optionAttributes)
-      expect(@options.first().attributes).toMatch(
-        showsQuestionsKeys : [ 'v_7' ],
-        hidesQuestionsKeys : [  ],
-        startChosen : true
-      )
+      expect(@options.first().get("key")).toEqual 'a1'
+      expect(@options.first().get("showsQuestionsKeys")).toEqual ['v_7']
+      expect(@options.first().get("hidesQuestionsKeys")).toEqual []
+      expect(@options.first().get("startChosen")).toEqual true
 
     it 'sets a view on the option model', ->
       @options = @initializer.initializeOptions(@optionAttributes)
@@ -72,3 +78,31 @@ describe "Quby.Logic.InitQuestions", ->
       @options = @initializer.initializeOptions(@optionAttributes)
       expect(@options.first().get("view").model).toEqual @options.first()
       expect(@options.first().get("view").el).toEqual jasmine.any(Object)
+
+  describe "#initializeQuestion", ->
+    it 'leaves the parentQuestion to null if there was no parentKey', ->
+      initializer = new Quby.Logic.InitQuestions(@questionAttributes)
+      question = initializer.initializeQuestion(@questionAttributes[0])
+      expect(question.get("parentQuestion")).toBeNull()
+
+    it 'leaves the parentOption to null if there was no parentOptionKey', ->
+      initializer = new Quby.Logic.InitQuestions(@questionAttributes)
+      question = initializer.initializeQuestion(@questionAttributes[0])
+      expect(question.get("parentOption")).toBeNull()
+
+    it 'sets the parentQuestion to the question that has the parentKey as key', ->
+      initializer = new Quby.Logic.InitQuestions(@questionAttributes)
+      parentQuestion = initializer.initializeQuestion(@questionAttributes[0])
+      initializer.questions.add parentQuestion
+      subQuestion = initializer.initializeQuestion(@questionAttributes[1])
+      expect(subQuestion.get("parentQuestion")).toEqual parentQuestion
+
+    it 'sets the parentOption to the option that has the parentOptionkey as key', ->
+      initializer = new Quby.Logic.InitQuestions(@questionAttributes)
+      parentQuestion = initializer.initializeQuestion(@questionAttributes[0],
+                                                      initializer.initializeOptions(@optionAttributes))
+      parentOption = parentQuestion.get("options").first()
+      initializer.questions.add parentQuestion
+      subQuestion = initializer.initializeQuestion(@questionAttributes[1])
+      expect(parentOption).toBeDefined()
+      expect(subQuestion.get("parentOption")).toEqual parentOption

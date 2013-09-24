@@ -14,6 +14,7 @@ class Quby.Logic.InitQuestions
     options = new Quby.Collections.QuestionOptions
     _.each optionAttributes, (attrs) =>
       option = new Quby.Models.QuestionOption
+        key: attrs.key
         showsQuestionsKeys: attrs.shows_questions
         hidesQuestionsKeys: attrs.hides_questions
         startChosen: attrs.start_chosen
@@ -26,10 +27,15 @@ class Quby.Logic.InitQuestions
     $("#" + view_id)[0]
 
   initializeQuestion: (question, options) ->
+    parentQuestion = @questions.findWhere(key: question.parentKey)
+    if parentQuestion
+      parentOption = parentQuestion.get("options").findWhere(key: question.parentOptionKey)
     new Quby.Models.Question(
       key: question.key
       viewSelector: question.viewSelector
       options: options
       type: question.type
       defaultInvisible: question.default_invisible
+      parentQuestion: parentQuestion
+      parentOption: parentOption
     )
