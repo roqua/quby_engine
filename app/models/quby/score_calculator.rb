@@ -78,7 +78,9 @@ module Quby
     #
     # Returns the mean of the given values
     def mean_ignoring_nils(values)
-      mean(values.reject(&:blank?))
+      compacted_values = values.reject(&:blank?)
+      return nil if compacted_values.length == 0
+      mean(compacted_values)
     end
 
     # Public: Gives mean of values, ignoring nil values if >= 80% is filled in
@@ -87,9 +89,10 @@ module Quby
     #
     # Returns the mean of the given values, or nil if less than 80% is present
     def mean_ignoring_nils_80_pct(values)
-      vals = values.reject(&:blank?)
-      return nil if vals.length < values.length*0.8
-      mean(vals)
+      compacted_values = values.reject(&:blank?)
+      return nil if compacted_values.length == 0
+      return nil if compacted_values.length < values.length*0.8
+      mean(compacted_values)
     end
 
     # Public: Sums values, extrapolating nils to be valued as the mean of the present values
