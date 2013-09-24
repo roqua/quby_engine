@@ -16,7 +16,6 @@ class Quby.Models.Question extends Backbone.Model
     options = @get("options")
     options.on "clicked", @optionClicked, @
     options.on "setLastClickedOption", @setLastClickedOption, @
-    @on "add", @addedToCollection
     @on "hide", @hide, @
     @on "unhide", @unhide, @
     @on "show", @show, @
@@ -30,12 +29,6 @@ class Quby.Models.Question extends Backbone.Model
     else
       $(viewSelector).each (index, element) ->
         views.push new Quby.Views.QuestionView(model: questionModel, el: element)
-
-  addedToCollection: ->
-    options = @get("options")
-    initShowHidesCallback = ->
-      options.trigger "initShowsHides", @collection
-    @collection.on "initShowsHides", initShowHidesCallback, @
 
   isVisible: ->
     _.every @get("views"), (view) ->
