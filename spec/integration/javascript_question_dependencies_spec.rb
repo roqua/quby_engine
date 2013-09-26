@@ -58,7 +58,7 @@ feature 'Dependencies between questions', js: true do
       visit_new_answer_for(questionnaire)
 
       # Subquestions start out disabled
-      page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
+      page.should have_css('#item_v2 #answer_v2[disabled=disabled]', visible: false)
 
       # Unhiding a parent question should keep the question disabled
       choose "Show v1"
