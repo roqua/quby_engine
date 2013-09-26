@@ -7,26 +7,9 @@
 
 :coffeescript
   $ ->
-    window.quby.currentPanelQuestions = new Quby.Collections.Questions
+    Quby.currentPanelQuestions = new Quby.Collections.Questions
     questions = #{questions.to_json}
-    _.each questions, (question) ->
-      optionAttributes = question.options
-      options = new Quby.Collections.QuestionOptions
-      _.each optionAttributes, (attrs) ->
-        option = new Quby.Models.QuestionOption
-          showsQuestionsKeys: attrs.shows_questions
-          hidesQuestionsKeys: attrs.hides_questions
-          startChosen: attrs.start_chosen
-        element = $("#" + attrs.view_id)[0]
-        optionView = new Quby.Views.QuestionOptionView(model: option, el: element)
-        options.add option
-      question = new Quby.Models.Question(
-        key: question.key
-        viewSelector: question.viewSelector,
-        options: options,
-        type: question.type
-        defaultInvisible: question.default_invisible
-      )
-      window.quby.questions.add question
-      window.quby.currentPanelQuestions.add question
-    window.quby.panels.add new Quby.Models.Panel(viewSelector: "##{panel_id}", questions: window.quby.currentPanelQuestions)
+    initializer = new Quby.Logic.InitQuestions(questions)
+    Quby.currentPanelQuestions = initializer.initializeQuestions()
+    Quby.questions.addAndRegisterInit Quby.currentPanelQuestions
+    Quby.panels.add new Quby.Models.Panel(viewSelector: "##{panel_id}", questions: Quby.currentPanelQuestions)

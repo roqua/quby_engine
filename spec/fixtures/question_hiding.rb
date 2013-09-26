@@ -42,7 +42,10 @@ panel do
            :description => "matig ernstig show 3,4,5,6,7,8",
            :shows_questions => [:v_8, :v_9, :v_10, :v_11, :v_12, :v_13]
     option :a6, :value => 6, :description => "ernstig hide 3", :hides_questions => [:v_8]
-    option :a7, :value => 7, :description => "extreem show 3", :shows_questions => [:v_8]
+    option :a7, :value => 7, :description => "extreem show 3", :shows_questions => [:v_8] do
+      question :v_7sub, type: :string
+    end
+
   end
 
   table :columns => 1, :show_option_desc => true do
@@ -65,7 +68,7 @@ panel do
 end
 
 panel do
-  text "This panel and text should disappear in bulk", :display_in => [:paged, :bulk]
+  text "Text", :display_in => [:paged, :bulk]
   table :columns => 7, :show_option_desc => true do
     question :v_8, :type => :radio do
       title "P3"

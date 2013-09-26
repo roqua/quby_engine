@@ -293,7 +293,6 @@ DEPENDENCIES
   pry
   quby!
   rails (= 3.2.14)
-  rails-backbone
   roqua-support!
   rspec-rails
   spork
