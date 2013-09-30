@@ -39,29 +39,41 @@ feature 'Dependencies between questions', js: true do
 
     scenario 'subquestions are disabled unless parent option selected' do
       questionnaire = inject_questionnaire("test", <<-END)
-        question :v1, type: :radio, required: true do
-          title "Verbergt vraag 2"
+      panel do
+        question :v0, type: :radio do
+          option :a1, description: "Show v1", shows_questions: [:v1]
+        end
+        question :v1, type: :radio, required: true, default_invisible: true do
           option :a1, value: 1, description: "Ja"
           option :a2, value: 2, description: "Overig" do
             question :v2, type: :string, required: true do
               title 'Vul dit in'
             end
           end
-        end; end_panel
+        end;
+      end
+      end_panel
       END
 
       visit_new_answer_for(questionnaire)
 
-      # Choosing other option should have unrelated subquestions disabled
-      within("#item_v1") { choose "Ja" }
+      # Subquestions start out disabled
+      page.should have_css('#item_v2 #answer_v2[disabled=disabled]', visible: false)
+
+      # Unhiding a parent question should keep the question disabled
+      choose "Show v1"
+      page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
+
+      # Choosing other option should leave unrelated subquestions disabled
+      choose "Ja"
       page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
 
       # Choosing parent option should enable subquestions
-      within("#item_v1") { choose "Overig" }
+      choose "Overig"
       page.should have_no_css('#item_v2 #answer_v2[disabled=disabled]')
 
       # Switching back to other option should disable subquestions again
-      within("#item_v1") { choose "Ja" }
+      choose "Ja"
       page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
     end
 

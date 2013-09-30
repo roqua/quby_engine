@@ -72,6 +72,18 @@ module Quby
         }.to raise_exception
       end
 
+      it 'sets the parent option key on subquestions correctly' do
+        dsl do
+          question :v_1, type: :check_box do
+            option :v_1a do
+              question :v_2, type: :string
+            end
+            option :v_1b
+          end
+        end
+        questionnaire.question_hash[:v_2].parent_option_key.should == :v_1a
+      end
+
       def dsl(&block)
         builder.instance_eval(&block)
       end

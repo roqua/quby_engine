@@ -128,7 +128,7 @@ feature 'Default invisible questions' do
     visit_new_answer_for(questionnaire)
     page.should have_selector("[data-for=v_9].hide", :count => 8, visible: false)
   end
-  scenario 'can be shown with show_questions', :js => true do
+  scenario 'can be shown with shows_questions', :js => true do
     visit_new_answer_for(questionnaire)
     choose "answer_v_7_a5"
     page.should have_selector("[data-for=v_9].show", :count => 8, visible: false)

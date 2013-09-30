@@ -2,13 +2,15 @@
 #= require_tree ./models
 #= require_tree ./collections
 #= require_tree ./views
+#= require_tree ./logic
 
 # Backbone bare models/collections without a marionette application
 @Quby = {}
-@Quby.Models = {}
-@Quby.Collections = {}
-@Quby.Views = {}
-window.quby = @Quby
+Quby.Models = {}
+Quby.Collections = {}
+Quby.Views = {}
+Quby.Logic = {}
+
 $ ->
-  window.quby.questions = new Quby.Collections.Questions
-  window.quby.panels = new Quby.Collections.Panels
+  Quby.questions = new Quby.Collections.Questions
+  Quby.panels = new Quby.Collections.Panels
