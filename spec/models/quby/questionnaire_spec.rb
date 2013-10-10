@@ -19,8 +19,7 @@ module Quby
 
       it "should save to disk" do
         questionnaire.save
-
-        Questionnaire.find_by_key(key).definition.should == definition
+        Quby.questionnaire_finder.find(key).definition.should == definition
       end
 
       it "should not save Windows linebreaks" do
@@ -30,7 +29,7 @@ module Quby
         #FakeFS does not implement ctime yet
         File.stub(:ctime => Time.now+10.minutes)
 
-        Questionnaire.find_by_key(key).definition.should == "title 'My Test'\nshort_description 'Test questionnaire'"
+        Quby.questionnaire_finder.find(key).definition.should == "title 'My Test'\nshort_description 'Test questionnaire'"
       end
     end
 
@@ -39,16 +38,6 @@ module Quby
         questionnaire.save
 
         quest = Quby::Questionnaire.all.first
-        quest.persisted?.should be_true
-      end
-    end
-
-    describe ".find_by_key" do
-      it "marks a questionnaire as persisted" do
-
-        questionnaire.save
-
-        quest = Quby::Questionnaire.find_by_key 'test'
         quest.persisted?.should be_true
       end
     end

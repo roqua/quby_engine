@@ -16,10 +16,6 @@ module Quby
       questionnaire_finder.all
     end
 
-    def self.find_by_key(key)
-      questionnaire_finder.find(key)
-    end
-
     def self.exists?(key)
       questionnaire_finder.exists?(key)
     end
