@@ -12,10 +12,6 @@ module Quby
       Quby.questionnaire_finder
     end
 
-    def self.all
-      questionnaire_finder.all
-    end
-
     def self.exists?(key)
       questionnaire_finder.exists?(key)
     end

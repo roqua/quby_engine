@@ -33,15 +33,6 @@ module Quby
       end
     end
 
-    describe ".all" do
-      it "marks questionnaires as persisted" do
-        questionnaire.save
-
-        quest = Quby::Questionnaire.all.first
-        quest.persisted?.should be_true
-      end
-    end
-
     describe "validations" do
       it "should be valid for a valid questionnaire" do
         Questionnaire.new("test", "title \"hallo wereld\"").should be_valid
