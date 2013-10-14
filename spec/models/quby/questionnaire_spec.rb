@@ -15,59 +15,6 @@ module Quby
     let(:definition)    { "title 'My Test'" }
     let(:questionnaire) { Questionnaire.new(key, definition) }
 
-    describe "validations" do
-      it "should be valid for a valid questionnaire" do
-        Questionnaire.new("test", "title \"hallo wereld\"").should be_valid
-      end
-
-      it "should require a key" do
-        Questionnaire.new(nil, "title \"hallo wereld\"").should_not be_valid
-      end
-
-      it "rejects a key when a questionnaire with this key already exists" do
-        Quby::Questionnaire.stub(:exists? => true)
-        Questionnaire.new("k_s_4", "title \"hallo wereld\"").should_not be_valid
-      end
-
-      describe "should no file with a given key exist" do
-        before { Quby::Questionnaire.stub(:exists? => false) }
-
-        it "requires that the key starts with a letter" do
-          Questionnaire.new("4ks", "title \"hallo wereld\"").should_not be_valid
-        end
-
-        it "requires that the key contains no capitals" do
-          Questionnaire.new("Ks", "title \"hallo wereld\"").should_not be_valid
-        end
-
-        it "requires that the key contains no more than 10 characters" do
-          Questionnaire.new("verylongkey", "title \"hallo wereld\"").should_not be_valid
-        end
-
-        it "requires that the key contains no dashes" do
-          Questionnaire.new("k-s", "title \"hallo wereld\"").should_not be_valid
-        end
-
-        it "requires that the key contains no whitespace" do
-          Questionnaire.new("k s", "title \"hallo wereld\"").should_not be_valid
-        end
-
-        it "accepts a key containing lower case letters, numbers and underscores that start with a letter" do
-          Questionnaire.new("k_s_4", "title \"hallo wereld\"").should be_valid
-        end
-      end
-
-      describe "should a file exist for this key" do
-        before { Quby::Questionnaire.stub(:exists? => true) }
-
-        it "accepts any key" do
-          quest = Questionnaire.new("4 K-s", "title \"hallo wereld\"")
-          quest.persisted = true
-          quest.should be_valid
-        end
-      end
-    end
-
     describe '#scores' do
       Questionnaire.new("test").scores.should == []
     end
