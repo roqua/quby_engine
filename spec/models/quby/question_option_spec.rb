@@ -2,8 +2,7 @@ require 'spec_helper'
 
 module Quby
   describe QuestionOption do
-
-    let(:valid_questionnaire) do
+    let(:questionnaire) do
       questionnaire = Quby::Questionnaire.new("test", <<-END)
         question :one, :type => :radio do
           title "Testvraag"
@@ -21,32 +20,16 @@ module Quby
       questionnaire
     end
 
-    let(:invalid_questionnaire) do
-      questionnaire = Quby::Questionnaire.new("test2")
-      questionnaire.stub(:definition).and_return(<<-END)
-        question :one, :type => :radio do
-          title "Testvraag"
-          option :a1, :hides_questions => [:two]
-        end
-      END
-      questionnaire
-    end
-
-    describe ":hides_questions" do
-      it "throws an error if the question to be hidden does not exist" do
-        invalid_questionnaire.valid?.should be_false
-      end
-    end
 
     describe ".hides_questions" do
       it "returns an array with the keys of the questions that are hidden when this option is picked" do
-        valid_questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
+        questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
       end
     end
 
     describe ".shows_questions" do
       it "returns an array with the keys of the questions that are shown when this option is picked" do
-        valid_questionnaire.question_hash[:one].options.last.shows_questions.should == [:five]
+        questionnaire.question_hash[:one].options.last.shows_questions.should == [:five]
       end
     end
   end

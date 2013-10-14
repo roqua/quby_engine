@@ -38,8 +38,6 @@ module Quby
       self.class.questionnaire_finder.questionnaire_path(key)
     end
 
-    validate :validate_definition_syntax
-
     # whether the questionnaire was already persisted
     def persisted?
       persisted
@@ -215,42 +213,6 @@ module Quby
 
     def add_chart(chart)
       charts.add chart
-    end
-
-    protected
-
-    def ensure_linux_line_ends
-      @definition = @definition.andand.gsub("\r\n", "\n")
-    end
-
-    def validate_definition_syntax
-      ensure_linux_line_ends
-
-      q = Quby::Questionnaire.new(self.key)
-      q.question_hash = {}
-
-      begin
-        functions = Function.all.map(&:definition).join("\n\n")
-        QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
-
-        #check if to be hidden questions actually exist
-        q.questions.compact.each do |question|
-          question.options.each do |option|
-            if option.hides_questions.present?
-              option.hides_questions.each do |key|
-                raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}" unless q.question_hash[key]
-              end
-            end
-          end
-        end
-
-        #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
-      rescue Exception => e
-        errors.add(:definition, {:message => "Questionnaire error: #{key}\n#{e.message}", :backtrace => e.backtrace[0..5].join("<br/>")})
-        return false
-      end
-
-      enhance_by_dsl
     end
 
   end
