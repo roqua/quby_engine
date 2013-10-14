@@ -34,10 +34,6 @@ module Quby
       enhance_by_dsl
     end
 
-    def path
-      self.class.questionnaire_finder.questionnaire_path(key)
-    end
-
     attr_accessor :key
     attr_accessor :title
     attr_accessor :definition
