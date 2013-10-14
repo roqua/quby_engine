@@ -53,9 +53,6 @@ module Quby
       persisted
     end
 
-    #after_destroy :remove_from_disk
-    #after_destroy :remove_answers
-
     attr_accessor :key
     attr_accessor :title
     attr_accessor :definition
@@ -267,30 +264,5 @@ module Quby
       enhance_by_dsl
     end
 
-    def write_to_disk
-
-      #unless Rails.env.development?
-      #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
-      #result = $?.success?
-      #unless result
-      #logger.error "Git add, commit or push failed: #{output}"
-      #end
-      #end
-    end
-
-    def remove_from_disk
-      unless Rails.env.test?
-        unless Rails.env.development?
-          filename = File.join(Quby.questionnaires_path, "#{key}.rb")
-          return unless File.exists?(filename)
-          #logger.info "Removing #{filename}..."
-          output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
-          result = $?.success?
-          unless result
-            #logger.error "Git rm, commit or push failed: #{output}"
-          end
-        end
-      end
-    end
   end
 end
