@@ -223,9 +223,6 @@ module Quby
       @definition = @definition.andand.gsub("\r\n", "\n")
     end
 
-    def require_key
-    end
-
     def validate_definition_syntax
       ensure_linux_line_ends
 
