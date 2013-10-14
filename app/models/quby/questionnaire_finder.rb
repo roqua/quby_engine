@@ -30,7 +30,6 @@ module Quby
         definition = File.read(questionnaire_path)
 
         questionnaire = questionnaire_class.new(key, definition, last_update)
-        questionnaire.persisted = true
 
         @questionnaire_cache[key] = questionnaire
       end

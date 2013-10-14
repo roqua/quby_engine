@@ -38,11 +38,6 @@ module Quby
       self.class.questionnaire_finder.questionnaire_path(key)
     end
 
-    # whether the questionnaire was already persisted
-    def persisted?
-      persisted
-    end
-
     attr_accessor :key
     attr_accessor :title
     attr_accessor :definition
@@ -67,9 +62,6 @@ module Quby
 
     #allow hotkeys for either :all views, just :bulk views (default), or :none for never
     attr_accessor :allow_hotkeys
-    # flag indicating whether a questionnaire was already persisted
-    attr_accessor :persisted
-
     attr_accessor :last_update
 
     attr_accessor :charts
