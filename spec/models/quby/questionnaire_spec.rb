@@ -15,24 +15,6 @@ module Quby
     let(:definition)    { "title 'My Test'" }
     let(:questionnaire) { Questionnaire.new(key, definition) }
 
-    describe "persistence" do
-
-      it "should save to disk" do
-        questionnaire.save
-        Quby.questionnaire_finder.find(key).definition.should == definition
-      end
-
-      it "should not save Windows linebreaks" do
-        questionnaire.definition = "title 'My Test'\r\nshort_description 'Test questionnaire'"
-        questionnaire.save.should be
-
-        #FakeFS does not implement ctime yet
-        File.stub(:ctime => Time.now+10.minutes)
-
-        Quby.questionnaire_finder.find(key).definition.should == "title 'My Test'\nshort_description 'Test questionnaire'"
-      end
-    end
-
     describe "validations" do
       it "should be valid for a valid questionnaire" do
         Questionnaire.new("test", "title \"hallo wereld\"").should be_valid

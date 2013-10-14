@@ -1,7 +1,7 @@
 include ActionView::Helpers::SanitizeHelper
 
 module Quby
-  class Questionnaire # < ActiveRecord::Base
+  class Questionnaire
     extend  ActiveModel::Naming
     include ActiveModel::Validations
 
@@ -47,27 +47,6 @@ module Quby
     end
 
     validate :validate_definition_syntax
-
-    def save
-      if valid?
-        File.open(path, "w") {|f| f.write( self.definition ) }
-        @persisted = true
-        return true
-      else
-        return false
-      end
-    end
-
-    # TODO remove this as it does not do anything
-    def save!
-      if valid?
-        write_to_disk
-      else
-        raise ValidationError
-      end
-
-      true
-    end
 
     # whether the questionnaire was already persisted
     def persisted?
