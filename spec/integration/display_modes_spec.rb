@@ -33,7 +33,7 @@ module Quby
 
 
 
-    Questionnaire.all.each do |questionnaire|
+    Quby.questionnaire_finder.all.each do |questionnaire|
       describe "#{questionnaire.key}" do
         let(:answer) { questionnaire.answers.create(:token => "abcd") }
 

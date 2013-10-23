@@ -11,7 +11,6 @@ module Quby
     let(:questionnaire_class) do
       Class.new do
         attr_reader :key, :definition
-        attr_accessor :persisted
         attr_accessor :last_update
 
         def initialize(key, definition, last_update = Time.now)
@@ -35,13 +34,6 @@ module Quby
 
         File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
         questionnaire_finder.find(key).should == questionnaire
-      end
-
-      it "marks found questionnaires as persisted" do
-        questionnaire_finder.stub(:exists? => true)
-        File.stub(:read => "title \"hallo wereld\"")
-        File.stub(:ctime => Time.now)
-        questionnaire_finder.find(key).persisted.should be_true
       end
 
       it 'raises RecordNotFound if it doesnt exist' do

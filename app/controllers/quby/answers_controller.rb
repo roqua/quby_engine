@@ -97,7 +97,7 @@ module Quby
 
     def find_questionnaire
       if params[:questionnaire_id]
-        @questionnaire = Quby::Questionnaire.find_by_key(params[:questionnaire_id])
+        @questionnaire = Quby.questionnaire_finder.find(params[:questionnaire_id])
         raise QuestionnaireNotFound unless @questionnaire
       end
     end

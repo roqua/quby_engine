@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Hiding questions' do
-  let(:questionnaire) { Quby::Questionnaire.find_by_key("question_hiding") }
+  let(:questionnaire) { Quby.questionnaire_finder.find("question_hiding") }
 
   scenario 'by clicking a radio option that hides a question', :js => true do
     visit_new_answer_for(questionnaire)
@@ -48,7 +48,7 @@ end
 
 feature 'Hiding all questions hides panels' do
   context 'in paged view' do
-    let(:questionnaire) { Quby::Questionnaire.find_by_key("question_hiding") }
+    let(:questionnaire) { Quby.questionnaire_finder.find("question_hiding") }
 
     scenario 'by clicking an option that hides all questions on a panel', :js => true do
       visit_new_answer_for(questionnaire)
@@ -64,7 +64,7 @@ feature 'Hiding all questions hides panels' do
   end
 
   context 'in bulk view' do
-    let(:questionnaire) { Quby::Questionnaire.find_by_key("question_hiding") }
+    let(:questionnaire) { Quby.questionnaire_finder.find("question_hiding") }
     scenario 'by clicking an option that hides all questions on a panel', :js => true do
       visit_new_answer_for(questionnaire, "bulk")
       choose "answer_v_6_a6"
@@ -79,7 +79,7 @@ feature 'Hiding all questions hides panels' do
 end
 
 feature 'Showing questions' do
-  let(:questionnaire) { Quby::Questionnaire.find_by_key("question_hiding") }
+  let(:questionnaire) { Quby.questionnaire_finder.find("question_hiding") }
 
   scenario 'by clicking a radio option that shows a question', :js => true do
     visit_new_answer_for(questionnaire)
@@ -123,7 +123,7 @@ feature 'Showing questions' do
 end
 
 feature 'Default invisible questions' do
-  let(:questionnaire) { Quby::Questionnaire.find_by_key("question_hiding") }
+  let(:questionnaire) { Quby.questionnaire_finder.find("question_hiding") }
   scenario 'having :default_invisible => true set on a question start out invisible', :js => true do
     visit_new_answer_for(questionnaire)
     page.should have_selector("[data-for=v_9].hide", :count => 8, visible: false)

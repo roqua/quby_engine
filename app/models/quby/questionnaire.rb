@@ -1,7 +1,7 @@
 include ActionView::Helpers::SanitizeHelper
 
 module Quby
-  class Questionnaire # < ActiveRecord::Base
+  class Questionnaire
     extend  ActiveModel::Naming
     include ActiveModel::Validations
 
@@ -10,14 +10,6 @@ module Quby
 
     def self.questionnaire_finder
       Quby.questionnaire_finder
-    end
-
-    def self.all
-      questionnaire_finder.all
-    end
-
-    def self.find_by_key(key)
-      questionnaire_finder.find(key)
     end
 
     def self.exists?(key)
@@ -41,49 +33,6 @@ module Quby
 
       enhance_by_dsl
     end
-
-    def path
-      self.class.questionnaire_finder.questionnaire_path(key)
-    end
-
-    validate do
-      errors.add(:key, "Must be present") unless key.present?
-      errors.add(:key, "Must be unique") if Quby::Questionnaire.exists?(key) and not persisted?
-      errors.add(:key, "De key mag enkel kleine letters, cijfers en underscores bevatten, " +
-                 "moet beginnen met een letter en mag hoogstens 10 karakters lang zijn."
-                 ) unless key =~ /^[a-z][a-z_0-9]{0,9}$/ or persisted?
-    end
-
-    validate :validate_definition_syntax
-
-    def save
-      if valid?
-        File.open(path, "w") {|f| f.write( self.definition ) }
-        @persisted = true
-        return true
-      else
-        return false
-      end
-    end
-
-    # TODO remove this as it does not do anything
-    def save!
-      if valid?
-        write_to_disk
-      else
-        raise ValidationError
-      end
-
-      true
-    end
-
-    # whether the questionnaire was already persisted
-    def persisted?
-      persisted
-    end
-
-    #after_destroy :remove_from_disk
-    #after_destroy :remove_answers
 
     attr_accessor :key
     attr_accessor :title
@@ -109,9 +58,6 @@ module Quby
 
     #allow hotkeys for either :all views, just :bulk views (default), or :none for never
     attr_accessor :allow_hotkeys
-    # flag indicating whether a questionnaire was already persisted
-    attr_accessor :persisted
-
     attr_accessor :last_update
 
     attr_accessor :charts
@@ -257,69 +203,5 @@ module Quby
       charts.add chart
     end
 
-    protected
-
-    def ensure_linux_line_ends
-      @definition = @definition.andand.gsub("\r\n", "\n")
-    end
-
-    def require_key
-    end
-
-    def validate_definition_syntax
-      ensure_linux_line_ends
-
-      q = Quby::Questionnaire.new(self.key)
-      q.question_hash = {}
-
-      begin
-        functions = Function.all.map(&:definition).join("\n\n")
-        QuestionnaireDsl.enhance(q, [functions, self.definition].join("\n\n"))
-
-        #check if to be hidden questions actually exist
-        q.questions.compact.each do |question|
-          question.options.each do |option|
-            if option.hides_questions.present?
-              option.hides_questions.each do |key|
-                raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}" unless q.question_hash[key]
-              end
-            end
-          end
-        end
-
-        #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
-      rescue Exception => e
-        errors.add(:definition, {:message => "Questionnaire error: #{key}\n#{e.message}", :backtrace => e.backtrace[0..5].join("<br/>")})
-        return false
-      end
-
-      enhance_by_dsl
-    end
-
-    def write_to_disk
-
-      #unless Rails.env.development?
-      #output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git add . && git commit -m 'auto-commit from admin' && git push`
-      #result = $?.success?
-      #unless result
-      #logger.error "Git add, commit or push failed: #{output}"
-      #end
-      #end
-    end
-
-    def remove_from_disk
-      unless Rails.env.test?
-        unless Rails.env.development?
-          filename = File.join(Quby.questionnaires_path, "#{key}.rb")
-          return unless File.exists?(filename)
-          #logger.info "Removing #{filename}..."
-          output = `cd #{Quby.questionnaires_path} && git config user.name \"quby #{Rails.root.parent.parent.basename.to_s}, user: #{@last_author}\" && git rm #{key}.rb && git commit -m 'removed questionnaire #{key}' && git push`
-          result = $?.success?
-          unless result
-            #logger.error "Git rm, commit or push failed: #{output}"
-          end
-        end
-      end
-    end
   end
 end
