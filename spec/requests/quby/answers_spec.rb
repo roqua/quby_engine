@@ -3,24 +3,6 @@ require 'spec_helper'
 
 module Quby
   describe AnswersController do
-    describe 'Facebook spider does not report' do
-      it 'does not report' do
-        finder = stub(:find => Questionnaire.new("honos"))
-        Quby.stub(questionnaire_finder: finder)
-        Quby::Answer.stub(questionnaire_finder: finder)
-
-        answer = Quby::Answer.create(:questionnaire_key => "honos")
-        token  = answer.token
-        timestamp = Time.now.strftime("%Y-%m-%dT%H:%M:%S 00:00")
-        plain_hmac = [Quby::Settings.shared_secret, token, timestamp].join('|')
-        hmac = Digest::SHA1.hexdigest(plain_hmac)
-
-        expect do
-          get "/quby/questionnaires/honos/answers/#{answer.id}/edit", token: answer.token, hmac: hmac, timestamp: timestamp.gsub(" ", "EB_PLUS")
-        end.not_to raise_error
-      end
-    end
-
     def create_answer(questionnaire)
       Quby.questionnaire_finder
         .stub(:find)

@@ -18,13 +18,13 @@ module Quby
     before_filter :verify_hmac, :only => [:edit, :print]
     before_filter :prevent_browser_cache, :only => :edit
     before_filter :remember_display_mode_in_session
-    before_filter :check_aborted, :only => [:create, :update]
+    before_filter :check_aborted, :only => :update
 
     protect_from_forgery :except => [:edit, :update], :secret => "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d5d88bfd8481868d9"
 
     rescue_from TokenValidationError, :with => :bad_token
     rescue_from QuestionnaireNotFound, :with => :bad_questionnaire
-    rescue_from TimestampValidationError, :with => :bad_questionnaire
+    rescue_from TimestampValidationError, :with => :bad_timestamp
 
     def show
       redirect_to :action => "edit"
@@ -144,11 +144,6 @@ module Quby
         raise TokenValidationError.new("Facebook Spider with EB_PLUS in timestamp")
       end
 
-      if our_hmac != hmac
-        logger.error "ERROR::Authentication error: Token does not validate"
-        raise TokenValidationError.new("HMAC")
-      end
-
       if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
         logger.error "ERROR::Authentication error: Invalid timestamp."
         raise TimestampValidationError
@@ -157,6 +152,11 @@ module Quby
       if time < 24.hours.ago or 1.hour.since < time
         logger.error "ERROR::Authentication error: Request expired"
         redirect_to_roqua(:expired_session => "true") and return
+      end
+
+      if our_hmac != hmac
+        logger.error "ERROR::Authentication error: Token does not validate"
+        raise TokenValidationError.new("HMAC")
       end
     end
 
