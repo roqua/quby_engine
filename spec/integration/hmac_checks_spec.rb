@@ -5,8 +5,7 @@ module Quby
   describe AnswersController do
     before do
       finder = stub(:find => Questionnaire.new("honos"))
-      Quby::Questionnaire.stub(questionnaire_finder: finder)
-      Quby::Answer.stub(questionnaire_finder: finder)
+      Quby.stub(questionnaire_finder: finder)
     end
 
     let(:answer) { Quby::Answer.create(:questionnaire_key => "honos") }
