@@ -12,7 +12,7 @@
 //= require jquery_placeholder
 //= require jquery.scrollTo-min.js
 //= require fd-slider.min.js
-//= require jquery.ba-hashchange.min.js
+//= require jquery.ba-hashchange.js
 //= require ./printer.js
 //
 //= require ./modules/activity_log
