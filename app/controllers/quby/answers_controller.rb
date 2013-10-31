@@ -85,7 +85,7 @@ module Quby
 
     def bad_authorization(exception)
       if @return_url
-        redirect_to_roqua status: 'authorization_error'
+        redirect_to_roqua status: 'authorization_error', return_from_answer: params[:id]
       else
         @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
         render file: 'errors/generic', layout: 'dialog'
