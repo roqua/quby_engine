@@ -11,9 +11,9 @@ module Quby
     before_filter :find_questionnaire
     append_before_filter :find_answer
 
-    before_filter :remember_token_in_session
-    before_filter :remember_return_url_in_session
-    before_filter :remember_custom_stylesheet
+    before_filter :load_token_and_hmac_and_timestamp
+    before_filter :load_return_url_and_token
+    before_filter :load_custom_stylesheet
 
     before_filter :authorize!
     before_filter :verify_token, only: [:show, :edit, :update, :print]
@@ -135,13 +135,13 @@ module Quby
     end
 
     def authorize!
-      if Settings.authorize_with_id_from_session
+      if Quby::Settings.authorize_with_id_from_session
         raise Unauthorized unless params[:id] == session[:quby_answer_id]
       end
     end
 
     def verify_token
-      if Settings.authorize_with_hmac
+      if Quby::Settings.authorize_with_hmac
         unless @answer.token == (params[:token] || @answer_token)
           flash[:error] = I18n.t(:invalid_answer_get, locale: :nl)
           redirect_to "/"
@@ -150,7 +150,7 @@ module Quby
     end
 
     def verify_hmac
-      if Settings.authorize_with_hmac
+      if Quby::Settings.authorize_with_hmac
         hmac      = (params['hmac']      || @hmac         || '').strip
         token     = (params['token']     || @answer_token || '').strip
         timestamp = (params['timestamp'] || @timestamp    || '').strip
@@ -180,13 +180,13 @@ module Quby
       end
     end
 
-    def remember_token_in_session
+    def load_token_and_hmac_and_timestamp
       @answer_token = params[:token]     if params[:token]
       @hmac         = params[:hmac]      if params[:hmac]
       @timestamp    = params[:timestamp] if params[:timestamp]
     end
 
-    def remember_return_url_in_session
+    def load_return_url_and_token
       if params[:return_url]
         @return_url   = CGI.unescape(params[:return_url])
         @return_token = params[:return_token]
@@ -201,7 +201,7 @@ module Quby
       @display_mode = "paged" if @display_mode.blank?
     end
 
-    def remember_custom_stylesheet
+    def load_custom_stylesheet
       @custom_stylesheet = params[:stylesheet]
     end
 
