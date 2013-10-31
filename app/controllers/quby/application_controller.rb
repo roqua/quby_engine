@@ -8,7 +8,7 @@ module Quby
     protect_from_forgery
 
     around_filter :log_session_hash
-    before_filter :fix_ie_trusted_party_warning
+    before_filter :enable_internet_explorer_cookies_inside_iframe
 
     protected
 
@@ -18,8 +18,35 @@ module Quby
       response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
     end
 
-    def fix_ie_trusted_party_warning
-      # Indicate IE that we are a trusted party
+    def enable_internet_explorer_cookies_inside_iframe
+      # Internet Explorer needs this response header so that we can use cookies when
+      # we're embedded in an <iframe>.
+      #
+      # The idea behind the P3P-header is that sites can state their intent:
+      # the kinds of information they gather and what they plan to do with it.
+      # This only applies to sites inside iframes, which could be genuine uses,
+      # but might also be banner networks which the user might not want to allow.
+      # The user, through the browser options, can then decide which intentions
+      # are allowed.
+      #   -- http://stackoverflow.com/a/389458
+      #
+      # CAO means we collect a whole bunch of information.
+      # PSA means we use this to build a pseudonymous record, and don't store actual names
+      # OUR means only we and the agencies for whom we are acting have access to this information.
+      #   -- http://stackoverflow.com/a/5258105
+      #
+      # Obviously everyone could say they don't do malicious things with your data
+      # which is why this header never gained much traction. The idea was that if a site
+      # lies, they'll have troubles in court. In practice, the entire world simply
+      # lies about their intent, and the header is basically worthless.
+      #
+      # A side-effect of cookies being disabled by by default is that it makes it hard
+      # for a malicious site to embed a site and perform a clickjacking attack,
+      # since without this header an embedded site will not have cookies, and
+      # will thus never have the logged-in state.
+      #
+      # Since the primary use-case for RoQua is to be embedded in an EPD-window,
+      # we need this header to be able to function at all.
       response.headers["P3P"] = "CP=\"CAO PSA OUR\""
     end
 
