@@ -8,6 +8,9 @@ def create_new_answer_for(questionnaire, answer_value = {})
 end
 
 def visit_new_answer_for(questionnaire, mode = "paged", answer = nil)
+  Quby::Settings.stub(authorize_with_hmac: false)
+  Quby::Settings.stub(authorize_with_id_from_session: false)
+
   answer ||= create_new_answer_for(questionnaire)
   visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=#{mode}"
   answer

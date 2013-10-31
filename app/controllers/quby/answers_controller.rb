@@ -3,6 +3,7 @@ require 'addressable/uri'
 
 module Quby
   class AnswersController < Quby::ApplicationController
+    class Unauthorized < StandardError; end
     class TokenValidationError < Exception; end
     class TimestampValidationError < Exception; end
     class QuestionnaireNotFound < StandardError; end
@@ -13,8 +14,11 @@ module Quby
     before_filter :remember_token_in_session
     before_filter :remember_return_url_in_session
     before_filter :remember_custom_stylesheet
+
+    before_filter :authorize!
     before_filter :verify_token, only: [:show, :edit, :update, :print]
-    before_filter :verify_hmac, only: [:edit, :print]
+    before_filter :verify_hmac,  only: [:edit, :print]
+
     before_filter :prevent_browser_cache, only: :edit
     before_filter :remember_display_mode_in_session
     before_filter :check_aborted, only: :update
@@ -23,9 +27,10 @@ module Quby
                                                            "ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d" +
                                                            "5d88bfd8481868d9"
 
-    rescue_from TokenValidationError, with: :bad_token
-    rescue_from QuestionnaireNotFound, with: :bad_questionnaire
+    rescue_from TokenValidationError,     with: :bad_token
+    rescue_from QuestionnaireNotFound,    with: :bad_questionnaire
     rescue_from TimestampValidationError, with: :bad_timestamp
+    rescue_from Unauthorized,             with: :bad_authorization
 
     def show
       redirect_to action: "edit"
@@ -78,6 +83,16 @@ module Quby
       handle_exception exception
     end
 
+    def bad_authorization(exception)
+      if @return_url
+        redirect_to_roqua status: 'authorization_error'
+      else
+        @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
+        render file: 'errors/generic', layout: 'dialog'
+        handle_exception exception
+      end
+    end
+
     def handle_exception(exception)
       logger.error("EXCEPTION: #{exception.message}")
       logger.error(exception.backtrace)
@@ -119,39 +134,49 @@ module Quby
       end
     end
 
+    def authorize!
+      if Settings.authorize_with_id_from_session
+        raise Unauthorized unless params[:id] == session[:quby_answer_id]
+      end
+    end
+
     def verify_token
-      unless @answer.token == (params[:token] || @answer_token)
-        flash[:error] = I18n.t(:invalid_answer_get, locale: :nl)
-        redirect_to "/"
+      if Settings.authorize_with_hmac
+        unless @answer.token == (params[:token] || @answer_token)
+          flash[:error] = I18n.t(:invalid_answer_get, locale: :nl)
+          redirect_to "/"
+        end
       end
     end
 
     def verify_hmac
-      hmac      = (params['hmac']      || @hmac         || '').strip
-      token     = (params['token']     || @answer_token || '').strip
-      timestamp = (params['timestamp'] || @timestamp    || '').strip
+      if Settings.authorize_with_hmac
+        hmac      = (params['hmac']      || @hmac         || '').strip
+        token     = (params['token']     || @answer_token || '').strip
+        timestamp = (params['timestamp'] || @timestamp    || '').strip
 
-      plain_hmac = [Quby::Settings.shared_secret, token, timestamp].join('|')
-      our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
+        plain_hmac = [Quby::Settings.shared_secret, token, timestamp].join('|')
+        our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
 
-      if timestamp =~ /EB_PLUS/
-        logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
-        raise TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
-      end
+        if timestamp =~ /EB_PLUS/
+          logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
+          raise TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
+        end
 
-      if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
-        logger.error "ERROR::Authentication error: Invalid timestamp."
-        raise TimestampValidationError
-      end
+        if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
+          logger.error "ERROR::Authentication error: Invalid timestamp."
+          raise TimestampValidationError
+        end
 
-      if time < 24.hours.ago or 1.hour.since < time
-        logger.error "ERROR::Authentication error: Request expired"
-        redirect_to_roqua(expired_session: "true") and return
-      end
+        if time < 24.hours.ago or 1.hour.since < time
+          logger.error "ERROR::Authentication error: Request expired"
+          redirect_to_roqua(expired_session: "true") and return
+        end
 
-      if our_hmac != hmac
-        logger.error "ERROR::Authentication error: Token does not validate"
-        raise TokenValidationError, "HMAC"
+        if our_hmac != hmac
+          logger.error "ERROR::Authentication error: Token does not validate"
+          raise TokenValidationError, "HMAC"
+        end
       end
     end
 
