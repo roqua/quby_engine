@@ -115,14 +115,14 @@ module Quby
         value.each do |key, answer|
           question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
           if question
-            if (question.type == :radio || question.type == :scale || question.type == :select)
+            if question.type == :radio || question.type == :scale || question.type == :select
               option = question.options.find { |o| o.key.to_s == value[key].to_s }
               if option
                 result[key] = option.value
               end
-            elsif (question.type == :integer)
+            elsif question.type == :integer
               result[key] = answer.to_i if answer
-            elsif (question.type == :float)
+            elsif question.type == :float
               result[key] = answer.to_f if answer
             end
           end

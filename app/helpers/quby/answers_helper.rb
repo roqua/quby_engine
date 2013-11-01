@@ -19,7 +19,7 @@ module Quby
     end
 
     def different_header(item, previous_item)
-      return true if (item.score_header != previous_item.andand.score_header or (not previous_item.respond_to?(:options)))
+      return true if item.score_header != previous_item.andand.score_header or (not previous_item.respond_to?(:options))
       case item.score_header
       when :question_description
         return item.description != previous_item.description
@@ -42,7 +42,7 @@ module Quby
     def light_dark_for(cyclei, same_question)
       if same_question
         return ""
-      elsif (cyclei.modulo(2) == 0)
+      elsif cyclei.modulo(2) == 0
         return "light"
       else
         return "dark"

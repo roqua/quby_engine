@@ -50,9 +50,6 @@ MethodLength:
 Not:
   Enabled: false
 
-ParenthesesAroundCondition:
-  Enabled: false
-
 Proc:
   Enabled: false
 
