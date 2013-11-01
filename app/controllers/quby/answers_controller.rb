@@ -20,7 +20,7 @@ module Quby
     before_filter :verify_hmac,  only: [:edit, :print]
 
     before_filter :prevent_browser_cache, only: :edit
-    before_filter :remember_display_mode_in_session
+    before_filter :load_display_mode
     before_filter :check_aborted, only: :update
 
     protect_from_forgery except: [:edit, :update], secret: "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8" +
@@ -193,7 +193,7 @@ module Quby
       end
     end
 
-    def remember_display_mode_in_session
+    def load_display_mode
       if params[:display_mode] and %w(paged bulk).include?(params[:display_mode])
         @display_mode = params[:display_mode] if params[:display_mode]
       end
