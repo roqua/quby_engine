@@ -91,7 +91,7 @@ module Quby
     def mean_ignoring_nils_80_pct(values)
       compacted_values = values.reject(&:blank?)
       return nil if compacted_values.length == 0
-      return nil if compacted_values.length < values.length*0.8
+      return nil if compacted_values.length < values.length * 0.8
       mean(compacted_values)
     end
 
@@ -114,7 +114,7 @@ module Quby
     #
     # Returns the sum of the given values, or nil if less than 80% is present
     def sum_extrapolate_80_pct(values)
-      sum_extrapolate(values, values.length*0.8)
+      sum_extrapolate(values, values.length * 0.8)
     end
 
     # Public: Sums values

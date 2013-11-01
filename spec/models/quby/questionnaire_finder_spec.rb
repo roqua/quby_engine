@@ -53,7 +53,7 @@ module Quby
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition_2 }
 
         #FakeFS does not implement ctime yet
-        File.stub(:ctime => Time.now+10.minutes)
+        File.stub(:ctime => Time.now + 10.minutes)
         found_questionnaire = questionnaire_finder.find(key)
         found_questionnaire.definition.should == definition_2
       end

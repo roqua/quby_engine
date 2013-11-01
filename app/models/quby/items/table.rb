@@ -50,14 +50,14 @@ module Quby
               @rows << [[]]
               @item_table << []
               skips.map! do |row_span, skip_cols_at, skip_cols_length|
-                [row_span-1, skip_cols_at, skip_cols_length]
+                [row_span - 1, skip_cols_at, skip_cols_length]
               end
             end
             if filled_columns != 0 and item != items.last
                 row_items += 1
                 @rows[filled_rows] << []
             end
-            next row_span -1 == 1
+            next row_span - 1 == 1
           end
         end
 
@@ -112,8 +112,8 @@ module Quby
             col_len = (opt_len / columns.to_f).ceil
             (0...col_len).each do |j|
               (0...columns).each do |i|
-                break if j + i*col_len >= opt_len
-                @rows[filled_rows][row_items] << item.options[j + i*col_len]
+                break if j + i * col_len >= opt_len
+                @rows[filled_rows][row_items] << item.options[j + i * col_len]
                 filled_columns += 1
                 if filled_columns == columns
                   filled_rows += 1

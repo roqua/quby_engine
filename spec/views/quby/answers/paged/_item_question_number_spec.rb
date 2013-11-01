@@ -18,7 +18,7 @@ module Quby
            :unit => nil)
     end
 
-    before { view.stub(:marukufix=> "HOI") }
+    before { view.stub(:marukufix => "HOI") }
 
     it 'renders a left and right label if both provided' do
       question.stub(:left_label => "mijn left label")

@@ -318,7 +318,7 @@ module Quby
           output << "1\tChecked"
           output << "0\tUnchecked"
           output << "empty\tUnchecked"
-          output << "" unless idx == (options.size-1)
+          output << "" unless idx == (options.size - 1)
         end
       else
         output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")

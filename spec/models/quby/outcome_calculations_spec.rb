@@ -73,9 +73,9 @@ module Quby
       it 'calculates scores, alerts and completion' do
         answer.calculate_builders
 
-        answer.scores.should == {"tot"=>{"value"=>3, "label"=>"Totaal", "score"=>true}}
+        answer.scores.should == {"tot" => {"value" => 3, "label" => "Totaal", "score" => true}}
         answer.actions.should == {"attention" => 5}
-        answer.completion.should == {"value"=>0.9}
+        answer.completion.should == {"value" => 0.9}
       end
 
       it 'calculates scores with integer values' do
@@ -87,14 +87,14 @@ module Quby
                                                  ],
                                                :text_var => false)])
         answer.value = {'v1' => :a1}
-        answer.tap(&:calculate_builders).scores[:tot].should == {"value"=>[2], "label"=>"Totaal", "score"=>true}
+        answer.tap(&:calculate_builders).scores[:tot].should == {"value" => [2], "label" => "Totaal", "score" => true}
       end
 
       it 'allows access to other scores' do
         score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &Proc.new { {value: score(:tot)[:value] + 2} })
 
         questionnaire.push_score_builder score2
-        answer.tap(&:calculate_builders).scores[:tot2].should == {"value"=>5, "label"=>"Totaal2", "score"=>true}
+        answer.tap(&:calculate_builders).scores[:tot2].should == {"value" => 5, "label" => "Totaal2", "score" => true}
       end
 
       context 'when calculation throws an exception' do
@@ -143,7 +143,7 @@ module Quby
 
       it 'assigns the calculated score to self.scores' do
         answer.update_scores
-        answer.scores.should == {"tot"=>{"value"=>3, "label"=>"Totaal", "score"=>true}}
+        answer.scores.should == {"tot" => {"value" => 3, "label" => "Totaal", "score" => true}}
       end
 
       it 'assigns the calculated actions to self.actions' do

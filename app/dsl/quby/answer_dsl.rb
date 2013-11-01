@@ -44,9 +44,9 @@ module Quby
 
             define_method(question.key) do
               self.value ||= Hash.new
-              v = [self.value[question.day_key.to_s ||"#{question.key}_dd"],
-                   self.value[question.month_key.to_s ||"#{question.key}_mm"],
-                   self.value[question.year_key.to_s ||"#{question.key}_yyyy"]]
+              v = [self.value[question.day_key.to_s   || "#{question.key}_dd"],
+                   self.value[question.month_key.to_s || "#{question.key}_mm"],
+                   self.value[question.year_key.to_s  || "#{question.key}_yyyy"]]
               if v.inject(true) { |allblank, it| it.blank? and allblank }
                 return ""
               else
