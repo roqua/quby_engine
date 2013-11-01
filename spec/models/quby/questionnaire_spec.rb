@@ -36,7 +36,7 @@ module Quby
         questionnaire.push_score_builder double("Quby::Score", :key => "c")
         questionnaire.push_score_builder double("Quby::Score", :key => "a")
         questionnaire.push_score_builder double("Quby::Score", :key => "d")
-        questionnaire.score_builders.keys.should == ['c', 'a', 'd']
+        questionnaire.score_builders.keys.should == %w(c a d)
       end
 
       it 'overwrites the score builder if there already is a score builder known for this key' do

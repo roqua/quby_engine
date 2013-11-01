@@ -17,7 +17,7 @@ module Quby
 
       @valid_attribute_keys ||= @questionnaire.questions.compact.map(&:key).map(&:to_s) +
           check_box_questions.map(&:options).flatten.map(&:key).map(&:to_s) +
-          ["activity_log", "aborted"]
+          %w(activity_log aborted)
     end
   end
 end

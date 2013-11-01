@@ -83,7 +83,7 @@ module Quby
       it 'finds all questionnaires' do
         FileUtils.touch("/tmp/a.rb")
         FileUtils.touch("/tmp/b.rb")
-        questionnaire_finder.all.map(&:key).should == ['a', 'b']
+        questionnaire_finder.all.map(&:key).should == %w(a b)
       end
     end
   end
