@@ -17,9 +17,6 @@ BlockNesting:
 Blocks:
   Enabled: false
 
-CaseEquality:
-  Enabled: false
-
 ClassLength:
   Enabled: false
 

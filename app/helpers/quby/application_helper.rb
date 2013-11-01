@@ -2,7 +2,7 @@
 module Quby
   module ApplicationHelper
     def tab_to(name, options, html_options = {})
-      if String === options
+      if options.is_a?(String)
         href = options
       else
         href = url_for(:controller => options[:controller])
