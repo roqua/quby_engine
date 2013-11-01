@@ -37,7 +37,7 @@ module Quby
     # be a String.
     def values(*keys)
       keys.map(&:to_s).each do |key|
-        raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.has_key?(key)
+        raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.key?(key)
       end
       values_with_nils(*keys)
     end
@@ -142,7 +142,7 @@ module Quby
     #
     # key - The Symbol of another score.
     def score(key)
-      raise "Score #{key.inspect} does not exist or is not calculated yet." unless @scores.has_key? key
+      raise "Score #{key.inspect} does not exist or is not calculated yet." unless @scores.key? key
       @scores.fetch(key)
     end
 

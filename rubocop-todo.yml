@@ -38,9 +38,6 @@ FinalNewline:
 HandleExceptions:
   Enabled: false
 
-HashMethods:
-  Enabled: false
-
 HashSyntax:
   Enabled: false
 
