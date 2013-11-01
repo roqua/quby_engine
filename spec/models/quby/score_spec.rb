@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Quby
   describe Score do
-    let(:calculation) { Proc.new { 1 } }
+    let(:calculation) { proc { 1 } }
     subject { Score.new(:tot, label: "Totaal", &calculation) }
 
     its(:key) { should == :tot }

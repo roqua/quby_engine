@@ -2,13 +2,13 @@ require 'spec_helper'
 
 module Quby
   describe OutcomeCalculations do
-    let(:scorer) { Proc.new { {value: 3} } }
+    let(:scorer) { proc { {value: 3} } }
     let(:score) { Score.new(:tot, {label: "Totaal", score: true}, &scorer) }
 
-    let(:actioner) { Proc.new { 5 } }
+    let(:actioner) { proc { 5 } }
     let(:action) { Score.new(:attention, {action: true}, &actioner) }
 
-    let(:completioner) { Proc.new { 0.9 } }
+    let(:completioner) { proc { 0.9 } }
     let(:completion) { Score.new(:completion, {completion: true}, &completioner) }
 
     let(:questionnaire) do
@@ -79,7 +79,7 @@ module Quby
       end
 
       it 'calculates scores with integer values' do
-        score.stub(:calculation => Proc.new { {value: values(:v1)} })
+        score.stub(:calculation => proc { {value: values(:v1)} })
         questionnaire.stub(:questions => [stub(:key => :v1,
                                                :type => :radio,
                                                :options => [
@@ -91,14 +91,14 @@ module Quby
       end
 
       it 'allows access to other scores' do
-        score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &Proc.new { {value: score(:tot)[:value] + 2} })
+        score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.push_score_builder score2
         answer.tap(&:calculate_builders).scores[:tot2].should == {"value" => 5, "label" => "Totaal2", "score" => true}
       end
 
       context 'when calculation throws an exception' do
-        before { score.stub(:calculation => Proc.new { raise "Foo" }) }
+        before { score.stub(:calculation => proc { raise "Foo" }) }
 
         it 'stores the exception' do
           answer.tap(&:calculate_builders).scores[:tot][:exception].should == 'Foo'
@@ -110,7 +110,7 @@ module Quby
       end
 
       it 'calculates completion percentage' do
-        completion.stub(:calculation => Proc.new { 0.9 })
+        completion.stub(:calculation => proc { 0.9 })
         answer.tap(&:calculate_builders).completion.should == {'value' => 0.9}
       end
 
@@ -122,7 +122,7 @@ module Quby
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
-          completion.stub(:calculation => Proc.new { raise "Foo" })
+          completion.stub(:calculation => proc { raise "Foo" })
           answer.tap(&:calculate_builders).completion[:exception].should == 'Foo'
         end
       end
@@ -157,9 +157,9 @@ module Quby
       end
 
       it 'saves reorderings of scores' do
-        scorer1 = Proc.new { {value: 1} }
+        scorer1 = proc { {value: 1} }
         score1  = Score.new(:tot, {label: "Totaalscore", score: true}, &scorer)
-        scorer2 = Proc.new { {value: 2} }
+        scorer2 = proc { {value: 2} }
         score2  = Score.new(:sub, {label: "Subscore", score: true}, &scorer)
         questionnaire.score_builders = {}
         questionnaire.push_score_builder score1
