@@ -26,7 +26,7 @@ module Quby
           plottable.stub(options: {some: 'options', other: 'options'})
           Quby::Charting::Plottable.should_receive(:new)
                                    .with(plottable.key, some: 'different_options', other: 'options',
-                                         questionnaire_key: 'questionnaire_key')
+                                                        questionnaire_key: 'questionnaire_key')
           chart_builder.plot plottable_key, some: 'different_options'
         end
 

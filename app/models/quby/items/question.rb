@@ -154,7 +154,7 @@ module Quby
         @validations << {:type => :valid_integer, :explanation => options[:error_explanation]}
       elsif @type == :date
         @validations << {:type => :regexp, :matcher => /(0?[1-9]|[1-2][0-9]|3[01])-(0?[1-9]|1[012])-(19|20)\d\d/,
-                                          :explanation => (options[:error_explanation] || "Voer een geldige datum in (DD-MM-JJJJ).")}
+                         :explanation => (options[:error_explanation] || "Voer een geldige datum in (DD-MM-JJJJ).")}
       end
 
       if options[:minimum] and (@type == :integer or @type == :float)

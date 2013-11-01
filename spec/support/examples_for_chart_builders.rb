@@ -17,11 +17,11 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
     let(:soc_score) { Quby::Score.new :soc, label: 'Sociaal' }
     let(:float_question) { mock(:key => :v_1, :type => :radio, options: []) }
     let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal',
-                                                            questionnaire_key: 'questionnaire_key') }
+                                                                  questionnaire_key: 'questionnaire_key') }
     let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal',
-                                                            questionnaire_key: 'questionnaire_key') }
+                                                                  questionnaire_key: 'questionnaire_key') }
     let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label',
-                                                            questionnaire_key: 'questionnaire_key')}
+                                                                  questionnaire_key: 'questionnaire_key')}
 
     before do
       questionnaire.stub(:find_plottable).with(:tot).and_return(tot_score)
@@ -35,8 +35,8 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
 
     it 'can specify which item from the score hash to plot' do
       plottable = Quby::Charting::Plottable.new(:tot, label: 'Totaal',
-                                                plotted_key: :t_score,
-                                                questionnaire_key: 'questionnaire_key')
+                                                      plotted_key: :t_score,
+                                                      questionnaire_key: 'questionnaire_key')
       dsl { plot :tot, plotted_key: :t_score }.plottables.should == [plottable]
     end
 
@@ -46,9 +46,7 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
     end
 
     it 'can plot answers' do
-      dsl {
-        plot 'v_1', label: 'Answer Label'
-      }.plottables.should == [plotted_question]
+      dsl { plot 'v_1', label: 'Answer Label' }.plottables.should == [plotted_question]
     end
   end
 
