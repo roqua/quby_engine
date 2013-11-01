@@ -21,7 +21,7 @@ module Quby
     end
 
     def as_json(options = {})
-      super().merge(:text => text)
+      super().merge(text: text)
     end
 
     def key

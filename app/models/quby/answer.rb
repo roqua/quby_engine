@@ -11,20 +11,20 @@ module Quby
     store_in :answers
 
     identity type: String
-    field :questionnaire_id,     :type => Integer
-    field :questionnaire_key,    :type => String
-    field :value,                :type => Hash
-    field :value_by_values,      :type => Hash
-    field :patient,              :type => Hash,    :default => {}
-    field :token,                :type => String
-    field :active,               :type => Boolean, :default => true
-    field :test,                 :type => Boolean, :default => false
-    field :completed_at,         :type => Time
-    field :outcome_generated_at, :type => Time
-    field :scores,               :type => Hash,    :default => {}
-    field :actions,              :type => Hash,    :default => {}
-    field :completion,           :type => Hash,    :default => {}
-    field :activity_log,         :type => String,  :default => ""
+    field :questionnaire_id,     type: Integer
+    field :questionnaire_key,    type: String
+    field :value,                type: Hash
+    field :value_by_values,      type: Hash
+    field :patient,              type: Hash,    default: {}
+    field :token,                type: String
+    field :active,               type: Boolean, default: true
+    field :test,                 type: Boolean, default: false
+    field :completed_at,         type: Time
+    field :outcome_generated_at, type: Time
+    field :scores,               type: Hash,    default: {}
+    field :actions,              type: Hash,    default: {}
+    field :completion,           type: Hash,    default: {}
+    field :activity_log,         type: String,  default: ""
 
     # Faux belongs_to :questionnaire
     def questionnaire
@@ -32,8 +32,8 @@ module Quby
     end
 
     after_initialize :enhance_by_dsl
-    before_validation(:on => :create) { set_default_answer_values }
-    before_validation(:on => :create) { generate_random_token }
+    before_validation(on: :create) { set_default_answer_values }
+    before_validation(on: :create) { generate_random_token }
 
     before_save do
       self[:questionnaire_key] = questionnaire.key
@@ -45,7 +45,7 @@ module Quby
     end
 
     validates_presence_of :token
-    validates_length_of :token, :minimum => 4
+    validates_length_of :token, minimum: 4
 
     attr_accessor :aborted
     # Values in globalpark coding that need to be recoded and used to initialize this answer
@@ -144,10 +144,10 @@ module Quby
 
     def as_json(options = {})
       attributes.merge(
-        :id => self.id,
-        :value_by_values => value_by_values,
-        :scores => self.scores,
-        :is_completed => self.completed? ? true : false
+        id: self.id,
+        value_by_values: value_by_values,
+        scores: self.scores,
+        is_completed: self.completed? ? true : false
       )
     end
 
@@ -176,10 +176,10 @@ module Quby
 
       # double slash removed from return_url (it's either this or removing the final slash in Settings.application_url)
       options = options.merge(
-        :display_mode => options[:display_mode] || "paged",
-        :token => self.token,
-        :timestamp => timestamp,
-        :hmac => Digest::SHA1.hexdigest(plain_token)
+        display_mode: options[:display_mode] || "paged",
+        token: self.token,
+        timestamp: timestamp,
+        hmac: Digest::SHA1.hexdigest(plain_token)
       )
     end
 
@@ -199,7 +199,7 @@ module Quby
     end
 
     def add_error(question, validationtype, message)
-      errors.add(question.key, {:message => message, :valtype => validationtype})
+      errors.add(question.key, {message: message, valtype: validationtype})
     end
 
     def generate_random_token

@@ -13,7 +13,7 @@ module Quby
     end
 
     def as_json(options = {})
-      super.merge(:title => title, :items => items)
+      super.merge(title: title, items: items)
     end
 
     def index

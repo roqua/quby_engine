@@ -18,7 +18,7 @@ module Quby
 
     # Faux has_many :answers
     def answers
-      Quby::Answer.where(:questionnaire_key => self.key)
+      Quby::Answer.where(questionnaire_key: self.key)
     end
 
     def initialize(key, definition = nil, last_update = Time.now)
@@ -62,8 +62,8 @@ module Quby
 
     attr_accessor :charts
 
-    # default_scope :order => "key ASC"
-    # scope :active, where(:active => true)
+    # default_scope order: "key ASC"
+    # scope :active, where(active: true)
 
     def leave_page_alert
       return nil unless Settings.enable_leave_page_alert
@@ -89,7 +89,7 @@ module Quby
         begin
           QuestionnaireDsl.enhance(self, functions_and_definition || "")
         rescue SyntaxError => e
-          errors.add(:definition, {:message => "Questionnaire error: #{key} <br/> #{e.message}", :backtrace => e.backtrace[0..5].join("<br/>")})
+          errors.add(:definition, {message: "Questionnaire error: #{key} <br/> #{e.message}", backtrace: e.backtrace[0..5].join("<br/>")})
         end
       end
     end
@@ -139,12 +139,12 @@ module Quby
 
     def as_json(options = {})
       {
-        :key => self.key,
-        :title => self.title,
-        :description => self.description,
-        :outcome_description => self.outcome_description,
-        :short_description => self.short_description,
-        :panels => self.panels
+        key: self.key,
+        title: self.title,
+        description: self.description,
+        outcome_description: self.outcome_description,
+        short_description: self.short_description,
+        panels: self.panels
       }
     end
 

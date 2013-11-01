@@ -146,37 +146,37 @@ module Quby
 
       # Require subquestions of required questions by default
       options[:required] = true if @parent.andand.validations.andand.first.andand[:type] == :requires_answer
-      @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
+      @validations << {type: :requires_answer, explanation: options[:error_explanation]} if options[:required]
 
       if @type == :float
-        @validations << {:type => :valid_float, :explanation => options[:error_explanation]}
+        @validations << {type: :valid_float, explanation: options[:error_explanation]}
       elsif @type == :integer
-        @validations << {:type => :valid_integer, :explanation => options[:error_explanation]}
+        @validations << {type: :valid_integer, explanation: options[:error_explanation]}
       elsif @type == :date
-        @validations << {:type => :regexp, :matcher => /(0?[1-9]|[1-2][0-9]|3[01])-(0?[1-9]|1[012])-(19|20)\d\d/,
-                         :explanation => (options[:error_explanation] || "Voer een geldige datum in (DD-MM-JJJJ).")}
+        @validations << {type: :regexp, matcher: /(0?[1-9]|[1-2][0-9]|3[01])-(0?[1-9]|1[012])-(19|20)\d\d/,
+                         explanation: (options[:error_explanation] || "Voer een geldige datum in (DD-MM-JJJJ).")}
       end
 
       if options[:minimum] and (@type == :integer or @type == :float)
-        @validations << {:type => :minimum, :value => options[:minimum], :explanation => options[:error_explanation]}
+        @validations << {type: :minimum, value: options[:minimum], explanation: options[:error_explanation]}
       end
       if options[:maximum] and (@type == :integer or @type == :float)
-        @validations << {:type => :maximum, :value => options[:maximum], :explanation => options[:error_explanation]}
+        @validations << {type: :maximum, value: options[:maximum], explanation: options[:error_explanation]}
       end
 
       if @check_all_option
-        @validations << {:type => :not_all_checked, :check_all_key => @check_all_option, :explanation => options[:error_explanation]}
+        @validations << {type: :not_all_checked, check_all_key: @check_all_option, explanation: options[:error_explanation]}
       end
       if @uncheck_all_option
-        @validations << {:type => :too_many_checked, :uncheck_all_key => @uncheck_all_option, :explanation => options[:error_explanation]}
+        @validations << {type: :too_many_checked, uncheck_all_key: @uncheck_all_option, explanation: options[:error_explanation]}
       end
 
       if @question_group
         if @group_minimum_answered
-          @validations << {:type => :answer_group_minimum, :group => @question_group, :value => @group_minimum_answered, :explanation => options[:error_explanation]}
+          @validations << {type: :answer_group_minimum, group: @question_group, value: @group_minimum_answered, explanation: options[:error_explanation]}
         end
         if @group_maximum_answered
-          @validations << {:type => :answer_group_maximum, :group => @question_group, :value => @group_maximum_answered, :explanation => options[:error_explanation]}
+          @validations << {type: :answer_group_maximum, group: @question_group, value: @group_maximum_answered, explanation: options[:error_explanation]}
         end
       end
     end
@@ -212,37 +212,37 @@ module Quby
     def as_json(options = {})
       # rubocop:disable SymbolName
       super.merge(
-        :key => key,
-        :title => title,
-        :description => description,
-        :type => type,
-        :validations => validations,
-        :unit => unit,
-        :hidden => !!hidden?,
-        :display_modes => display_modes,
-        :default_invisible => default_invisible,
-        :viewSelector => view_selector,
-        :parentKey => parent.andand.key,
-        :parentOptionKey => parent_option_key
+        key: key,
+        title: title,
+        description: description,
+        type: type,
+        validations: validations,
+        unit: unit,
+        hidden: !!hidden?,
+        display_modes: display_modes,
+        default_invisible: default_invisible,
+        viewSelector: view_selector,
+        parentKey: parent.andand.key,
+        parentOptionKey: parent_option_key
       ).merge(
         case type
         when :string
-          { :autocomplete => @autocomplete }
+          { autocomplete: @autocomplete }
         when :textarea
-          { :autocomplete => @autocomplete }
+          { autocomplete: @autocomplete }
         when :radio
-          { :options => @options }
+          { options: @options }
         when :scale
-          { :options => @options }
+          { options: @options }
         when :select
-          { :options => @options }
+          { options: @options }
         when :check_box
-          { :options => @options }
+          { options: @options }
         when :date
-          (year_key ? { :year_key => year_key,      :month_key => month_key,   :day_key => day_key } :
-                      { :year_key => "#{key}_yyyy", :month_key => "#{key}_mm", :day_key => "#{key}_dd" })
+          (year_key ? { year_key: year_key,      month_key: month_key,   day_key: day_key } :
+                      { year_key: "#{key}_yyyy", month_key: "#{key}_mm", day_key: "#{key}_dd" })
         when :hidden
-          { :options => @options }
+          { options: @options }
         else
           {}
         end

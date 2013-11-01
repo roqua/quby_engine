@@ -32,8 +32,8 @@ module Quby
           result = {"value" => result} if builder.completion
           results[key] = result
         rescue StandardError => e
-          results[key] = {:exception => e.message,
-                          :backtrace => e.backtrace}.reverse_merge(builder.options)
+          results[key] = {exception: e.message,
+                          backtrace: e.backtrace}.reverse_merge(builder.options)
         end
 
         score_results[key] = results[key] if builder.score

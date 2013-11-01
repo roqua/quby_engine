@@ -21,7 +21,7 @@ module Quby
 
     def as_json(options = {})
       {
-        :class => self.class.to_s
+        class: self.class.to_s
       }
     end
 
