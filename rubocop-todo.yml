@@ -116,9 +116,6 @@ SpaceAfterComma:
 SpaceAroundBlockBraces:
   Enabled: false
 
-SpaceAroundEqualsInParameterDefault:
-  Enabled: false
-
 SpaceAroundOperators:
   Enabled: false
 

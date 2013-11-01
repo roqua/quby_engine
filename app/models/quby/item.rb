@@ -2,15 +2,15 @@ module Quby
   class Item
     attr_accessor :presentation
     attr_accessor :switch_cycle
-    
+
     #Raw content may contain a raw HTML replacement for this item
     attr_accessor :raw_content
-    
-    def initialize(options={})
+
+    def initialize(options = {})
       @raw_content = options[:raw_content]
       @switch_cycle = options[:switch_cycle] || false
     end
-    
+
     def answerable?; false; end
 
     def presentation

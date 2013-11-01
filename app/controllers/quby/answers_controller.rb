@@ -34,7 +34,7 @@ module Quby
       render :action => "#{@display_mode}/edit"
     end
 
-    def update(printing=false)
+    def update(printing = false)
       updater = UpdatesAnswers.new(@answer)
 
       updater.on_success do

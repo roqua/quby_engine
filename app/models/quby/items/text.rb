@@ -9,7 +9,7 @@ module Quby
     attr_accessor :col_span
     attr_accessor :row_span
 
-    def initialize(str, options={})
+    def initialize(str, options = {})
       if options[:html_content]
         options[:raw_content] = "<div class='item text'>" + options[:html_content] + "</div>"
       end
