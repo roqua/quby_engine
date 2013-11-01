@@ -8,7 +8,6 @@ module Quby
     class QuestionnaireNotFound < StandardError; end
 
     before_filter :find_questionnaire
-    before_filter :find_patient
     append_before_filter :find_answer
 
     before_filter :remember_token_in_session
@@ -101,12 +100,6 @@ module Quby
       if params[:questionnaire_id]
         @questionnaire = Quby.questionnaire_finder.find(params[:questionnaire_id])
         raise QuestionnaireNotFound unless @questionnaire
-      end
-    end
-
-    def find_patient
-      if params[:patient_id]
-        @patient_id = params[:patient_id]
       end
     end
 
