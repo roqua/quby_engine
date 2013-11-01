@@ -30,7 +30,7 @@ module Quby
 
       it 'finds one questionnaire' do
         questionnaire = questionnaire_class.new(key, definition)
-        questionnaire_class.stub(:new).with(key, definition, anything()).and_return { questionnaire }
+        questionnaire_class.stub(:new).with(key, definition, anything).and_return { questionnaire }
 
         File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
         questionnaire_finder.find(key).should == questionnaire
