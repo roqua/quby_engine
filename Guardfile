@@ -45,3 +45,9 @@ guard :jasmine, jasmine_options do
   watch(%r{spec/javascripts/fixtures/.+$})
   watch(%r{app/assets/javascripts/(.+?)\.(js\.coffee|js|coffee)}) { 'spec/javascripts' }
 end
+
+guard :rubocop do
+  watch(%r{.+\.rb$})
+  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+end
+
