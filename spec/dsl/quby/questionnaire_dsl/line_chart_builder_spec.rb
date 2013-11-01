@@ -56,4 +56,3 @@ module Quby
     end
   end
 end
-

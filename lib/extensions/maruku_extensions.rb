@@ -30,4 +30,3 @@ MaRuKu::In::Markdown.register_span_extension(
     con.push doc.md_html(string)
     true
 end)
-
