@@ -256,7 +256,9 @@ module Quby
       table.blank? ? "#item_#{key}" : "[data-for=#{key}], #answer_#{key}_input"
     end
 
-    def answerable?; true; end
+    def answerable?
+      true
+    end
 
     def hidden?
       self.type == :hidden or self.hidden

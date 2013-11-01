@@ -24,7 +24,9 @@ module Quby
       super().merge(:text => text)
     end
 
-    def key; 't0'; end
+    def key
+      't0'
+    end
 
     def type
       "text"

@@ -107,9 +107,6 @@ ShadowingOuterLocalVariable:
 SignalException:
   Enabled: false
 
-SingleLineMethods:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
