@@ -25,11 +25,11 @@ module Quby
     # Multiple-choice questions have options to choose from
     attr_accessor :options
 
-    #Minimum and maximum values for float and integer types
+    # Minimum and maximum values for float and integer types
     attr_accessor :minimum
     attr_accessor :maximum
 
-    #Whether the browser should autocomplete this question (off by default)
+    # Whether the browser should autocomplete this question (off by default)
     attr_accessor :autocomplete
 
     # Whether we show the value for each option
@@ -39,9 +39,9 @@ module Quby
     # :bulk => for only in :bulk display mode
     attr_accessor :show_values
 
-    #checkbox option that checks all other options on check
+    # checkbox option that checks all other options on check
     attr_accessor :check_all_option
-    #checkbox option that unchecks all other options on check
+    # checkbox option that unchecks all other options on check
     attr_accessor :uncheck_all_option
 
     # Structuring
@@ -58,7 +58,7 @@ module Quby
     # To specify size of string/number input boxes
     attr_accessor :size
 
-    #Whether this radio question is deselectable
+    # Whether this radio question is deselectable
     attr_accessor :deselectable
 
     # Some questions are a tree.
@@ -78,13 +78,13 @@ module Quby
     # Whether we use the :description, the :value or :none for the score header above this question
     attr_accessor :score_header
 
-    #options for grouping questions and setting a minimum or maximum number of answered questions in the group
+    # options for grouping questions and setting a minimum or maximum number of answered questions in the group
     attr_accessor :question_group
     attr_accessor :group_minimum_answered
     attr_accessor :group_maximum_answered
 
-    #Text variable name that will be replaced with the answer to this question
-    #In all following text elements that support markdown
+    # Text variable name that will be replaced with the answer to this question
+    # In all following text elements that support markdown
     attr_accessor :text_var
 
     # Amount of rows and cols a textarea has
@@ -94,7 +94,7 @@ module Quby
     # Table this question might belong to
     attr_accessor :table
 
-    #In case of being displayed inside a table, amount of columns/rows to span
+    # In case of being displayed inside a table, amount of columns/rows to span
     attr_accessor :col_span
     attr_accessor :row_span
 
@@ -144,7 +144,7 @@ module Quby
       @month_key = options[:month_key].andand.to_s
       @day_key = options[:day_key].andand.to_s
 
-      #Require subquestions of required questions by default
+      # Require subquestions of required questions by default
       options[:required] = true if @parent.andand.validations.andand.first.andand[:type] == :requires_answer
       @validations << {:type => :requires_answer, :explanation => options[:error_explanation]} if options[:required]
 

@@ -25,12 +25,10 @@ module Quby
         n = 10_000
         answer = Answer.new(:questionnaire_key => questionnaire.key)
         answer.save! # save so valid? does run update validations
-        #answer_validator = AnswerValidator.for(answer.questionnaire)
 
         results = Benchmark.bm(20) do |x|
           x.report("Answer#valid?")       { n.times { answer.valid? } }
           x.report("Answer#completed?")   { n.times { answer.completed? } }
-          #x.report("AnswerValidator") { 10000.times { answer_validator.validate(answer) } }
         end
       end
     end

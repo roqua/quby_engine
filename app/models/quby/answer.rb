@@ -48,10 +48,10 @@ module Quby
     validates_length_of :token, :minimum => 4
 
     attr_accessor :aborted
-    #Values in globalpark coding that need to be recoded and used to initialize this answer
+    # Values in globalpark coding that need to be recoded and used to initialize this answer
     attr_accessor :roqua_vals
 
-    #for setting raw content values and failed validations
+    # For setting raw content values and failed validations
     attr_accessor :extra_question_values
     attr_accessor :extra_failed_validations
 

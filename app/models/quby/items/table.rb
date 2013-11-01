@@ -23,7 +23,7 @@ module Quby
       @item_table
     end
 
-    #FIXME: code to be ashamed of
+    # FIXME: code to be ashamed of
     def rows
       return @rows if @rows
       @item_table = [[]]
@@ -69,7 +69,6 @@ module Quby
           @item_table[filled_rows] << item
           @rows[filled_rows][row_items] << item
           filled_columns += item.col_span
-          #puts "#{item.class.name} #{item.type} #{item.col_span}"
 
           if filled_columns >= columns and item != items.last
             filled_rows += 1
@@ -77,20 +76,19 @@ module Quby
             row_items = 0
             @rows << [[]]
             @item_table << []
-            #puts "newrow"
           end
           if filled_columns != 0 and item != items.last
             row_items += 1
             @rows[filled_rows] << []
           end
 
-        else #is :check_box, :radio or :scale question
+        else # is :check_box, :radio or :scale question
           if item.row_span > 1
             skips << [item.row_span, filled_columns, item.options.length]
           end
 
           @item_table[filled_rows] << item
-          if item.options.length <= columns #multiple questions on one row
+          if item.options.length <= columns # multiple questions on one row
             item.options.each do |opt|
               @rows[filled_rows][row_items] << opt
               filled_columns += 1
@@ -107,7 +105,7 @@ module Quby
               row_items += 1
               @rows[filled_rows] << []
             end
-          else #one question's options split over multiple rows, ordered row wise
+          else # one question's options split over multiple rows, ordered row wise
             opt_len = item.options.length
             col_len = (opt_len / columns.to_f).ceil
             (0...col_len).each do |j|

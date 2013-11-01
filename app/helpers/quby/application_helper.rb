@@ -13,7 +13,7 @@ module Quby
     end
 
     def highlight_active_tab_if_current(url)
-      #FIXME: does not highlight the proper tab for the root url
+      # FIXME: does not highlight the proper tab for the root url
       if request.url.index(url)
         {:id => "current"}
       else

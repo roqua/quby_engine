@@ -5,7 +5,7 @@ module Quby
     attr_accessor :text
     attr_accessor :display_in
 
-    #In case of being displayed inside a table, amount of columns/rows to span
+    # In case of being displayed inside a table, amount of columns/rows to span
     attr_accessor :col_span
     attr_accessor :row_span
 

@@ -3,7 +3,7 @@ module Quby
     attr_accessor :presentation
     attr_accessor :switch_cycle
 
-    #Raw content may contain a raw HTML replacement for this item
+    # Raw content may contain a raw HTML replacement for this item
     attr_accessor :raw_content
 
     def initialize(options = {})

@@ -56,14 +56,14 @@ module Quby
 
     attr_accessor :last_author
 
-    #allow hotkeys for either :all views, just :bulk views (default), or :none for never
+    # allow hotkeys for either :all views, just :bulk views (default), or :none for never
     attr_accessor :allow_hotkeys
     attr_accessor :last_update
 
     attr_accessor :charts
 
-    #default_scope :order => "key ASC"
-    #scope :active, where(:active => true)
+    # default_scope :order => "key ASC"
+    # scope :active, where(:active => true)
 
     def leave_page_alert
       return nil unless Settings.enable_leave_page_alert
@@ -165,13 +165,8 @@ module Quby
         output << ""
       end
 
-      #scores.andand.each do |score|
-      #output << "score #{score.key}"
-      #end
-
       output = output.join("\n")
       strip_tags(output).gsub("&lt;", "<")
-
     end
 
     def key_in_use?(key)

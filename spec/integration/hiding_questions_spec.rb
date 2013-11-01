@@ -6,7 +6,7 @@ feature 'Hiding questions' do
   scenario 'by clicking a radio option that hides a question', :js => true do
     visit_new_answer_for(questionnaire)
     choose "answer_v_6_a6"
-    #to test whether it wont show the question after switching away from a second option that hides the question
+    # to test whether it wont show the question after switching away from a second option that hides the question
     choose "answer_v_7_a6"
     choose "answer_v_7_a3"
     page.should have_selector("[data-for=v_8].hide", :count => 8, visible: false)
@@ -19,7 +19,7 @@ feature 'Hiding questions' do
   scenario 'by clicking a checkbox option that hides a question', :js => true do
     visit_new_answer_for(questionnaire)
     check "answer_v_5_a2"
-    #to test whether it wont show the question after checking another checkbox option
+    # to test whether it wont show the question after checking another checkbox option
     check "answer_v_5_a3"
     page.should have_selector("#item_v_7.hide")
   end

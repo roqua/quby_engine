@@ -16,7 +16,7 @@ module Quby
 
       check_if_to_be_hidden_questions_actually_exist(q)
       true
-    #Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
+    # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
     rescue Exception => e
       questionnaire.errors.add(:definition, {:message => "Questionnaire error: #{questionnaire.key}\n#{e.message}", :backtrace => e.backtrace[0..5].join("<br/>")})
       false

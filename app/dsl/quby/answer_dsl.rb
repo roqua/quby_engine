@@ -79,15 +79,15 @@ module Quby
             end
           else
             # Includes:
-            #question.type == :radio
-            #question.type == :scale
-            #question.type == :select
-            #question.type == :string
-            #question.type == :textarea
-            #question.type == :integer
-            #question.type == :float
+            # question.type == :radio
+            # question.type == :scale
+            # question.type == :select
+            # question.type == :string
+            # question.type == :textarea
+            # question.type == :integer
+            # question.type == :float
 
-            if [:radio, :scale, :select].include? question.type #getters for individual question options
+            if [:radio, :scale, :select].include? question.type # getters for individual question options
               question.options.each do |opt|
                 define_method("#{question.key}_#{opt.key}") do
                   self.value ||= Hash.new

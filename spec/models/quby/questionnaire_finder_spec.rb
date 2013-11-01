@@ -50,7 +50,7 @@ module Quby
 
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition_2 }
 
-        #FakeFS does not implement ctime yet
+        # FakeFS does not implement ctime yet
         File.stub(:ctime => Time.now + 10.minutes)
         found_questionnaire = questionnaire_finder.find(key)
         found_questionnaire.definition.should == definition_2
@@ -61,7 +61,7 @@ module Quby
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
         questionnaire_finder.find(key)
 
-        #second find should hit cache
+        # Second find should hit cache
         File.should_not_receive(:read)
         questionnaire_finder.find(key)
       end

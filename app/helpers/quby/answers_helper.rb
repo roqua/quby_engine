@@ -7,7 +7,7 @@ module Quby
           if val[:type] == :regexp
             valc = val.clone
             valc[:matcher] = "/#{valc[:matcher].source.to_s}/"
-            #Replace single backslashes with two backslashes
+            # Replace single backslashes with two backslashes
             valc[:matcher].gsub!("\\", "\\\\")
             valc
           else
