@@ -21,7 +21,7 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
     let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal',
                                                                   questionnaire_key: 'questionnaire_key') }
     let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label',
-                                                                  questionnaire_key: 'questionnaire_key')}
+                                                                  questionnaire_key: 'questionnaire_key') }
 
     before do
       questionnaire.stub(:find_plottable).with(:tot).and_return(tot_score)

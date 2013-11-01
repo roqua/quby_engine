@@ -32,7 +32,7 @@ module Quby
         questionnaire = questionnaire_class.new(key, definition)
         questionnaire_class.stub(:new).with(key, definition, anything).and_return { questionnaire }
 
-        File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
+        File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
         questionnaire_finder.find(key).should == questionnaire
       end
 
@@ -45,12 +45,12 @@ module Quby
 
       it 'reloads a questionnaire if the definition updated on disk' do
 
-        File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
+        File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
 
         found_questionnaire = questionnaire_finder.find(key)
         found_questionnaire.definition.should == definition
 
-        File.open("/tmp/#{key}.rb", "w") {|f| f.write definition_2}
+        File.open("/tmp/#{key}.rb", "w") { |f| f.write definition_2 }
 
         #FakeFS does not implement ctime yet
         File.stub(:ctime => Time.now+10.minutes)
@@ -60,7 +60,7 @@ module Quby
 
       it 'uses the cache if a questionnaire definition on disk has not changed' do
 
-        File.open("/tmp/#{key}.rb", "w") {|f| f.write definition}
+        File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
         questionnaire_finder.find(key)
 
         #second find should hit cache

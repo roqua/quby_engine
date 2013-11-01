@@ -63,7 +63,7 @@ module Quby
       end
 
       def option(key, options = {}, &block)
-        raise "#{questionnaire.key}: Option with key #{key} already defined. Keys must be unique within a question." if @question.options.find {|i| i.key == key }
+        raise "#{questionnaire.key}: Option with key #{key} already defined. Keys must be unique within a question." if @question.options.find { |i| i.key == key }
         op = QuestionOption.new(key, @question, options)
 
         if @question.type == :check_box

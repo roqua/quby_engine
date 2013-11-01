@@ -263,7 +263,7 @@ module Quby
     end
 
     def subquestions
-      options.map {|opt| opt.questions }.flatten
+      options.map { |opt| opt.questions }.flatten
     end
 
     def to_codebook(questionnaire, opts = {})
@@ -272,8 +272,8 @@ module Quby
       output_type = :radio if [:scale, :select].include?(output_type)
 
       output_range = ""
-      range_min = validations.find{|i| i[:type] == :minimum}.andand[:value]
-      range_max = validations.find{|i| i[:type] == :maximum}.andand[:value]
+      range_min = validations.find { |i| i[:type] == :minimum }.andand[:value]
+      range_max = validations.find { |i| i[:type] == :maximum }.andand[:value]
       output_range = "(#{[range_min, "value", range_max].compact.join(" &lt;= ")})" if range_min || range_max
 
       case type

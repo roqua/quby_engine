@@ -54,7 +54,7 @@ module Quby
         next if question.hidden?
 
         if question.depends_on.present?
-          next unless question.depends_on.any? {|key| self.send(key) }
+          next unless question.depends_on.any? { |key| self.send(key) }
         end
 
         answer = self.send(question.key)

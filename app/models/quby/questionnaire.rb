@@ -125,7 +125,7 @@ module Quby
       end
 
       @questions_tree_cache = (@panels && @panels.map do |panel|
-        panel.items.map {|item| recurse.call(item) if Quby::Items::Question === item }
+        panel.items.map { |item| recurse.call(item) if Quby::Items::Question === item }
       end)
     end
 
@@ -134,7 +134,7 @@ module Quby
     end
 
     def questions_of_type(type)
-      questions.compact.select{|question| question.type == type}
+      questions.compact.select { |question| question.type == type }
     end
 
     def as_json(options = {})

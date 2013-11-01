@@ -21,10 +21,10 @@ module Quby
           question.options.each do |opt|
             if value.to_sym == opt.key
               if opt.hides_questions.present?
-                @hidden.concat(opt.hides_questions.reject{|key| @shown.include? key}).uniq
+                @hidden.concat(opt.hides_questions.reject { |key| @shown.include? key }).uniq
               end
               if opt.shows_questions.present?
-                @hidden.delete_if{|key| opt.shows_questions.include? key}
+                @hidden.delete_if { |key| opt.shows_questions.include? key }
                 @shown.concat(opt.shows_questions).uniq
               end
             end

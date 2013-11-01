@@ -110,9 +110,6 @@ SignalException:
 SingleLineMethods:
   Enabled: false
 
-SpaceAroundBlockBraces:
-  Enabled: false
-
 SpaceAroundOperators:
   Enabled: false
 

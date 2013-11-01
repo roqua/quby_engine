@@ -5,9 +5,9 @@ module Quby
     extend ActiveSupport::Concern
 
     def action
-      alarm_scores      = scores.select {|key, value| value["status"].to_s == "alarm" }
+      alarm_scores      = scores.select { |key, value| value["status"].to_s == "alarm" }
       alarm_answers     = actions[:alarm] || []
-      attention_scores  = scores.select {|key, value| value["status"].to_s == "attention" }
+      attention_scores  = scores.select { |key, value| value["status"].to_s == "attention" }
       attention_answers = actions[:attention] || []
 
       return :alarm     if alarm_scores.any?     or alarm_answers.any?

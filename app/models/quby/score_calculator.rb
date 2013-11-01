@@ -104,7 +104,7 @@ module Quby
     def sum_extrapolate(values, minimum_present)
       return nil if values.reject(&:blank?).length < minimum_present
       mean = mean_ignoring_nils(values)
-      values = values.map{|value| value ? value : mean}
+      values = values.map { |value| value ? value : mean }
       sum(values)
     end
 
@@ -148,7 +148,7 @@ module Quby
 
     def require_percentage_filled(values, percentage)
       percentage = percentage / 100.0 if percentage > 1
-      selects = values.select {|i| not i.nil? }
+      selects = values.select { |i| not i.nil? }
       percentage_filled = selects.length.to_f / values.length.to_f
       raise "Needed at least #{percentage * 100}% answered, got #{percentage_filled * 100}%" unless percentage_filled >= percentage
       selects

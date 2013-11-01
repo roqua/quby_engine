@@ -93,9 +93,9 @@ module Quby
       if value
         result = value.dup
         value.each_key do |key|
-          question = questionnaire.questions.find {|q| q.andand.key.to_s == key.to_s }
+          question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
           if question and (question.type == :radio || question.type == :scale || question.type == :select)
-            option = question.options.find {|o| o.key.to_s == value[key].to_s }
+            option = question.options.find { |o| o.key.to_s == value[key].to_s }
             if option
               result[key] = option.value.to_s
             end
@@ -113,10 +113,10 @@ module Quby
       if value
         result = value.dup
         value.each do |key, answer|
-          question = questionnaire.questions.find {|q| q.andand.key.to_s == key.to_s }
+          question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
           if question
             if (question.type == :radio || question.type == :scale || question.type == :select)
-              option = question.options.find {|o| o.key.to_s == value[key].to_s }
+              option = question.options.find { |o| o.key.to_s == value[key].to_s }
               if option
                 result[key] = option.value
               end

@@ -13,7 +13,7 @@ module Quby
       end
 
       def find(key)
-        @charts.find {|i| i.key == key }
+        @charts.find { |i| i.key == key }
       end
 
       def each(*args, &block)
