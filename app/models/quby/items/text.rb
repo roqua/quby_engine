@@ -1,14 +1,14 @@
 module Quby
   class Items::Text < Item
     require 'extensions/maruku_extensions'
-    
+
     attr_accessor :text
     attr_accessor :display_in
-    
+
     #In case of being displayed inside a table, amount of columns/rows to span
     attr_accessor :col_span
     attr_accessor :row_span
-    
+
     def initialize(str, options={})
       if options[:html_content]
         options[:raw_content] = "<div class='item text'>" + options[:html_content] + "</div>"
@@ -21,17 +21,15 @@ module Quby
     end
 
     def as_json(options = {})
-      super().merge({ 
-        :text => text
-      })
+      super().merge(:text => text)
     end
 
     def key; 't0'; end
-    
-    def type 
-      "text"  
+
+    def type
+      "text"
     end
-    
+
     def answerable?
       false
     end

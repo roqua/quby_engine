@@ -143,12 +143,12 @@ module Quby
     end
 
     def as_json(options = {})
-      attributes.merge({
+      attributes.merge(
         :id => self.id,
         :value_by_values => value_by_values,
         :scores => self.scores,
         :is_completed => self.completed? ? true : false
-      })
+      )
     end
 
     def completed?
@@ -175,12 +175,12 @@ module Quby
       plain_token = [Quby::Settings.shared_secret, self.token, timestamp].join('|')
 
       # double slash removed from return_url (it's either this or removing the final slash in Settings.application_url)
-      options = options.merge({
+      options = options.merge(
         :display_mode => options[:display_mode] || "paged",
         :token => self.token,
         :timestamp => timestamp,
         :hmac => Digest::SHA1.hexdigest(plain_token)
-      })
+      )
     end
 
     protected

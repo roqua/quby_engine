@@ -17,9 +17,6 @@ BlockNesting:
 Blocks:
   Enabled: false
 
-BracesAroundHashParameters:
-  Enabled: false
-
 CaseEquality:
   Enabled: false
 

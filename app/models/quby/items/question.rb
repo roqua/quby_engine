@@ -210,7 +210,7 @@ module Quby
     end
 
     def as_json(options = {})
-      super.merge({
+      super.merge(
         :key => key,
         :title => title,
         :description => description,
@@ -223,7 +223,7 @@ module Quby
         :viewSelector => view_selector,
         :parentKey => parent.andand.key,
         :parentOptionKey => parent_option_key
-      }).merge(
+      ).merge(
         case type
         when :string
           { :autocomplete => @autocomplete }

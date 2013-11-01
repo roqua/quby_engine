@@ -18,7 +18,7 @@ module Quby
         calculator.instance_variable_get("@values").should == {v_1: 1}
         calculator.instance_variable_get('@timestamp').should eq(timestamp)
         calculator.instance_variable_get("@patient").instance_variables
-                  .should == ::Quby::Patient.new({gender: :male}).instance_variables
+                  .should == ::Quby::Patient.new(gender: :male).instance_variables
         calculator.instance_variable_get("@scores").should == {score1: 2}.with_indifferent_access
       end
     end

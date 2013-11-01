@@ -4,7 +4,7 @@ module Quby
     attr_accessor :items
     attr_accessor :key
     attr_reader :questionnaire
-    
+
     def initialize(options = {})
       @questionnaire = options[:questionnaire]
       @title = options[:title]
@@ -13,10 +13,7 @@ module Quby
     end
 
     def as_json(options = {})
-      super.merge({
-        :title => title,
-        :items => items
-      })
+      super.merge(:title => title, :items => items)
     end
 
     def index
@@ -25,7 +22,7 @@ module Quby
 
     def next
       this_panel_index = index
-      
+
       if this_panel_index < @questionnaire.panels.size
         return @questionnaire.panels[this_panel_index + 1]
       else
@@ -35,7 +32,7 @@ module Quby
 
     def prev
       this_panel_index = index
-      
+
       if this_panel_index > 0
         return @questionnaire.panels[this_panel_index - 1]
       else
@@ -54,7 +51,7 @@ module Quby
               end
             end
           end
-          vals[item.key] = item.validations 
+          vals[item.key] = item.validations
         end
       end
       vals
