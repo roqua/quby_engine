@@ -18,13 +18,13 @@ module Quby
       quest.push_score_builder action
       quest.push_score_builder completion
 
-      quest.stub(:questions => [], :last_update => Time.now, :key => nil)
+      quest.stub(questions: [], last_update: Time.now, key: nil)
       quest
     end
     let(:answer) { Answer.new }
 
     before do
-      Answer.any_instance.stub(:questionnaire => questionnaire)
+      Answer.any_instance.stub(questionnaire: questionnaire)
     end
 
     describe '#action' do
@@ -79,13 +79,13 @@ module Quby
       end
 
       it 'calculates scores with integer values' do
-        score.stub(:calculation => proc { {value: values(:v1)} })
-        questionnaire.stub(:questions => [stub(:key => :v1,
-                                               :type => :radio,
-                                               :options => [
-                                                 stub(:key => :a1, :value => 2)
-                                                 ],
-                                               :text_var => false)])
+        score.stub(calculation: proc { {value: values(:v1)} })
+        questionnaire.stub(questions: [stub(key: :v1,
+                                            type: :radio,
+                                            options: [
+                                              stub(key: :a1, value: 2)
+                                              ],
+                                            text_var: false)])
         answer.value = {'v1' => :a1}
         answer.tap(&:calculate_builders).scores[:tot].should == {"value" => [2], "label" => "Totaal", "score" => true}
       end
@@ -98,7 +98,7 @@ module Quby
       end
 
       context 'when calculation throws an exception' do
-        before { score.stub(:calculation => proc { raise "Foo" }) }
+        before { score.stub(calculation: proc { raise "Foo" }) }
 
         it 'stores the exception' do
           answer.tap(&:calculate_builders).scores[:tot][:exception].should == 'Foo'
@@ -110,7 +110,7 @@ module Quby
       end
 
       it 'calculates completion percentage' do
-        completion.stub(:calculation => proc { 0.9 })
+        completion.stub(calculation: proc { 0.9 })
         answer.tap(&:calculate_builders).completion.should == {'value' => 0.9}
       end
 
@@ -122,7 +122,7 @@ module Quby
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
-          completion.stub(:calculation => proc { raise "Foo" })
+          completion.stub(calculation: proc { raise "Foo" })
           answer.tap(&:calculate_builders).completion[:exception].should == 'Foo'
         end
       end

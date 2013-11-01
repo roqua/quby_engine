@@ -145,70 +145,70 @@ module Quby
           answer.errors.messages[:v_depends_on2].should be_nil
         end
         it 'adds an error if integers are formatted incorrectly' do
-          answer.errors.messages[:v_invalid_integer].should == [{:message => "Invalid integer", :valtype => :valid_integer}]
+          answer.errors.messages[:v_invalid_integer].should == [{message: "Invalid integer", valtype: :valid_integer}]
         end
         it 'does not add an error if integers are formatted correctly' do
-          answer.errors.messages[:v_valid_integer].should_not == [{:message => "Invalid integer", :valtype => :valid_integer}]
+          answer.errors.messages[:v_valid_integer].should_not == [{message: "Invalid integer", valtype: :valid_integer}]
         end
         it 'adds an error if floats are formatted incorrectly' do
-          answer.errors.messages[:v_invalid_float].should == [{:message => "Invalid float", :valtype => :valid_float}]
+          answer.errors.messages[:v_invalid_float].should == [{message: "Invalid float", valtype: :valid_float}]
         end
         it 'does not add an error if floats are formatted correctly' do
-          answer.errors.messages[:v_valid_float].should_not == [{:message => "Invalid float", :valtype => :valid_float}]
+          answer.errors.messages[:v_valid_float].should_not == [{message: "Invalid float", valtype: :valid_float}]
         end
         it 'adds an error if an answer doesnt match a given regex' do
-          answer.errors.messages[:v_invalid_regexp].should == [{:message => "Does not match pattern expected.", :valtype => :regexp}]
+          answer.errors.messages[:v_invalid_regexp].should == [{message: "Does not match pattern expected.", valtype: :regexp}]
         end
         it 'does not add an error if an answer matches a given regex' do
-          answer.errors.messages[:v_valid_regexp].should_not == [{:message => "Does not match pattern expected.", :valtype => :regexp}]
+          answer.errors.messages[:v_valid_regexp].should_not == [{message: "Does not match pattern expected.", valtype: :regexp}]
         end
         it 'adds an error if a required question is unfilled' do
-          answer.errors.messages[:v_required].should == [{:message => "Must be answered.", :valtype => :requires_answer}]
+          answer.errors.messages[:v_required].should == [{message: "Must be answered.", valtype: :requires_answer}]
         end
         it 'does not add an error if a required question is a child of an unchecked option' do
-          answer.errors.messages[:v_child].should_not == [{:message => "Must be answered.", :valtype => :requires_answer}]
+          answer.errors.messages[:v_child].should_not == [{message: "Must be answered.", valtype: :requires_answer}]
         end
         it 'adds an error if a child of a filled option of a required question is not filled' do
-          answer.errors.messages[:v_child2].should == [{:message => "Must be answered.", :valtype => :requires_answer}]
+          answer.errors.messages[:v_child2].should == [{message: "Must be answered.", valtype: :requires_answer}]
         end
         it 'does not adds an error if a required question is filled' do
-          answer.errors.messages[:v_valid_required].should_not == [{:message => "Must be answered.", :valtype => :requires_answer}]
+          answer.errors.messages[:v_valid_required].should_not == [{message: "Must be answered.", valtype: :requires_answer}]
         end
         it 'adds an error if a value is under a given minimum' do
-          answer.errors.messages[:v_under_minimum].should == [{:message => "Smaller than minimum", :valtype => :minimum}]
+          answer.errors.messages[:v_under_minimum].should == [{message: "Smaller than minimum", valtype: :minimum}]
         end
         it 'does not add an error if a value is over a given minimum' do
-          answer.errors.messages[:v_over_minimum].should_not == [{:message => "Smaller than minimum", :valtype => :minimum}]
+          answer.errors.messages[:v_over_minimum].should_not == [{message: "Smaller than minimum", valtype: :minimum}]
         end
         it 'adds an error if a value exceeds given maximum' do
-          answer.errors.messages[:v_over_maximum].should == [{:message => "Exceeds maximum", :valtype => :maximum}]
+          answer.errors.messages[:v_over_maximum].should == [{message: "Exceeds maximum", valtype: :maximum}]
         end
         it 'does not add an error if a value is under a given maximum' do
-          answer.errors.messages[:v_under_maximum].should_not == [{:message => "Exceeds maximum", :valtype => :maximum}]
+          answer.errors.messages[:v_under_maximum].should_not == [{message: "Exceeds maximum", valtype: :maximum}]
         end
         it 'adds an error if too many checkbox options are checked' do
-          answer.errors.messages[:v_too_many_checked].should == [{:message => "Invalid combination of options.", :valtype => :too_many_checked}]
+          answer.errors.messages[:v_too_many_checked].should == [{message: "Invalid combination of options.", valtype: :too_many_checked}]
         end
         it 'does not add an error if not too many checkbox options are checked' do
-          answer.errors.messages[:v_not_too_many_checked].should_not == [{:message => "Invalid combination of options.", :valtype => :too_many_checked}]
+          answer.errors.messages[:v_not_too_many_checked].should_not == [{message: "Invalid combination of options.", valtype: :too_many_checked}]
         end
         it 'adds an error if not enough checkbox options are checked' do
-          answer.errors.messages[:v_not_all_checked].should == [{:message => "Invalid combination of options.", :valtype => :not_all_checked}]
+          answer.errors.messages[:v_not_all_checked].should == [{message: "Invalid combination of options.", valtype: :not_all_checked}]
         end
         it 'does not add an error if enough checkbox options are checked' do
-          answer.errors.messages[:v_all_checked].should_not == [{:message => "Invalid combination of options.", :valtype => :not_all_checked}]
+          answer.errors.messages[:v_all_checked].should_not == [{message: "Invalid combination of options.", valtype: :not_all_checked}]
         end
         it 'adds an error if not enough answers are in a question group with a minimum' do
-          answer.errors.messages[:v_answer_group_under_minimum].should == [{:message => "Needs at least 1 question(s) answered.", :valtype => :answer_group_minimum}]
+          answer.errors.messages[:v_answer_group_under_minimum].should == [{message: "Needs at least 1 question(s) answered.", valtype: :answer_group_minimum}]
         end
         it 'does not add an error if enough answers are in a question group with a minimum' do
-          answer.errors.messages[:v_answer_group_over_minimum].should_not == [{:message => "Needs at least 1 question(s) answered.", :valtype => :answer_group_minimum}]
+          answer.errors.messages[:v_answer_group_over_minimum].should_not == [{message: "Needs at least 1 question(s) answered.", valtype: :answer_group_minimum}]
         end
         it 'adds an error if too many answers are in a question group with a maximum' do
-          answer.errors.messages[:v_answer_group_over_maximum].should == [{:message => "Needs at most 1 question(s) answered.", :valtype => :answer_group_maximum}]
+          answer.errors.messages[:v_answer_group_over_maximum].should == [{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}]
         end
         it 'does not add an error if not too many answers are in a question group with a maximum' do
-          answer.errors.messages[:v_answer_group_under_maximum].should_not == [{:message => "Needs at most 1 question(s) answered.", :valtype => :answer_group_maximum}]
+          answer.errors.messages[:v_answer_group_under_maximum].should_not == [{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}]
         end
       end
 

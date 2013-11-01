@@ -214,12 +214,12 @@ module Quby
 
     describe '#score' do
       it 'returns the value of another score' do
-        calculator = ScoreCalculator.new({}, timestamp, {}, {:other => 1})
+        calculator = ScoreCalculator.new({}, timestamp, {}, {other: 1})
         calculator.score(:other).should == 1
       end
 
       it 'raises an exception when score is not known' do
-        calculator = ScoreCalculator.new({}, timestamp, {}, {:other => 1})
+        calculator = ScoreCalculator.new({}, timestamp, {}, {other: 1})
         expect { calculator.score(:missing) }.to raise_error(/does not exist or is not calculated/)
       end
     end

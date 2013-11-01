@@ -27,22 +27,22 @@ module Quby
       let(:questionnaire) { Questionnaire.new("test") }
 
       it 'adds the score builder to the list of score builders' do
-        builder = double("Quby::Score", :key => "c")
+        builder = double("Quby::Score", key: "c")
         questionnaire.push_score_builder builder
         questionnaire.score_builders['c'].should == builder
       end
 
       it 'preserves order of added score builders' do
-        questionnaire.push_score_builder double("Quby::Score", :key => "c")
-        questionnaire.push_score_builder double("Quby::Score", :key => "a")
-        questionnaire.push_score_builder double("Quby::Score", :key => "d")
+        questionnaire.push_score_builder double("Quby::Score", key: "c")
+        questionnaire.push_score_builder double("Quby::Score", key: "a")
+        questionnaire.push_score_builder double("Quby::Score", key: "d")
         questionnaire.score_builders.keys.should == %w(c a d)
       end
 
       it 'overwrites the score builder if there already is a score builder known for this key' do
-        questionnaire.push_score_builder stub(:key => "c")
+        questionnaire.push_score_builder stub(key: "c")
 
-        new_builder = stub(:key => "c")
+        new_builder = stub(key: "c")
         questionnaire.push_score_builder new_builder
         questionnaire.score_builders.shift.last.should == new_builder
       end
@@ -50,13 +50,13 @@ module Quby
 
     describe '#find_plottable' do
       it 'finds score builders' do
-        score = stub(:key => 'a')
+        score = stub(key: 'a')
         questionnaire.push_score_builder score
         questionnaire.find_plottable('a').should == score
       end
 
       it 'finds questions by key with indifferent access' do
-        question = stub(:key => 'a')
+        question = stub(key: 'a')
         questionnaire.question_hash['a'] = question
         questionnaire.find_plottable(:a).should == question
       end
@@ -78,9 +78,9 @@ module Quby
     end
 
     describe '#to_codebook' do
-      let(:definition)    { "title 'My Test' \n question(:v_1, :type => :radio) { option :a1, :value => 0; option :a2, :value => 1}" }
+      let(:definition)    { "title 'My Test' \n question(:v_1, type: :radio) { option :a1, value: 0; option :a2, value: 1}" }
       let(:questionnaire) { Questionnaire.new("test", definition) }
-      let(:definition_html_unsafe)    { "title 'My Test' \n question(:v_1, :type => :radio, :title => ' < 20') { option :a1, :value => 0; option :a2, :value => 1}" }
+      let(:definition_html_unsafe)    { "title 'My Test' \n question(:v_1, type: :radio, title: ' < 20') { option :a1, value: 0; option :a2, value: 1}" }
       let(:questionnaire_html) { Questionnaire.new("test2", definition_html_unsafe) }
 
       it "should be able to generate a codebook" do

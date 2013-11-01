@@ -5,9 +5,9 @@ module Quby
     let(:questionnaire) { Questionnaire.new('test') }
     let(:invalid_definition) do
       <<-END
-        question :one, :type => :radio do
+        question :one, type: :radio do
           title "Testvraag"
-          option :a1, :hides_questions => [:two]
+          option :a1, hides_questions: [:two]
         end
       END
     end
