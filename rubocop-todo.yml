@@ -134,9 +134,6 @@ SpaceInsideHashLiteralBraces:
 SpaceInsideParens:
   Enabled: false
 
-SpecialGlobalVars:
-  Enabled: false
-
 StringLiterals:
   Enabled: false
 
