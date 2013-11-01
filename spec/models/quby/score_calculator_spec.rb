@@ -119,7 +119,7 @@ module Quby
       end
 
       it 'returns nil if the amount of nils > 20% of all values' do
-        calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, nil]).should == nil
+        calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, nil]).should be_nil
       end
 
       it 'returns nil for empty array' do
@@ -139,7 +139,7 @@ module Quby
       end
 
       it 'returns nil if there are less values than minimum_present present (not nil)' do
-        calculator.sum_extrapolate([nil, 1, 2], 3).should == nil
+        calculator.sum_extrapolate([nil, 1, 2], 3).should be_nil
       end
     end
 
@@ -151,12 +151,12 @@ module Quby
       end
 
       it 'returns nil if there are less than 80% values present (not nil)' do
-        calculator.sum_extrapolate_80_pct([1, 2, 3, nil, nil]).should == nil
+        calculator.sum_extrapolate_80_pct([1, 2, 3, nil, nil]).should be_nil
       end
 
       it 'rounds upwards if the result of 0.8*values.length is not round' do
         # 0.8*8 = 6.4
-        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, nil, nil]).should == nil
+        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, nil, nil]).should be_nil
         calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, 7, nil]).should == 32
       end
     end

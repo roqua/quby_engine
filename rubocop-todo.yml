@@ -47,9 +47,6 @@ LineLength:
 MethodLength:
   Enabled: false
 
-NilComparison:
-  Enabled: false
-
 Not:
   Enabled: false
 

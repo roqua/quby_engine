@@ -100,25 +100,25 @@ module Quby
         answer.cleanup_input
       end
       it 'clears deselected answers' do
-        answer.v_deselected.should == nil
+        answer.v_deselected.should be_nil
       end
       it 'clears placeholder answers' do
-        answer.v_placeholder.should == nil
+        answer.v_placeholder.should be_nil
       end
       it 'clears answers of questions that are being hidden' do
-        answer.v_hidden.should == nil
+        answer.v_hidden.should be_nil
       end
       it 'does not clear answers of questions that are being hidden and shown at the same time' do
         answer.v_hidden_and_shown.should == "a0"
       end
       it 'clears answers of questions that are default invisible and not shown' do
-        answer.v_default_invisible.should == nil
+        answer.v_default_invisible.should be_nil
       end
       it 'does not clear answers of questions that are default invisible that are shown' do
         answer.v_default_invisible_shown.should == "a0"
       end
       it 'clears answers of questions where the parent option is not selected' do
-        answer.v_child.should == nil
+        answer.v_child.should be_nil
       end
       it 'skips questions that have the :hidden type (deprecated questions)' do
         answer.v_hidden_type.should == "a0"
