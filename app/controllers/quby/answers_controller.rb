@@ -141,7 +141,7 @@ module Quby
 
       if timestamp =~ /EB_PLUS/
         logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
-        raise TokenValidationError.new("Facebook Spider with EB_PLUS in timestamp")
+        raise TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
       end
 
       if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
@@ -156,7 +156,7 @@ module Quby
 
       if our_hmac != hmac
         logger.error "ERROR::Authentication error: Token does not validate"
-        raise TokenValidationError.new("HMAC")
+        raise TokenValidationError, "HMAC"
       end
     end
 

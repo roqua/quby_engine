@@ -53,7 +53,7 @@ module Quby
     # unknown, nil will be returned for that question.
     def values_with_nils(*keys)
       keys = keys.map(&:to_s)
-      raise ArgumentError.new('Key requested more than once') if keys.uniq!
+      raise ArgumentError, 'Key requested more than once' if keys.uniq!
 
       if keys.empty?
         @values

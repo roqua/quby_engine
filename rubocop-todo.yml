@@ -86,9 +86,6 @@ ParenthesesAroundCondition:
 Proc:
   Enabled: false
 
-RaiseArgs:
-  Enabled: false
-
 ReadAttribute:
   Enabled: false
 
