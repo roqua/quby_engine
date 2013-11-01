@@ -195,7 +195,7 @@ module Quby
           answered += 1
         end
       end
-      return answered
+      answered
     end
 
     def add_error(question, validationtype, message)

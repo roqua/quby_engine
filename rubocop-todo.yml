@@ -89,9 +89,6 @@ Proc:
 ReadAttribute:
   Enabled: false
 
-RedundantReturn:
-  Enabled: false
-
 RedundantSelf:
   Enabled: false
 
