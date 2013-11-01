@@ -4,11 +4,11 @@ require 'spec_helper'
 module Quby
   describe AnswersController do
     before do
-      finder = stub(:find => Questionnaire.new("honos"))
+      finder = stub(find: Questionnaire.new("honos"))
       Quby.stub(questionnaire_finder: finder)
     end
 
-    let(:answer) { Quby::Answer.create(:questionnaire_key => "honos") }
+    let(:answer) { Quby::Answer.create(questionnaire_key: "honos") }
 
     describe 'HMAC check on show' do
       let(:timestamp) { Time.now.strftime("%Y-%m-%dT%H:%M:%S 00:00") }

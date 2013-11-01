@@ -12,7 +12,7 @@ feature 'Dependencies between questions', js: true do
         panel do
         question :v1, type: :radio, required: true do
           title "Verbergt vraag 2"
-          option :a1, value: 1, description: "Ja", :hides_questions => [:v2]
+          option :a1, value: 1, description: "Ja", hides_questions: [:v2]
           option :a2, value: 2, description: "Nee"
         end;
 

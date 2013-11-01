@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Quby
-  describe 'preview questionnaires in all modes', :screenshots => true do
+  describe 'preview questionnaires in all modes', screenshots: true do
     before(:all) do
       Rails.application.config.action_dispatch.show_exceptions = true
     end
@@ -10,11 +10,11 @@ module Quby
       Quby.questionnaires_path = Rails.root.join("../../db/questionnaires")
 
       # Don't verify HMACs or tokens
-      Quby::AnswersController.any_instance.stub(:verify_hmac => true)
-      Quby::AnswersController.any_instance.stub(:verify_token => true)
+      Quby::AnswersController.any_instance.stub(verify_hmac: true)
+      Quby::AnswersController.any_instance.stub(verify_token: true)
 
       # Don't show warning when leaving page
-      Questionnaire.any_instance.stub(:leave_page_alert => nil)
+      Questionnaire.any_instance.stub(leave_page_alert: nil)
     end
 
     after(:all) do
@@ -33,7 +33,7 @@ module Quby
 
     Quby.questionnaire_finder.all.each do |questionnaire|
       describe "#{questionnaire.key}" do
-        let(:answer) { questionnaire.answers.create(:token => "abcd") }
+        let(:answer) { questionnaire.answers.create(token: "abcd") }
 
         it "screenshots #{questionnaire.key} in paged view", js: true do
           visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=paged"

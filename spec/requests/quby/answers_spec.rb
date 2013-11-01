@@ -9,13 +9,13 @@ module Quby
         .with(questionnaire.key)
         .and_return(questionnaire)
 
-      Quby::Answer.create(:questionnaire_key => questionnaire.key)
+      Quby::Answer.create(questionnaire_key: questionnaire.key)
     end
 
     describe '#update' do
       before do
-        AnswersController.any_instance.stub(:verify_hmac => true)
-        AnswersController.any_instance.stub(:verify_token => true)
+        AnswersController.any_instance.stub(verify_hmac: true)
+        AnswersController.any_instance.stub(verify_token: true)
       end
 
       it 'saves the answer' do

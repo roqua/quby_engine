@@ -5,7 +5,7 @@ module Quby
   describe "Benchmarks", benchmark: true do
     let(:questionnaire_finder) { QuestionnaireFinder.new(Rails.root.join("../../spec/fixtures")) }
     let(:questionnaire) { questionnaire_finder.find("big") }
-    before { Answer.stub(:questionnaire_finder => questionnaire_finder) }
+    before { Answer.stub(questionnaire_finder: questionnaire_finder) }
 
     describe 'Questionnaire' do
       it 'should be quick to get a list of all questions' do
@@ -23,7 +23,7 @@ module Quby
     describe "Answer" do
       it 'should be quick to validate' do
         n = 10_000
-        answer = Answer.new(:questionnaire_key => questionnaire.key)
+        answer = Answer.new(questionnaire_key: questionnaire.key)
         answer.save! # save so valid? does run update validations
 
         results = Benchmark.bm(20) do |x|
