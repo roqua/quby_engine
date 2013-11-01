@@ -53,23 +53,23 @@ module Quby
       end
 
       it 'checks for duplicate question keys' do
-        expect {
+        expect do
           dsl do
             question :v_1, type: :string
             question :v_1, type: :string
           end
-        }.to raise_exception
+        end.to raise_exception
       end
 
       it 'checks for duplicate checkbox option keys' do
-        expect {
+        expect do
           dsl do
             question :v_1, type: :string
             question :v_2, type: :check_box do
               option :v_1
             end
           end
-        }.to raise_exception
+        end.to raise_exception
       end
 
       it 'sets the parent option key on subquestions correctly' do

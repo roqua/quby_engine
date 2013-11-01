@@ -11,9 +11,6 @@ AssignmentInCondition:
 BlockNesting:
   Enabled: false
 
-Blocks:
-  Enabled: false
-
 ClassLength:
   Enabled: false
 

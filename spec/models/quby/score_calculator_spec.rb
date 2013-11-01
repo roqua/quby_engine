@@ -243,9 +243,9 @@ module Quby
 
       context 'when not enough values are non-nil' do
         it 'raises' do
-          expect {
+          expect do
             calculator.require_percentage_filled([1, nil, nil, nil], 50)
-          }.to raise_error("Needed at least 50.0% answered, got 25.0%")
+          end.to raise_error("Needed at least 50.0% answered, got 25.0%")
         end
       end
     end

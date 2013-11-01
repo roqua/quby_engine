@@ -38,9 +38,7 @@ module Quby
 
       it 'raises RecordNotFound if it doesnt exist' do
         questionnaire_finder.stub(:exists?).with(key).and_return(false)
-        expect {
-          questionnaire_finder.find(key)
-        }.to raise_error(QuestionnaireFinder::RecordNotFound)
+        expect { questionnaire_finder.find(key) }.to raise_error(QuestionnaireFinder::RecordNotFound)
       end
 
       it 'reloads a questionnaire if the definition updated on disk' do
