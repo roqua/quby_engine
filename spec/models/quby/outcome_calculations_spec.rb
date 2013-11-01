@@ -172,8 +172,8 @@ module Quby
         questionnaire.push_score_builder score2
         questionnaire.push_score_builder score1
         answer.update_scores
-        answer.scores.keys.should == ["sub" ,"tot"]
-        answer.reload.scores.keys.should == ["sub" ,"tot"]
+        answer.scores.keys.should == ["sub", "tot"]
+        answer.reload.scores.keys.should == ["sub", "tot"]
       end
     end
   end

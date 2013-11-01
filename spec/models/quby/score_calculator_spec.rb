@@ -229,15 +229,15 @@ module Quby
 
       context 'when enough values are non-nil' do
         it 'returns the values' do
-          calculator.require_percentage_filled([1, 2, 3, 4, 5, 6], 100).should == [1,2,3,4,5,6]
+          calculator.require_percentage_filled([1, 2, 3, 4, 5, 6], 100).should == [1, 2, 3, 4, 5, 6]
         end
 
         it 'filters nils' do
-          calculator.require_percentage_filled([1,2,nil], 20).should == [1,2]
+          calculator.require_percentage_filled([1, 2, nil], 20).should == [1, 2]
         end
 
         it 'works with float percentages 0..1' do
-          calculator.require_percentage_filled([1,2,nil], 0.2).should == [1,2]
+          calculator.require_percentage_filled([1, 2, nil], 0.2).should == [1, 2]
         end
       end
 

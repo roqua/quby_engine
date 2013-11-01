@@ -17,7 +17,7 @@ module Quby
             valc = val.clone
             valc[:matcher] = "/#{valc[:matcher].source.to_s}/"
             #Replace single backslashes with two backslashes
-            valc[:matcher].gsub!("\\","\\\\")
+            valc[:matcher].gsub!("\\", "\\\\")
             valc
           else
             val
@@ -39,7 +39,7 @@ module Quby
       end
     end
 
-    def get_question(table, rowi,j)
+    def get_question(table, rowi, j)
       q = get_item(table, rowi, j)
       q.is_a?(Quby::Items::Question) ? q : nil
     end
