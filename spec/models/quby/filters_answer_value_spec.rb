@@ -3,9 +3,13 @@ require 'spec_helper'
 module Quby
   describe FiltersAnswerValue do
     let(:question)          { double("Question", key: :v_6, type: :radio) }
-    let(:checkbox_question) { double("Question", key: :v_7, type: :check_box,
-                                                 options: [double("QuestionOption", key: "v_7a1"),
-                                                           double("QuestionOption", key: "v_7a2")]) }
+
+    let(:checkbox_question) do
+      double("Question", key: :v_7, type: :check_box,
+                         options: [double("QuestionOption", key: "v_7a1"),
+                                   double("QuestionOption", key: "v_7a2")])
+    end
+
     let(:questionnaire) do
       q = Questionnaire.new :filter_test
       q.stub questions: [question, checkbox_question, nil]

@@ -1,8 +1,11 @@
 shared_examples "numerical validations" do |numerical_type|
-  let(:questionnaire) { inject_questionnaire("test", "question :v1, type: :#{numerical_type} do
-                                                        title 'Example question'
-                                                        validates_in_range 10..20
-                                                      end; end_panel") }
+  let(:questionnaire) do
+    inject_questionnaire("test", "question :v1, type: :#{numerical_type} do
+                                    title 'Example question'
+                                    validates_in_range 10..20
+                                  end; end_panel")
+  end
+
   let(:too_low_value)  { 4 }
   let(:too_high_value) { 42 }
   let(:not_a_number)   { "OHAI" }

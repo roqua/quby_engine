@@ -16,12 +16,9 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
     let(:tot_score) { Quby::Score.new :tot, label: 'Totaal' }
     let(:soc_score) { Quby::Score.new :soc, label: 'Sociaal' }
     let(:float_question) { mock(:key => :v_1, :type => :radio, options: []) }
-    let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal',
-                                                                  questionnaire_key: 'questionnaire_key') }
-    let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal',
-                                                                  questionnaire_key: 'questionnaire_key') }
-    let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label',
-                                                                  questionnaire_key: 'questionnaire_key') }
+    let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal',       questionnaire_key: 'questionnaire_key') }
+    let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal',      questionnaire_key: 'questionnaire_key') }
+    let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label', questionnaire_key: 'questionnaire_key') }
 
     before do
       questionnaire.stub(:find_plottable).with(:tot).and_return(tot_score)
