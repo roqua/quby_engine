@@ -71,7 +71,7 @@ module Quby
           @questionnaire.question_hash[key] = op
         end
 
-        instance_eval &block if block
+        instance_eval(&block) if block
       end
 
       def title_question(key, options = {}, &block)

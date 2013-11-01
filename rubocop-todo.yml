@@ -140,9 +140,6 @@ StringLiterals:
 SymbolName:
   Enabled: false
 
-Syntax:
-  Enabled: false
-
 TrailingBlankLines:
   Enabled: false
 
