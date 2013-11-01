@@ -54,8 +54,8 @@ module Quby
               end
             end
             if filled_columns != 0 and item != items.last
-                row_items += 1
-                @rows[filled_rows] << []
+              row_items += 1
+              @rows[filled_rows] << []
             end
             next row_span - 1 == 1
           end
