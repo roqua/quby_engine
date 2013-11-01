@@ -9,7 +9,7 @@ module Quby
 
     describe 'Questionnaire' do
       it 'should be quick to get a list of all questions' do
-        n = 10000
+        n = 10_000
 
         # prepare cache
         questions = questionnaire.questions
@@ -22,7 +22,7 @@ module Quby
 
     describe "Answer" do
       it 'should be quick to validate' do
-        n = 10000
+        n = 10_000
         answer = Answer.new(:questionnaire_key => questionnaire.key)
         answer.save! # save so valid? does run update validations
         #answer_validator = AnswerValidator.for(answer.questionnaire)

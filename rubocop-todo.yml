@@ -71,9 +71,6 @@ NilComparison:
 Not:
   Enabled: false
 
-NumericLiterals:
-  Enabled: false
-
 ParenthesesAroundCondition:
   Enabled: false
 
