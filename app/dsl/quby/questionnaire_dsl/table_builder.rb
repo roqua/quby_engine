@@ -18,7 +18,7 @@ module Quby
 
       def text(value, options = {})
         t = Quby::Items::Text.new(value.to_s, options)
-        @table.items << t 
+        @table.items << t
       end
 
       def question(key, options = {}, &block)

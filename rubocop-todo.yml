@@ -122,9 +122,6 @@ SymbolName:
 TrailingBlankLines:
   Enabled: false
 
-TrailingWhitespace:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 

@@ -10,7 +10,7 @@ module Quby
     describe 'Questionnaire' do
       it 'should be quick to get a list of all questions' do
         n = 10000
-        
+
         # prepare cache
         questions = questionnaire.questions
 

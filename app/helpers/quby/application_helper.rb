@@ -11,7 +11,7 @@ module Quby
       highlight = highlight_active_tab_if_current(href)
       link_to name, options, html_options.reverse_merge(highlight)
     end
-    
+
     def highlight_active_tab_if_current(url)
       #FIXME: does not highlight the proper tab for the root url
       if request.url.index(url)
