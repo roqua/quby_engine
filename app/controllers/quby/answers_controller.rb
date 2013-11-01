@@ -14,41 +14,41 @@ module Quby
     before_filter :remember_token_in_session
     before_filter :remember_return_url_in_session
     before_filter :remember_custom_stylesheet
-    before_filter :verify_token, :only => [:show, :edit, :update, :print]
-    before_filter :verify_hmac, :only => [:edit, :print]
-    before_filter :prevent_browser_cache, :only => :edit
+    before_filter :verify_token, only: [:show, :edit, :update, :print]
+    before_filter :verify_hmac, only: [:edit, :print]
+    before_filter :prevent_browser_cache, only: :edit
     before_filter :remember_display_mode_in_session
-    before_filter :check_aborted, :only => :update
+    before_filter :check_aborted, only: :update
 
-    protect_from_forgery :except => [:edit, :update], :secret => "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d5d88bfd8481868d9"
+    protect_from_forgery except: [:edit, :update], secret: "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d5d88bfd8481868d9"
 
-    rescue_from TokenValidationError, :with => :bad_token
-    rescue_from QuestionnaireNotFound, :with => :bad_questionnaire
-    rescue_from TimestampValidationError, :with => :bad_timestamp
+    rescue_from TokenValidationError, with: :bad_token
+    rescue_from QuestionnaireNotFound, with: :bad_questionnaire
+    rescue_from TimestampValidationError, with: :bad_timestamp
 
     def show
-      redirect_to :action => "edit"
+      redirect_to action: "edit"
     end
 
     def edit
-      render :action => "#{@display_mode}/edit"
+      render action: "#{@display_mode}/edit"
     end
 
     def update(printing = false)
       updater = UpdatesAnswers.new(@answer)
 
       updater.on_success do
-        render :action => "print/show", :layout => "layouts/content_only" and return if printing
-        render :action => "completed" and return if @return_url.blank?
-        redirect_to_roqua(:status => return_status) and return
+        render action: "print/show", layout: "layouts/content_only" and return if printing
+        render action: "completed" and return if @return_url.blank?
+        redirect_to_roqua(status: return_status) and return
       end
 
       updater.on_failure do
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
         if printing
-          render :action => "#{@display_mode}/edit", :layout => "layouts/content_only"
+          render action: "#{@display_mode}/edit", layout: "layouts/content_only"
         else
-          render :action => "#{@display_mode}/edit"
+          render action: "#{@display_mode}/edit"
         end
       end
 
@@ -61,19 +61,19 @@ module Quby
 
     def bad_token(exception)
       @error = "Er is geen of een ongeldige token meegegeven."
-      render :file => "errors/generic", :layout => "dialog"
+      render file: "errors/generic", layout: "dialog"
       handle_exception exception unless exception.message =~ /Facebook/
     end
 
     def bad_questionnaire(exception)
       @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]}) kon niet gevonden worden."
-      render :file => "errors/generic", :layout => "dialog"
+      render file: "errors/generic", layout: "dialog"
       handle_exception exception
     end
 
     def bad_timestamp(exception)
       @error = "Uw authenticatie is verlopen."
-      render :file => "errors/generic", :layout => "dialog"
+      render file: "errors/generic", layout: "dialog"
       handle_exception exception
     end
 
@@ -126,7 +126,7 @@ module Quby
 
     def verify_token
       unless @answer.token == (params[:token] || @answer_token)
-        flash[:error] = I18n.t(:invalid_answer_get, :locale => :nl)
+        flash[:error] = I18n.t(:invalid_answer_get, locale: :nl)
         redirect_to "/"
       end
     end
@@ -151,7 +151,7 @@ module Quby
 
       if time < 24.hours.ago or 1.hour.since < time
         logger.error "ERROR::Authentication error: Request expired"
-        redirect_to_roqua(:expired_session => "true") and return
+        redirect_to_roqua(expired_session: "true") and return
       end
 
       if our_hmac != hmac
@@ -202,8 +202,8 @@ module Quby
       # Addressable behaves strangely if were to do this directly on
       # it's own hash, hence the (otherwise unneeded) temporary variable
       query_values = (address.query_values || {})
-      query_values.merge!(:key => @return_token, :return_from => "quby")
-      query_values.merge!(:return_from_answer => @answer.id)
+      query_values.merge!(key: @return_token, return_from: "quby")
+      query_values.merge!(return_from_answer: @answer.id)
       options.each { |key, value| query_values[key] = value if value }
 
       address.query_values = query_values

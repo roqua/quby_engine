@@ -5,7 +5,7 @@ module Quby
       if options.is_a?(String)
         href = options
       else
-        href = url_for(:controller => options[:controller])
+        href = url_for(controller: options[:controller])
       end
 
       highlight = highlight_active_tab_if_current(href)
@@ -15,7 +15,7 @@ module Quby
     def highlight_active_tab_if_current(url)
       # FIXME: does not highlight the proper tab for the root url
       if request.url.index(url)
-        {:id => "current"}
+        {id: "current"}
       else
         {}
       end
