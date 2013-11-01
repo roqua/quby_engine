@@ -26,9 +26,6 @@ ClassLength:
 ClassVars:
   Enabled: false
 
-CollectionMethods:
-  Enabled: false
-
 ConstantName:
   Enabled: false
 
