@@ -98,9 +98,6 @@ SpaceInsideHashLiteralBraces:
 StringLiterals:
   Enabled: false
 
-SymbolName:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 

@@ -210,6 +210,7 @@ module Quby
     end
 
     def as_json(options = {})
+      # rubocop:disable SymbolName
       super.merge(
         :key => key,
         :title => title,
