@@ -7,7 +7,7 @@ module Quby
       let(:plottable_key) { 'some_key' }
       let(:plottable) { Quby::Score.new plottable_key, {} }
       let(:questionnaire) do
-        stub(:key => 'questionnaire_key').tap do |questionnaire|
+        stub(key: 'questionnaire_key').tap do |questionnaire|
           questionnaire.stub(:find_plottable).with(plottable_key).and_return plottable
         end
       end

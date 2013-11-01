@@ -76,7 +76,7 @@ module Quby
       # Short-circuit the question command to perform an implicit panel
       def question(key, options = {}, &block)
         panel(nil, default_panel_options) do
-          question(key, default_question_options(options.merge(:questionnaire => @questionnaire)), &block)
+          question(key, default_question_options(options.merge(questionnaire: @questionnaire)), &block)
         end
       end
 
@@ -105,19 +105,19 @@ module Quby
       end
 
       def score(key, options = {}, &block)
-        variable(key, options.reverse_merge(:score => true), &block)
+        variable(key, options.reverse_merge(score: true), &block)
       end
 
       def attention(options = {}, &block)
-        variable(:attention, options.reverse_merge(:action => true), &block)
+        variable(:attention, options.reverse_merge(action: true), &block)
       end
 
       def alarm(options = {}, &block)
-        variable(:alarm, options.reverse_merge(:action => true), &block)
+        variable(:alarm, options.reverse_merge(action: true), &block)
       end
 
       def completion(options = {}, &block)
-        variable(:completion, options.reverse_merge(:completion => true), &block)
+        variable(:completion, options.reverse_merge(completion: true), &block)
       end
 
       def line_chart(*args, &block)
@@ -138,7 +138,7 @@ module Quby
       private
 
       def default_panel_options
-        {:questionnaire => @questionnaire, :default_question_options => @default_question_options}
+        {questionnaire: @questionnaire, default_question_options: @default_question_options}
       end
     end
   end

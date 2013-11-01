@@ -27,7 +27,7 @@ module Quby
       end
 
       def inner_title(value)
-        op = QuestionOption.new(nil, @question, :inner_title => true, :description => value)
+        op = QuestionOption.new(nil, @question, inner_title: true, description: value)
       end
 
       def description(value)
@@ -76,7 +76,7 @@ module Quby
 
       def title_question(key, options = {}, &block)
         raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
-        options = @default_question_options.merge({:depends_on => @question.key, :questionnaire => @questionnaire, :parent => @question, :presentation => :next_to_title}.merge(options))
+        options = @default_question_options.merge({depends_on: @question.key, questionnaire: @questionnaire, parent: @question, presentation: :next_to_title}.merge(options))
 
         q = QuestionBuilder.new(key, options)
         q.instance_eval(&block) if block
@@ -89,7 +89,7 @@ module Quby
       def question(key, options = {}, &block)
         raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
 
-        q = QuestionBuilder.new(key, @default_question_options.merge(options.merge(:questionnaire => @questionnaire, :parent => @question, :parent_option_key => @question.options.last.key)))
+        q = QuestionBuilder.new(key, @default_question_options.merge(options.merge(questionnaire: @questionnaire, parent: @question, parent_option_key: @question.options.last.key)))
         q.instance_eval(&block) if block
         question = q.build
         @questionnaire.question_hash[key] = question
@@ -102,28 +102,28 @@ module Quby
 
       def validates_format_with(regexp, options = {})
         @question.validations ||= []
-        @question.validations << {:type => :regexp, :matcher => regexp}.reverse_merge(options)
+        @question.validations << {type: :regexp, matcher: regexp}.reverse_merge(options)
       end
 
       def validates_presence_of_answer(options = {})
         @question.validations ||= []
-        @question.validations << {:type => :requires_answer}.reverse_merge(options)
+        @question.validations << {type: :requires_answer}.reverse_merge(options)
       end
 
       def validates_minimum(value, options = {})
         @question.validations ||= []
-        @question.validations << {:type => :minimum, :value => value}.reverse_merge(options)
+        @question.validations << {type: :minimum, value: value}.reverse_merge(options)
       end
 
       def validates_maximum(value, options = {})
         @question.validations ||= []
-        @question.validations << {:type => :maximum, :value => value}.reverse_merge(options)
+        @question.validations << {type: :maximum, value: value}.reverse_merge(options)
       end
 
       def validates_in_range(range, options = {})
         @question.validations ||= []
-        @question.validations << {:type => :minimum, :value => range.first}.reverse_merge(options)
-        @question.validations << {:type => :maximum, :value => range.last}.reverse_merge(options)
+        @question.validations << {type: :minimum, value: range.first}.reverse_merge(options)
+        @question.validations << {type: :maximum, value: range.last}.reverse_merge(options)
       end
     end
   end
