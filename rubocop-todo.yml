@@ -110,9 +110,6 @@ SignalException:
 SingleLineMethods:
   Enabled: false
 
-SpaceInsideBrackets:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false
 

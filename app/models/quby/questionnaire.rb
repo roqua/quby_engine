@@ -121,7 +121,7 @@ module Quby
       return @questions_tree_cache if @questions_tree_cache
 
       recurse = lambda do |question|
-        [question, question.subquestions.map(&recurse) ]
+        [question, question.subquestions.map(&recurse)]
       end
 
       @questions_tree_cache = (@panels && @panels.map do |panel|
