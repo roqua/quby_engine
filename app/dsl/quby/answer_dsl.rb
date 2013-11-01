@@ -37,7 +37,7 @@ module Quby
               self.value[question.day_key]
             end
 
-            define_method("#{question.day_key}=" ) do |v|
+            define_method("#{question.day_key}=") do |v|
               self.value ||= Hash.new
               self.value[question.day_key] = v
             end
