@@ -14,13 +14,13 @@ module Quby
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token
     before_filter :load_custom_stylesheet
+    before_filter :load_display_mode
 
     before_filter :authorize!
     before_filter :verify_token, only: [:show, :edit, :update, :print]
     before_filter :verify_hmac,  only: [:edit, :print]
 
     before_filter :prevent_browser_cache, only: :edit
-    before_filter :load_display_mode
     before_filter :check_aborted, only: :update
 
     protect_from_forgery except: [:edit, :update], secret: "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8" +
