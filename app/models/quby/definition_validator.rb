@@ -18,7 +18,8 @@ module Quby
       true
     # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
     rescue Exception => e
-      questionnaire.errors.add(:definition, {message: "Questionnaire error: #{questionnaire.key}\n#{e.message}", backtrace: e.backtrace[0..5].join("<br/>")})
+      questionnaire.errors.add(:definition, {message: "Questionnaire error: #{questionnaire.key}\n#{e.message}",
+                                             backtrace: e.backtrace[0..5].join("<br/>")})
       false
     end
 
@@ -27,7 +28,9 @@ module Quby
         question.options.each do |option|
           if option.hides_questions.present?
             option.hides_questions.each do |key|
-              raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}" unless q.question_hash[key]
+              unless q.question_hash[key]
+                raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}"
+              end
             end
           end
         end

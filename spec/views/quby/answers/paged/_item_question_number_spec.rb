@@ -23,14 +23,16 @@ module Quby
     it 'renders a left and right label if both provided' do
       question.stub(left_label: "mijn left label")
       question.stub(right_label: "mijn right label")
-      render partial: "quby/answers/paged/item_question_number", locals: {question: question, subquestion: false, disabled: false}
+      render partial: "quby/answers/paged/item_question_number",
+             locals: {question: question, subquestion: false, disabled: false}
       rendered.should include("mijn left label")
       rendered.should include("mijn right label")
     end
 
     it 'sets a floating step size for float questions' do
       question.stub(type: :float)
-      render partial: "quby/answers/paged/item_question_number", locals: {question: question, subquestion: false, disabled: false}
+      render partial: "quby/answers/paged/item_question_number",
+             locals: {question: question, subquestion: false, disabled: false}
       rendered.should include("step=\"0.01\"")
     end
   end

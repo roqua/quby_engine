@@ -63,11 +63,13 @@ module Quby
       end
 
       def option(key, options = {}, &block)
-        raise "#{questionnaire.key}: Option with key #{key} already defined. Keys must be unique within a question." if @question.options.find { |i| i.key == key }
+        raise "#{questionnaire.key}: Option with key #{key} already defined. " +
+              "Keys must be unique within a question." if @question.options.find { |i| i.key == key }
         op = QuestionOption.new(key, @question, options)
 
         if @question.type == :check_box
-          raise "#{questionnaire.key}: Question with key #{key} already defined. Checkbox option keys must be completely unique." if @questionnaire.question_hash[key]
+          raise "#{questionnaire.key}: Question with key #{key} already defined. " +
+                "Checkbox option keys must be completely unique." if @questionnaire.question_hash[key]
           @questionnaire.question_hash[key] = op
         end
 
@@ -76,7 +78,10 @@ module Quby
 
       def title_question(key, options = {}, &block)
         raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
-        options = @default_question_options.merge({depends_on: @question.key, questionnaire: @questionnaire, parent: @question, presentation: :next_to_title}.merge(options))
+        options = @default_question_options.merge({depends_on: @question.key,
+                                                   questionnaire: @questionnaire,
+                                                   parent: @question,
+                                                   presentation: :next_to_title}.merge(options))
 
         q = QuestionBuilder.new(key, options)
         q.instance_eval(&block) if block
@@ -89,7 +94,10 @@ module Quby
       def question(key, options = {}, &block)
         raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
 
-        q = QuestionBuilder.new(key, @default_question_options.merge(options.merge(questionnaire: @questionnaire, parent: @question, parent_option_key: @question.options.last.key)))
+        q = QuestionBuilder.new(key, @default_question_options.merge(options)
+                                                              .merge(questionnaire: @questionnaire,
+                                                                     parent: @question,
+                                                                     parent_option_key: @question.options.last.key))
         q.instance_eval(&block) if block
         question = q.build
         @questionnaire.question_hash[key] = question

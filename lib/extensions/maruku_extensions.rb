@@ -1,5 +1,7 @@
 require 'maruku'
 
+# rubocop:disable LineLength
+
 # Replace {{var_name}} with <span class='text_var' text_var=var_name></span>
 # TODO: add ability to specify default text to use in case text_var is empty
 TextVar = /(\{\{)(.+?)(\}\})/

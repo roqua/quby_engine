@@ -12,16 +12,19 @@ shared_examples "numerical validations" do |numerical_type|
 
   scenario "by entering a number that is below minimum" do
     visit_new_answer_for(questionnaire)
-    filling_in(within: "#item_v1", answering: "answer_v1", with: too_low_value, should_show: '.error.minimum')
+    filling_in(within: "#item_v1", answering: "answer_v1", with: too_low_value,
+               should_show: '.error.minimum')
   end
 
   scenario "by entering a number that is above maximum" do
     visit_new_answer_for(questionnaire)
-    filling_in(within: "#item_v1", answering: "answer_v1", with: too_high_value, should_show: '.error.maximum')
+    filling_in(within: "#item_v1", answering: "answer_v1", with: too_high_value,
+               should_show: '.error.maximum')
   end
 
   scenario "by entering a number that is not a valid #{numerical_type}" do
     visit_new_answer_for(questionnaire)
-    filling_in(within: "#item_v1", answering: "answer_v1", with: not_a_number, should_show: ".error.valid_#{numerical_type}")
+    filling_in(within: "#item_v1", answering: "answer_v1", with: not_a_number,
+               should_show: ".error.valid_#{numerical_type}")
   end
 end

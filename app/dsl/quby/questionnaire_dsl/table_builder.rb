@@ -24,7 +24,9 @@ module Quby
       def question(key, options = {}, &block)
         raise "Question key: #{key} repeated!" if @panel.questionnaire.question_hash[key]
 
-        q = QuestionBuilder.new(key, @default_question_options.merge(options).merge(table: @table, questionnaire: @panel.questionnaire))
+        q = QuestionBuilder.new(key, @default_question_options.merge(options)
+                                                              .merge(table: @table,
+                                                                     questionnaire: @panel.questionnaire))
         q.instance_eval(&block) if block
         question = q.build
         @panel.questionnaire.question_hash[key] = question

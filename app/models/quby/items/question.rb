@@ -165,18 +165,22 @@ module Quby
       end
 
       if @check_all_option
-        @validations << {type: :not_all_checked, check_all_key: @check_all_option, explanation: options[:error_explanation]}
+        @validations << {type: :not_all_checked, check_all_key: @check_all_option,
+                         explanation: options[:error_explanation]}
       end
       if @uncheck_all_option
-        @validations << {type: :too_many_checked, uncheck_all_key: @uncheck_all_option, explanation: options[:error_explanation]}
+        @validations << {type: :too_many_checked, uncheck_all_key: @uncheck_all_option,
+                         explanation: options[:error_explanation]}
       end
 
       if @question_group
         if @group_minimum_answered
-          @validations << {type: :answer_group_minimum, group: @question_group, value: @group_minimum_answered, explanation: options[:error_explanation]}
+          @validations << {type: :answer_group_minimum, group: @question_group, value: @group_minimum_answered,
+                           explanation: options[:error_explanation]}
         end
         if @group_maximum_answered
-          @validations << {type: :answer_group_maximum, group: @question_group, value: @group_maximum_answered, explanation: options[:error_explanation]}
+          @validations << {type: :answer_group_maximum, group: @question_group, value: @group_maximum_answered,
+                           explanation: options[:error_explanation]}
         end
       end
     end

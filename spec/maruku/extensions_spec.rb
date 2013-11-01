@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'extensions/maruku_extensions'
 
 class Maruku
+  # rubocop:disable LineLength
 
   describe "link tag extenstion ~~url~~body~~" do
     it "converts ~~url~~body~~ into a modal frame link" do

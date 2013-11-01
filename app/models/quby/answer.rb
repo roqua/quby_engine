@@ -167,7 +167,8 @@ module Quby
 
     def url_params(options = {})
       if request = options[:request]
-        server_path = "#{request.protocol}#{request.host}#{":" + request.port.to_s unless [80, 443].include? request.port}/"
+        server_path = "#{request.protocol}#{request.host}" +
+                      "#{":" + request.port.to_s unless [80, 443].include? request.port}/"
         options.delete(:request)
       end
 

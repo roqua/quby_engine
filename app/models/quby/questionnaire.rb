@@ -89,7 +89,8 @@ module Quby
         begin
           QuestionnaireDsl.enhance(self, functions_and_definition || "")
         rescue SyntaxError => e
-          errors.add(:definition, {message: "Questionnaire error: #{key} <br/> #{e.message}", backtrace: e.backtrace[0..5].join("<br/>")})
+          errors.add(:definition, {message: "Questionnaire error: #{key} <br/> #{e.message}",
+                                   backtrace: e.backtrace[0..5].join("<br/>")})
         end
       end
     end

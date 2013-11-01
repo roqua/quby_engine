@@ -20,7 +20,9 @@ module Quby
     before_filter :remember_display_mode_in_session
     before_filter :check_aborted, only: :update
 
-    protect_from_forgery except: [:edit, :update], secret: "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d5d88bfd8481868d9"
+    protect_from_forgery except: [:edit, :update], secret: "6902d7823ec55aada227ae44423b939ef345e6e2acb9bb8e6203e1e8" +
+                                                           "ce53d08dc461a0eaf8fa59cf68cd5d290d34fc1e7f2e7988aa6d414d" +
+                                                           "5d88bfd8481868d9"
 
     rescue_from TokenValidationError, with: :bad_token
     rescue_from QuestionnaireNotFound, with: :bad_questionnaire

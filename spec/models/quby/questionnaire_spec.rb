@@ -78,17 +78,19 @@ module Quby
     end
 
     describe '#to_codebook' do
-      let(:definition)    { "title 'My Test' \n question(:v_1, type: :radio) { option :a1, value: 0; option :a2, value: 1}" }
-      let(:questionnaire) { Questionnaire.new("test", definition) }
-      let(:definition_html_unsafe)    { "title 'My Test' \n question(:v_1, type: :radio, title: ' < 20') { option :a1, value: 0; option :a2, value: 1}" }
-      let(:questionnaire_html) { Questionnaire.new("test2", definition_html_unsafe) }
-
       it "should be able to generate a codebook" do
+        definition    = "title 'My Test' \n question(:v_1, type: :radio) { option :a1, value: 0; option :a2, value: 1}"
+        questionnaire = Questionnaire.new("test", definition)
         questionnaire.to_codebook.should be
       end
 
       it "should not break off a codebook when encountering <" do
-        questionnaire_html.to_codebook.should == "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
+        definition    = """
+          title 'My Test'
+          question(:v_1, type: :radio, title: ' < 20') { option :a1, value: 0; option :a2, value: 1}
+        """
+        questionnaire = Questionnaire.new("test2", definition)
+        questionnaire.to_codebook.should == "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
       end
     end
 
