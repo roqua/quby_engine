@@ -11,6 +11,4 @@ shared_examples_for Quby::Charting::Chart do
     score1, score2 = stub, stub
     described_class.new(:tot, plottables: [score1, score2]).plottables.should == [score1, score2]
   end
-
-
 end

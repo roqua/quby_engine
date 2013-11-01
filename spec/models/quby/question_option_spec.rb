@@ -20,7 +20,6 @@ module Quby
       questionnaire
     end
 
-
     describe ".hides_questions" do
       it "returns an array with the keys of the questions that are hidden when this option is picked" do
         questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
