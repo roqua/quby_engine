@@ -9,6 +9,7 @@ class Quby.Models.Question extends Backbone.Model
     viewSelector: ""
     type: ""
     defaultInvisible: false
+    deselectable: false
     hiddenByOptions: new Quby.Collections.QuestionOptions
     shownByOptions: new Quby.Collections.QuestionOptions
 

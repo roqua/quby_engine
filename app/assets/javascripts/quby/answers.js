@@ -752,7 +752,10 @@ function handlePreventDefault(event){
 function registerDeselectables(){
     //FIXME: honos65+ performance opportunity
     //lots of labels are selected individually
-    $('input[type=radio].deselectable').each( function(i, val){
+    Quby.questions.where({type: "radio", deselectable: true}).pluck("options").each( function(optionsCollection) {
+    //$('input[type=radio].deselectable').each( function(i, val){
+
+        optionsCollection.pluck("view").pluck("$el").each(function(optionElement) {
         var label = $('label[for=' + $(this).attr("id") + ']');
 
         $(this).bind('mousedown', function(e){

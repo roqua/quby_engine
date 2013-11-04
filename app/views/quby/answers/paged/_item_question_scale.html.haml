@@ -32,7 +32,7 @@
               - cls << "deselectable" if question.deselectable
               = radio_button(:answer, question.key, opt.key, {:class => cls, :disabled => disabled ? "" : nil})
               %br/
-              %label(for="answer_#{question.key}_#{opt.key}")
+              %label{for: opt.view_id}
                 %span
                   :markdown
                     #{raw opt.description}

@@ -30,7 +30,7 @@
         - if show_values
           .value= opt.value
         .labelwrapper
-          %label(for="answer_#{opt.key}")
+          %label{for: opt.view_id}
             %span
               :markdown
                 #{raw opt.description}
