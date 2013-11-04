@@ -25,62 +25,98 @@ module Quby
         question.validations.each do |validation|
           case validation[:type]
           when :valid_integer
-            next if value.blank?
-            begin
-              Integer(value)
-            rescue ArgumentError
-              answer_record.send(:add_error, question, :valid_integer, validation[:message] || "Invalid integer")
-            end
+            validate_integer(question, validation, value)
           when :valid_float
-            next if value.blank?
-            begin
-              Float(value)
-            rescue ArgumentError
-              answer_record.send(:add_error, question, :valid_float, validation[:message] || "Invalid float")
-            end
+            validate_float(question, validation, value)
           when :regexp
-            next if value.blank?
-            match = validation[:matcher].match(value)
-            if not match or match[0] != value
-              answer_record.send(:add_error, question, validation[:type], validation[:message] || "Does not match pattern expected.")
-            end
+            validate_regexp(question, validation, value)
           when :requires_answer
-            if question.type == :check_box && value.values.reduce(:+) == 0
-              answer_record.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.")
-            elsif value.blank?
-              answer_record.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.")
-            end
+            validate_required(question, validation, value)
           when :minimum
-            if not value.blank? and value.to_f < validation[:value]
-              answer_record.send(:add_error, question, validation[:type], validation[:message] || "Smaller than minimum")
-            end
+            validate_minimum(question, validation, value)
           when :maximum
-            if not value.blank? and value.to_f > validation[:value]
-              answer_record.send(:add_error, question, validation[:type], validation[:message] || "Exceeds maximum")
-            end
+            validate_maximum(question, validation, value)
           when :too_many_checked
-            if answer_record.send(question.uncheck_all_option) == 1 and value.values.reduce(:+) > 1
-              answer_record.send(:add_error, question, :too_many_checked, validation[:message] || "Invalid combination of options.")
-            end
+            validate_too_many_checked(question, validation, value)
           when :not_all_checked
-            if answer_record.send(question.check_all_option) == 1 and
-               value.values.reduce(:+) < value.length - (question.uncheck_all_option ? 1 : 0)
-              answer_record.send(:add_error, question, :not_all_checked, validation[:message] || "Invalid combination of options.")
-            end
+            validate_not_all_checked(question, validation, value)
           when :answer_group_minimum
-            answered = answer_record.send(:calc_answered, answer_record.question_groups[validation[:group]])
-            if answered < validation[:value]
-              answer_record.send(:add_error, question, :answer_group_minimum,
-                        validation[:message] || "Needs at least #{validation[:value]} question(s) answered.")
-            end
+            validate_answer_group_minimum(question, validation, value)
           when :answer_group_maximum
-            answered = answer_record.send(:calc_answered, answer_record.question_groups[validation[:group]])
-            if answered > validation[:value]
-              answer_record.send(:add_error, question, :answer_group_maximum,
-                        validation[:message] || "Needs at most #{validation[:value]} question(s) answered.")
-            end
+            validate_answer_group_maximum(question, validation, value)
           end
         end
+      end
+    end
+
+    def validate_required(question, validation, value)
+      if question.type == :check_box && value.values.reduce(:+) == 0
+        answer_record.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.")
+      elsif value.blank?
+        answer_record.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.")
+      end
+    end
+
+    def validate_integer(question, validation, value)
+      return if value.blank?
+      Integer(value)
+    rescue ArgumentError
+      answer_record.send(:add_error, question, :valid_integer, validation[:message] || "Invalid integer")
+    end
+
+    def validate_float(question, validation, value)
+      return if value.blank?
+      Float(value)
+    rescue ArgumentError
+      answer_record.send(:add_error, question, :valid_float, validation[:message] || "Invalid float")
+    end
+
+    def validate_regexp(question, validation, value)
+      return if value.blank?
+      match = validation[:matcher].match(value)
+      if not match or match[0] != value
+        answer_record.send(:add_error, question, validation[:type], validation[:message] || "Does not match pattern expected.")
+      end
+    end
+
+    def validate_minimum(question, validation, value)
+      if not value.blank? and value.to_f < validation[:value]
+        answer_record.send(:add_error, question, validation[:type], validation[:message] || "Smaller than minimum")
+      end
+    end
+
+    def validate_maximum(question, validation, value)
+      if not value.blank? and value.to_f > validation[:value]
+        answer_record.send(:add_error, question, validation[:type], validation[:message] || "Exceeds maximum")
+      end
+    end
+
+    def validate_too_many_checked(question, validation, value)
+      if answer_record.send(question.uncheck_all_option) == 1 and value.values.reduce(:+) > 1
+        answer_record.send(:add_error, question, :too_many_checked, validation[:message] || "Invalid combination of options.")
+      end
+    end
+
+    def validate_not_all_checked(question, validation, value)
+      if answer_record.send(question.check_all_option) == 1 and
+       value.values.reduce(:+) < value.length - (question.uncheck_all_option ? 1 : 0)
+        answer_record.send(:add_error, question, :not_all_checked, validation[:message] || "Invalid combination of options.")
+      end
+    end
+
+    def validate_answer_group_minimum(question, validation, value)
+      answered = answer_record.send(:calc_answered, answer_record.question_groups[validation[:group]])
+      if answered < validation[:value]
+        answer_record.send(:add_error, question, :answer_group_minimum,
+                  validation[:message] || "Needs at least #{validation[:value]} question(s) answered.")
+      end
+    end
+
+    def validate_answer_group_maximum(question, validation, value)
+      answered = answer_record.send(:calc_answered, answer_record.question_groups[validation[:group]])
+      if answered > validation[:value]
+        answer_record.send(:add_error, question, :answer_group_maximum,
+                  validation[:message] || "Needs at most #{validation[:value]} question(s) answered.")
       end
     end
   end
