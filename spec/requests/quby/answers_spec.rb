@@ -14,8 +14,8 @@ module Quby
 
     describe '#update' do
       before do
-        AnswersController.any_instance.stub(verify_hmac: true)
-        AnswersController.any_instance.stub(verify_token: true)
+        Quby::Settings.stub(authorize_with_id_from_session: false)
+        Quby::Settings.stub(authorize_with_hmac: false)
       end
 
       it 'saves the answer' do
