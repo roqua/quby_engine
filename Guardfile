@@ -34,7 +34,8 @@ guard :jasmine, jasmine_options do
 end
 
 guard :rubocop do
-  watch(%r{.+\.rb$})
+  excludes = YAML.load_file('.rubocop.yml')['AllCops']['Excludes']
+  watch(%r{(.+\.rb)$}) { |m| m[0] unless excludes.find {|excluded| File.fnmatch(excluded, m[0]) } }
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
