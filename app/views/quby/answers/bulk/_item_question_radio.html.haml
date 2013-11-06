@@ -25,4 +25,3 @@
           = radio_button(:answer, question.key, opt.key, {:class => radio_classes, :disabled => disabled ? "" : nil})
           - if show_values
             %span.value= opt.value
-      = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden", :name => "answer[#{question.key}]")

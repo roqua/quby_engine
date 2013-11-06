@@ -10,13 +10,9 @@ var lastInput;
 var nextButtonFocussed = false;
 var saveButtonFocussed = false;
 var isBulk;
-var qitems;
 var fail_vals = new Array();
 var validationI = 0;
 var hotkeysEnabled;
-var radioChecked;
-var setCurrent;
-var setCheck;
 var skipValidations = false;
 var shownFlash = false;
 var inIframe = false;
@@ -30,7 +26,6 @@ var nextQuestionInput;
 if( self != top ) {
    inIframe = true;
 }
-
 
 function activatePanel(panel, updateHash, forward) {
     if (shownFlash) {
@@ -250,7 +245,6 @@ function get_answer_count(groupkey, panel){
 // to "1" and "0" respectively
 function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
     if(checked){
-
         // Setting all other checkboxes to checkValue
         check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)")
         if(check_boxes.length == 0){
@@ -355,8 +349,7 @@ function selectInput(value){
         selectedInput = lastFocus.find("input[type='radio'][name='"+lastInput[0].name+"']:not(.subinput, :hidden, :disabled)").eq(value-1);
     }
     if(selectedInput.length > 0) {
-        setCurrent(selectedInput[0]);
-        setCheck(selectedInput[0], selectedInput.is('.deselectable'));
+        selectedInput.attr('checked', 'checked');
         radioCheckboxEvents(selectedInput[0]);
         focusNextInput();
     }
@@ -364,8 +357,7 @@ function selectInput(value){
 
 function selectFocusedInput(){
     var el = $(document.activeElement);
-    setCurrent(el);
-    setCheck(el, el.is("input[type='checkbox'], .deselectable"));
+    el.attr('checked', 'checked');
     radioCheckboxEvents(el);
     focusNextInput();
 }
@@ -552,7 +544,7 @@ function focusInputIndex(index, forward){
 }
 
 function getValidInputs(){
-    var inputs = curPanel.find('input:not([value="DESELECTED_RADIO_VALUE"], [id^="abortButton"]), textarea, select');
+    var inputs = curPanel.find('input:not([id^="abortButton"]), textarea, select');
     var hadRadioQ = [];
     inputs = inputs.filter(function (index){
         if (this.type == "radio") {
@@ -680,7 +672,6 @@ function doDivPrint(url){
           } else {
             preparePaged();
           }
-          //registerDeselectables();
         }
     });
 }
@@ -749,27 +740,6 @@ function handlePreventDefault(event){
     }
 }
 
-function registerDeselectables(){
-    //FIXME: honos65+ performance opportunity
-    //lots of labels are selected individually
-    $('input[type=radio].deselectable').each( function(i, val){
-        var label = $('label[for=' + $(this).attr("id") + ']');
-
-        $(this).bind('mousedown', function(e){
-            setCurrent(e.target);
-        });
-
-        label.bind('mousedown', function(e){
-            e.target = $('#' + $(this).attr("for"));
-            setCurrent(e.target);
-        });
-
-        $(this).bind('click', function(e){
-            setCheck(e.target, true);
-        });
-    });
-}
-
 function showPrint(url){
   var result = $(document.createElement("div"));
     result.load(url, $('form').serializeArray(), function(){
@@ -822,39 +792,22 @@ $(document).ready(
         }
         hotkeysEnabled = $(".hotkeyDialog").length > 0;
 
-        setCurrent = function(obj) {
-            radioChecked = $(obj).attr('checked');
-        };
-
-        setCheck = function(obj, deselectable) {
-            if (radioChecked){
-                if (deselectable) {
-                    $(obj).removeAttr('checked');
-                    $("input[name='"+obj.name+"'][value='DESELECTED_RADIO_VALUE']").attr('checked', 'checked');
-                }
-            } else {
-                $("input[name='"+obj.name+"'][value='DESELECTED_RADIO_VALUE']").removeAttr('checked');
-                $(obj).attr('checked', 'checked');
-            }
-        };
-
-        //registerDeselectables();
         $(".deselectable").deselectable();
 
-        $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
+        $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
 
         processExtraData();
 
         scrollToNextQuestion = $("form").hasClass("scroll_to_next_question");
         if(scrollToNextQuestion){
-          questionInputs = $("input[name][value!='DESELECTED_RADIO_VALUE'][type!='hidden'], select").filter(function(index){
+          questionInputs = $("input[name][type!='hidden'], select").filter(function(index){
             var element = $(this);
-            return element.is($("[name='"+ element.attr('name') +"'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']:first")) || element.is('[name="commit"]');
+            return element.is($("[name='"+ element.attr('name') +"'][type!='hidden']:first")) || element.is('[name="commit"]');
           });
           curQuestionInputIndex = 0;
           var scrollToHandler = function(event){
               var iname = $(event.target).attr('name');
-              curQuestionInputIndex = questionInputs.index($("[name='"+ iname + "'][value!='DESELECTED_RADIO_VALUE'][type!='hidden']"));
+              curQuestionInputIndex = questionInputs.index($("[name='"+ iname + "'][type!='hidden']"));
               curQuestionInputIndex += 1;
               nextQuestionInput = questionInputs[curQuestionInputIndex];
               $.scrollTo(nextQuestionInput, 200, {offset: -50});
@@ -915,7 +868,7 @@ $(document).ready(
             preparePaged();
         }
 
-        $('input[type="checkbox"]:not(.subinput), input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput)').each( function(index, element){
+        $('input[type="checkbox"]:not(.subinput), input[type="radio"]:not(.subinput)').each( function(index, element){
            radioCheckboxEvents(element);
         });
 

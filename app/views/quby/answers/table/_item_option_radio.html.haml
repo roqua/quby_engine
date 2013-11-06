@@ -8,8 +8,6 @@
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     - radio_classes = [question.type]
     - radio_classes << "deselectable" if question.deselectable
-    - if opt == question.options.first
-      = radio_button_tag(question.key, "DESELECTED_RADIO_VALUE", false, :class => "hidden", :name => "answer[#{question.key}]")
     - show_values = (question.show_values == true or question.show_values == :all)
     .radiocheckwrapper
       - if show_values
