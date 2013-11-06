@@ -680,7 +680,7 @@ function doDivPrint(url){
           } else {
             preparePaged();
           }
-          registerDeselectables();
+          //registerDeselectables();
         }
     });
 }
@@ -752,10 +752,7 @@ function handlePreventDefault(event){
 function registerDeselectables(){
     //FIXME: honos65+ performance opportunity
     //lots of labels are selected individually
-    Quby.questions.where({type: "radio", deselectable: true}).pluck("options").each( function(optionsCollection) {
-    //$('input[type=radio].deselectable').each( function(i, val){
-
-        optionsCollection.pluck("view").pluck("$el").each(function(optionElement) {
+    $('input[type=radio].deselectable').each( function(i, val){
         var label = $('label[for=' + $(this).attr("id") + ']');
 
         $(this).bind('mousedown', function(e){
@@ -841,7 +838,8 @@ $(document).ready(
             }
         };
 
-        registerDeselectables();
+        //registerDeselectables();
+        $(".deselectable").deselectable();
 
         $('input[type="radio"][value!="DESELECTED_RADIO_VALUE"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
 

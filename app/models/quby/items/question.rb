@@ -228,7 +228,7 @@ module Quby
         viewSelector: view_selector,
         parentKey: parent.andand.key,
         parentOptionKey: parent_option_key,
-		deselectable: deselectable
+        deselectable: deselectable
       ).merge(
         case type
         when :string
