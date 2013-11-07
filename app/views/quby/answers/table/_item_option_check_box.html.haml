@@ -19,7 +19,7 @@
 
     -if question.table.show_option_desc
       .labelwrapper
-        %label(for="answer_#{opt.key}")
+        %label{for: opt.view_id}
           %span
             - if table.columns >= 10
               %br

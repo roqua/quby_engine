@@ -4,7 +4,6 @@ module Quby
   describe AnswerValidations do
     let(:value) do
       {
-          "v_deselected" => "DESELECTED_RADIO_VALUE",
           "v_placeholder" => "a0",
           "v_default_invisible" => "a0",
           "v_hides" => "a0",
@@ -98,9 +97,6 @@ module Quby
     describe '#cleanup_input' do
       before do
         answer.cleanup_input
-      end
-      it 'clears deselected answers' do
-        answer.v_deselected.should be_nil
       end
       it 'clears placeholder answers' do
         answer.v_placeholder.should be_nil

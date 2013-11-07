@@ -32,6 +32,7 @@ describe "Quby.Logic.InitQuestions", ->
       "viewSelector": "#item_v_7"
       "parentKey": null
       "parentOptionKey": null
+      "deselectable": true
     ]
 
   describe "#initialize", ->
@@ -106,3 +107,11 @@ describe "Quby.Logic.InitQuestions", ->
       subQuestion = initializer.initializeQuestion(@questionAttributes[1])
       expect(parentOption).toBeDefined()
       expect(subQuestion.get("parentOption")).toEqual parentOption
+
+    it 'sets the question\'s attributes', ->
+      initializer = new Quby.Logic.InitQuestions(@questionAttributes)
+      question = initializer.initializeQuestion(@questionAttributes[2])
+      expect(question.get('deselectable')).toEqual true
+      expect(question.get('defaultInvisible')).toEqual false
+      expect(question.get('key')).toEqual 'v_7'
+      expect(question.get('type')).toEqual 'radio'

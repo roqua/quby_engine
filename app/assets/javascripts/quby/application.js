@@ -13,6 +13,7 @@
 //= require jquery.scrollTo-min.js
 //= require fd-slider.min.js
 //= require jquery.ba-hashchange.js
+//= require jquery.deselectableRadio.1.0.3.js
 //= require ./printer.js
 //
 //= require ./modules/activity_log

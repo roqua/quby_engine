@@ -9,7 +9,7 @@
         .labelwrapper
           - if show_values
             .value= opt.value
-          %label(for="answer_#{question.key}_#{opt.key}")
+          %label{for: opt.view_id}
             %span
               :markdown
                 #{raw opt.description}

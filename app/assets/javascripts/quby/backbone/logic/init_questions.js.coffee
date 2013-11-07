@@ -38,4 +38,5 @@ class Quby.Logic.InitQuestions
       defaultInvisible: question.default_invisible
       parentQuestion: parentQuestion
       parentOption: parentOption
+      deselectable: question.deselectable
     )

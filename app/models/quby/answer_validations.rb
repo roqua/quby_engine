@@ -49,7 +49,6 @@ module Quby
     end
 
     def clear_and_skip?(answer, question)
-      return true if answer == "DESELECTED_RADIO_VALUE"
       return true if answer == question.extra_data[:placeholder].to_s
       return true if parent_option_is_not_selected(question)
       return true if hidden_questions.andand.include?(question.key)
