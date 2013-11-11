@@ -40,10 +40,6 @@ module Quby
       self[:value_by_values] = value_by_values
     end
 
-    before_update do
-      self[:completed_at] ||= Time.now if completed? or @aborted
-    end
-
     validates_presence_of :token
     validates_length_of :token, minimum: 4
 
@@ -56,6 +52,10 @@ module Quby
     attr_accessor :extra_failed_validations
 
     attr_accessor :dsl_last_update
+
+    def set_completed_at
+      self[:completed_at] ||= Time.now if completed? or @aborted
+    end
 
     def enhance_by_dsl
       AnswerDsl.enhance(self)

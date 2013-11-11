@@ -31,6 +31,11 @@ module Quby
         updates_answers.update
       end
 
+      it 'sets the completed_at' do
+        answer.should_receive :set_completed_at
+        updates_answers.update
+      end
+
       it 'calculates scores' do
         answer.should_receive :calculate_builders
         updates_answers.update

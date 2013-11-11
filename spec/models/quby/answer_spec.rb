@@ -81,27 +81,38 @@ module Quby
       end
     end
 
-    describe "#completed_at" do
+    describe "#set_completed_at" do
       let(:answer) { Answer.create! }
       let(:time)   { Time.gm(2011, 11, 5, 11, 24, 00) }
 
       it "should record the time when answer is completed" do
-        Timecop.freeze(time) { answer.update_attributes!(q1: "Foo") }
+        Timecop.freeze(time) do
+          answer.update_attributes!(q1: "Foo")
+          answer.set_completed_at
+        end
         answer.completed_at.should == time
       end
 
       it "should record the time when answer is aborted" do
-        Timecop.freeze(time) { answer.update_attributes!(aborted: true) }
+        Timecop.freeze(time) do
+          answer.update_attributes!(aborted: true)
+          answer.set_completed_at
+        end
         answer.completed_at.should == time
       end
 
-      it "should not be set upon creation" do
+      it "should not set completed_at for incomplete answers, even if it is called" do
+        answer.set_completed_at
         answer.completed_at.should_not be
       end
 
       it "should not change when answer was previously completed" do
-        Timecop.freeze(time) { answer.update_attributes!(q1: "Foo") }
+        Timecop.freeze(time) do
+          answer.update_attributes!(q1: "Foo")
+          answer.set_completed_at
+        end
         answer.update_attributes!(q1: "Bar")
+        answer.set_completed_at
         answer.completed_at.should == time
       end
     end
