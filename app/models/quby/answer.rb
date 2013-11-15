@@ -152,17 +152,14 @@ module Quby
     end
 
     def completed?
-  #    questionnaire.panels.reduce(true) do |valid_so_far, panel|
-  #      next valid_so_far unless panel
-  #      valid_so_far and panel.validate_answer(self)
-  #    end rescue false
+      not all_blank? and valid?
+    end
 
-      all_blank = questionnaire.questions.reduce(true) do |all_blank, question|
+    def all_blank?
+      questionnaire.questions.reduce(true) do |all_blank, question|
         next all_blank unless question
         all_blank and self.send(question.key).blank?
       end
-
-      not all_blank and valid?
     end
 
     def url_params(options = {})
