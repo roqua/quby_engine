@@ -6,7 +6,7 @@ module Quby
         next if question.hidden?
 
         answer = self.send(question.key)
-        clear_question(question) if answer && clear_and_skip?(answer, question)
+        clear_question(question) if answer && clear?(answer, question)
       end
     end
 
@@ -48,8 +48,14 @@ module Quby
       end
     end
 
-    def clear_and_skip?(answer, question)
+    def clear?(answer, question)
       return true if answer == question.extra_data[:placeholder].to_s
+      return true if parent_option_is_not_selected(question)
+      return true if hidden_questions.andand.include?(question.key)
+      false
+    end
+
+    def skip_validation?(answer, question)
       return true if parent_option_is_not_selected(question)
       return true if hidden_questions.andand.include?(question.key)
       false

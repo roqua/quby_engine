@@ -20,7 +20,7 @@ module Quby
         end
 
         value = answer.send(question.key)
-        next if answer.clear_and_skip?(value, question)
+        next if answer.skip_validation?(value, question)
 
         question.validations.each do |validation|
           case validation[:type]
