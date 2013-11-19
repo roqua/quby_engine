@@ -12,10 +12,10 @@ module Quby
       @answer.cleanup_input
       @answer.validate_answers
 
-      @answer.set_completed_at
-      @answer.calculate_builders
-
-      if @answer.errors.empty? and @answer.save
+      if @answer.errors.empty?
+        @answer.set_completed_at
+        @answer.calculate_builders
+        @answer.save
         succeed!
       else
         fail!
