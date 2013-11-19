@@ -24,4 +24,8 @@ feature 'Date questions' do
     answer.errors[:v_date].should be_present
   end
 
+  scenario 'saving an invalid date' do
+    updates_answers.update('v_date_year' => '2013', 'v_date_month' => '12', 'v_date_day' => '')
+    answer.errors[:v_date].should be_present
+  end
 end
