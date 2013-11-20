@@ -19,4 +19,9 @@ feature 'Date questions' do
     answer.v_date.should == '10-12-2013'
   end
 
+  scenario 'saving without a date' do
+    updates_answers.update('v_date_year' => '', 'v_date_month' => '', 'v_date_day' => '')
+    answer.errors[:v_date].should be_present
+  end
+
 end
