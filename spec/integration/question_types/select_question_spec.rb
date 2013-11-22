@@ -15,8 +15,8 @@ feature 'Select questions' do
   let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
 
   scenario 'saving a valid choice' do
-    updates_answers.update('v_select' => 'a01')
-    answer.reload.v_select.should == 'a01'
+    updates_answers.update('v_select' => 'a1')
+    answer.reload.v_select.should == 'a1'
   end
 
   scenario 'saving with an unknown select chosen' do
