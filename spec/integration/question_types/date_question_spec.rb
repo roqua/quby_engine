@@ -13,10 +13,10 @@ feature 'Date questions' do
   let(:answer) { Quby::Answer.create(questionnaire_key: questionnaire.key) }
   let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
 
-
   scenario 'saving a valid date' do
     updates_answers.update('v_date_year' => '2013', 'v_date_month' => '12', 'v_date_day' => '10')
-    answer.v_date.should == '10-12-2013'
+    answer.errors.should_not be_present
+    answer.reload.v_date.should == '10-12-2013'
   end
 
   scenario 'saving without a date' do
