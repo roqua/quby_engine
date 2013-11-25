@@ -12,8 +12,6 @@ feature 'Editing a completed answer' do
 
     answer = create_new_answer_for(questionnaire, 'v_1' => 'a2')
     visit_new_answer_for(questionnaire, 'paged', answer)
-
-    # Choosing option that hides nothing should leave other question visible
     find('#answer_v_1_a2')[:selected].should be_true
   end
 end
