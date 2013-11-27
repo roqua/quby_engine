@@ -50,6 +50,11 @@ feature 'Integer questions' do
       answer.reload.v_integer.should == '15'
     end
 
+    scenario 'saving an empty value' do
+      updates_answers.update('v_integer' => '')
+      answer.errors[:v_integer].should_not be_present
+    end
+
     scenario 'saving a too-low integer' do
       updates_answers.update('v_integer' => '5')
       answer.errors[:v_integer].should eq([{message: 'Smaller than minimum', valtype: :minimum}])
@@ -62,10 +67,6 @@ feature 'Integer questions' do
 
     scenario 'saving an invalid integer' do
       updates_answers.update('v_integer' => 'foo')
-      answer.errors[:v_integer].should be_present
-
-      answer.errors.clear
-      updates_answers.update('v_integer' => '')
       answer.errors[:v_integer].should be_present
     end
   end
