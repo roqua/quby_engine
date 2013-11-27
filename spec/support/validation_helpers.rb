@@ -5,6 +5,12 @@ module ClientSideValidationHelpers
     end
   end
 
+  def check_option(option_key)
+    within '#panel0.current' do
+      check "answer_#{option_key}"
+    end
+  end
+
   def run_validations
     within '#panel0.current' do
       click_on 'Volgende vraag'
@@ -31,6 +37,10 @@ end
 module ServerSideValidationHelpers
   def fill_in_question(question_key, value)
     answer_to_submit[question_key] = value
+  end
+
+  def check_option(option_key)
+    answer_to_submit[option_key] = '1'
   end
 
   def run_validations
