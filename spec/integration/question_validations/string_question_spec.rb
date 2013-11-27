@@ -1,25 +1,34 @@
 require 'spec_helper'
 
-feature 'String questions' do
+shared_examples 'validations on string questions' do
   let(:questionnaire) do
     inject_questionnaire "test", <<-END
       question :v_string, type: :string, required: true do
         title "Enter a string"
-      end
+      end; end_panel
     END
   end
 
-  let(:answer) { Quby::Answer.create(questionnaire_key: questionnaire.key) }
-  let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
-
   scenario 'saving a valid string' do
-    updates_answers.update('v_string' => 'kittens!')
-    answer.errors.should_not be_present
-    answer.reload.v_string.should == 'kittens!'
+    fill_in_question 'v_string', 'kittens!'
+    run_validations
+    expect_no_errors
+    expect_saved_value 'v_string', 'kittens!'
   end
 
   scenario 'saving without a string' do
-    updates_answers.update('v_string' => '')
-    answer.errors[:v_string].should be_present
+    fill_in_question 'v_string', ''
+    run_validations
+    expect_error_on 'v_string', 'requires_answer'
   end
+end
+
+feature 'Client-side validations on string questions', js: true do
+  include ClientSideValidationHelpers
+  it_behaves_like "validations on string questions"
+end
+
+feature 'Server-side validations on string questions' do
+  include ServerSideValidationHelpers
+  it_behaves_like "validations on string questions"
 end

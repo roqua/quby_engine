@@ -22,6 +22,13 @@ module ClientSideValidationHelpers
     end
   end
 
+  def select_select_option(question_key, option_key)
+    within '#panel0.current' do
+      value_text = find("#answer_#{question_key}_#{option_key}").text
+      select value_text, from: "answer[#{question_key}]"
+    end
+  end
+
   def run_validations
     within '#panel0.current' do
       click_on 'Volgende vraag'
@@ -63,6 +70,10 @@ module ServerSideValidationHelpers
 
   def check_option(option_key)
     answer_to_submit[option_key] = '1'
+  end
+
+  def select_select_option(question_key, option_key)
+    answer_to_submit[question_key] = option_key
   end
 
   def run_validations
