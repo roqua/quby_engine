@@ -1,12 +1,6 @@
 require 'spec_helper'
 
-feature 'Server-side validations for float questions' do
-  include ServerSideValidationHelpers
-
-  let(:answer) { Quby::Answer.create(questionnaire_key: questionnaire.key) }
-  let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
-  let(:answer_to_submit) { {} }
-
+shared_examples "validations on float questions" do
   context 'requires_answer validation' do
     let(:questionnaire) do
       inject_questionnaire "test", <<-END
@@ -17,7 +11,7 @@ feature 'Server-side validations for float questions' do
     end
 
     scenario 'saving a valid float' do
-      fill_in_question 'v_float', '1.2'
+      fill_in_question('v_float', '1.2')
       run_validations
       expect_no_errors
       expect_saved_value 'v_float', '1.2'
@@ -27,7 +21,6 @@ feature 'Server-side validations for float questions' do
       fill_in_question 'v_float', '1'
       run_validations
       expect_no_errors
-      expect_saved_value 'v_float', '1'
     end
 
     scenario 'saving an invalid float' do
@@ -52,29 +45,47 @@ feature 'Server-side validations for float questions' do
     end
 
     scenario 'saving a valid float' do
-      updates_answers.update('v_float' => '15')
-      answer.errors.should_not be_present
-      answer.reload.v_float.should == '15'
+      fill_in_question('v_float', '15')
+      run_validations
+      expect_no_errors
     end
 
-    scenario 'saving an empty value' do
-      updates_answers.update('v_float' => '')
-      answer.errors[:v_float].should_not be_present
+    scenario 'saving no float' do
+      fill_in_question('v_float', '')
+      run_validations
+      expect_no_errors
     end
 
     scenario 'saving a too-low float' do
-      updates_answers.update('v_float' => '5')
-      answer.errors[:v_float].should eq([{message: 'Smaller than minimum', valtype: :minimum}])
+      fill_in_question('v_float', '5')
+      run_validations
+      expect_error_on 'v_float', 'minimum'
     end
 
     scenario 'saving a too-high float' do
-      updates_answers.update('v_float' => '25')
-      answer.errors[:v_float].should eq([{message: 'Exceeds maximum', valtype: :maximum}])
+      fill_in_question('v_float', '25')
+      run_validations
+      expect_error_on 'v_float', 'maximum'
     end
 
     scenario 'saving an invalid float' do
-      updates_answers.update('v_float' => 'foo')
-      answer.errors[:v_float].should be_present
+      fill_in_question('v_float', 'foo')
+      run_validations
+      expect_error_on 'v_float', 'valid_float'
     end
   end
+end
+
+feature 'Client-side validations on float questions', js: true do
+  include ClientSideValidationHelpers
+  before { @answer = visit_new_answer_for(questionnaire) }
+  it_behaves_like "validations on float questions"
+end
+
+feature 'Server-side validations on float questions' do
+  include ServerSideValidationHelpers
+  let(:answer) { Quby::Answer.create(questionnaire_key: questionnaire.key) }
+  let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
+  let(:answer_to_submit) { {} }
+  it_behaves_like "validations on float questions"
 end
