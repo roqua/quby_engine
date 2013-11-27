@@ -134,21 +134,39 @@ function validatePanel(panel) {
                 }
                 break;
             case "minimum":
-                var input = inputs[0];
-                if(input === undefined || input.value == ""){
-                    continue;
-                }
-                if(parseFloat(input.value) < validation.value){
-                    pushFailVal(validation.type);
+                if (inputs.length == 3 && (inputs[0].value != "" && inputs[1].value != "" && inputs[2].value != "")) {
+                    var enteredDate = new Date(inputs[2].value, inputs[1].value, inputs[0].value)
+                    var minimumDate = Date.parse(validation.value)
+
+                    if(enteredDate < minimumDate) {
+                        pushFailVal(validation.type);
+                    }
+                } else if (inputs.length == 1) {
+                    var input = inputs[0];
+                    if(input === undefined || input.value == ""){
+                        continue;
+                    }
+                    if(parseFloat(input.value) < validation.value){
+                        pushFailVal(validation.type);
+                    }
                 }
                 break;
             case "maximum":
-                var input = inputs[0];
-                if(input === undefined || input.value == ""){
-                    continue;
-                }
-                if(parseFloat(input.value) > validation.value){
-                    pushFailVal(validation.type);
+                if (inputs.length == 3 && (inputs[0].value != "" && inputs[1].value != "" && inputs[2].value != "")) {
+                    var enteredDate = new Date(inputs[2].value, parseInt(inputs[1].value) - 1, inputs[0].value)
+                    var maximumDate = Date.parse(validation.value)
+
+                    if(enteredDate > maximumDate) {
+                        pushFailVal(validation.type);
+                    }
+                } else if (inputs.length == 1) {
+                    var input = inputs[0];
+                    if(input === undefined || input.value == ""){
+                        continue;
+                    }
+                    if(parseFloat(input.value) > validation.value){
+                        pushFailVal(validation.type);
+                    }
                 }
                 break;
             case "regexp":

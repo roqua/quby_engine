@@ -87,24 +87,20 @@ shared_examples 'validations on date questions' do
       fill_in_question('v_date_day',   'baz')
       run_validations
       expect_error_on 'v_date', 'regexp'
-      expect_error_on 'v_date', 'minimum'
-      expect_error_on 'v_date', 'maximum'
 
       fill_in_question('v_date_year',  '2013')
       fill_in_question('v_date_month', '10')
       fill_in_question('v_date_day',   '33')
       run_validations
       expect_error_on 'v_date', 'regexp'
-      expect_error_on 'v_date', 'minimum'
-      expect_error_on 'v_date', 'maximum'
     end
   end
 end
 
-# feature 'Client-side validations on date questions', js: true do
-#   include ClientSideValidationHelpers
-#   it_behaves_like "validations on date questions"
-# end
+feature 'Client-side validations on date questions', js: true do
+  include ClientSideValidationHelpers
+  it_behaves_like "validations on date questions"
+end
 
 feature 'Server-side validations on date questions' do
   include ServerSideValidationHelpers
