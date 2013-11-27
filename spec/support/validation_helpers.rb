@@ -1,11 +1,18 @@
 module ClientSideValidationHelpers
   def self.included(base)
+    base.let(:validation_run_location) { :client_side }
     base.before { @answer = visit_new_answer_for(questionnaire) }
   end
 
   def fill_in_question(question_key, value)
     within '#panel0.current' do
       fill_in "answer_#{question_key}", with: value
+    end
+  end
+
+  def select_radio_option(question_key, option_key)
+    within '#panel0.current' do
+      choose "answer_#{question_key}_#{option_key}"
     end
   end
 
@@ -40,6 +47,7 @@ end
 
 module ServerSideValidationHelpers
   def self.included(base)
+    base.let(:validation_run_location) { :server_side }
     base.let(:answer) { Quby::Answer.create(questionnaire_key: questionnaire.key) }
     base.let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
     base.let(:answer_to_submit) { {} }
@@ -47,6 +55,10 @@ module ServerSideValidationHelpers
 
   def fill_in_question(question_key, value)
     answer_to_submit[question_key] = value
+  end
+
+  def select_radio_option(question_key, option_key)
+    answer_to_submit[question_key] = option_key
   end
 
   def check_option(option_key)
