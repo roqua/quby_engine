@@ -86,15 +86,17 @@ module Quby
     end
 
     def validate_minimum(question, validation, value)
+      return if value.blank?
       converted_answer_value = convert_answer_value(question, value)
-      if not value.blank? and converted_answer_value < validation[:value]
+      if converted_answer_value < validation[:value]
         answer.send(:add_error, question, validation[:type], validation[:message] || "Smaller than minimum")
       end
     end
 
     def validate_maximum(question, validation, value)
+      return if value.blank?
       converted_answer_value = convert_answer_value(question, value)
-      if not value.blank? and converted_answer_value > validation[:value]
+      if converted_answer_value > validation[:value]
         answer.send(:add_error, question, validation[:type], validation[:message] || "Exceeds maximum")
       end
     end
