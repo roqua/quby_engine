@@ -103,4 +103,6 @@ panel do
   question :v_answer_group_under_maximum1, question_group: :group3, group_maximum_answered: 1, type: :string
   question :v_answer_group_over_maximum, question_group: :group4, group_maximum_answered: 1, type: :string
   question :v_answer_group_over_maximum1, question_group: :group4, group_maximum_answered: 1, type: :string
+
+  question :v_textarea, type: :textarea
 end

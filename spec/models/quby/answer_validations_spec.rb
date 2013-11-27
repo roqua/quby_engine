@@ -98,35 +98,50 @@ module Quby
       before do
         answer.cleanup_input
       end
+
       it 'clears placeholder answers' do
         answer.v_placeholder.should be_nil
       end
+
       it 'clears answers of questions that are being hidden' do
         answer.v_hidden.should be_nil
       end
+
       it 'does not clear answers of questions that are being hidden and shown at the same time' do
         answer.v_hidden_and_shown.should == "a0"
       end
+
       it 'clears answers of questions that are default invisible and not shown' do
         answer.v_default_invisible.should be_nil
       end
+
       it 'does not clear answers of questions that are default invisible that are shown' do
         answer.v_default_invisible_shown.should == "a0"
       end
+
       it 'clears answers of questions where the parent option is not selected' do
         answer.v_child.should be_nil
       end
+
       it 'skips questions that have the :hidden type (deprecated questions)' do
         answer.v_hidden_type.should == "a0"
       end
+
       it 'does not clear questions that depend on unfilled questions' do
         answer.v_depends_on.should == "a0"
       end
+
       it 'does not clear checkbox questions' do
         answer.v_check_box.should == {"v_c1" => 0, "v_c2" => 1, "v_c3" => 1}
         answer.v_c1.should == 0
         answer.v_c2.should == 1
         answer.v_c3.should == 1
+      end
+
+      it 'converts windows line ends to linux line ends' do
+        answer.v_textarea = "foo\r\nbar"
+        answer.cleanup_input
+        answer.v_textarea.should eq("foo\nbar")
       end
     end
 
