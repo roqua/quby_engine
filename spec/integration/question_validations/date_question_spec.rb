@@ -103,14 +103,10 @@ end
 
 # feature 'Client-side validations on date questions', js: true do
 #   include ClientSideValidationHelpers
-#   before { @answer = visit_new_answer_for(questionnaire) }
 #   it_behaves_like "validations on date questions"
 # end
 
 feature 'Server-side validations on date questions' do
   include ServerSideValidationHelpers
-  let(:answer) { Quby::Answer.create(questionnaire_key: questionnaire.key) }
-  let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
-  let(:answer_to_submit) { {} }
   it_behaves_like 'validations on date questions'
 end

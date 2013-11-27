@@ -1,4 +1,8 @@
 module ClientSideValidationHelpers
+  def self.included(base)
+    base.before { @answer = visit_new_answer_for(questionnaire) }
+  end
+
   def fill_in_question(question_key, value)
     within '#panel0.current' do
       fill_in "answer_#{question_key}", with: value
@@ -35,6 +39,12 @@ module ClientSideValidationHelpers
 end
 
 module ServerSideValidationHelpers
+  def self.included(base)
+    base.let(:answer) { Quby::Answer.create(questionnaire_key: questionnaire.key) }
+    base.let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
+    base.let(:answer_to_submit) { {} }
+  end
+
   def fill_in_question(question_key, value)
     answer_to_submit[question_key] = value
   end
