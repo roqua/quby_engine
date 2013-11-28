@@ -1,5 +1,7 @@
 module Quby
   class AnswerValidator
+    class InvalidValue < StandardError; end
+
     attr_reader :questionnaire
     attr_reader :answer
 
@@ -23,27 +25,31 @@ module Quby
         next if answer.skip_validation?(value, question)
 
         question.validations.each do |validation|
-          case validation[:type]
-          when :valid_integer
-            validate_integer(question, validation, value)
-          when :valid_float
-            validate_float(question, validation, value)
-          when :regexp
-            validate_regexp(question, validation, value)
-          when :requires_answer
-            validate_required(question, validation, value)
-          when :minimum
-            validate_minimum(question, validation, value)
-          when :maximum
-            validate_maximum(question, validation, value)
-          when :too_many_checked
-            validate_too_many_checked(question, validation, value)
-          when :not_all_checked
-            validate_not_all_checked(question, validation, value)
-          when :answer_group_minimum
-            validate_answer_group_minimum(question, validation, value)
-          when :answer_group_maximum
-            validate_answer_group_maximum(question, validation, value)
+          begin
+            case validation[:type]
+            when :valid_integer
+              validate_integer(question, validation, value)
+            when :valid_float
+              validate_float(question, validation, value)
+            when :regexp
+              validate_regexp(question, validation, value)
+            when :requires_answer
+              validate_required(question, validation, value)
+            when :minimum
+              validate_minimum(question, validation, value)
+            when :maximum
+              validate_maximum(question, validation, value)
+            when :too_many_checked
+              validate_too_many_checked(question, validation, value)
+            when :not_all_checked
+              validate_not_all_checked(question, validation, value)
+            when :answer_group_minimum
+              validate_answer_group_minimum(question, validation, value)
+            when :answer_group_maximum
+              validate_answer_group_maximum(question, validation, value)
+            end
+          rescue InvalidValue
+            answer.send(:add_error, question, validation[:type], validation[:message] || "Invalid value.")
           end
         end
       end
@@ -80,13 +86,17 @@ module Quby
     end
 
     def validate_minimum(question, validation, value)
-      if not value.blank? and value.to_f < validation[:value]
+      return if value.blank?
+      converted_answer_value = convert_answer_value(question, value)
+      if converted_answer_value < validation[:value]
         answer.send(:add_error, question, validation[:type], validation[:message] || "Smaller than minimum")
       end
     end
 
     def validate_maximum(question, validation, value)
-      if not value.blank? and value.to_f > validation[:value]
+      return if value.blank?
+      converted_answer_value = convert_answer_value(question, value)
+      if converted_answer_value > validation[:value]
         answer.send(:add_error, question, validation[:type], validation[:message] || "Exceeds maximum")
       end
     end
@@ -118,6 +128,25 @@ module Quby
         answer.send(:add_error, question, :answer_group_maximum,
                     validation[:message] || "Needs at most #{validation[:value]} question(s) answered.")
       end
+    end
+
+    private
+
+    def convert_answer_value(question, value)
+      case question.type
+      when :float
+        Float(value)
+      when :integer
+        Integer(value)
+      when :date
+        DateTime.strptime(value, "%d-%m-%Y")
+      else
+        value
+      end
+    rescue ArgumentError => e
+      raise InvalidValue, e.message
+    rescue TypeError => e
+      raise InvalidValue, e.message
     end
   end
 end

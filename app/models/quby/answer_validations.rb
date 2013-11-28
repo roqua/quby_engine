@@ -6,7 +6,11 @@ module Quby
         next if question.hidden?
 
         answer = self.send(question.key)
-        clear_question(question) if answer && clear?(answer, question)
+        if answer && clear?(answer, question)
+          clear_question(question)
+        elsif answer && question.type == :textarea
+          self.send("#{question.key}=", answer.gsub("\r\n", "\n"))
+        end
       end
     end
 
