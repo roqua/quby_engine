@@ -4,7 +4,7 @@ shared_examples 'validations on radio questions' do
   context 'requires_answer validation' do
     let(:questionnaire) do
       inject_questionnaire "test", <<-END
-        question :v_radio, type: :radio, required: true do
+        question :v_radio, type: :radio, required: true, deselectable: true do
           title "Pick one"
           option :a1, value: 1, description: 'Unicorns'
           option :a2, value: 2, description: 'Rainbows'
@@ -17,6 +17,13 @@ shared_examples 'validations on radio questions' do
       run_validations
       expect_no_errors
       expect_saved_value 'v_radio', 'a1'
+    end
+
+    scenario 'saving after deselecting the radio again' do
+      select_radio_option 'v_radio', 'a1'
+      deselect_radio_option 'v_radio', 'a1'
+      run_validations
+      expect_error_on 'v_radio', 'requires_answer'
     end
 
     scenario 'saving with an unknown radio chosen' do

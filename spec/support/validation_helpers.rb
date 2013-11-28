@@ -16,6 +16,13 @@ module ClientSideValidationHelpers
     end
   end
 
+  def deselect_radio_option(question_key, option_key)
+    within '#panel0.current' do
+      find(:input, "#answer_#{question_key}_#{option_key}").click
+      page.should have_no_checked_field("answer_#{question_key}_#{option_key}")
+    end
+  end
+
   def check_option(option_key)
     within '#panel0.current' do
       check "answer_#{option_key}"
@@ -66,6 +73,10 @@ module ServerSideValidationHelpers
 
   def select_radio_option(question_key, option_key)
     answer_to_submit[question_key] = option_key
+  end
+
+  def deselect_radio_option(question_key, option_key)
+    answer_to_submit[question_key] = nil
   end
 
   def check_option(option_key)
