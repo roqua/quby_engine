@@ -53,7 +53,7 @@ module Quby
     def validate_question_key_starts_with_v_underscore(q)
       q.questions.compact.each do |question|
         unless question.key.to_s.start_with?('v_')
-          raise "Keys van de vraagdefinities moeten beginnen met `v_`. Was `#{question.key}"
+          raise "Keys van de vraagdefinities moeten beginnen met `v_`. Was `#{question.key}`."
         end
       end
     end
