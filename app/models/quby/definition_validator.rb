@@ -16,7 +16,8 @@ module Quby
 
       check_if_to_be_hidden_questions_actually_exist(q)
 
-      validate_question_keys(q)
+      validate_question_key_length(q)
+      validate_question_key_starts_with_v_underscore(q)
 
       true
     # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
@@ -40,12 +41,19 @@ module Quby
       end
     end
 
-    def validate_question_keys(q)
+    def validate_question_key_length(q)
       q.questions.compact.each do |question|
-        # Raise error only if current questionnaire has question keys that are
-        # longer than 10chars
-        if question.key.length > 10
-          raise "Key van de vraagdefinities moet maximaal 10 karakters zijn."
+        if question.key.to_s.length > 10
+          raise "Key van de vraagdefinities mag niet langer dan 10 karakters zijn.<br />" +
+                "Vervang `#{question.key}` met een kortere key."
+        end
+      end
+    end
+
+    def validate_question_key_starts_with_v_underscore(q)
+      q.questions.compact.each do |question|
+        unless question.key.to_s.start_with?('v_')
+          raise "Keys van de vraagdefinities moeten beginnen met `v_`. Was `#{question.key}"
         end
       end
     end
