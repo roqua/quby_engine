@@ -15,6 +15,9 @@ module Quby
       QuestionnaireDsl.enhance(q, [functions, definition].join("\n\n"))
 
       check_if_to_be_hidden_questions_actually_exist(q)
+
+      validate_question_keys(q)
+
       true
     # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
     rescue Exception => e
@@ -33,6 +36,16 @@ module Quby
               end
             end
           end
+        end
+      end
+    end
+
+    def validate_question_keys(q)
+      q.questions.compact.each do |question|
+        # Raise error only if current questionnaire has question keys that are
+        # longer than 10chars
+        if question.key.length > 10
+          raise "Key van de vraagdefinities moet maximaal 10 karakters zijn."
         end
       end
     end
