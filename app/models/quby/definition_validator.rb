@@ -1,5 +1,9 @@
 module Quby
   class DefinitionValidator
+
+    MAX_KEY_LENGTH  = 13
+    KEY_PREFIX      = 'v_'
+
     attr_reader :questionnaire
     attr_reader :definition
 
@@ -43,8 +47,8 @@ module Quby
 
     def validate_question_key_length(q)
       q.questions.compact.each do |question|
-        if question.key.to_s.length > 10
-          raise "Key van de vraagdefinities mag niet langer dan 10 karakters zijn.<br />" +
+        if question.key.to_s.length > MAX_KEY_LENGTH
+          raise "Key van de vraagdefinities mag niet langer dan #{MAX_KEY_LENGTH} karakters zijn.<br />" +
                 "Vervang `#{question.key}` met een kortere key."
         end
       end
@@ -52,8 +56,8 @@ module Quby
 
     def validate_question_key_starts_with_v_underscore(q)
       q.questions.compact.each do |question|
-        unless question.key.to_s.start_with?('v_')
-          raise "Keys van de vraagdefinities moeten beginnen met `v_`. Was `#{question.key}`."
+        unless question.key.to_s.start_with?(KEY_PREFIX)
+          raise "Keys van de vraagdefinities moeten beginnen met `#{KEY_PREFIX}`. Was `#{question.key}`."
         end
       end
     end
