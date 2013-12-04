@@ -44,6 +44,12 @@ feature 'Hiding questions' do
     choose "answer_v_6_a6"
     page.should have_selector("[data-for=v_8].show", count: 8, visible: false)
   end
+
+  scenario 'does not hide in bulk version due to different css', js: true do
+    visit_new_answer_for(questionnaire, "bulk")
+    choose "answer_v_6_a6"
+    page.should have_selector("[data-for=v_8].hide", count: 8, visible: true)
+  end
 end
 
 feature 'Hiding all questions hides panels' do
@@ -65,15 +71,16 @@ feature 'Hiding all questions hides panels' do
 
   context 'in bulk view' do
     let(:questionnaire) { Quby.questionnaire_finder.find("question_hiding") }
-    scenario 'by clicking an option that hides all questions on a panel', js: true do
+    scenario 'clicking an option that hides all questions on a panel does not hide', js: true do
       visit_new_answer_for(questionnaire, "bulk")
       choose "answer_v_6_a6"
-      page.should have_selector("#panel1.noVisibleQuestions", visible: false)
+      page.should have_selector("#panel1.noVisibleQuestions", visible: true)
     end
-    scenario 'by visiting an answer that has an option that hides all questions on a panel filled in', js: true do
+    scenario 'visiting an answer that has an option that hides all questions on a panel filled in does not hide',
+             js: true do
       answer = create_new_answer_for(questionnaire, "v_6" => "a6")
       visit_new_answer_for(questionnaire, "bulk", answer)
-      page.should have_selector("#panel1.noVisibleQuestions", visible: false)
+      page.should have_selector("#panel1.noVisibleQuestions", visible: true)
     end
   end
 end
@@ -128,9 +135,15 @@ feature 'Default invisible questions' do
     visit_new_answer_for(questionnaire)
     page.should have_selector("[data-for=v_9].hide", count: 8, visible: false)
   end
+
   scenario 'can be shown with shows_questions', js: true do
     visit_new_answer_for(questionnaire)
     choose "answer_v_7_a5"
     page.should have_selector("[data-for=v_9].show", count: 8, visible: false)
+  end
+
+  scenario 'are visible in bulk view', js: true do
+    visit_new_answer_for(questionnaire, "bulk")
+    page.should have_selector("[data-for=v_9].hide", count: 8, visible: true)
   end
 end

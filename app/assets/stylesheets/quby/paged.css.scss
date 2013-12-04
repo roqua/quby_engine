@@ -1,7 +1,20 @@
 @import "paged/mobile";
 @import "paged/desktop";
 
+.hidden { display: none;}
+
 .paged {
+
+  .noVisibleQuestions { display: none;}
+
+  .hide {
+    margin:  0 !important;
+  }
+
+  .hide > * {
+    display: none !important;
+  }
+
   // grid setup
   $column-width: 2em;
   $gutter-width: 0.5em;

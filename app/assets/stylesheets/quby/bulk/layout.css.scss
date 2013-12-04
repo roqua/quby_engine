@@ -72,7 +72,6 @@
 
       .item { 
         @include span-columns($desktop-columns omega);
-        &.hidden{ display:none;}
 
         &.errors {
           outline: 1px solid red;

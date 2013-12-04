@@ -32,95 +32,107 @@ h1 {
 }
 body > #content{
   display:none !important;
-} 
+}
+
+.hidden { display: none;}
 
 .print{
 
-    em {
-        font-weight: bold; }
-    
-    p {
-        margin: 0.5em; }
-    
-    ul {
-        margin-top: 0.5em;
-        margin-left: 1em;
-    li {
-        list-style-type: disc;
-        margin-bottom: 0.3em; } }
-    
-    .description-and-fields{
+  .noVisibleQuestions { display: none;}
+
+  .hide {
+    margin:  0 !important;
+  }
+
+  .hide > * {
+    display: none !important;
+  }
+
+  em {
+      font-weight: bold; }
+
+  p {
+      margin: 0.5em; }
+
+  ul {
+      margin-top: 0.5em;
+      margin-left: 1em;
+  li {
+      list-style-type: disc;
+      margin-bottom: 0.3em; } }
+
+  .description-and-fields{
+      float:left;
+      width:50%;
+  }
+
+    border: none;
+    margin-left: 1em;
+    .item{
+
+        display:inline-block;
+        &:after {
+            content:"&nbsp;";
+            display:block;
+            height:0;
+            clear:both;
+            visibility:hidden;
+        }
+
+        width:95%;
+        border: 1px solid;
+
+        &.subitem {
+            border: 0;
+        }
+
+        margin-top: -1px;
+        padding: 1em 0.5em;
+        .radio > label, .checkbox > label {
+           padding-right: 1em;
+           font-weight: bold; }
+        .labelwrapper{
+            display:inline;
+            float:left;
+         }
+    }
+
+    .main{
         float:left;
         width:50%;
-    }  
-            
-      border: none;
-      margin-left: 1em;
-      .item{
-          
-          display:inline-block;
-          &:after {
-              content:"&nbsp;"; 
-              display:block; 
-              height:0; 
-              clear:both; 
-              visibility:hidden;
-          }
-          
-          width:95%;
-          border: 1px solid;
-          
-          &.subitem {
-              border: 0;
-          }
-          
-          margin-top: -1px;
-          padding: 1em 0.5em;
-          .radio > label, .checkbox > label {
-             padding-right: 1em;
-             font-weight: bold; }
-          .labelwrapper{
-              display:inline;
-              float:left;
-           }             
-      }
-      
-      .main{
-          float:left;
-          width:50%;
-          //padding-right: 0.5em;
-      }
+        //padding-right: 0.5em;
+    }
 
-      .main label{
-          float:left;
-          width:89%;
-      }
-       
-      .fields {
-          padding-left: 4em;
-          width:100%;
-          float:right;
-          padding:0 0.5em;            
-          border-left: 1px solid;
-          .description {
-            display:block;
-          }
-      }
-      .description, .text {
-          ul {
-              margin-left: 0.5em; } }
-    .bulk{
-        .option {display: inline;}
+    .main label{
+        float:left;
+        width:89%;
     }
-    
-    span p, .radiocheckwrapper, div.value{
-        display: inline;
+
+    .fields {
+        padding-left: 4em;
+        width:100%;
+        float:right;
+        padding:0 0.5em;
+        border-left: 1px solid;
+        .description {
+          display:block;
+        }
     }
-    
-    .hidden, #hotkeyDialogLink, #mastfoot, .buttons{
-      display: none;
-    }
-    :disabled {
-      display: none;
-    }
+    .description, .text {
+        ul {
+            margin-left: 0.5em; } }
+  .bulk{
+      .option {display: inline;}
+  }
+
+  span p, .radiocheckwrapper, div.value{
+      display: inline;
+  }
+
+  .hidden, #hotkeyDialogLink, #mastfoot, .buttons{
+    display: none;
+  }
+  :disabled {
+    display: none;
+  }
 }
