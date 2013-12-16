@@ -75,6 +75,9 @@ module Quby
     # Extra data hash to store on the question item's html element
     attr_accessor :extra_data
 
+    # data-attributes for the input tag.
+    attr_accessor :input_data
+
     # Whether we use the :description, the :value or :none for the score header above this question
     attr_accessor :score_header
 
@@ -143,6 +146,9 @@ module Quby
       @year_key = options[:year_key].andand.to_s
       @month_key = options[:month_key].andand.to_s
       @day_key = options[:day_key].andand.to_s
+
+      @input_data = {}
+      @input_data[:value_tooltip] = true if options[:value_tooltip]
 
       # Require subquestions of required questions by default
       options[:required] = true if @parent.andand.validations.andand.first.andand[:type] == :requires_answer

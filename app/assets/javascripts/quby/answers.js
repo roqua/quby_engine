@@ -121,7 +121,9 @@ function validatePanel(panel) {
           question_item = panel.find("[data-for=" + question_key + "]");
       }
 
-      var inputs = question_item.find("input, textarea, select").not(":disabled, :hidden");
+      var inputs = question_item.find("input, textarea, select")
+      if (!question_item.is('.slider'))
+          inputs = inputs.not(":disabled, :hidden")
 
       fail_vals = new Array();
 
