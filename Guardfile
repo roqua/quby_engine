@@ -33,7 +33,7 @@ guard :jasmine, jasmine_options do
   watch(%r{app/assets/javascripts/(.+?)\.(js\.coffee|js|coffee)}) { 'spec/javascripts' }
 end
 
-guard :rubocop do
+guard :rubocop, all_on_start: false do
   excludes = YAML.load_file('.rubocop.yml')['AllCops']['Excludes']
   watch(%r{(.+\.rb)$}) { |m| m[0] unless excludes.find {|excluded| File.fnmatch(excluded, m[0]) } }
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }

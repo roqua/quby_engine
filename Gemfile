@@ -35,7 +35,7 @@ group :assets do
 end
 
 platforms :ruby, :jruby do
-  gem 'therubyracer'
+  gem 'therubyracer', '~> 0.12.0'
 end
 
 group :test, :development do
