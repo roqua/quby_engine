@@ -33,9 +33,11 @@ module Quby
         validate_key_format key
         if question.is_a? Quby::Items::Question
           to_be_hidden_questions_exist? question, questionnaire
-          validate_key_format question.year_key
-          validate_key_format question.month_key
-          validate_key_format question.day_key
+          if question.type == :date
+            validate_key_format question.year_key
+            validate_key_format question.month_key
+            validate_key_format question.day_key
+          end
         end
       end
     end

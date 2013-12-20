@@ -39,7 +39,7 @@ module Quby
           end
         END
         valid_key = <<-END
-          question :v_2, type: :radio do
+          question :v_12345678901, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description'
           end
