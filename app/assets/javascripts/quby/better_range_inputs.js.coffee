@@ -8,7 +8,7 @@ class BetterSlider
   constructor: (el) ->
     @$el = $(el)
     @min = +@$el.attr('min') || 0
-    @max = +@$el.attr('max') || 100
+    @max = 200 #+@$el.attr('max') || 100
     @step = +@$el.attr('step') || 1
     @$slider = $('<div />')
     @$value_div = $('<div class="noUi-value" />')
@@ -36,6 +36,7 @@ class BetterSlider
     initialized = @$slider.hasClass('noUi-target')
     @$slider.noUiSlider(options, initialized)
     @add_value_div() if @$el.data('value-tooltip')
+    @add_wia_aria_support()
     @add_keyboard_interaction()
 
   add_value_div: ->
@@ -73,3 +74,15 @@ class BetterSlider
   # step size for keyboard interaction.
   keyboard_step: ->
     Math.max @step, (@max-@min)/100
+
+  add_wia_aria_support: ->
+    @$slider.find('.noUi-handle')
+      .attr('role', 'slider')
+      .attr('aria-labelledby', @$slider.closest('.item').find('label').attr('for'))
+      .attr('aria-valuemin', @min)
+      .attr('aria-valuemax', @max)
+      .attr('aria-valuenow', @$slider.val())
+      .attr('aria-valuetext', @$slider.val())
+    @$slider.on 'slide', =>
+      @$slider.find('.noUi-handle').attr('aria-valuenow', @$slider.val())
+      @$slider.find('.noUi-handle').attr('aria-valuetext', @$slider.val())
