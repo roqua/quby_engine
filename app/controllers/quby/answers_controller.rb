@@ -3,7 +3,8 @@ require 'addressable/uri'
 
 module Quby
   class AnswersController < Quby::ApplicationController
-    class Unauthorized < StandardError; end
+    class InvalidAuthorization < StandardError; end
+    class MissingAuthorization < StandardError; end
     class TokenValidationError < Exception; end
     class TimestampValidationError < Exception; end
     class QuestionnaireNotFound < StandardError; end
@@ -28,7 +29,8 @@ module Quby
     rescue_from TokenValidationError,     with: :bad_token
     rescue_from QuestionnaireNotFound,    with: :bad_questionnaire
     rescue_from TimestampValidationError, with: :bad_timestamp
-    rescue_from Unauthorized,             with: :bad_authorization
+    rescue_from InvalidAuthorization,     with: :bad_authorization
+    rescue_from MissingAuthorization,     with: :bad_authorization
 
     def show
       redirect_to action: "edit"
@@ -134,7 +136,8 @@ module Quby
 
     def authorize!
       if Quby::Settings.authorize_with_id_from_session
-        raise Unauthorized unless params[:id] == session[:quby_answer_id]
+        raise MissingAuthorization unless session[:quby_answer_id].present?
+        raise InvalidAuthorization unless params[:id] == session[:quby_answer_id]
       end
     end
 
