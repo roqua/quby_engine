@@ -37,11 +37,11 @@
 
   @include paged-mobile($mobile-width, $mobile-columns);
   @include paged-desktop($desktop-width, $desktop-columns);
-  
+
   .panel {
     margin-bottom: 2em;
     @include box-shadow(0 0 6px rgba(0, 0, 0, 0.3));
-   
+
     h1 {
       font-size: 1.5em;
       font-weight: bold;
@@ -50,13 +50,13 @@
     }
 
     hr { height: 8px; border: 0; background: #ddd; }
-    
+
     .buttons {
       border-top: 1px dotted #d6d6d6;
       background: #f3f3f3;
     }
-    
-    .item { 
+
+    .item {
       &.hidden{ display:none; }
 
       &.errors {
@@ -70,14 +70,14 @@
           margin-bottom: 0.3em;
         }
       }
-      
+
       .main {
         font-weight: bold;
         em {
             font-style: italic;
         }
       }
-      
+
       .text {
         @include text;
       }
@@ -87,7 +87,7 @@
       }
 
       &.horizontal {
-        .main { 
+        .main {
           margin-bottom: 1em;
         }
       }
@@ -100,7 +100,7 @@
         }
 
         .option {
-          .labelwrapper { 
+          .labelwrapper {
             p { display: inline; }
           }
 
@@ -116,8 +116,8 @@
               border: 0;
               text-align: center;
           }
-          
-          .option, .description { 
+
+          .option, .description {
               &.optionwidth1{width:20%}
               &.optionwidth2{width:20%}
               &.optionwidth3{width:20%}
@@ -131,7 +131,7 @@
               &.optionwidth11{width:(100%/11)}
               &.optionwidth12{width:(100%/12)}
           }
-          
+
       }
     }
 

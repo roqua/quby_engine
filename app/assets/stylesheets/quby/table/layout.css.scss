@@ -4,15 +4,15 @@
         p, div {
             display:inline;
         }
-        
+
         caption{
             margin-bottom: 0.5em;
         }
-        
+
         .errors{
             outline: 2px solid red !important;
         }
-        
+
         .error{
             display: inline-block;
             background: #ffbbbb;
@@ -25,19 +25,19 @@
             *{
                 width:auto;
             }
-            
+
             .option {
                 white-space:normal;
             }
-            
+
             td > div > *{
               margin-top: 0.5em;
               margin-bottom: 0.5em;
             }
-            
+
             border-bottom: 1px solid black;
-            
-            border-collapse: collapse; 
+
+            border-collapse: collapse;
             .row{
                 td, th{
                     display:table-cell;
@@ -51,11 +51,11 @@
                 }
                 &.inner_row td{border:0;}
                 &:first-child td{border-top:1px solid #bbb;}
-                 
+
                 @include span-columns($total-columns omega);
                 float:none;
                 display:table-row;
-                
+
                 input {
                     &.float , &.integer {
                         width: 54px;
@@ -67,7 +67,7 @@
                     &.slider {
                       width: 80%;
                     }
-                    &.sized { width: auto;} 
+                    &.sized { width: auto;}
 
                     /* These properties get overriden by our table reset, so we have to re-apply them with a more specific selector */
                     &.fd-form-element-hidden { display: none; }
@@ -99,7 +99,7 @@
         .description{
             text-align: right;
         }
-            
+
         .option_sets{
             .option{
                 padding-left:1em;

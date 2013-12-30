@@ -3,14 +3,14 @@
     $desktop-columns: 24;
     $label-columns: 12;
     $field-columns: $desktop-columns - $label-columns;
-    
+
     @include container;
 
     border: 10px solid #dddddd;
     padding: 3em $grid-padding 1.5em;
     line-height: 18px;
     background: white;
-    
+
     .buttons {
       @include span-columns($desktop-columns omega);
       margin: 1.5em (-$grid-padding) -1.5em;
@@ -27,7 +27,7 @@
 
     .panel {
       @include span-columns($desktop-columns omega);
-      
+
       h1 {
         font-size: 1.5em;
         font-weight: bold;
@@ -35,12 +35,12 @@
         margin-bottom: 1.2em;
         z-index: 400;
       }
-      
+
       &.first .buttons {
         .abort { @include pre(6); }
         .print { @include pre(6); }
       }
-      
+
     .options {
         @include pre(12);
         @include span-columns(12 omega);
@@ -66,11 +66,11 @@
         &.optionwidth12{width:(100%/12)}
         white-space:nowrap;
         &.scaleheader{
-            white-space:normal;        
+            white-space:normal;
         }
     }
 
-      .item { 
+      .item {
         @include span-columns($desktop-columns omega);
 
         &.errors {
@@ -84,14 +84,14 @@
             margin-bottom: 0.3em;
           }
         }
-        
+
         label.main {
           @include span-columns($label-columns);
           //font-weight: bold;
           em { font-style: italic; }
           strong { font-weight: bold; }
         }
-        
+
         .text {
           @include text;
           margin-top: 3em;
@@ -113,13 +113,13 @@
         //}
 
         // Specific CSS for certain item types
-      
+
         &.string, &.textarea {
           margin-bottom: 0.5em;
           &.bulkitem {
             margin-bottom: 0.0em;
           }
-          input, textarea { 
+          input, textarea {
             width: 99%;
           }
         }
@@ -139,7 +139,7 @@
           }
 
         }
-        
+
         &.bulkitem {
             padding: 0.5em 0em 0.5em 0.5em;
             &.radio, &.check_box, &.scale {
@@ -162,7 +162,7 @@
                 .fields.options17 table { @include span-columns(17 omega); @include post( 1); }
                 .fields.options18 table { @include span-columns(18 omega);                    }
                 // more than 18 options is future work
-            
+
                 &.horizontal {
                     // we need to reset this to be table cells
                     .description { float: none; display: table-cell; }
@@ -173,7 +173,7 @@
                     margin-top: 1em;
                 }
                 .option {
-                    text-align: center;                                    
+                    text-align: center;
                 }
             }
         }
@@ -199,21 +199,21 @@
             }
 
             .option {
-              @include span-columns($field-columns omega, $field-columns); 
+              @include span-columns($field-columns omega, $field-columns);
               // display: block;
-              .radiocheckwrapper { 
+              .radiocheckwrapper {
                 @include span-columns(1, $field-columns);
               }
-              .labelwrapper      { 
-                @include span-columns($field-columns - 1 omega, $field-columns); 
+              .labelwrapper      {
+                @include span-columns($field-columns - 1 omega, $field-columns);
                 label { white-space: normal; }
                 p { display: inline; }
               }
 
               &.show_values {
-                .value { 
-                  @include span-columns(1, $field-columns); 
-                  text-align: center; 
+                .value {
+                  @include span-columns(1, $field-columns);
+                  text-align: center;
                 }
                 //.labelwrapper { @include span-columns(16, true); }
               }
@@ -222,8 +222,8 @@
                   @include pre(1);
                   @include span-columns($field-columns - 1, $field-columns);
 
-                  .item { 
-                       @include span-columns($field-columns - 1, $field-columns); 
+                  .item {
+                       @include span-columns($field-columns - 1, $field-columns);
                        input { width: auto; }
                   }
               }
