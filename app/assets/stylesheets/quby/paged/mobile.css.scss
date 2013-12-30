@@ -1,8 +1,12 @@
 @mixin paged-mobile($width, $columns) {
   $grid-padding: 10px;
+  $label-columns: $columns / 3;
+  $field-columns: $columns - $label-columns;
 
   .panel {
     @include container($columns);
+    @include tablemix($columns, $label-columns, $field-columns);
+
     padding-top: $grid-padding;
   }
 
