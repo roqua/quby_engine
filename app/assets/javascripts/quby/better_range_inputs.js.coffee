@@ -72,8 +72,12 @@ class BetterSlider
       e.preventDefault()
 
   # step size for keyboard interaction.
+  # keyboard_step = n * @step, with n∈ℕ, n>0
   keyboard_step: ->
-    Math.max @step, (@max-@min)/100
+    max_steps = 100
+    min_keyboard_step = (@max-@min) / max_steps
+    n = Math.ceil( min_keyboard_step / @step )
+    n * @step
 
   add_wia_aria_support: ->
     @$slider.find('.noUi-handle')
