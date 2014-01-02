@@ -60,6 +60,13 @@
     }
   }
 
+  .progress-bar {
+    @include span-columns($columns omega);
+    margin-left: -$grid-padding;
+    margin-right: -$grid-padding;
+    padding: 1.5em $grid-padding;
+  }
+
   .buttons {
     @include span-columns($columns omega);
     margin-left: -$grid-padding;
