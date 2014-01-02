@@ -28,7 +28,7 @@
         .progress-slider
           - panels.length.times do |i|
             - item = i + 1
-            - class_name = "stop-#{item}"
+            - class_name = "step-#{item}"
             - class_name << ' active'      if item <= current
             - class_name << ' first-child' if item == 1
             - class_name << ' last-child'  if item == panels.length
