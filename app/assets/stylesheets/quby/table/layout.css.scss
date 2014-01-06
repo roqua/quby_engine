@@ -21,6 +21,9 @@
                 display:none;
             }
         }
+        .noUi-target, .noUi-target div {
+            display: block;
+        }
         table{
             *{
                 width:auto;

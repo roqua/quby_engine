@@ -23,6 +23,7 @@ module Quby
 
       def question(key, options = {}, &block)
         raise "Question key: #{key} repeated!" if @panel.questionnaire.question_hash[key]
+        raise "You can't create a slider in a table at the moment" if options[:as] == :slider
 
         q = QuestionBuilder.new(key, @default_question_options.merge(options)
                                                               .merge(table: @table,
