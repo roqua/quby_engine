@@ -6,6 +6,10 @@
     padding-top: $grid-padding;
   }
 
+  tr {
+    border: 1px solid #aaa;
+  }
+
   .item {
     @include span-columns($columns omega);
     margin-bottom: 18px;

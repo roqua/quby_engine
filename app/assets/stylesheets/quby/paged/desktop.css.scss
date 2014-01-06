@@ -6,6 +6,10 @@
 
     @include general-desktop;
 
+    tr {
+      border: none;
+    }
+
     .panel {
       @include container;
       @include tablemix($columns, $label-columns, $field-columns);
