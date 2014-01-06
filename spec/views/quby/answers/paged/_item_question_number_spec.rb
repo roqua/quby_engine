@@ -45,7 +45,7 @@ module Quby
       rendered.should include("step=\"0.01\"")
     end
 
-    it 'sets data: {show_values: true} show_values in [:paged, :all, true]' do
+    it 'sets data: {show_values: true} when show_values in [:paged, :all, true]' do
       question.stub(show_values: :paged)
       render partial: "quby/answers/paged/item_question_number",
              locals: {question: question, subquestion: false, disabled: false}
@@ -62,7 +62,8 @@ module Quby
       rendered.should include(%q~data-show-values="true"~)
     end
 
-    it 'should not set data: {show_values: true} show_values in [:paged, :all, true]' do
+    it 'should not set data: {show_values: true} when show_values in [:none]' do
+      question.stub(show_values: :none)
       render partial: "quby/answers/paged/item_question_number",
              locals: {question: question, subquestion: false, disabled: false}
       rendered.should_not include(%q~data-show-values="true"~)
