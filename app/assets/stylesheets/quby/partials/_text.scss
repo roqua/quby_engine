@@ -7,13 +7,13 @@
      border-top: 8px solid #ddd;
      padding-top: 16px;
   }
-  
+
   small { font-size: 80%; }
   strong { font-style: italic; }
   em { font-weight: bold; }
-  
+
   p { margin-bottom: 18px; }
-  
+
   ul {
     margin-top: 1em;
     margin-left: 1em;
@@ -21,7 +21,7 @@
     li {
       list-style-type: disc;
       margin-bottom: 1em !important;
-      
+
       p { margin-bottom: 0; }
 
       ul {
@@ -29,12 +29,12 @@
         margin-left: 1.5em;
         li {
           margin-bottom: 0 !important;
-          list-style-type: none; 
-        } 
+          list-style-type: none;
+        }
       }
     }
   }
-  
+
   ol li { list-style-type: lower-alpha; }
 
 }

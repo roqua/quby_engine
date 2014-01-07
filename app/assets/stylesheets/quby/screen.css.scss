@@ -5,7 +5,7 @@
 }
 #modalFrame {
     width: 100%;
-    height: 99%;    
+    height: 99%;
 }
 
 .x_container{
@@ -38,12 +38,12 @@ body {
   color: #aaaaaa;
 
   &:before {
-    content: "\2014"; 
+    content: "\2014";
   }
-  
+
   &:after {
-    content: "\2014"; 
-  } 
+    content: "\2014";
+  }
 }
 
 #noscript-warning {
@@ -78,7 +78,7 @@ em {
   input[disabled] {
       background-color: #ddd;
   }
-  
+
   .flash {
     @include container;
 
@@ -88,7 +88,7 @@ em {
       background: #333333;
       border: 1px solid black;
     }
-    
+
     .error {
       background: #ffbbbb;
       border: 1px solid #ff3333;
@@ -100,9 +100,9 @@ em {
     .success {
       background-color: #ccffcc;
       border: 1px solid #11cc11;
-    } 
+    }
   }
-  
+
   .force-submit {
     background: #ffffcc;
     border: 1px solid #ffcc66;
@@ -113,15 +113,15 @@ em {
     h1 { font-weight: bold; margin-bottom: 1em;}
     p  { margin-bottom: 1em; }
   }
-  
+
   .specifier{
       margin: 0 !important;
       &.errors , input{
-        width:auto !important;    
+        width:auto !important;
       }
-  }  
-  
-  
+  }
+
+
 }
 
 .evenRow {
@@ -150,11 +150,11 @@ table {
     color: white;
     padding: 5px;
   }
-  
+
   tr.even {
     background: #e9e9e9;
   }
-  
+
   td {
     padding: 5px;
     border: 1px solid #cecece;
