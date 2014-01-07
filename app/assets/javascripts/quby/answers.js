@@ -885,6 +885,14 @@ $(document).ready(
                 }
             );
 
+
+            $("form").on("submit", function(event) {
+                if (!validatePanel($(this).find('.current.panel').first())) {
+                    done_button_semaphore = true;
+                    event.preventDefault(); return false;
+                }
+            });
+
             preparePaged();
         }
 
@@ -911,7 +919,7 @@ $(document).ready(
             window.onbeforeunload = null;
             if (done_button_semaphore){
                 done_button_semaphore = false
-                setTimeout("done_button_semaphore = true;", 3000)
+                setTimeout(function(){ done_button_semaphore = true }, 3000)
                 return true;
             } else {
                 return false;
