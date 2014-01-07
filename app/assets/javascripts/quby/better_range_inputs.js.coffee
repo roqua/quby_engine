@@ -8,7 +8,7 @@ class BetterSlider
   constructor: (el) ->
     @$el = $(el)
     @min = +@$el.attr('min') || 0
-    @max = 200 #+@$el.attr('max') || 100
+    @max = +@$el.attr('max') || 100
     @step = +@$el.attr('step') || 1
     @$slider = $('<div />')
     @$value_div = $('<div class="noUi-value" />')
