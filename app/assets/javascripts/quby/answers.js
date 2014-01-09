@@ -124,6 +124,9 @@ function validatePanel(panel) {
       var inputs = question_item.find("input, textarea, select")
       if (!question_item.is('.slider'))
           inputs = inputs.not(":disabled, :hidden")
+      var values = $.map(inputs, function(e) {
+        return $(e).val()
+      });
 
       fail_vals = new Array();
 
@@ -136,37 +139,37 @@ function validatePanel(panel) {
                 }
                 break;
             case "minimum":
-                if (inputs.length == 3 && (inputs[0].value != "" && inputs[1].value != "" && inputs[2].value != "")) {
-                    var enteredDate = new Date(inputs[2].value, inputs[1].value, inputs[0].value)
+                if (inputs.length == 3 && (values[0] != "" && values[1] != "" && values[2] != "")) {
+                    var enteredDate = new Date(values[2], values[1], values[0])
                     var minimumDate = Date.parse(validation.value)
 
                     if(enteredDate < minimumDate) {
                         pushFailVal(validation.type);
                     }
                 } else if (inputs.length == 1) {
-                    var input = inputs[0];
-                    if(input === undefined || input.value == ""){
+                    var value = values[0];
+                    if(value === undefined || value == ""){
                         continue;
                     }
-                    if(parseFloat(input.value) < validation.value){
+                    if(parseFloat(value) < validation.value){
                         pushFailVal(validation.type);
                     }
                 }
                 break;
             case "maximum":
-                if (inputs.length == 3 && (inputs[0].value != "" && inputs[1].value != "" && inputs[2].value != "")) {
-                    var enteredDate = new Date(inputs[2].value, parseInt(inputs[1].value) - 1, inputs[0].value)
+                if (inputs.length == 3 && (values[0] != "" && values[1] != "" && values[2] != "")) {
+                    var enteredDate = new Date(values[2], parseInt(values[1]) - 1, values[0])
                     var maximumDate = Date.parse(validation.value)
 
                     if(enteredDate > maximumDate) {
                         pushFailVal(validation.type);
                     }
                 } else if (inputs.length == 1) {
-                    var input = inputs[0];
-                    if(input === undefined || input.value == ""){
+                    var value = values[0];
+                    if(value === undefined || value == ""){
                         continue;
                     }
-                    if(parseFloat(input.value) > validation.value){
+                    if(parseFloat(value) > validation.value){
                         pushFailVal(validation.type);
                     }
                 }
@@ -176,12 +179,10 @@ function validatePanel(panel) {
                 var jsregex = validation.matcher.replace("\\A", "^").replace("\\Z", "$")
                 var regex = eval(jsregex);
                 var value = undefined;
-                if (inputs.length == 3 && (inputs[0].value != "" || inputs[1].value != "" || inputs[2].value != "")) {
-                    var vals = [];
-                    inputs.map(function(index, ele){vals.push(ele.value)});
-                    value = vals.join("-");
+                if (inputs.length == 3 && (values[0] != "" || values[1] != "" || values[2] != "")) {
+                    value = values.join("-");
                 } else if (inputs.length == 1){
-                    value = inputs[0].value;
+                    value = values[0];
                 }
                 if(value == undefined || value == ""){
                     continue;
@@ -192,24 +193,24 @@ function validatePanel(panel) {
                 }
                 break;
             case "valid_integer":
-                var input = inputs[0];
-                if(input === undefined || input.value == ""){
+                var value = values[0];
+                if(value === undefined || value == ""){
                     continue;
                 }
                 var rgx = /(\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]?\s*)/;
-                var result = rgx.exec(input.value);
-                if(result == null || result[0] != input.value){
+                var result = rgx.exec(value);
+                if(result == null || result[0] != value){
                     pushFailVal(validation.type);
                 }
                 break;
             case "valid_float":
-                var input = inputs[0];
-                if(input === undefined || input.value == ""){
+                var value = values[0];
+                if(value === undefined || value == ""){
                     continue;
                 }
                 var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
-                var result = rgx.exec(input.value);
-                if(result === null || result[0] != input.value){
+                var result = rgx.exec(value);
+                if(result === null || result[0] != value){
                     pushFailVal(validation.type);
                 }
                 break;
