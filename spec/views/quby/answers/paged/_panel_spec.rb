@@ -16,12 +16,12 @@ module Quby
       @questionnaire = questionnaire
 
       page.should have_selector("#panel0 .step-1.active")
-      page.should_not have_selector("#panel0 .step-2.active")
-      page.should_not have_selector("#panel0 .step-3.active")
+      page.should have_no_selector("#panel0 .step-2.active")
+      page.should have_no_selector("#panel0 .step-3.active")
 
       page.should have_selector("#panel1 .step-1.active")
       page.should have_selector("#panel1 .step-2.active")
-      page.should_not have_selector("#panel1 .step-3.active")
+      page.should have_no_selector("#panel1 .step-3.active")
 
       page.should have_selector("#panel2 .step-1.active")
       page.should have_selector("#panel2 .step-2.active")
