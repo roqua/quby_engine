@@ -340,6 +340,12 @@ function radioCheckboxEvents(event){
     }
 }
 
+function enableAllSubquestionsOfCheckedRadiosCheckboxes() {
+    $('input[type="radio"]:checked, input[type="checkbox"]:checked').each(function(i, el) {
+        handleDisableCheckboxSubQuestions(el)
+    })
+}
+
 function handleDisableRadioSubQuestions(element){
     element.closest('.item').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
     if(element.attr('checked')){
@@ -913,6 +919,8 @@ $(document).ready(
               ele.change();
             }
         });
+
+        enableAllSubquestionsOfCheckedRadiosCheckboxes();
 
         // Don't submit if we've just submitted already
         var done_button_semaphore = true;
