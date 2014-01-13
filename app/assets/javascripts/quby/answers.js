@@ -70,8 +70,8 @@ function pushFailVal(val){
 function is_answered(inputs, item){
     for (var j = 0; j < inputs.length; j++){
         var input = $(inputs[j]);
-        if(input.is("[type=text], textarea")){
-          if (/\S/.test(input.attr("value"))) {
+        if(input.is("[type=text], [type=range], textarea")){ // test for slider, since ie8- can't update type
+          if (/\S/.test($(input).val())) {
               return true;
           }
         }

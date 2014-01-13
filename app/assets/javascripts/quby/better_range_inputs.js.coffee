@@ -13,8 +13,9 @@ class BetterSlider
     @$slider = $('<div />')
     @$value_div = $('<div class="noUi-value" />')
 
+    value = el.getAttribute('value') # in ie value is set on init.
     @init_slider()
-    @start_invalid() unless el.attributes['value']
+    @start_invalid() unless value
     @$el.watch 'disabled', {call_immediately: true}, @copy_disabled, true
 
   init_slider: ->
