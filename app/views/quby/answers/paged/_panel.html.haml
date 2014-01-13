@@ -21,6 +21,21 @@
 
   = render :partial => "quby/answers/paged/item", :collection => panel.items
 
+  - if panels.length > 1
+    - current = panel_counter + 1
+    .progress-bar{ 'data-panel-number' => current, 'data-panel-length' => panels.length }
+      .progress-wrapper
+        .progress-slider
+          - panels.length.times do |i|
+            - item = i + 1
+            - class_name = "step-#{item}"
+            - class_name << ' active'      if item <= current
+            - class_name << ' first-child' if item == 1
+            - class_name << ' last-child'  if item == panels.length
+            %span.progress-stop{ class: class_name }= i + 1
+        .progress-details
+          = "Stap #{panel_counter + 1} van #{panels.length}"
+
   .buttons
     - if panel_counter == 0 and @questionnaire.enable_previous_questionnaire_button
       .back
