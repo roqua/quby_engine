@@ -50,6 +50,41 @@
     }
 
     hr { height: 8px; border: 0; background: #ddd; }
+    
+    .progress-bar {
+      height: 25px;
+      .progress-wrapper {
+        text-align: center;
+        .progress-slider {
+          height: 10px;
+          display: inline-block; zoom: 1; *display: inline; // IE7 Hack
+          text-align: center;
+          background: image-url('quby/progress-timeline.png') 0 4px repeat-x;
+          .progress-stop {
+            width: 10px;
+            height: 10px;
+            background: #ccc;
+            border-radius: 5px;
+            font-size: 6px;
+            text-indent: -1234em;
+            display: block;
+            float: left;
+            margin: 0 10px;
+            text-align: center;
+            line-height: 10px;
+            &.active      { background: #666; }
+            &.first-child { margin-left: 0px; }
+            &.last-child  { margin-right: 0px; }
+          }
+        }
+        .progress-details {
+          color: #999;
+          font-size: 9px;
+          margin: 4px 0 0 0;
+          display: block;
+        }
+      }
+    }
 
     .buttons {
       border-top: 1px dotted #d6d6d6;
