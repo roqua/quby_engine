@@ -1,5 +1,9 @@
 module Quby
   class Item
+    include ActiveModel::Validations
+    include ActiveSupport::Callbacks
+    define_callbacks :after_dsl_enhance
+
     attr_accessor :presentation
     attr_accessor :switch_cycle
 

@@ -9,12 +9,14 @@ module Quby
     attr_accessor :shows_questions
     attr_accessor :hidden
     attr_accessor :placeholder
+    attr_accessor :question
     attr_accessor :view_id
 
     attr_accessor :start_chosen
 
     def initialize(key, question, options = {})
       @key         = key
+      @question    = question
       @value       = options[:value]
       @description = options[:description]
       @questions   = []
@@ -22,10 +24,18 @@ module Quby
       @hides_questions = options[:hides_questions] || []
       @shows_questions = options[:shows_questions] || []
       @hidden = options[:hidden] || false
-      @view_id = question.type == :check_box ? "answer_#{key}" : "answer_#{question.key}_#{key}"
+      @view_id = "answer_#{input_key}"
       @placeholder = options[:placeholder] || false
       question.extra_data[:placeholder] = key if @placeholder
       question.options << self
+    end
+
+    def input_key
+      question.type == :check_box ? @key : "#{question.key}_#{key}".to_sym
+    end
+
+    def as_json(options={})
+      super.symbolize_keys.except(:question)
     end
 
     def to_codebook

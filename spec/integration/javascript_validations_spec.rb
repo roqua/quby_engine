@@ -60,3 +60,33 @@ feature 'Trying to fill out an invalid answer', js: true do
     end
   end
 end
+
+feature 'question with a depends_on', js: true do
+
+  scenario 'is only validated when the dependee is not answered' do
+    questionnaire = inject_questionnaire("depends_test", <<-END)
+      panel do
+        question :v1, type: :scale, required: true, depends_on: [:v2] do
+          option :a1
+          option :a2
+        end
+
+        question :v2, type: :check_box do
+          option :v2_a, description: 'vraag 2'
+        end
+      end; end_panel
+    END
+
+    visit_new_answer_for(questionnaire)
+
+    within ".panel.current" do
+      check 'vraag 2'
+      click_on "Volgende vraag"
+      find('#item_v1 .error.requires_answer', visible: false).should be_visible
+
+      uncheck 'vraag 2'
+      click_on "Volgende vraag"
+      find('#item_v1 .error.requires_answer', visible: false).should_not be_visible
+    end
+  end
+end

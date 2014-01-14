@@ -85,6 +85,9 @@ function is_answered(inputs, item){
             return true;
           }
         }
+        if(input.is("option:selected")){
+            return true;
+        }
     }
     return inputs.length == 0;
 }

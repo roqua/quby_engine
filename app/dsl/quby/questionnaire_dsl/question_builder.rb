@@ -63,21 +63,20 @@ module Quby
       end
 
       def option(key, options = {}, &block)
-        raise "#{questionnaire.key}: Option with key #{key} already defined. " +
-              "Keys must be unique within a question." if @question.options.find { |i| i.key == key }
         op = QuestionOption.new(key, @question, options)
-
-        if @question.type == :check_box
-          raise "#{questionnaire.key}: Question with key #{key} already defined. " +
-                "Checkbox option keys must be completely unique." if @questionnaire.question_hash[key]
-          @questionnaire.question_hash[key] = op
+        if @questionnaire.input_keys.include? op.input_key
+          raise "#{questionnaire.key}:#{@question.key}:#{op.key}: " +
+                "A question or option with input key #{op.input_key} is already defined."
         end
 
         instance_eval(&block) if block
       end
 
       def title_question(key, options = {}, &block)
-        raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
+        if @questionnaire.input_keys.include? key
+          raise "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
+        end
+
         options = @default_question_options.merge({depends_on: @question.key,
                                                    questionnaire: @questionnaire,
                                                    parent: @question,
@@ -92,7 +91,9 @@ module Quby
       end
 
       def question(key, options = {}, &block)
-        raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
+        if @questionnaire.input_keys.include? key
+          raise "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
+        end
 
         q = QuestionBuilder.new(key, @default_question_options.merge(options)
                                                               .merge(questionnaire: @questionnaire,
@@ -105,7 +106,7 @@ module Quby
       end
 
       def depends_on(keys)
-        @question.set_depends_on(keys, @questionnaire)
+        @question.set_depends_on(keys)
       end
 
       def validates_format_with(regexp, options = {})

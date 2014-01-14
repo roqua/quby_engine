@@ -7,6 +7,7 @@ module Quby
 
     class RecordNotFound < StandardError; end
     class ValidationError < StandardError; end
+    class UnknownInputKey < ValidationError; end
 
     def self.questionnaire_finder
       Quby.questionnaire_finder
@@ -88,34 +89,49 @@ module Quby
         functions_and_definition = [functions, self.definition].join("\n\n")
         begin
           QuestionnaireDsl.enhance(self, functions_and_definition || "")
-        rescue SyntaxError => e
+          callback_after_dsl_enhance_on_questions
+          validate_questions
+        rescue SyntaxError, ValidationError => e
           errors.add(:definition, {message: "Questionnaire error: #{key} <br/> #{e.message}",
                                    backtrace: e.backtrace[0..5].join("<br/>")})
         end
       end
     end
 
-    def get_input_keys(keys)
-      input_keys = []
-      keys.each do |key|
-        if question_hash[key]
-          question = question_hash[key]
-          if question.options.blank?
-            input_keys << key
-          else
-            question.options.each do |opt|
-              if question.type == :check_box
-                input_keys << "#{opt.key}"
-              else
-                input_keys << "#{key}_#{opt.key}"
-              end
-            end
-          end
-        else
-          input_keys << key
+    def callback_after_dsl_enhance_on_questions
+      @question_hash.values.each do |q|
+        q.run_callbacks :after_dsl_enhance
+      end
+    end
+
+    def validate_questions
+      @question_hash.values.each do |q|
+        unless q.valid?
+          q.errors.each { |attr, err| errors.add(attr, err) }
         end
       end
-      input_keys
+    end
+
+    # Given a list of question and option keys returns a list of input-keys.
+    # If a given key is a question-key, adds the question.input_keys
+    # If a given key is an option-input-key it adds the given key.
+    # Raises an error if a key is not defined.
+    def expand_input_keys(keys)
+      all_keys = input_keys
+      keys.reduce([]) do |ikeys, key|
+        if question_hash[key]
+          ikeys += question_hash[key].input_keys
+        elsif all_keys.include? key
+          ikeys << key
+        else
+          raise UnknownInputKey, "Unknown input key #{key}"
+        end
+      end
+    end
+
+    # Returns all question and options keys.
+    def input_keys
+      question_hash.values.map { |q| q.input_keys }.flatten
     end
 
     def questions_tree
