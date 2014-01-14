@@ -163,6 +163,17 @@
       @include span-columns($total-columns omega);
       margin: 1.5em (-$grid-padding) -1.5em;
       padding: 1.5em $grid-padding;
+
+      .progress-wrapper {
+        .progress-slider {
+          background-position: 0 4px;
+          .progress-stop {
+            margin: 0 10px;
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
     }
 
     .buttons {
