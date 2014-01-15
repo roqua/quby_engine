@@ -22,7 +22,7 @@ module Quby
       end
 
       def question(key, options = {}, &block)
-        if @panel.questionnaire.input_keys.include? key
+        if @panel.questionnaire.key_in_use? key
           raise "#{@panel.questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
         end
         raise "You can't create a slider in a table at the moment" if options[:as] == :slider

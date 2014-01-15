@@ -64,7 +64,7 @@ module Quby
 
       def option(key, options = {}, &block)
         op = QuestionOption.new(key, @question, options)
-        if @questionnaire.input_keys.include? op.input_key
+        if @questionnaire.key_in_use? op.input_key
           raise "#{questionnaire.key}:#{@question.key}:#{op.key}: " +
                 "A question or option with input key #{op.input_key} is already defined."
         end
@@ -73,7 +73,7 @@ module Quby
       end
 
       def title_question(key, options = {}, &block)
-        if @questionnaire.input_keys.include? key
+        if @questionnaire.key_in_use? key
           raise "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
         end
 
@@ -91,7 +91,7 @@ module Quby
       end
 
       def question(key, options = {}, &block)
-        if @questionnaire.input_keys.include? key
+        if @questionnaire.key_in_use? key
           raise "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
         end
 
