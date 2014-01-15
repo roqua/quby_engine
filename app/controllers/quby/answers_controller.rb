@@ -10,6 +10,7 @@ module Quby
     class QuestionnaireNotFound < StandardError; end
 
     before_filter :find_questionnaire
+    before_filter :check_questionnaire_valid
     append_before_filter :find_answer
 
     before_filter :load_token_and_hmac_and_timestamp
@@ -116,6 +117,12 @@ module Quby
         @questionnaire = Quby.questionnaire_finder.find(params[:questionnaire_id])
         raise QuestionnaireNotFound unless @questionnaire
       end
+    end
+
+    def check_questionnaire_valid
+      # don't use valid?, since it clears the errors
+      return if @questionnaire.errors.size == 0
+      render action: :show_questionnaire_errors
     end
 
     def find_answer

@@ -17,6 +17,7 @@ In config/initializers/quby.rb, you need to tell Quby where it can find its ques
 
     Quby.questionnaires_path = "db/questionnaires"
     Quby.functions_path      = "db/functions"
+    Quby.show_exceptions     = true # default falsy
 
 ## Contributing to Quby
  

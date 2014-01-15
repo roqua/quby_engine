@@ -14,5 +14,13 @@ module Quby
     def questionnaire_finder
       @questionnaire_finder ||= Quby::QuestionnaireFinder.new(Quby.questionnaires_path)
     end
+
+    def show_exceptions
+      @show_exceptions
+    end
+
+    def show_exceptions=(bool)
+      @show_exceptions = bool
+    end
   end
 end

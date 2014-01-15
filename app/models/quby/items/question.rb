@@ -219,7 +219,7 @@ module Quby
       @depends_on = questionnaire.expand_input_keys(@depends_on)
       @extra_data[:depends_on] = @depends_on.to_json
     rescue => e
-      raise e.class, "Question #{key} depends on contains an error: #{e.message}"
+      raise e.class, "Question #{key} depends_on contains an error: #{e.message}"
     end
 
     def col_span

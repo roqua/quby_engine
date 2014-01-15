@@ -92,8 +92,7 @@ module Quby
           callback_after_dsl_enhance_on_questions
           validate_questions
         rescue SyntaxError, ValidationError => e
-          errors.add(:definition, {message: "Questionnaire error: #{key} <br/> #{e.message}",
-                                   backtrace: e.backtrace[0..5].join("<br/>")})
+          errors.add(:definition, "Questionnaire error: #{key} : #{e.message}")
         end
       end
     end
