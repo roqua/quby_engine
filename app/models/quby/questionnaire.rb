@@ -5,7 +5,6 @@ module Quby
     extend  ActiveModel::Naming
     include ActiveModel::Validations
 
-    class RecordNotFound < StandardError; end
     class ValidationError < StandardError; end
     class UnknownInputKey < ValidationError; end
 

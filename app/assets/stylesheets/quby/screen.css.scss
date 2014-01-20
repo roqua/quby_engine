@@ -206,3 +206,8 @@ input:placeholder, textarea:placeholder {
         cursor: pointer;
     }
 }
+
+.error .stacktrace {
+  color: #777;
+  white-space: pre-line;
+}

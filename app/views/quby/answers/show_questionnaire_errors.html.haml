@@ -1,10 +1,15 @@
 - if Quby.show_exceptions
   .flash
     .error
-      \#{@questionnaire.errors.size} errors
-      %ul
-        - @questionnaire.errors.full_messages.each do |msg|
-          %li= msg
+      - if @questionnaire && @questionnaire.errors.size > 0
+        \#{@questionnaire.errors.size} errors
+        %ul
+          - @questionnaire.errors.full_messages.each do |msg|
+            %li= msg
+      - if @error
+        %p= @error.message
+        %br
+        %p.stacktrace= @error.backtrace[0..15].join("\n")
 - else
   .flash
     .error

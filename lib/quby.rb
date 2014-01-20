@@ -1,6 +1,7 @@
 require "quby/engine"
 
 module Quby
+
   class << self
     def questionnaires_path
       @questionnaires_path

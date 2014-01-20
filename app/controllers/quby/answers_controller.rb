@@ -7,7 +7,6 @@ module Quby
     class MissingAuthorization < StandardError; end
     class TokenValidationError < Exception; end
     class TimestampValidationError < Exception; end
-    class QuestionnaireNotFound < StandardError; end
 
     before_filter :find_questionnaire
     before_filter :check_questionnaire_valid
@@ -28,10 +27,10 @@ module Quby
     protect_from_forgery except: [:edit, :update]
 
     rescue_from TokenValidationError,     with: :bad_token
-    rescue_from QuestionnaireNotFound,    with: :bad_questionnaire
     rescue_from TimestampValidationError, with: :bad_timestamp
     rescue_from InvalidAuthorization,     with: :bad_authorization
     rescue_from MissingAuthorization,     with: :bad_authorization
+    rescue_from Quby::QuestionnaireFinder::RecordNotFound, with: :bad_questionnaire
 
     def show
       redirect_to action: "edit"
@@ -39,6 +38,13 @@ module Quby
 
     def edit
       render action: "#{@display_mode}/edit"
+    rescue Quby::Questionnaire::ValidationError => e
+      if Quby.show_exceptions
+        @error = e
+        render action: 'show_questionnaire_errors'
+      else
+        raise
+      end
     end
 
     def update(printing = false)
@@ -73,9 +79,8 @@ module Quby
     end
 
     def bad_questionnaire(exception)
-      @error = "De opgegeven vragenlijst (#{params[:questionnaire_id]}) kon niet gevonden worden."
-      render file: "errors/generic", layout: "dialog"
-      handle_exception exception
+      @error = exception
+      render file: "errors/questionnaire_not_found", layout: "dialog", status: 404
     end
 
     def bad_timestamp(exception)
@@ -115,7 +120,6 @@ module Quby
     def find_questionnaire
       if params[:questionnaire_id]
         @questionnaire = Quby.questionnaire_finder.find(params[:questionnaire_id])
-        raise QuestionnaireNotFound unless @questionnaire
       end
     end
 
