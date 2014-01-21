@@ -61,12 +61,50 @@ module Quby
         end.to raise_exception
       end
 
-      it 'checks for duplicate checkbox option keys' do
+      it 'checks for duplicate option keys' do
+        expect do
+          dsl do
+            question :v_1, type: :radio do
+              option :a1
+              option :a1
+            end
+          end
+        end.to raise_exception
+      end
+
+      it 'checks for duplicate option input keys' do
+        expect do
+          dsl do
+            question :v_1_a, type: :radio do
+              option :a1
+            end
+
+            question :v_1, type: :radio do
+              option :a_a1
+            end
+          end
+        end.to raise_exception
+      end
+
+      it 'checks for checkbox option keys clashing with question keys' do
         expect do
           dsl do
             question :v_1, type: :string
             question :v_2, type: :check_box do
               option :v_1
+            end
+          end
+        end.to raise_exception
+      end
+
+      it 'checks for checkbox option keys clashing with input keys' do
+        expect do
+          dsl do
+            question :v_1, type: :radio do
+              option :a1
+            end
+            question :v_2, type: :check_box do
+              option :v_1_a1
             end
           end
         end.to raise_exception
