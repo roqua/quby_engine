@@ -97,6 +97,16 @@ module Quby
         end.to raise_exception
       end
 
+      it 'checks for checkbox option keys clashing with their own question key' do
+        expect do
+          dsl do
+            question :v_1, type: :check_box do
+              option :v_1
+            end
+          end
+        end.to raise_exception
+      end
+
       it 'checks for checkbox option keys clashing with input keys' do
         expect do
           dsl do
