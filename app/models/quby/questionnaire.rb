@@ -186,8 +186,8 @@ module Quby
     end
 
     def key_in_use?(key)
-      question_hash.has_key?(key)  ||
-      score_builders.has_key?(key) ||
+      question_hash.key?(key)  ||
+      score_builders.key?(key) ||
       input_keys.include?(key)
     end
 

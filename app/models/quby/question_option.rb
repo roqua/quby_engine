@@ -34,7 +34,7 @@ module Quby
       question.type == :check_box ? @key : "#{question.key}_#{key}".to_sym
     end
 
-    def as_json(options={})
+    def as_json(options = {})
       super.symbolize_keys.except(:question)
     end
 
