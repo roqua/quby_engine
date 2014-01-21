@@ -7,7 +7,7 @@ module Quby
 
     let(:answer)        { double("Answer", id: '1', token: 'answer_token') }
     let(:answers)       { double("Answers", find: answer) }
-    let(:questionnaire) { double("Questionnaire", answers: answers) }
+    let(:questionnaire) { double("Questionnaire", answers: answers, errors: []) }
 
     before do
       Quby.questionnaire_finder.stub(find: questionnaire)

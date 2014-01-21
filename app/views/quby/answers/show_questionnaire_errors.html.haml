@@ -1,0 +1,12 @@
+- if Quby.show_exceptions
+  .flash
+    .error
+      \#{@questionnaire.errors.size} errors
+      %ul
+        - @questionnaire.errors.full_messages.each do |msg|
+          %li= msg
+- else
+  .flash
+    .error
+      %p Er zit een fout in de definitie van deze vragenlijst en u kunt hem daardoor op dit moment niet uitvoeren.
+      %p Probeert u het aub later nogmaals.

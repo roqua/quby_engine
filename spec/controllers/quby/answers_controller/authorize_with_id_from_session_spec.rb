@@ -6,7 +6,7 @@ module Quby
 
     let(:answer)        { double("Answer", id: '1') }
     let(:answers)       { double("Answers", find: answer) }
-    let(:questionnaire) { double("Questionnaire", answers: answers) }
+    let(:questionnaire) { double("Questionnaire", answers: answers, errors: []) }
 
     before do
       Quby::Settings.stub(authorize_with_hmac: false)

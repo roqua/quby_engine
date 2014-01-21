@@ -35,7 +35,9 @@ module Quby
       end
 
       def question(key, options = {}, &block)
-        raise "Question key: #{key} repeated!" if @questionnaire.question_hash[key]
+        if @panel.questionnaire.key_in_use? key
+          raise "#{@panel.questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
+        end
 
         q = QuestionBuilder.new(key, @default_question_options.merge(options)
                                                               .merge(questionnaire: @panel.questionnaire))

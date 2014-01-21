@@ -39,6 +39,9 @@ module Quby
             validate_key_format question.day_key
           end
         end
+        if question.type == :check_box
+          question.options.andand.each { |option| validate_key_format option.key }
+        end
       end
     end
 

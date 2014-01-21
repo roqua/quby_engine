@@ -72,6 +72,26 @@ module Quby
         end.to raise_exception
       end
 
+      it 'sets a depends_on key correctly' do
+        dsl do
+          question :v_1, type: :check_box do
+            option :v_1_a
+          end
+          question :v_2, depends_on: [:v_1]
+        end
+        questionnaire.callback_after_dsl_enhance_on_questions
+        expect(questionnaire.question_hash[:v_2].depends_on).to eq [:v_1_a]
+      end
+
+      it 'raises when a depends_on key does not exist in the questionnaire' do
+        expect do
+          dsl do
+            question :v_1, type: :string, depends_on: [:unknown]
+          end
+          questionnaire.callback_after_dsl_enhance_on_questions
+        end.to raise_exception
+      end
+
       it 'sets the parent option key on subquestions correctly' do
         dsl do
           question :v_1, type: :check_box do

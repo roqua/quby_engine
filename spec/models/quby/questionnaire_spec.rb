@@ -62,6 +62,20 @@ module Quby
       end
     end
 
+    describe '#input_keys' do
+      let(:questionnaire) do
+        Questionnaire.new("test", <<-END)
+          question :radio, type: :radio do
+            option :rad1
+            option :rad2
+          end
+        END
+      end
+      it 'should list all input keys' do
+        expect(questionnaire.input_keys).to eq [:radio_rad1, :radio_rad2]
+      end
+    end
+
     describe '#key_in_use?' do
       let(:definition)    { "title 'My Test' \n question :v_1 \n score :score_1 \n variable :var_1" }
       let(:questionnaire) { Questionnaire.new("test", definition) }
