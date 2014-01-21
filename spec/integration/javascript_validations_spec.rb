@@ -51,7 +51,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     filling_in(within: "#item_v1", answering: "answer_v1", with: 'OHAI', should_show: '.error.valid_float')
   end
 
-  scenario 'validations are not run when aborting' do
+  scenario 'clientside validations are not run when aborting' do
     questionnaire = inject_questionnaire("test", <<-END)
       abortable
       question :v1, type: :float, required: true do
@@ -68,7 +68,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     end
   end
 
-  scenario 'validations are run when submitting' do
+  scenario 'clientside validations are run when submitting' do
     questionnaire = inject_questionnaire("test", <<-END)
       panel do
       question :v1, type: :float, required: true do
@@ -82,6 +82,7 @@ feature 'Trying to fill out an invalid answer', js: true do
       fill_in 'answer_v1', with: 'INVALID'
       click_on 'Klaar'
       find('#item_v1 .error.valid_float').should be_visible
+      expect(page.current_path).to match(/edit\Z/)
     end
   end
 
