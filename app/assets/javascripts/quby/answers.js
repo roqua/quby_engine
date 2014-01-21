@@ -893,8 +893,8 @@ $(document).ready(
             );
 
 
-            $("form").on("submit", function(event) {
-                if (!validatePanel($(this).find('.current.panel').first())) {
+            $("#done-button").on("click", function(event) {
+                if (!validatePanel($('.current.panel').first())) {
                     done_button_semaphore = true;
                     event.preventDefault(); return false;
                 }
