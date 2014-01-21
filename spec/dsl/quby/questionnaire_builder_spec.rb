@@ -101,6 +101,7 @@ module Quby
         expect do
           dsl do
             question :v_1, type: :check_box do
+              option :v_2
               option :v_1
             end
           end

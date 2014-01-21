@@ -27,11 +27,16 @@ module Quby
       @view_id = "answer_#{input_key}"
       @placeholder = options[:placeholder] || false
       question.extra_data[:placeholder] = key if @placeholder
-      question.options << self
     end
 
     def input_key
       question.type == :check_box ? @key : "#{question.key}_#{key}".to_sym
+    end
+
+    def key_in_use?(k)
+      return true if k == input_key
+      @questions.each { |q| return true if q.key_in_use?(k) }
+      false
     end
 
     def as_json(options = {})

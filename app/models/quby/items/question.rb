@@ -278,6 +278,12 @@ module Quby
       end
     end
 
+    def key_in_use?(k)
+      return true if k == key
+      options.each { |op| return true if op.key_in_use?(k) }
+      false
+    end
+
     def html_id
       "answer_#{key}_input"
     end

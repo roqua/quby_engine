@@ -38,6 +38,25 @@ module Quby
       end
     end
 
+    describe '#key_in_use?' do
+      let(:question) do
+        q = Items::Question.new(:v_1, type: :radio)
+        o = QuestionOption.new(:op1, q)
+        q.options << o
+        q
+      end
+
+      it 'returns true if the key is the questions key' do
+        expect(question.key_in_use?(:v_1)).to eql true
+      end
+      it 'returns true if the key is a questions key' do
+        expect(question.key_in_use?(:v_1_op1)).to eql true
+      end
+      it 'return false if the key is not in use' do
+        expect(question.key_in_use?(:v_1_op2)).to eql false
+      end
+    end
+
     describe '#expand_depends_on_input_keys' do
       it 'should expand the given depends_on keys' do
         expect(questionnaire.question_hash[:radio].depends_on).to eq [:check1, :check2]
