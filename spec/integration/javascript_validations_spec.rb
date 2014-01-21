@@ -51,6 +51,40 @@ feature 'Trying to fill out an invalid answer', js: true do
     filling_in(within: "#item_v1", answering: "answer_v1", with: 'OHAI', should_show: '.error.valid_float')
   end
 
+  scenario 'validations are not run when aborting' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      abortable
+      question :v1, type: :float, required: true do
+        title "Moet beantwoord worden"
+      end; end_panel
+    END
+
+    visit_new_answer_for(questionnaire)
+
+    within ".panel.current" do
+      fill_in 'answer_v1', with: 'INVALID'
+      click_on 'Onderbreken'
+      page.should have_content("Bedankt voor het invullen")
+    end
+  end
+
+  scenario 'validations are run when submitting' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      panel do
+      question :v1, type: :float, required: true do
+        title "Moet beantwoord worden"
+      end; end
+    END
+
+    visit_new_answer_for(questionnaire)
+
+    within ".panel.current" do
+      fill_in 'answer_v1', with: 'INVALID'
+      click_on 'Klaar'
+      find('#item_v1 .error.valid_float').should be_visible
+    end
+  end
+
   def filling_in(options = {})
     within ".panel.current" do
       find(options[:within] + " " + options[:should_show], visible: false).should_not be_visible
@@ -59,6 +93,7 @@ feature 'Trying to fill out an invalid answer', js: true do
       find(options[:within] + " " + options[:should_show]).should be_visible
     end
   end
+
 end
 
 feature 'question with a depends_on', js: true do
