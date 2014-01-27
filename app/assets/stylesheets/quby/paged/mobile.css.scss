@@ -77,10 +77,14 @@
     .progress-wrapper {
       .progress-slider {
         background-position: 0 3px;
+        display: inline-block; zoom: 1; *display: inline; // IE7 Hack
         .progress-stop {
           margin: 0 2px;
           width: 8px;
           height: 8px;
+        }
+        &.long-list {
+          display: none;
         }
       }
     }
