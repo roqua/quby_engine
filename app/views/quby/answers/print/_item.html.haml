@@ -27,10 +27,6 @@
 - else
 
   - case item.class.name
-  - when "Quby::Items::Css"
-    .item{:class => itemclasses}
-      :css
-        #{item.raw_content}
   - when "Quby::Items::Text"
     - if item.display_in.andand.include?(:print)
       .item{:class => itemclasses}

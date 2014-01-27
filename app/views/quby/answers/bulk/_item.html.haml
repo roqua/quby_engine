@@ -32,9 +32,6 @@
 - else
   .item{:class => itemclasses, :data => extra_data, :id => itemkey}
     - case item.class.name
-    - when "Quby::Items::Css"
-      :css
-        #{item.raw_content}
     - when "Quby::Items::Text"
       - if item.display_in.andand.include?(:bulk)
         .text
