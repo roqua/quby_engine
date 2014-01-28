@@ -40,7 +40,8 @@ module Quby
           end
         end
         if question.type == :check_box
-          question.options.andand.each { |option| validate_key_format option.key }
+          question.options.andand.select { |option| not option.inner_title }
+                                 .each { |option| validate_key_format option.key }
         end
       end
     end
