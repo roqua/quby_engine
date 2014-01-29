@@ -51,9 +51,9 @@
       - when :select
         = render :partial => "quby/answers/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - else
-        - raise "Unknown question type #{item.type} for question #{item.key}"
+        - raise Quby::Questionnaire::ValidationError, "Unknown question type #{item.type} for question #{item.key}"
     - when "Quby::Items::Table"
       = render :partial => "quby/answers/table/table", :locals => {:table => item}
     - else
-      - raise "Unknown item type #{item.class.name} for question #{item.key}"
+      - raise Quby::Questionnaire::ValidationError, "Unknown item type #{item.class.name} for question #{item.key}"
 / End _item.html.haml
