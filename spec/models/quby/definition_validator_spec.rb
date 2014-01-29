@@ -76,6 +76,8 @@ module Quby
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :v_q1, description: 'some_description'
+            inner_title 'blaat'
+            option :v_q2, description: 'more_description'
           end
         END
         DefinitionValidator.new(questionnaire, invalid_keys).validate.should be_false
