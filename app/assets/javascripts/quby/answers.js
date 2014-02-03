@@ -810,16 +810,6 @@ $(document).ready(
             window.onbeforeunload = leave_page_nag;
         }
 
-        //IE7 indexOf fix
-        if(!Array.indexOf){
-            Array.prototype.indexOf = function(obj){
-                for(var i=0; i < this.length; i++){
-                    if(this[i]==obj){
-                        return i;
-                    }
-                }
-            }
-        }
         hotkeysEnabled = $(".hotkeyDialog").length > 0;
 
         $(".deselectable").deselectable();

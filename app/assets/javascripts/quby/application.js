@@ -3,8 +3,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-
 //= require underscore
+
+//= require_tree ./browser_fixes
+
 //= require backbone
 //= require ./backbone/quby
 
