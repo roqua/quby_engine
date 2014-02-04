@@ -28,16 +28,15 @@
   #masthead
 
   #content
-    - if flash.any?
-      .flash
-        - if flash[:error]
-          .error= flash[:error]
-        - if flash[:alert]
-          .alert= flash[:alert]
-        - if flash[:notice]
-          .notice= flash[:notice]
-        - if flash[:success]
-          .success= flash[:success]
+    .flash
+      - if flash[:error]
+        .error= flash[:error]
+      - if flash[:alert]
+        .alert= flash[:alert]
+      - if flash[:notice]
+        .notice= flash[:notice]
+      - if flash[:success]
+        .success= flash[:success]
     = yield
 
   .x_container

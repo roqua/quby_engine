@@ -42,6 +42,24 @@ feature 'Completing a questionnaire' do
     page.should have_content("Bedankt voor het invullen")
   end
 
+  scenario 'when a return address has been specified', js: true do
+    questionnaire = inject_questionnaire("test", <<-END)
+      question :v1, type: :float; end_panel
+    END
+
+    visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/foo')
+    page.should have_selector('#panel0.current')
+    click_on "nextButton0"
+
+    page.should have_selector('#panel1.current')
+    click_on "Klaar"
+
+    sleep(1)
+    # puts page.body
+
+    page.current_path.should eq '/foo'
+  end
+
   scenario 'by filling out a bulk version', js: true do
     visit_new_answer_for(mansa, "bulk")
 

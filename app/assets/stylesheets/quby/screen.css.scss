@@ -211,3 +211,7 @@ input:placeholder, textarea:placeholder {
   color: #777;
   white-space: pre-line;
 }
+
+html.busy, html.busy * {
+  cursor: wait !important;
+}

@@ -806,6 +806,25 @@ function setupLeavePageNag() {
   }
 }
 
+function handleAjaxFormRequests() {
+  $(document).on('ajax:success', "form", function(event, data, status, xhr) {
+    content_type = (xhr.getResponseHeader("content-type")||"").split(';')[0]
+    if (content_type == 'text/html') { // not json response
+      $('#content').replaceWith(data);
+      preparePaged();
+    }
+  });
+  $(document).on('ajax:error', "form", function(event, data, status, xhr) {
+    $('.flash').append('<div class="error">Er ging iets fout, probeer het nog es. </div>').show()
+  });
+  $(document).on('ajax:beforeSend', "form", function() {
+    $('html').addClass('busy')
+  })
+  $(document).on('ajax:success ajax:error', "form", function() {
+    $('html').removeClass('busy')
+  })
+}
+
 var leave_page_text;
 $(document).ready(
     function() {
@@ -889,13 +908,14 @@ $(document).ready(
                 }
             );
 
-
-            $("#done-button").on("click", function(event) {
+            $(document).on("click", "#done-button", function(event) {
                 if (!validatePanel($('.current.panel').first())) {
                     done_button_semaphore = true;
                     event.preventDefault(); return false;
                 }
             });
+
+            handleAjaxFormRequests();
 
             preparePaged();
         }
@@ -933,4 +953,3 @@ $(document).ready(
         });
     }
 );
-
