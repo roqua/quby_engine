@@ -54,9 +54,7 @@ feature 'Completing a questionnaire' do
     page.should have_selector('#panel1.current')
     click_on "Klaar"
 
-    sleep(1)
-    # puts page.body
-
+    page.should have_content 'foo'
     page.current_path.should eq '/foo'
   end
 
