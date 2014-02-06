@@ -37,6 +37,5 @@ module Quby
         @panel.items << question
       end
     end
-
   end
 end

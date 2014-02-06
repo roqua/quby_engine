@@ -213,6 +213,5 @@ module Quby
     def add_chart(chart)
       charts.add chart
     end
-
   end
 end

@@ -109,6 +109,7 @@ module Quby
 
     ##########################################################
 
+    # rubocop:disable CyclomaticComplexity
     def initialize(key, options = {})
       super(options)
       @extra_data ||= {}
@@ -195,6 +196,7 @@ module Quby
         end
       end
     end
+    # rubocop:enable CyclomaticComplexity
 
     def year_key
       (@year_key || "#{key}_yyyy").to_s
@@ -208,11 +210,13 @@ module Quby
       (@day_key || "#{key}_dd").to_s
     end
 
+    # rubocop:disable AccessorMethodName
     def set_depends_on(keys)
       return if keys.blank?
       keys = [keys] unless keys.is_a?(Array)
       @depends_on = keys
     end
+    # rubocop:enable AccessorMethodName
 
     def expand_depends_on_input_keys
       return unless @depends_on
@@ -304,6 +308,8 @@ module Quby
       options.map { |opt| opt.questions }.flatten
     end
 
+    # FIXME: Too long!
+    # rubocop:disable CyclomaticComplexity
     def to_codebook(questionnaire, opts = {})
       output = []
       output_type = type
@@ -367,6 +373,6 @@ module Quby
 
       output.join("\n")
     end
-
+    # rubocop:enable CyclomaticComplexity
   end
 end

@@ -1,6 +1,5 @@
 require 'spec_helper'
 module Quby
-
   describe "quby/answers/paged/panel" do
     let(:questionnaire) { Quby.questionnaire_finder.find("panels") }
 
@@ -27,6 +26,5 @@ module Quby
       page.should have_selector("#panel2 .step-2.active")
       page.should have_selector("#panel2 .step-3.active")
     end
-
   end
 end

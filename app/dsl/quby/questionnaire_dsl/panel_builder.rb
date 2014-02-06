@@ -60,7 +60,6 @@ module Quby
           type
         end
       end
-
     end
   end
 end

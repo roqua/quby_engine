@@ -58,7 +58,7 @@ module Quby
         else
           redirect_url = roqua_redirect(status: return_status)
           request.xhr? ?
-            render(:js => "window.location = '#{redirect_url}'") :
+            render(js: "window.location = '#{redirect_url}'") :
             redirect_to(redirect_url)
         end
       end
@@ -251,6 +251,5 @@ module Quby
       logger.info address.to_s
       address.to_s
     end
-
   end
 end

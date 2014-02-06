@@ -24,6 +24,19 @@ MethodLength:
   CountComments: false  # count full line comments?
   Max: 20
 
+BracesAroundHashParameters:
+  Enabled: false
+
+SpaceAroundBlockBraces:
+  EnforcedStyleForEmptyBraces: space
+
+AmbiguousRegexpLiteral:
+  Exclude:
+    - 'spec/**'
+
+CyclomaticComplexity:
+  Max: 15 # should be set to 6, too many for now
+
 ################################################################## DISABLED COPS
 # These cops are disabled because we think they are a Bad Idea. If you add one
 # here, make sure to add a comment describing what the cop does, and why this
@@ -32,5 +45,10 @@ MethodLength:
 # Forces the argument names of the block given to #reduce to be `a, e`. Only
 # applies on single-line blocks, but why would we want to force people to use
 # less descriptive names?
-ReduceArguments:
+SingleLineBlockParams:
+  Enabled: false
+
+# Complains than multiline ternary expressions should be if/else statements
+# Ternary are still often more readable. 
+MultilineTernaryOperator:
   Enabled: false

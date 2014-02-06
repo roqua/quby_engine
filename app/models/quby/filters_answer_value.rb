@@ -29,6 +29,5 @@ module Quby
     def date_questions
       @questionnaire.questions_of_type :date
     end
-
   end
 end

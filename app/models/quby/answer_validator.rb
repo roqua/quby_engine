@@ -10,6 +10,7 @@ module Quby
       @answer        = answer
     end
 
+    # rubocop:disable CyclomaticComplexity
     def validate
       return if answer.aborted
 
@@ -54,6 +55,7 @@ module Quby
         end
       end
     end
+    # rubocop:enable CyclomaticComplexity
 
     def validate_required(question, validation, value)
       if question.type == :check_box && value.values.reduce(:+) == 0

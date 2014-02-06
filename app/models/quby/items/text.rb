@@ -54,6 +54,5 @@ module Quby
     def to_s
       @text
     end
-
   end
 end
