@@ -17,10 +17,8 @@ function activatePanel(panel, updateHash, forward) {
         }
     }
 
-    if (updateHash && !inIframe) {
-        hashChangeEnabled = false;
-        window.location.hash = panel[0].id;
-    }
+    if (updateHash)
+        changeHash(panel[0].id);
     window.scrollTo(0,0);
 
     nextButtonFocussed = false;
@@ -279,22 +277,6 @@ function correctAllNothingCheckboxes(checked, allKey, nothingKey){
             $(el).removeAttr("checked");
             handleDisableCheckboxSubQuestions(el);
         }
-    }
-}
-
-function hashchangeEventHandler(){
-    if (hashChangeEnabled) {
-        // if we have a window.location.hash, and we can find a panel for that hash, switch to that panel
-        if (window.location.hash != "" && window.location.hash != $(".panel:first").id) {
-            var panel = $(window.location.hash);
-            if (panel[0]) {
-                activatePanel(panel, true, true);
-            }
-        } else { // if we have no hash, activate the first panel
-            activatePanel($(".panel:first"), false, true);
-        }
-    } else {
-        hashChangeEnabled = true;
     }
 }
 
@@ -851,16 +833,6 @@ $(document).ready(
         if (isBulk) {
             prepareBulk();
         } else{
-            hashChangeEnabled = true;
-            if (inIframe) {
-                activatePanel($(".panel:first"), false, true);
-            } else {
-                jQuery(window).bind('hashchange', hashchangeEventHandler);
-            }
-            //$.address.change( 'hashchange', hashchangeEventHandler);
-            // Trigger the hashchange event (useful on page load).
-            $(window).hashchange();
-
             // show previous panel
             $(".panel .prev input").live("click",
                 function(event) {
