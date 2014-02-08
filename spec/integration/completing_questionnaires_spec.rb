@@ -58,6 +58,31 @@ feature 'Completing a questionnaire' do
     page.current_path.should eq '/foo'
   end
 
+  scenario 'when the first time fails', js: true do
+    questionnaire = inject_questionnaire("test", <<-END)
+      question :v1, type: :float, required: true; end_panel
+    END
+    # make sure the faulty answer reaches the server.
+    visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/foo')
+
+    page.driver.execute_script "window.skipValidations = true;"
+
+    page.should have_selector('#panel0.current')
+    click_on "nextButton0"
+    page.should have_selector('#panel1.current')
+    click_on "Klaar"
+
+    page.should have_selector('.error.requires_answer')
+
+    fill_in 'answer[v1]', with: '1'
+
+    click_on "nextButton0"
+    page.should have_selector('#panel1.current')
+    click_on "Klaar"
+
+    page.should have_content("Bedankt voor het invullen")
+  end
+
   scenario 'by filling out a bulk version', js: true do
     visit_new_answer_for(mansa, "bulk")
 
