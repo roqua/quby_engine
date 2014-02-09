@@ -9,7 +9,6 @@ var isBulk;
 var fail_vals = new Array();
 var validationI = 0;
 var hotkeysEnabled;
-var skipValidations = false;
 var shownFlash = false;
 
 var scrollToNextQuestion = false;
