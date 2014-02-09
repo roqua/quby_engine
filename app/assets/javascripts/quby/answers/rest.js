@@ -293,33 +293,7 @@ $(function() {
 
         if (isBulk) {
             prepareBulk();
-        } else{
-            // show previous panel
-            $(".panel .prev input").live("click",
-                function(event) {
-                    event.preventDefault();
-                    var prevPanel = $(this).parents('.panel').prev()
-                    activatePanel(prevPanel, true, false);
-                }
-            );
-
-            // show next panel
-            $(".panel .next input").live("click",
-                function(event) {
-                    event.preventDefault();
-                    var nextPanel = $(this).parents('.panel').next();
-                    if (validatePanel($(this).parents('.panel').first())) {
-                        activatePanel(nextPanel, true, true);
-                    }
-                }
-            );
-
-            $(document).on("click", "#done-button", function(event) {
-                if (!validatePanel($('.current.panel').first())) {
-                    done_button_semaphore = true;
-                    event.preventDefault(); return false;
-                }
-            });
+        } else {
 
             handleAjaxFormRequests();
 
@@ -343,18 +317,5 @@ $(function() {
         });
 
         enableAllSubquestionsOfCheckedRadiosCheckboxes();
-
-        // Don't submit if we've just submitted already
-        var done_button_semaphore = true;
-        $(".save input#done-button, .back input, .abort input").click(function(event){
-            window.onbeforeunload = null;
-            if (done_button_semaphore){
-                done_button_semaphore = false
-                setTimeout(function(){ done_button_semaphore = true }, 3000)
-                return true;
-            } else {
-                return false;
-            }
-        });
     }
 );
