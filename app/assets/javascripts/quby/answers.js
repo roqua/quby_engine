@@ -9,5 +9,6 @@
 //= require ./answers/dont_submit_on_enter.js
 //= require ./answers/scroll_to_next_question.js
 //= require ./answers/navigation.js
+//= require ./answers/text_vars.js
 //= require ./answers/rest.js
 //= require ./answers/hash_change.js
