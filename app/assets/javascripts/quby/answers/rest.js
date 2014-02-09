@@ -235,31 +235,6 @@ function preparePaged(){
     }
 }
 
-//ONLY USE FOR KEYUP AND KEYDOWN
-function handlePreventDefault(event){
-
-    event.which = event.which || event.keyCode;
-
-    if($(event.target).is('textarea')){
-        return;
-    }
-    switch (event.which) {
-        //enter
-        case 13:
-            preventDefault(event);
-            break;
-        //pg up, up arrow
-        case 33:
-        case 38:
-        //pg dwn, down arrow
-        case 34:
-        case 40:
-        //space
-        case 32:
-            break;
-    }
-}
-
 function showPrint(url){
   var result = $(document.createElement("div"));
     result.load(url, $('form').serializeArray(), function(){
@@ -388,7 +363,6 @@ $(function() {
            radioCheckboxEvents(element);
         });
 
-        $(document).keydown(handlePreventDefault);
         $("input[text_var]").each(function(i, ele){
             ele = $(ele);
             var tvar = ele.attr('text_var');
