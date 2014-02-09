@@ -1,6 +1,4 @@
 var isBulk;
-var fail_vals = new Array();
-var validationI = 0;
 var shownFlash = false;
 
 $(function() {

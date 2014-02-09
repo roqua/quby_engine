@@ -1,5 +1,7 @@
 (function() {
   window.skipValidations = false;
+  var validationI = 0;
+  var fail_vals = new Array();
 
   window.validatePanel = function(panel) {
     if(skipValidations){
