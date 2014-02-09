@@ -77,13 +77,6 @@ function correctAllNothingCheckboxes(checked, allKey, nothingKey){
     }
 }
 
-// Array Remove - By John Resig (MIT Licensed)
-Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
-};
-
 function radioCheckboxEvents(event){
     var element = $(event.target || event);
     if(element.is("[type=radio]")){
