@@ -309,8 +309,6 @@ $(function() {
           $(".item select").on("change", scrollToHandler);
         }
 
-        isBulk = $('form.bulk, form.print').size() > 0;
-
         if (isBulk) {
             prepareBulk();
         } else{

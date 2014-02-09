@@ -7,3 +7,7 @@ var scrollToNextQuestion = false;
 var curQuestionInputIndex;
 var questionInputs;
 var nextQuestionInput;
+
+$(function() {
+  isBulk = $('form.bulk, form.print').size() > 0;
+});
