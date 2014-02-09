@@ -235,19 +235,6 @@ function preparePaged(){
     }
 }
 
-function showPrint(url){
-  var result = $(document.createElement("div"));
-    result.load(url, $('form').serializeArray(), function(){
-        if(result.find(".errors").length == 0){
-          $('.x_container').html(result.find("#content").html());
-          if(document.recalc){
-            document.recalc();
-          }
-          $('.x_container').show();
-        }
-    });
-}
-
 function setupLeavePageNag() {
   leave_page_text = $("#leave_page_alert").html();
 
