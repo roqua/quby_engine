@@ -1,9 +1,9 @@
-:coffeescript
-  @panel_validations = {}
-  #for setting values of raw_content
-  @extra_question_values = #{@answer.extra_question_values}
-  #for showing validations of raw content
-  @extra_failed_validations = #{@answer.extra_failed_validations}
+:javascript
+  window.panel_validations = {};
+  // for setting values of raw_content
+  window.extra_question_values = #{@answer.extra_question_values};
+  // for showing validations of raw content
+  window.extra_failed_validations = #{@answer.extra_failed_validations};
 
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)
@@ -21,9 +21,10 @@
 - if @questionnaire.leave_page_alert
   #leave_page_alert.hidden= @questionnaire.leave_page_alert
 
-:coffeescript
-  $ ->
-    Quby.questions.trigger "initShowsHides"
+:javascript
+  $(function() {
+    Quby.questions.trigger("initShowsHides")
+  });
 
 = render :partial => "quby/answers/modal_iframe"
 

@@ -19,10 +19,11 @@
   = javascript_include_tag "quby/" + controller.controller_name
   :css
     #{yield(:extra_css)}
-  :coffeescript
-    $ ->
-      if navigator.userAgent.indexOf("Trident/5") > -1
+  :javascript
+    $(function() {
+      if (navigator.userAgent.indexOf("Trident/5") > -1)
         $("html").addClass("lt-ie9")
+    });
 
 %body
   #masthead
