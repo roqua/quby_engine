@@ -8,8 +8,8 @@
 :javascript
   $(function() {
     Quby.currentPanelQuestions = new Quby.Collections.Questions;
-    questions = #{questions.as_json.to_json};
-    initializer = new Quby.Logic.InitQuestions(questions);
+    var questions = #{questions.as_json.to_json};
+    var initializer = new Quby.Logic.InitQuestions(questions);
     Quby.currentPanelQuestions = initializer.initializeQuestions();
     Quby.questions.addAndRegisterInit(Quby.currentPanelQuestions);
     Quby.panels.add(new Quby.Models.Panel({viewSelector: "##{panel_id}", questions: Quby.currentPanelQuestions}));
