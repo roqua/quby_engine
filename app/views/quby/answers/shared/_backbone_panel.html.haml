@@ -5,11 +5,12 @@
     - option[:start_chosen] = (answer.send(question.key).to_s == option[:key].to_s)
   - questions << question_hash
 
-:coffeescript
-  $ ->
-    Quby.currentPanelQuestions = new Quby.Collections.Questions
-    questions = #{questions.as_json.to_json}
-    initializer = new Quby.Logic.InitQuestions(questions)
-    Quby.currentPanelQuestions = initializer.initializeQuestions()
-    Quby.questions.addAndRegisterInit Quby.currentPanelQuestions
-    Quby.panels.add new Quby.Models.Panel(viewSelector: "##{panel_id}", questions: Quby.currentPanelQuestions)
+:javascript
+  $(function() {
+    Quby.currentPanelQuestions = new Quby.Collections.Questions;
+    var questions = #{questions.as_json.to_json};
+    var initializer = new Quby.Logic.InitQuestions(questions);
+    Quby.currentPanelQuestions = initializer.initializeQuestions();
+    Quby.questions.addAndRegisterInit(Quby.currentPanelQuestions);
+    Quby.panels.add(new Quby.Models.Panel({viewSelector: "##{panel_id}", questions: Quby.currentPanelQuestions}));
+  });
