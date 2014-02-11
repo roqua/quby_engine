@@ -214,11 +214,8 @@ module Quby
     end
 
     def load_display_mode
-      if params[:display_mode] and %w(paged bulk).include?(params[:display_mode])
-        @display_mode = params[:display_mode] if params[:display_mode]
-      end
-
-      @display_mode = "paged" if @display_mode.blank?
+      @display_mode = params[:display_mode] if %w(paged bulk).include? params[:display_mode]
+      @display_mode ||= 'paged'
     end
 
     def load_custom_stylesheet
