@@ -815,7 +815,9 @@ function handleAjaxFormRequests() {
     }
   });
   $(document).on('ajax:error', "form", function(event, data, status, xhr) {
-    $('.flash').append('<div class="error">Er ging iets fout, probeer het nog es. </div>').show()
+    errorMessage = 'Er ging iets fout bij het opslaan van de antwoorden. ' +
+                   'Controleer je internetverbinding en probeer het nogmaals.'
+    $('.flash').append('<div class="error">' + errorMessage +'</div>').show()
   });
   $(document).on('ajax:beforeSend', "form", function() {
     $('html').addClass('busy')

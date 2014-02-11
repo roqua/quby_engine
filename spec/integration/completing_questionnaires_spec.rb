@@ -58,13 +58,14 @@ feature 'Completing a questionnaire' do
     page.current_path.should eq '/foo'
   end
 
-  scenario 'when the first time fails', js: true do
+  scenario 'when the first questionnaire submit gives a serverside validation error', js: true do
     questionnaire = inject_questionnaire("test", <<-END)
       question :v1, type: :float, required: true; end_panel
     END
-    # make sure the faulty answer reaches the server.
+
     visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/foo')
 
+    # make sure the faulty answer reaches the server.
     page.driver.execute_script "window.skipValidations = true;"
 
     page.should have_selector('#panel0.current')
@@ -72,6 +73,7 @@ feature 'Completing a questionnaire' do
     page.should have_selector('#panel1.current')
     click_on "Klaar"
 
+    # the validation error is displayed on the page
     page.should have_selector('.error.requires_answer')
 
     fill_in 'answer[v1]', with: '1'
@@ -80,6 +82,28 @@ feature 'Completing a questionnaire' do
     page.should have_selector('#panel1.current')
     click_on "Klaar"
 
+    # and a second attempt can be made
+    page.should have_content("Bedankt voor het invullen")
+  end
+
+  scenario 'when the first questionnaire submit fails', js: true do
+    questionnaire = inject_questionnaire("test", <<-END)
+      question :v1, type: :float; end_panel
+    END
+
+    visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/foo')
+    page.should have_selector('#panel0.current')
+    fill_in 'answer[v1]', with: '1'
+    click_on "nextButton0"
+    page.should have_selector('#panel1.current')
+    page.execute_script('$("form.test").attr("action", "http://inexistant.domain")')
+    click_on "Klaar"
+
+    # an error message is displayed on the page
+    page.should have_content('Er ging iets fout bij het opslaan van de antwoorden')
+
+    # and a second attempt can be made to save the data
+    click_on "Klaar"
     page.should have_content("Bedankt voor het invullen")
   end
 
