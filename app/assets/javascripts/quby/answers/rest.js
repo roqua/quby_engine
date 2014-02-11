@@ -268,7 +268,7 @@ function handleAjaxFormRequests() {
   });
   $(document).on('ajax:error', "form", function(event, data, status, xhr) {
     var errorMessage = 'Er ging iets fout bij het opslaan van de antwoorden. ' +
-                      'Controleer je internetverbinding en probeer het nogmaals.';
+                       'Controleer je internetverbinding en probeer het nogmaals.';
     $('.flash').append('<div class="error">' + errorMessage +'</div>').show()
   });
   $(document).on('ajax:beforeSend', "form", function() {
