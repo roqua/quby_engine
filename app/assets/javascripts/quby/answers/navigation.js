@@ -11,6 +11,9 @@
       return false;
     }
   });
+  $(document).on('ajax:success ajax:error', "form", function() {
+    done_button_semaphore = true;
+  })
 
   // .paged #done-button:click: validate panel
   $(document).on("click", ".paged #done-button", function(event) {

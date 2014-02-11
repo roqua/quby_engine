@@ -76,6 +76,8 @@ feature 'Completing a questionnaire' do
     # the validation error is displayed on the page
     page.should have_selector('.error.requires_answer')
 
+    page.driver.execute_script "window.skipValidations = false;"
+
     fill_in 'answer[v1]', with: '1'
 
     click_on "nextButton0"
@@ -102,9 +104,6 @@ feature 'Completing a questionnaire' do
 
     # an error message is displayed on the page
     page.should have_content('Er ging iets fout bij het opslaan van de antwoorden')
-
-    # wait for semaphore
-    sleep 3
 
     # and a second attempt can be made to save the data
     page.execute_script("$('form.test').attr('action', '#{original_action}')")
