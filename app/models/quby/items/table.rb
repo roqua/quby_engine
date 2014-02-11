@@ -1,6 +1,5 @@
 module Quby
   class Items::Table < Item
-
     attr_accessor :columns
     attr_accessor :items
 
@@ -24,6 +23,7 @@ module Quby
     end
 
     # FIXME: code to be ashamed of
+    # rubocop:disable CyclomaticComplexity
     def rows
       return @rows if @rows
       @item_table = [[]]
@@ -126,6 +126,7 @@ module Quby
       end
       @rows
     end
+    # rubocop:enable CyclomaticComplexity
 
     def type
       "table"

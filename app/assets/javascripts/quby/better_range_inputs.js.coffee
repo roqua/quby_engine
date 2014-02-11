@@ -1,12 +1,20 @@
-$(->
-  $("input[type='range']").each(->
+
+all_to_slider = ->
+  $("input[type='range']").each ->
     new BetterSlider(this)
-  )
-)
+
+$ -> all_to_slider()
+$(document).on 'ajax:error ajax:success', 'form', -> # complete doesn't always fire
+  setTimeout ->
+    all_to_slider()
+  , 1
 
 class BetterSlider
   constructor: (el) ->
     @$el = $(el)
+    return if @$el.hasClass('made-slider')
+    @$el.addClass('made-slider')
+
     @min = +@$el.attr('min') || 0
     @max = +@$el.attr('max') || 100
     @step = +@$el.attr('step') || 1

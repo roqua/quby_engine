@@ -48,6 +48,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     END
 
     visit_new_answer_for(questionnaire)
+    page.should have_selector('#content')
     filling_in(within: "#item_v1", answering: "answer_v1", with: 'OHAI', should_show: '.error.valid_float')
   end
 
@@ -61,11 +62,9 @@ feature 'Trying to fill out an invalid answer', js: true do
 
     visit_new_answer_for(questionnaire)
 
-    within ".panel.current" do
-      fill_in 'answer_v1', with: 'INVALID'
-      click_on 'Onderbreken'
-      page.should have_content("Bedankt voor het invullen")
-    end
+    fill_in 'answer_v1', with: 'INVALID'
+    click_on 'Onderbreken'
+    page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'clientside validations are run when submitting' do

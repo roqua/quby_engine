@@ -1,9 +1,11 @@
 module Quby
   module QuestionnaireDsl
     class ChartBuilder
+      # rubocop:disable AccessorMethodName
       def self.set_chart_class(chart_class)
         @chart_class = chart_class
       end
+      # rubocop:enable AccessorMethodName
 
       def self.chart_class
         @chart_class

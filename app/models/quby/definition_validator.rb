@@ -1,6 +1,5 @@
 module Quby
   class DefinitionValidator
-
     MAX_KEY_LENGTH  = 13
     KEY_PREFIX      = 'v_'
 
@@ -71,6 +70,5 @@ module Quby
     def compact_questions(q)
       q.questions.compact
     end
-
   end
 end

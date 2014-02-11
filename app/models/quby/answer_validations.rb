@@ -68,6 +68,5 @@ module Quby
     def validate_answers
       AnswerValidator.new(questionnaire, self).validate
     end
-
   end
 end

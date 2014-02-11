@@ -51,9 +51,16 @@ module Quby
       updater = UpdatesAnswers.new(@answer)
 
       updater.on_success do
-        render action: "print/show", layout: "layouts/content_only" and return if printing
-        render action: "completed" and return if @return_url.blank?
-        redirect_to_roqua(status: return_status) and return
+        if printing
+          render action: "print/show", layout: "layouts/content_only"
+        elsif @return_url.blank?
+          render action: 'completed', layout: request.xhr? ? "layouts/content_only" : true
+        else
+          redirect_url = roqua_redirect(status: return_status)
+          request.xhr? ?
+            render(js: "window.location = '#{redirect_url}'") :
+            redirect_to(redirect_url)
+        end
       end
 
       updater.on_failure do
@@ -61,7 +68,8 @@ module Quby
         if printing
           render action: "#{@display_mode}/edit", layout: "layouts/content_only"
         else
-          render action: "#{@display_mode}/edit"
+          render action: "#{@display_mode}/edit",
+                 layout: request.xhr? ? "layouts/content_only" : true
         end
       end
 
@@ -91,7 +99,7 @@ module Quby
 
     def bad_authorization(exception)
       if @return_url
-        redirect_to_roqua status: 'authorization_error', return_from_answer: params[:id]
+        redirect_to roqua_redirect(status: 'authorization_error', return_from_answer: params[:id])
       else
         @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
         render file: 'errors/generic', layout: 'dialog'
@@ -182,7 +190,7 @@ module Quby
 
         if time < 24.hours.ago or 1.hour.since < time
           logger.error "ERROR::Authentication error: Request expired"
-          redirect_to_roqua(expired_session: "true") and return
+          redirect_to roqua_redirect(expired_session: "true") and return
         end
 
         if our_hmac != hmac
@@ -228,7 +236,7 @@ module Quby
       end
     end
 
-    def redirect_to_roqua(options = {})
+    def roqua_redirect(options = {})
       address = Addressable::URI.parse(@return_url)
 
       # Addressable behaves strangely if were to do this directly on
@@ -241,8 +249,7 @@ module Quby
       address.query_values = query_values
 
       logger.info address.to_s
-      redirect_to address.to_s
+      address.to_s
     end
-
   end
 end

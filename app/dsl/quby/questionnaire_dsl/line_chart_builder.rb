@@ -1,7 +1,7 @@
 module Quby
   module QuestionnaireDsl
     class LineChartBuilder < ChartBuilder
-      set_chart_class ::Quby::Charting::LineChart
+      set_chart_class(::Quby::Charting::LineChart)
 
       def y_axis_label(label)
         @chart.y_label = label

@@ -48,6 +48,5 @@ module Quby
         return "dark"
       end
     end
-
   end
 end
