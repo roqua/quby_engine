@@ -47,6 +47,7 @@ Spork.each_run do
     # config.mock_with :flexmock
     # config.mock_with :rr
     config.mock_with :rspec
+    config.include Capybara::DSL
 
     config.before(:suite) do
       DatabaseCleaner[:mongoid].clean_with(:truncation)

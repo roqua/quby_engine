@@ -1,5 +1,3 @@
-include Capybara::DSL
-
 def create_new_answer_for(questionnaire, answer_value = {})
   Quby::AnswersController.any_instance.stub(verify_hmac: true)
   Quby::AnswersController.any_instance.stub(verify_token: true)

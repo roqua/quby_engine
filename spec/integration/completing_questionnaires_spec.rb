@@ -39,7 +39,7 @@ feature 'Completing a questionnaire' do
     find("#panel4").should be_visible
 
     click_on "Klaar"
-    page.should have_content("Bedankt voor het invullen")
+    page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'when a return address has been specified', js: true do
@@ -47,15 +47,15 @@ feature 'Completing a questionnaire' do
       question :v1, type: :float; end_panel
     END
 
-    visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/foo')
+    visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/after_answer_complete')
     page.should have_selector('#panel0.current')
     click_on "nextButton0"
 
     page.should have_selector('#panel1.current')
     click_on "Klaar"
 
-    page.should have_content 'foo'
-    page.current_path.should eq '/foo'
+    page.should have_content 'answer_complete!'
+    page.current_path.should eq '/after_answer_complete'
   end
 
   scenario 'when the first questionnaire submit gives a serverside validation error', js: true do
@@ -63,7 +63,7 @@ feature 'Completing a questionnaire' do
       question :v1, type: :float, required: true; end_panel
     END
 
-    visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/foo')
+    visit_new_answer_for(questionnaire)
 
     # make sure the faulty answer reaches the server.
     page.driver.execute_script "window.skipValidations = true;"
@@ -83,7 +83,7 @@ feature 'Completing a questionnaire' do
     click_on "Klaar"
 
     # and a second attempt can be made
-    page.should have_content("Bedankt voor het invullen")
+    page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'when the first questionnaire submit fails', js: true do
@@ -91,20 +91,25 @@ feature 'Completing a questionnaire' do
       question :v1, type: :float; end_panel
     END
 
-    visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/foo')
+    visit_new_answer_for(questionnaire)
     page.should have_selector('#panel0.current')
     fill_in 'answer[v1]', with: '1'
     click_on "nextButton0"
     page.should have_selector('#panel1.current')
+    original_action = page.evaluate_script('$("form.test").attr("action")')
     page.execute_script('$("form.test").attr("action", "http://inexistant.domain")')
     click_on "Klaar"
 
     # an error message is displayed on the page
     page.should have_content('Er ging iets fout bij het opslaan van de antwoorden')
 
+    # wait for semaphore
+    sleep 3
+
     # and a second attempt can be made to save the data
+    page.execute_script("$('form.test').attr('action', '#{original_action}')")
     click_on "Klaar"
-    page.should have_content("Bedankt voor het invullen")
+    page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'by filling out a bulk version', js: true do
@@ -121,7 +126,7 @@ feature 'Completing a questionnaire' do
     within("#item_v_13") { choose "answer_v_13_a1" }
 
     click_on "Klaar"
-    page.should have_content("Bedankt voor het invullen")
+    page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'by not filling in answers, but asking to save regardless', js: true do
@@ -129,6 +134,6 @@ feature 'Completing a questionnaire' do
 
     click_on "Klaar"
     click_on "Toch opslaan"
-    page.should have_content("Bedankt voor het invullen")
+    page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 end
