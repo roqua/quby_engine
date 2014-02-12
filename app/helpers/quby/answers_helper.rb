@@ -6,7 +6,7 @@ module Quby
         result[qkey] = valar.map do |val|
           if val[:type] == :regexp
             valc = val.clone
-            valc[:matcher] = "/#{valc[:matcher].source.to_s}/"
+            valc[:matcher] = valc[:matcher].source.to_s
             # Replace single backslashes with two backslashes
             valc[:matcher].gsub!("\\", "\\\\")
             valc

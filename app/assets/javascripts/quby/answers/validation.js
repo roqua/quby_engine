@@ -91,7 +91,7 @@
               case "regexp":
                   //super dirty regex replace /A to ^ and /Z to $
                   var jsregex = validation.matcher.replace("\\A", "^").replace("\\Z", "$")
-                  var regex = eval(jsregex);
+                  var regex = new RegExp(jsregex);
                   var value = undefined;
                   if (inputs.length == 3 && (values[0] != "" || values[1] != "" || values[2] != "")) {
                       value = values.join("-");
