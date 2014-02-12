@@ -78,24 +78,27 @@ function radioCheckboxEvents(event){
 }
 
 function enableAllSubquestionsOfCheckedRadiosCheckboxes() {
-    $('input[type="radio"]:checked, input[type="checkbox"]:checked').each(function(i, el) {
+    $('input[type="radio"]:checked').each(function(i, el) {
+        handleDisableCheckboxSubQuestions(el)
+    })
+    $('input[type="checkbox"]:checked').each(function(i, el) {
         handleDisableCheckboxSubQuestions(el)
     })
 }
 
 function handleDisableRadioSubQuestions(element){
-    element.closest('.item').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
+    element.closest('.item .item:not(.specifier) .subinput').attr("disabled", "disabled");
     if(element.attr('checked')){
-        element.closest('.option').find('.item:not(.specifier)').find('.subinput').removeAttr("disabled");
+        element.closest('.option .item:not(.specifier) .subinput').removeAttr("disabled");
     }
 }
 
 function handleDisableCheckboxSubQuestions(element){
     element = $(element);
     if(element.attr('checked')){
-        $(element).closest('.option').find('.item:not(.specifier)').find('.subinput').removeAttr("disabled");
+        $(element).closest('.option .item:not(.specifier) .subinput').removeAttr("disabled");
     } else {
-        $(element).closest('.option').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
+        $(element).closest('.option .item:not(.specifier) .subinput').attr("disabled", "disabled");
     }
 }
 
@@ -287,7 +290,8 @@ $(function() {
 
         $(".deselectable").deselectable();
 
-        $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
+        $('input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
+        $('input[type="radio"]:not(.subinput)').live("click", radioCheckboxEvents );
 
         processExtraData();
 
@@ -300,7 +304,11 @@ $(function() {
             preparePaged();
         }
 
-        $('input[type="checkbox"]:not(.subinput), input[type="radio"]:not(.subinput)').each( function(index, element){
+        $('input[type="radio"]:not(.subinput)').each( function(index, element){
+           radioCheckboxEvents(element);
+        });
+
+        $('input[type="checkbox"]:not(.subinput)').each( function(index, element){
            radioCheckboxEvents(element);
         });
 
