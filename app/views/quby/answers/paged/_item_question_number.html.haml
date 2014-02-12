@@ -29,7 +29,7 @@
             - question.labels.each_with_index do |label, i|
               -# Remove class when ie8 is dropped.
               - lcls = (i == 0) ? 'first' : (i == question.labels.size-1) ? 'last' : ''
-              %td{class: lcls}= label
+              %td{class: lcls}= label.html_safe
     - else
       = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
     %span.unit= raw question.unit
