@@ -77,14 +77,19 @@
         .slider { @include span-columns($columns omega); }
         .fd-form-element-hidden { display: none; }
 
-        .slider-label-left  {
-          @include span-columns($columns/2);
-          text-align: left;
-        }
-
-        .slider-label-right {
-          @include span-columns($columns/2 omega);
-          text-align: right;
+        table.labels {
+          table-layout: fixed;
+          border: none;
+          td {
+            text-align: center;
+            border: none;
+          }
+          td.first, td:first-child {
+            text-align: left;
+          }
+          td.last, td:last-child {
+            text-align: right;
+          }
         }
       }
     }
