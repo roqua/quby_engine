@@ -36,8 +36,15 @@
         }
 
         var inputs = question_item.find("input, textarea, select")
-        if (!question_item.is('.slider'))
+        if (question_item.is('.slider')) {
+            if (question_item.is('.hide'))
+                continue;
+            inputs = inputs.not(":disabled");
+        } else {
             inputs = inputs.not(":disabled, :hidden")
+        }
+
+
         var values = $.map(inputs, function(e) {
           return $(e).val()
         });
