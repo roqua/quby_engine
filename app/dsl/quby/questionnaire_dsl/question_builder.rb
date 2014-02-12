@@ -55,12 +55,18 @@ module Quby
         @question.size = value
       end
 
-      def left_label(value)
-        @question.left_label = value
+      def label(value)
+        @question.labels << value
       end
 
+      # deprecated
+      def left_label(value)
+        @question.labels.unshift(value)
+      end
+
+      # deprecated
       def right_label(value)
-        @question.right_label = value
+        @question.labels << value
       end
 
       def option(key, options = {}, &block)

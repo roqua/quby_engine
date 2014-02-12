@@ -10,8 +10,7 @@ module Quby
     attr_accessor :title
     attr_accessor :description
 
-    attr_accessor :left_label
-    attr_accessor :right_label
+    attr_accessor :labels
 
     # What kind of question is this?
     attr_accessor :type
@@ -139,6 +138,7 @@ module Quby
       @lines = options[:lines] || 6
       @cols = options[:cols] || 40
       @default_invisible = options[:default_invisible] || false
+      @labels ||= []
 
       @col_span = options[:col_span] || 1
       @row_span = options[:row_span] || 1
