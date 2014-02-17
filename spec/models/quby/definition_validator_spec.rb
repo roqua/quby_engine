@@ -116,5 +116,31 @@ module Quby
         DefinitionValidator.new(questionnaire, valid_keys).validate.should be_true
       end
     end
+
+    describe 'the validation' do
+      it 'does not accept subquestions in question of type select' do
+        select_type_without_subquestions = <<-END
+          question :v_7, type: :select do
+            title "Vraag met hidden options"
+            option :a1, :value => 1, :description => "Keuze1"
+            option :a2, :value => 2, :description => "Keuze2"
+          end
+        END
+        select_type_with_subquestions = <<-END
+          question :v_8, type: :select do
+            title "Vraag met hidden options"
+            option :a3, :value => 1, :description => "Keuze1"
+            option :a4, :value => 2, :description => "Keuze2"
+            option :a5, :value => 7, :description => "Anders, namelijk:"
+            question :v_8a, :type => :radio do
+              option :a7a, :value => 11, :description => "Keuze 3"
+              option :a7b, :value => 12, :description => "Keuze 4"
+            end
+          end
+        END
+        DefinitionValidator.new(questionnaire, select_type_with_subquestions).validate.should be_false
+        DefinitionValidator.new(questionnaire, select_type_without_subquestions).validate.should be_true
+      end
+    end
   end
 end

@@ -38,6 +38,9 @@ module Quby
             validate_key_format question.day_key
           end
         end
+        if question.type == :select
+          validate_subquestion_absence_in_select question
+        end
         if question.type == :check_box
           question.options.andand.select { |option| not option.inner_title }
                                  .each { |option| validate_key_format option.key }
@@ -69,6 +72,14 @@ module Quby
 
     def compact_questions(q)
       q.questions.compact
+    end
+
+    def validate_subquestion_absence_in_select(question)
+      question.options.each do |option|
+        unless option.questions.empty?
+          raise "Question '#{question.key}' of type ':select' may not include other questions."
+        end
+      end
     end
   end
 end
