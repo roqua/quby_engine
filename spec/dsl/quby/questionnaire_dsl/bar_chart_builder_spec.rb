@@ -5,7 +5,7 @@ module Quby
     describe BarChartBuilder do
       it_behaves_like ChartBuilder
 
-      let(:questionnaire) { stub(key: 'questionnaire_key') }
+      let(:questionnaire) { double(key: 'questionnaire_key') }
 
       it 'makes a bar chart' do
         dsl { }.should be_an_instance_of(::Quby::Charting::BarChart)

@@ -1,13 +1,13 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 # Declare your gem's dependencies in quby.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem 'rails', '3.2.14'
+gem 'rails', '3.2.17'
 
-gem "bson_ext", "~> 1.5.2"
+gem 'bson_ext'
 
 # Optional dependency on RoQua Support gem.
 gem 'roqua-support', git: 'git://github.com/roqua/roqua-support.git'
@@ -29,17 +29,17 @@ gem 'wirble'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'coffee-rails', "~> 3.2.2"
+  gem 'coffee-rails'
   gem 'uglifier'
   gem 'compass'
 end
 
 platforms :ruby, :jruby do
-  gem 'therubyracer', '~> 0.12.0'
+  gem 'therubyracer'
 end
 
 group :test, :development do
-  gem "rspec-rails"
+  gem 'rspec-rails'
   gem 'capybara'
 
   gem 'guard-rspec'
@@ -50,7 +50,7 @@ group :test, :development do
   gem 'jasminerice'
   gem 'jasmine-jquery-rails'
 
-  gem "fakefs", :require => "fakefs/safe"
+  gem 'fakefs', :require => 'fakefs/safe'
 end
 
 group :test do

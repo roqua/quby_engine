@@ -7,7 +7,7 @@ module Quby
 
     describe '.calculate' do
       it 'calculates the value of a block' do
-        score = stub
+        score = double
         calculator = ScoreCalculator.calculate({}, timestamp) { score }.should == score
       end
     end

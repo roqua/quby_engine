@@ -5,7 +5,7 @@ module Quby
     describe LineChartBuilder do
       it_behaves_like ChartBuilder
 
-      let(:questionnaire) { stub(key: 'questionnaire_key') }
+      let(:questionnaire) { double(key: 'questionnaire_key') }
 
       it 'sets y-axis label' do
         dsl { y_axis_label 'Label' }.y_label.should == 'Label'

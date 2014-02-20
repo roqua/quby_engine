@@ -66,6 +66,7 @@ module Quby
       it 'passes in the regular values and completed_at to the score calculator' do
         answer.stub(value_by_regular_values: 'regular_values',
                     completed_at: 'completed_at')
+        ScoreCalculator.stub :calculate
         ScoreCalculator.should_receive(:calculate).with('regular_values', 'completed_at', {}, {})
         answer.calculate_builders
       end
@@ -80,12 +81,12 @@ module Quby
 
       it 'calculates scores with integer values' do
         score.stub(calculation: proc { {value: values(:v1)} })
-        questionnaire.stub(questions: [stub(key: :v1,
-                                            type: :radio,
-                                            options: [
-                                              stub(key: :a1, value: 2)
+        questionnaire.stub(questions: [double(key: :v1,
+                                              type: :radio,
+                                              options: [
+                                                double(key: :a1, value: 2)
                                               ],
-                                            text_var: false)])
+                                              text_var: false)])
         answer.value = {'v1' => :a1}
         answer.tap(&:calculate_builders).scores[:tot].should == {"value" => [2], "label" => "Totaal", "score" => true}
       end

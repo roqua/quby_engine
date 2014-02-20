@@ -5,7 +5,7 @@ module Quby
     describe RadarChartBuilder do
       it_behaves_like ChartBuilder
 
-      let(:questionnaire) { stub(key: 'questionnaire_key') }
+      let(:questionnaire) { double(key: 'questionnaire_key') }
 
       it 'makes a radar chart' do
         dsl { }.should be_an_instance_of(::Quby::Charting::RadarChart)

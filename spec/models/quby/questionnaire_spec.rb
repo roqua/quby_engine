@@ -40,9 +40,9 @@ module Quby
       end
 
       it 'overwrites the score builder if there already is a score builder known for this key' do
-        questionnaire.push_score_builder stub(key: "c")
+        questionnaire.push_score_builder double(key: "c")
 
-        new_builder = stub(key: "c")
+        new_builder = double(key: "c")
         questionnaire.push_score_builder new_builder
         questionnaire.score_builders.shift.last.should == new_builder
       end
@@ -50,13 +50,13 @@ module Quby
 
     describe '#find_plottable' do
       it 'finds score builders' do
-        score = stub(key: 'a')
+        score = double(key: 'a')
         questionnaire.push_score_builder score
         questionnaire.find_plottable('a').should == score
       end
 
       it 'finds questions by key with indifferent access' do
-        question = stub(key: 'a')
+        question = double(key: 'a')
         questionnaire.question_hash['a'] = question
         questionnaire.find_plottable(:a).should == question
       end
@@ -109,8 +109,8 @@ module Quby
     end
 
     describe '#add_chart' do
-      let(:charts)        { stub }
-      let(:chart)         { stub(key: 'tot', scores: [mock("Score")]) }
+      let(:charts)        { double }
+      let(:chart)         { double(key: 'tot', scores: [mock("Score")]) }
       let(:questionnaire) { Questionnaire.new('test') }
 
       it 'adds charts' do

@@ -4,7 +4,7 @@ module Quby
   module Charting
     describe Charts do
       let(:charts) { Charts.new }
-      let(:chart)  { stub(key: 'foobar') }
+      let(:chart)  { double(key: 'foobar') }
 
       it 'stores charts' do
         charts.add chart
@@ -22,9 +22,9 @@ module Quby
       end
 
       it 'knows the number of charts' do
-        charts.add stub(key: 1)
-        charts.add stub(key: 2)
-        charts.add stub(key: 3)
+        charts.add double(key: 1)
+        charts.add double(key: 2)
+        charts.add double(key: 3)
         charts.size.should == 3
       end
     end

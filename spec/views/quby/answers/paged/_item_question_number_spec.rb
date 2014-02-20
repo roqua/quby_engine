@@ -2,21 +2,21 @@ require 'spec_helper'
 module Quby
   describe "quby/answers/paged/_item_question_number" do
     let(:question) do
-      stub(key: :q1,
-           description: "",
-           title: "Titel!",
-           labels: [],
-           html_id: "",
-           type: :integer,
-           as: :slider,
-           validations: [{type: :minimum, value: 1},
-                         {type: :maximum, value: 20}],
-           input_data: {},
-           show_values: :bulk,
-           autocomplete: false,
-           disabled: false,
-           size: nil,
-           unit: nil)
+      double(key: :q1,
+             description: "",
+             title: "Titel!",
+             labels: [],
+             html_id: "",
+             type: :integer,
+             as: :slider,
+             validations: [{type: :minimum, value: 1},
+                           {type: :maximum, value: 20}],
+             input_data: {},
+             show_values: :bulk,
+             autocomplete: false,
+             disabled: false,
+             size: nil,
+             unit: nil)
     end
 
     before { view.stub(marukufix: "HOI") }

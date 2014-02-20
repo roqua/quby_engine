@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
-  let(:questionnaire) { stub(key: 'honos') }
+  let(:questionnaire) { double(key: 'honos') }
 
   it 'sets title' do
     dsl { title 'Totaalscore' }.title.should == "Totaalscore"
