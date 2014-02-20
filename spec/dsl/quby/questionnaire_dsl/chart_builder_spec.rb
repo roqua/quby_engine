@@ -12,8 +12,8 @@ module Quby
         end
       end
       let(:chart_plottables) { [] }
-      let(:chart) { mock(plottables: chart_plottables) }
-      before { ChartBuilder.set_chart_class(mock(new: chart)) }
+      let(:chart) { double(plottables: chart_plottables) }
+      before { ChartBuilder.set_chart_class(double(new: chart)) }
       let(:chart_builder) { ChartBuilder.new questionnaire, 'chart_key' }
 
       describe '#plot' do

@@ -107,7 +107,7 @@ module Quby
       end
 
       it 'does not raise for nil values' do
-        expect { calculator.mean_ignoring_nils([nil, 2]) }.not_to raise_error(/coerce/)
+        expect { calculator.mean_ignoring_nils([nil, 2]) }.not_to raise_error
       end
     end
 
@@ -127,7 +127,7 @@ module Quby
       end
 
       it 'does not raise for nil values' do
-        expect { calculator.mean_ignoring_nils_80_pct([nil, 2]) }.not_to raise_error(/coerce/)
+        expect { calculator.mean_ignoring_nils_80_pct([nil, 2]) }.not_to raise_error
       end
     end
 

@@ -110,7 +110,7 @@ module Quby
 
     describe '#add_chart' do
       let(:charts)        { double }
-      let(:chart)         { double(key: 'tot', scores: [mock("Score")]) }
+      let(:chart)         { double(key: 'tot', scores: [double("Score")]) }
       let(:questionnaire) { Questionnaire.new('test') }
 
       it 'adds charts' do
