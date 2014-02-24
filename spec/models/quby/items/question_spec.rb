@@ -14,7 +14,18 @@ module Quby
         question :check, type: :check_box do
           title "Checkbox vraag"
           option :check1
+          inner_title 'foobar'
           option :check2
+        end
+
+        question :scale, type: :scale do
+          option :scale1
+          option :scale2
+        end
+
+        question :select, type: :scale do
+          option :select1
+          option :select2
         end
 
         question :int, type: :integer
@@ -33,8 +44,21 @@ module Quby
       it 'should list all input keys' do
         expect(questionnaire.question_hash[:radio].input_keys).to eql [:radio_rad1, :radio_rad2]
         expect(questionnaire.question_hash[:check].input_keys).to eql [:check1, :check2]
+        expect(questionnaire.question_hash[:scale].input_keys).to eql [:scale_scale1, :scale_scale2]
+        expect(questionnaire.question_hash[:select].input_keys).to eql [:select_select1, :select_select2]
         expect(questionnaire.question_hash[:int].input_keys).to eql [:int]
         expect(questionnaire.question_hash[:date].input_keys).to eql [:date_dd, :date_mm, :date_yyyy]
+      end
+    end
+
+    describe '#answer_keys' do
+      it 'should list all answer keys' do
+        expect(questionnaire.question_hash[:radio].answer_keys).to eql [:radio]
+        expect(questionnaire.question_hash[:check].answer_keys).to eql [:check1, :check2]
+        expect(questionnaire.question_hash[:scale].answer_keys).to eql [:scale]
+        expect(questionnaire.question_hash[:select].answer_keys).to eql [:select]
+        expect(questionnaire.question_hash[:int]  .answer_keys).to eql [:int]
+        expect(questionnaire.question_hash[:date] .answer_keys).to eql [:date_dd, :date_mm, :date_yyyy]
       end
     end
 
