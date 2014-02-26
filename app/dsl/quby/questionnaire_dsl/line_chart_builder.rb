@@ -25,7 +25,7 @@ module Quby
         end
 
         if value
-          @chart.baseline = lambda { |age, gender| value }
+          @chart.baseline = ->(age, gender) { value }
         end
 
         if block

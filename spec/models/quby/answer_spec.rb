@@ -48,8 +48,8 @@ module Quby
       it 'can be accessed with indifferent access' do
         answer = Answer.create!(scores: {tot: {label: 'Totaal', value: 4}})
         answer = Answer.find(answer.id)
-        answer.scores[:tot][:label].should == 'Totaal'
-        answer.scores["tot"]["value"].should == 4
+        answer.scores[:tot][:label].should eq 'Totaal'
+        answer.scores["tot"]["value"].should eq 4
       end
     end
 
@@ -62,8 +62,8 @@ module Quby
       it 'can be accessed with indifferent access' do
         answer = Answer.create!(actions: {alarm: [:v1, :v2]})
         answer = Answer.find(answer.id)
-        answer.actions[:alarm].should == [:v1, :v2]
-        answer.actions["alarm"].should == [:v1, :v2]
+        answer.actions[:alarm].should eq [:v1, :v2]
+        answer.actions["alarm"].should eq [:v1, :v2]
       end
     end
 

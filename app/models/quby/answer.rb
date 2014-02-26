@@ -114,17 +114,14 @@ module Quby
         result = value.dup
         value.each do |key, answer|
           question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
-          if question
-            if question.type == :radio || question.type == :scale || question.type == :select
-              option = question.options.find { |o| o.key.to_s == value[key].to_s }
-              if option
-                result[key] = option.value
-              end
-            elsif question.type == :integer
-              result[key] = answer.to_i if answer
-            elsif question.type == :float
-              result[key] = answer.to_f if answer
-            end
+          return result unless question
+          if question.type == :radio || question.type == :scale || question.type == :select
+            option = question.options.find { |o| o.key.to_s == value[key].to_s }
+            result[key] = option.value if option
+          elsif question.type == :integer
+            result[key] = answer.to_i if answer
+          elsif question.type == :float
+            result[key] = answer.to_f if answer
           end
         end
       end
@@ -135,11 +132,11 @@ module Quby
     end
 
     def scores
-      read_attribute(:scores).with_indifferent_access
+      self[:scores].with_indifferent_access
     end
 
     def actions
-      read_attribute(:actions).with_indifferent_access
+      self[:actions].with_indifferent_access
     end
 
     def as_json(options = {})

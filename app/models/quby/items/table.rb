@@ -49,8 +49,8 @@ module Quby
               row_items = 0
               @rows << [[]]
               @item_table << []
-              skips.map! do |row_span, skip_cols_at, skip_cols_length|
-                [row_span - 1, skip_cols_at, skip_cols_length]
+              skips.map! do |new_row_span, new_skip_cols_at, new_skip_cols_length|
+                [new_row_span - 1, new_skip_cols_at, new_skip_cols_length]
               end
             end
             if filled_columns != 0 and item != items.last

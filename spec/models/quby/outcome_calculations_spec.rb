@@ -31,22 +31,22 @@ module Quby
       it 'returns :alarm if any score is alarming' do
         answer.scores = {tot: {label: "Totaal", value: 10, status: "alarm"},
                          soc: {label: "Sociaal", value: 5, status: "attention"}}
-        answer.action.should == :alarm
+        answer.action.should eq :alarm
       end
 
       it 'returns :alarm if an answer to a question is alarming' do
         answer.actions = {alarm: [:v_1]}
-        answer.action.should == :alarm
+        answer.action.should eq :alarm
       end
 
       it 'returns :attention if nothing is alarming and score is attention-worthy' do
         answer.scores = {tot: {label: 'Totaal', value: 10, status: "attention"}}
-        answer.action.should == :attention
+        answer.action.should eq :attention
       end
 
       it 'returns :attention if nothing is alarming and an answer to a question is attention-worthy' do
         answer.actions = {alarm: [], attention: [:v_1]}
-        answer.action.should == :attention
+        answer.action.should eq :attention
       end
 
       it 'returns nil if all scores and answers are neither alarming nor attention-worthy' do
@@ -58,7 +58,7 @@ module Quby
       it 'works with symbols as well as keys for score statusses' do
         answer.scores = {tot: {label: "Totaal", value: 10, status: :alarm},
                          soc: {label: "Sociaal", value: 5, status: "attention"}}
-        answer.action.should == :alarm
+        answer.action.should eq :alarm
       end
     end
 
@@ -74,9 +74,9 @@ module Quby
       it 'calculates scores, alerts and completion' do
         answer.calculate_builders
 
-        answer.scores.should == {"tot" => {"value" => 3, "label" => "Totaal", "score" => true}}
-        answer.actions.should == {"attention" => 5}
-        answer.completion.should == {"value" => 0.9}
+        answer.scores.should eq( "tot" => {"value" => 3, "label" => "Totaal", "score" => true})
+        answer.actions.should eq("attention" => 5)
+        answer.completion.should eq("value" => 0.9)
       end
 
       it 'calculates scores with integer values' do
@@ -88,50 +88,50 @@ module Quby
                                               ],
                                               text_var: false)])
         answer.value = {'v1' => :a1}
-        answer.tap(&:calculate_builders).scores[:tot].should == {"value" => [2], "label" => "Totaal", "score" => true}
+        answer.tap(&:calculate_builders).scores[:tot].should eq("value" => [2], "label" => "Totaal", "score" => true)
       end
 
       it 'allows access to other scores' do
         score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.push_score_builder score2
-        answer.tap(&:calculate_builders).scores[:tot2].should == {"value" => 5, "label" => "Totaal2", "score" => true}
+        answer.tap(&:calculate_builders).scores[:tot2].should eq("value" => 5, "label" => "Totaal2", "score" => true)
       end
 
       context 'when calculation throws an exception' do
         before { score.stub(calculation: proc { raise "Foo" }) }
 
         it 'stores the exception' do
-          answer.tap(&:calculate_builders).scores[:tot][:exception].should == 'Foo'
+          answer.tap(&:calculate_builders).scores[:tot][:exception].should eq 'Foo'
         end
 
         it 'includes the label' do
-          answer.tap(&:calculate_builders).scores[:tot][:label].should == "Totaal"
+          answer.tap(&:calculate_builders).scores[:tot][:label].should eq "Totaal"
         end
       end
 
       it 'calculates completion percentage' do
         completion.stub(calculation: proc { 0.9 })
-        answer.tap(&:calculate_builders).completion.should == {'value' => 0.9}
+        answer.tap(&:calculate_builders).completion.should eq('value' => 0.9)
       end
 
       it 'updates outcome generation timestamp' do
         Timecop.freeze do
-          answer.tap(&:calculate_builders).outcome_generated_at.to_i.should == Time.now.to_i
+          answer.tap(&:calculate_builders).outcome_generated_at.to_i.should eq Time.now.to_i
         end
       end
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
           completion.stub(calculation: proc { raise "Foo" })
-          answer.tap(&:calculate_builders).completion[:exception].should == 'Foo'
+          answer.tap(&:calculate_builders).completion[:exception].should eq 'Foo'
         end
       end
 
       context 'when questionnaire has no calculation' do
         it 'returns an empty hash' do
           questionnaire.score_builders.delete(:completion)
-          answer.tap(&:calculate_builders).completion.should == {}
+          answer.tap(&:calculate_builders).completion.should eq({})
         end
       end
     end
@@ -144,17 +144,17 @@ module Quby
 
       it 'assigns the calculated score to self.scores' do
         answer.update_scores
-        answer.scores.should == {"tot" => {"value" => 3, "label" => "Totaal", "score" => true}}
+        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal", "score" => true})
       end
 
       it 'assigns the calculated actions to self.actions' do
         answer.update_scores
-        answer.actions.should == {'attention' => 5}
+        answer.actions.should eq('attention' => 5)
       end
 
       it 'assigns the calculated completion to self.completion' do
         answer.update_scores
-        answer.completion.should == {'value' => 0.9}
+        answer.completion.should eq('value' => 0.9)
       end
 
       it 'saves reorderings of scores' do
@@ -166,15 +166,15 @@ module Quby
         questionnaire.push_score_builder score1
         questionnaire.push_score_builder score2
         answer.update_scores
-        answer.scores.keys.should == %w(tot sub)
-        answer.reload.scores.keys.should == %w(tot sub)
+        answer.scores.keys.should eq %w(tot sub)
+        answer.reload.scores.keys.should eq %w(tot sub)
 
         questionnaire.score_builders = {}
         questionnaire.push_score_builder score2
         questionnaire.push_score_builder score1
         answer.update_scores
-        answer.scores.keys.should == %w(sub tot)
-        answer.reload.scores.keys.should == %w(sub tot)
+        answer.scores.keys.should eq %w(sub tot)
+        answer.reload.scores.keys.should eq %w(sub tot)
       end
     end
   end

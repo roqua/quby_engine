@@ -16,11 +16,15 @@ module Quby
     let(:questionnaire) { Questionnaire.new(key, definition) }
 
     describe '#scores' do
-      Questionnaire.new("test").scores.should == []
+      it 'should have empty scores' do
+        Questionnaire.new("test").scores.should eq([])
+      end
     end
 
     describe '#score_builders' do
-      Questionnaire.new("test").score_builders.should == {}
+      it 'has empty score_builders' do
+        Questionnaire.new("test").score_builders.should eq({})
+      end
     end
 
     describe '#push_score_builder' do
@@ -29,14 +33,14 @@ module Quby
       it 'adds the score builder to the list of score builders' do
         builder = double("Quby::Score", key: "c")
         questionnaire.push_score_builder builder
-        questionnaire.score_builders['c'].should == builder
+        questionnaire.score_builders['c'].should eq builder
       end
 
       it 'preserves order of added score builders' do
         questionnaire.push_score_builder double("Quby::Score", key: "c")
         questionnaire.push_score_builder double("Quby::Score", key: "a")
         questionnaire.push_score_builder double("Quby::Score", key: "d")
-        questionnaire.score_builders.keys.should == %w(c a d)
+        questionnaire.score_builders.keys.should eq %w(c a d)
       end
 
       it 'overwrites the score builder if there already is a score builder known for this key' do
@@ -44,7 +48,7 @@ module Quby
 
         new_builder = double(key: "c")
         questionnaire.push_score_builder new_builder
-        questionnaire.score_builders.shift.last.should == new_builder
+        questionnaire.score_builders.shift.last.should eq new_builder
       end
     end
 
@@ -52,13 +56,13 @@ module Quby
       it 'finds score builders' do
         score = double(key: 'a')
         questionnaire.push_score_builder score
-        questionnaire.find_plottable('a').should == score
+        questionnaire.find_plottable('a').should eq score
       end
 
       it 'finds questions by key with indifferent access' do
         question = double(key: 'a')
         questionnaire.question_hash['a'] = question
-        questionnaire.find_plottable(:a).should == question
+        questionnaire.find_plottable(:a).should eq question
       end
     end
 
@@ -104,7 +108,7 @@ module Quby
           question(:v_1, type: :radio, title: ' < 20') { option :a1, value: 0; option :a2, value: 1}
         """
         questionnaire = Questionnaire.new("test2", definition)
-        questionnaire.to_codebook.should == "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
+        questionnaire.to_codebook.should eq "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
       end
     end
 
@@ -124,8 +128,8 @@ module Quby
       let(:definition)    { "text 'text thing' \n question :v_1, type: :radio \n question :v_2, type: :string" }
       let(:questionnaire) { Questionnaire.new(:questions_of_type_test, definition) }
       it 'returns questions of the given type' do
-        questionnaire.questions_of_type(:string).count.should == 1
-        questionnaire.questions_of_type(:string).first.type.should == :string
+        questionnaire.questions_of_type(:string).count.should eq 1
+        questionnaire.questions_of_type(:string).first.type.should eq :string
       end
     end
 

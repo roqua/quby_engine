@@ -33,7 +33,7 @@ module Quby
         questionnaire_class.stub(:new).with(key, definition, anything).and_return { questionnaire }
 
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
-        questionnaire_finder.find(key).should == questionnaire
+        questionnaire_finder.find(key).should eq questionnaire
       end
 
       it 'raises RecordNotFound if it doesnt exist' do
@@ -46,14 +46,14 @@ module Quby
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
 
         found_questionnaire = questionnaire_finder.find(key)
-        found_questionnaire.definition.should == definition
+        found_questionnaire.definition.should eq definition
 
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition_2 }
 
         # FakeFS does not implement ctime yet
         File.stub(ctime: Time.now + 10.minutes)
         found_questionnaire = questionnaire_finder.find(key)
-        found_questionnaire.definition.should == definition_2
+        found_questionnaire.definition.should eq definition_2
       end
 
       it 'uses the cache if a questionnaire definition on disk has not changed' do
@@ -83,7 +83,7 @@ module Quby
       it 'finds all questionnaires' do
         FileUtils.touch("/tmp/a.rb")
         FileUtils.touch("/tmp/b.rb")
-        questionnaire_finder.all.map(&:key).should == %w(a b)
+        questionnaire_finder.all.map(&:key).should eq %w(a b)
       end
     end
   end
