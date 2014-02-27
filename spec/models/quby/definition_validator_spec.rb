@@ -142,5 +142,38 @@ module Quby
         DefinitionValidator.new(questionnaire, select_type_without_subquestions).validate.should be_true
       end
     end
+
+    describe 'subquestions inside a table' do
+      it 'accepts title_questions' do
+        DefinitionValidator.new(questionnaire, <<-END).validate.should be_true
+          panel do
+            table do
+              question :v_1, type: :radio do
+                title "Question"
+                title_question :v_2, :type => :string, :title => "", :depends_on => [:v_1_a1]
+                option :a1, value: 1, description: "Option 1"
+                option :a2, value: 2, description: "Option 2"
+              end
+            end
+          end
+        END
+      end
+
+      it 'does not accept subquestions in questions inside a table' do
+        DefinitionValidator.new(questionnaire, <<-END).validate.should be_false
+          panel do
+            table do
+              question :v_1, type: :radio do
+                title "Question"
+                option :a1, value: 1, description: "Option 1"
+                option :a2, value: 2, description: "Option 2" do
+                  question :v_2, type: :string, title: 'Subquestion'
+                end
+              end
+            end
+          end
+        END
+      end
+    end
   end
 end

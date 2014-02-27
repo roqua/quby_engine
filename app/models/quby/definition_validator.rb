@@ -18,6 +18,7 @@ module Quby
       QuestionnaireDsl.enhance(dummy_questionnaire, [functions, definition].join("\n\n"))
 
       validate_questions(dummy_questionnaire)
+      validate_table_edgecases(dummy_questionnaire)
 
       true
     # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
@@ -44,6 +45,16 @@ module Quby
         if question.type == :check_box
           question.options.andand.select { |option| not option.inner_title }
                                  .each { |option| validate_key_format option.key }
+        end
+      end
+    end
+
+    def validate_table_edgecases(questionnaire)
+      questionnaire.panels.each do |panel|
+        tables = panel.items.select {|item| item.is_a?(Quby::Items::Table) }
+        tables.each do |table|
+          questions = table.items.select {|item| item.is_a?(Quby::Items::Question) }
+          questions.each {|question| validate_table_question(question) }
         end
       end
     end
@@ -78,6 +89,14 @@ module Quby
       question.options.each do |option|
         unless option.questions.empty?
           raise "Question '#{question.key}' of type ':select' may not include other questions."
+        end
+      end
+    end
+
+    def validate_table_question(question)
+      question.subquestions.each do |subquestion|
+        if subquestion.presentation != :next_to_title
+          raise "Question #{question.key} is inside a table, but has a subquestion #{subquestion.key}, which is not allowed."
         end
       end
     end
