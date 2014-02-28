@@ -29,22 +29,14 @@ module Quby
     end
 
     def validate_questions(questionnaire)
+      questionnaire.answer_keys.each do |key|
+        validate_key_format(key)
+      end
+
       questionnaire.question_hash.each do |key, question|
-        validate_key_format key
-        if question.is_a? Quby::Items::Question
-          to_be_hidden_questions_exist? question, questionnaire
-          if question.type == :date
-            validate_key_format question.year_key
-            validate_key_format question.month_key
-            validate_key_format question.day_key
-          end
-        end
+        to_be_hidden_questions_exist? question, questionnaire
         if question.type == :select
           validate_subquestion_absence_in_select question
-        end
-        if question.type == :check_box
-          question.options.andand.select { |option| not option.inner_title }
-                                 .each { |option| validate_key_format option.key }
         end
       end
     end
@@ -79,10 +71,6 @@ module Quby
       if not key.to_s.start_with?(KEY_PREFIX)
         raise "Key '#{key}' should start with '#{KEY_PREFIX}'."
       end
-    end
-
-    def compact_questions(q)
-      q.questions.compact
     end
 
     def validate_subquestion_absence_in_select(question)

@@ -278,7 +278,21 @@ module Quby
       elsif options.blank?
         return [key]
       else
-        return options.map { |opt| opt.input_key }
+        # Some options don't have a key (inner_title), they are stripped
+        return options.map { |opt| opt.input_key }.compact
+      end
+    end
+
+    # Returns all possible answer keys.
+    # Difference with input_keys is radio/select/scale-options being answers of the question-key.
+    def answer_keys
+      if type == :date
+        return [day_key.to_sym, month_key.to_sym, year_key.to_sym]
+      elsif type == :check_box
+        # Some options don't have a key (inner_title), they are stripped.
+        return options.map { |opt| opt.input_key }.compact
+      else
+        return [key]
       end
     end
 

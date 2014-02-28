@@ -132,6 +132,12 @@ module Quby
       question_hash.values.map { |q| q.input_keys }.flatten
     end
 
+    # Returns all possible answer keys.
+    # Difference with input_keys is radio-inputs being answers of the question-key.
+    def answer_keys
+      question_hash.values.map { |q| q.answer_keys }.flatten
+    end
+
     def questions_tree
       return @questions_tree_cache if @questions_tree_cache
 

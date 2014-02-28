@@ -62,17 +62,39 @@ module Quby
       end
     end
 
-    describe '#input_keys' do
+    context 'key lists' do
       let(:questionnaire) do
-        Questionnaire.new("test", <<-END)
-          question :radio, type: :radio do
+        questionnaire = Quby::Questionnaire.new("test", <<-END)
+          question :radio, type: :radio, depends_on: [:check] do
+            title "Testvraag"
             option :rad1
             option :rad2
           end
+
+          question :check, type: :check_box do
+            title "Checkbox vraag"
+            option :check1
+            option :check2
+          end
+
+          question :int, type: :integer
+
+          question :date, type: :date
         END
       end
-      it 'should list all input keys' do
-        expect(questionnaire.input_keys).to eq [:radio_rad1, :radio_rad2]
+
+      describe '#input_keys' do
+        it 'should list all input keys' do
+          expect(questionnaire.input_keys).to eq [:radio_rad1, :radio_rad2, :check1, :check2, :int,
+                                                  :date_dd, :date_mm, :date_yyyy]
+        end
+      end
+
+      describe '#answer_keys' do
+        it 'should list all answer keys' do
+          expect(questionnaire.answer_keys).to eq [:radio, :check1, :check2, :int, :date_dd,
+                                                   :date_mm, :date_yyyy]
+        end
       end
     end
 
