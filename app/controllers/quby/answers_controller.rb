@@ -37,7 +37,7 @@ module Quby
     end
 
     def edit
-      render action: "#{@display_mode}/edit"
+      render template: "quby/#{@questionnaire.renderer_version}/#{@display_mode}"
     rescue Quby::Questionnaire::ValidationError => e
       if Quby.show_exceptions
         @error = e
@@ -52,9 +52,9 @@ module Quby
 
       updater.on_success do
         if printing
-          render action: "print/show", layout: "layouts/content_only"
+          render template: "quby/#{@questionnaire.renderer_version}/print", layout: "layouts/content_only"
         elsif @return_url.blank?
-          render action: 'completed', layout: request.xhr? ? "layouts/content_only" : true
+          render template: "quby/#{@questionnaire.renderer_version}/completed", layout: request.xhr? ? "layouts/content_only" : true
         else
           redirect_url = roqua_redirect(status: return_status)
           request.xhr? ?
@@ -66,9 +66,9 @@ module Quby
       updater.on_failure do
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
         if printing
-          render action: "#{@display_mode}/edit", layout: "layouts/content_only"
+          render template: "quby/#{@questionnaire.renderer_version}/#{@display_mode}", layout: "layouts/content_only"
         else
-          render action: "#{@display_mode}/edit",
+          render template: "quby/#{@questionnaire.renderer_version}/#{@display_mode}",
                  layout: request.xhr? ? "layouts/content_only" : true
         end
       end

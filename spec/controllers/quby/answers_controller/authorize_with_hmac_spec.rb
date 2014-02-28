@@ -7,7 +7,7 @@ module Quby
 
     let(:answer)        { double("Answer", id: '1', token: 'answer_token') }
     let(:answers)       { double("Answers", find: answer) }
-    let(:questionnaire) { double("Questionnaire", answers: answers, errors: []) }
+    let(:questionnaire) { double("Questionnaire", renderer_version: :v1, answers: answers, errors: []) }
 
     before do
       Quby.questionnaire_finder.stub(find: questionnaire)
@@ -24,7 +24,7 @@ module Quby
 
       it 'allows correct hmacs' do
         get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac, timestamp: timestamp
-        expect(response).to render_template(:edit)
+        expect(response).to render_template('v1/paged')
       end
 
       it 'Facebook spider does not report' do

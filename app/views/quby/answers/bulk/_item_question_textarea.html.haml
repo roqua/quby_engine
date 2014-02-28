@@ -1,9 +1,0 @@
-%label.main(for="answer_#{question.key}")
-  = render :partial => "quby/answers/shared/main_label", :locals => {:question => question}
-.description-and-fields
-  .description
-    - unless question.description.blank?
-      :markdown
-        #{raw question.description}
-  .fields{:id => question.html_id}
-    = text_area :answer, question.key, :rows => question.lines, :cols => question.cols, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil

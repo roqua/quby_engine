@@ -1,0 +1,13 @@
+%label.main(for="answer_#{question.key}")
+  = render :partial => "quby/v1/shared/main_label", :locals => {:question => question} || raw("&nbsp;")
+.description-and-fields
+  .description
+    - unless question.description.blank?
+      :markdown
+        #{raw question.description}
+  .fields{:id => question.html_id}
+    - cls = [question.type]
+    - cls << "subinput"  if subquestion
+    - cls << question.as if question.as
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
+    %span.unit= raw question.unit

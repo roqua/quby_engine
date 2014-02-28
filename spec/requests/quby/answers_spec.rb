@@ -31,7 +31,7 @@ module Quby
         answer = create_answer(honos)
         put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
 
-        response.should render_template(:edit)
+        response.should render_template('v1/paged')
         flash[:notice].should match(/nog niet volledig ingevuld/)
       end
 
@@ -43,12 +43,12 @@ module Quby
 
         it 'renders print view if printing' do
           put "/quby/questionnaires/honos/answers/#{answer.id}/print", answer: {v_1: nil}
-          response.should render_template('print/show')
+          response.should render_template('v1/print')
         end
 
         it 'renders completed view if no return url' do
           put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
-          response.should render_template('completed')
+          response.should render_template('v1/completed')
         end
 
         it 'redirects to roqua if return url is set' do

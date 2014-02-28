@@ -6,7 +6,7 @@ module Quby
 
     let(:answer)        { double("Answer", id: '1') }
     let(:answers)       { double("Answers", find: answer) }
-    let(:questionnaire) { double("Questionnaire", answers: answers, errors: []) }
+    let(:questionnaire) { double("Questionnaire", renderer_version: :v1, answers: answers, errors: []) }
 
     before do
       Quby::Settings.stub(authorize_with_hmac: false)
@@ -16,7 +16,7 @@ module Quby
     it 'allows requests when they match session and url answer id' do
       session[:quby_answer_id] = '1'
       get :edit, questionnaire_id: 'honos', id: '1'
-      expect(response).to render_template(:edit)
+      expect(response).to render_template('v1/paged')
     end
 
     it 'disallows requests when they dont match with session' do

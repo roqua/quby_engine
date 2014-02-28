@@ -1,0 +1,29 @@
+- available_width = question.presentation == :horizontal ? 100 : 66
+
+- if opt.inner_title
+  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= opt.description
+- else
+  - checked = @answer.send(question.key) == opt.key.to_s
+  - return if (opt.hidden and not checked)
+  - optionclasses =  [os_cycle]
+  %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
+    - radio_classes = [question.type]
+    - radio_classes << "deselectable" if question.deselectable
+    - show_values = (question.show_values == true or question.show_values == :all)
+    .radiocheckwrapper
+      - if show_values
+        .value= opt.value
+      = radio_button(:answer, question.key, opt.key, {:class => radio_classes})
+    -if question.table.show_option_desc
+      .labelwrapper
+        %label{for: opt.view_id}
+          %span
+            - if table.columns >= 10
+              %br
+            :markdown
+              #{raw opt.description}
+    - subq = opt.questions.first
+    - if subq and (subq.presentation != :next_to_title and subq.type == :string)
+      %br
+      = render :partial => "quby/v1/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
+    = validations

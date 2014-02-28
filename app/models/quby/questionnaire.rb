@@ -29,6 +29,7 @@ module Quby
       @charts = Charting::Charts.new
       @question_hash ||= {}
 
+      @renderer_version = :v1
       @scroll_to_next_question = false
 
       enhance_by_dsl
@@ -45,6 +46,7 @@ module Quby
     attr_accessor :panels
     attr_accessor :score_builders
     attr_accessor :default_answer_value
+    attr_accessor :renderer_version
     attr_accessor :scroll_to_next_question
     attr_accessor :log_user_activity
 
