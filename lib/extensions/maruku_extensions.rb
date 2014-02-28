@@ -4,12 +4,12 @@ require 'maruku'
 
 # Replace {{var_name}} with <span class='text_var' text_var=var_name></span>
 # TODO: add ability to specify default text to use in case text_var is empty
-TextVar = /(\{\{)(.+?)(\}\})/
+TEXT_VAR = /(\{\{)(.+?)(\}\})/
 
 MaRuKu::In::Markdown.register_span_extension(chars: (RUBY_VERSION >= '1.9' ? '{' : 123), # ASCII ordinal of {
-                                             regexp: TextVar,
+                                             regexp: TEXT_VAR,
                                              handler: lambda do |doc, src, con|
-                                                        m = src.read_regexp3(TextVar)
+                                                        m = src.read_regexp3(TEXT_VAR)
                                                         var_name = m.captures.compact[1]
                                                         string = "<span class='text_var' text_var='#{var_name}'>{{#{var_name}}}</span>"
                                                         con.push doc.md_html(string)
@@ -19,11 +19,11 @@ MaRuKu::In::Markdown.register_span_extension(chars: (RUBY_VERSION >= '1.9' ? '{'
 
 # Modal pop up window link:
 # ~~url~~link_body~~
-LinkUrl = /(\~\~)(.+)(\~\~)(.+)(\~\~)/
+LINK_URL = /(\~\~)(.+)(\~\~)(.+)(\~\~)/
 MaRuKu::In::Markdown.register_span_extension(chars: (RUBY_VERSION >= '1.9' ? '~' : 126), # ASCII ordinal of ~
-                                             regexp: LinkUrl,
+                                             regexp: LINK_URL,
                                              handler: lambda do |doc, src, con|
-                                                        m = src.read_regexp3(LinkUrl)
+                                                        m = src.read_regexp3(LINK_URL)
                                                         url = m.captures.compact[1]
                                                         link_body = m.captures.compact[3]
                                                         string = "<a href='#' onclick='modalFrame(\"#{url}\");'>#{link_body}</a>"

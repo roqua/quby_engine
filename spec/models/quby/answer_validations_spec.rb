@@ -132,10 +132,10 @@ module Quby
       end
 
       it 'does not clear checkbox questions' do
-        answer.v_check_box.should == {"v_c1" => 0, "v_c2" => 1, "v_c3" => 1}
-        answer.v_c1.should == 0
-        answer.v_c2.should == 1
-        answer.v_c3.should == 1
+        answer.v_check_box.should eq("v_c1" => 0, "v_c2" => 1, "v_c3" => 1)
+        answer.v_c1.should eq 0
+        answer.v_c2.should eq 1
+        answer.v_c3.should eq 1
       end
 
       it 'converts windows line ends to linux line ends' do

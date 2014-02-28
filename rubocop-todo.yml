@@ -2,25 +2,49 @@
 # The point is for the user to remove these configuration records
 # one by one as the offences are removed from the code base.
 
+AccessorMethodName:
+  Enabled: false
+
 AndOr:
   Enabled: false
 
 AssignmentInCondition:
   Enabled: false
 
-BlockNesting:
+BlockAlignment:
+  Enabled: false
+
+Blocks:
+  Enabled: false
+
+CaseEquality:
   Enabled: false
 
 ClassLength:
   Enabled: false
 
-ClassVars:
+CollectionMethods:
   Enabled: false
 
-ConstantName:
+CyclomaticComplexity:
+  Enabled: false
+
+DefaultScope:
   Enabled: false
 
 Documentation:
+  Enabled: false
+
+EmptyLineBetweenDefs:
+  Enabled: false
+
+EmptyLinesAroundBody:
+  Enabled: false
+
+EndAlignment:
+  Enabled: false
+
+EndOfLine:
   Enabled: false
 
 FavorUnlessOverNegatedIf:
@@ -29,22 +53,55 @@ FavorUnlessOverNegatedIf:
 FinalNewline:
   Enabled: false
 
+For:
+  Enabled: false
+
 HandleExceptions:
+  Enabled: false
+
+HasAndBelongsToMany:
+  Enabled: false
+
+HashMethods:
   Enabled: false
 
 IfUnlessModifier:
   Enabled: false
 
-Lambda:
+IndentationWidth:
+  Enabled: false
+
+MethodCallParentheses:
   Enabled: false
 
 MethodLength:
   Enabled: false
 
+MultilineBlockChain:
+  Enabled: false
+
+MultilineTernaryOperator:
+  Enabled: false
+
 Not:
   Enabled: false
 
-ReadAttribute:
+NumericLiterals:
+  Enabled: false
+
+Output:
+  Enabled: false
+
+ParameterLists:
+  Enabled: false
+
+PredicateName:
+  Enabled: false
+
+Proc:
+  Enabled: false
+
+RedundantBegin:
   Enabled: false
 
 RedundantSelf:
@@ -62,16 +119,31 @@ RescueModifier:
 Semicolon:
   Enabled: false
 
-ShadowingOuterLocalVariable:
+SignalException:
   Enabled: false
 
-SignalException:
+SingleLineMethods:
+  Enabled: false
+
+SpaceAroundBlockBraces:
+  Enabled: false
+
+SpaceAroundOperators:
+  Enabled: false
+
+SpaceInsideBrackets:
   Enabled: false
 
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
+SpaceInsideParens:
+  Enabled: false
+
 StringLiterals:
+  Enabled: false
+
+TrailingBlankLines:
   Enabled: false
 
 TrivialAccessors:
@@ -80,9 +152,11 @@ TrivialAccessors:
 UselessAssignment:
   Enabled: false
 
+UselessComparison:
+  Enabled: false
+
 Validation:
   Enabled: false
 
-Void:
+WordArray:
   Enabled: false
-

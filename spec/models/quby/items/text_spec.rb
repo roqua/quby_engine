@@ -8,7 +8,7 @@ module Quby
     end
 
     it "should be creatable from a string" do
-      lambda { Quby::Items::Text.new(@some_string) }.should_not raise_error
+      expect{ Quby::Items::Text.new(@some_string) }.to_not raise_error
     end
 
     describe "#to_s" do

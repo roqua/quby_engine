@@ -32,7 +32,7 @@ module Quby
       end
 
       it 'sets baseline to proc' do
-        dsl { baseline { |age, gender| age } }.baseline.call(5, :male).should == 5.0
+        dsl { baseline { |age, gender| age } }.baseline.call(5, :male).should eq(5.0)
         expect { dsl { baseline { |age| age } } }.to raise_error(ArgumentError, /must take two arguments/)
       end
 

@@ -28,8 +28,8 @@ feature 'Displaying a input of type range', js: true do
     input.should_not be_visible
     slider.should be
 
-    input.value.should == ''
-    slider_value.should == '50.00'
+    input.value.should eq ''
+    slider_value.should eq '50.00'
     input['class'].should include 'invalid'
 
     # default is not to have a tooltip
@@ -45,9 +45,9 @@ feature 'Displaying a input of type range', js: true do
     sliderbar = find("#answer_v1+.noUi-target .noUi-base").native
     pos = page.evaluate_script("$('#answer_v1+.noUi-target .noUi-base').position()")
     page.driver.click(pos['left'] + 100, pos['top'] + 5)
-    slider_value.to_i.should < 40
-    slider_value.to_i.should > 10
-    input.value.should == slider_value
+    slider_value.to_i.should be < 40
+    slider_value.to_i.should be > 10
+    input.value.should eq slider_value
 
     # the input should not be invalid after the user set a value
     input['class'].should_not include 'invalid'
@@ -71,8 +71,8 @@ feature 'Displaying a input of type range', js: true do
     END
     visit_new_answer_for(questionnaire)
 
-    input.value.to_i.should == default_value
-    slider_value.to_i.should == default_value
+    input.value.to_i.should eq default_value
+    slider_value.to_i.should eq default_value
     find('.noUi-value', visible: false).should have_content(default_value)
 
     slider['class'].should_not include 'invalid'

@@ -7,7 +7,7 @@ module Quby
 
       it 'can set tonality to valid values only' do
         chart = LineChart.new(:tot, tonality: :higher_is_better)
-        chart.tonality.should == :higher_is_better
+        expect(chart.tonality).to eq :higher_is_better
 
         expect { LineChart.new(:tot, tonality: :positive) }.to raise_error(/Invalid tonality/)
       end
