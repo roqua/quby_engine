@@ -82,18 +82,18 @@ module Quby
 
     def bad_token(exception)
       @error = "Er is geen of een ongeldige token meegegeven."
-      render file: "errors/generic", layout: "quby/dialog"
+      render template: "quby/errors/generic", layout: "quby/dialog"
       handle_exception exception unless exception.message =~ /Facebook/
     end
 
     def bad_questionnaire(exception)
       @error = exception
-      render file: "errors/questionnaire_not_found", layout: "quby/dialog", status: 404
+      render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
     end
 
     def bad_timestamp(exception)
       @error = "Uw authenticatie is verlopen."
-      render file: "errors/generic", layout: "quby/dialog"
+      render template: "quby/errors/generic", layout: "quby/dialog"
       handle_exception exception
     end
 
@@ -102,7 +102,7 @@ module Quby
         redirect_to roqua_redirect(status: 'authorization_error', return_from_answer: params[:id])
       else
         @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
-        render file: 'errors/generic', layout: 'quby/dialog'
+        render template: 'quby/errors/generic', layout: 'quby/dialog'
         handle_exception exception
       end
     end
