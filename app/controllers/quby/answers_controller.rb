@@ -37,7 +37,7 @@ module Quby
     end
 
     def edit
-      render template: "quby/#{@questionnaire.renderer_version}/#{@display_mode}"
+      render_template @display_mode
     rescue Quby::Questionnaire::ValidationError => e
       if Quby.show_exceptions
         @error = e
@@ -52,9 +52,9 @@ module Quby
 
       updater.on_success do
         if printing
-          render template: "quby/#{@questionnaire.renderer_version}/print", layout: "layouts/content_only"
+          render_template "print", layout: "content_only"
         elsif @return_url.blank?
-          render template: "quby/#{@questionnaire.renderer_version}/completed", layout: request.xhr? ? "layouts/content_only" : true
+          render_template "completed", layout: request.xhr? ? "content_only" : 'application'
         else
           redirect_url = roqua_redirect(status: return_status)
           request.xhr? ?
@@ -66,10 +66,10 @@ module Quby
       updater.on_failure do
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
         if printing
-          render template: "quby/#{@questionnaire.renderer_version}/#{@display_mode}", layout: "layouts/content_only"
+          render_template @display_mode, layout: "content_only"
         else
-          render template: "quby/#{@questionnaire.renderer_version}/#{@display_mode}",
-                 layout: request.xhr? ? "layouts/content_only" : true
+          render_template @display_mode,
+                 layout: request.xhr? ? "content_only" : 'application'
         end
       end
 
@@ -220,6 +220,11 @@ module Quby
 
     def load_custom_stylesheet
       @custom_stylesheet = params[:stylesheet]
+    end
+
+    def render_template(template_name, options = {})
+      render template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
+             layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
     end
 
     def return_status
