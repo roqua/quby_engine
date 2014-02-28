@@ -1,8 +1,10 @@
+machine:
+  ruby:
+    version: 2.1.0
 test:
   override:
     - bundle exec rspec spec:
         environment:
           RAILS_ENV: test
           RACK_ENV: test
-    - bundle exec guard-jasmine --server-timeout=120 --timeout=60000 --specdoc=failure
     - bundle exec rubocop
