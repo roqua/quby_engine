@@ -1,0 +1,5 @@
+= render :partial => "quby/v1/shared/main_label", :locals => {:question => question}
+.description-and-fields
+  .fields{:id => question.html_id}
+    = @answer.send(question.key)
+    = raw question.unit

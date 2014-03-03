@@ -1,8 +1,0 @@
-= render :partial => "quby/answers/shared/main_label", :locals => {:question => question}
-.description-and-fields
-  .fields{:id => question.html_id}
-    -question.options.each do |opt|
-      - checked = @answer.send(question.key) == opt.key.to_s
-      - next unless checked
-      .option
-        =opt.description

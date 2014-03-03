@@ -1,0 +1,12 @@
+= render :partial => "quby/v1/shared/main_label", :locals => {:question => question}
+.description-and-fields
+  .description
+    - unless question.description.blank?
+      :markdown
+        #{raw question.description}
+  .fields{:id => question.html_id}
+    - cls = [question.type]
+    - cls << "subinput"  if subquestion
+    - cls << "sized" if question.size
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :text_var => question.text_var || "", :disabled => disabled ? "" : nil, :size => question.size
+    = raw question.unit

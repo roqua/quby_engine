@@ -1,0 +1,17 @@
+-if item_radio_check_scale_options.score_header != :none
+  .options
+    - item_radio_check_scale_options.options.each_with_index do |option, idx|
+      -#TODO: if a hidden option is checked it should get its own new scale header
+      - next if (option.inner_title or option.hidden)
+      - cls = ['scaleheader']
+      - cls << "first" if idx <= 0
+      - cls << "last" if idx >= (item_radio_check_scale_options.options.size - 1)
+      - cls << "optionwidth#{item_radio_check_scale_options.options.size}"
+      .option{:title=> raw(option.description), :class => cls}
+        = raw cycle("<br/>", "", :name => "headbr" )
+        - case item_radio_check_scale_options.score_header
+        - when :value
+          = option.value
+        - when :description
+          = raw option.description
+
