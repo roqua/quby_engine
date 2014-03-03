@@ -1,0 +1,43 @@
+- insert = nil
+- subq = question.options.last.questions.first
+- if subq.andand.presentation == :next_to_title and subq.type == :string
+  -insert = render :partial => "quby/v1/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
+
+= render :partial => "quby/v1/shared/main_label", :locals => {:question => question, :title_insert => insert}
+- show_values = (question.show_values == true or question.show_values == :all or question.show_values == :print)
+.description-and-fields
+  .description
+    - unless question.description.blank?
+      :markdown
+        #{raw question.description}
+  .fields{:id => question.html_id}
+    - question.options.each do |opt|
+      - if opt.inner_title
+        .inner-title
+          :markdown
+            #{raw opt.description}
+      - else
+        - checked = @answer.send(opt.key) == 1
+        - next if( opt.hidden and not checked)
+        .option{:for => question.key, :class => show_values ? "show_values" : nil}
+          .radiocheckwrapper
+            - attrs =  {:class => subquestion ? "subinput" : ""}
+            - if question.uncheck_all_option == opt.key
+              - attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', undefined); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+            - elsif question.check_all_option == opt.key
+              - attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', 'checked'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+            - else
+              - attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+            - if disabled
+              - attrs[:disabled] = ""
+            - attrs[:class] = question.type
+            = check_box(:answer, "#{opt.key}", attrs)
+          - if show_values
+            .value= opt.value
+          .labelwrapper
+            %label{for: opt.view_id}
+              %span
+                :markdown
+                  #{raw opt.description}
+          - unless opt.questions.empty?
+            .subquestions= render :partial => "quby/v1/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}

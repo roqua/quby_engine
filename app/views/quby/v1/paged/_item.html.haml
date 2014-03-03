@@ -1,0 +1,59 @@
+/ Begin _item.html.haml
+- subquestion ||= false
+- disabled ||= false
+- itemclasses = [item.type, item.presentation]
+- extra_data = nil
+- itemkey = nil
+- if item.class.name == "Quby::Items::Question"
+  - return if item.table
+  - itemkey = "item_#{item.key}"
+  - itemclasses << "errors" unless @answer.errors[item.key].empty?
+  - if subquestion
+    - itemclasses << 'subitem'
+    - return if item.presentation == :next_to_title
+  - itemclasses << item.question_group  if item.question_group
+  - extra_data = item.extra_data
+  - itemclasses << item.as if item.as
+
+- if item.raw_content
+  - if item.raw_content.is_a?(Hash) and item.raw_content[:paged]
+    = raw item.raw_content[:paged]
+  - else
+    = raw item.raw_content
+- else
+  .item{:class => itemclasses, :data => extra_data, :id => itemkey}
+    - case item.class.name
+    - when "Quby::Items::Text"
+      -if item.display_in.andand.include?(:paged)
+        .text
+          :markdown
+            #{raw(item)}
+    - when "Quby::Items::Question"
+      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:paged)))
+
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      - case item.type
+      - when :string
+        = render :partial => "quby/v1/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :textarea
+        = render :partial => "quby/v1/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :integer, :float
+        = render :partial => "quby/v1/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :radio
+        = render :partial => "quby/v1/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :date
+        = render :partial => "quby/v1/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :check_box
+        = render :partial => "quby/v1/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :scale
+        = render :partial => "quby/v1/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - when :select
+        = render :partial => "quby/v1/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+      - else
+        - raise Quby::Questionnaire::ValidationError, "Unknown question type #{item.type} for question #{item.key}"
+    - when "Quby::Items::Table"
+      = render :partial => "quby/v1/table/table", :locals => {:table => item}
+    - else
+      - raise Quby::Questionnaire::ValidationError, "Unknown item type #{item.class.name} for question #{item.key}"
+/ End _item.html.haml

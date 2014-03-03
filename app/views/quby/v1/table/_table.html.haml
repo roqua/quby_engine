@@ -1,0 +1,115 @@
+- question = nil
+- reset_cycle "opt_set_hcycle"
+- reset_cycle "opt_set_rcycle"
+- reset_cycle "opt_set_cycle"
+%table
+  %tbody
+    - table.rows.each_with_index do |opt_sets, rowi|
+      - header = ''
+      - all_blank = true
+      - opt_sets.each_with_index do |opt_set, i|
+        - hos_cycle = cycle("light", "dark", :name => "opt_set_hcycle" )
+        - last = opt_set == opt_sets.last
+        - colspan = opt_set.length.to_f
+        - question = get_question(table, rowi, i)
+        - if question and (rowi == 0 or different_header(question, get_question(table, rowi-1, i))) and question.score_header != :none
+          - header += render :partial => "quby/v1/table/item_table_header", :locals => {:question => question, :last => last, :colspan => colspan, :os_cycle => hos_cycle}
+          - all_blank = false
+        - else
+          - header += render :partial => "quby/v1/table/item_table_header", :locals => {:question => nil, :colspan => colspan, :os_cycle => hos_cycle}
+
+      - question = get_question(table, rowi, 0)
+      - same_question = (rowi != 0 and question and question == get_question(table, rowi-1, 0))
+      - if question.andand.presentation == :horizontal and not same_question
+        - if rowi == 0
+          %caption
+            %div.main(class = "horizontal"){:data => {:for => question.key}}
+              %label(for="answer_#{question.key}")
+                :markdown
+                  #{question.title.andand.gsub(/\A\d+.?\./, '  \\0')}
+        - else
+          %tr.row
+            %td.main{:class => "horizontal", :colspan => table.columns, :data => {:for => question.key}}
+              %label(for="answer_#{question.key}")
+                :markdown
+                  #{question.title.andand.gsub(/\A\d+.?\./, '  \\0')}
+      -if rowi == 0
+        - if table.title
+          %caption
+            %div.main{:class => "horizontal"}
+              :markdown
+                #{table.title}
+        - if table.description
+          %tr.row
+            %td.description{:class => "horizontal", :colspan => table.columns+1}
+              :markdown
+                #{table.description}
+      - unless all_blank
+        %tr.option_sets.row
+          - unless (question.andand.presentation == :horizontal or question.andand.title.blank?)
+            %th.main
+          = raw header
+
+      - cls = []
+      - if opt_sets.length <= 1 and not same_question
+        - ros_cycle = cycle("light", "dark", :name => "opt_set_rcycle" )
+      - else
+        - ros_cycle = nil
+
+      - cls << ros_cycle
+      - cls << 'inner_row' if opt_sets != table.rows.last and question and question == get_question(table, rowi+1, 0)
+      - filled_columns = 0
+      - cyclei = 0
+      %tr.row(class = cls)
+        - cyclei = 1 if ros_cycle == "dark"
+        - if question and question.presentation != :horizontal
+          - unless same_question
+            - rowspan = (question.options.length.to_f/table.columns).ceil
+            - rowspan = 1 if question.type == :select
+            - title_insert = nil
+            - subq = question.options.last.andand.questions.andand.first
+            - if subq and (subq.presentation == :next_to_title and subq.type == :string)
+              - title_insert = render :partial => "quby/v1/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
+            = render :partial => "quby/v1/table/main_label", :locals => {:question => question, :rowspan => rowspan, :title_insert => title_insert}
+
+        - opt_sets.each_with_index do |opt_set, j|
+          - item = get_item(table, rowi, j)
+          - if item.andand.switch_cycle
+            - cyclei += 1
+
+          - cos_cycle = light_dark_for(cyclei, same_question)
+          - cyclei += 1
+          - filled_columns += item.andand.col_span || 1
+          - next unless item
+          - opt_set.each_with_index do |opt, i|
+
+            -if item.class.name == "Quby::Items::Question"
+              - question = item
+              - validations = render :partial => 'quby/v1/shared/validations', :locals => {:question => question, :answer => @answer}
+              - case question.type
+              - when :check_box
+                = render :partial => "quby/v1/table/item_option_check_box", :locals => {:opt => opt, :table => table, :os_cycle =>cos_cycle, :validations => validations, :question => question}
+              - when :radio, :scale
+                = render :partial => "quby/v1/table/item_option_radio", :locals => {:opt => opt, :table => table, :os_cycle =>cos_cycle, :validations => validations, :question => question}
+              - when :string
+                = render :partial => "quby/v1/table/item_question_string", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
+              - when :textarea
+                = render :partial => "quby/v1/table/item_question_textarea", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
+              - when :integer, :float
+                = render :partial => "quby/v1/table/item_question_number", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
+              - when :date
+                = render :partial => "quby/v1/table/item_question_date", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
+              - when :select
+                = render :partial => "quby/v1/table/item_question_select", :locals => {:question => question, :table => table, :os_cycle =>cos_cycle, :validations => validations}
+              - else
+                %strong
+                  Error: unknown question type
+                  = question.type
+                  for question
+                  = question.key
+            -elsif  item.class.name == "Quby::Items::Text"
+              = render :partial => "quby/v1/table/item_text", :locals => {:item => item, :table => table, :cos_cycle =>cos_cycle}
+            - if opt == opt_set.last and opt_set == opt_sets.last and filled_columns < table.columns
+              - (0...(table.columns - filled_columns)).each do
+                %td
+

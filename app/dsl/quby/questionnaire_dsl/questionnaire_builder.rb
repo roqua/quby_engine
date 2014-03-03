@@ -42,6 +42,10 @@ module Quby
         @questionnaire.enable_previous_questionnaire_button = true
       end
 
+      def renderer_version(version)
+        @questionnaire.renderer_version = version
+      end
+
       def scroll_to_next_question
         @questionnaire.scroll_to_next_question = true
       end

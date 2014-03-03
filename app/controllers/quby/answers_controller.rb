@@ -37,7 +37,7 @@ module Quby
     end
 
     def edit
-      render action: "#{@display_mode}/edit"
+      render_versioned_template @display_mode
     rescue Quby::Questionnaire::ValidationError => e
       if Quby.show_exceptions
         @error = e
@@ -52,9 +52,9 @@ module Quby
 
       updater.on_success do
         if printing
-          render action: "print/show", layout: "layouts/content_only"
+          render_versioned_template "print", layout: "content_only"
         elsif @return_url.blank?
-          render action: 'completed', layout: request.xhr? ? "layouts/content_only" : true
+          render_versioned_template "completed", layout: request.xhr? ? "content_only" : 'application'
         else
           redirect_url = roqua_redirect(status: return_status)
           request.xhr? ?
@@ -66,10 +66,9 @@ module Quby
       updater.on_failure do
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
         if printing
-          render action: "#{@display_mode}/edit", layout: "layouts/content_only"
+          render_versioned_template @display_mode, layout: "content_only"
         else
-          render action: "#{@display_mode}/edit",
-                 layout: request.xhr? ? "layouts/content_only" : true
+          render_versioned_template @display_mode, layout: request.xhr? ? "content_only" : 'application'
         end
       end
 
@@ -82,18 +81,18 @@ module Quby
 
     def bad_token(exception)
       @error = "Er is geen of een ongeldige token meegegeven."
-      render file: "errors/generic", layout: "dialog"
+      render template: "quby/errors/generic", layout: "quby/dialog"
       handle_exception exception unless exception.message =~ /Facebook/
     end
 
     def bad_questionnaire(exception)
       @error = exception
-      render file: "errors/questionnaire_not_found", layout: "dialog", status: 404
+      render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
     end
 
     def bad_timestamp(exception)
       @error = "Uw authenticatie is verlopen."
-      render file: "errors/generic", layout: "dialog"
+      render template: "quby/errors/generic", layout: "quby/dialog"
       handle_exception exception
     end
 
@@ -102,7 +101,7 @@ module Quby
         redirect_to roqua_redirect(status: 'authorization_error', return_from_answer: params[:id])
       else
         @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
-        render file: 'errors/generic', layout: 'dialog'
+        render template: 'quby/errors/generic', layout: 'quby/dialog'
         handle_exception exception
       end
     end
@@ -220,6 +219,11 @@ module Quby
 
     def load_custom_stylesheet
       @custom_stylesheet = params[:stylesheet]
+    end
+
+    def render_versioned_template(template_name, options = {})
+      render template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
+             layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
     end
 
     def return_status
