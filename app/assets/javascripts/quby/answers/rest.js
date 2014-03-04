@@ -269,9 +269,6 @@ function handleAjaxFormRequests() {
   $(document).on('ajax:error', "form", function(event, data, status, xhr) {
     var errorMessage = 'Er ging iets fout bij het opslaan van de antwoorden. ' +
                        'Controleer je internetverbinding en probeer het nogmaals.';
-    console.log(data)
-    console.log(status)
-    console.log(xhr)
     $('.flash').append('<div class="error">' + errorMessage +'</div>').show()
   });
   $(document).on('ajax:beforeSend', "form", function() {
