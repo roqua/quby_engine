@@ -266,10 +266,18 @@ function handleAjaxFormRequests() {
       preparePaged();
     }
   });
-  $(document).on('ajax:error', "form", function(event, data, status, xhr) {
-    var errorMessage = 'Er ging iets fout bij het opslaan van de antwoorden. ' +
+  $(document).on('ajax:error', "form", function(event, xhr, status) {
+    var errorMessage = '';
+    if (xhr.status == 0 || xhr.responseText == "") {
+        errorMessage = 'Er ging iets fout bij het opslaan van de antwoorden. ' +
                        'Controleer je internetverbinding en probeer het nogmaals.';
-    $('.flash').append('<div class="error">' + errorMessage +'</div>').show()
+        $('.flash').append('<div class="error">' + errorMessage +'</div>').show()
+    } else {
+        $('<div class="error">Er ging iets fout bij het opslaan van de antwoorden. Probeer het later nogmaals' +
+          '<iframe id="error_iframe" style="width: 100%; height: 300px;" /></div>').appendTo('.flash');
+        $('#error_iframe').contents().find('body').html(xhr.responseText)
+        $('.flash').show()
+    }
   });
   $(document).on('ajax:beforeSend', "form", function() {
     $('html').addClass('busy')

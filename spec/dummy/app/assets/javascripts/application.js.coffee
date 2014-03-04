@@ -7,4 +7,5 @@
 #= require jquery
 #= require jquery_ujs
 #= require quby/application
+#= require quby/answers
 #= require_tree .
