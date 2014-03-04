@@ -88,28 +88,28 @@ feature 'Completing a questionnaire' do
     page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 
-  scenario 'when the first questionnaire submit fails', js: true do
-    questionnaire = inject_questionnaire("test", <<-END)
-      question :v1, type: :float; end_panel
-    END
+  # scenario 'when the first questionnaire submit fails', js: true do
+  #   questionnaire = inject_questionnaire("test", <<-END)
+  #     question :v1, type: :float; end_panel
+  #   END
 
-    visit_new_answer_for(questionnaire)
-    page.should have_selector('#panel0.current')
-    fill_in 'answer[v1]', with: '1'
-    click_on "nextButton0"
-    page.should have_selector('#panel1.current')
-    original_action = page.evaluate_script('$("form.test").attr("action")')
-    page.execute_script('$("form.test").attr("action", "http://inexistant.domain")')
-    click_on "Klaar"
+  #   visit_new_answer_for(questionnaire)
+  #   page.should have_selector('#panel0.current')
+  #   fill_in 'answer[v1]', with: '1'
+  #   click_on "nextButton0"
+  #   page.should have_selector('#panel1.current')
+  #   original_action = page.evaluate_script('$("form.test").attr("action")')
+  #   page.execute_script('$("form.test").attr("action", "http://inexistant.domain")')
+  #   click_on "Klaar"
 
-    # an error message is displayed on the page
-    page.should have_content('Er ging iets fout bij het opslaan van de antwoorden')
+  #   # an error message is displayed on the page
+  #   page.should have_content('Er ging iets fout bij het opslaan van de antwoorden')
 
-    # and a second attempt can be made to save the data
-    page.execute_script("$('form.test').attr('action', '#{original_action}')")
-    click_on "Klaar"
-    page.should have_content("Uw antwoorden zijn opgeslagen")
-  end
+  #   # and a second attempt can be made to save the data
+  #   page.execute_script("$('form.test').attr('action', '#{original_action}')")
+  #   click_on "Klaar"
+  #   page.should have_content("Uw antwoorden zijn opgeslagen")
+  # end
 
   scenario 'by filling out a bulk version', js: true do
     visit_new_answer_for(mansa, "bulk")

@@ -14,7 +14,7 @@
 - form_classes << "scroll_to_next_question" if @questionnaire.scroll_to_next_question
 - data = {}
 - data[:"log-activity"] = "#answer_activity_log" if @questionnaire.log_user_activity
-= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => form_classes, :autocomplete => "off", :data => data, remote: true do
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => form_classes, :autocomplete => "off", :data => data, remote: false do
   = render :partial => "quby/answers/session_params"
   = render :partial => "quby/answers/paged/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}
 
