@@ -17,6 +17,20 @@ module Quby
           .to include("Question v_1 option a1 hides nonexistent question v_2")
       end
 
+      it "throws an error if the question to be hidden does not exist" do
+        invalid_definition = <<-END
+          question :v_1, type: :radio do
+            title "Testvraag"
+            option :a1, hides_questions: [:v_1_a1_sq] do
+              question :v_1_a1_sq, type: :string
+            end
+          end
+        END
+        DefinitionValidator.new(questionnaire, invalid_definition).validate
+        expect(questionnaire.errors[:definition].first[:message])
+          .to include("Question v_1 option a1 hides subquestion v_1_a1_sq")
+      end
+
       it 'does not throw an error when the question to be hidden exists' do
         definition = <<-END
           question :v_1, type: :radio do

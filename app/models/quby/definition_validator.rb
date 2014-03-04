@@ -34,7 +34,7 @@ module Quby
       end
 
       questionnaire.question_hash.each do |key, question|
-        to_be_hidden_questions_exist? question, questionnaire
+        to_be_hidden_questions_exist_and_not_subquestion? question, questionnaire
         if question.type == :select
           validate_subquestion_absence_in_select question
         end
@@ -51,12 +51,16 @@ module Quby
       end
     end
 
-    def to_be_hidden_questions_exist?(question, questionnaire)
+    def to_be_hidden_questions_exist_and_not_subquestion?(question, questionnaire)
       question.options.each do |option|
         next if option.hides_questions.blank?
         option.hides_questions.each do |key|
-          unless questionnaire.question_hash[key]
+          question_to_hide = questionnaire.question_hash[key]
+          unless question_to_hide
             raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}"
+          end
+          if question_to_hide.parent_option_key
+            raise "Question #{question.key} option #{option.key} hides subquestion #{key}"
           end
         end
       end

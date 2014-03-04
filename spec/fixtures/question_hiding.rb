@@ -65,6 +65,15 @@ panel do
       title "P8"
     end
   end
+
+  # Hiding subquestions is not supported for now
+  # question :v_14, :type => :check_box do
+  #   title "P5"
+  #   option :a1, :value => 1, :description => "aan", shows_questions: [:v_14_a1_extra] do
+  #     question :v_14_a1_extra, :type => :string, :default_invisible => true
+  #   end
+  #   option :a2, :value => 2, :description => "bla"
+  # end
 end
 
 panel do
