@@ -10,7 +10,6 @@ require 'fd-slider-rails'
 require 'backbone-rails'
 require 'susy'
 require 'andand'
-require 'coffee-filter'
 
 module Quby
   class Engine < Rails::Engine
