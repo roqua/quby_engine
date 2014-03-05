@@ -17,7 +17,7 @@ module Quby
           .to include("Question v_1 option a1 hides nonexistent question v_2")
       end
 
-      it "throws an error if the question to be hidden does not exist" do
+      it "throws an error if the question to be hidden is a subquestion" do
         invalid_definition = <<-END
           question :v_1, type: :radio do
             title "Testvraag"
