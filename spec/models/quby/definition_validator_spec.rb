@@ -44,6 +44,46 @@ module Quby
       end
     end
 
+    describe ":shows_questions" do
+      it "throws an error if the question to be shown does not exist" do
+        invalid_definition = <<-END
+          question :v_1, type: :radio do
+            title "Testvraag"
+            option :a1, shows_questions: [:v_2]
+          end
+        END
+        DefinitionValidator.new(questionnaire, invalid_definition).validate
+        expect(questionnaire.errors[:definition].first[:message])
+          .to include("Question v_1 option a1 shows nonexistent question v_2")
+      end
+
+      it "throws an error if the question to be shown is a subquestion" do
+        invalid_definition = <<-END
+          question :v_1, type: :radio do
+            title "Testvraag"
+            option :a1, shows_questions: [:v_1_a1_sq] do
+              question :v_1_a1_sq, type: :string
+            end
+          end
+        END
+        DefinitionValidator.new(questionnaire, invalid_definition).validate
+        expect(questionnaire.errors[:definition].first[:message])
+          .to include("Question v_1 option a1 shows subquestion v_1_a1_sq")
+      end
+
+      it 'does not throw an error when the question to be shown exists' do
+        definition = <<-END
+          question :v_1, type: :radio do
+            title "Testvraag"
+            option :a1, shows_questions: [:v_2]
+          end
+
+          question :v_2, type: :text
+        END
+        expect(DefinitionValidator.new(questionnaire, definition).validate).to be_true
+      end
+    end
+
     describe ":default_invisible" do
       it 'throws an error if a subquestion has default_invisible set' do
         invalid_definition = <<-END
