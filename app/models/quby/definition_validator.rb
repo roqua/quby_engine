@@ -35,9 +35,8 @@ module Quby
 
       questionnaire.question_hash.each do |key, question|
         subquestions_cant_have_default_invisible question
-        if question.type == :select
-          validate_subquestion_absence_in_select question
-        end
+        validate_subquestion_absence_in_select question
+
         validate_question_options(questionnaire, question)
       end
     end
@@ -108,6 +107,7 @@ module Quby
     end
 
     def validate_subquestion_absence_in_select(question)
+      return unless question.type == :select
       question.options.each do |option|
         unless option.questions.empty?
           raise "Question '#{question.key}' of type ':select' may not include other questions."
