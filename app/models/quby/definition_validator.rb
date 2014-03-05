@@ -44,8 +44,9 @@ module Quby
 
     def validate_question_options(questionnaire, question)
       question.options.each do |option|
-        to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option)
-        to_be_shown_questions_exist_and_not_subquestion?(questionnaire, option)
+        msg_base = "Question #{option.question.key} option #{option.key}"
+        to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option, msg_base: msg_base)
+        to_be_shown_questions_exist_and_not_subquestion?(questionnaire, option, msg_base: msg_base)
       end
     end
 
@@ -59,29 +60,21 @@ module Quby
       end
     end
 
-    def to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option)
+    def to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option, msg_base:)
       return if option.hides_questions.blank?
+      msg_base += " hides_questions"
       option.hides_questions.each do |key|
-        question_to_hide = questionnaire.question_hash[key]
-        unless question_to_hide
-          raise "Question #{option.question.key} option #{option.key} hides nonexistent question #{key}"
-        end
-        if question_to_hide.subquestion?
-          raise "Question #{option.question.key} option #{option.key} hides subquestion #{key}"
-        end
+        validate_question_key_exists?(questionnaire, key, msg_base: msg_base)
+        validate_not_subquestion(questionnaire, key, msg_base: msg_base)
       end
     end
 
-    def to_be_shown_questions_exist_and_not_subquestion?(questionnaire, option)
+    def to_be_shown_questions_exist_and_not_subquestion?(questionnaire, option, msg_base:)
       return if option.shows_questions.blank?
+      msg_base += " shows_questions"
       option.shows_questions.each do |key|
-        question_to_show = questionnaire.question_hash[key]
-        unless question_to_show
-          raise "Question #{option.question.key} option #{option.key} shows nonexistent question #{key}"
-        end
-        if question_to_show.subquestion?
-          raise "Question #{option.question.key} option #{option.key} shows subquestion #{key}"
-        end
+        validate_question_key_exists?(questionnaire, key, msg_base: msg_base)
+        validate_not_subquestion(questionnaire, key, msg_base: msg_base)
       end
     end
 
@@ -92,6 +85,18 @@ module Quby
     end
 
     private
+
+    def validate_question_key_exists?(questionnaire, key, msg_base:)
+      unless questionnaire.question_hash[key]
+        raise msg_base + " references nonexistent question #{key}"
+      end
+    end
+
+    def validate_not_subquestion(questionnaire, key, msg_base:)
+      if questionnaire.question_hash[key].subquestion?
+        raise msg_base + " references subquestion #{key}"
+      end
+    end
 
     def validate_key_format(key)
       if key.to_s.length > MAX_KEY_LENGTH

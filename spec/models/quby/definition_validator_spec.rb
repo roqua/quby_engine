@@ -14,7 +14,7 @@ module Quby
         END
         DefinitionValidator.new(questionnaire, invalid_definition).validate
         expect(questionnaire.errors[:definition].first[:message])
-          .to include("Question v_1 option a1 hides nonexistent question v_2")
+          .to include("Question v_1 option a1 hides_questions references nonexistent question v_2")
       end
 
       it "throws an error if the question to be hidden is a subquestion" do
@@ -28,7 +28,7 @@ module Quby
         END
         DefinitionValidator.new(questionnaire, invalid_definition).validate
         expect(questionnaire.errors[:definition].first[:message])
-          .to include("Question v_1 option a1 hides subquestion v_1_a1_sq")
+          .to include("Question v_1 option a1 hides_questions references subquestion v_1_a1_sq")
       end
 
       it 'does not throw an error when the question to be hidden exists' do
@@ -54,7 +54,7 @@ module Quby
         END
         DefinitionValidator.new(questionnaire, invalid_definition).validate
         expect(questionnaire.errors[:definition].first[:message])
-          .to include("Question v_1 option a1 shows nonexistent question v_2")
+          .to include("Question v_1 option a1 shows_questions references nonexistent question v_2")
       end
 
       it "throws an error if the question to be shown is a subquestion" do
@@ -68,7 +68,7 @@ module Quby
         END
         DefinitionValidator.new(questionnaire, invalid_definition).validate
         expect(questionnaire.errors[:definition].first[:message])
-          .to include("Question v_1 option a1 shows subquestion v_1_a1_sq")
+          .to include("Question v_1 option a1 shows_questions references subquestion v_1_a1_sq")
       end
 
       it 'does not throw an error when the question to be shown exists' do
