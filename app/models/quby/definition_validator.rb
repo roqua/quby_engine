@@ -34,12 +34,18 @@ module Quby
       end
 
       questionnaire.question_hash.each do |key, question|
-        to_be_hidden_questions_exist_and_not_subquestion? question, questionnaire
-        to_be_shown_questions_exist_and_not_subquestion? question, questionnaire
         subquestions_cant_have_default_invisible question
         if question.type == :select
           validate_subquestion_absence_in_select question
         end
+        validate_question_options(questionnaire, question)
+      end
+    end
+
+    def validate_question_options(questionnaire, question)
+      question.options.each do |option|
+        to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option)
+        to_be_shown_questions_exist_and_not_subquestion?(questionnaire, option)
       end
     end
 
@@ -53,32 +59,28 @@ module Quby
       end
     end
 
-    def to_be_hidden_questions_exist_and_not_subquestion?(question, questionnaire)
-      question.options.each do |option|
-        next if option.hides_questions.blank?
-        option.hides_questions.each do |key|
-          question_to_hide = questionnaire.question_hash[key]
-          unless question_to_hide
-            raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}"
-          end
-          if question_to_hide.subquestion?
-            raise "Question #{question.key} option #{option.key} hides subquestion #{key}"
-          end
+    def to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option)
+      return if option.hides_questions.blank?
+      option.hides_questions.each do |key|
+        question_to_hide = questionnaire.question_hash[key]
+        unless question_to_hide
+          raise "Question #{option.question.key} option #{option.key} hides nonexistent question #{key}"
+        end
+        if question_to_hide.subquestion?
+          raise "Question #{option.question.key} option #{option.key} hides subquestion #{key}"
         end
       end
     end
 
-    def to_be_shown_questions_exist_and_not_subquestion?(question, questionnaire)
-      question.options.each do |option|
-        next if option.shows_questions.blank?
-        option.shows_questions.each do |key|
-          question_to_show = questionnaire.question_hash[key]
-          unless question_to_show
-            raise "Question #{question.key} option #{option.key} shows nonexistent question #{key}"
-          end
-          if question_to_show.subquestion?
-            raise "Question #{question.key} option #{option.key} shows subquestion #{key}"
-          end
+    def to_be_shown_questions_exist_and_not_subquestion?(questionnaire, option)
+      return if option.shows_questions.blank?
+      option.shows_questions.each do |key|
+        question_to_show = questionnaire.question_hash[key]
+        unless question_to_show
+          raise "Question #{option.question.key} option #{option.key} shows nonexistent question #{key}"
+        end
+        if question_to_show.subquestion?
+          raise "Question #{option.question.key} option #{option.key} shows subquestion #{key}"
         end
       end
     end
