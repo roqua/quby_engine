@@ -20,6 +20,4 @@
 //= require jquery.deselectableRadio.1.0.3.js
 //= require ./printer.js
 //
-//= require ./modules/activity_log
-//
 //= require_self

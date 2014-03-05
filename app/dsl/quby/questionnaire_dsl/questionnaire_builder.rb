@@ -59,10 +59,6 @@ module Quby
         @questionnaire.default_answer_value = value
       end
 
-      def log_user_activity(value = true)
-        @questionnaire.log_user_activity = value
-      end
-
       def panel(title = nil, options = {}, &block)
         p = PanelBuilder.new(title, options.merge(default_panel_options))
         p.instance_eval(&block)

@@ -13,7 +13,7 @@ module Quby
     private
 
     def valid_attribute_keys
-      @valid_attribute_keys ||= %w(activity_log aborted) +
+      @valid_attribute_keys ||= %w(aborted) +
                                 @questionnaire.answer_keys.map(&:to_s)
     end
   end

@@ -48,7 +48,6 @@ module Quby
     attr_accessor :default_answer_value
     attr_accessor :renderer_version
     attr_accessor :scroll_to_next_question
-    attr_accessor :log_user_activity
 
     attr_accessor :leave_page_alert
 
