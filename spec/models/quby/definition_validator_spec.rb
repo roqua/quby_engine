@@ -44,6 +44,31 @@ module Quby
       end
     end
 
+    describe ":default_invisible" do
+      it 'throws an error if a subquestion has default_invisible set' do
+        invalid_definition = <<-END
+          question :v_1, type: :radio do
+            title "Testvraag"
+            option :a1
+            option :a2, shows_questions: [:v_1_a1_sq] do
+              question :v_1_a1_sq, type: :string, default_invisible: true
+            end
+          end
+        END
+        DefinitionValidator.new(questionnaire, invalid_definition).validate
+        expect(questionnaire.errors[:definition].first[:message])
+          .to include("Question v_1_a1_sq is a subquestion with default_invisible")
+      end
+
+      it 'does not throw an error if a non-subquestion has default_invisible set' do
+        valid_definition = <<-END
+          question :v_1, type: :string default_invisible: true
+        END
+        DefinitionValidator.new(questionnaire, valid_definition).validate
+        expect(questionnaire.errors[:definition].first[:message]).to be_true
+      end
+    end
+
     describe ":validates_question_key_format" do
       it "validates length of the question keys" do
         long_key = <<-END

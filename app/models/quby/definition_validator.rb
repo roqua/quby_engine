@@ -35,6 +35,7 @@ module Quby
 
       questionnaire.question_hash.each do |key, question|
         to_be_hidden_questions_exist_and_not_subquestion? question, questionnaire
+        subquestions_cant_have_default_invisible question
         if question.type == :select
           validate_subquestion_absence_in_select question
         end
@@ -59,10 +60,16 @@ module Quby
           unless question_to_hide
             raise "Question #{question.key} option #{option.key} hides nonexistent question #{key}"
           end
-          if question_to_hide.parent_option_key
+          if question_to_hide.subquestion?
             raise "Question #{question.key} option #{option.key} hides subquestion #{key}"
           end
         end
+      end
+    end
+
+    def subquestions_cant_have_default_invisible(question)
+      if question.subquestion? && question.default_invisible
+        raise "Question #{question.key} is a subquestion with default_invisible."
       end
     end
 

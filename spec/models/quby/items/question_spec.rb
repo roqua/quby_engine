@@ -15,7 +15,9 @@ module Quby
           title "Checkbox vraag"
           option :check1
           inner_title 'foobar'
-          option :check2
+          option :check2 do
+            question :subquestion, type: :string
+          end
         end
 
         question :scale, type: :scale do
@@ -59,6 +61,15 @@ module Quby
         expect(questionnaire.question_hash[:select].answer_keys).to eql [:select]
         expect(questionnaire.question_hash[:int]  .answer_keys).to eql [:int]
         expect(questionnaire.question_hash[:date] .answer_keys).to eql [:date_dd, :date_mm, :date_yyyy]
+      end
+    end
+
+    describe '#subquestion?' do
+      it 'returns true for subquestions' do
+        expect(questionnaire.question_hash[:subquestion].subquestion?).to be_true
+      end
+      it 'returns false for non-subquestions' do
+        expect(questionnaire.question_hash[:check].subquestion?).to be_false
       end
     end
 
