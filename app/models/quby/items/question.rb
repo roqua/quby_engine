@@ -322,6 +322,10 @@ module Quby
       options.map { |opt| opt.questions }.flatten
     end
 
+    def subquestion?
+      !parent_option_key.nil?
+    end
+
     # FIXME: Too long!
     # rubocop:disable CyclomaticComplexity
     def to_codebook(questionnaire, opts = {})
