@@ -49,7 +49,7 @@
       - when :integer, :float
         = render :partial => "quby/v1/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio, :scale
-        = render :partial => "quby/v1/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :next_item => next_item, :disabled => disabled}
+        = render :partial => "quby/v1/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :disabled => disabled}
       - when :date
         = render :partial => "quby/v1/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :check_box

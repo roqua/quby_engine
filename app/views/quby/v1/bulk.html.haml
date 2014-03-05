@@ -34,8 +34,7 @@
         %h1&= panel.title
 
       - panel.items.each_with_index do |item, idx|
-        - next_item = all_items[all_items.index(item)]
-        = render :partial => "quby/v1/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item, :next_item => next_item }
+        = render :partial => "quby/v1/bulk/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item }
         - previous_item = item if item.class.name == "Quby::Items::Question"
   .buttons
     - if @questionnaire.enable_previous_questionnaire_button
