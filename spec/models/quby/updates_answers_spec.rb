@@ -16,11 +16,6 @@ module Quby
         answer.reload.attributes["random_key"].should_not == "value"
       end
 
-      it 'passes through activity_log' do
-        updates_answers.update("activity_log" => "value")
-        answer.reload.attributes["activity_log"].should == "value"
-      end
-
       it 'validates the answer' do
         answer.should_receive :validate_answers
         updates_answers.update

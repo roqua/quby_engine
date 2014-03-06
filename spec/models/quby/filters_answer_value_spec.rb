@@ -33,10 +33,6 @@ module Quby
         expect(attribute_filter.filter("random_key" => "value")).to eq({})
       end
 
-      it 'passes through activity_log' do
-        expect(attribute_filter.filter("activity_log" => "value")).to eq("activity_log" => "value")
-      end
-
       it 'passes through aborted' do
         expect(attribute_filter.filter("aborted" => "value")).to eq("aborted" => "value")
       end
