@@ -45,4 +45,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry"
   s.add_development_dependency 'capybara-screenshot', '= 0.3.14'
   s.add_development_dependency "codeclimate-test-reporter"
+  # Do not upgrade simplecov to any of the 0.8.x versions. They cause rspec to exit 0 regardless test failures on ci.
+  # See: https://github.com/colszowka/simplecov/issues/281
+  s.add_development_dependency 'simplecov', '~> 0.7.1'
 end
