@@ -10,6 +10,7 @@ PATH
   specs:
     quby (0.0.1)
       addressable
+      browser (~> 0.4.1)
       compass-rails (= 1.0.1)
       fd-slider-rails (~> 0.5.1)
       haml
@@ -59,6 +60,7 @@ GEM
     arel (3.0.3)
     ast (1.1.0)
     backports (3.6.0)
+    browser (0.4.1)
     bson (1.9.2)
     bson_ext (1.9.2)
       bson (~> 1.9.2)
@@ -296,6 +298,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  browser
   bson_ext
   capybara
   capybara-screenshot (= 0.3.14)
