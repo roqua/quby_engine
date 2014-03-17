@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "jquery-rails", "~> 2.1.3"
   s.add_dependency "fd-slider-rails", "~> 0.5.1"
-  s.add_dependency "browser", "~> 0.4.1"
 
   s.add_development_dependency "database_cleaner"
   s.add_development_dependency "poltergeist", "= 1.3.0"
