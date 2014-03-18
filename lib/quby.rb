@@ -22,5 +22,9 @@ module Quby
     def show_exceptions=(bool)
       @show_exceptions = bool
     end
+
+    def answer_repo
+      @answer_repo ||= Quby::MongodbRepo.new
+    end
   end
 end
