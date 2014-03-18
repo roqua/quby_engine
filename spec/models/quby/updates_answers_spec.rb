@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Quby
   describe UpdatesAnswers do
-    let(:answer) { Answer.new(questionnaire_key: 'big') }
+    let(:answer) { Quby.answer_repo.create!('big') }
     let(:updates_answers) { UpdatesAnswers.new answer }
 
     describe '#update' do
