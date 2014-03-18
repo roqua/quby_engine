@@ -132,13 +132,13 @@ module Quby
       let(:answer) { Quby.answer_repo.create!('foo') }
 
       it 'returns the patient[:id]' do
-        answer[:patient][:id] = 123
-        answer.patient_id.should == 123
+        answer[:patient][:id] = "123"
+        answer.patient_id.should == "123"
       end
 
       it 'returns the patient_id if set in attributes' do
-        answer[:patient_id] = 123
-        answer.patient_id.should == 123
+        answer[:patient_id] = "123"
+        answer.patient_id.should == "123"
       end
     end
 
@@ -148,7 +148,7 @@ module Quby
 
       it "should record the time when answer is completed" do
         Timecop.freeze(time) do
-          answer.update_attributes!(q1: "Foo")
+          answer.q1 = "Foo"
           answer.set_completed_at
         end
         answer.completed_at.should == time
@@ -156,7 +156,7 @@ module Quby
 
       it "should record the time when answer is aborted" do
         Timecop.freeze(time) do
-          answer.update_attributes!(aborted: true)
+          answer.aborted = true
           answer.set_completed_at
         end
         answer.completed_at.should == time
@@ -169,10 +169,10 @@ module Quby
 
       it "should not change when answer was previously completed" do
         Timecop.freeze(time) do
-          answer.update_attributes!(q1: "Foo")
+          answer.q1 = "Foo"
           answer.set_completed_at
         end
-        answer.update_attributes!(q1: "Bar")
+        answer.q1 = "Bar"
         answer.set_completed_at
         answer.completed_at.should == time
       end

@@ -18,10 +18,11 @@ module Quby
       quest.push_score_builder action
       quest.push_score_builder completion
 
-      quest.stub(questions: [], last_update: Time.now, key: nil)
+      quest.stub(questions: [], last_update: Time.now, key: 'test')
       quest
     end
-    let(:answer) { Answer.new }
+
+    let(:answer) { Quby.answer_repo.create!('test') }
 
     before do
       Quby.questionnaire_finder.stub(find: questionnaire)

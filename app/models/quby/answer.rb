@@ -4,26 +4,63 @@ module Quby
       Quby.questionnaire_finder
     end
 
-    include ::Mongoid::Document
-    include ::Mongoid::Timestamps
+    extend ActiveModel::Naming
+    include Virtus
     include OutcomeCalculations
 
-    store_in :answers
+    attribute :_id, String
+    attribute :questionnaire_id,     Integer
+    attribute :questionnaire_key,    String
+    attribute :value,                Hash
+    attribute :patient_id,           String
+    attribute :patient,              Hash,    default: {}
+    attribute :token,                String
+    attribute :active,               Boolean, default: true
+    attribute :test,                 Boolean, default: false
+    attribute :completed_at,         Time
+    attribute :outcome_generated_at, Time
+    attribute :scores,               Hash,    default: {}
+    attribute :actions,              Hash,    default: {}
+    attribute :completion,           Hash,    default: {}
 
-    identity type: String
-    field :questionnaire_id,     type: Integer
-    field :questionnaire_key,    type: String
-    field :value,                type: Hash
-    field :value_by_values,      type: Hash
-    field :patient,              type: Hash,    default: {}
-    field :token,                type: String
-    field :active,               type: Boolean, default: true
-    field :test,                 type: Boolean, default: false
-    field :completed_at,         type: Time
-    field :outcome_generated_at, type: Time
-    field :scores,               type: Hash,    default: {}
-    field :actions,              type: Hash,    default: {}
-    field :completion,           type: Hash,    default: {}
+    def id
+      _id
+    end
+
+    def to_param
+      id
+    end
+
+    def reload
+      Rails.logger.info "reloading #{id}"
+      Quby.answer_repo.find(questionnaire_key, id)
+    end
+
+    def attributes
+      super.with_indifferent_access
+    end
+
+    def errors
+      @errors ||= ActiveModel::Errors.new(self)
+    end
+
+    def valid?
+      errors.empty?
+    end
+
+    def update_attributes!(new_attributes)
+      self.attributes = new_attributes
+      Quby.answer_repo.update!(self)
+    end
+
+    def update_attributes(new_attributes)
+      self.attributes = new_attributes
+      Quby.answer_repo.update!(self)
+    end
+
+    def save!
+      Quby.answer_repo.update!(self)
+    end
 
     # Faux belongs_to :questionnaire
     def questionnaire
@@ -41,7 +78,7 @@ module Quby
     attr_accessor :dsl_last_update
 
     def set_completed_at
-      self[:completed_at] ||= Time.now if completed? || @aborted
+      self.completed_at = Time.now if completed_at.blank? and (completed? or @aborted)
     end
 
     def enhance_by_dsl
@@ -49,8 +86,9 @@ module Quby
     end
 
     def patient_id
-      self[:patient][:id] || self[:patient_id]
+      self.patient[:id] || super
     end
+
 
     def extra_question_values
       @extra_question_values = {}
@@ -119,11 +157,11 @@ module Quby
     end
 
     def scores
-      self[:scores].with_indifferent_access
+      (@scores || {}).with_indifferent_access
     end
 
     def actions
-      self[:actions].with_indifferent_access
+      (@actions || {}).with_indifferent_access
     end
 
     def as_json(options = {})

@@ -108,6 +108,8 @@ module Quby
       record.scores               = answer.scores
       record.actions              = answer.actions
       record.completion           = answer.completion
+
+      Rails.logger.info "Saving #{answer.id} -- #{answer.inspect}"
       record.save!
     end
 
