@@ -11,5 +11,13 @@ module Quby
     def create(questionnaire_key, attributes = {})
       Quby::Answer.create(attributes.merge(questionnaire_key: questionnaire_key))
     end
+
+    def update!(answer)
+      answer.save!
+    end
+
+    def update(answer)
+      answer.save
+    end
   end
 end
