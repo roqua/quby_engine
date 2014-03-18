@@ -30,9 +30,6 @@ module Quby
       self.class.questionnaire_finder.find(questionnaire_key)
     end
 
-    after_initialize :enhance_by_dsl
-    validates :token, presence: true, length: { minimum: 4 }
-
     attr_accessor :aborted
     # Values in globalpark coding that need to be recoded and used to initialize this answer
     attr_accessor :roqua_vals

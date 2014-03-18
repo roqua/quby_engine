@@ -82,6 +82,7 @@ module Quby
       entity.instance_variable_set(:@changed_attributes, nil)
       entity.instance_variable_set(:@pending_nested, nil)
       entity.instance_variable_set(:@pending_relations, nil)
+      entity.enhance_by_dsl
       entity
     end
 

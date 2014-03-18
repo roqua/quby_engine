@@ -60,7 +60,11 @@ module Quby
           "v_answer_group_over_maximum1" => "a"
       }
     end
-    let(:answer) { Answer.new(questionnaire_key: 'all_validations', value: value) }
+
+    let(:answer) do
+      Answer.new(questionnaire_key: 'all_validations', value: value).tap(&:enhance_by_dsl)
+    end
+
     before do
       answer.extend AnswerValidations
     end
