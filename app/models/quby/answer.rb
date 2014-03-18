@@ -34,11 +34,6 @@ module Quby
     before_validation(on: :create) { set_default_answer_values }
     before_validation(on: :create) { generate_random_token }
 
-    before_save do
-      self[:questionnaire_key] = questionnaire.key
-      self[:value_by_values] = value_by_values
-    end
-
     validates :token, presence: true, length: { minimum: 4 }
 
     attr_accessor :aborted
