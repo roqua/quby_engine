@@ -75,9 +75,9 @@ module Quby
     end
 
     def find(questionnaire_key, answer_id)
-      attributes = mongo_collection.find_one(questionnaire_key: questionnaire_key, _id: answer_id)
+      record = Record.where(questionnaire_key: questionnaire_key).find(answer_id)
 
-      entity = Quby::Answer.new(attributes)
+      entity = Quby::Answer.new(record.attributes)
       entity.instance_variable_set(:@new_record, nil)
       entity.instance_variable_set(:@changed_attributes, nil)
       entity.instance_variable_set(:@pending_nested, nil)
@@ -95,7 +95,8 @@ module Quby
     end
 
     def update!(answer)
-      mongo_collection.update({"_id" => answer.id}, answer.attributes)
+      record = Record.find(answer.id)
+      record.update_attributes!(answer.attributes)
     end
 
     def update(answer)

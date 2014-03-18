@@ -24,7 +24,7 @@ module Quby
     let(:answer) { Answer.new }
 
     before do
-      Answer.any_instance.stub(questionnaire: questionnaire)
+      Quby.questionnaire_finder.stub(find: questionnaire)
     end
 
     describe '#action' do
