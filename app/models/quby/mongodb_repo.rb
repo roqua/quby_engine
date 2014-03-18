@@ -4,8 +4,8 @@ module Quby
       Quby::Answer.where(questionnaire_key: questionnaire_key).find(answer_id)
     end
 
-    def create(questionnaire_key)
-      Quby::Answer.create(questionnaire_key: questionnaire_key)
+    def create(questionnaire_key, attributes = {})
+      Quby::Answer.create(attributes.merge(questionnaire_key: questionnaire_key))
     end
   end
 end

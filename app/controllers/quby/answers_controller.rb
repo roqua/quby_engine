@@ -137,7 +137,7 @@ module Quby
     end
 
     def find_answer
-      @answer = @questionnaire.answers.find(params[:id])
+      @answer = Quby.answer_repo.find(@questionnaire.key, params[:id])
     end
 
     def check_aborted
