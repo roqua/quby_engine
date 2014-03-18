@@ -9,7 +9,7 @@ module Quby
         .with(questionnaire.key)
         .and_return(questionnaire)
 
-      Quby::Answer.create(questionnaire_key: questionnaire.key)
+      Quby.answer_repo.create(questionnaire.key)
     end
 
     describe '#update' do
