@@ -23,7 +23,7 @@ module Quby
     end
 
     before do
-      Answer.any_instance.stub(:questionnaire) { questionnaire }
+      Quby.questionnaire_finder.stub(find: questionnaire)
     end
 
     describe '#value_by_values' do

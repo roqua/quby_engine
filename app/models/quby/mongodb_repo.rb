@@ -1,5 +1,73 @@
 module Quby
   class MongodbRepo
+    class Record
+      include ::Mongoid::Document
+      include ::Mongoid::Timestamps
+      include OutcomeCalculations
+
+      store_in :answers
+
+      identity type: String
+      field :questionnaire_id,     type: Integer
+      field :questionnaire_key,    type: String
+      field :value,                type: Hash
+      field :value_by_values,      type: Hash
+      field :patient,              type: Hash,    default: {}
+      field :token,                type: String
+      field :active,               type: Boolean, default: true
+      field :test,                 type: Boolean, default: false
+      field :completed_at,         type: Time
+      field :outcome_generated_at, type: Time
+      field :scores,               type: Hash,    default: {}
+      field :actions,              type: Hash,    default: {}
+      field :completion,           type: Hash,    default: {}
+
+      # Faux belongs_to :questionnaire
+      def questionnaire
+        Quby.questionnaire_finder.find(questionnaire_key)
+      end
+
+      before_validation(on: :create) { set_default_answer_values }
+      before_validation(on: :create) { generate_random_token }
+
+      before_save do
+        self[:questionnaire_key] = questionnaire.key
+        self[:value_by_values] = value_by_values
+      end
+
+      validates_presence_of :token
+      validates_length_of :token, minimum: 4
+
+      def value_by_values
+        result = {}
+        if value
+          result = value.dup
+          value.each_key do |key|
+            question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
+            if question and (question.type == :radio || question.type == :scale || question.type == :select)
+              option = question.options.find { |o| o.key.to_s == value[key].to_s }
+              if option
+                result[key] = option.value.to_s
+              end
+            end
+          end
+        end
+        result
+      rescue Exception => e
+        logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
+        {}
+      end
+
+      def generate_random_token
+        self.token ||= SecureRandom.hex(8)
+      end
+
+      def set_default_answer_values
+        self.value = (questionnaire.default_answer_value || {}).merge(self.value || {})
+      end
+
+    end
+
     attr_reader :mongo_collection
 
     def initialize(mongo_collection)
@@ -18,11 +86,12 @@ module Quby
     end
 
     def create!(questionnaire_key, attributes = {})
-      Quby::Answer.create!(attributes.merge(questionnaire_key: questionnaire_key))
+      record = Record.create!(attributes.merge(questionnaire_key: questionnaire_key))
+      find(questionnaire_key, record.id)
     end
 
     def create(questionnaire_key, attributes = {})
-      Quby::Answer.create(attributes.merge(questionnaire_key: questionnaire_key))
+      create!(questionnaire_key, attributes)
     end
 
     def update!(answer)
@@ -30,7 +99,7 @@ module Quby
     end
 
     def update(answer)
-      mongo_collection.update({"_id" => answer.id}, answer.attributes)
+      update!(answer)
     end
   end
 end
