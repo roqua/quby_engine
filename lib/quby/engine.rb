@@ -7,7 +7,6 @@ require 'sass-rails'
 require 'compass-rails'
 require 'jquery-rails'
 require 'fd-slider-rails'
-require 'backbone-rails'
 require 'susy'
 require 'andand'
 
