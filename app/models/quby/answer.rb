@@ -89,7 +89,6 @@ module Quby
       self.patient[:id] || super
     end
 
-
     def extra_question_values
       @extra_question_values = {}
       questionnaire.questions.each do |q|
