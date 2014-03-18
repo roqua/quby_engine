@@ -50,7 +50,7 @@ feature 'Dependencies between questions', js: true do
               title 'Vul dit in'
             end
           end
-        end;
+        end
       end
       end_panel
       END

@@ -11,16 +11,16 @@
     hotkeysEnabled = $(".hotkeyDialog").length > 0;
 
     if (hotkeysEnabled) {
-      $("body").live("keydown", handleDownHotKeys);
-      $("body").live("keyup", handleUpHotKeys);
-      $("body").live("click", function (){
+      $("body").on("keydown", handleDownHotKeys);
+      $("body").on("keyup", handleUpHotKeys);
+      $("body").on("click", function (){
         nextButtonFocussed = false;
         saveButtonFocussed = false;
       })
-      $(".item input, .item textarea, .buttons input, select").live("click", function(event){
+      $(".item input, .item textarea, .buttons input, select").on("click", function(event){
         focusInput(event.target);
       })
-      $(".item input, .item textarea, .buttons input, select").live("focus", function(event){
+      $(".item input, .item textarea, .buttons input, select").on("focus", function(event){
         focusInput(event.target);
       });
     }
@@ -146,7 +146,7 @@
     focusNextInput();
   }
 
-  window.hotkeyDialog = function(){;
+  window.hotkeyDialog = function(){
     $(".hotkeyDialog").last().dialog({
       draggable : false, resizable : false, modal : true, width : 550,
       buttons: {

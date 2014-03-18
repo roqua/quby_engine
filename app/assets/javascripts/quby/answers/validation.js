@@ -182,10 +182,8 @@
           return true;
         }
       }
-      if(input.is("[type=radio]") || input.is("[type=checkbox]")){
-        if (input.attr("checked")) {
-          return true;
-        }
+      if(input.is("[type=radio]:checked") || input.is("[type=checkbox]:checked")){
+        return true;
       }
       if(input.is("select")){
         if (item.data('placeholder') != input[0].value){

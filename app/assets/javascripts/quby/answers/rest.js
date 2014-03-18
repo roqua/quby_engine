@@ -53,18 +53,15 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
 //1: If a checkbox is checked, the 'uncheck_all' checkbox should be unchecked
 //2: If a checkbox is unchecked, the 'check_all' checkbox should be unchecked
 function correctAllNothingCheckboxes(checked, allKey, nothingKey){
+    var el;
     if(checked){
-        var el = $('#answer_'+nothingKey)[0];
-        if (el) {
-            $(el).removeAttr("checked");
-            handleDisableCheckboxSubQuestions(el);
-        }
+        el = $('#answer_'+nothingKey)[0];
     } else {
-        var el = $('#answer_'+allKey)[0];
-        if (el) {
-            $(el).removeAttr("checked");
-            handleDisableCheckboxSubQuestions(el);
-        }
+        el = $('#answer_'+allKey)[0];
+    }
+    if (el) {
+        $(el).removeAttr("checked");
+        handleDisableCheckboxSubQuestions(el);
     }
 }
 
@@ -85,17 +82,18 @@ function enableAllSubquestionsOfCheckedRadiosCheckboxes() {
 
 function handleDisableRadioSubQuestions(element){
     element.closest('.item').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
-    if(element.attr('checked')){
+    if(element.is(':checked')){
         element.closest('.option').find('.item:not(.specifier)').find('.subinput').removeAttr("disabled");
     }
 }
 
 function handleDisableCheckboxSubQuestions(element){
-    element = $(element);
-    if(element.attr('checked')){
-        $(element).closest('.option').find('.item:not(.specifier)').find('.subinput').removeAttr("disabled");
+    var element = $(element);
+    var subinput = $(element).closest('.option').find('.item:not(.specifier)').find('.subinput');
+    if(element.is(':checked')) {
+        subinput.removeAttr("disabled");
     } else {
-        $(element).closest('.option').find('.item:not(.specifier)').find('.subinput').attr("disabled", "disabled");
+        subinput.attr("disabled", "disabled");
     }
 }
 
@@ -295,7 +293,7 @@ $(function() {
 
         $(".deselectable").deselectable();
 
-        $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').live("click", radioCheckboxEvents );
+        $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').on("click", radioCheckboxEvents );
 
         processExtraData();
 
