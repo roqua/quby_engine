@@ -97,7 +97,18 @@ module Quby
 
     def update!(answer)
       record = Record.find(answer.id)
-      record.update_attributes!(answer.attributes)
+      record.value                = answer.value
+      record.value_by_values      = answer.value_by_values
+      record.patient              = answer.patient
+      record.token                = answer.token
+      record.active               = answer.active
+      record.test                 = answer.test
+      record.completed_at         = answer.completed_at
+      record.outcome_generated_at = answer.outcome_generated_at
+      record.scores               = answer.scores
+      record.actions              = answer.actions
+      record.completion           = answer.completion
+      record.save!
     end
 
     def update(answer)
