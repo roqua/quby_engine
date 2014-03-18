@@ -181,12 +181,5 @@ module Quby
       errors.add(question.key, {message: message, valtype: validationtype})
     end
 
-    def generate_random_token
-      self.token ||= SecureRandom.hex(8)
-    end
-
-    def set_default_answer_values
-      self.value = (questionnaire.default_answer_value || {}).merge(self.value || {})
-    end
   end
 end
