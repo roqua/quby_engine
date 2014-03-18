@@ -19,7 +19,6 @@ PATH
       mongoid (~> 2.2)
       mongoid-app_settings
       rails (~> 3.1)
-      rails-backbone
       ryansch-andand
       sass-rails (~> 3.2)
       susy (~> 1.0.rc)
@@ -99,7 +98,6 @@ GEM
     database_cleaner (1.2.0)
     descendants_tracker (0.0.3)
     diff-lcs (1.2.5)
-    ejs (1.1.1)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
@@ -208,10 +206,6 @@ GEM
       activesupport (= 3.2.17)
       bundler (~> 1.0)
       railties (= 3.2.17)
-    rails-backbone (0.9.10)
-      coffee-script (~> 2.2.0)
-      ejs (~> 1.1.1)
-      railties (>= 3.1.0)
     railties (3.2.17)
       actionpack (= 3.2.17)
       activesupport (= 3.2.17)
