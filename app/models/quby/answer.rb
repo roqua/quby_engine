@@ -31,9 +31,6 @@ module Quby
     end
 
     after_initialize :enhance_by_dsl
-    before_validation(on: :create) { set_default_answer_values }
-    before_validation(on: :create) { generate_random_token }
-
     validates :token, presence: true, length: { minimum: 4 }
 
     attr_accessor :aborted
