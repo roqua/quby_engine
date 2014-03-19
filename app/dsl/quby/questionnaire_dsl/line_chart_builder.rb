@@ -20,7 +20,7 @@ module Quby
       end
 
       def baseline(value = nil, &block)
-        if (not value and not block) or (value and block)
+        unless value.nil? ^ block.nil?
           raise ArgumentError, "Must give either value or a block"
         end
 

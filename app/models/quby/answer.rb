@@ -80,7 +80,7 @@ module Quby
       questionnaire.questions.each do |q|
         next unless q
         unless q.raw_content.blank?
-          @extra_failed_validations[q.key] = errors[q.key] if errors[q.key] and not errors[q.key].blank?
+          @extra_failed_validations[q.key] = errors[q.key] if errors[q.key].present?
         end
       end
       @extra_failed_validations.to_json
@@ -147,7 +147,7 @@ module Quby
     end
 
     def completed?
-      not all_blank? and valid?
+      !all_blank? && valid?
     end
 
     def all_blank?
@@ -178,7 +178,7 @@ module Quby
         ans = self.send(qk)
         if ans.is_a? Hash # in case of check_box, only count checked check_boxes as answered
           answered += (ans.values.sum >= 1 ? 1 : 0)
-        elsif not self.send(qk).blank?
+        elsif self.send(qk).present?
           answered += 1
         end
       end

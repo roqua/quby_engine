@@ -18,19 +18,7 @@ DefaultScope:
 Documentation:
   Enabled: false
 
-MethodCallParentheses:
-  Enabled: false
-
 MethodLength:
-  Enabled: false
-
-MultilineBlockChain:
-  Enabled: false
-
-MultilineTernaryOperator:
-  Enabled: false
-
-Not:
   Enabled: false
 
 NumericLiterals:

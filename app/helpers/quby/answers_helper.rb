@@ -19,7 +19,7 @@ module Quby
     end
 
     def different_header(item, previous_item)
-      return true if item.score_header != previous_item.andand.score_header or (not previous_item.respond_to?(:options))
+      return true unless item.score_header == previous_item.andand.score_header && previous_item.respond_to?(:options)
       case item.score_header
       when :question_description
         return item.description != previous_item.description

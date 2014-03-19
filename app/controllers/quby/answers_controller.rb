@@ -182,7 +182,7 @@ module Quby
           raise TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
         end
 
-        if not timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ or not time = Time.parse(timestamp)
+        unless timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ and time = Time.parse(timestamp)
           logger.error "ERROR::Authentication error: Invalid timestamp."
           raise TimestampValidationError
         end

@@ -82,7 +82,7 @@ module Quby
     def validate_regexp(question, validation, value)
       return if value.blank?
       match = validation[:matcher].match(value)
-      if not match or match[0] != value
+      unless match && match[0] == value
         answer.send(:add_error, question, validation[:type], validation[:message] || "Does not match pattern expected.")
       end
     end
