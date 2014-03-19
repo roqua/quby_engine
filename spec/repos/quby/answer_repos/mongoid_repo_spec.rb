@@ -7,7 +7,7 @@ module Quby
 
       it 'creates new records' do
         answer = repo.create!('big', value: {v_1: 'test'})
-        answer.value.should eq(v_1: 'test')
+        answer.value.should eq("v_1" => 'test')
       end
 
       it 'finds records' do
