@@ -43,11 +43,12 @@ module Quby
           questionnaire_key: questionnaire.key,
           token:             SecureRandom.hex(8),
           dsl_last_update:   questionnaire.last_update,
-          patient:           given_attributes.fetch(:patient,    {}),
-          test:              given_attributes.fetch(:test,       false),
-          scores:            given_attributes.fetch(:scores,     {}),
-          actions:           given_attributes.fetch(:actions,    {}),
-          completion:        given_attributes.fetch(:completion, {}),
+          patient:           given_attributes.fetch(:patient,      {}),
+          test:              given_attributes.fetch(:test,         false),
+          scores:            given_attributes.fetch(:scores,       {}),
+          actions:           given_attributes.fetch(:actions,      {}),
+          completion:        given_attributes.fetch(:completion,   {}),
+          completed_at:      given_attributes.fetch(:completed_at, nil),
           value:             default_answer_value(questionnaire, given_attributes)
         }
       end

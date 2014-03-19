@@ -26,6 +26,11 @@ module Quby
         field :dsl_last_update,      type: Time
       end
 
+      def find_completed_after(time, answer_ids)
+        records = Record.any_in(_id: answer_ids).where(:completed_at.gt => time)
+        records.map {|record| entity(record) }
+      end
+
       def update!(answer)
         record = find_record(answer.id)
         # MongoDB won't save new hash order if we don't clear it first.

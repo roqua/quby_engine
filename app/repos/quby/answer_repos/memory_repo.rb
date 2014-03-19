@@ -6,6 +6,13 @@ module Quby
       class Record < OpenStruct
       end
 
+      def find_completed_after(time, answer_ids)
+        records = storage.values.select do |record|
+          answer_ids.include?(record._id) && record.completed_at.present? && record.completed_at > time
+        end
+        records.map {|record| entity(record) }
+      end
+
       private
 
       def find_record(id)
