@@ -51,10 +51,10 @@ module Quby
 
     def validate_table_edgecases(questionnaire)
       questionnaire.panels.each do |panel|
-        tables = panel.items.select {|item| item.is_a?(Quby::Items::Table) }
+        tables = panel.items.select { |item| item.is_a?(Quby::Items::Table) }
         tables.each do |table|
-          questions = table.items.select {|item| item.is_a?(Quby::Items::Question) }
-          questions.each {|question| validate_table_question(question) }
+          questions = table.items.select { |item| item.is_a?(Quby::Items::Question) }
+          questions.each { |question| validate_table_question(question) }
         end
       end
     end

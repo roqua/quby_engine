@@ -33,12 +33,6 @@ Semicolon:
 SignalException:
   Enabled: false
 
-SpaceInsideBlockBraces:
-  Enabled: false
-
-SpaceInsideBrackets:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false
 

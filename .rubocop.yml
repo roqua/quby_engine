@@ -27,8 +27,9 @@ MethodLength:
 BracesAroundHashParameters:
   Enabled: false
 
-SpaceAroundEqualsInParameterDefault:
+SpaceInsideBlockBraces:
   EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: space
 
 AmbiguousRegexpLiteral:
   Exclude:
