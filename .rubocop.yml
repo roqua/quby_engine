@@ -28,7 +28,7 @@ BracesAroundHashParameters:
   Enabled: false
 
 SpaceAroundEqualsInParameterDefault:
-  EnforcedStyleForEmptyBraces: space
+  EnforcedStyle: space
 
 AmbiguousRegexpLiteral:
   Exclude:
