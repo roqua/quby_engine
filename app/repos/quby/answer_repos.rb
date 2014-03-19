@@ -15,7 +15,7 @@ module Quby
         questionnaire     = Quby.questionnaire_finder.find(questionnaire_key)
 
         record = build_record
-        set_default_attributes(record, questionnaire, attributes)
+        set_initial_attributes(record, questionnaire, attributes)
         store_record(record)
         entity(record)
       end
@@ -32,13 +32,13 @@ module Quby
 
       private
 
-      def set_default_attributes(record, questionnaire, given_attributes)
+      def set_initial_attributes(record, questionnaire, given_attributes)
         default_attributes(questionnaire, given_attributes).each do |key, value|
           record.send("#{key}=", value)
         end
       end
 
-      def default_attributes(questionnaire, given_attributes)
+      def initial_attributes(questionnaire, given_attributes)
         {
           questionnaire_key: questionnaire.key,
           token:             SecureRandom.hex(8),
