@@ -1,17 +1,20 @@
-jasmine_options = {console: :always, errors: :always, timeout: 10000, keep_failed: false, all_after_pass: false, all_on_start: false, server: :webrick, rackup_config: 'spec/dummy/config.ru'}
-rspec_options   = {:version => 2, :keep_failed => false, :all_after_pass => false, :all_on_start => false, :cli => "--drb -f Fuubar --colour --tag ~screenshots --drb-port 8910"}
-spork_options   = {:rspec_env => { 'RAILS_ENV' => 'test' }, :wait => 60, :cucumber => false, :test_unit => false, :rspec_port => 8910 }
+jasmine_options = {
+  console: :always,
+  errors: :always,
+  timeout: 10000,
+  keep_failed: false,
+  all_after_pass: false,
+  all_on_start: false,
+  server: :webrick,
+  rackup_config: 'spec/dummy/config.ru'
+}
 
-guard :spork, spork_options do
-  watch('config/application.rb')
-  watch('config/environment.rb')
-  watch('config/routes.rb')
-  watch(%r{^Gemfile.*$})
-  watch(%r{^config/environments/.+\.rb$})
-  watch(%r{^config/initializers/.+\.rb$})
-  watch(%r{^lib/(.+)\.rb$})
-  watch('spec/spec_helper.rb')
-end
+rspec_options   = {
+  cmd: "bundle exec rspec",
+  failed_mode: :focus,
+  all_after_pass: false,
+  all_on_start: false
+}
 
 guard 'rspec', rspec_options do
   watch(%r{^spec/.+_spec\.rb$})
