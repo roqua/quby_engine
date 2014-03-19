@@ -147,7 +147,7 @@ module Quby
     end
 
     def require_percentage_filled(values, percentage)
-      percentage = percentage / 100.0 if percentage > 1
+      percentage /= 100.0 if percentage > 1
       selects = values.select { |i| !i.nil? }
       percentage_filled = selects.length.to_f / values.length.to_f
 
