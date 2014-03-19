@@ -69,7 +69,7 @@ module Quby
     end
 
     def patient_id
-      self.patient[:id] || super
+      patient[:id] || super
     end
 
     def extra_question_values
@@ -139,11 +139,11 @@ module Quby
     end
 
     def scores
-      (@scores || {}).with_indifferent_access
+      super.with_indifferent_access
     end
 
     def actions
-      (@actions || {}).with_indifferent_access
+      super.with_indifferent_access
     end
 
     def as_json(options = {})
