@@ -48,17 +48,12 @@ module Quby
 
     def find(questionnaire_key, answer_id)
       record = Record.where(questionnaire_key: questionnaire_key).find(answer_id)
-
       entity(record.attributes)
     end
 
     def create!(questionnaire_key, attributes = {})
       record = Record.create!(attributes.merge(questionnaire_key: questionnaire_key))
-      find(questionnaire_key, record.id)
-    end
-
-    def create(questionnaire_key, attributes = {})
-      create!(questionnaire_key, attributes)
+      entity(record.attributes)
     end
 
     def update!(answer)
