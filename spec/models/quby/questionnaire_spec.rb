@@ -68,7 +68,7 @@ module Quby
 
     context 'key lists' do
       let(:questionnaire) do
-        questionnaire = Quby::Questionnaire.new("test", <<-END)
+        Quby::Questionnaire.new("test", <<-END)
           question :radio, type: :radio, depends_on: [:check] do
             title "Testvraag"
             option :rad1

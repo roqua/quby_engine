@@ -105,12 +105,6 @@ TrailingBlankLines:
 TrivialAccessors:
   Enabled: false
 
-UselessAssignment:
-  Enabled: false
-
-UselessComparison:
-  Enabled: false
-
 PercentLiteralDelimiters:
   Enabled: false
 

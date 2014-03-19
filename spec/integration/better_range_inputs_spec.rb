@@ -42,7 +42,6 @@ feature 'Displaying a input of type range', js: true do
     find("#answer_v1+.noUi-target:not([disabled])").should be
 
     # tap the slider should change the value
-    sliderbar = find("#answer_v1+.noUi-target .noUi-base").native
     pos = page.evaluate_script("$('#answer_v1+.noUi-target .noUi-base').position()")
     page.driver.click(pos['left'] + 100, pos['top'] + 5)
     slider_value.to_i.should be < 40

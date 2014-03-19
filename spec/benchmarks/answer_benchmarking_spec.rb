@@ -12,9 +12,9 @@ module Quby
         n = 10_000
 
         # prepare cache
-        questions = questionnaire.questions
+        questionnaire.questions
 
-        results = Benchmark.bm(20) do |x|
+        Benchmark.bm(20) do |x|
           x.report("Questionnaire#questions")       { n.times { questionnaire.questions } }
         end
       end
@@ -26,7 +26,7 @@ module Quby
         answer = Answer.new(questionnaire_key: questionnaire.key)
         answer.save! # save so valid? does run update validations
 
-        results = Benchmark.bm(20) do |x|
+        Benchmark.bm(20) do |x|
           x.report("Answer#valid?")       { n.times { answer.valid? } }
           x.report("Answer#completed?")   { n.times { answer.completed? } }
         end

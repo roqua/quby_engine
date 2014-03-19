@@ -8,7 +8,7 @@ module Quby
     describe '.calculate' do
       it 'calculates the value of a block' do
         score = stub
-        calculator = ScoreCalculator.calculate({}, timestamp) { score }.should eq score
+        ScoreCalculator.calculate({}, timestamp) { score }.should eq score
       end
     end
 

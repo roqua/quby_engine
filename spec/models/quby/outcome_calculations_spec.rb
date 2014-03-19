@@ -159,9 +159,9 @@ module Quby
 
       it 'saves reorderings of scores' do
         scorer1 = proc { {value: 1} }
-        score1  = Score.new(:tot, {label: "Totaalscore", score: true}, &scorer)
+        score1  = Score.new(:tot, {label: "Totaalscore", score: true}, &scorer1)
         scorer2 = proc { {value: 2} }
-        score2  = Score.new(:sub, {label: "Subscore", score: true}, &scorer)
+        score2  = Score.new(:sub, {label: "Subscore", score: true}, &scorer2)
         questionnaire.score_builders = {}
         questionnaire.push_score_builder score1
         questionnaire.push_score_builder score2

@@ -13,7 +13,7 @@ module Quby
       end
 
       it 'has a type' do
-        chart = LineChart.new(:tot).type.should == 'line_chart'
+        LineChart.new(:tot).type.should == 'line_chart'
       end
     end
   end

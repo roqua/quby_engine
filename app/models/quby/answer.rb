@@ -158,17 +158,11 @@ module Quby
     end
 
     def url_params(options = {})
-      if request = options[:request]
-        server_path = "#{request.protocol}#{request.host}" \
-                      "#{":" + request.port.to_s unless [80, 443].include? request.port}/"
-        options.delete(:request)
-      end
-
       timestamp = Time.now.getgm.strftime("%Y-%m-%dT%H:%M:%S+00:00")
       plain_token = [Quby::Settings.shared_secret, self.token, timestamp].join('|')
 
       # double slash removed from return_url (it's either this or removing the final slash in Settings.application_url)
-      options = options.merge(
+      options.merge(
         display_mode: options[:display_mode] || "paged",
         token: self.token,
         timestamp: timestamp,
