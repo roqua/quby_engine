@@ -57,3 +57,9 @@ MultilineTernaryOperator:
 # Why waste all that indentation?
 ClassAndModuleChildren:
   Enabled: false
+
+# Complains when using if-block for a single line.
+# I believe an if-block is preferable when the branch is important for reading the flow
+# the single line version is for when the condition is an afterthought - Henk.
+IfUnlessModifier:
+  Enabled: false

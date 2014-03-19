@@ -2,20 +2,11 @@
 # The point is for the user to remove these configuration records
 # one by one as the offences are removed from the code base.
 
-AccessorMethodName:
-  Enabled: false
-
 AssignmentInCondition:
   Enabled: false
 
 # auto-correct says it fixes, but it doesn't fix all.
 AndOr:
-  Enabled: false
-
-BlockAlignment:
-  Enabled: false
-
-Blocks:
   Enabled: false
 
 CaseEquality:
@@ -42,34 +33,10 @@ EmptyLineBetweenDefs:
 EmptyLinesAroundBody:
   Enabled: false
 
-EndAlignment:
-  Enabled: false
-
-EndOfLine:
-  Enabled: false
-
 FavorUnlessOverNegatedIf:
   Enabled: false
 
 FinalNewline:
-  Enabled: false
-
-For:
-  Enabled: false
-
-HandleExceptions:
-  Enabled: false
-
-HasAndBelongsToMany:
-  Enabled: false
-
-HashMethods:
-  Enabled: false
-
-IfUnlessModifier:
-  Enabled: false
-
-IndentationWidth:
   Enabled: false
 
 MethodCallParentheses:
@@ -99,16 +66,7 @@ ParameterLists:
 PredicateName:
   Enabled: false
 
-Proc:
-  Enabled: false
-
-RedundantBegin:
-  Enabled: false
-
 RedundantSelf:
-  Enabled: false
-
-RegexpLiteral:
   Enabled: false
 
 RescueException:
@@ -123,15 +81,10 @@ Semicolon:
 SignalException:
   Enabled: false
 
-SingleLineMethods:
-  Enabled: false
-
 SpaceBeforeBlockBraces:
   Enabled: false
-SpaceInsideBlockBraces:
-  Enabled: false
 
-SpaceAroundOperators:
+SpaceInsideBlockBraces:
   Enabled: false
 
 SpaceInsideBrackets:
@@ -159,12 +112,6 @@ UselessComparison:
   Enabled: false
 
 Validation:
-  Enabled: false
-
-WordArray:
-  Enabled: false
-
-PercentLiteralDelimiters:
   Enabled: false
 
 IndentArray:
