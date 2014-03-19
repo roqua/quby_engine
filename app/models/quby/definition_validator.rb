@@ -101,7 +101,7 @@ module Quby
       if key.to_s.length > MAX_KEY_LENGTH
         raise "Key '#{key}' should contain at most #{MAX_KEY_LENGTH} characters."
       end
-      if not key.to_s.start_with?(KEY_PREFIX)
+      unless key.to_s.start_with?(KEY_PREFIX)
         raise "Key '#{key}' should start with '#{KEY_PREFIX}'."
       end
     end

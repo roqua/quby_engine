@@ -364,7 +364,7 @@ module Quby
           output << ""
         end
 
-        if not (year_key || month_key || day_key)
+        unless year_key || month_key || day_key
           output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
           output << "#{output_key} #{output_type}_day #{output_range}"
           output << "\"#{title}\"" unless title.blank?

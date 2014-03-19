@@ -9,31 +9,13 @@ AssignmentInCondition:
 AndOr:
   Enabled: false
 
-CaseEquality:
-  Enabled: false
-
 ClassLength:
-  Enabled: false
-
-CollectionMethods:
-  Enabled: false
-
-CyclomaticComplexity:
   Enabled: false
 
 DefaultScope:
   Enabled: false
 
 Documentation:
-  Enabled: false
-
-EmptyLineBetweenDefs:
-  Enabled: false
-
-EmptyLinesAroundBody:
-  Enabled: false
-
-FavorUnlessOverNegatedIf:
   Enabled: false
 
 MethodCallParentheses:
