@@ -24,7 +24,7 @@ module Quby
     end
 
     def answer_repo
-      @answer_repo ||= Quby::MongodbRepo.new
+      @answer_repo ||= Quby::AnswerRepos::MongoidRepo.new
     end
   end
 end
