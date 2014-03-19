@@ -36,10 +36,6 @@ SignalException:
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
-# 807 issues that are automatically fixable, should wait until there are no big branches
-StringLiterals:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 
