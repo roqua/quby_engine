@@ -53,12 +53,9 @@ module Quby
     # This function is called by parts of the system that only want to calculate
     # stuff, and can't help it if an answer is not completed.
     def update_scores
-      # MongoDB won't save new hash order if we don't clear it first.
-      update_attributes(scores: {}, actions: {}, completion: {})
-
       # Now we can fill it back up
       calculate_builders
-      save!
+      Quby.answer_repo.update!(self)
     end
   end
 end

@@ -97,6 +97,10 @@ module Quby
 
     def update!(answer)
       record = Record.find(answer.id)
+
+      # MongoDB won't save new hash order if we don't clear it first.
+      record.update_attributes(scores: {}, actions: {}, completion: {})
+
       record.value                = answer.value
       record.value_by_values      = answer.value_by_values
       record.patient              = answer.patient
@@ -108,8 +112,6 @@ module Quby
       record.scores               = answer.scores
       record.actions              = answer.actions
       record.completion           = answer.completion
-
-      Rails.logger.info "Saving #{answer.id} -- #{answer.inspect}"
       record.save!
     end
 

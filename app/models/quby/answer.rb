@@ -48,20 +48,6 @@ module Quby
       errors.empty?
     end
 
-    def update_attributes!(new_attributes)
-      self.attributes = new_attributes
-      Quby.answer_repo.update!(self)
-    end
-
-    def update_attributes(new_attributes)
-      self.attributes = new_attributes
-      Quby.answer_repo.update!(self)
-    end
-
-    def save!
-      Quby.answer_repo.update!(self)
-    end
-
     # Faux belongs_to :questionnaire
     def questionnaire
       self.class.questionnaire_finder.find(questionnaire_key)
