@@ -64,3 +64,8 @@ ClassAndModuleChildren:
 # the single line version is for when the condition is an afterthought - Henk.
 IfUnlessModifier:
   Enabled: false
+
+# before_filter must be renamed to before_action.
+# can't enable this until we drop support for rails 3.
+ActionFilter:
+  Enabled: false

@@ -40,9 +40,6 @@ SpaceInsideHashLiteralBraces:
 StringLiterals:
   Enabled: false
 
-TrailingBlankLines:
-  Enabled: false
-
 TrivialAccessors:
   Enabled: false
 
@@ -50,12 +47,6 @@ PercentLiteralDelimiters:
   Enabled: false
 
 IndentArray:
-  Enabled: false
-
-IndentHash:
-  Enabled: false
-
-ActionFilter:
   Enabled: false
 
 DoubleNegation:
