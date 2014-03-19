@@ -74,7 +74,7 @@ module Quby
       it 'calculates scores, alerts and completion' do
         answer.calculate_builders
 
-        answer.scores.should eq( "tot" => {"value" => 3, "label" => "Totaal", "score" => true})
+        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal", "score" => true})
         answer.actions.should eq("attention" => 5)
         answer.completion.should eq("value" => 0.9)
       end

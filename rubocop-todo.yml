@@ -36,9 +36,6 @@ SignalException:
 SpaceInsideHashLiteralBraces:
   Enabled: false
 
-SpaceInsideParens:
-  Enabled: false
-
 StringLiterals:
   Enabled: false
 
