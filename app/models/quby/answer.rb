@@ -26,14 +26,10 @@ module Quby
     attribute :completion,           Hash,    default: {}
 
     attr_accessor :aborted
-    # Values in globalpark coding that need to be recoded and used to initialize this answer
-    attr_accessor :roqua_vals
 
     # For setting raw content values and failed validations
     attr_accessor :extra_question_values
     attr_accessor :extra_failed_validations
-
-    attr_accessor :dsl_last_update
 
     def id
       _id
