@@ -25,6 +25,16 @@ module Quby
     attribute :actions,              Hash,    default: {}
     attribute :completion,           Hash,    default: {}
 
+    attr_accessor :aborted
+    # Values in globalpark coding that need to be recoded and used to initialize this answer
+    attr_accessor :roqua_vals
+
+    # For setting raw content values and failed validations
+    attr_accessor :extra_question_values
+    attr_accessor :extra_failed_validations
+
+    attr_accessor :dsl_last_update
+
     def id
       _id
     end
@@ -54,16 +64,6 @@ module Quby
     def questionnaire
       self.class.questionnaire_finder.find(questionnaire_key)
     end
-
-    attr_accessor :aborted
-    # Values in globalpark coding that need to be recoded and used to initialize this answer
-    attr_accessor :roqua_vals
-
-    # For setting raw content values and failed validations
-    attr_accessor :extra_question_values
-    attr_accessor :extra_failed_validations
-
-    attr_accessor :dsl_last_update
 
     def set_completed_at
       self.completed_at = Time.now if completed_at.blank? and (completed? or @aborted)
