@@ -25,6 +25,18 @@ module Quby
         retrieved = repo.find('big', answer.id)
         retrieved.value.should eq("v_2" => "bar")
       end
+
+      it 'updates reorderings of scores' do
+        answer = repo.create!('big', scores: {tot: {label: 'Totaalscore'},
+                                              sub: {label: 'Subscore'}})
+        answer.scores.keys.should eq %w(tot sub)
+        repo.reload(answer).scores.keys.should eq %w(tot sub)
+
+        answer.scores = {sub: {label: 'Subscore'}, tot: {label: 'Totaalscore'}}
+        answer.scores.keys.should eq %w(sub tot)
+        repo.update!(answer)
+        repo.reload(answer).scores.keys.should eq %w(sub tot)
+      end
     end
   end
 end

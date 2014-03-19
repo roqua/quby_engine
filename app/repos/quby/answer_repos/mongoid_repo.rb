@@ -30,6 +30,10 @@ module Quby
         entity(record.attributes)
       end
 
+      def reload(answer)
+        find(answer.questionnaire_key, answer.id)
+      end
+
       def create!(questionnaire_key, attributes = {})
         attributes        = attributes.with_indifferent_access
         questionnaire     = Quby.questionnaire_finder.find(questionnaire_key)
@@ -51,7 +55,7 @@ module Quby
         record = Record.find(answer.id)
 
         # MongoDB won't save new hash order if we don't clear it first.
-        record.update_attributes(scores: {}, actions: {}, completion: {})
+        record.update_attributes!(scores: {}, actions: {}, completion: {})
 
         record.value                = answer.value
         record.patient              = answer.patient

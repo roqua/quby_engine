@@ -55,7 +55,7 @@ module ClientSideValidationHelpers
   def expect_saved_value(question_key, expected_value)
     click_on "Klaar"
     page.should have_content("Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.")
-    @answer.reload.send(question_key).should eq(expected_value)
+    Quby.answer_repo.reload(@answer).send(question_key).should eq(expected_value)
   end
 end
 
@@ -97,7 +97,7 @@ module ServerSideValidationHelpers
   end
 
   def expect_saved_value(question_key, expected_value)
-    answer.reload.send(question_key).should eq(expected_value)
+    Quby.answer_repo.reload(answer).send(question_key).should eq(expected_value)
   end
 
   def expect_error_on(question_key, error_type)

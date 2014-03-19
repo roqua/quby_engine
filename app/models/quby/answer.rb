@@ -43,11 +43,6 @@ module Quby
       id
     end
 
-    def reload
-      Rails.logger.info "reloading #{id}"
-      Quby.answer_repo.find(questionnaire_key, id)
-    end
-
     def attributes
       super.with_indifferent_access
     end

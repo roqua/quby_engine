@@ -108,7 +108,7 @@ module Quby
 
       it 'can be accessed with indifferent access' do
         answer = Quby.answer_repo.create!('foo', scores: {tot: {label: 'Totaal', value: 4}})
-        answer = Quby.answer_repo.find('foo', answer.id)
+        answer = Quby.answer_repo.reload(answer)
         answer.scores[:tot][:label].should eq 'Totaal'
         answer.scores["tot"]["value"].should eq 4
       end
