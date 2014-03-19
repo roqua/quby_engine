@@ -12,7 +12,7 @@ module Quby
     end
 
     def questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireFinder.new(Quby.questionnaires_path)
+      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.questionnaires_path)
     end
 
     def show_exceptions
