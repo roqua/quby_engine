@@ -202,6 +202,5 @@ module Quby
     def add_error(question, validationtype, message)
       errors.add(question.key, {message: message, valtype: validationtype})
     end
-
   end
 end
