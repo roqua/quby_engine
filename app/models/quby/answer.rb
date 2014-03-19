@@ -1,3 +1,5 @@
+require 'virtus'
+
 module Quby
   class Answer
     def self.questionnaire_finder

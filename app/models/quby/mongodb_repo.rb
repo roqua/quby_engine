@@ -11,7 +11,6 @@ module Quby
       field :questionnaire_id,     type: Integer
       field :questionnaire_key,    type: String
       field :value,                type: Hash
-      field :value_by_values,      type: Hash
       field :patient,              type: Hash,    default: {}
       field :token,                type: String
       field :active,               type: Boolean, default: true
@@ -32,31 +31,10 @@ module Quby
 
       before_save do
         self[:questionnaire_key] = questionnaire.key
-        self[:value_by_values] = value_by_values
       end
 
       validates_presence_of :token
       validates_length_of :token, minimum: 4
-
-      def value_by_values
-        result = {}
-        if value
-          result = value.dup
-          value.each_key do |key|
-            question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
-            if question and (question.type == :radio || question.type == :scale || question.type == :select)
-              option = question.options.find { |o| o.key.to_s == value[key].to_s }
-              if option
-                result[key] = option.value.to_s
-              end
-            end
-          end
-        end
-        result
-      rescue Exception => e
-        logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
-        {}
-      end
 
       def generate_random_token
         self.token ||= SecureRandom.hex(8)
@@ -66,12 +44,6 @@ module Quby
         self.value = (questionnaire.default_answer_value || {}).merge(self.value || {})
       end
 
-    end
-
-    attr_reader :mongo_collection
-
-    def initialize(mongo_collection)
-      @mongo_collection = mongo_collection
     end
 
     def find(questionnaire_key, answer_id)
@@ -102,7 +74,6 @@ module Quby
       record.update_attributes(scores: {}, actions: {}, completion: {})
 
       record.value                = answer.value
-      record.value_by_values      = answer.value_by_values
       record.patient              = answer.patient
       record.token                = answer.token
       record.active               = answer.active
