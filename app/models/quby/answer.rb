@@ -58,7 +58,7 @@ module Quby
     end
 
     def set_completed_at
-      self.completed_at = Time.now if completed_at.blank? and (completed? or @aborted)
+      self.completed_at = Time.now if completed_at.blank? && (completed? || @aborted)
     end
 
     def enhance_by_dsl
