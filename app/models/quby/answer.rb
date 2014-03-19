@@ -24,6 +24,7 @@ module Quby
     attribute :scores,               Hash,    default: {}
     attribute :actions,              Hash,    default: {}
     attribute :completion,           Hash,    default: {}
+    attribute :dsl_last_update
 
     attr_accessor :aborted
 
