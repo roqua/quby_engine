@@ -27,7 +27,7 @@ MethodLength:
 BracesAroundHashParameters:
   Enabled: false
 
-SpaceAroundBlockBraces:
+SpaceAroundEqualsInParameterDefault:
   EnforcedStyleForEmptyBraces: space
 
 AmbiguousRegexpLiteral:
@@ -51,4 +51,9 @@ SingleLineBlockParams:
 # Complains than multiline ternary expressions should be if/else statements
 # Ternary are still often more readable. 
 MultilineTernaryOperator:
+  Enabled: false
+
+# disallows `class Quby::Items::Text` style definitions.
+# Why waste all that indentation?
+ClassAndModuleChildren:
   Enabled: false

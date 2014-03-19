@@ -118,7 +118,7 @@ module Quby
     def validate_table_question(question)
       question.subquestions.each do |subquestion|
         if subquestion.presentation != :next_to_title
-          raise "Question #{question.key} is inside a table, but has a subquestion #{subquestion.key}, " +
+          raise "Question #{question.key} is inside a table, but has a subquestion #{subquestion.key}, " \
                 "which is not allowed."
         end
       end

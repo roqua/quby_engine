@@ -8,6 +8,10 @@ AccessorMethodName:
 AssignmentInCondition:
   Enabled: false
 
+# auto-correct says it fixes, but it doesn't fix all.
+AndOr:
+  Enabled: false
+
 BlockAlignment:
   Enabled: false
 
@@ -122,7 +126,9 @@ SignalException:
 SingleLineMethods:
   Enabled: false
 
-SpaceAroundBlockBraces:
+SpaceBeforeBlockBraces:
+  Enabled: false
+SpaceInsideBlockBraces:
   Enabled: false
 
 SpaceAroundOperators:
@@ -156,4 +162,22 @@ Validation:
   Enabled: false
 
 WordArray:
+  Enabled: false
+
+PercentLiteralDelimiters:
+  Enabled: false
+
+IndentArray:
+  Enabled: false
+
+IndentHash:
+  Enabled: false
+
+SelfAssignment:
+  Enabled: false
+
+ActionFilter:
+  Enabled: false
+
+DoubleNegation:
   Enabled: false

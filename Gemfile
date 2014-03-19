@@ -46,7 +46,7 @@ group :test, :development do
   gem 'spork'
   gem 'guard-spork'
   gem 'guard-rubocop'
-  gem 'rubocop',             '~> 0.18.0'
+  gem 'rubocop',             '~> 0.19.0'
 
   gem 'jasminerice'
   gem 'jasmine-jquery-rails'

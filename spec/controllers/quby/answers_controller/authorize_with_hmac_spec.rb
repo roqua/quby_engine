@@ -52,7 +52,7 @@ module Quby
                    timestamp: 1.day.ago.strftime("%Y-%m-%dT%H:%M:%S+00:00"),
                    return_token: 'asdf',
                    return_url: "/evaluate/collect_answers"
-        expect(response).to redirect_to("/evaluate/collect_answers?expired_session=true" +
+        expect(response).to redirect_to("/evaluate/collect_answers?expired_session=true" \
                                         "&key=asdf&return_from=quby&return_from_answer=#{answer.id}")
       end
     end
