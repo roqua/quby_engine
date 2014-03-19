@@ -28,6 +28,10 @@ module Quby
         expect(results.map(&:id)).not_to include(answer4.id)
       end
 
+      it 'raises when answer cannot be found' do
+        expect { repo.find('big', 'unknown_id') }.to raise_exception(AnswerNotFound)
+      end
+
       it 'updates records' do
         answer    = repo.create!('big', value: {v_1: 'test'})
         answer.value = {v_2: 'bar'}

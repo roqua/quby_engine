@@ -1,8 +1,11 @@
 module Quby
   module AnswerRepos
+    AnswerNotFound = Class.new(StandardError)
+
     class AnswerRepo
       def find(questionnaire_key, answer_id)
         record = find_record(answer_id)
+        raise AnswerNotFound, "Answer #{answer_id.inspect} could not be found." unless record.present?
         entity(record)
       end
 

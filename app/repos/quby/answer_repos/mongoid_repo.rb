@@ -43,6 +43,8 @@ module Quby
 
       def find_record(id)
         Record.find(id)
+      rescue Mongoid::Errors::DocumentNotFound
+        raise AnswerNotFound, "Answer #{id.inspect} could not be found."
       end
 
       def build_record
