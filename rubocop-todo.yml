@@ -12,25 +12,10 @@ AndOr:
 ClassLength:
   Enabled: false
 
-DefaultScope:
-  Enabled: false
-
 Documentation:
   Enabled: false
 
 MethodLength:
-  Enabled: false
-
-NumericLiterals:
-  Enabled: false
-
-Output:
-  Enabled: false
-
-ParameterLists:
-  Enabled: false
-
-PredicateName:
   Enabled: false
 
 RedundantSelf:
@@ -46,9 +31,6 @@ Semicolon:
   Enabled: false
 
 SignalException:
-  Enabled: false
-
-SpaceBeforeBlockBraces:
   Enabled: false
 
 SpaceInsideBlockBraces:
