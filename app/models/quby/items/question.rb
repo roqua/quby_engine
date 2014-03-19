@@ -169,10 +169,10 @@ module Quby
                          explanation: (options[:error_explanation] || "Voer een geldige datum in (DD-MM-JJJJ).")}
       end
 
-      if options[:minimum] and (@type == :integer or @type == :float)
+      if options[:minimum] and (@type == :integer || @type == :float)
         @validations << {type: :minimum, value: options[:minimum], explanation: options[:error_explanation]}
       end
-      if options[:maximum] and (@type == :integer or @type == :float)
+      if options[:maximum] and (@type == :integer || @type == :float)
         @validations << {type: :maximum, value: options[:maximum], explanation: options[:error_explanation]}
       end
 
@@ -315,7 +315,7 @@ module Quby
     end
 
     def hidden?
-      self.type == :hidden or self.hidden
+      self.type == :hidden || self.hidden
     end
 
     def subquestions
@@ -364,7 +364,7 @@ module Quby
           output << ""
         end
 
-        if not (year_key or month_key or day_key)
+        if not (year_key || month_key || day_key)
           output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
           output << "#{output_key} #{output_type}_day #{output_range}"
           output << "\"#{title}\"" unless title.blank?

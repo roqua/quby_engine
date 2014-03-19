@@ -110,7 +110,7 @@ module Quby
       logger.error("EXCEPTION: #{exception.message}")
       logger.error(exception.backtrace)
 
-      if Rails.env.development? or Rails.env.test?
+      if Rails.env.development? || Rails.env.test?
         logger.error "Exception reraised"
         raise exception
       elsif defined?(notify_airbrake)
@@ -141,8 +141,8 @@ module Quby
     end
 
     def check_aborted
-      if (params[:commit] == "Onderbreken" and @questionnaire.abortable) or
-        (params[:commit] == "Toch opslaan" and @display_mode == "bulk") or
+      if (params[:commit] == "Onderbreken" && @questionnaire.abortable) ||
+        (params[:commit] == "Toch opslaan" && @display_mode == "bulk") ||
         (params[:commit] == "← Vorige vragenlijst")
         params[:answer] ||= HashWithIndifferentAccess.new
         params[:answer][:aborted] = true

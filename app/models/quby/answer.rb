@@ -53,7 +53,7 @@ module Quby
     attr_accessor :dsl_last_update
 
     def set_completed_at
-      self[:completed_at] ||= Time.now if completed? or @aborted
+      self[:completed_at] ||= Time.now if completed? || @aborted
     end
 
     def enhance_by_dsl
