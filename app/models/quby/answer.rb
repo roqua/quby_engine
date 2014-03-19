@@ -39,8 +39,7 @@ module Quby
       self[:value_by_values] = value_by_values
     end
 
-    validates_presence_of :token
-    validates_length_of :token, minimum: 4
+    validates :token, presence: true, length: { minimum: 4 }
 
     attr_accessor :aborted
     # Values in globalpark coding that need to be recoded and used to initialize this answer

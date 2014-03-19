@@ -111,9 +111,6 @@ UselessAssignment:
 UselessComparison:
   Enabled: false
 
-Validation:
-  Enabled: false
-
 PercentLiteralDelimiters:
   Enabled: false
 
