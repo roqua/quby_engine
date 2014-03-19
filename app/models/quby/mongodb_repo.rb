@@ -49,13 +49,7 @@ module Quby
     def find(questionnaire_key, answer_id)
       record = Record.where(questionnaire_key: questionnaire_key).find(answer_id)
 
-      entity = Quby::Answer.new(record.attributes)
-      entity.instance_variable_set(:@new_record, nil)
-      entity.instance_variable_set(:@changed_attributes, nil)
-      entity.instance_variable_set(:@pending_nested, nil)
-      entity.instance_variable_set(:@pending_relations, nil)
-      entity.enhance_by_dsl
-      entity
+      entity(record.attributes)
     end
 
     def create!(questionnaire_key, attributes = {})
@@ -88,6 +82,12 @@ module Quby
 
     def update(answer)
       update!(answer)
+    end
+
+    private
+
+    def entity(attributes)
+      Quby::Answer.new(attributes).tap(&:enhance_by_dsl)
     end
   end
 end
