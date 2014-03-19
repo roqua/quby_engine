@@ -114,6 +114,9 @@ UselessComparison:
 Validation:
   Enabled: false
 
+PercentLiteralDelimiters:
+  Enabled: false
+
 IndentArray:
   Enabled: false
 
