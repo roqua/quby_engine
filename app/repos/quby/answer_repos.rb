@@ -33,7 +33,7 @@ module Quby
       private
 
       def set_initial_attributes(record, questionnaire, given_attributes)
-        default_attributes(questionnaire, given_attributes).each do |key, value|
+        initial_attributes(questionnaire, given_attributes).each do |key, value|
           record.send("#{key}=", value)
         end
       end
