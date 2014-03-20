@@ -1,9 +1,8 @@
 require 'fakefs/spec_helpers'
 require 'spec_helper'
-require_relative "../../../app/models/quby/questionnaire_finder"
 
-module Quby
-  describe QuestionnaireFinder do
+module Quby::QuestionnaireRepos
+  describe DiskRepo do
     include FakeFS::SpecHelpers
 
     before { FileUtils.mkdir_p("/tmp") }
@@ -21,7 +20,7 @@ module Quby
       end
     end
 
-    let(:questionnaire_finder) { QuestionnaireFinder.new("/tmp", questionnaire_class) }
+    let(:questionnaire_finder) { DiskRepo.new("/tmp", questionnaire_class) }
 
     describe '#find' do
       let(:key) { "test" }
@@ -38,7 +37,7 @@ module Quby
 
       it 'raises RecordNotFound if it doesnt exist' do
         questionnaire_finder.stub(:exists?).with(key).and_return(false)
-        expect { questionnaire_finder.find(key) }.to raise_error(QuestionnaireFinder::RecordNotFound)
+        expect { questionnaire_finder.find(key) }.to raise_error(DiskRepo::RecordNotFound)
       end
 
       it 'reloads a questionnaire if the definition updated on disk' do

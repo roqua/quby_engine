@@ -18,13 +18,14 @@ module Quby
       quest.push_score_builder action
       quest.push_score_builder completion
 
-      quest.stub(questions: [], last_update: Time.now, key: nil)
+      quest.stub(questions: [], last_update: Time.now, key: 'test')
       quest
     end
-    let(:answer) { Answer.new }
+
+    let(:answer) { Quby.answer_repo.create!('test') }
 
     before do
-      Answer.any_instance.stub(questionnaire: questionnaire)
+      Quby.questionnaire_finder.stub(find: questionnaire)
     end
 
     describe '#action' do
@@ -157,25 +158,6 @@ module Quby
         answer.completion.should eq('value' => 0.9)
       end
 
-      it 'saves reorderings of scores' do
-        scorer1 = proc { {value: 1} }
-        score1  = Score.new(:tot, {label: "Totaalscore", score: true}, &scorer1)
-        scorer2 = proc { {value: 2} }
-        score2  = Score.new(:sub, {label: "Subscore", score: true}, &scorer2)
-        questionnaire.score_builders = {}
-        questionnaire.push_score_builder score1
-        questionnaire.push_score_builder score2
-        answer.update_scores
-        answer.scores.keys.should eq %w(tot sub)
-        answer.reload.scores.keys.should eq %w(tot sub)
-
-        questionnaire.score_builders = {}
-        questionnaire.push_score_builder score2
-        questionnaire.push_score_builder score1
-        answer.update_scores
-        answer.scores.keys.should eq %w(sub tot)
-        answer.reload.scores.keys.should eq %w(sub tot)
-      end
     end
   end
 end
