@@ -6,7 +6,9 @@ module Quby
 
     def update(new_attributes = {})
       attribute_filter   = FiltersAnswerValue.new(@answer.questionnaire)
-      @answer.attributes = attribute_filter.filter(new_attributes)
+      attribute_filter.filter(new_attributes).each do |name, value|
+        @answer.send("#{name}=", value)
+      end
 
       @answer.extend AnswerValidations
       @answer.cleanup_input
@@ -15,7 +17,7 @@ module Quby
       if @answer.errors.empty?
         @answer.set_completed_at
         @answer.calculate_builders
-        @answer.save
+        Quby.answer_repo.update!(@answer)
         succeed!
       else
         fail!

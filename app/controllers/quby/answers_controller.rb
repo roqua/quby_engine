@@ -30,7 +30,7 @@ module Quby
     rescue_from TimestampValidationError, with: :bad_timestamp
     rescue_from InvalidAuthorization,     with: :bad_authorization
     rescue_from MissingAuthorization,     with: :bad_authorization
-    rescue_from Quby::QuestionnaireFinder::RecordNotFound, with: :bad_questionnaire
+    rescue_from Quby::QuestionnaireRepos::DiskRepo::RecordNotFound, with: :bad_questionnaire
 
     def show
       redirect_to action: "edit"
@@ -137,7 +137,7 @@ module Quby
     end
 
     def find_answer
-      @answer = @questionnaire.answers.find(params[:id])
+      @answer = Quby.answer_repo.find(@questionnaire.key, params[:id])
     end
 
     def check_aborted

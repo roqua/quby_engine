@@ -5,11 +5,11 @@ module Quby
     include EngineControllerTesting
 
     let(:answer)        { double("Answer", id: '1') }
-    let(:answers)       { double("Answers", find: answer) }
-    let(:questionnaire) { double("Questionnaire", renderer_version: :v1, answers: answers, errors: []) }
+    let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: []) }
 
     before do
       Quby::Settings.stub(authorize_with_hmac: false)
+      Quby.answer_repo.stub(:find).with('honos', '1').and_return(answer)
       Quby.questionnaire_finder.stub(find: questionnaire)
     end
 

@@ -1,58 +1,64 @@
+require 'virtus'
+
 module Quby
   class Answer
     def self.questionnaire_finder
       Quby.questionnaire_finder
     end
 
-    include ::Mongoid::Document
-    include ::Mongoid::Timestamps
+    extend ActiveModel::Naming
+    include Virtus
     include OutcomeCalculations
 
-    store_in :answers
+    attribute :_id, String
+    attribute :questionnaire_id,     Integer
+    attribute :questionnaire_key,    String
+    attribute :value,                Hash
+    attribute :patient_id,           String
+    attribute :patient,              Hash,    default: {}
+    attribute :token,                String
+    attribute :active,               Boolean, default: true
+    attribute :test,                 Boolean, default: false
+    attribute :completed_at,         Time
+    attribute :outcome_generated_at, Time
+    attribute :scores,               Hash,    default: {}
+    attribute :actions,              Hash,    default: {}
+    attribute :completion,           Hash,    default: {}
+    attribute :dsl_last_update
 
-    identity type: String
-    field :questionnaire_id,     type: Integer
-    field :questionnaire_key,    type: String
-    field :value,                type: Hash
-    field :value_by_values,      type: Hash
-    field :patient,              type: Hash,    default: {}
-    field :token,                type: String
-    field :active,               type: Boolean, default: true
-    field :test,                 type: Boolean, default: false
-    field :completed_at,         type: Time
-    field :outcome_generated_at, type: Time
-    field :scores,               type: Hash,    default: {}
-    field :actions,              type: Hash,    default: {}
-    field :completion,           type: Hash,    default: {}
+    attr_accessor :aborted
+
+    # For setting raw content values and failed validations
+    attr_accessor :extra_question_values
+    attr_accessor :extra_failed_validations
+
+    def id
+      _id
+    end
+
+    def to_param
+      id
+    end
+
+    def attributes
+      super.with_indifferent_access
+    end
+
+    def errors
+      @errors ||= ActiveModel::Errors.new(self)
+    end
+
+    def valid?
+      errors.empty?
+    end
 
     # Faux belongs_to :questionnaire
     def questionnaire
       self.class.questionnaire_finder.find(questionnaire_key)
     end
 
-    after_initialize :enhance_by_dsl
-    before_validation(on: :create) { set_default_answer_values }
-    before_validation(on: :create) { generate_random_token }
-
-    before_save do
-      self[:questionnaire_key] = questionnaire.key
-      self[:value_by_values] = value_by_values
-    end
-
-    validates :token, presence: true, length: { minimum: 4 }
-
-    attr_accessor :aborted
-    # Values in globalpark coding that need to be recoded and used to initialize this answer
-    attr_accessor :roqua_vals
-
-    # For setting raw content values and failed validations
-    attr_accessor :extra_question_values
-    attr_accessor :extra_failed_validations
-
-    attr_accessor :dsl_last_update
-
     def set_completed_at
-      self[:completed_at] ||= Time.now if completed? || @aborted
+      self.completed_at = Time.now if completed_at.blank? && (completed? || @aborted)
     end
 
     def enhance_by_dsl
@@ -60,7 +66,7 @@ module Quby
     end
 
     def patient_id
-      self[:patient][:id] || self[:patient_id]
+      patient[:id] || super
     end
 
     def extra_question_values
@@ -130,11 +136,11 @@ module Quby
     end
 
     def scores
-      self[:scores].with_indifferent_access
+      super.with_indifferent_access
     end
 
     def actions
-      self[:actions].with_indifferent_access
+      super.with_indifferent_access
     end
 
     def as_json(options = {})
@@ -187,14 +193,6 @@ module Quby
 
     def add_error(question, validationtype, message)
       errors.add(question.key, {message: message, valtype: validationtype})
-    end
-
-    def generate_random_token
-      self.token ||= SecureRandom.hex(8)
-    end
-
-    def set_default_answer_values
-      self.value = (questionnaire.default_answer_value || {}).merge(self.value || {})
     end
   end
 end

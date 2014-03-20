@@ -12,7 +12,7 @@ module Quby
     end
 
     def questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireFinder.new(Quby.questionnaires_path)
+      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.questionnaires_path)
     end
 
     def show_exceptions
@@ -21,6 +21,14 @@ module Quby
 
     def show_exceptions=(bool)
       @show_exceptions = bool
+    end
+
+    def answer_repo
+      @answer_repo ||= Quby::AnswerRepos::MongoidRepo.new
+    end
+
+    def answer_repo=(repo)
+      @answer_repo = repo
     end
   end
 end

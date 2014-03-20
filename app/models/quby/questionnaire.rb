@@ -16,11 +16,6 @@ module Quby
       questionnaire_finder.exists?(key)
     end
 
-    # Faux has_many :answers
-    def answers
-      Quby::Answer.where(questionnaire_key: self.key)
-    end
-
     def initialize(key, definition = nil, last_update = Time.now)
       @key = key
       @definition = definition if definition

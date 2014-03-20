@@ -23,7 +23,7 @@ module Quby
     end
 
     before do
-      Answer.any_instance.stub(:questionnaire) { questionnaire }
+      Quby.questionnaire_finder.stub(find: questionnaire)
     end
 
     describe '#value_by_values' do
@@ -100,15 +100,15 @@ module Quby
     end
 
     describe "#scores" do
-      let(:answer) { Answer.create! }
+      let(:answer) { Quby.answer_repo.create!('foo') }
 
       it "should be initialized as an empty hash" do
         answer.scores.should eq({})
       end
 
       it 'can be accessed with indifferent access' do
-        answer = Answer.create!(scores: {tot: {label: 'Totaal', value: 4}})
-        answer = Answer.find(answer.id)
+        answer = Quby.answer_repo.create!('foo', scores: {tot: {label: 'Totaal', value: 4}})
+        answer = Quby.answer_repo.reload(answer)
         answer.scores[:tot][:label].should eq 'Totaal'
         answer.scores["tot"]["value"].should eq 4
       end
@@ -116,39 +116,39 @@ module Quby
 
     describe '#actions' do
       it 'is initialized with empty hash' do
-        answer = Answer.create!
+        answer = Quby.answer_repo.create!('foo')
         answer.actions.should == {}
       end
 
       it 'can be accessed with indifferent access' do
-        answer = Answer.create!(actions: {alarm: [:v1, :v2]})
-        answer = Answer.find(answer.id)
+        answer = Quby.answer_repo.create!('foo', actions: {alarm: [:v1, :v2]})
+        answer = Quby.answer_repo.find('foo', answer.id)
         answer.actions[:alarm].should eq [:v1, :v2]
         answer.actions["alarm"].should eq [:v1, :v2]
       end
     end
 
     describe '#patient_id' do
-      let(:answer) { Answer.create! }
+      let(:answer) { Quby.answer_repo.create!('foo') }
 
       it 'returns the patient[:id]' do
-        answer[:patient][:id] = 123
-        answer.patient_id.should == 123
+        answer[:patient][:id] = "123"
+        answer.patient_id.should == "123"
       end
 
       it 'returns the patient_id if set in attributes' do
-        answer[:patient_id] = 123
-        answer.patient_id.should == 123
+        answer[:patient_id] = "123"
+        answer.patient_id.should == "123"
       end
     end
 
     describe "#set_completed_at" do
-      let(:answer) { Answer.create! }
+      let(:answer) { Quby.answer_repo.create!('foo') }
       let(:time)   { Time.gm(2011, 11, 5, 11, 24, 00) }
 
       it "should record the time when answer is completed" do
         Timecop.freeze(time) do
-          answer.update_attributes!(q1: "Foo")
+          answer.q1 = "Foo"
           answer.set_completed_at
         end
         answer.completed_at.should == time
@@ -156,7 +156,7 @@ module Quby
 
       it "should record the time when answer is aborted" do
         Timecop.freeze(time) do
-          answer.update_attributes!(aborted: true)
+          answer.aborted = true
           answer.set_completed_at
         end
         answer.completed_at.should == time
@@ -169,10 +169,10 @@ module Quby
 
       it "should not change when answer was previously completed" do
         Timecop.freeze(time) do
-          answer.update_attributes!(q1: "Foo")
+          answer.q1 = "Foo"
           answer.set_completed_at
         end
-        answer.update_attributes!(q1: "Bar")
+        answer.q1 = "Bar"
         answer.set_completed_at
         answer.completed_at.should == time
       end
