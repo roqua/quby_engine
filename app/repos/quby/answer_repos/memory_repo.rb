@@ -10,7 +10,7 @@ module Quby
         records = storage.values.select do |record|
           answer_ids.include?(record._id) && record.completed_at.present? && record.completed_at > time
         end
-        records.map {|record| entity(record) }
+        records.map { |record| entity(record) }
       end
 
       private

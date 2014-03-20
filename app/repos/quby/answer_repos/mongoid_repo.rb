@@ -28,7 +28,7 @@ module Quby
 
       def find_completed_after(time, answer_ids)
         records = Record.any_in(_id: answer_ids).where(:completed_at.gt => time)
-        records.map {|record| entity(record) }
+        records.map { |record| entity(record) }
       end
 
       def update!(answer)
