@@ -55,7 +55,6 @@ group :test, :development do
 end
 
 group :test do
-  gem 'guard-jasmine'
   gem 'fuubar'
   gem 'timecop'
 
