@@ -7,7 +7,7 @@ test:
         environment:
           RAILS_ENV: test
           RACK_ENV: test
-    - bundle exec guard-jasmine -s webrick -c spec/dummy/config.ru --server-timeout=120 --timeout=60000 --specdoc=failure:
+    - bundle exec teaspoon --server=webrick --server-timeout=120:
         environment:
           RAILS_ENV: test
           RACK_ENV: test
