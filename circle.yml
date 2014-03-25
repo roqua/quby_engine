@@ -7,7 +7,7 @@ test:
         environment:
           RAILS_ENV: test
           RACK_ENV: test
-    - bundle exec teaspoon --server=webrick --server-timeout=120:
+    - bundle exec teaspoon:
         environment:
           RAILS_ENV: test
           RACK_ENV: test

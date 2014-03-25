@@ -42,7 +42,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
   gem 'teaspoon',            '~> 0.7.9'
-  gem 'jasmine-jquery-rails'
   gem 'spork'
   gem 'rubocop',             '~> 0.19.0'
 
