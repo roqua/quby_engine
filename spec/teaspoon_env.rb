@@ -3,8 +3,8 @@
 # is not possible.
 #
 # Set RAILS_ROOT and load the environment.
-ENV["RAILS_ROOT"] = File.expand_path("../../", __FILE__)
-require File.expand_path("../../config/environment", __FILE__)
+ENV["RAILS_ROOT"] = File.expand_path("../dummy/", __FILE__)
+require File.expand_path("../dummy/config/environment", __FILE__)
 
 # Provide default configuration.
 #
