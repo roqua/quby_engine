@@ -41,21 +41,19 @@ end
 group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
-
-  gem 'guard-rspec'
+  gem 'teaspoon',            '~> 0.7.9'
   gem 'spork'
-  gem 'guard-spork'
-  gem 'guard-rubocop'
   gem 'rubocop',             '~> 0.19.0'
 
-  gem 'jasminerice'
-  gem 'jasmine-jquery-rails'
+  gem 'guard-rspec'
+  gem 'guard-teaspoon'
+  gem 'guard-spork'
+  gem 'guard-rubocop'
 
   gem 'fakefs', :require => 'fakefs/safe'
 end
 
 group :test do
-  gem 'guard-jasmine'
   gem 'fuubar'
   gem 'timecop'
 
