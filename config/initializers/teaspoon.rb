@@ -6,7 +6,7 @@ Teaspoon.setup do |config|
 
   # This defaults to Rails.root if left nil. If you're testing an engine using a dummy application it can be useful to
   # set this to your engines root.. E.g. `Teaspoon::Engine.root`
-  config.root = nil
+  config.root = Quby::Engine.root
 
   # These paths are appended to the Rails assets paths (relative to config.root), and by default is an array that you
   # can replace or add to.
