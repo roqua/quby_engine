@@ -1,6 +1,11 @@
 machine:
   ruby:
     version: 2.1.0
+dependencies:
+  override:
+    - "echo 'ruby-2.1.0' > .ruby-version"
+    - "bundle install"
+    - "bundle appraisal install"
 test:
   override:
     - bundle exec appraisal rails32 rspec spec:
