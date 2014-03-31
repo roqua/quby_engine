@@ -16,15 +16,15 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.markdown"]
   s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "~> 3.1"
+  s.add_dependency "rails", ">= 3.2", '< 5.0'
 
   # Databases
-  s.add_dependency "mongoid", "~> 2.2"
+  s.add_dependency "mongoid", ">= 2.2", '< 5.0'
 
   # Views
   s.add_dependency "haml"
-  s.add_dependency "sass-rails", '~> 3.2'
-  s.add_dependency "maruku", '0.6.1'
+  s.add_dependency "sass-rails",    '>= 3.2', '< 5.0'
+  s.add_dependency "maruku",        '0.6.1'
   s.add_dependency "compass-rails", '1.0.1'
   s.add_dependency "susy", "~> 1.0.rc"
 
@@ -36,10 +36,16 @@ Gem::Specification.new do |s|
   s.add_dependency "virtus", "~> 0.5.4"
 
   s.add_dependency "jquery-rails", "~> 2.2.1"
-  s.add_dependency "fd-slider-rails", "~> 0.5.1"
 
+  s.add_development_dependency 'rspec-rails',      '~> 2.14.0'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'teaspoon',         '~> 0.7.9'
+  s.add_development_dependency 'rubocop',          '~> 0.19.0'
+  s.add_development_dependency 'fakefs'
+  s.add_development_dependency 'timecop'
+  s.add_development_dependency 'fuubar'
   s.add_development_dependency "database_cleaner"
-  s.add_development_dependency "poltergeist", "= 1.3.0"
+  s.add_development_dependency "poltergeist",      "= 1.3.0"
   s.add_development_dependency "launchy"
   s.add_development_dependency "pry"
   s.add_development_dependency 'capybara-screenshot', '= 0.3.14'

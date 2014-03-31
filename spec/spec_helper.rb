@@ -9,18 +9,25 @@ if ENV["CODECLIMATE_REPO_TOKEN"]
   CodeClimate::TestReporter.start
 end
 
-# Loading more in this block will cause your tests to run faster. However,
-# if you change any configuration or code from libraries loaded here, you'll
-# need to restart spork for it take effect.
-
-# This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
+ENV["MONGOID_ENV"] = "test"
+
+# if Mongoid::VERSION > '3'
+#   Mongoid.load!("#{File.dirname(__FILE__)}/mongoid3.yml")
+# else
+#   Mongoid.load!("#{File.dirname(__FILE__)}/mongoid2.yml")
+# end
+# Mongoid.logger.level = Logger::INFO
+
+
 require File.expand_path("../dummy/config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
 require 'capybara/poltergeist'
+require 'timecop'
+require 'fakefs/safe'
 require 'launchy'
 
 Capybara.default_selector = :css

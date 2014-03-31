@@ -6,7 +6,6 @@ require 'mongoid-app_settings'
 require 'sass-rails'
 require 'compass-rails'
 require 'jquery-rails'
-require 'fd-slider-rails'
 require 'susy'
 require 'andand'
 
