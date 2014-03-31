@@ -296,6 +296,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal (= 1.0.0.beta3)
   bson_ext
+  bundler
   capybara
   capybara-screenshot (= 0.3.14)
   codeclimate-test-reporter
