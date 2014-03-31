@@ -4,7 +4,7 @@ machine:
 dependencies:
   override:
     - "echo 'ruby-2.1.0' > .ruby-version"
-    - "bundle install"
+    - "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --clean"
     - "bundle exec appraisal install"
 test:
   override:
