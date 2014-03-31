@@ -16,7 +16,6 @@ gem 'roqua-support', git: 'git://github.com/roqua/roqua-support.git'
 group :assets do
   gem 'coffee-rails'
   gem 'uglifier'
-  gem 'compass'
 end
 
 platforms :ruby, :jruby do

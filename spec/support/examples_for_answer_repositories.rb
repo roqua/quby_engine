@@ -2,6 +2,7 @@ shared_examples "an answer repository" do
   let(:repo) { described_class.new }
 
   it 'creates new records' do
+    require 'pry';binding.pry
     answer = repo.create!('big', value: {v_1: 'test'})
     answer.value.should eq("v_1" => 'test')
   end

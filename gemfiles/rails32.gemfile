@@ -8,11 +8,11 @@ gem "roqua-support", :git=>"git://github.com/roqua/roqua-support.git"
 gem "rails", "~> 3.2.17"
 gem "mongoid", "~> 2.8"
 gem "haml", "3.1.8"
+gem "compass-rails", "= 1.0.1"
 
 group :assets do
   gem "coffee-rails"
   gem "uglifier"
-  gem "compass"
 end
 
 group :test, :development do

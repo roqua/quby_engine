@@ -3,11 +3,19 @@ machine:
     version: 2.1.0
 test:
   override:
-    - bundle exec rspec spec:
+    - bundle exec appraisal rails32 rspec spec:
         environment:
           RAILS_ENV: test
           RACK_ENV: test
-    - bundle exec teaspoon:
+    - bundle exec appraisal rails32 teaspoon:
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+    - bundle exec appraisal rails40 rspec spec:
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+    - bundle exec appraisal rails40 teaspoon:
         environment:
           RAILS_ENV: test
           RACK_ENV: test

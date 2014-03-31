@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency "haml"
   s.add_dependency "sass-rails",    '>= 3.2', '< 5.0'
   s.add_dependency "maruku",        '0.6.1'
-  s.add_dependency "compass-rails", '1.0.1'
+  s.add_dependency "compass-rails"
   s.add_dependency "susy", "~> 1.0.rc"
 
   # Helpers
@@ -37,6 +37,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "jquery-rails", "~> 2.2.1"
 
+  s.add_development_dependency 'combustion',       '~> 0.5.1'
   s.add_development_dependency 'rspec-rails',      '~> 2.14.0'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'teaspoon',         '~> 0.7.9'
