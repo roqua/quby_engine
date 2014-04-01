@@ -115,20 +115,16 @@ feature 'Showing questions' do
     click_on "Klaar"
     page.should have_content("Uw antwoorden zijn opgeslagen")
 
-    Quby.answer_repo.reload(answer).value.should eq({"v_5" => {"v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0},
-                                                     "v_5_a1" => 0,
-                                                     "v_5_a2" => 0,
-                                                     "v_5_a3" => 0,
-                                                     "v_6" => "a6",
-                                                     "v_7" => "a5",
-                                                     "v_10_dd" => "10",
-                                                     "v_10_mm" => "02",
-                                                     "v_10_yyyy" => "1999",
-                                                     "v_11" => "some string",
-                                                     "v_12" => "123",
-                                                     "v_13" => "some textarea content",
-                                                     "v_8" => "a1",
-                                                     "v_9" => "a1"})
+    Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6",
+                                                                 "v_7" => "a5",
+                                                                 "v_10_dd" => "10",
+                                                                 "v_10_mm" => "02",
+                                                                 "v_10_yyyy" => "1999",
+                                                                 "v_11" => "some string",
+                                                                 "v_12" => "123",
+                                                                 "v_13" => "some textarea content",
+                                                                 "v_8" => "a1",
+                                                                 "v_9" => "a1"))
   end
 
   scenario 'by clicking a checkbox option that shows a question', js: true do
@@ -146,14 +142,10 @@ feature 'Showing questions' do
     click_on "Klaar"
     page.should have_content("Uw antwoorden zijn opgeslagen")
 
-    Quby.answer_repo.reload(answer).value.should eq({"v_5" => {"v_5_a1" => 1, "v_5_a2" => 1, "v_5_a3" => 0},
-                                                     "v_5_a1" => 1,
-                                                     "v_5_a2" => 1,
-                                                     "v_5_a3" => 0,
-                                                     "v_7" => "a1",
-                                                     "v_10_dd" => "",
-                                                     "v_10_mm" => "",
-                                                     "v_10_yyyy" => ""})
+    Quby.answer_repo.reload(answer).value.should eq(answer_value("v_5" => {"v_5_a1" => 1, "v_5_a2" => 1, "v_5_a3" => 0},
+                                                                 "v_5_a1" => 1,
+                                                                 "v_5_a2" => 1,
+                                                                 "v_7" => "a1"))
   end
 
   scenario 'by clicking a select option that shows a question', js: true do
@@ -172,15 +164,7 @@ feature 'Showing questions' do
     click_on "Klaar"
     page.should have_content("Uw antwoorden zijn opgeslagen")
 
-    Quby.answer_repo.reload(answer).value.should eq({"v_4" => "a1",
-                                                     "v_5" => {"v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0},
-                                                     "v_5_a1" => 0,
-                                                     "v_5_a2" => 0,
-                                                     "v_5_a3" => 0,
-                                                     "v_10_dd" => "",
-                                                     "v_10_mm" => "",
-                                                     "v_10_yyyy" => "",
-                                                     "v_9" => "a1"})
+    Quby.answer_repo.reload(answer).value.should eq(answer_value("v_4" => "a1", "v_9" => "a1"))
   end
 
   scenario 'by visiting an answer that has an option that shows something filled in', js: true do
@@ -190,11 +174,34 @@ feature 'Showing questions' do
   end
 
   scenario 'unshowing by deselecting a question', js: true do
-    visit_new_answer_for(questionnaire)
-    choose "answer_v_6_a6"
-    choose "answer_v_7_a5"
-    choose "answer_v_7_a5"
+    answer = visit_new_answer_for(questionnaire)
+
+    # Choose something from question that will be hidden
+    click_on "Volgende vraag"
+    choose "answer_v_8_a1"
+
+    click_on "Vorige vraag"
+    choose "answer_v_6_a6" # Hides v_8
+    choose "answer_v_7_a5" # Select option that shows v_8
+    choose "answer_v_7_a5" # Deselect option that shows v_8
+
+    # Test that question got hidden
     page.should have_selector("[data-for=v_8].hide", count: 8, visible: false)
+
+    # Test that data from hidden v_8 does not get saved
+    click_on "Volgende vraag"
+    click_on "Klaar"
+    page.should have_content("Uw antwoorden zijn opgeslagen")
+
+    Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6"))
+  end
+
+  def answer_value(override = {})
+    {
+      "v_5" => {"v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0},
+      "v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0,
+      "v_10_dd" => "", "v_10_mm" => "", "v_10_yyyy" => ""
+    }.merge(override)
   end
 end
 
