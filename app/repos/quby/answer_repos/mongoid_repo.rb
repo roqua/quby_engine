@@ -13,7 +13,9 @@ module Quby
         identity type: String
         field :questionnaire_id,     type: Integer
         field :questionnaire_key,    type: String
+        field :raw_params,           type: Hash
         field :value,                type: Hash
+        field :import_notes,         type: Hash
         field :patient,              type: Hash,    default: {}
         field :token,                type: String
         field :active,               type: Boolean, default: true

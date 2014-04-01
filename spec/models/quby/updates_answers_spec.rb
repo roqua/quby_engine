@@ -6,6 +6,11 @@ module Quby
     let(:updates_answers) { UpdatesAnswers.new answer }
 
     describe '#update' do
+      it 'sets the raw parameters on the answer' do
+        updates_answers.update("v_6" => "value", 'unknown_field' => 'value_should_be_retained')
+        Quby.answer_repo.reload(answer).raw_params["unknown_field"].should == "value_should_be_retained"
+      end
+
       it 'sets answer value for the provided key to the provided value' do
         updates_answers.update("v_6" => "value")
         Quby.answer_repo.reload(answer).attributes["value"]["v_6"].should == "value"

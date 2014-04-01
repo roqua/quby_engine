@@ -5,6 +5,8 @@ module Quby
     end
 
     def update(new_attributes = {})
+      @answer.raw_params = new_attributes
+
       attribute_filter   = FiltersAnswerValue.new(@answer.questionnaire)
       attribute_filter.filter(new_attributes).each do |name, value|
         @answer.send("#{name}=", value)
