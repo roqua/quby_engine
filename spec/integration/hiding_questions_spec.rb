@@ -89,29 +89,98 @@ feature 'Showing questions' do
   let(:questionnaire) { Quby.questionnaire_finder.find("question_hiding") }
 
   scenario 'by clicking a radio option that shows a question', js: true do
-    visit_new_answer_for(questionnaire)
-    choose "answer_v_6_a6"
-    choose "answer_v_7_a5"
+    answer = visit_new_answer_for(questionnaire)
+    choose "answer_v_6_a6" # Trigger a hiding condition for v_8
+    choose "answer_v_7_a5" # Trigger an overriding show condition for v_8
+
+    # Test that fields get shown
     page.should have_selector("[data-for=v_8].show", count: 8, visible: false)
     page.should have_selector("[data-for=v_10].show, #answer_v_10_input.show", count: 2, visible: false)
     page.should have_selector("[data-for=v_11].show, #answer_v_11_input.show", count: 2, visible: false)
     page.should have_selector("[data-for=v_12].show, #answer_v_12_input.show", count: 2, visible: false)
     page.should have_selector("[data-for=v_13].show, #answer_v_13_input.show", count: 2, visible: false)
+
+    # Test that data can be saved
+    fill_in 'answer_v_10_dd',   with: '10'
+    fill_in 'answer_v_10_mm',   with: '02'
+    fill_in 'answer_v_10_yyyy', with: '1999'
+    fill_in 'answer_v_11', with: 'some string'
+    fill_in 'answer_v_12', with: '123'
+    fill_in 'answer_v_13', with: 'some textarea content'
+
+    click_on 'Volgende vraag'
+    choose "answer_v_8_a1"
+    choose "answer_v_9_a1"
+    click_on "Volgende vraag"
+    click_on "Klaar"
+    page.should have_content("Uw antwoorden zijn opgeslagen")
+
+    Quby.answer_repo.reload(answer).value.should eq({"v_5" => {"v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0},
+                                                     "v_5_a1" => 0,
+                                                     "v_5_a2" => 0,
+                                                     "v_5_a3" => 0,
+                                                     "v_6" => "a6",
+                                                     "v_7" => "a5",
+                                                     "v_10_dd" => "10",
+                                                     "v_10_mm" => "02",
+                                                     "v_10_yyyy" => "1999",
+                                                     "v_11" => "some string",
+                                                     "v_12" => "123",
+                                                     "v_13" => "some textarea content",
+                                                     "v_8" => "a1",
+                                                     "v_9" => "a1"})
   end
 
   scenario 'by clicking a checkbox option that shows a question', js: true do
-    visit_new_answer_for(questionnaire)
+    answer = visit_new_answer_for(questionnaire)
     check "answer_v_5_a1"
     check "answer_v_5_a2"
+
+    # Test that fields get shown
     page.should have_selector("#item_v_7.show")
+
+    # Test that data can be saved
+    choose "answer_v_7_a1"
+    click_on "Volgende vraag"
+    click_on "Volgende vraag"
+    click_on "Klaar"
+    page.should have_content("Uw antwoorden zijn opgeslagen")
+
+    Quby.answer_repo.reload(answer).value.should eq({"v_5" => {"v_5_a1" => 1, "v_5_a2" => 1, "v_5_a3" => 0},
+                                                     "v_5_a1" => 1,
+                                                     "v_5_a2" => 1,
+                                                     "v_5_a3" => 0,
+                                                     "v_7" => "a1",
+                                                     "v_10_dd" => "",
+                                                     "v_10_mm" => "",
+                                                     "v_10_yyyy" => ""})
   end
 
   scenario 'by clicking a select option that shows a question', js: true do
-    visit_new_answer_for(questionnaire)
+    answer = visit_new_answer_for(questionnaire)
     select "show 2,4,5,6,7,8", from: "answer[v_4]"
     select "hide 2", from: "answer[v_4]"
     select "show 2,4,5,6,7,8", from: "answer[v_4]"
+
+    # Test that fields get shown
     page.should have_selector("[data-for=v_9].show", count: 8, visible: false)
+
+    # Test that data can be saved
+    click_on "Volgende vraag"
+    choose "answer_v_9_a1"
+    click_on "Volgende vraag"
+    click_on "Klaar"
+    page.should have_content("Uw antwoorden zijn opgeslagen")
+
+    Quby.answer_repo.reload(answer).value.should eq({"v_4" => "a1",
+                                                     "v_5" => {"v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0},
+                                                     "v_5_a1" => 0,
+                                                     "v_5_a2" => 0,
+                                                     "v_5_a3" => 0,
+                                                     "v_10_dd" => "",
+                                                     "v_10_mm" => "",
+                                                     "v_10_yyyy" => "",
+                                                     "v_9" => "a1"})
   end
 
   scenario 'by visiting an answer that has an option that shows something filled in', js: true do

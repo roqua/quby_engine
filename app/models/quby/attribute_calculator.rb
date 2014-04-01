@@ -17,7 +17,7 @@ module Quby
           @hidden.push question.key
         end
 
-        if value and [:radio, :scale].include?(question.type)
+        if value and [:radio, :scale, :select].include?(question.type)
           question.options.each do |opt|
             if value.to_sym == opt.key
               if opt.hides_questions.present?
