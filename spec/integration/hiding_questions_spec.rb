@@ -25,7 +25,6 @@ feature 'Hiding and showing questions' do
     end
 
     scenario 'by clicking a checkbox option that hides a question', js: true do
-      pending "BROKEN"
       answer = visit_new_answer_for(questionnaire)
       choose "answer_v_7_a2" # Give an answer for the question that will be hidden
       check "answer_v_5_a2"  # Hides the v_7 question
