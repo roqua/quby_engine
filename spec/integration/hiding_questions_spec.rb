@@ -21,7 +21,7 @@ feature 'Hiding and showing questions' do
       page.should have_selector("[data-for=v_13].hide, #answer_v_13_input.hide", count: 2, visible: false)
 
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_7" => "a3"))
+      answer.reload.value.should eq(answer_value("v_6" => "a6", "v_7" => "a3"))
     end
 
     scenario 'by clicking a checkbox option that hides a question', js: true do
@@ -34,7 +34,7 @@ feature 'Hiding and showing questions' do
       # Test that data gets saved
       goto_second_page
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value
+      answer.reload.value
         .should eq(answer_value("v_5" => {"v_5_a1" => 0, "v_5_a2" => 1, "v_5_a3" => 1},
                                 "v_5_a1" => 0, "v_5_a2" => 1, "v_5_a3" => 1))
     end
@@ -49,7 +49,7 @@ feature 'Hiding and showing questions' do
 
       goto_second_page
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_4" => "a2"))
+      answer.reload.value.should eq(answer_value("v_4" => "a2"))
     end
 
     scenario 'by visiting an answer that has an option that hides something filled in', js: true do
@@ -58,7 +58,7 @@ feature 'Hiding and showing questions' do
       page.should have_selector("[data-for=v_8].hide", count: 8, visible: false)
 
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6"))
+      answer.reload.value.should eq(answer_value("v_6" => "a6"))
     end
 
     scenario 'unhiding by deselecting a question', js: true do
@@ -68,7 +68,7 @@ feature 'Hiding and showing questions' do
       page.should have_selector("[data-for=v_8].show", count: 8, visible: false)
 
       goto_second_page and goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value)
+      answer.reload.value.should eq(answer_value)
     end
 
     scenario 'does not hide in bulk version due to different css', js: true do
@@ -79,7 +79,7 @@ feature 'Hiding and showing questions' do
       choose "answer_v_8_a2"
 
       save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_8" => "a2"))
+      answer.reload.value.should eq(answer_value("v_6" => "a6", "v_8" => "a2"))
     end
   end
 
@@ -140,7 +140,7 @@ feature 'Hiding and showing questions' do
       choose "answer_v_9_a1"
 
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6",
+      answer.reload.value.should eq(answer_value("v_6" => "a6",
                                                                    "v_7" => "a5",
                                                                    "v_10_dd" => "10",
                                                                    "v_10_mm" => "02",
@@ -164,7 +164,7 @@ feature 'Hiding and showing questions' do
       choose "answer_v_7_a1"
 
       goto_second_page and goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value
+      answer.reload.value
         .should eq(answer_value("v_5" => {"v_5_a1" => 1, "v_5_a2" => 1, "v_5_a3" => 0},
                                 "v_5_a1" => 1, "v_5_a2" => 1, "v_7" => "a1"))
     end
@@ -182,7 +182,7 @@ feature 'Hiding and showing questions' do
       goto_second_page
       choose "answer_v_9_a1"
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_4" => "a1", "v_9" => "a1"))
+      answer.reload.value.should eq(answer_value("v_4" => "a1", "v_9" => "a1"))
     end
 
     scenario 'by visiting an answer that has an option that shows something filled in', js: true do
@@ -192,7 +192,7 @@ feature 'Hiding and showing questions' do
       page.should have_selector("[data-for=v_8].show", count: 8)
       choose "answer_v_8_a3"
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_7" => "a5", "v_8" => "a3"))
+      answer.reload.value.should eq(answer_value("v_6" => "a6", "v_7" => "a5", "v_8" => "a3"))
     end
 
     scenario 'unshowing by deselecting a question', js: true do
@@ -212,7 +212,7 @@ feature 'Hiding and showing questions' do
 
       # Test that data from hidden v_8 does not get saved
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6"))
+      answer.reload.value.should eq(answer_value("v_6" => "a6"))
     end
   end
 
@@ -231,7 +231,7 @@ feature 'Hiding and showing questions' do
       # Test that data can be saved
       choose "answer_v_9_a2"
       goto_third_page and save_form
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_7" => "a5", "v_9" => "a2"))
+      answer.reload.value.should eq(answer_value("v_7" => "a5", "v_9" => "a2"))
     end
 
     scenario 'are visible in bulk view', js: true do
@@ -241,7 +241,7 @@ feature 'Hiding and showing questions' do
       choose "answer_v_9_a2"
       save_form
       page.should have_content("Uw antwoorden zijn opgeslagen")
-      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_9" => "a2"))
+      answer.reload.value.should eq(answer_value("v_9" => "a2"))
     end
   end
 
