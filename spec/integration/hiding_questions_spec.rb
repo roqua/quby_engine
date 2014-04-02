@@ -72,12 +72,12 @@ feature 'Hiding and showing questions' do
     end
 
     scenario 'does not hide in bulk version due to different css', js: true do
-      pending "BROKEN"
       answer = visit_new_answer_for(questionnaire, "bulk")
       choose "answer_v_6_a6"
       page.should have_selector("[data-for=v_8].hide", count: 8, visible: true)
-      choose "answer_v_8_a2"
 
+      pending "Actual saving of values is BROKEN"
+      choose "answer_v_8_a2"
       save_form
       answer.reload.value.should eq(answer_value("v_6" => "a6", "v_8" => "a2"))
     end
@@ -236,9 +236,10 @@ feature 'Hiding and showing questions' do
     end
 
     scenario 'are visible in bulk view', js: true do
-      pending "BROKEN"
       answer = visit_new_answer_for(questionnaire, "bulk")
       page.should have_selector("[data-for=v_9].hide", count: 8, visible: true)
+
+      pending "Actual saving of values is BROKEN"
       choose "answer_v_9_a2"
       save_form
       page.should have_content("Uw antwoorden zijn opgeslagen")
