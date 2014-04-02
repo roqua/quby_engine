@@ -140,16 +140,17 @@ feature 'Hiding and showing questions' do
       choose "answer_v_9_a1"
 
       goto_third_page and save_form
-      answer.reload.value.should eq(answer_value("v_6" => "a6",
-                                                                   "v_7" => "a5",
-                                                                   "v_10_dd" => "10",
-                                                                   "v_10_mm" => "02",
-                                                                   "v_10_yyyy" => "1999",
-                                                                   "v_11" => "some string",
-                                                                   "v_12" => "123",
-                                                                   "v_13" => "some textarea content",
-                                                                   "v_8" => "a1",
-                                                                   "v_9" => "a1"))
+      answer.reload.value
+        .should eq(answer_value("v_6" => "a6",
+                                "v_7" => "a5",
+                                "v_10_dd" => "10",
+                                "v_10_mm" => "02",
+                                "v_10_yyyy" => "1999",
+                                "v_11" => "some string",
+                                "v_12" => "123",
+                                "v_13" => "some textarea content",
+                                "v_8" => "a1",
+                                "v_9" => "a1"))
     end
 
     scenario 'by clicking a checkbox option that shows a question', js: true do
