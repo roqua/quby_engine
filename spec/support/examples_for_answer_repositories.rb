@@ -48,4 +48,10 @@ shared_examples "an answer repository" do
     repo.update!(answer)
     repo.reload(answer).scores.keys.should eq %w(sub tot)
   end
+
+  it 'finds answers by given conditions' do
+    repo.create!('big', scores: {tot: {label: 'Totaalscore'}, sub: {label: 'Subscore'}}, test: true)
+    repo.create!('mansa', scores: {tot: {label: 'Totaalscore'}, sub: {label: 'Subscore'}}, test: false)
+    expect(repo.where(test: true).first.questionnaire_key).to eq 'big'
+  end
 end

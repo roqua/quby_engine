@@ -10,13 +10,27 @@ module Quby
         records = storage.values.select do |record|
           answer_ids.include?(record._id) && record.completed_at.present? && record.completed_at > time
         end
-        records.map { |record| entity(record) }
+        records_with_quby(records)
       end
 
       private
 
       def find_record(id)
         storage[id]
+      end
+
+      def find_records(conditions = {})
+        records = storage.values.select do |record|
+          record_meets_conditions?(record, conditions)
+        end
+        records_with_quby(records)
+      end
+
+      def record_meets_conditions?(record, conditions = {})
+        conditions.keys.each do |key|
+          return false if record[key] != conditions[key]
+        end
+        true
       end
 
       def build_record
@@ -33,6 +47,10 @@ module Quby
 
       def entity(record)
         Quby::Answer.new(record.to_h).tap(&:enhance_by_dsl)
+      end
+
+      def records_with_quby(records)
+        records.map { |record| entity(record) }
       end
     end
   end
