@@ -215,5 +215,13 @@ module Quby
     def add_chart(chart)
       charts.add chart
     end
+
+    def postprocess_results
+      @postprocess_results
+    end
+
+    def postprocess_results=(results)
+      @postprocess_results = results
+    end
   end
 end

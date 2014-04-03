@@ -11,6 +11,7 @@ gem 'bson_ext'
 
 # Optional dependency on RoQua Support gem.
 gem 'roqua-support', git: 'git://github.com/roqua/roqua-support.git'
+gem 'roqua-opencpu', path: '../roqua-opencpu'
 
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or

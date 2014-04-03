@@ -1,5 +1,14 @@
 module Quby
   module QuestionnaireDsl
+    Parameter = Class.new do
+      attr_accessor :name
+      attr_accessor :value
+      def parameter(name, value)
+        @name  = name
+        @value = value
+      end
+    end
+
     class QuestionnaireBuilder
       def initialize(target_instance)
         @questionnaire = target_instance
@@ -133,6 +142,21 @@ module Quby
       def radar_chart(*args, &block)
         builder = Quby::QuestionnaireDsl::RadarChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
+      end
+
+      def process_with(postprocessor, &block)
+        return unless defined? Roqua::OpenCPU
+        defined_packages = { personfit: %w(PersonFit RoquaPersonFit) }
+        raise "Undefined OpenCPU package" unless defined_packages.keys.include?(postprocessor)
+        package, function = defined_packages[postprocessor]
+
+        p = Parameter.new
+        p.instance_eval(&block)
+
+        data = { p.name => p.value }.to_json
+        response = Roqua::OpenCPU.execute(package, function, data)
+
+        @questionnaire.postprocess_results = JSON.parse(response.body)
       end
 
       private

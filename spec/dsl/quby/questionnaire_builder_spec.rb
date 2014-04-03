@@ -153,6 +153,24 @@ module Quby
         questionnaire.question_hash[:v_2].parent_option_key.should == :v_1a
       end
 
+      it "can process with opencpu" do
+        dsl do
+          process_with :personfit do
+            parameter ".inResponsePattern", [
+              {
+                X1:  0, X2:  3, X3:  0, X4:  0, X5:  2, X6:  2, X7:  2, X8:  1,
+                X9:  3, X10: 1, X11: 2, X12: 1, X13: 3, X14: 1, X15: 0, X16: 1,
+                X17: 1, X18: 1, X19: 0, X20: 1, X21: 3, X22: 0, X23: 2, X24: 1,
+                X25: 0, X26: 0, X27: 3, X28: 1
+              }
+            ]
+          end
+        end
+        questionnaire.callback_after_dsl_enhance_on_questions
+        expect(questionnaire.postprocess_results).to be_a Hash
+        expect(questionnaire.postprocess_results['Sum score'][0]).to eq 35
+      end
+
       def dsl(&block)
         builder.instance_eval(&block)
       end
