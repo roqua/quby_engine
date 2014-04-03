@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'mongoid'
 require 'mongoid-app_settings'
+require 'coffee_script'
 require 'haml'
 require 'sass-rails'
 require 'compass'
