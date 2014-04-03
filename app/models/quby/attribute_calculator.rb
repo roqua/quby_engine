@@ -57,7 +57,7 @@ module Quby
     end
 
     def process_checkbox(question)
-      selected_options = question.options.select { |option| answer.send(option.key) == 1 }
+      selected_options = question.options.select { |option| !option.inner_title? && answer.send(option.key) == 1 }
       selected_options.each do |option|
         process_option_hiding(option)
         process_option_showing(option)

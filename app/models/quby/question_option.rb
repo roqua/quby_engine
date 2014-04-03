@@ -33,6 +33,10 @@ module Quby
       question.type == :check_box ? @key : "#{question.key}_#{key}".to_sym
     end
 
+    def inner_title?
+      inner_title.present?
+    end
+
     def key_in_use?(k)
       return true if k == input_key
       @questions.each { |q| return true if q.key_in_use?(k) }

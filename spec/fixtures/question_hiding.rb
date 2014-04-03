@@ -18,6 +18,7 @@ panel do
     title "P0"
     option :v_5_a1, :value => 1, :description => "show 2,4,5,6,7,8",
            :shows_questions => [:v_7, :v_9, :v_10, :v_11, :v_12, :v_13]
+    inner_title "FOO BAR"
     option :v_5_a2, :value => 2, :description => "hide 2", :hides_questions => [:v_7]
     option :v_5_a3, :value => 3, :description => "licht"
   end
