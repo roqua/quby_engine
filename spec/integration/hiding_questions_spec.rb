@@ -162,12 +162,14 @@ feature 'Hiding and showing questions' do
       page.should have_selector("#item_v_7.show")
 
       # Test that data can be saved
-      choose "answer_v_7_a1"
+      choose "answer_v_7_a1" # answer a question that would be hidden by v_5_a1 were it not for a2
+      goto_second_page
+      choose "answer_v_9_a1" # answer a question that would be default_invisible were it not for a2
 
-      goto_second_page and goto_third_page and save_form
+      goto_third_page and save_form
       Quby.answer_repo.reload(answer).value
         .should eq(answer_value("v_5" => {"v_5_a1" => 1, "v_5_a2" => 1, "v_5_a3" => 0},
-                                "v_5_a1" => 1, "v_5_a2" => 1, "v_7" => "a1"))
+                                "v_5_a1" => 1, "v_5_a2" => 1, "v_7" => "a1", "v_9" => "a1"))
     end
 
     scenario 'by clicking a select option that shows a question', js: true do
