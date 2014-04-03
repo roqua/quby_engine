@@ -1,8 +1,16 @@
 GIT
-  remote: git://github.com/roqua/roqua-support.git
-  revision: 37c073a2bf18ecc7dbf2d7e095faad1ed36a8f3c
+  remote: git@github.com:roqua/roqua-opencpu.git
+  revision: a45031b0d77ba8fe30d06ed0b58224c6269c726e
   specs:
-    roqua-support (0.1.2.2)
+    roqua-opencpu (0.1.0)
+      httparty (~> 0.12.0)
+      yajl-ruby (~> 1.2.0)
+
+GIT
+  remote: git@github.com:roqua/roqua-support.git
+  revision: 39467617769734537ea5d77f29595d07152c3052
+  specs:
+    roqua-support (0.1.6)
       activesupport (>= 3.2, < 5.0)
 
 PATH
@@ -23,13 +31,6 @@ PATH
       sass-rails (~> 3.2)
       susy (~> 1.0.rc)
       virtus (~> 0.5.4)
-
-PATH
-  remote: ../roqua-opencpu
-  specs:
-    roqua-opencpu (0.1.0)
-      httparty (~> 0.12.0)
-      yajl-ruby (~> 1.2.0)
 
 GEM
   remote: http://rubygems.org/
