@@ -28,5 +28,6 @@
 # You can require javascript files here. A good place to start is by requiring your application.js.
 #= require_tree ./support
 #= require quby/application
+#= require quby/answers
 #= require_tree .
 jasmine.getFixtures().fixturesPath = 'fixtures'
