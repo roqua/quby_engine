@@ -177,7 +177,7 @@ GEM
     mongoid-app_settings (1.1.1)
       activesupport
       mongoid (>= 2.0)
-    multi_json (1.9.0)
+    multi_json (1.9.2)
     multi_xml (0.5.5)
     nio4r (1.0.0)
     nokogiri (1.6.1)
