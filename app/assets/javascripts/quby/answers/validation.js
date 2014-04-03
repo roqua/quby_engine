@@ -21,7 +21,7 @@
 
         var question_item = $("#answer_" + question_key + "_input").closest('.item');
 
-        var depends_on = eval(question_item.attr("data-depends_on"));
+        var depends_on = eval(question_item.attr("data-depends-on"));
         if(depends_on){
           var dep_inputs = $($.map(depends_on, function(key){
               return $("#answer_"+key).not(":disabled, :hidden");

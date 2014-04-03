@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    quby (0.0.1)
+    quby (1.0.0)
       addressable
       compass-rails
       haml
