@@ -5,7 +5,6 @@ source 'http://rubygems.org'
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem 'bundler'
 gem 'appraisal', '1.0.0.beta3'
 gem 'bson_ext'
 
