@@ -1,3 +1,4 @@
+require_relative '../answer_repos'
 require 'ostruct'
 
 module Quby
