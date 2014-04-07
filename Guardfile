@@ -14,10 +14,13 @@ teaspoon_options = {
 guard :rspec, rspec_options do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
-  watch('app/controllers/application_controller.rb')  { "spec/controllers" }
   watch(%r{^lib/(.+)\.rb$})                           { |m| "spec/lib/#{m[1]}_spec.rb" }
   # Capybara request specs
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
+
+  # Specials
+  watch('app/controllers/application_controller.rb')        { "spec/controllers" }
+  watch('spec/support/examples_for_answer_repositories.rb') { 'spec/repos' }
 end
 
 guard :teaspoon, teaspoon_options do
