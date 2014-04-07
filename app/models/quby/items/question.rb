@@ -221,7 +221,7 @@ module Quby
     def expand_depends_on_input_keys
       return unless @depends_on
       @depends_on = questionnaire.expand_input_keys(@depends_on)
-      @extra_data[:depends_on] = @depends_on.to_json
+      @extra_data[:"depends-on"] = @depends_on.to_json
     rescue => e
       raise e.class, "Question #{key} depends_on contains an error: #{e.message}"
     end

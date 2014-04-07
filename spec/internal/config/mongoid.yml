@@ -9,7 +9,12 @@ test:
   database: <%= ENV['MONGOID_DATABASE'] || 'r_test' %>
   autocreate_indexes: true
   persist_in_safe_mode: true
-  
+  sessions:
+    default:
+      database: <%= ENV['MONGOID_DATABASE'] || 'r_test' %>
+      hosts:
+        - localhost:27017
+
 production:
   host: <%= ENV['MONGOID_HOST'] %>
   port: <%= ENV['MONGOID_PORT'] %>

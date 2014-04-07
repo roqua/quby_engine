@@ -3,8 +3,28 @@
 # is not possible.
 #
 # Set RAILS_ROOT and load the environment.
-ENV["RAILS_ROOT"] = File.expand_path("../dummy/", __FILE__)
-require File.expand_path("../dummy/config/environment", __FILE__)
+# ENV["RAILS_ROOT"] = File.expand_path("../dummy/", __FILE__)
+# require File.expand_path("../dummy/config/environment", __FILE__)
+
+require 'rails'
+require 'action_controller/railtie'
+require 'action_view/railtie'
+require 'sprockets/railtie'
+require 'jquery/rails'
+require 'combustion'
+Combustion.path = 'spec/internal'
+
+require 'quby'
+require 'teaspoon'
+
+if Rails.env.test? || Rails.env.development?
+  Rails.application.config.assets.paths << Quby::Engine.root.join("spec", "javascripts") <<
+      Quby::Engine.root.join("spec", "stylesheets")
+  # Add engine to view path so that spec/javascripts/fixtures are accessible
+  ActionController::Base.prepend_view_path Quby::Engine.root
+end
+
+Combustion.initialize! :action_controller, :action_view, :sprockets
 
 # Provide default configuration.
 #

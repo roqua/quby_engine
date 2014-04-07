@@ -3,10 +3,12 @@
 require 'rubygems'
 require 'mongoid'
 require 'mongoid-app_settings'
+require 'coffee_script'
+require 'haml'
 require 'sass-rails'
+require 'compass'
 require 'compass-rails'
 require 'jquery-rails'
-require 'fd-slider-rails'
 require 'susy'
 require 'andand'
 
