@@ -43,16 +43,19 @@ module Quby
 
       def initial_attributes(questionnaire, given_attributes)
         {
-          questionnaire_key: questionnaire.key,
-          token:             SecureRandom.hex(8),
-          dsl_last_update:   questionnaire.last_update,
-          patient:           given_attributes.fetch(:patient,      {}),
-          test:              given_attributes.fetch(:test,         false),
-          scores:            given_attributes.fetch(:scores,       {}),
-          actions:           given_attributes.fetch(:actions,      {}),
-          completion:        given_attributes.fetch(:completion,   {}),
-          completed_at:      given_attributes.fetch(:completed_at, nil),
-          value:             default_answer_value(questionnaire, given_attributes)
+          questionnaire_key:    questionnaire.key,
+          token:                SecureRandom.hex(8),
+          dsl_last_update:      questionnaire.last_update,
+          raw_params:           given_attributes.fetch(:raw_params,           {}),
+          import_notes:         given_attributes.fetch(:import_notes,         {}),
+          patient:              given_attributes.fetch(:patient,              {}),
+          test:                 given_attributes.fetch(:test,                 false),
+          outcome_generated_at: given_attributes.fetch(:outcome_generated_at, nil),
+          scores:               given_attributes.fetch(:scores,               {}),
+          actions:              given_attributes.fetch(:actions,              {}),
+          completion:           given_attributes.fetch(:completion,           {}),
+          completed_at:         given_attributes.fetch(:completed_at,         nil),
+          value:                default_answer_value(questionnaire, given_attributes)
         }
       end
 
@@ -66,15 +69,17 @@ module Quby
       def update_attributes(record, answer)
         record.token                = answer.token
         record.dsl_last_update      = answer.dsl_last_update
-        record.patient              = answer.patient
+        record.patient              = answer.patient.stringify_keys
         record.active               = answer.active
         record.test                 = answer.test
+        record.raw_params           = answer.raw_params.stringify_keys
+        record.import_notes         = answer.import_notes.stringify_keys
         record.value                = answer.value.stringify_keys
         record.completed_at         = answer.completed_at
         record.outcome_generated_at = answer.outcome_generated_at
-        record.scores               = answer.scores
-        record.actions              = answer.actions
-        record.completion           = answer.completion
+        record.scores               = answer.scores.stringify_keys
+        record.actions              = answer.actions.stringify_keys
+        record.completion           = answer.completion.stringify_keys
       end
     end
   end
