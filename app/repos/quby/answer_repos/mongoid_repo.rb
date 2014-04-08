@@ -9,11 +9,16 @@ module Quby
         include ::Mongoid::Timestamps
         include OutcomeCalculations
 
-        if Mongoid::VERSION > '3'
+        if Mongoid::VERSION > '4'
           store_in collection: :answers
           field :_id, type: String,
                       pre_processed: true,
                       default: -> { BSON::ObjectId.new.to_s }
+        elsif Mongoid::VERSION > '3'
+          store_in collection: :answers
+          field :_id, type: String,
+                      pre_processed: true,
+                      default: -> { Moped::BSON::ObjectId.new.to_s }
         else
           store_in 'answers'
           identity type: String
