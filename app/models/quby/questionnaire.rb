@@ -25,7 +25,6 @@ module Quby
       @question_hash ||= {}
 
       @renderer_version = :v1
-      @scroll_to_next_question = false
 
       enhance_by_dsl
     end
@@ -42,18 +41,11 @@ module Quby
     attr_accessor :score_builders
     attr_accessor :default_answer_value
     attr_accessor :renderer_version
-    attr_accessor :scroll_to_next_question
-
     attr_accessor :leave_page_alert
-
     attr_accessor :question_hash
-
     attr_accessor :extra_css
-
     attr_accessor :last_author
-
-    # allow hotkeys for either :all views, just :bulk views (default), or :none for never
-    attr_accessor :allow_hotkeys
+    attr_accessor :allow_hotkeys # allow hotkeys for either :all views, just :bulk views (default), or :none for never
     attr_accessor :last_update
 
     attr_accessor :charts

@@ -46,10 +46,6 @@ module Quby
         @questionnaire.renderer_version = version
       end
 
-      def scroll_to_next_question
-        @questionnaire.scroll_to_next_question = true
-      end
-
       def css(value)
         @questionnaire.extra_css ||= ""
         @questionnaire.extra_css += value
