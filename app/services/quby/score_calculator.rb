@@ -45,6 +45,15 @@ module Quby
       values_with_nils(*keys)
     end
 
+    # Public: Get value for given question key
+    #
+    # key - A key for which to return a value
+    #
+    # Returns a value.
+    def value(key)
+      values_with_nils(key.to_s).first
+    end
+
     # Public: Get values for given question keys, or nil if the question is not filled in
     #
     # *keys - A list of keys for which to return values
