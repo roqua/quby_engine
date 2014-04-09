@@ -37,7 +37,6 @@ module Quby
         expect(questionnaire.license).to eq(:free)
       end
 
-
       it 'builds panels' do
         dsl { panel { title 'My Title' } }
         questionnaire.panels.first.title.should == 'My Title'
