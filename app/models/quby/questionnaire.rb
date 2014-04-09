@@ -8,6 +8,8 @@ module Quby
     class ValidationError < StandardError; end
     class UnknownInputKey < ValidationError; end
 
+    VALID_LICENSES = %i(unknown free pay_per_completion)
+
     def self.questionnaire_finder
       Quby.questionnaire_finder
     end
@@ -23,7 +25,7 @@ module Quby
       @score_builders ||= {}
       @charts = Charting::Charts.new
       @question_hash ||= {}
-
+      @license = :unknown
       @renderer_version = :v1
 
       enhance_by_dsl
@@ -44,6 +46,8 @@ module Quby
     attr_accessor :leave_page_alert
     attr_accessor :question_hash
     attr_accessor :extra_css
+    attr_accessor :license
+
     attr_accessor :last_author
     attr_accessor :allow_hotkeys # allow hotkeys for either :all views, just :bulk views (default), or :none for never
     attr_accessor :last_update
@@ -141,6 +145,11 @@ module Quby
 
     def questions_of_type(type)
       questions.compact.select { |question| question.type == type }
+    end
+
+    def license=(type)
+      raise ArgumentError, 'Invalid license' unless VALID_LICENSES.include?(type)
+      @license = type
     end
 
     def as_json(options = {})
