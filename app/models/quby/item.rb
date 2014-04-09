@@ -15,10 +15,6 @@ module Quby
       @switch_cycle = options[:switch_cycle] || false
     end
 
-    def answerable?
-      false
-    end
-
     def presentation
       @presentation || "vertical"
     end

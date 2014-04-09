@@ -32,10 +32,6 @@ module Quby
       "text"
     end
 
-    def answerable?
-      false
-    end
-
     def validate_answer(answer_hash)
       true
     end
