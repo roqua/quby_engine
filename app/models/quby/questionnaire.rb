@@ -50,9 +50,6 @@ module Quby
 
     attr_accessor :charts
 
-    # default_scope order: "key ASC"
-    # scope :active, where(active: true)
-
     def leave_page_alert
       return nil unless Settings.enable_leave_page_alert
       @leave_page_alert || "Als u de pagina verlaat worden uw antwoorden niet opgeslagen."
