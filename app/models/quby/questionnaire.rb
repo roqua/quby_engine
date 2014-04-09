@@ -8,7 +8,10 @@ module Quby
     class ValidationError < StandardError; end
     class UnknownInputKey < ValidationError; end
 
-    VALID_LICENSES = %i(unknown free pay_per_completion)
+    VALID_LICENSES = [:unknown,
+                      :free,               # freely available without license costs,
+                      :pay_per_completion, # costs associated with each completed questionnaire,
+                      :private]            # not a publicly available questionnaire
 
     def self.questionnaire_finder
       Quby.questionnaire_finder

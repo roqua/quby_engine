@@ -30,6 +30,11 @@ module Quby
         expect(questionnaire.license).to eq(:free)
       end
 
+      it 'can be set to be private' do
+        questionnaire.license = :private
+        expect(questionnaire.license).to eq(:private)
+      end
+
       it 'can be set to be pay_per_completion' do
         questionnaire.license = :pay_per_completion
         expect(questionnaire.license).to eq(:pay_per_completion)
