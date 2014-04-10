@@ -13,6 +13,11 @@ module Quby
         find(answer.questionnaire_key, answer.id)
       end
 
+      def all(questionnaire_key)
+        records = all_records(questionnaire_key)
+        entities(records)
+      end
+
       def create!(questionnaire_key, attributes = {})
         attributes        = attributes.with_indifferent_access
         questionnaire     = Quby.questionnaire_finder.find(questionnaire_key)
@@ -80,6 +85,14 @@ module Quby
         record.scores               = answer.scores.stringify_keys
         record.actions              = answer.actions.stringify_keys
         record.completion           = answer.completion.stringify_keys
+      end
+
+      def entities(records)
+        records.map { |record| entity(record) }
+      end
+
+      def entity(record)
+        raise NotImplementedError
       end
     end
   end

@@ -56,6 +56,10 @@ module Quby
 
       private
 
+      def all_records(questionnaire_key)
+        Record.where(questionnaire_key: questionnaire_key).all.to_a
+      end
+
       def find_record(id)
         Record.find(id)
       rescue Mongoid::Errors::DocumentNotFound, Mongoid::Errors::InvalidFind

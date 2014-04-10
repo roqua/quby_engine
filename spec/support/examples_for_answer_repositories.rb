@@ -32,6 +32,15 @@ shared_examples "an answer repository" do
   end
 
   describe 'record retrieval' do
+    it 'finds all records for a given questionnaire' do
+      answer1 = repo.create!('big', attributes.merge(_id: 'answer1'))
+      answer2 = repo.create!('big', attributes.merge(_id: 'answer2'))
+
+      answers = repo.all('big')
+      answers.map(&:id).should eq([answer1.id, answer2.id])
+
+    end
+
     it 'finds records' do
       answer    = repo.create!('big', attributes)
       retrieved = repo.find('big', answer.id)

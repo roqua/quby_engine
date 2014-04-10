@@ -16,6 +16,10 @@ module Quby
 
       private
 
+      def all_records(questionnaire_key)
+        storage.values.select { |record| record.questionnaire_key == questionnaire_key }
+      end
+
       def find_record(id)
         storage[id]
       end
