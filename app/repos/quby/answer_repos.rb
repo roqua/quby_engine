@@ -33,6 +33,10 @@ module Quby
         update!(answer)
       end
 
+      def where(conditions = {})
+        find_records(conditions.with_indifferent_access)
+      end
+
       private
 
       def set_initial_attributes(record, questionnaire, given_attributes)

@@ -62,6 +62,10 @@ module Quby
         raise AnswerNotFound, "Answer #{id.inspect} could not be found."
       end
 
+      def find_records(conditions = {})
+        Record.where(conditions)
+      end
+
       def build_record
         Record.new
       end

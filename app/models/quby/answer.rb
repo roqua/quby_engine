@@ -166,16 +166,7 @@ module Quby
     end
 
     def url_params(options = {})
-      timestamp = Time.now.getgm.strftime("%Y-%m-%dT%H:%M:%S+00:00")
-      plain_token = [Quby::Settings.shared_secret, self.token, timestamp].join('|')
-
-      # double slash removed from return_url (it's either this or removing the final slash in Settings.application_url)
-      options.merge(
-        display_mode: options[:display_mode] || "paged",
-        token: self.token,
-        timestamp: timestamp,
-        hmac: Digest::SHA1.hexdigest(plain_token)
-      )
+      Quby::AnswersHelper.url_params(token, options)
     end
 
     protected

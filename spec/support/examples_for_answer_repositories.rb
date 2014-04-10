@@ -122,4 +122,13 @@ shared_examples "an answer repository" do
     end
     result
   end
+
+  it 'finds answers by given conditions' do
+    repo.create!('big', scores: {tot: {label: 'Totaalscore'}, sub: {label: 'Subscore'}}, test: true)
+    repo.create!('mansa', scores: {tot: {label: 'Totaalscore'}, sub: {label: 'Subscore'}}, test: false)
+    expect(repo.where(test: true).length).to be 1
+    expect(repo.where(test: true).first.questionnaire_key).to eq 'big'
+
+    expect(repo.where(scores: {tot: {label: 'Totaalscore'}, sub: {label: 'Subscore'}}).length).to be 2
+  end
 end
