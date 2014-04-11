@@ -150,6 +150,7 @@ module Quby
         description: self.description,
         outcome_description: self.outcome_description,
         short_description: self.short_description,
+        definition: self.definition,
         panels: self.panels
       }
     end
