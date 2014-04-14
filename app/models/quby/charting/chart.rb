@@ -3,7 +3,7 @@ require 'virtus'
 module Quby
   module Charting
     class Chart
-      include Virtus
+      include Virtus.model
 
       attribute :key,                        Symbol
       attribute :title,                      String
