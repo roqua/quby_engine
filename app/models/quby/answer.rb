@@ -20,6 +20,8 @@ module Quby
     attribute :token,                String
     attribute :active,               Boolean, default: true
     attribute :test,                 Boolean, default: false
+    attribute :created_at,           Time
+    attribute :updated_at,           Time
     attribute :completed_at,         Time
     attribute :outcome_generated_at, Time
     attribute :scores,               Hash,    default: {}
