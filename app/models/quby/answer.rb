@@ -7,7 +7,7 @@ module Quby
     end
 
     extend ActiveModel::Naming
-    include Virtus
+    include Virtus.model
     include OutcomeCalculations
 
     attribute :_id, String
