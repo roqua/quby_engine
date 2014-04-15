@@ -1,7 +1,7 @@
 module Quby
   module QuestionnaireRepos
     class DiskRepo
-      class RecordNotFound < StandardError; end
+      RecordNotFound = Class.new(QuestionnairesRepos::RecordNotFound)
 
       attr_reader :path
       attr_reader :questionnaire_class
