@@ -33,19 +33,18 @@ module Quby
       end
 
       def to_codebook(questionnaire, opts = {})
-        super do |output|
-          options.each_with_index do |option, idx|
-            next if option.inner_title
+        output = []
+        options.each_with_index do |option, idx|
+          next if option.inner_title
 
-            output_key = option.key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
-            output << "#{output_key} #{output_type}"
-            output << "\"#{title} -- #{option.description}\"" unless title.blank? and option.description.blank?
-            output << "1\tChecked"
-            output << "0\tUnchecked"
-            output << "empty\tUnchecked"
-            output << "" unless idx == (options.size - 1)
-          end
+          output << "#{codebook_key(option.key, questionnaire, opts)} #{output_type}"
+          output << "\"#{title} -- #{option.description}\"" unless title.blank? and option.description.blank?
+          output << "1\tChecked"
+          output << "0\tUnchecked"
+          output << "empty\tUnchecked"
+          output << "" unless idx == (options.size - 1)
         end
+        output.join("\n")
       end
     end
   end

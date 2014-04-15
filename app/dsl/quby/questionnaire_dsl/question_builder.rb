@@ -8,7 +8,7 @@ module Quby
       attr_reader :questionnaire
 
       def initialize(key, options = {})
-        question_type = options[:type] or raise "Question #{key} from #{options[:questionnaire].key} has no type!"
+        question_type = options[:type] or fail "Question #{key} from #{options[:questionnaire].key} has no type!"
         @question = Quby::Items::Question.for(question_type).new(key, options)
         @default_question_options = options[:default_question_options] || {}
         @questionnaire = options[:questionnaire]

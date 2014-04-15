@@ -39,25 +39,20 @@ module Quby
       end
 
       def to_codebook(questionnaire, opts = {})
-        super do |output|
-          output_key = day_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
-          output << "#{output_key} #{type}_day #{codebook_output_range}"
-          output << "\"#{title}\"" unless title.blank?
-          output << options.map(&:to_codebook).join("\n") unless options.blank?
-          output << ""
-
-          output_key = month_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
-          output << "#{output_key} #{type}_month #{codebook_output_range}"
-          output << "\"#{title}\"" unless title.blank?
-          output << options.map(&:to_codebook).join("\n") unless options.blank?
-          output << ""
-
-          output_key = year_key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
-          output << "#{output_key} #{type}_year #{codebook_output_range}"
-          output << "\"#{title}\"" unless title.blank?
-          output << options.map(&:to_codebook).join("\n") unless options.blank?
-          output << ""
-        end
+        output = []
+        output << "#{codebook_key(day_key, questionnaire, opts)} #{type}_day #{codebook_output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
+        output << ""
+        output << "#{codebook_key(month_key, questionnaire, opts)} #{type}_month #{codebook_output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
+        output << ""
+        output << "#{codebook_key(year_key, questionnaire, opts)} #{type}_year #{codebook_output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
+        output << ""
+        output.join("\n")
       end
     end
   end
