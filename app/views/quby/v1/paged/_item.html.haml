@@ -28,30 +28,45 @@
         .text
           :markdown
             #{raw(item)}
-    - when "Quby::Items::Question"
+    - when "Quby::Questions::StringQuestion"
       - return if (item.hidden?) and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:paged)))
-
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when "Quby::Questions::TextQuestion"
+      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:paged)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when "Quby::Questions::IntegerQuestion", "Quby::Questions::FloatQuestion"
+      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:paged)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when "Quby::Questions::RadioQuestion"
+      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:paged)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       - case item.type
-      - when :string
-        = render :partial => "quby/v1/paged/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :textarea
-        = render :partial => "quby/v1/paged/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :integer, :float
-        = render :partial => "quby/v1/paged/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :radio
         = render :partial => "quby/v1/paged/item_question_radio", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :date
-        = render :partial => "quby/v1/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :check_box
-        = render :partial => "quby/v1/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
       - when :scale
         = render :partial => "quby/v1/paged/item_question_scale", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :select
-        = render :partial => "quby/v1/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - else
-        - raise Quby::Questionnaire::ValidationError, "Unknown question type #{item.type} for question #{item.key}"
+    - when "Quby::Questions::DateQuestion"
+      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:paged)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/paged/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when "Quby::Questions::CheckboxQuestion"
+      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:paged)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when "Quby::Questions::SelectQuestion"
+      - return if (item.hidden?) and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:paged)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
     - when "Quby::Items::Table"
       = render :partial => "quby/v1/table/table", :locals => {:table => item}
     - else

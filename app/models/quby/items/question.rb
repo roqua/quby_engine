@@ -1,5 +1,29 @@
 module Quby
   class Items::Question < Item
+    def self.for(type)
+      case type.to_s
+      when 'string'
+        ::Quby::Questions::StringQuestion
+      when 'textarea'
+        ::Quby::Questions::TextQuestion
+      when 'integer'
+        ::Quby::Questions::IntegerQuestion
+      when 'float'
+        ::Quby::Questions::FloatQuestion
+      when 'radio', 'scale'
+        ::Quby::Questions::RadioQuestion
+      when 'select'
+        ::Quby::Questions::SelectQuestion
+      when 'check_box'
+        ::Quby::Questions::CheckboxQuestion
+      when 'date'
+        ::Quby::Questions::DateQuestion
+      when 'hidden'
+        ::Quby::Questions::DeprecatedQuestion
+      else
+        raise "unknown #{type}"
+      end
+    end
     require 'extensions/maruku_extensions'
 
     set_callback :after_dsl_enhance, :expand_depends_on_input_keys
