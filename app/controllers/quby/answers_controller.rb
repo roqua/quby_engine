@@ -72,7 +72,7 @@ module Quby
         end
       end
 
-      updater.update(params[:answer])
+      updater.update(params[:answer] || {})
     end
 
     def print
