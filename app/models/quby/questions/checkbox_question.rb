@@ -37,7 +37,7 @@ module Quby
         options.each_with_index do |option, idx|
           next if option.inner_title
 
-          output << "#{codebook_key(option.key, questionnaire, opts)} #{output_type}"
+          output << "#{codebook_key(option.key, questionnaire, opts)} #{codebook_output_type}"
           output << "\"#{title} -- #{option.description}\"" unless title.blank? and option.description.blank?
           output << "1\tChecked"
           output << "0\tUnchecked"
