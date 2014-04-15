@@ -66,11 +66,6 @@ module Quby
     # :bulk => for only in :bulk display mode
     attr_accessor :show_values
 
-    # checkbox option that checks all other options on check
-    attr_accessor :check_all_option
-    # checkbox option that unchecks all other options on check
-    attr_accessor :uncheck_all_option
-
     # Structuring
     attr_accessor :validations
     attr_accessor :dependencies
@@ -147,8 +142,6 @@ module Quby
       @parent_option_key = options[:parent_option_key]
       @autocomplete = options[:autocomplete] || "off"
       @show_values = options[:show_values] || :bulk
-      @check_all_option = options[:check_all_option]
-      @uncheck_all_option = options[:uncheck_all_option]
       @deselectable = options[:deselectable] || false
       @disallow_bulk = options[:disallow_bulk]
       @score_header = options[:score_header] || :none
@@ -189,15 +182,6 @@ module Quby
       end
       if options[:maximum] and (@type == :integer || @type == :float)
         @validations << {type: :maximum, value: options[:maximum], explanation: options[:error_explanation]}
-      end
-
-      if @check_all_option
-        @validations << {type: :not_all_checked, check_all_key: @check_all_option,
-                         explanation: options[:error_explanation]}
-      end
-      if @uncheck_all_option
-        @validations << {type: :too_many_checked, uncheck_all_key: @uncheck_all_option,
-                         explanation: options[:error_explanation]}
       end
 
       if @question_group
@@ -261,8 +245,6 @@ module Quby
           { options: @options.as_json }
         when :select
           { options: @options.as_json }
-        when :check_box
-          { options: @options.as_json }
         when :hidden
           { options: @options.as_json }
         else
@@ -284,12 +266,7 @@ module Quby
     # Returns all possible answer keys.
     # Difference with input_keys is radio/select/scale-options being answers of the question-key.
     def answer_keys
-      if type == :check_box
-        # Some options don't have a key (inner_title), they are stripped.
-        return options.map { |opt| opt.input_key }.compact
-      else
-        return [key]
-      end
+      [key]
     end
 
     def key_in_use?(k)
@@ -328,25 +305,10 @@ module Quby
       if block_given?
         yield output
       else
-        case type
-        when :check_box
-          options.each_with_index do |option, idx|
-            next if option.inner_title
-
-            output_key = option.key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
-            output << "#{output_key} #{output_type}"
-            output << "\"#{title} -- #{option.description}\"" unless title.blank? and option.description.blank?
-            output << "1\tChecked"
-            output << "0\tUnchecked"
-            output << "empty\tUnchecked"
-            output << "" unless idx == (options.size - 1)
-          end
-        else
-          output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
-          output << "#{output_key} #{output_type} #{codebook_output_range}"
-          output << "\"#{title}\"" unless title.blank?
-          output << options.map(&:to_codebook).join("\n") unless options.blank?
-        end
+        output_key = key.to_s.gsub(/^v_/, "#{opts[:roqua_key] || questionnaire.key.to_s}_")
+        output << "#{output_key} #{output_type} #{codebook_output_range}"
+        output << "\"#{title}\"" unless title.blank?
+        output << options.map(&:to_codebook).join("\n") unless options.blank?
       end
 
       output.join("\n")
