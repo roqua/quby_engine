@@ -38,7 +38,7 @@ module Quby
             option :a1, hides_questions: [:v_2]
           end
 
-          question :v_2, type: :text
+          question :v_2, type: :textarea
         END
         expect(DefinitionValidator.new(questionnaire, definition).validate).to be_true
       end
@@ -78,7 +78,7 @@ module Quby
             option :a1, shows_questions: [:v_2]
           end
 
-          question :v_2, type: :text
+          question :v_2, type: :textarea
         END
         expect(DefinitionValidator.new(questionnaire, definition).validate).to be_true
       end

@@ -21,7 +21,7 @@ module Quby
       when 'hidden'
         ::Quby::Questions::DeprecatedQuestion
       else
-        raise "unknown #{type}"
+        raise "Quby does not have a question type: #{type}"
       end
     end
     require 'extensions/maruku_extensions'

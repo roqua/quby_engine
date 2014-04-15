@@ -4,7 +4,7 @@
 - itemclasses = [item.type, item.presentation]
 - extra_data = nil
 - itemkey = nil
-- if item.class.name == "Quby::Items::Question"
+- if item.is_a? Quby::Items::Question
   - return if item.table
   - itemkey = "item_#{item.key}"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?

@@ -17,6 +17,6 @@
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
     - panel.items.each_with_index do |item, idx|
       = render :partial => "quby/v1/print/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item}
-      - previous_item = item if item.class.name == "Quby::Items::Question"
+      - previous_item = item if item.is_a? Quby::Items::Question
 
 -#= button_to_function 'Print', "window.print();", :class => "print_button"
