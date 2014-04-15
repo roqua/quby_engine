@@ -1,7 +1,7 @@
 module Quby
   module QuestionnaireRepos
     class DiskRepo
-      RecordNotFound = Class.new(::Quby::QuestionnairesRepos::QuestionnaireNotFound)
+      RecordNotFound = Class.new(::Quby::QuestionnaireRepos::QuestionnaireNotFound)
 
       attr_reader :path
       attr_reader :questionnaire_class
