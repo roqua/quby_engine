@@ -62,6 +62,8 @@
       - return if (item.display_modes and (not item.display_modes.include?(:paged)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/paged/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::DeprecatedQuestion
+      - # nothing rendered
     - when Quby::Questions::SelectQuestion
       - return if (item.hidden?) and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:paged)))

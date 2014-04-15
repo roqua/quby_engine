@@ -70,6 +70,8 @@
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::DeprecatedQuestion
+      - # nothing rendered
     - when Quby::Items::Table
       = render :partial => "quby/v1/table/table", :locals => {:table => item}
     - else
