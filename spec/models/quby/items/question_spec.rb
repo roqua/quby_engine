@@ -97,6 +97,5 @@ module Quby
         expect(questionnaire.question_hash[:radio].depends_on).to eq [:check1, :check2]
       end
     end
-
   end
 end
