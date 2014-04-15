@@ -10,7 +10,6 @@
   - itemkey = "item_#{item.key}"
   - extra_data = item.extra_data
   - itemclasses << item.as if item.as
-  - doublewide = item.options.size <= 5
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
   - itemclasses << 'subitem' if subquestion

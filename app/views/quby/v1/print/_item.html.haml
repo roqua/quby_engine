@@ -10,7 +10,6 @@
   -# return if item.table
   -# return if @answer.send(item.key).blank?
   - extra_data = item.extra_data
-  - doublewide = item.options.size <= 5
   - itemclasses << "notbulkitem"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
