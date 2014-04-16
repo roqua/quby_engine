@@ -1,3 +1,5 @@
+# rubocop:disable LineLength
+
 module Quby
   module QuestionnaireDsl
     module StandardizedPanelGenerators
