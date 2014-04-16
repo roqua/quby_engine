@@ -18,9 +18,6 @@ Documentation:
 MethodLength:
   Enabled: false
 
-RedundantSelf:
-  Enabled: false
-
 RescueException:
   Enabled: false
 

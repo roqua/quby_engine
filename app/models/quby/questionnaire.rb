@@ -64,13 +64,13 @@ module Quby
     end
 
     def enhance_by_dsl
-      if self.definition
+      if definition
         @question_hash = {}
         @score_builders = {}
         @charts = Charting::Charts.new
 
         functions = Function.all.map(&:definition).join("\n\n")
-        functions_and_definition = [functions, self.definition].join("\n\n")
+        functions_and_definition = [functions, definition].join("\n\n")
         begin
           QuestionnaireDsl.enhance(self, functions_and_definition || "")
           callback_after_dsl_enhance_on_questions
@@ -145,13 +145,13 @@ module Quby
 
     def as_json(options = {})
       {
-        key: self.key,
-        title: self.title,
-        description: self.description,
-        outcome_description: self.outcome_description,
-        short_description: self.short_description,
-        definition: self.definition,
-        panels: self.panels
+        key: key,
+        title: title,
+        description: description,
+        outcome_description: outcome_description,
+        short_description: short_description,
+        definition: definition,
+        panels: panels
       }
     end
 

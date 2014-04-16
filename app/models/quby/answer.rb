@@ -78,7 +78,7 @@ module Quby
       questionnaire.questions.each do |q|
         next unless q
         unless q.raw_content.blank?
-          @extra_question_values[q.key] = self.send(q.key)
+          @extra_question_values[q.key] = send(q.key)
         end
       end
 
@@ -149,9 +149,9 @@ module Quby
 
     def as_json(options = {})
       attributes.merge(
-        id: self.id,
+        id: id,
         value_by_values: value_by_values,
-        scores: self.scores,
+        scores: scores,
         is_completed: self.completed? ? true : false
       )
     end
@@ -163,18 +163,18 @@ module Quby
     def all_blank?
       questionnaire.questions.reduce(true) do |all_blank, question|
         next all_blank unless question
-        all_blank and self.send(question.key).blank?
+        all_blank and send(question.key).blank?
       end
     end
 
     def url_params(options = {})
       timestamp = Time.now.getgm.strftime("%Y-%m-%dT%H:%M:%S+00:00")
-      plain_token = [Quby::Settings.shared_secret, self.token, timestamp].join('|')
+      plain_token = [Quby::Settings.shared_secret, token, timestamp].join('|')
 
       # double slash removed from return_url (it's either this or removing the final slash in Settings.application_url)
       options.merge(
         display_mode: options[:display_mode] || "paged",
-        token: self.token,
+        token: token,
         timestamp: timestamp,
         hmac: Digest::SHA1.hexdigest(plain_token)
       )
@@ -185,10 +185,10 @@ module Quby
     def calc_answered(qkeys)
       answered = 0
       qkeys.each do |qk|
-        ans = self.send(qk)
+        ans = send(qk)
         if ans.is_a? Hash # in case of check_box, only count checked check_boxes as answered
           answered += (ans.values.sum >= 1 ? 1 : 0)
-        elsif self.send(qk).present?
+        elsif send(qk).present?
           answered += 1
         end
       end

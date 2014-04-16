@@ -5,7 +5,7 @@ module Quby
     def self.all
       Dir[File.join(Quby.questionnaires_path, "functions", "*.rb")].map do |filename|
         key = File.basename(filename, '.rb')
-        self.new(key)
+        new(key)
       end
     end
 

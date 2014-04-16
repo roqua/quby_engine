@@ -311,7 +311,7 @@ module Quby
     end
 
     def hidden?
-      self.type == :hidden || self.hidden
+      type == :hidden || hidden
     end
 
     def subquestions

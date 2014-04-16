@@ -3,7 +3,7 @@ module Quby
     # Evaluates block within the context of a new calculator
     # instance. All instance methods are accessible.
     def self.calculate(*args, &block)
-      instance = self.new(*args)
+      instance = new(*args)
       instance.instance_eval(&block)
     end
 
