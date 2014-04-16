@@ -85,3 +85,13 @@ SpecialGlobalVars:
 # a function of how many slashes are in it.
 RegexpLiteral:
   Enabled: false
+
+# Requires you a space inside the braces of a Hash literal. I have never ever done this before and
+# do not think it makes for more readable code.
+SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+# can only use %w(..)
+# Stupid rule, the whole idea of the %w is to be able to use something that will not be in the string.
+PercentLiteralDelimiters:
+  Enabled: false

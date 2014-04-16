@@ -27,13 +27,7 @@ RescueModifier:
 Semicolon:
   Enabled: false
 
-SpaceInsideHashLiteralBraces:
-  Enabled: false
-
 TrivialAccessors:
-  Enabled: false
-
-PercentLiteralDelimiters:
   Enabled: false
 
 IndentArray:
