@@ -14,8 +14,7 @@ module Quby
     def validate
       dummy_questionnaire = Quby::Questionnaire.new(@questionnaire.key)
 
-      functions = Function.all.map(&:definition).join("\n\n")
-      QuestionnaireDsl.enhance(dummy_questionnaire, [functions, definition].join("\n\n"))
+      QuestionnaireDsl.enhance(dummy_questionnaire, definition)
 
       validate_questions(dummy_questionnaire)
       validate_table_edgecases(dummy_questionnaire)

@@ -1,6 +1,10 @@
+require_relative 'standardized_panel_generators'
+
 module Quby
   module QuestionnaireDsl
     class QuestionnaireBuilder
+      include StandardizedPanelGenerators
+
       def initialize(target_instance)
         @questionnaire = target_instance
         @default_question_options = {}
