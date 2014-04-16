@@ -21,7 +21,7 @@ module Quby
 
       def baseline(value = nil, &block)
         unless value.nil? ^ block.nil?
-          raise ArgumentError, "Must give either value or a block"
+          fail ArgumentError, "Must give either value or a block"
         end
 
         if value
@@ -30,7 +30,7 @@ module Quby
 
         if block
           if block.arity != 2
-            raise ArgumentError, "Given block must take two arguments"
+            fail ArgumentError, "Given block must take two arguments"
           end
           @chart.baseline = block
         end
@@ -41,7 +41,7 @@ module Quby
       end
 
       def validate!
-        raise "Chart #{@chart.key} has no range specified" unless @chart.y_range
+        fail "Chart #{@chart.key} has no range specified" unless @chart.y_range
       end
     end
   end

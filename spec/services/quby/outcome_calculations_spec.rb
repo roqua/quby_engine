@@ -100,7 +100,7 @@ module Quby
       end
 
       context 'when calculation throws an exception' do
-        before { score.stub(calculation: proc { raise "Foo" }) }
+        before { score.stub(calculation: proc { fail "Foo" }) }
 
         it 'stores the exception' do
           answer.tap(&:calculate_builders).scores[:tot][:exception].should eq 'Foo'
@@ -124,7 +124,7 @@ module Quby
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
-          completion.stub(calculation: proc { raise "Foo" })
+          completion.stub(calculation: proc { fail "Foo" })
           answer.tap(&:calculate_builders).completion[:exception].should eq 'Foo'
         end
       end

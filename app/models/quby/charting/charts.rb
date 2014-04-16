@@ -8,7 +8,7 @@ module Quby
       end
 
       def add(chart)
-        raise "Duplicate chart: #{chart.key} already exists!" if find(chart.key)
+        fail "Duplicate chart: #{chart.key} already exists!" if find(chart.key)
         @charts << chart
       end
 

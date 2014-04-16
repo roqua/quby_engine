@@ -27,9 +27,6 @@ RescueModifier:
 Semicolon:
   Enabled: false
 
-SignalException:
-  Enabled: false
-
 SpaceInsideHashLiteralBraces:
   Enabled: false
 

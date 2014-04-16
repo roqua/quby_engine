@@ -26,7 +26,7 @@ module Quby
       # gives an HTTP 500
       result = page.driver.visit(path)
       if result == "fail"
-        raise result
+        fail result
       end
       result
     end

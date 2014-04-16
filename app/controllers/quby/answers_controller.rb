@@ -112,7 +112,7 @@ module Quby
 
       if Rails.env.development? || Rails.env.test?
         logger.error "Exception reraised"
-        raise exception
+        fail exception
       elsif defined?(notify_airbrake)
         logger.error "Exception sent to Airbrake"
         notify_airbrake(exception)
@@ -154,8 +154,8 @@ module Quby
 
     def authorize!
       if Quby::Settings.authorize_with_id_from_session
-        raise MissingAuthorization unless session[:quby_answer_id].present?
-        raise InvalidAuthorization unless params[:id] == session[:quby_answer_id]
+        fail MissingAuthorization unless session[:quby_answer_id].present?
+        fail InvalidAuthorization unless params[:id] == session[:quby_answer_id]
       end
     end
 
@@ -179,12 +179,12 @@ module Quby
 
         if timestamp =~ /EB_PLUS/
           logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
-          raise TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
+          fail TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
         end
 
         unless timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ and time = Time.parse(timestamp)
           logger.error "ERROR::Authentication error: Invalid timestamp."
-          raise TimestampValidationError
+          fail TimestampValidationError
         end
 
         if time < 24.hours.ago or 1.hour.since < time
@@ -194,7 +194,7 @@ module Quby
 
         if our_hmac != hmac
           logger.error "ERROR::Authentication error: Token does not validate"
-          raise TokenValidationError, "HMAC"
+          fail TokenValidationError, "HMAC"
         end
       end
     end

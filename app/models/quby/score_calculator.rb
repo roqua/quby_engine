@@ -37,7 +37,7 @@ module Quby
     # be a String.
     def values(*keys)
       keys.map(&:to_s).each do |key|
-        raise "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.key?(key)
+        fail "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.key?(key)
       end
       values_with_nils(*keys)
     end
@@ -53,7 +53,7 @@ module Quby
     # unknown, nil will be returned for that question.
     def values_with_nils(*keys)
       keys = keys.map(&:to_s)
-      raise ArgumentError, 'Key requested more than once' if keys.uniq!
+      fail ArgumentError, 'Key requested more than once' if keys.uniq!
 
       if keys.empty?
         @values
@@ -142,7 +142,7 @@ module Quby
     #
     # key - The Symbol of another score.
     def score(key)
-      raise "Score #{key.inspect} does not exist or is not calculated yet." unless @scores.key? key
+      fail "Score #{key.inspect} does not exist or is not calculated yet." unless @scores.key? key
       @scores.fetch(key)
     end
 
@@ -152,7 +152,7 @@ module Quby
       percentage_filled = selects.length.to_f / values.length.to_f
 
       unless percentage_filled >= percentage
-        raise "Needed at least #{percentage * 100}% answered, got #{percentage_filled * 100}%"
+        fail "Needed at least #{percentage * 100}% answered, got #{percentage_filled * 100}%"
       end
 
       selects

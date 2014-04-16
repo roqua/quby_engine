@@ -79,7 +79,7 @@ module Quby
 
     def subquestions_cant_have_default_invisible(question)
       if question.subquestion? && question.default_invisible
-        raise "Question #{question.key} is a subquestion with default_invisible."
+        fail "Question #{question.key} is a subquestion with default_invisible."
       end
     end
 
@@ -87,22 +87,22 @@ module Quby
 
     def validate_question_key_exists?(questionnaire, key, msg_base:)
       unless questionnaire.question_hash[key]
-        raise msg_base + " references nonexistent question #{key}"
+        fail msg_base + " references nonexistent question #{key}"
       end
     end
 
     def validate_not_subquestion(questionnaire, key, msg_base:)
       if questionnaire.question_hash[key].subquestion?
-        raise msg_base + " references subquestion #{key}"
+        fail msg_base + " references subquestion #{key}"
       end
     end
 
     def validate_key_format(key)
       if key.to_s.length > MAX_KEY_LENGTH
-        raise "Key '#{key}' should contain at most #{MAX_KEY_LENGTH} characters."
+        fail "Key '#{key}' should contain at most #{MAX_KEY_LENGTH} characters."
       end
       unless key.to_s.start_with?(KEY_PREFIX)
-        raise "Key '#{key}' should start with '#{KEY_PREFIX}'."
+        fail "Key '#{key}' should start with '#{KEY_PREFIX}'."
       end
     end
 
@@ -110,7 +110,7 @@ module Quby
       return unless question.type == :select
       question.options.each do |option|
         unless option.questions.empty?
-          raise "Question '#{question.key}' of type ':select' may not include other questions."
+          fail "Question '#{question.key}' of type ':select' may not include other questions."
         end
       end
     end
@@ -118,7 +118,7 @@ module Quby
     def validate_table_question(question)
       question.subquestions.each do |subquestion|
         if subquestion.presentation != :next_to_title
-          raise "Question #{question.key} is inside a table, but has a subquestion #{subquestion.key}, " \
+          fail "Question #{question.key} is inside a table, but has a subquestion #{subquestion.key}, " \
                 "which is not allowed."
         end
       end

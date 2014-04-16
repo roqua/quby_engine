@@ -5,7 +5,7 @@ module Quby
     class AnswerRepo
       def find(questionnaire_key, answer_id)
         record = find_record(answer_id)
-        raise AnswerNotFound, "Answer #{answer_id.inspect} could not be found." unless record.present?
+        fail AnswerNotFound, "Answer #{answer_id.inspect} could not be found." unless record.present?
         entity(record)
       end
 
@@ -92,7 +92,7 @@ module Quby
       end
 
       def entity(record)
-        raise NotImplementedError
+        fail NotImplementedError
       end
     end
   end

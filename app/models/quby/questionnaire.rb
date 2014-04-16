@@ -107,7 +107,7 @@ module Quby
         elsif all_keys.include? key
           ikeys << key
         else
-          raise UnknownInputKey, "Unknown input key #{key}"
+          fail UnknownInputKey, "Unknown input key #{key}"
         end
       end
     end

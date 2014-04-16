@@ -11,7 +11,7 @@ module Quby
       attribute :clinically_relevant_change, Float
 
       def tonality=(value)
-        raise "Invalid tonality: #{value}" unless [:higher_is_better, :lower_is_better].include?(value)
+        fail "Invalid tonality: #{value}" unless [:higher_is_better, :lower_is_better].include?(value)
         super
       end
     end

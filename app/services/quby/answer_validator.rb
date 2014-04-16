@@ -148,7 +148,7 @@ module Quby
     rescue ArgumentError => e
       raise InvalidValue, e.message
     rescue TypeError => e
-      raise InvalidValue, e.message
+      fail InvalidValue, e.message
     end
   end
 end

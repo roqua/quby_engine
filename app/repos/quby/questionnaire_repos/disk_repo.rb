@@ -20,7 +20,7 @@ module Quby
       end
 
       def find(key)
-        raise(RecordNotFound, key) unless exists?(key)
+        fail(RecordNotFound, key) unless exists?(key)
 
         last_update = last_update_on_disk(key)
 

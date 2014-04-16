@@ -22,7 +22,7 @@ module Quby
 
       def plot(key, options = {})
         unless plottable = @questionnaire.find_plottable(key)
-          raise "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"
+          fail "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"
         end
 
         configure_options plottable, options

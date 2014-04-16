@@ -17,7 +17,7 @@ describe "quby/answers/show_questionnaire_errors" do
     expect(rendered).to match /all wrong/
   end
 
-  let(:error) { raise Quby::Questionnaire::ValidationError, 'totally wrong' rescue $ERROR_INFO }
+  let(:error) { fail Quby::Questionnaire::ValidationError, 'totally wrong' rescue $ERROR_INFO }
 
   it "displays errors passed on" do
     assign(:error, error)
