@@ -4,8 +4,9 @@ module Quby
     # instance. All instance methods are accessible.
     def self.calculate(*args, &block)
       instance = new(*args)
-      score = instance.instance_eval(&block)
-      score.merge(referenced_values: instance.referenced_values)
+      result = instance.instance_eval(&block)
+      result = result.merge(referenced_values: instance.referenced_values) if result.respond_to?(:merge)
+      result
     end
 
     # Public: Initialize a new ScoreCalculator
