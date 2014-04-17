@@ -23,6 +23,7 @@ module Quby
     attribute :created_at,           Time
     attribute :updated_at,           Time
     attribute :completed_at,         Time
+    attribute :outcome,              Outcome
     attribute :outcome_generated_at, Time
     attribute :scores,               Hash,    default: {}
     attribute :actions,              Hash,    default: {}
@@ -139,12 +140,20 @@ module Quby
       {}
     end
 
+    def outcome
+      Outcome.new(scores: @scores, actions: @actions, completion: @completion)
+    end
+
     def scores
-      super.with_indifferent_access
+      outcome.scores
     end
 
     def actions
-      super.with_indifferent_access
+      outcome.actions
+    end
+
+    def action
+      outcome.action
     end
 
     def as_json(options = {})

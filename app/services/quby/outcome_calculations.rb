@@ -4,17 +4,6 @@ module Quby
   module OutcomeCalculations
     extend ActiveSupport::Concern
 
-    def action
-      alarm_scores      = scores.select { |key, value| value["status"].to_s == "alarm" }
-      alarm_answers     = actions[:alarm] || []
-      attention_scores  = scores.select { |key, value| value["status"].to_s == "attention" }
-      attention_answers = actions[:attention] || []
-
-      return :alarm     if alarm_scores.any?     or alarm_answers.any?
-      return :attention if attention_scores.any? or attention_answers.any?
-      nil
-    end
-
     def calculate_builders
       results = {}
       score_results = {}

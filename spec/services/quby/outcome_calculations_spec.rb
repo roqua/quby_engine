@@ -28,41 +28,6 @@ module Quby
       Quby.questionnaire_finder.stub(find: questionnaire)
     end
 
-    describe '#action' do
-      it 'returns :alarm if any score is alarming' do
-        answer.scores = {tot: {label: "Totaal", value: 10, status: "alarm"},
-                         soc: {label: "Sociaal", value: 5, status: "attention"}}
-        answer.action.should eq :alarm
-      end
-
-      it 'returns :alarm if an answer to a question is alarming' do
-        answer.actions = {alarm: [:v_1]}
-        answer.action.should eq :alarm
-      end
-
-      it 'returns :attention if nothing is alarming and score is attention-worthy' do
-        answer.scores = {tot: {label: 'Totaal', value: 10, status: "attention"}}
-        answer.action.should eq :attention
-      end
-
-      it 'returns :attention if nothing is alarming and an answer to a question is attention-worthy' do
-        answer.actions = {alarm: [], attention: [:v_1]}
-        answer.action.should eq :attention
-      end
-
-      it 'returns nil if all scores and answers are neither alarming nor attention-worthy' do
-        answer.scores = {tot: {label: 'Totaal', value: 10}}
-        answer.actions = {alarm: [], attention: []}
-        answer.action.should be_nil
-      end
-
-      it 'works with symbols as well as keys for score statusses' do
-        answer.scores = {tot: {label: "Totaal", value: 10, status: :alarm},
-                         soc: {label: "Sociaal", value: 5, status: "attention"}}
-        answer.action.should eq :alarm
-      end
-    end
-
     describe '#calculate_builders' do
       it 'passes in the regular values and completed_at to the score calculator' do
         answer.stub(value_by_regular_values: 'regular_values',
