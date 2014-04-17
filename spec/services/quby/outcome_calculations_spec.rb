@@ -60,7 +60,9 @@ module Quby
       end
 
       it 'allows access to other scores' do
-        score2 = ScoreCalculation.new(:tot2, {label: "Totaal2", score: true}, &proc { {value: score(:tot)[:value] + 2} })
+        score2 = ScoreCalculation.new(:tot2,
+                                      {label: "Totaal2", score: true},
+                                      &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.add_score_calculation score2
         answer.tap(&:calculate_builders).scores[:tot2].should eq("value" => 5, "label" => "Totaal2",

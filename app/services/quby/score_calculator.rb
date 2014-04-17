@@ -158,6 +158,5 @@ module Quby
     def referenced_values
       @referenced_values
     end
-
   end
 end

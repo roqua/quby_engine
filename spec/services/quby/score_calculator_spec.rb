@@ -9,7 +9,7 @@ module Quby
       let(:result) do
         ScoreCalculator.calculate({'v_1' => 37}, timestamp) do
           {
-              value: sum(values(:v_1))
+            value: sum(values(:v_1))
           }
         end
       end
@@ -19,7 +19,7 @@ module Quby
       end
 
       it 'adds the list of referenced values' do
-        expect(result[:referenced_values]).to eq(['v_1'])
+        expect(result[:referenced_values]).to eq(%w(v_1))
       end
     end
 
@@ -53,12 +53,12 @@ module Quby
 
       it 'annotates that the key for a value is referenced in this calculation' do
         calculator.values(:v_1, :v_2)
-        expect(calculator.referenced_values).to eq(['v_1', 'v_2'])
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2))
       end
 
       it 'annotates usage of keys when fetching all values' do
         calculator.values
-        expect(calculator.referenced_values).to eq(['v_1', 'v_2', 'v_3'])
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3))
       end
 
       it 'raises if a value is requested which does not exist' do
@@ -87,12 +87,12 @@ module Quby
 
       it 'annotates that the key for a value is referenced in this calculation' do
         calculator.values_with_nils(:v_1, :v_2)
-        expect(calculator.referenced_values).to eq(['v_1', 'v_2'])
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2))
       end
 
       it 'annotates usage of keys when fetching all values' do
         calculator.values_with_nils
-        expect(calculator.referenced_values).to eq(['v_1', 'v_2', 'v_3'])
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3))
       end
 
       it 'returns nil if a value is requested which is not available' do
