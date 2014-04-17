@@ -75,28 +75,31 @@ module Quby
       it 'calculates scores, alerts and completion' do
         answer.calculate_builders
 
-        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal", "score" => true})
+        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
+                                          "score" => true, 'referenced_values' => []})
         answer.actions.should eq("attention" => 5)
         answer.completion.should eq("value" => 0.9)
       end
 
       it 'calculates scores with integer values' do
-        score.stub(calculation: proc { {value: values(:v1)} })
-        questionnaire.stub(questions: [double(key: :v1,
+        score.stub(calculation: proc { {value: values(:v_1)} })
+        questionnaire.stub(questions: [double(key: :v_1,
                                               type: :radio,
                                               options: [
                                                 double(key: :a1, value: 2)
                                               ],
                                               text_var: false)])
-        answer.value = {'v1' => :a1}
-        answer.tap(&:calculate_builders).scores[:tot].should eq("value" => [2], "label" => "Totaal", "score" => true)
+        answer.value = {'v_1' => :a1}
+        answer.tap(&:calculate_builders).scores[:tot].should eq("value" => [2], "label" => "Totaal",
+                                                                "score" => true, 'referenced_values' => ['v_1'])
       end
 
       it 'allows access to other scores' do
         score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.push_score_builder score2
-        answer.tap(&:calculate_builders).scores[:tot2].should eq("value" => 5, "label" => "Totaal2", "score" => true)
+        answer.tap(&:calculate_builders).scores[:tot2].should eq("value" => 5, "label" => "Totaal2",
+                                                                 "score" => true, 'referenced_values' => [])
       end
 
       context 'when calculation throws an exception' do
@@ -145,7 +148,8 @@ module Quby
 
       it 'assigns the calculated score to self.scores' do
         answer.update_scores
-        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal", "score" => true})
+        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
+                                          "score" => true, 'referenced_values' => []})
       end
 
       it 'assigns the calculated actions to self.actions' do
