@@ -4,7 +4,8 @@ module Quby
     # instance. All instance methods are accessible.
     def self.calculate(*args, &block)
       instance = new(*args)
-      instance.instance_eval(&block)
+      score = instance.instance_eval(&block)
+      score.merge(referenced_values: instance.referenced_values)
     end
 
     # Public: Initialize a new ScoreCalculator
@@ -25,6 +26,7 @@ module Quby
       @patient = ::Quby::Patient.new(patient_attrs)
       @scores = scores.with_indifferent_access
       @score = {}
+      @referenced_values = []
     end
 
     # Public: Get values for given question keys
@@ -56,8 +58,10 @@ module Quby
       fail ArgumentError, 'Key requested more than once' if keys.uniq!
 
       if keys.empty?
+        remember_usage_of_value_keys(@values.keys)
         @values
       else
+        remember_usage_of_value_keys(keys)
         @values.values_at(*keys)
       end
     end
@@ -144,6 +148,14 @@ module Quby
     def score(key)
       fail "Score #{key.inspect} does not exist or is not calculated yet." unless @scores.key? key
       @scores.fetch(key)
+    end
+
+    def remember_usage_of_value_keys(keys)
+      @referenced_values += keys
+    end
+
+    def referenced_values
+      @referenced_values
     end
 
   end
