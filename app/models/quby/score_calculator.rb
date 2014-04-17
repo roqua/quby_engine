@@ -146,16 +146,5 @@ module Quby
       @scores.fetch(key)
     end
 
-    def require_percentage_filled(values, percentage)
-      percentage /= 100.0 if percentage > 1
-      selects = values.select { |i| !i.nil? }
-      percentage_filled = selects.length.to_f / values.length.to_f
-
-      unless percentage_filled >= percentage
-        fail "Needed at least #{percentage * 100}% answered, got #{percentage_filled * 100}%"
-      end
-
-      selects
-    end
   end
 end
