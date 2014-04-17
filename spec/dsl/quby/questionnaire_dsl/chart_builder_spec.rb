@@ -5,7 +5,7 @@ module Quby
     describe ChartBuilder do
 
       let(:plottable_key) { 'some_key' }
-      let(:plottable) { Quby::Score.new plottable_key, {} }
+      let(:plottable) { Quby::ScoreCalculation.new plottable_key, {} }
       let(:questionnaire) do
         double(key: 'questionnaire_key').tap do |questionnaire|
           questionnaire.stub(:find_plottable).with(plottable_key).and_return plottable

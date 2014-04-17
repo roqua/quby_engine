@@ -3,20 +3,20 @@ require 'spec_helper'
 module Quby
   describe OutcomeCalculations do
     let(:scorer) { proc { {value: 3} } }
-    let(:score) { Score.new(:tot, {label: "Totaal", score: true}, &scorer) }
+    let(:score) { ScoreCalculation.new(:tot, {label: "Totaal", score: true}, &scorer) }
 
     let(:actioner) { proc { 5 } }
-    let(:action) { Score.new(:attention, {action: true}, &actioner) }
+    let(:action) { ScoreCalculation.new(:attention, {action: true}, &actioner) }
 
     let(:completioner) { proc { 0.9 } }
-    let(:completion) { Score.new(:completion, {completion: true}, &completioner) }
+    let(:completion) { ScoreCalculation.new(:completion, {completion: true}, &completioner) }
 
     let(:questionnaire) do
       quest = Questionnaire.new "test"
 
-      quest.push_score_builder score
-      quest.push_score_builder action
-      quest.push_score_builder completion
+      quest.add_score_calculation score
+      quest.add_score_calculation action
+      quest.add_score_calculation completion
 
       quest.stub(questions: [], last_update: Time.now, key: 'test')
       quest
@@ -95,9 +95,9 @@ module Quby
       end
 
       it 'allows access to other scores' do
-        score2 = Score.new(:tot2, {label: "Totaal2", score: true}, &proc { {value: score(:tot)[:value] + 2} })
+        score2 = ScoreCalculation.new(:tot2, {label: "Totaal2", score: true}, &proc { {value: score(:tot)[:value] + 2} })
 
-        questionnaire.push_score_builder score2
+        questionnaire.add_score_calculation score2
         answer.tap(&:calculate_builders).scores[:tot2].should eq("value" => 5, "label" => "Totaal2",
                                                                  "score" => true, 'referenced_values' => [])
       end
@@ -134,7 +134,7 @@ module Quby
 
       context 'when questionnaire has no calculation' do
         it 'returns an empty hash' do
-          questionnaire.score_builders.delete(:completion)
+          questionnaire.score_calculations.delete(:completion)
           answer.tap(&:calculate_builders).completion.should eq({})
         end
       end

@@ -15,7 +15,7 @@ module Quby
                                 validations: [{type: :requires_answer}],
                                 extra_data: {})],
              scores: [],
-             score_builders: {},
+             score_calculations: {},
              actions: [],
              completion: nil,
              default_answer_value: {},
@@ -74,7 +74,7 @@ module Quby
                                     type: :open)
                  ],
                  scores: [],
-                 score_builders: {},
+                 score_calculations: {},
                  actions: [],
                  completion: nil,
                  default_answer_value: {},

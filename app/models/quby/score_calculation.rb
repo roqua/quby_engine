@@ -1,5 +1,5 @@
 module Quby
-  class Score
+  class ScoreCalculation
     attr_accessor :key
     attr_accessor :label
     attr_accessor :options

@@ -21,7 +21,7 @@ module Quby
       action_results = {}
       completion_result = {}
 
-      questionnaire.score_builders.each do |key, builder|
+      questionnaire.score_calculations.each do |key, builder|
         begin
           result = ScoreCalculator.calculate(value_by_regular_values,
                                              completed_at,
