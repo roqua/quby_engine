@@ -38,12 +38,7 @@ module Quby
                             actions: action_results,
                             completion: completion_result,
                             generated_at: Time.now)
-
-      answer.scores = score_results
-      answer.actions = action_results
-      answer.completion = completion_result
-      answer.outcome_generated_at = Time.now
-
+      answer.outcome = outcome
       outcome
     end
 

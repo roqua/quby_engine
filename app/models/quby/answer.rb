@@ -140,7 +140,14 @@ module Quby
     end
 
     def outcome
-      Outcome.new(scores: @scores, actions: @actions, completion: @completion)
+      Outcome.new(scores: @scores, actions: @actions, completion: @completion, generated_at: @outcome_generated_at)
+    end
+
+    def outcome=(outcome)
+      self.scores               = outcome.scores
+      self.actions              = outcome.actions
+      self.completion           = outcome.completion
+      self.outcome_generated_at = outcome.generated_at
     end
 
     def scores
