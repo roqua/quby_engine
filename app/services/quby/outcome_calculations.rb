@@ -1,8 +1,12 @@
 require 'active_support/concern'
 
 module Quby
-  module OutcomeCalculations
-    extend ActiveSupport::Concern
+  class OutcomeCalculations
+    attr_reader :answer
+
+    def initialize(answer)
+      @answer = answer
+    end
 
     def calculate_builders
       results = {}
@@ -30,10 +34,10 @@ module Quby
         completion_result = results[key] if builder.completion
       end
 
-      self.scores = score_results
-      self.actions = action_results
-      self.completion = completion_result
-      self.outcome_generated_at = Time.now
+      answer.scores = score_results
+      answer.actions = action_results
+      answer.completion = completion_result
+      answer.outcome_generated_at = Time.now
 
       results
     end
@@ -44,7 +48,25 @@ module Quby
     def update_scores
       # Now we can fill it back up
       calculate_builders
-      Quby.answer_repo.update!(self)
+      Quby.answer_repo.update!(answer)
+    end
+
+    private
+
+    def questionnaire
+      answer.questionnaire
+    end
+
+    def value_by_regular_values
+      answer.value_by_regular_values
+    end
+
+    def completed_at
+      answer.completed_at
+    end
+
+    def patient
+      answer.patient
     end
   end
 end

@@ -7,7 +7,6 @@ module Quby
       class Record
         include ::Mongoid::Document
         include ::Mongoid::Timestamps
-        include OutcomeCalculations
 
         if Mongoid::VERSION > '4'
           store_in collection: :answers

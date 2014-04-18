@@ -18,7 +18,7 @@ module Quby
 
       if @answer.errors.empty?
         @answer.set_completed_at
-        @answer.calculate_builders
+        OutcomeCalculations.new(@answer).calculate_builders
         Quby.answer_repo.update!(@answer)
         succeed!
       else

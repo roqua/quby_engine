@@ -34,11 +34,11 @@ module Quby
                     completed_at: 'completed_at')
         ScoreCalculator.stub :calculate
         ScoreCalculator.should_receive(:calculate).with('regular_values', 'completed_at', {}, {})
-        answer.calculate_builders
+        OutcomeCalculations.new(answer).calculate_builders
       end
 
       it 'calculates scores, alerts and completion' do
-        answer.calculate_builders
+        OutcomeCalculations.new(answer).calculate_builders
 
         answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
                                           "score" => true, 'referenced_values' => []})
@@ -55,8 +55,9 @@ module Quby
                                               ],
                                               text_var: false)])
         answer.value = {'v_1' => :a1}
-        answer.tap(&:calculate_builders).scores[:tot].should eq("value" => [2], "label" => "Totaal",
-                                                                "score" => true, 'referenced_values' => ['v_1'])
+        OutcomeCalculations.new(answer).calculate_builders
+        answer.scores[:tot].should eq("value" => [2], "label" => "Totaal",
+                                      "score" => true, 'referenced_values' => ['v_1'])
       end
 
       it 'allows access to other scores' do
@@ -65,70 +66,78 @@ module Quby
                                       &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.add_score_calculation score2
-        answer.tap(&:calculate_builders).scores[:tot2].should eq("value" => 5, "label" => "Totaal2",
-                                                                 "score" => true, 'referenced_values' => [])
+        OutcomeCalculations.new(answer).calculate_builders
+        answer.scores[:tot2].should eq("value" => 5, "label" => "Totaal2",
+                                       "score" => true, 'referenced_values' => [])
       end
 
       context 'when calculation throws an exception' do
         before { score.stub(calculation: proc { fail "Foo" }) }
 
         it 'stores the exception' do
-          answer.tap(&:calculate_builders).scores[:tot][:exception].should eq 'Foo'
+          OutcomeCalculations.new(answer).calculate_builders
+          answer.scores[:tot][:exception].should eq 'Foo'
         end
 
         it 'includes the label' do
-          answer.tap(&:calculate_builders).scores[:tot][:label].should eq "Totaal"
+          OutcomeCalculations.new(answer).calculate_builders
+          answer.scores[:tot][:label].should eq "Totaal"
         end
       end
 
       it 'calculates completion percentage' do
         completion.stub(calculation: proc { 0.9 })
-        answer.tap(&:calculate_builders).completion.should eq('value' => 0.9)
+        OutcomeCalculations.new(answer).calculate_builders
+        answer.completion.should eq('value' => 0.9)
       end
 
       it 'updates outcome generation timestamp' do
         Timecop.freeze do
-          answer.tap(&:calculate_builders).outcome_generated_at.to_i.should eq Time.now.to_i
+          OutcomeCalculations.new(answer).calculate_builders
+          answer.outcome_generated_at.to_i.should eq Time.now.to_i
         end
       end
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
           completion.stub(calculation: proc { fail "Foo" })
-          answer.tap(&:calculate_builders).completion[:exception].should eq 'Foo'
+          OutcomeCalculations.new(answer).calculate_builders
+          answer.completion[:exception].should eq 'Foo'
         end
       end
 
       context 'when questionnaire has no calculation' do
         it 'returns an empty hash' do
           questionnaire.score_calculations.delete(:completion)
-          answer.tap(&:calculate_builders).completion.should eq({})
+          OutcomeCalculations.new(answer).calculate_builders
+          answer.completion.should eq({})
         end
       end
     end
 
     describe '#update_scores' do
       it 'calculates scores' do
-        answer.should_receive(:calculate_builders)
-        answer.update_scores
+        answer.should_receive(:scores=)
+        answer.should_receive(:actions=)
+        answer.should_receive(:completion=)
+        OutcomeCalculations.new(answer).update_scores
       end
 
       it 'assigns the calculated score to self.scores' do
-        answer.update_scores
+        OutcomeCalculations.new(answer).update_scores
         answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
                                           "score" => true, 'referenced_values' => []})
       end
 
       it 'assigns the calculated actions to self.actions' do
-        answer.update_scores
+        OutcomeCalculations.new(answer).update_scores
         answer.actions.should eq('attention' => 5)
       end
 
       it 'assigns the calculated completion to self.completion' do
-        answer.update_scores
+        OutcomeCalculations.new(answer).update_scores
         answer.completion.should eq('value' => 0.9)
       end
-
     end
   end
 end

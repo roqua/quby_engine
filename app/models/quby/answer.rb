@@ -8,7 +8,6 @@ module Quby
 
     extend ActiveModel::Naming
     include Virtus
-    include OutcomeCalculations
 
     attribute :_id, String
     attribute :questionnaire_id,     Integer
