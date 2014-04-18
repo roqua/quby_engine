@@ -34,12 +34,17 @@ module Quby
         completion_result = results[key] if builder.completion
       end
 
+      outcome = Outcome.new(scores: score_results,
+                            actions: action_results,
+                            completion: completion_result,
+                            generated_at: Time.now)
+
       answer.scores = score_results
       answer.actions = action_results
       answer.completion = completion_result
       answer.outcome_generated_at = Time.now
 
-      results
+      outcome
     end
 
     # Calculate scores and actions, write to the database but bypass any validations
