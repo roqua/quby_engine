@@ -14,24 +14,24 @@ module Quby
       action_results = {}
       completion_result = {}
 
-      questionnaire.score_calculations.each do |key, builder|
+      questionnaire.score_calculations.each do |key, calculation|
         begin
           result = ScoreCalculator.calculate(value_by_regular_values,
                                              completed_at,
                                              patient.andand.slice("birthyear", "gender"),
                                              results,
-                                             &builder.calculation)
-          result.reverse_merge!(builder.options) if builder.score
-          result = {"value" => result} if builder.completion
+                                             &calculation.calculation)
+          result.reverse_merge!(calculation.options) if calculation.score
+          result = {"value" => result} if calculation.completion
           results[key] = result
         rescue StandardError => e
           results[key] = {exception: e.message,
-                          backtrace: e.backtrace}.reverse_merge(builder.options)
+                          backtrace: e.backtrace}.reverse_merge(calculation.options)
         end
 
-        score_results[key] = results[key] if builder.score
-        action_results[key] = results[key] if builder.action
-        completion_result = results[key] if builder.completion
+        score_results[key] = results[key] if calculation.score
+        action_results[key] = results[key] if calculation.action
+        completion_result = results[key] if calculation.completion
       end
 
       outcome = Outcome.new(scores: score_results,
