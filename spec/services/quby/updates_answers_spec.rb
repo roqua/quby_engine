@@ -37,9 +37,10 @@ module Quby
       end
 
       it 'calculates scores' do
+        outcome = Outcome.new
         calculations = OutcomeCalculations.new(answer)
         OutcomeCalculations.stub(:new).with(answer).and_return(calculations)
-        calculations.should_receive :calculate_builders
+        calculations.should_receive(:calculate_builders).and_return(outcome)
         updates_answers.update
       end
     end

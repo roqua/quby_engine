@@ -30,20 +30,19 @@ module Quby
 
     describe '#calculate_builders' do
       it 'passes in the regular values and completed_at to the score calculator' do
-        answer.stub(value_by_regular_values: 'regular_values',
-                    completed_at: 'completed_at')
+        answer.stub(value_by_regular_values: 'regular_values', completed_at: 'completed_at')
         ScoreCalculator.stub :calculate
         ScoreCalculator.should_receive(:calculate).with('regular_values', 'completed_at', {}, {})
         OutcomeCalculations.new(answer).calculate_builders
       end
 
       it 'calculates scores, alerts and completion' do
-        OutcomeCalculations.new(answer).calculate_builders
+        outcome = OutcomeCalculations.new(answer).calculate_builders
 
-        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
-                                          "score" => true, 'referenced_values' => []})
-        answer.actions.should eq("attention" => 5)
-        answer.completion.should eq("value" => 0.9)
+        outcome.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
+                                           "score" => true, 'referenced_values' => []})
+        outcome.actions.should eq("attention" => 5)
+        outcome.completion.should eq("value" => 0.9)
       end
 
       it 'calculates scores with integer values' do
@@ -55,9 +54,9 @@ module Quby
                                               ],
                                               text_var: false)])
         answer.value = {'v_1' => :a1}
-        OutcomeCalculations.new(answer).calculate_builders
-        answer.scores[:tot].should eq("value" => [2], "label" => "Totaal",
-                                      "score" => true, 'referenced_values' => ['v_1'])
+        outcome = OutcomeCalculations.new(answer).calculate_builders
+        outcome.scores[:tot].should eq("value" => [2], "label" => "Totaal",
+                                       "score" => true, 'referenced_values' => ['v_1'])
       end
 
       it 'allows access to other scores' do
@@ -66,51 +65,51 @@ module Quby
                                       &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.add_score_calculation score2
-        OutcomeCalculations.new(answer).calculate_builders
-        answer.scores[:tot2].should eq("value" => 5, "label" => "Totaal2",
-                                       "score" => true, 'referenced_values' => [])
+        outcome = OutcomeCalculations.new(answer).calculate_builders
+        outcome.scores[:tot2].should eq("value" => 5, "label" => "Totaal2",
+                                        "score" => true, 'referenced_values' => [])
       end
 
       context 'when calculation throws an exception' do
         before { score.stub(calculation: proc { fail "Foo" }) }
 
         it 'stores the exception' do
-          OutcomeCalculations.new(answer).calculate_builders
-          answer.scores[:tot][:exception].should eq 'Foo'
+          outcome = OutcomeCalculations.new(answer).calculate_builders
+          outcome.scores[:tot][:exception].should eq 'Foo'
         end
 
         it 'includes the label' do
-          OutcomeCalculations.new(answer).calculate_builders
-          answer.scores[:tot][:label].should eq "Totaal"
+          outcome = OutcomeCalculations.new(answer).calculate_builders
+          outcome.scores[:tot][:label].should eq "Totaal"
         end
       end
 
       it 'calculates completion percentage' do
         completion.stub(calculation: proc { 0.9 })
-        OutcomeCalculations.new(answer).calculate_builders
-        answer.completion.should eq('value' => 0.9)
+        outcome = OutcomeCalculations.new(answer).calculate_builders
+        outcome.completion.should eq('value' => 0.9)
       end
 
       it 'updates outcome generation timestamp' do
         Timecop.freeze do
-          OutcomeCalculations.new(answer).calculate_builders
-          answer.outcome_generated_at.to_i.should eq Time.now.to_i
+          outcome = OutcomeCalculations.new(answer).calculate_builders
+          outcome.generated_at.to_i.should eq Time.now.to_i
         end
       end
 
       context 'when calculation throws an exception' do
         it 'stores the exception' do
           completion.stub(calculation: proc { fail "Foo" })
-          OutcomeCalculations.new(answer).calculate_builders
-          answer.completion[:exception].should eq 'Foo'
+          outcome = OutcomeCalculations.new(answer).calculate_builders
+          outcome.completion[:exception].should eq 'Foo'
         end
       end
 
       context 'when questionnaire has no calculation' do
         it 'returns an empty hash' do
           questionnaire.score_calculations.delete(:completion)
-          OutcomeCalculations.new(answer).calculate_builders
-          answer.completion.should eq({})
+          outcome = OutcomeCalculations.new(answer).calculate_builders
+          outcome.completion.should eq({})
         end
       end
     end

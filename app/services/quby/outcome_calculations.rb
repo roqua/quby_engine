@@ -34,12 +34,10 @@ module Quby
         completion_result = results[key] if calculation.completion
       end
 
-      outcome = Outcome.new(scores: score_results,
-                            actions: action_results,
-                            completion: completion_result,
-                            generated_at: Time.now)
-      answer.outcome = outcome
-      outcome
+      Outcome.new(scores: score_results,
+                  actions: action_results,
+                  completion: completion_result,
+                  generated_at: Time.now)
     end
 
     # Calculate scores and actions, write to the database but bypass any validations
@@ -47,7 +45,8 @@ module Quby
     # stuff, and can't help it if an answer is not completed.
     def update_scores
       # Now we can fill it back up
-      calculate_builders
+      outcome = calculate_builders
+      answer.outcome = outcome
       Quby.answer_repo.update!(answer)
     end
 
