@@ -1,7 +1,7 @@
 require 'active_support/concern'
 
 module Quby
-  class OutcomeCalculations
+  class OutcomeCalculation
     attr_reader :answer
 
     def initialize(answer)
