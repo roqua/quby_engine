@@ -28,7 +28,7 @@ module Quby
       Quby.questionnaire_finder.stub(find: questionnaire)
     end
 
-    describe '#calculate_builders' do
+    describe '#calculate' do
       it 'passes in the regular values and completed_at to the score calculator' do
         answer.stub(value_by_regular_values: 'regular_values', completed_at: 'completed_at')
         ScoreCalculator.stub :calculate
