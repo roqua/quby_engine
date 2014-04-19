@@ -8,7 +8,7 @@ module Quby
       @answer = answer
     end
 
-    def calculate_builders
+    def calculate
       results = {}
       score_results = {}
       action_results = {}
@@ -45,7 +45,7 @@ module Quby
     # stuff, and can't help it if an answer is not completed.
     def update_scores
       # Now we can fill it back up
-      outcome = calculate_builders
+      outcome = calculate
       answer.outcome = outcome
       Quby.answer_repo.update!(answer)
     end

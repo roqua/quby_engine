@@ -40,7 +40,7 @@ module Quby
         outcome = Outcome.new
         calculations = OutcomeCalculations.new(answer)
         OutcomeCalculations.stub(:new).with(answer).and_return(calculations)
-        calculations.should_receive(:calculate_builders).and_return(outcome)
+        calculations.should_receive(:calculate).and_return(outcome)
         updates_answers.update
       end
     end
