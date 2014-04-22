@@ -15,6 +15,36 @@ module Quby
     let(:definition)    { "title 'My Test'" }
     let(:questionnaire) { Questionnaire.new(key, definition) }
 
+    describe 'licenses' do
+      it 'defaults to being unknown' do
+        expect(questionnaire.license).to eq(:unknown)
+      end
+
+      it 'can be set to be unknown' do
+        questionnaire.license = :unknown
+        expect(questionnaire.license).to eq(:unknown)
+      end
+
+      it 'can be set to be free' do
+        questionnaire.license = :free
+        expect(questionnaire.license).to eq(:free)
+      end
+
+      it 'can be set to be private' do
+        questionnaire.license = :private
+        expect(questionnaire.license).to eq(:private)
+      end
+
+      it 'can be set to be pay_per_completion' do
+        questionnaire.license = :pay_per_completion
+        expect(questionnaire.license).to eq(:pay_per_completion)
+      end
+
+      it 'cannot be set to something else' do
+        expect { questionnaire.license = :something }.to raise_error(ArgumentError)
+      end
+    end
+
     describe '#scores' do
       it 'should have empty scores' do
         Questionnaire.new("test").scores.should eq([])

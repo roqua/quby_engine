@@ -32,6 +32,11 @@ module Quby
         questionnaire.allow_hotkeys.should == "all"
       end
 
+      it 'can set license' do
+        dsl { license :free }
+        expect(questionnaire.license).to eq(:free)
+      end
+
       it 'builds panels' do
         dsl { panel { title 'My Title' } }
         questionnaire.panels.first.title.should == 'My Title'
