@@ -32,6 +32,3 @@ TrivialAccessors:
 
 IndentArray:
   Enabled: false
-
-DoubleNegation:
-  Enabled: false

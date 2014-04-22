@@ -239,7 +239,7 @@ module Quby
         type: type,
         validations: validations,
         unit: unit,
-        hidden: !!hidden?,
+        hidden: hidden?,
         display_modes: display_modes,
         default_invisible: default_invisible,
         viewSelector: view_selector,
@@ -311,7 +311,7 @@ module Quby
     end
 
     def hidden?
-      type == :hidden || hidden
+      type == :hidden || hidden == true
     end
 
     def subquestions
