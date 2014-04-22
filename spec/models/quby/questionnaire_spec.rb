@@ -133,7 +133,7 @@ module Quby
     end
 
     describe '#key_in_use?' do
-      let(:definition)    { "title 'My Test' \n question :v_1 \n score :score_1 \n variable :var_1" }
+      let(:definition)    { "title 'My Test' \n question(:v_1, type: :string) \n score :score_1 \n variable :var_1" }
       let(:questionnaire) { Questionnaire.new("test", definition) }
 
       it "should check if key is used by a question" do

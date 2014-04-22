@@ -131,7 +131,7 @@ module Quby
           question :v_1, type: :check_box do
             option :v_1_a
           end
-          question :v_2, depends_on: [:v_1]
+          question :v_2, type: :string, depends_on: [:v_1]
         end
         questionnaire.callback_after_dsl_enhance_on_questions
         expect(questionnaire.question_hash[:v_2].depends_on).to eq [:v_1_a]

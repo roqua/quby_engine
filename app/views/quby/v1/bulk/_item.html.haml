@@ -10,7 +10,6 @@
   - itemkey = "item_#{item.key}"
   - extra_data = item.extra_data
   - itemclasses << item.as if item.as
-  - doublewide = item.options.size <= 5
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
   - itemclasses << 'subitem' if subquestion
@@ -24,49 +23,57 @@
       - if different_header(item, previous_item)
         = render :partial => "quby/v1/bulk/item_radio_check_scale_options", :object => item
 
-- if item.raw_content and item.class.name != "Quby::Items::Text"
+- if item.raw_content and !item.is_a?(Quby::Items::Text)
   - if item.raw_content.is_a?(Hash) and item.raw_content[:bulk]
     = raw item.raw_content[:bulk]
   - else
     = raw item.raw_content
 - else
   .item{:class => itemclasses, :data => extra_data, :id => itemkey}
-    - case item.class.name
-    - when "Quby::Items::Text"
+    - case item
+    - when Quby::Items::Text
       - if item.display_in.andand.include?(:bulk)
         .text
           = raw item.text
-    - when "Quby::Items::Question"
+    - when Quby::Questions::StringQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
-
-      - case item.type
-      - when :string
-        = render :partial => "quby/v1/bulk/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :textarea
-        = render :partial => "quby/v1/bulk/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :integer, :float
-        = render :partial => "quby/v1/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :radio, :scale
-        = render :partial => "quby/v1/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :disabled => disabled}
-      - when :date
-        = render :partial => "quby/v1/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :check_box
-        = render :partial => "quby/v1/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - when :select
-        = render :partial => "quby/v1/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-      - else
-        %strong
-          Error: unknown question type
-          = item.type
-          for question
-          = item.key
-    - when "Quby::Items::Table"
+      = render :partial => "quby/v1/bulk/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::TextQuestion
+      - return if item.hidden? and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/bulk/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::IntegerQuestion, Quby::Questions::FloatQuestion
+      - return if item.hidden? and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::RadioQuestion
+      - return if item.hidden? and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :disabled => disabled}
+    - when Quby::Questions::DateQuestion
+      - return if item.hidden? and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::CheckboxQuestion
+      - return if item.hidden? and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::SelectQuestion
+      - return if item.hidden? and @answer.send(item.key).blank?
+      - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
+      = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
+      = render :partial => "quby/v1/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
+    - when Quby::Questions::DeprecatedQuestion
+      - # nothing rendered
+    - when Quby::Items::Table
       = render :partial => "quby/v1/table/table", :locals => {:table => item}
     - else
-      Error: unknown item type
-      = item.class.name
-      for question
-      = item.key
+      - raise "Unknown item type #{item.class.name} for question #{item.key}"
 / End _item.html.haml

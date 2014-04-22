@@ -1,15 +1,15 @@
 panel do
   title 'Questionnaire With Chart'
 
-  question :v_1 do
+  question :v_1, type: :string do
     title 'Title 1'
   end
 
-  question :v_2 do
+  question :v_2, type: :string do
     title 'Title 2'
   end
 
-  question :v_3 do
+  question :v_3, type: :string do
     title 'Title 3'
   end
 end
