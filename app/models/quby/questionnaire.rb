@@ -151,7 +151,7 @@ module Quby
     end
 
     def license=(type)
-      raise ArgumentError, 'Invalid license' unless VALID_LICENSES.include?(type)
+      fail ArgumentError, 'Invalid license' unless VALID_LICENSES.include?(type)
       @license = type
     end
 
