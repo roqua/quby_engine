@@ -21,8 +21,8 @@ module Quby
       attention_scores  = scores.select { |key, value| value["status"].to_s == "attention" }
       attention_answers = actions[:attention] || []
 
-      return :alarm     if alarm_scores.any?     or alarm_answers.any?
-      return :attention if attention_scores.any? or attention_answers.any?
+      return :alarm     if alarm_scores.any?     || alarm_answers.any?
+      return :attention if attention_scores.any? || attention_answers.any?
       nil
     end
   end
