@@ -76,10 +76,8 @@ module Quby
         @score_builders = {}
         @charts = Charting::Charts.new
 
-        functions = Function.all.map(&:definition).join("\n\n")
-        functions_and_definition = [functions, definition].join("\n\n")
         begin
-          QuestionnaireDsl.enhance(self, functions_and_definition || "")
+          QuestionnaireDsl.enhance(self, definition || "")
           callback_after_dsl_enhance_on_questions
           validate_questions
         rescue SyntaxError, ValidationError => e
