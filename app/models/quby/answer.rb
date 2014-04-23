@@ -7,7 +7,7 @@ module Quby
     end
 
     extend ActiveModel::Naming
-    include Virtus
+    include Virtus.model
 
     attribute :_id, String
     attribute :questionnaire_id,     Integer

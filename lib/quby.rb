@@ -1,3 +1,4 @@
+require "monkey_patches/virtus"
 require "quby/engine"
 
 module Quby
