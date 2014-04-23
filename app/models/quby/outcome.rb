@@ -1,6 +1,6 @@
 module Quby
   class Outcome
-    include Virtus
+    include Virtus.model
 
     attribute :scores,               Hash,    default: {}
     attribute :actions,              Hash,    default: {}

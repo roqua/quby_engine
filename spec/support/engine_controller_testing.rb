@@ -26,6 +26,10 @@ module EngineControllerTesting
 
   def process_action(action, parameters = nil, session = nil, flash = nil, method = "GET")
     parameters ||= {}
-    process(action, parameters.merge!(use_route: :quby), session, flash, method)
+    if Rails::VERSION::MAJOR < 4
+      process(action, parameters.merge!(use_route: :quby), session, flash, method)
+    else
+      process(action, method, parameters.merge!(use_route: :quby), session, flash)
+    end
   end
 end
