@@ -18,3 +18,10 @@ appraise "rails40_mongoid4" do
   gem 'mongoid', '~> 4.0.0.beta1'
   gem 'compass-rails', '1.1.7'
 end
+
+appraise "rails41_mongoid4" do
+  gem 'rails', '~> 4.1'
+  gem 'sass-rails', '~> 4.0.0'
+  gem 'mongoid', '~> 4.0.0.beta1'
+  gem 'compass-rails', '1.1.7'
+end

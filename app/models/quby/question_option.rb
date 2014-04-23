@@ -44,7 +44,18 @@ module Quby
     end
 
     def as_json(options = {})
-      super.symbolize_keys.except(:question)
+      {
+        key: key,
+        value: value,
+        description: description,
+        questions: questions,
+        inner_title: inner_title,
+        hides_questions: hides_questions,
+        shows_questions: shows_questions,
+        hidden: hidden,
+        placeholder: placeholder,
+        view_id: view_id
+      }
     end
 
     def to_codebook

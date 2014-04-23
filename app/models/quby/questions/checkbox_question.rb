@@ -28,7 +28,7 @@ module Quby
         options.map { |opt| opt.input_key }.compact
       end
 
-      def as_json
+      def as_json(options = {})
         super.merge(options: @options.as_json)
       end
 

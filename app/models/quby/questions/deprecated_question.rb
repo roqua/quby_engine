@@ -5,7 +5,7 @@ module Quby
         true
       end
 
-      def as_json
+      def as_json(options = {})
         super.merge(options: @options.as_json)
       end
     end

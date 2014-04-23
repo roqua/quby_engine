@@ -34,7 +34,7 @@ module Quby
         [day_key.to_sym, month_key.to_sym, year_key.to_sym]
       end
 
-      def as_json
+      def as_json(options = {})
         super.merge(year_key: year_key, month_key: month_key, day_key: day_key)
       end
 
