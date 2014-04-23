@@ -8,6 +8,7 @@ dependencies:
     - "bundle check --path=../vendor/bundle --gemfile='gemfiles/rails32_mongoid2.gemfile' || bundle install --path=../vendor/bundle --gemfile='gemfiles/rails32_mongoid2.gemfile'"
     - "bundle check --path=../vendor/bundle --gemfile='gemfiles/rails32_mongoid3.gemfile' || bundle install --path=../vendor/bundle --gemfile='gemfiles/rails32_mongoid3.gemfile'"
     - "bundle check --path=../vendor/bundle --gemfile='gemfiles/rails40_mongoid4.gemfile' || bundle install --path=../vendor/bundle --gemfile='gemfiles/rails40_mongoid4.gemfile'"
+    - "bundle check --path=../vendor/bundle --gemfile='gemfiles/rails41_mongoid4.gemfile' || bundle install --path=../vendor/bundle --gemfile='gemfiles/rails41_mongoid4.gemfile'"
 test:
   override:
     - bundle exec rspec spec:
@@ -38,6 +39,16 @@ test:
     - bundle exec teaspoon:
         environment:
           BUNDLE_GEMFILE: gemfiles/rails40_mongoid4.gemfile
+          RAILS_ENV: test
+          RACK_ENV: test
+    - bundle exec rspec spec:
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails41_mongoid4.gemfile
+          RAILS_ENV: test
+          RACK_ENV: test
+    - bundle exec teaspoon:
+        environment:
+          BUNDLE_GEMFILE: gemfiles/rails41_mongoid4.gemfile
           RAILS_ENV: test
           RACK_ENV: test
     - bundle exec rubocop
