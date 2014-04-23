@@ -61,6 +61,24 @@ feature 'Hiding and showing questions' do
       Quby.answer_repo.reload(answer).value.should eq(answer_value("v_6" => "a6"))
     end
 
+    scenario 'editing an answer to hide a question should remove the value', js: true do
+      answer = visit_new_answer_for(questionnaire)
+
+      # if i have a question that is not hidden, and i give a value
+      # for that question and save the form, that value is saved.
+      select "licht", from: "answer[v_4]"
+      choose "answer_v_7_a1"
+      goto_second_page and goto_third_page and save_form
+      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_4" => "a3", "v_7" => "a1"))
+
+      # if i then edit the answer such that the question is now hidden, it should
+      # should be correctly wiped upon saving the answer
+      visit_new_answer_for(questionnaire, "paged", answer)
+      select "hide 2", from: "answer[v_4]"
+      goto_second_page and goto_third_page and save_form
+      Quby.answer_repo.reload(answer).value.should eq(answer_value("v_4" => "a2"))
+    end
+
     scenario 'unhiding by deselecting a question', js: true do
       answer = visit_new_answer_for(questionnaire)
       choose "answer_v_6_a6"

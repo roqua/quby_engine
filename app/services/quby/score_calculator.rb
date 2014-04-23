@@ -4,7 +4,9 @@ module Quby
     # instance. All instance methods are accessible.
     def self.calculate(*args, &block)
       instance = new(*args)
-      instance.instance_eval(&block)
+      result = instance.instance_eval(&block)
+      result = result.merge(referenced_values: instance.referenced_values) if result.respond_to?(:merge)
+      result
     end
 
     # Public: Initialize a new ScoreCalculator
@@ -25,6 +27,7 @@ module Quby
       @patient = ::Quby::Patient.new(patient_attrs)
       @scores = scores.with_indifferent_access
       @score = {}
+      @referenced_values = []
     end
 
     # Public: Get values for given question keys
@@ -56,8 +59,10 @@ module Quby
       fail ArgumentError, 'Key requested more than once' if keys.uniq!
 
       if keys.empty?
+        remember_usage_of_value_keys(@values.keys)
         @values
       else
+        remember_usage_of_value_keys(keys)
         @values.values_at(*keys)
       end
     end
@@ -146,16 +151,12 @@ module Quby
       @scores.fetch(key)
     end
 
-    def require_percentage_filled(values, percentage)
-      percentage /= 100.0 if percentage > 1
-      selects = values.select { |i| !i.nil? }
-      percentage_filled = selects.length.to_f / values.length.to_f
+    def remember_usage_of_value_keys(keys)
+      @referenced_values += keys
+    end
 
-      unless percentage_filled >= percentage
-        fail "Needed at least #{percentage * 100}% answered, got #{percentage_filled * 100}%"
-      end
-
-      selects
+    def referenced_values
+      @referenced_values
     end
   end
 end

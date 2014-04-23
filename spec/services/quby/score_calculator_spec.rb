@@ -6,9 +6,20 @@ module Quby
     let(:timestamp) { Time.now }
 
     describe '.calculate' do
+      let(:result) do
+        ScoreCalculator.calculate({'v_1' => 37}, timestamp) do
+          {
+            value: sum(values(:v_1))
+          }
+        end
+      end
+
       it 'calculates the value of a block' do
-        score = double
-        ScoreCalculator.calculate({}, timestamp) { score }.should eq score
+        expect(result[:value]).to eq(37)
+      end
+
+      it 'adds the list of referenced values' do
+        expect(result[:referenced_values]).to eq(%w(v_1))
       end
     end
 
@@ -40,6 +51,16 @@ module Quby
         calculator.values('v_1').should eq [values['v_1']]
       end
 
+      it 'annotates that the key for a value is referenced in this calculation' do
+        calculator.values(:v_1, :v_2)
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2))
+      end
+
+      it 'annotates usage of keys when fetching all values' do
+        calculator.values
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3))
+      end
+
       it 'raises if a value is requested which does not exist' do
         expect do
           calculator.values(:unknown_key)
@@ -62,6 +83,16 @@ module Quby
 
       it 'finds values by string' do
         calculator.values_with_nils('v_1').should eq [values['v_1']]
+      end
+
+      it 'annotates that the key for a value is referenced in this calculation' do
+        calculator.values_with_nils(:v_1, :v_2)
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2))
+      end
+
+      it 'annotates usage of keys when fetching all values' do
+        calculator.values_with_nils
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3))
       end
 
       it 'returns nil if a value is requested which is not available' do
@@ -223,32 +254,5 @@ module Quby
         expect { calculator.score(:missing) }.to raise_error(/does not exist or is not calculated/)
       end
     end
-
-    describe '#require_percentage_filled' do
-      let(:calculator) { ScoreCalculator.new({}, timestamp) }
-
-      context 'when enough values are non-nil' do
-        it 'returns the values' do
-          calculator.require_percentage_filled([1, 2, 3, 4, 5, 6], 100).should eq [1, 2, 3, 4, 5, 6]
-        end
-
-        it 'filters nils' do
-          calculator.require_percentage_filled([1, 2, nil], 20).should eq [1, 2]
-        end
-
-        it 'works with float percentages 0..1' do
-          calculator.require_percentage_filled([1, 2, nil], 0.2).should eq [1, 2]
-        end
-      end
-
-      context 'when not enough values are non-nil' do
-        it 'raises' do
-          expect do
-            calculator.require_percentage_filled([1, nil, nil, nil], 50)
-          end.to raise_error("Needed at least 50.0% answered, got 25.0%")
-        end
-      end
-    end
-
   end
 end

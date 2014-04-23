@@ -12,8 +12,8 @@ shared_examples_for Quby::QuestionnaireDsl::ChartBuilder do
   end
 
   describe 'setting which scores & answers should be included in the chart' do
-    let(:tot_score) { Quby::Score.new :tot, label: 'Totaal' }
-    let(:soc_score) { Quby::Score.new :soc, label: 'Sociaal' }
+    let(:tot_score) { Quby::ScoreCalculation.new :tot, label: 'Totaal' }
+    let(:soc_score) { Quby::ScoreCalculation.new :soc, label: 'Sociaal' }
     let(:float_question) { double(key: :v_1, type: :radio, options: []) }
     let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal',       questionnaire_key: 'honos') }
     let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal',      questionnaire_key: 'honos') }

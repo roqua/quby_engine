@@ -11,7 +11,8 @@ module Quby
       answer.scores.should == {"tot" => {"label" => "Totaalscore",
                                          "value" => 10,
                                          "interpretation" => "Laag",
-                                         "score" => true}}
+                                         "score" => true,
+                                         "referenced_values" => []}}
     end
   end
 end

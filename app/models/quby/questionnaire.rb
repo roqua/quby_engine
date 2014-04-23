@@ -25,7 +25,7 @@ module Quby
       @key = key
       @definition = definition if definition
       @last_update = Time.at(last_update.to_i)
-      @score_builders ||= {}
+      @score_calculations ||= {}
       @charts = Charting::Charts.new
       @question_hash ||= {}
       @license = :unknown
@@ -43,7 +43,7 @@ module Quby
     attr_accessor :abortable
     attr_accessor :enable_previous_questionnaire_button
     attr_accessor :panels
-    attr_accessor :score_builders
+    attr_accessor :score_calculations
     attr_accessor :default_answer_value
     attr_accessor :renderer_version
     attr_accessor :leave_page_alert
@@ -73,7 +73,7 @@ module Quby
     def enhance_by_dsl
       if definition
         @question_hash = {}
-        @score_builders = {}
+        @score_calculations = {}
         @charts = Charting::Charts.new
 
         begin
@@ -188,28 +188,28 @@ module Quby
 
     def key_in_use?(key)
       question_hash.key?(key)  ||
-      score_builders.key?(key) ||
+      score_calculations.key?(key) ||
       input_keys.include?(key)
     end
 
-    def push_score_builder(builder)
-      score_builders[builder.key] = builder
+    def add_score_calculation(builder)
+      score_calculations[builder.key] = builder
     end
 
     def scores
-      score_builders.values.select(&:score)
+      score_calculations.values.select(&:score)
     end
 
     def find_plottable(key)
-      score_builders[key] || question_hash.with_indifferent_access[key]
+      score_calculations[key] || question_hash.with_indifferent_access[key]
     end
 
     def actions
-      score_builders.values.select(&:action)
+      score_calculations.values.select(&:action)
     end
 
     def completion
-      score_builders.values.select(&:completion).first
+      score_calculations.values.select(&:completion).first
     end
 
     def add_chart(chart)

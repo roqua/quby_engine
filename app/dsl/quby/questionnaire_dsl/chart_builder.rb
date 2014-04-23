@@ -48,7 +48,7 @@ module Quby
 
       def configure_options(plottable, options)
         case plottable
-        when Quby::Score
+        when Quby::ScoreCalculation
           options.reverse_merge! plottable.options
         when Quby::Items::Question
           options[:label] ||= plottable.title

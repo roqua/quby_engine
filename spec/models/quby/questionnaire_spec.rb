@@ -51,41 +51,41 @@ module Quby
       end
     end
 
-    describe '#score_builders' do
-      it 'has empty score_builders' do
-        Questionnaire.new("test").score_builders.should eq({})
+    describe '#score_calculations' do
+      it 'has empty score_calculations' do
+        Questionnaire.new("test").score_calculations.should eq({})
       end
     end
 
-    describe '#push_score_builder' do
+    describe '#add_score_calculation' do
       let(:questionnaire) { Questionnaire.new("test") }
 
       it 'adds the score builder to the list of score builders' do
         builder = double("Quby::Score", key: "c")
-        questionnaire.push_score_builder builder
-        questionnaire.score_builders['c'].should eq builder
+        questionnaire.add_score_calculation builder
+        questionnaire.score_calculations['c'].should eq builder
       end
 
       it 'preserves order of added score builders' do
-        questionnaire.push_score_builder double("Quby::Score", key: "c")
-        questionnaire.push_score_builder double("Quby::Score", key: "a")
-        questionnaire.push_score_builder double("Quby::Score", key: "d")
-        questionnaire.score_builders.keys.should eq %w(c a d)
+        questionnaire.add_score_calculation double("Quby::Score", key: "c")
+        questionnaire.add_score_calculation double("Quby::Score", key: "a")
+        questionnaire.add_score_calculation double("Quby::Score", key: "d")
+        questionnaire.score_calculations.keys.should eq %w(c a d)
       end
 
       it 'overwrites the score builder if there already is a score builder known for this key' do
-        questionnaire.push_score_builder double(key: "c")
+        questionnaire.add_score_calculation double(key: "c")
 
         new_builder = double(key: "c")
-        questionnaire.push_score_builder new_builder
-        questionnaire.score_builders.shift.last.should eq new_builder
+        questionnaire.add_score_calculation new_builder
+        questionnaire.score_calculations.shift.last.should eq new_builder
       end
     end
 
     describe '#find_plottable' do
       it 'finds score builders' do
         score = double(key: 'a')
-        questionnaire.push_score_builder score
+        questionnaire.add_score_calculation score
         questionnaire.find_plottable('a').should eq score
       end
 
