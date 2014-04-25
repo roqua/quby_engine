@@ -140,6 +140,15 @@ module Quby
       values.reduce(0, &:+)
     end
 
+    # Public: Max of values
+    #
+    # values - an Array of Numerics
+    #
+    # Returns the highest value of the given values
+    def max(*values)
+      values.flatten.compact.max
+    end
+
     # Public: Returns the Integer age of the patient, or nil if it's not known.
     def age
       @patient.age_at @timestamp
@@ -166,6 +175,11 @@ module Quby
 
     def referenced_values
       @referenced_values
+    end
+
+    def opencpu(package, function, parameters = {})
+      client = ::OpenCPU.client
+      client.execute(package, function, parameters)
     end
   end
 end
