@@ -38,13 +38,14 @@ shared_examples 'group_minimum_answered' do
     it 'is valid when all questions are filled in' do
       select_radio_option 'v_radio', 'a1'
       check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
       fill_in_question 'v_string', 'kittens!'
       fill_in_question 'v_integer', '37'
       fill_in_question 'v_float', '4.2'
       run_validations
       expect_no_errors
       expect_saved_value 'v_radio', 'a1'
-      expect_saved_value 'v_check_box', {'v_ck_a1' => 1}
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
       expect_saved_value 'v_string', 'kittens!'
       expect_saved_value 'v_integer', "37"
       expect_saved_value 'v_float', "4.2"

@@ -21,7 +21,8 @@ shared_examples 'validations on checkbox questions' do
     end
 
     scenario 'saving a single option checked' do
-      check_option 'v_ck_a1'
+      check_option   'v_ck_a1'
+      uncheck_option 'v_ck_a2'
       run_validations
       expect_no_errors
       expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
@@ -77,23 +78,31 @@ shared_examples 'validations on checkbox questions' do
     end
 
     scenario 'is valid when some things are checked as long as All is not checked' do
-      check_option 'v_ck_a1'
+      check_option   'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      uncheck_option 'v_ck_a3'
       run_validations
       expect_no_errors
       expect_saved_value 'v_check_box', {"v_ck_a1" => 1, "v_ck_a2" => 0, 'v_ck_a3' => 0}
     end
 
     scenario 'is valid when everything but the All option is checked' do
-      check_option 'v_ck_a1'
-      check_option 'v_ck_a2'
+      check_option   'v_ck_a1'
+      check_option   'v_ck_a2'
+      uncheck_option 'v_ck_a3'
       run_validations
       expect_no_errors
       expect_saved_value 'v_check_box', {"v_ck_a1" => 1, "v_ck_a2" => 1, 'v_ck_a3' => 0}
     end
 
     scenario 'is not valid when All is checked but not all other options are checked' do
-      check_option 'v_ck_a1'
-      check_option 'v_ck_a3'
+      # Clientside, JS scripts will auto-deselect a3 when a2 is deselected, so this
+      # situation should not be possible to submit.
+      next if validation_run_location == :client_side
+
+      check_option   'v_ck_a1'
+      check_option   'v_ck_a3'
+      uncheck_option 'v_ck_a2'
       run_validations
       expect_error_on 'v_check_box', 'not_all_checked'
     end

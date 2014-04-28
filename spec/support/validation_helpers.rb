@@ -29,6 +29,12 @@ module ClientSideValidationHelpers
     end
   end
 
+  def uncheck_option(option_key)
+    within '#panel0.current' do
+      uncheck "answer_#{option_key}"
+    end
+  end
+
   def select_select_option(question_key, option_key)
     within '#panel0.current' do
       value_text = find("#answer_#{question_key}_#{option_key}").text
@@ -84,6 +90,10 @@ module ServerSideValidationHelpers
 
   def check_option(option_key)
     answer_to_submit[option_key] = '1'
+  end
+
+  def uncheck_option(option_key)
+    answer_to_submit[option_key] = '0'
   end
 
   def select_select_option(question_key, option_key)
