@@ -190,7 +190,7 @@ shared_examples 'group_minimum_answered' do
       expect_errors_on_group
     end
 
-    it 'is not valid when date_year question is not filled' do
+    it 'is not valid when date question is not filled' do
       select_radio_option 'v_radio', 'a1'
       select_radio_option 'v_scale', 'a1'
       select_select_option 'v_select', 'a1'
@@ -200,39 +200,7 @@ shared_examples 'group_minimum_answered' do
       fill_in_question 'v_integer', '37'
       fill_in_question 'v_float', '4.2'
       # fill_in_question('v_date_year',  '2013')
-      fill_in_question('v_date_month', '12')
-      fill_in_question('v_date_day',   '10')
-      run_validations
-      expect_errors_on_group
-    end
-
-    it 'is not valid when date_month question is not filled' do
-      select_radio_option 'v_radio', 'a1'
-      select_radio_option 'v_scale', 'a1'
-      select_select_option 'v_select', 'a1'
-      check_option 'v_ck_a1'
-      uncheck_option 'v_ck_a2'
-      fill_in_question 'v_string', 'kittens!'
-      fill_in_question 'v_integer', '37'
-      fill_in_question 'v_float', '4.2'
-      # fill_in_question('v_date_year',  '2013')
-      fill_in_question('v_date_month', '12')
-      fill_in_question('v_date_day',   '10')
-      run_validations
-      expect_errors_on_group
-    end
-
-    it 'is not valid when date_day question is not filled' do
-      select_radio_option 'v_radio', 'a1'
-      select_radio_option 'v_scale', 'a1'
-      select_select_option 'v_select', 'a1'
-      check_option 'v_ck_a1'
-      uncheck_option 'v_ck_a2'
-      fill_in_question 'v_string', 'kittens!'
-      fill_in_question 'v_integer', '37'
-      fill_in_question 'v_float', '4.2'
-      fill_in_question('v_date_year',  '2013')
-      fill_in_question('v_date_month', '12')
+      # fill_in_question('v_date_month', '12')
       # fill_in_question('v_date_day',   '10')
       run_validations
       expect_errors_on_group
