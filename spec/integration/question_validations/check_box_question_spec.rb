@@ -47,7 +47,10 @@ shared_examples 'validations on checkbox questions' do
     end
 
     scenario 'saving a valid choice' do
-      pending 'serverside does not work'
+      # Clientside JS scripts will auto-deselect a1 when a3 is selected. The server
+      # assumes the value it receives is correct and does not perform this deselect-trick again.
+      next if validation_run_location == :server_side
+
       check_option 'v_ck_a1'
       check_option 'v_ck_a3'
       run_validations
