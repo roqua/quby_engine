@@ -4,7 +4,7 @@ shared_examples 'group_maximum_answered' do
   context 'maximum number of given answers in a group' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END
-        n = 1
+        n = 7
 
         panel do
           question :v_radio, type: :radio, question_group: :group1, group_maximum_answered: n do
@@ -112,6 +112,215 @@ shared_examples 'group_maximum_answered' do
       expect_saved_value 'v_date_month', "12"
       expect_saved_value 'v_date_day', "10"
     end
+
+    it 'is valid when only radio question is not filled' do
+      # select_radio_option 'v_radio', 'a1'
+      select_radio_option 'v_scale', 'a1'
+      select_select_option 'v_select', 'a1'
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      fill_in_question 'v_string', 'kittens!'
+      fill_in_question 'v_integer', '37'
+      fill_in_question 'v_float', '4.2'
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      # expect_saved_value 'v_radio', 'a1'
+      expect_saved_value 'v_scale', 'a1'
+      expect_saved_value 'v_select', 'a1'
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      expect_saved_value 'v_string', 'kittens!'
+      expect_saved_value 'v_integer', "37"
+      expect_saved_value 'v_float', "4.2"
+      expect_saved_value 'v_date_year', "2013"
+      expect_saved_value 'v_date_month', "12"
+      expect_saved_value 'v_date_day', "10"
+    end
+
+    it 'is valid when only scale question is not filled' do
+      select_radio_option 'v_radio', 'a1'
+      # select_radio_option 'v_scale', 'a1'
+      select_select_option 'v_select', 'a1'
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      fill_in_question 'v_string', 'kittens!'
+      fill_in_question 'v_integer', '37'
+      fill_in_question 'v_float', '4.2'
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', 'a1'
+      # expect_saved_value 'v_scale', 'a1'
+      expect_saved_value 'v_select', 'a1'
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      expect_saved_value 'v_string', 'kittens!'
+      expect_saved_value 'v_integer', "37"
+      expect_saved_value 'v_float', "4.2"
+      expect_saved_value 'v_date_year', "2013"
+      expect_saved_value 'v_date_month', "12"
+      expect_saved_value 'v_date_day', "10"
+    end
+
+    it 'is valid when only select question is not filled' do
+      select_radio_option 'v_radio', 'a1'
+      select_radio_option 'v_scale', 'a1'
+      # select_select_option 'v_select', 'a1'
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      fill_in_question 'v_string', 'kittens!'
+      fill_in_question 'v_integer', '37'
+      fill_in_question 'v_float', '4.2'
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', 'a1'
+      expect_saved_value 'v_scale', 'a1'
+      # expect_saved_value 'v_select', 'a1'
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      expect_saved_value 'v_string', 'kittens!'
+      expect_saved_value 'v_integer', "37"
+      expect_saved_value 'v_float', "4.2"
+      expect_saved_value 'v_date_year', "2013"
+      expect_saved_value 'v_date_month', "12"
+      expect_saved_value 'v_date_day', "10"
+    end
+
+    it 'is valid when only check_box question is not filled' do
+      select_radio_option 'v_radio', 'a1'
+      select_radio_option 'v_scale', 'a1'
+      select_select_option 'v_select', 'a1'
+      # check_option 'v_ck_a1'
+      # uncheck_option 'v_ck_a2'
+      fill_in_question 'v_string', 'kittens!'
+      fill_in_question 'v_integer', '37'
+      fill_in_question 'v_float', '4.2'
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', 'a1'
+      expect_saved_value 'v_scale', 'a1'
+      expect_saved_value 'v_select', 'a1'
+      # expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      expect_saved_value 'v_string', 'kittens!'
+      expect_saved_value 'v_integer', "37"
+      expect_saved_value 'v_float', "4.2"
+      expect_saved_value 'v_date_year', "2013"
+      expect_saved_value 'v_date_month', "12"
+      expect_saved_value 'v_date_day', "10"
+    end
+
+    it 'is valid when only string question is not filled' do
+      select_radio_option 'v_radio', 'a1'
+      select_radio_option 'v_scale', 'a1'
+      select_select_option 'v_select', 'a1'
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      # fill_in_question 'v_string', 'kittens!'
+      fill_in_question 'v_integer', '37'
+      fill_in_question 'v_float', '4.2'
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', 'a1'
+      expect_saved_value 'v_scale', 'a1'
+      expect_saved_value 'v_select', 'a1'
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      # expect_saved_value 'v_string', 'kittens!'
+      expect_saved_value 'v_integer', "37"
+      expect_saved_value 'v_float', "4.2"
+      expect_saved_value 'v_date_year', "2013"
+      expect_saved_value 'v_date_month', "12"
+      expect_saved_value 'v_date_day', "10"
+    end
+
+    it 'is valid when only integer question is not filled' do
+      select_radio_option 'v_radio', 'a1'
+      select_radio_option 'v_scale', 'a1'
+      select_select_option 'v_select', 'a1'
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      fill_in_question 'v_string', 'kittens!'
+      # fill_in_question 'v_integer', '37'
+      fill_in_question 'v_float', '4.2'
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', 'a1'
+      expect_saved_value 'v_scale', 'a1'
+      expect_saved_value 'v_select', 'a1'
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      expect_saved_value 'v_string', 'kittens!'
+      # expect_saved_value 'v_integer', "37"
+      expect_saved_value 'v_float', "4.2"
+      expect_saved_value 'v_date_year', "2013"
+      expect_saved_value 'v_date_month', "12"
+      expect_saved_value 'v_date_day', "10"
+    end
+
+    it 'is valid when only float question is not filled' do
+      select_radio_option 'v_radio', 'a1'
+      select_radio_option 'v_scale', 'a1'
+      select_select_option 'v_select', 'a1'
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      fill_in_question 'v_string', 'kittens!'
+      fill_in_question 'v_integer', '37'
+      # fill_in_question 'v_float', '4.2'
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', 'a1'
+      expect_saved_value 'v_scale', 'a1'
+      expect_saved_value 'v_select', 'a1'
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      expect_saved_value 'v_string', 'kittens!'
+      expect_saved_value 'v_integer', "37"
+      # expect_saved_value 'v_float', "4.2"
+      expect_saved_value 'v_date_year', "2013"
+      expect_saved_value 'v_date_month', "12"
+      expect_saved_value 'v_date_day', "10"
+    end
+
+    it 'is valid when only date question is not filled' do
+      select_radio_option 'v_radio', 'a1'
+      select_radio_option 'v_scale', 'a1'
+      select_select_option 'v_select', 'a1'
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      fill_in_question 'v_string', 'kittens!'
+      fill_in_question 'v_integer', '37'
+      fill_in_question 'v_float', '4.2'
+      # fill_in_question('v_date_year',  '2013')
+      # fill_in_question('v_date_month', '12')
+      # fill_in_question('v_date_day',   '10')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', 'a1'
+      expect_saved_value 'v_scale', 'a1'
+      expect_saved_value 'v_select', 'a1'
+      expect_saved_value 'v_check_box', {'v_ck_a1' => 1, 'v_ck_a2' => 0}
+      expect_saved_value 'v_string', 'kittens!'
+      expect_saved_value 'v_integer', "37"
+      expect_saved_value 'v_float', "4.2"
+      # expect_saved_value 'v_date_year', "2013"
+      # expect_saved_value 'v_date_month', "12"
+      # expect_saved_value 'v_date_day', "10"
+    end
+
 
     it 'is not valid when all questions are filled in' do
       select_radio_option 'v_radio', 'a1'
