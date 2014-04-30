@@ -321,7 +321,6 @@ shared_examples 'group_maximum_answered' do
       # expect_saved_value 'v_date_day', "10"
     end
 
-
     it 'is not valid when all questions are filled in' do
       select_radio_option 'v_radio', 'a1'
       select_radio_option 'v_scale', 'a1'
