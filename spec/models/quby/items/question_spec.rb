@@ -37,11 +37,6 @@ module Quby
       questionnaire
     end
 
-    describe "validations" do
-      it "should require an answer to a required question"
-      it "should not require an answer to an unrequired question"
-    end
-
     describe '#input_keys' do
       it 'should list all input keys' do
         expect(questionnaire.question_hash[:radio].input_keys).to eql [:radio_rad1, :radio_rad2]

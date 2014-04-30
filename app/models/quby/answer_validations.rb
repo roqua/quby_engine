@@ -53,7 +53,11 @@ module Quby
     end
 
     def clear?(answer, question)
-      return true if answer == question.extra_data[:placeholder].to_s
+      return true if question.is_a?(Questions::SelectQuestion)  && answer == question.extra_data[:placeholder].to_s
+      return true if question.is_a?(Questions::StringQuestion)  && answer == ""
+      return true if question.is_a?(Questions::TextQuestion)    && answer == ""
+      return true if question.is_a?(Questions::IntegerQuestion) && answer == ""
+      return true if question.is_a?(Questions::FloatQuestion)   && answer == ""
       return true if parent_option_is_not_selected(question)
       return true if hidden_questions.andand.include?(question.key)
       false

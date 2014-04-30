@@ -77,7 +77,39 @@ feature 'Dependencies between questions', js: true do
       page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
     end
 
-    scenario 'hiding all questions on another page skips the entire page'
+    scenario 'hiding all questions on another page skips the entire page' do
+      questionnaire = inject_questionnaire("test", <<-END)
+        panel do
+          question :v_1, type: :radio, required: true do
+            title "Wil je meer vragen beantwoorden?"
+            option :a1, value: 1, description: "Ja"
+            option :a2, value: 2, description: "Nee", hides_questions: [:v_2, :v_3]
+          end
+        end
+
+        panel do
+          question :v_2, type: :string, required: true do
+            title "Vul dit in"
+          end
+
+          question :v_3, type: :string, required: true do
+            title "En dit ook"
+          end
+        end
+
+        end_panel
+      END
+
+      visit_new_answer_for(questionnaire)
+
+      # Choosing option that hides nothing should leave other question visible
+      within("#panel0.current") do
+        choose "Nee"
+        click_on "Volgende vraag"
+      end
+
+      page.should have_content("Bedankt")
+    end
   end
 
   context 'checkbox questions' do
@@ -175,10 +207,5 @@ feature 'Dependencies between questions', js: true do
       find('#answer_a1').should be_checked
       find('#answer_a3').should_not be_checked
     end
-  end
-
-  context 'question groups' do
-    scenario 'minimum number of answered of group'
-    scenario 'maximum number of answered of group'
   end
 end

@@ -29,6 +29,12 @@ module ClientSideValidationHelpers
     end
   end
 
+  def uncheck_option(option_key)
+    within '#panel0.current' do
+      uncheck "answer_#{option_key}"
+    end
+  end
+
   def select_select_option(question_key, option_key)
     within '#panel0.current' do
       value_text = find("#answer_#{question_key}_#{option_key}").text
@@ -53,8 +59,11 @@ module ClientSideValidationHelpers
   end
 
   def expect_saved_value(question_key, expected_value)
-    click_on "Klaar"
-    page.should have_content("Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.")
+    unless @have_clicked_save
+      click_on "Klaar"
+      page.should have_content("Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.")
+      @have_clicked_save = true
+    end
     Quby.answer_repo.reload(@answer).send(question_key).should eq(expected_value)
   end
 end
@@ -81,6 +90,10 @@ module ServerSideValidationHelpers
 
   def check_option(option_key)
     answer_to_submit[option_key] = '1'
+  end
+
+  def uncheck_option(option_key)
+    answer_to_submit[option_key] = '0'
   end
 
   def select_select_option(question_key, option_key)
