@@ -57,6 +57,8 @@ class BetterSlider
     @$slider.addClass('invalid')
     @$slider.one 'slide', =>
       @$el.removeClass('invalid')
+    @$slider.data('base').data('handles')[0].one 'click', =>
+      @$el.removeClass('invalid')
     @$el.val('')
 
   copy_disabled: =>
