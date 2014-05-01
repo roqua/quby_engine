@@ -58,8 +58,26 @@ module Quby
       }
     end
 
-    def to_codebook
-      "#{value || key}\t\"#{description}\""
+    def to_codebook(questionnaire, opts)
+      return nil if inner_title
+      output = []
+
+      if question.type == :check_box
+        option_key = question.codebook_key(key, questionnaire, opts)
+        output << "#{option_key} #{question.codebook_output_type}#{' deprecated' if hidden}"
+        output << "\"#{question.title} -- #{description}\"" unless question.title.blank? and description.blank?
+        output << "1\tChecked"
+        output << "0\tUnchecked"
+        output << "empty\tUnchecked"
+      else
+        output << "#{value || key}\t\"#{description}\"#{' deprecated' if hidden}"
+      end
+
+      questions.each do |subquestion|
+        output << "\t#{subquestion.to_codebook(questionnaire, opts).gsub("\n", "\n\t")}"
+      end
+
+      output.join("\n")
     end
   end
 end

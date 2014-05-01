@@ -279,9 +279,13 @@ module Quby
 
     def to_codebook(questionnaire, opts = {})
       output = []
-      output << "#{codebook_key(key, questionnaire, opts)} #{codebook_output_type} #{codebook_output_range}"
+      question_key = codebook_key(key, questionnaire, opts)
+      output << "#{question_key} #{codebook_output_type} #{codebook_output_range}#{' deprecated' if hidden}"
       output << "\"#{title}\"" unless title.blank?
-      output << options.map(&:to_codebook).join("\n") unless options.blank?
+      options_string = options.map do |option|
+        option.to_codebook(questionnaire, opts)
+      end.compact.join("\n")
+      output << options_string unless options.blank?
       output.join("\n")
     end
 

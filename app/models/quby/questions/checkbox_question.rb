@@ -33,18 +33,9 @@ module Quby
       end
 
       def to_codebook(questionnaire, opts = {})
-        output = []
-        options.each_with_index do |option, idx|
-          next if option.inner_title
-
-          output << "#{codebook_key(option.key, questionnaire, opts)} #{codebook_output_type}"
-          output << "\"#{title} -- #{option.description}\"" unless title.blank? and option.description.blank?
-          output << "1\tChecked"
-          output << "0\tUnchecked"
-          output << "empty\tUnchecked"
-          output << "" unless idx == (options.size - 1)
-        end
-        output.join("\n")
+        options.map do |option|
+          option.to_codebook(questionnaire, opts)
+        end.compact.join("\n\n")
       end
     end
   end

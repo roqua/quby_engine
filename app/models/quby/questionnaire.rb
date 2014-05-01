@@ -177,7 +177,11 @@ module Quby
         output << ""
       end
 
-      questions.compact.each do |question|
+      top_questions = panels.map do |panel|
+        panel.items.select { |item| item.is_a? Quby::Items::Question }
+      end.flatten.compact
+
+      top_questions.each do |question|
         output << question.to_codebook(self, options)
         output << ""
       end
