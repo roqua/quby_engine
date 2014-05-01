@@ -68,6 +68,17 @@ module Quby
       end
     end
 
+    describe '#value' do
+      let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
+      let(:scores) { {'score1' => 22} }
+      let(:calculator) { ScoreCalculator.new(values, timestamp, {}, scores) }
+
+      it 'returns the value for the provided argument key' do
+        expect(calculator.value(:v_1)).to eq 1
+        expect(calculator.value(:v_3)).to eq nil
+      end
+    end
+
     describe '#values_with_nils' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
       let(:scores) { {'score1' => 22} }

@@ -9,7 +9,7 @@ gem 'appraisal', '1.0.0.beta3'
 gem 'bson_ext'
 
 # Optional dependency on RoQua Support gem.
-gem 'roqua-support', git: 'git://github.com/roqua/roqua-support.git'
+gem 'roqua-support'
 
 # Gems used only for assets and not required
 # in production environments by default.

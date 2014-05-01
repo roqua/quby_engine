@@ -45,6 +45,15 @@ module Quby
       values_with_nils(*keys)
     end
 
+    # Public: Get value for given question key
+    #
+    # key - A key for which to return a value
+    #
+    # Returns a value.
+    def value(key)
+      values_with_nils(key.to_s).first
+    end
+
     # Public: Get values for given question keys, or nil if the question is not filled in
     #
     # *keys - A list of keys for which to return values
@@ -131,6 +140,15 @@ module Quby
       values.reduce(0, &:+)
     end
 
+    # Public: Max of values
+    #
+    # values - an Array of Numerics
+    #
+    # Returns the highest value of the given values
+    def max(*values)
+      values.flatten.compact.max
+    end
+
     # Public: Returns the Integer age of the patient, or nil if it's not known.
     def age
       @patient.age_at @timestamp
@@ -157,6 +175,11 @@ module Quby
 
     def referenced_values
       @referenced_values
+    end
+
+    def opencpu(package, function, parameters = {})
+      client = ::OpenCPU.client
+      client.execute(package, function, parameters)
     end
   end
 end
