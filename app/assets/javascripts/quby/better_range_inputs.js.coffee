@@ -52,6 +52,7 @@ class BetterSlider
     handle = @$slider.data('base').data('handles')[0]
     handle.append(@$value_div)
 
+  # Starts the slider as invalid, makes it valid on slide or click.
   start_invalid: ->
     @$el.addClass('invalid')
     @$slider.addClass('invalid')
@@ -59,6 +60,7 @@ class BetterSlider
       @$el.removeClass('invalid')
     @$slider.data('base').data('handles')[0].one 'click', =>
       @$el.removeClass('invalid')
+      @$el.val(@$slider.val())
     @$el.val('')
 
   copy_disabled: =>
