@@ -17,7 +17,7 @@ feature 'Trying to fill out an invalid answer', js: true do
 
     visit_new_answer_for(questionnaire)
     find("#item_v1 .error.requires_answer", visible: false).should_not be_visible
-    click_on "Volgende vraag"
+    click_on "Verder"
     find("#item_v1 .error.requires_answer").should be_visible
   end
 
@@ -89,7 +89,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     within ".panel.current" do
       find(options[:within] + " " + options[:should_show], visible: false).should_not be_visible
       fill_in options[:answering], with: options[:with]
-      click_on "Volgende vraag"
+      click_on "Verder"
       find(options[:within] + " " + options[:should_show]).should be_visible
     end
   end
@@ -116,11 +116,11 @@ feature 'question with a depends_on', js: true do
 
     within ".panel.current" do
       check 'vraag 2'
-      click_on "Volgende vraag"
+      click_on "Verder"
       find('#item_v1 .error.requires_answer', visible: false).should be_visible
 
       uncheck 'vraag 2'
-      click_on "Volgende vraag"
+      click_on "Verder"
       find('#item_v1 .error.requires_answer', visible: false).should_not be_visible
     end
   end

@@ -42,7 +42,7 @@
         = submit_tag raw("&larr; Vorige vragenlijst"), :id => "back", :tabindex => "-1"
     - else
       .prev
-        = submit_tag raw("&larr; Vorige vraag"), :id => "prevButton#{panel_counter}", :tabindex => "-1"
+        = submit_tag raw("&larr; Terug"), :id => "prevButton#{panel_counter}", :tabindex => "-1"
 
     .abort
       - if questionnaire.abortable
@@ -52,7 +52,7 @@
 
     - if panel_counter < panels.length - 1
       .next
-        = submit_tag raw("Volgende vraag &rarr;"), :id => "nextButton#{panel_counter}"
+        = submit_tag raw("Verder &rarr;"), :id => "nextButton#{panel_counter}"
     - else
       .save
         = submit_tag "Klaar", :id => "done-button"

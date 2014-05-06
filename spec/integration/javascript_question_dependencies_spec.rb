@@ -105,7 +105,7 @@ feature 'Dependencies between questions', js: true do
       # Choosing option that hides nothing should leave other question visible
       within("#panel0.current") do
         choose "Nee"
-        click_on "Volgende vraag"
+        click_on "Verder"
       end
 
       page.should have_content("Bedankt")

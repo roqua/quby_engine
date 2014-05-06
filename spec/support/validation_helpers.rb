@@ -44,7 +44,7 @@ module ClientSideValidationHelpers
 
   def run_validations
     within '#panel0.current' do
-      click_on 'Volgende vraag'
+      click_on 'Verder'
     end
   end
 

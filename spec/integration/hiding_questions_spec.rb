@@ -268,17 +268,17 @@ feature 'Hiding and showing questions' do
   end
 
   def goto_first_page
-    click_on "Vorige vraag"
+    click_on "Terug"
     page.should have_content "P00"
   end
 
   def goto_second_page
-    click_on "Volgende vraag"
+    click_on "Verder"
     page.should have_content "Text"
   end
 
   def goto_third_page
-    click_on "Volgende vraag"
+    click_on "Verder"
     page.should have_content "Sla de antwoorden op door"
   end
 

@@ -8,7 +8,7 @@ panel do
 
 Deze vragenlijst bevat 16 vragen.
 
-Klik op &#39;Volgende vraag&#39; om verder te gaan."
+Klik op &#39;Verder&#39; om verder te gaan."
 end
 
 default_question_options :score_header => :none
