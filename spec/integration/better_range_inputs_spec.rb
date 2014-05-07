@@ -16,12 +16,19 @@ feature 'Displaying a input of type range', js: true do
 
   scenario 'A float slider without a (default) value set' do
     questionnaire = inject_questionnaire("test", <<-END)
+      panel do
       question :v1, type: :float, presentation: :horizontal, as: :slider do
         title "Relatie/Contact"
         validates_in_range 0..100
         left_label "left"
         right_label "right"
-      end; end_panel
+      end;
+      question :v2, type: :integer, presentation: :horizontal, as: :slider do
+        title "Relatie/Contact"
+        validates_in_range 0..100
+        left_label "left"
+        right_label "right"
+      end; end
     END
     visit_new_answer_for(questionnaire)
 
@@ -50,6 +57,14 @@ feature 'Displaying a input of type range', js: true do
 
     # the input should not be invalid after the user set a value
     input['class'].should_not include 'invalid'
+
+    # clicking the handlebar will also make the slider valid
+    input2 = find("#answer_v2", visible: false)
+    input2.value.should eq ''
+    input2['class'].should include 'invalid'
+    find('#item_v2 .noUi-handle').click
+    input2['class'].should_not include 'invalid'
+    input2.value.should eq '50'
 
     # dragging the slider should change the value
     # can't test this yet.
