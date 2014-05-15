@@ -19,4 +19,10 @@ class Maruku
       Maruku.new("{{test}} {{test2}}").to_html.should == "<p><span class='text_var' text_var='test'>{{test}}</span> <span class='text_var' text_var='test2'>{{test2}}</span></p>"
     end
   end
+
+  describe "raises errors" do
+    it 'raises on errorneus syntax' do
+      expect { Maruku.new("*hoi") }.to raise_error(MaRuKu::Exception)
+    end
+  end
 end
