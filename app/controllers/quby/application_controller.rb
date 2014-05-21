@@ -9,6 +9,7 @@ module Quby
 
     around_filter :log_session_hash
     before_filter :enable_internet_explorer_cookies_inside_iframe
+    before_filter :configure_x_frame_header
 
     protected
 
@@ -48,6 +49,15 @@ module Quby
       # Since the primary use-case for RoQua is to be embedded in an EPD-window,
       # we need this header to be able to function at all.
       response.headers["P3P"] = "CP=\"CAO PSA OUR\""
+    end
+
+    def configure_x_frame_header
+      # TODO: Better would be something like 'ALLOW-FROM http://localhost'
+      # except we don't know yet which domains to whitelist.
+      #
+      # The Rails 4 default of SAMEORIGIN doesn't work for us, since we're
+      # using several domains.
+      headers.delete('X-Frame-Options')
     end
 
     def log_session_hash
