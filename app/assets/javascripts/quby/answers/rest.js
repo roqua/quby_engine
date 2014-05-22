@@ -18,6 +18,11 @@ function activatePanel(panel, updateHash, forward) {
     if (updateHash)
         changeHash(panel[0].id);
     window.scrollTo(0,0);
+    // iOS 7 will scroll to top, then figure "hey, you scrolled up" and enlarge the URL bar.
+    // The URL bar is then displayed on top of our content, which sometimes hides the first
+    // question. Be scrolling to top again after it is enlarged already, we make sure it is
+    // no longer over our content.
+    window.setTimeout(function() { window.scrollTo(0,0) }, 1)
 
     $(document).trigger('panel_activated', [panel])
 }
