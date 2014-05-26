@@ -155,7 +155,7 @@ module Quby
     def authorize!
       if Quby::Settings.authorize_with_id_from_session
         fail MissingAuthorization unless session[:quby_answer_id].present?
-        fail InvalidAuthorization unless params[:id] == session[:quby_answer_id]
+        fail InvalidAuthorization unless params[:id].to_s == session[:quby_answer_id].to_s
       end
     end
 
