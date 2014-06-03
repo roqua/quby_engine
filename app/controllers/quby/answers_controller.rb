@@ -24,8 +24,6 @@ module Quby
     before_filter :prevent_browser_cache, only: :edit
     before_filter :check_aborted, only: :update
 
-    protect_from_forgery except: [:edit, :update]
-
     rescue_from TokenValidationError,     with: :bad_token
     rescue_from TimestampValidationError, with: :bad_timestamp
     rescue_from InvalidAuthorization,     with: :bad_authorization

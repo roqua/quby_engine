@@ -9,6 +9,7 @@
 
   = stylesheet_link_tag('quby/application', :media => 'screen, projection')
   = stylesheet_link_tag "quby/print", :media => "print"
+  = csrf_meta_tags
 
   - if @custom_stylesheet.present?
     = stylesheet_link_tag @custom_stylesheet, :media => 'screen, projection'
