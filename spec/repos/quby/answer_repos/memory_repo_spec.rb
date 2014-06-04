@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'quby/answer_repos/specs'
 
 module Quby
   module AnswerRepos
