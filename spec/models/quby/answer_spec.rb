@@ -26,6 +26,20 @@ module Quby
       Quby.questionnaire_finder.stub(find: questionnaire)
     end
 
+    describe 'initialization of hashes ' do
+      it 'initializes value as an empty hash when given nothing' do
+        Answer.new.value.should eq({})
+      end
+
+      it 'initializes value as an empty hash when given explicit nils' do
+        Answer.new(value: nil).value.should eq({})
+      end
+
+      it 'initializes value as given' do
+        Answer.new(value: {a: 1, b: 2}).value.should eq({a: 1, b: 2})
+      end
+    end
+
     describe '#value_by_values' do
       it 'returns an empty hash when value is nil' do
         Answer.new.value_by_values.should eq({})
