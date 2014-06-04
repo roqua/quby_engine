@@ -36,6 +36,18 @@ module Quby
     attr_accessor :extra_question_values
     attr_accessor :extra_failed_validations
 
+    def initialize(attributes = {})
+      super
+
+      # Initialize Hash attributes to empty hash even when explicitly given nil.
+      # This differs from Virtus' default behaviour which would set them to nil.
+      self.class.attribute_set.each do |attribute|
+        if attribute.type.is_a? Virtus::Attribute::Hash::Type
+          public_send(:"#{attribute.name}=", public_send(attribute.name) || {})
+        end
+      end
+    end
+
     def id
       _id
     end
