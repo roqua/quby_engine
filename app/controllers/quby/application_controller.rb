@@ -64,8 +64,7 @@ module Quby
       logger.info "  User agent: #{request.headers['User-Agent']}"
       logger.info "  Session ID: #{request.session_options[:id]}"
       logger.info "  Process PID: #{Process.pid}" unless Rails.env.development?
-      # TODO: Rails 4 upgrade -> this now spits out the entire HTML body
-      # logger.info  "  Pre-request session hash: #{session.inspect}"
+      logger.info  "  Pre-request session hash: #{session.to_json}"
 
       if respond_to?(:add_log_information)
         add_log_information :useragent,  request.headers['User-Agent']
@@ -75,8 +74,7 @@ module Quby
 
       yield
 
-      # TODO: Rails 4 upgrade -> this now spits out the entire HTML body
-      # logger.info  "  Post-request session hash: #{session.inspect}"
+      logger.info  "  Post-request session hash: #{session.to_json}"
     end
   end
 end
