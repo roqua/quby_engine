@@ -77,18 +77,22 @@
         .slider { @include span-columns($columns omega); }
         .fd-form-element-hidden { display: none; }
 
-        table.labels {
-          table-layout: fixed;
-          border: none;
-          td {
+        .labels {
+          position: relative;
+          height: 1em;
+          div {
             text-align: center;
-            border: none;
+            width: 400px;
+            margin-left: -200px;
+            position: absolute;
           }
-          td.first, td:first-child {
+          .first, :first-child {
             text-align: left;
+            margin-left: 0;
           }
-          td.last, td:last-child {
+          .last { //, :last-child breaks ie8
             text-align: right;
+            right: 0;
           }
         }
       }
