@@ -9,7 +9,9 @@ PATH
       jquery-rails (~> 2.2.1)
       json
       maruku (= 0.6.1)
-      opencpu (~> 0.6.0)
+      mongoid (>= 2.2, < 5.0)
+      mongoid-app_settings
+      opencpu (~> 0.7.0)
       rails (>= 3.2, < 5.0)
       ryansch-andand
       sass-rails (>= 3.2, < 5.0)
@@ -172,9 +174,10 @@ GEM
     nio4r (1.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
-    opencpu (0.6.2)
+    opencpu (0.7.0)
       httparty (~> 0.13, >= 0.13.1)
       yajl-ruby (~> 1.2, >= 1.2.0)
+    origin (1.1.0)
     parser (2.1.7)
       ast (~> 1.1)
       slop (~> 3.4, >= 3.4.5)
