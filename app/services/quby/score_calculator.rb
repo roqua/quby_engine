@@ -179,7 +179,7 @@ module Quby
 
     def opencpu(package, function, parameters = {})
       client = ::OpenCPU.client
-      client.execute(package, function, parameters)
+      client.execute(package, function, data: parameters)
     end
   end
 end
