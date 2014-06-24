@@ -34,14 +34,6 @@ module Quby
         store_record(record)
       end
 
-      def update(answer)
-        update!(answer)
-      end
-
-      def regenerate_outcome!(answer)
-        Quby::OutcomeCalculation.new(answer).update_scores
-      end
-
       private
 
       def set_initial_attributes(record, questionnaire, given_attributes)

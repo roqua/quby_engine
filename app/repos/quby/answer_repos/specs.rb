@@ -104,16 +104,6 @@ if defined?(RSpec)
       end
     end
 
-    describe 'regenerating outcome' do
-      it 'regeneates outcome for the given answer record' do
-        answer = repo.create!('big', {})
-        outcome_calculation = double('outcome_calculation', update_scores: nil)
-        expect(Quby::OutcomeCalculation).to receive(:new).with(answer).and_return outcome_calculation
-        expect(outcome_calculations).to receive :update_scores
-        repo.regenerate_outcome!(answer)
-      end
-    end
-
     def verify(record)
       record.questionnaire_key.should    eq('big')
       record.raw_params.should           eq(stringified(attributes[:raw_params]))
