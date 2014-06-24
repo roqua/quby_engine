@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency "opencpu",       '~> 0.6.0'
 
   # Views
+  s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
   s.add_dependency "sass-rails",    '>= 3.2', '< 5.0'
   s.add_dependency "maruku",        '0.6.1'
