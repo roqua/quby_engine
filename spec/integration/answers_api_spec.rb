@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Quby answers API' do
+feature 'Quby answers public API' do
   let(:answer)              { Quby.send(:answer_repo).create! 'simple' }
   let(:answer_with_outcome) { Quby.send(:answer_repo).create! 'simple_with_outcome' }
 
