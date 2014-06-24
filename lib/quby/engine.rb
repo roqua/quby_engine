@@ -2,7 +2,6 @@
 # Therefore, we need to require stuff manually
 require 'rubygems'
 require 'mongoid'
-require 'mongoid-app_settings'
 require 'coffee_script'
 require 'haml'
 require 'sass-rails'
