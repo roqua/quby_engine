@@ -1,3 +1,5 @@
+require 'quby/questionnaire_repos'
+
 module Quby
   module QuestionnaireRepos
     class DiskRepo

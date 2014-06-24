@@ -1,3 +1,6 @@
+require 'opencpu'
+require 'quby/patient'
+
 module Quby
   class ScoreCalculator
     # Evaluates block within the context of a new calculator

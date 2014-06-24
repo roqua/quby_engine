@@ -1,3 +1,5 @@
+require 'virtus'
+
 module Quby
   class Outcome
     include Virtus.model

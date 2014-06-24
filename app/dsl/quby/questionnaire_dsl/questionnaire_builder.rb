@@ -1,3 +1,12 @@
+require 'quby/questionnaire_dsl/panel_builder'
+require 'quby/questionnaire_dsl/table_builder'
+require 'quby/questionnaire_dsl/question_builder'
+require 'quby/questionnaire_dsl/score_builder'
+
+require 'quby/questionnaire_dsl/line_chart_builder'
+require 'quby/questionnaire_dsl/radar_chart_builder'
+require 'quby/questionnaire_dsl/bar_chart_builder'
+
 require_relative 'standardized_panel_generators'
 
 module Quby

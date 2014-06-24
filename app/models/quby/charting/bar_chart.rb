@@ -1,4 +1,4 @@
-require 'virtus'
+require 'quby/charting/chart'
 
 module Quby
   module Charting

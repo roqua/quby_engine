@@ -1,3 +1,6 @@
+require 'quby/questionnaire'
+require 'quby/questionnaire_dsl'
+
 module Quby
   class DefinitionValidator
     MAX_KEY_LENGTH  = 13

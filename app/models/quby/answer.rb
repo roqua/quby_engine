@@ -1,4 +1,6 @@
 require 'virtus'
+require 'quby/outcome'
+require 'quby/answer_dsl'
 
 module Quby
   class Answer

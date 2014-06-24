@@ -1,4 +1,5 @@
 require 'active_support/all'
+
 module Quby
   class Patient
     attr_accessor :gender, :birthyear

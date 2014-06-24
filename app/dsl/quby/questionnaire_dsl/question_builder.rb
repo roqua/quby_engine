@@ -1,3 +1,6 @@
+require 'quby/items/question'
+require 'quby/question_option'
+
 module Quby
   module QuestionnaireDsl
     class QuestionBuilder

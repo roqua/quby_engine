@@ -1,4 +1,6 @@
 require 'active_support/concern'
+require 'quby/score_calculator'
+require 'quby/outcome'
 
 module Quby
   class OutcomeCalculation
