@@ -18,9 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", ">= 3.2", '< 5.0'
 
-  # Databases
-  s.add_dependency "mongoid", ">= 2.2", '< 5.0'
-
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.6.0'
 
