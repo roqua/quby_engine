@@ -4,7 +4,6 @@ require 'extensions/maruku_extensions'
 module Quby
   module Items
     class Text < Item
-
       attr_accessor :text
       attr_accessor :display_in
 
