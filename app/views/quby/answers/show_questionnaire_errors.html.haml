@@ -1,4 +1,4 @@
-- if Quby.show_exceptions
+- if Quby.send :show_exceptions
   .flash
     .error
       - if @questionnaire && @questionnaire.errors.size > 0

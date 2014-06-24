@@ -9,8 +9,8 @@ module Quby
 
     before do
       Quby::Settings.stub(authorize_with_hmac: false)
-      Quby.answer_repo.stub(:find).with('honos', '1').and_return(answer)
-      Quby.questionnaire_finder.stub(find: questionnaire)
+      Quby.answers.stub(:find).with('honos', '1').and_return(answer)
+      Quby.questionnaires.stub(find: questionnaire)
     end
 
     it 'allows requests when they match session and url answer id' do

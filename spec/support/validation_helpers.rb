@@ -64,14 +64,14 @@ module ClientSideValidationHelpers
       page.should have_content("Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.")
       @have_clicked_save = true
     end
-    Quby.answer_repo.reload(@answer).send(question_key).should eq(expected_value)
+    Quby.answers.reload(@answer).send(question_key).should eq(expected_value)
   end
 end
 
 module ServerSideValidationHelpers
   def self.included(base)
     base.let(:validation_run_location) { :server_side }
-    base.let(:answer) { Quby.answer_repo.create!(questionnaire.key) }
+    base.let(:answer) { Quby.answers.create!(questionnaire.key) }
     base.let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
     base.let(:answer_to_submit) { {} }
   end
@@ -110,7 +110,7 @@ module ServerSideValidationHelpers
   end
 
   def expect_saved_value(question_key, expected_value)
-    Quby.answer_repo.reload(answer).send(question_key).should eq(expected_value)
+    Quby.answers.reload(answer).send(question_key).should eq(expected_value)
   end
 
   def expect_error_on(question_key, error_type)

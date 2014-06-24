@@ -20,7 +20,7 @@ module Quby
 
       def create!(questionnaire_key, attributes = {})
         attributes        = attributes.with_indifferent_access
-        questionnaire     = Quby.questionnaire_finder.find(questionnaire_key)
+        questionnaire     = Quby.questionnaires.find(questionnaire_key)
 
         record = build_record
         set_initial_attributes(record, questionnaire, attributes)

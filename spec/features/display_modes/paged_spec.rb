@@ -1,7 +1,7 @@
 require 'spec_helper'
 module Quby
   describe "quby/answers/paged/panel" do
-    let(:questionnaire) { Quby.questionnaire_finder.find("panels") }
+    let(:questionnaire) { Quby.questionnaires.find("panels") }
 
     it 'renders progress bar for paged questionnaires with more than one panel' do
       visit_new_answer_for(questionnaire)

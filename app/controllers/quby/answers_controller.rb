@@ -37,7 +37,7 @@ module Quby
     def edit
       render_versioned_template @display_mode
     rescue Quby::Questionnaire::ValidationError => e
-      if Quby.show_exceptions
+      if Quby.send :show_exceptions
         @error = e
         render action: 'show_questionnaire_errors'
       else
@@ -124,7 +124,7 @@ module Quby
 
     def find_questionnaire
       if params[:questionnaire_id]
-        @questionnaire = Quby.questionnaire_finder.find(params[:questionnaire_id])
+        @questionnaire = Quby.questionnaires.find(params[:questionnaire_id])
       end
     end
 
@@ -135,7 +135,7 @@ module Quby
     end
 
     def find_answer
-      @answer = Quby.answer_repo.find(@questionnaire.key, params[:id])
+      @answer = Quby.answers.find(@questionnaire.key, params[:id])
     end
 
     def check_aborted

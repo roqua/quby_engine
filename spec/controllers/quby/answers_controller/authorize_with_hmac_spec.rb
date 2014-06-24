@@ -9,8 +9,8 @@ module Quby
     let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: []) }
 
     before do
-      Quby.questionnaire_finder.stub(find: questionnaire)
-      Quby.answer_repo.stub(:find).with('honos', '1').and_return(answer)
+      Quby.questionnaires.stub(find: questionnaire)
+      Quby.answers.stub(:find).with('honos', '1').and_return(answer)
       Quby::Settings.stub(authorize_with_id_from_session: false)
     end
 

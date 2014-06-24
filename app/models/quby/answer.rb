@@ -2,10 +2,6 @@ require 'virtus'
 
 module Quby
   class Answer
-    def self.questionnaire_finder
-      Quby.questionnaire_finder
-    end
-
     extend ActiveModel::Naming
     include Virtus.model
 
@@ -70,7 +66,7 @@ module Quby
 
     # Faux belongs_to :questionnaire
     def questionnaire
-      self.class.questionnaire_finder.find(questionnaire_key)
+      Quby.questionnaires.find(questionnaire_key)
     end
 
     def set_completed_at

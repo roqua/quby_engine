@@ -23,11 +23,11 @@ module Quby
     #                     Quby public API
     # =======================================================
     def answers
-      Quby::Api::Answers.new answer_repo: Quby.answer_repo
+      @answers ||= Quby::Api::Answers.new answer_repo: Quby.send(:answer_repo)
     end
 
     def questionnaires
-      Quby::Api::Questionnaires.new answer_repo: Quby.questionnaire_finder
+      @questionnaires ||= Quby::Api::Questionnaires.new questionnaire_repo: Quby.send(:questionnaire_finder)
     end
 
     private
@@ -37,7 +37,7 @@ module Quby
     end
 
     def questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.questionnaires_path)
+      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.send :questionnaires_path)
     end
 
     def questionnaires_path
