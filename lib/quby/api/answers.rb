@@ -9,6 +9,10 @@ module Quby
         @repo.find questionnaire_key, answer_id
       end
 
+      def find_completed_after(time, answer_ids)
+        @repo.find_completed_after time, answer_ids
+      end
+
       def reload(answer)
         @repo.reload answer
       end
