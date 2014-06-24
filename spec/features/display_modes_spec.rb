@@ -31,9 +31,9 @@ module Quby
       result
     end
 
-    Quby.questionnaire_finder.all.each do |questionnaire|
+    Quby.questionnaires.all.each do |questionnaire|
       describe "#{questionnaire.key}" do
-        let(:answer) { Quby.answer_repo.create!(questionnaire.key, token: "abcd") }
+        let(:answer) { Quby.answers.create!(questionnaire.key, token: "abcd") }
 
         it "screenshots #{questionnaire.key} in paged view", js: true do
           visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=paged"

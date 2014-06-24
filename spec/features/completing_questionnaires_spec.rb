@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Completing a questionnaire' do
-  let(:mansa) { Quby.questionnaire_finder.find("mansa") }
+  let(:mansa) { Quby.questionnaires.find("mansa") }
 
   scenario 'by filling out pages', js: true do
     visit_new_answer_for(mansa)

@@ -47,7 +47,7 @@ module Quby
       # Now we can fill it back up
       outcome = calculate
       answer.outcome = outcome
-      Quby.answer_repo.update!(answer)
+      Quby.answers.update!(answer)
     end
 
     private

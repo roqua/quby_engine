@@ -4,12 +4,12 @@ require 'spec_helper'
 module Quby
   describe AnswersController do
     def create_answer(questionnaire)
-      Quby.questionnaire_finder
+      Quby.questionnaires
         .stub(:find)
         .with(questionnaire.key)
         .and_return(questionnaire)
 
-      Quby.answer_repo.create!(questionnaire.key)
+      Quby.answers.create!(questionnaire.key)
     end
 
     describe '#update' do

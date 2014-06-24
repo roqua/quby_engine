@@ -21,7 +21,7 @@ module Quby
       if answer.errors.empty?
         answer.set_completed_at
         answer.outcome = OutcomeCalculation.new(answer).calculate
-        Quby.answer_repo.update!(answer)
+        Quby.answers.update!(answer)
         succeed!
       else
         fail!

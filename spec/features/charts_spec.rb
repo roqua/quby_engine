@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature 'Defining charts in a questionnaire' do
 
-  let(:questionnaire_with_chart) { Quby.questionnaire_finder.find('questionnaire_with_chart') }
+  let(:questionnaire_with_chart) { Quby.questionnaires.find('questionnaire_with_chart') }
 
   it 'has a chart with plottables' do
     plottable_keys = questionnaire_with_chart.charts.first.plottables.map(&:key)

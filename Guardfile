@@ -1,5 +1,5 @@
 rspec_options = {
-  cmd: "bundle exec rspec",
+  cmd: 'bundle exec rspec',
   failed_mode: :focus,
   all_after_pass: false,
   all_on_start: false

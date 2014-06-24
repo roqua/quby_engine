@@ -22,10 +22,10 @@ module Quby
       quest
     end
 
-    let(:answer) { Quby.answer_repo.create!('test') }
+    let(:answer) { Quby.answers.create!('test') }
 
     before do
-      Quby.questionnaire_finder.stub(find: questionnaire)
+      Quby.questionnaires.stub(find: questionnaire)
     end
 
     describe '#calculate' do
