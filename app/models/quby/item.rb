@@ -1,3 +1,5 @@
+require 'active_model'
+
 module Quby
   class Item
     include ActiveModel::Validations

@@ -1,4 +1,5 @@
 require 'virtus'
+require 'active_model'
 require 'quby/outcome'
 require 'quby/answer_dsl'
 

@@ -1,3 +1,5 @@
+require 'active_model'
+
 require 'quby/charting/charts'
 require 'quby/questionnaire_dsl'
 
