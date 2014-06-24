@@ -56,7 +56,7 @@ RSpec.configure do |config|
     Quby.answer_repo = Quby::AnswerRepos::MemoryRepo.new
   end
 
-  config.after(:each) do
+  config.append_after(:each) do
     DatabaseCleaner.clean
   end
 end

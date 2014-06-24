@@ -6,9 +6,11 @@ module Quby
     # =======================================================
     #                     Quby configuration
     # =======================================================
+
     def questionnaires_path=(new_path)
       @questionnaires_path  = new_path
       @questionnaire_finder = nil
+      @questionaires_api = nil
     end
 
     def show_exceptions=(bool)
@@ -17,17 +19,19 @@ module Quby
 
     def answer_repo=(repo)
       @answer_repo = repo
+      @answers_api = nil
     end
 
     # =======================================================
     #                     Quby public API
     # =======================================================
+
     def answers
-      @answers ||= Quby::Api::Answers.new answer_repo: Quby.send(:answer_repo)
+      @answers_api ||= Quby::Api::Answers.new answer_repo: Quby.send(:answer_repo)
     end
 
     def questionnaires
-      @questionnaires ||= Quby::Api::Questionnaires.new questionnaire_repo: Quby.send(:questionnaire_finder)
+      @questionnaires_api ||= Quby::Api::Questionnaires.new questionnaire_repo: Quby.send(:questionnaire_finder)
     end
 
     private
