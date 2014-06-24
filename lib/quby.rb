@@ -60,7 +60,7 @@ module Quby
     private
 
     def answer_repo
-      @answer_repo ||= Quby::AnswerRepos::MongoidRepo.new
+      @answer_repo || raise("Quby does not have its storage for answers (Quby.answer_repo) configured.")
     end
 
     def questionnaire_finder
