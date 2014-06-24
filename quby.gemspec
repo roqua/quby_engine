@@ -45,7 +45,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'fuubar'
-  s.add_development_dependency "database_cleaner"
   s.add_development_dependency "poltergeist",      "= 1.3.0"
   s.add_development_dependency "launchy"
   s.add_development_dependency "pry"

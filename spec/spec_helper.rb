@@ -19,7 +19,6 @@ Combustion.path = 'spec/internal'
 Combustion.initialize! :action_controller, :action_view, :sprockets
 
 require 'rspec/rails'
-require 'database_cleaner'
 require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'
@@ -45,18 +44,8 @@ RSpec.configure do |config|
   config.mock_with :rspec
   config.include Capybara::DSL
 
-  config.before(:suite) do
-    DatabaseCleaner[:mongoid].clean_with(:truncation)
-    DatabaseCleaner[:mongoid].strategy = :truncation
-  end
-
   config.before(:each) do
-    DatabaseCleaner.start
     Quby.questionnaires_path = Quby.fixtures_path
     Quby.answer_repo = Quby::AnswerRepos::MemoryRepo.new
-  end
-
-  config.append_after(:each) do
-    DatabaseCleaner.clean
   end
 end

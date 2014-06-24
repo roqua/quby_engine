@@ -101,7 +101,6 @@ GEM
     compass-rails (1.1.7)
       compass (>= 0.12.2)
       sprockets (<= 2.11.0)
-    database_cleaner (1.2.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
@@ -302,7 +301,6 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails
   combustion (~> 0.5.1)
-  database_cleaner
   fakefs
   fuubar
   guard-rspec

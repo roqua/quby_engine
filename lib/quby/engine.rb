@@ -1,7 +1,6 @@
 # Engines are run as gems, not really using bundler
 # Therefore, we need to require stuff manually
 require 'rubygems'
-require 'mongoid'
 require 'coffee_script'
 require 'haml'
 require 'sass-rails'

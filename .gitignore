@@ -9,7 +9,6 @@ pkg/
 tmp/**/*
 db/*.sqlite3
 config/database.yml
-config/mongoid.yml
 db/questionnaires
 spec/dummy/db/questionnaires
 tmp/restart.txt
@@ -23,7 +22,6 @@ gems/*
 public/assets
 
 spec/dummy/config/database.yml
-spec/dummy/config/mongoid.yml
 spec/dummy/db/*.sqlite3
 spec/dummy/log/*.log
 spec/dummy/tmp/
