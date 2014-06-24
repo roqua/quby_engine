@@ -7,10 +7,18 @@ module Quby
     #                     Quby configuration
     # ==================================================================================================================
 
+    def questionnaires_path
+      @questionnaires_path
+    end
+
     def questionnaires_path=(new_path)
       @questionnaires_path  = new_path
       @questionnaire_finder = nil
       @questionaires_api = nil
+    end
+
+    def show_exceptions
+      @show_exceptions
     end
 
     def show_exceptions=(bool)
@@ -45,15 +53,7 @@ module Quby
     end
 
     def questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.send :questionnaires_path)
-    end
-
-    def questionnaires_path
-      @questionnaires_path
-    end
-
-    def show_exceptions
-      @show_exceptions
+      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.questionnaires_path)
     end
   end
 end
