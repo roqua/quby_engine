@@ -21,7 +21,7 @@ module Quby
     def questionnaires_path=(new_path)
       @questionnaires_path  = new_path
       @questionnaire_finder = nil
-      @questionaires_api = nil
+      @questionnaires_api = nil
     end
 
     def show_exceptions
