@@ -362,3 +362,16 @@ panel do
     option :a2, :value => 2, :description => "&ge; 6 maanden (in remissie)"
   end
 end
+
+score :tot, label: "Totaalscore" do
+  {
+    value: sum(values(:v_1, :v_2)),
+    interpretation: "Niet te best"
+  }
+end
+
+line_chart :tot do
+  range 0..100
+  plot :tot
+  plot :v_50, label: "Ernst"
+end
