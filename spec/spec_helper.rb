@@ -39,7 +39,7 @@ Capybara.javascript_driver = :poltergeist
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("../../spec/support/**/*.rb")].each { |f| require f }
 
-Quby.questionnaires_path = Rails.root.join("..", "..", "spec", "fixtures")
+Quby.questionnaires_path = Quby.fixtures_path
 
 RSpec.configure do |config|
   config.mock_with :rspec
@@ -52,7 +52,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
-    Quby.questionnaires_path = Rails.root.join("..", "..", "spec", "fixtures")
+    Quby.questionnaires_path = Quby.fixtures_path
     Quby.answer_repo = Quby::AnswerRepos::MemoryRepo.new
   end
 
