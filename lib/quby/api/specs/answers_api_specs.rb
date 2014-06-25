@@ -48,7 +48,8 @@ if defined?(RSpec)
 
     it 'supports regenerating outcome for an answer' do
       answer_with_outcome.value = {'v_1' => 2}
-      expect(Quby.answers.regenerate_outcome!(answer_with_outcome).scores).to eq(
+      Quby.answers.regenerate_outcome!(answer_with_outcome)
+      expect(answer_with_outcome.scores).to eq(
         'simple_score' => {'value' => 2, 'referenced_values' => ['v_1'], 'score' => true, 'label' => 'SimpleScore'}
       )
       expect(Quby.send(:answer_repo).reload(answer_with_outcome).value).to eq('v_1' => 2) # persists the answer
