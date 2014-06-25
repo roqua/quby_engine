@@ -1,14 +1,52 @@
 module Quby
   class Settings
-    include Mongoid::AppSettings
+    def self.api_allowed_ip_ranges
+      @api_allowed_ip_ranges || ["10.0.0.0/8"]
+    end
 
-    setting :api_allowed_ip_ranges, default: ["10.0.0.0/8"]
-    setting :shared_secret, default: "77933b02b53df8c62c94e0e2959165a728aaa4504b49e14be76e31a499469ab5"
-    setting :enforce_questionnaire_key_format, default: true
-    setting :enable_leave_page_alert, default: true
+    def self.api_allowed_ip_ranges=(value)
+      @api_allowed_ip_ranges = value
+    end
+
+    def self.shared_secret
+      @shared_secret || "77933b02b53df8c62c94e0e2959165a728aaa4504b49e14be76e31a499469ab5"
+    end
+
+    def self.shared_secret=(value)
+      @shared_secret = value
+    end
+
+    def self.enforce_questionnaire_key_format
+      @enforce_questionnaire_key_format || true
+    end
+
+    def self.enforce_questionnaire_key_format=(value)
+      @enforce_questionnaire_key_format = value
+    end
+
+    def self.enable_leave_page_alert
+      @enable_leave_page_alert || true
+    end
+
+    def self.enable_leave_page_alert=(value)
+      @enable_leave_page_alert = value
+    end
 
     # Authorization protocols
-    setting :authorize_with_hmac,            default: true
-    setting :authorize_with_id_from_session, default: true
+    def self.authorize_with_hmac
+      @authorize_with_hmac || true
+    end
+
+    def self.authorize_with_hmac=(value)
+      @authorize_with_hmac = value
+    end
+
+    def self.authorize_with_id_from_session
+      @authorize_with_id_from_session || true
+    end
+
+    def self.authorize_with_id_from_session=(value)
+      @authorize_with_id_from_session = value
+    end
   end
 end

@@ -1,3 +1,6 @@
+require 'quby/items/panel'
+require 'quby/items/text'
+
 module Quby
   module QuestionnaireDsl
     class PanelBuilder

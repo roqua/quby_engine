@@ -1,3 +1,7 @@
+require 'quby/charting/plottable'
+require 'quby/score_calculation'
+require 'quby/items/question'
+
 module Quby
   module QuestionnaireDsl
     class ChartBuilder

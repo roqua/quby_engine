@@ -1,3 +1,6 @@
+require 'quby/filters_answer_value'
+require 'quby/outcome_calculation'
+
 module Quby
   class UpdatesAnswers
     attr_reader :answer

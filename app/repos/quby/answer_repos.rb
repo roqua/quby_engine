@@ -1,3 +1,5 @@
+require 'quby/answer'
+
 module Quby
   module AnswerRepos
     AnswerNotFound = Class.new(StandardError)

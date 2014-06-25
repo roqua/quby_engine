@@ -1,6 +1,13 @@
 require "monkey_patches/virtus"
 require "quby/engine"
 
+$:.unshift(File.expand_path("../../app/dsl", __FILE__))
+$:.unshift(File.expand_path("../../app/models", __FILE__))
+$:.unshift(File.expand_path("../../app/repos", __FILE__))
+
+require 'quby/questionnaire_repos/disk_repo'
+require 'quby/answer_repos'
+
 module Quby
   class << self
     # ==================================================================================================================
@@ -53,7 +60,7 @@ module Quby
     private
 
     def answer_repo
-      @answer_repo ||= Quby::AnswerRepos::MongoidRepo.new
+      @answer_repo || fail("Quby does not have its storage for answers (Quby.answer_repo) configured.")
     end
 
     def questionnaire_finder

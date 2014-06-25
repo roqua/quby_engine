@@ -1,3 +1,6 @@
+require 'quby/items/table'
+require 'quby/items/text'
+
 module Quby
   module QuestionnaireDsl
     class TableBuilder

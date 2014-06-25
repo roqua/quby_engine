@@ -1,3 +1,7 @@
+require 'quby/attribute_calculator'
+require 'quby/items/question'
+require 'quby/answer_validator'
+
 module Quby
   module AnswerValidations
     def cleanup_input

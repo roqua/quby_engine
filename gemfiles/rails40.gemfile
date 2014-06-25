@@ -4,10 +4,9 @@ source "http://rubygems.org"
 
 gem "appraisal", "1.0.0.beta3"
 gem "bson_ext"
-gem "roqua-support", :git=>"git://github.com/roqua/roqua-support.git"
+gem "roqua-support"
 gem "rails", "~> 4.0.4"
 gem "sass-rails", "~> 4.0.0"
-gem "mongoid", "~> 4.0.0.beta1"
 gem "compass-rails", "1.1.7"
 
 group :assets do

@@ -1,3 +1,5 @@
+require 'quby/score_calculation'
+
 module Quby
   module QuestionnaireDsl
     class ScoreBuilder

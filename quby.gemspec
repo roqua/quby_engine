@@ -18,13 +18,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", ">= 3.2", '< 5.0'
 
-  # Databases
-  s.add_dependency "mongoid", ">= 2.2", '< 5.0'
-
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.6.0'
 
   # Views
+  s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
   s.add_dependency "sass-rails",    '>= 3.2', '< 5.0'
   s.add_dependency "maruku",        '0.6.1'
@@ -35,7 +33,6 @@ Gem::Specification.new do |s|
   s.add_dependency "ryansch-andand"
   s.add_dependency "json"
   s.add_dependency "addressable"
-  s.add_dependency "mongoid-app_settings"
   s.add_dependency "virtus", "~> 1.0"
 
   s.add_dependency "jquery-rails", "~> 2.2.1"
@@ -48,7 +45,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'fuubar'
-  s.add_development_dependency "database_cleaner"
   s.add_development_dependency "poltergeist",      "= 1.3.0"
   s.add_development_dependency "launchy"
   s.add_development_dependency "pry"
