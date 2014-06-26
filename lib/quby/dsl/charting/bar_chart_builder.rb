@@ -1,5 +1,5 @@
 require 'quby/charting/bar_chart'
-require 'quby/dsl/chart_builder'
+require 'quby/dsl/charting/chart_builder'
 
 module Quby
   module DSL

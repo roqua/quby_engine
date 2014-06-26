@@ -3,9 +3,9 @@ require 'quby/dsl/table_builder'
 require 'quby/dsl/question_builder'
 require 'quby/dsl/score_builder'
 
-require 'quby/dsl/line_chart_builder'
-require 'quby/dsl/radar_chart_builder'
-require 'quby/dsl/bar_chart_builder'
+require 'quby/dsl/charting/line_chart_builder'
+require 'quby/dsl/charting/radar_chart_builder'
+require 'quby/dsl/charting/bar_chart_builder'
 
 require_relative 'standardized_panel_generators'
 
