@@ -8,7 +8,7 @@ $:.unshift(File.expand_path("../../app/services", __FILE__))
 
 require 'quby/api'
 require 'quby/questionnaires'
-require 'quby/questionnaire_repos/disk_repo'
+require 'quby/questionnaires/repos/disk_repo'
 require 'quby/answer_repos'
 require 'quby/outcome_calculation'
 
@@ -68,7 +68,7 @@ module Quby
     end
 
     def questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.questionnaires_path)
+      @questionnaire_finder ||= Quby::Questionnaires::Repos::DiskRepo.new(Quby.questionnaires_path)
     end
   end
 end
