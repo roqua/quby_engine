@@ -94,6 +94,11 @@ module Quby
       end
     end
 
+    def add_panel(panel)
+      @panels ||= []
+      @panels << panel
+    end
+
     def callback_after_dsl_enhance_on_questions
       @question_hash.values.each do |q|
         q.run_callbacks :after_dsl_enhance
