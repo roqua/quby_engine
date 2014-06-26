@@ -64,7 +64,6 @@ module Quby
       end
 
       def css(value)
-        @questionnaire.extra_css ||= ""
         @questionnaire.extra_css += value
       end
 

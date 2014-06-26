@@ -38,6 +38,7 @@ module Quby
       @question_hash ||= {}
       @license = :unknown
       @renderer_version = :v1
+      @extra_css = ""
 
       enhance_by_dsl
     end
