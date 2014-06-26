@@ -1,6 +1,6 @@
 module Quby
-  module Api
-    class Answers
+  module Answers
+    class API
       def initialize(answer_repo:)
         @repo = answer_repo
       end

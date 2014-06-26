@@ -1,7 +1,7 @@
 require 'virtus'
 require 'active_model'
 require 'quby/outcome'
-require 'quby/answer_dsl'
+require 'quby/answers/dsl'
 
 module Quby
   class Answer
@@ -77,7 +77,7 @@ module Quby
     end
 
     def enhance_by_dsl
-      AnswerDsl.enhance(self)
+      Quby::Answers::DSL.enhance(self)
     end
 
     def patient_id
