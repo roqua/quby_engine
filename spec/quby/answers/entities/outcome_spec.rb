@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Answers::Entities
   describe Outcome do
     describe '#action' do
       it 'returns :alarm if any score is alarming' do

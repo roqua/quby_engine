@@ -1,6 +1,6 @@
-require_relative '../../../app/models/quby/patient'
+require 'spec_helper'
 
-module Quby
+module Quby::Answers::Entities
   describe Patient do
     describe '#age' do
       it 'calculates the age at the given timestamp' do

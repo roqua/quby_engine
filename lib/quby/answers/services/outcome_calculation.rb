@@ -1,6 +1,6 @@
 require 'active_support/concern'
 require 'quby/answers/services/score_calculator'
-require 'quby/outcome'
+require 'quby/answers/entities/outcome'
 
 module Quby
   module Answers
@@ -38,10 +38,10 @@ module Quby
             completion_result = results[key] if calculation.completion
           end
 
-          Outcome.new(scores: score_results,
-                      actions: action_results,
-                      completion: completion_result,
-                      generated_at: Time.now)
+          Entities::Outcome.new(scores: score_results,
+                                actions: action_results,
+                                completion: completion_result,
+                                generated_at: Time.now)
         end
 
         # Calculate scores and actions, write to the database but bypass any validations

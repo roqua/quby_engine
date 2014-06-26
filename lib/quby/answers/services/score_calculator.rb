@@ -1,5 +1,5 @@
 require 'opencpu'
-require 'quby/patient'
+require 'quby/answers/entities/patient'
 
 module Quby
   module Answers
@@ -29,7 +29,7 @@ module Quby
         def initialize(values, timestamp, patient_attrs = {}, scores = {})
           @values = values
           @timestamp = timestamp
-          @patient = ::Quby::Patient.new(patient_attrs)
+          @patient = Entities::Patient.new(patient_attrs)
           @scores = scores.with_indifferent_access
           @score = {}
           @referenced_values = []

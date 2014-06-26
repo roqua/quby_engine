@@ -37,7 +37,7 @@ module Quby::Answers::Services
       end
 
       it 'calculates scores' do
-        outcome = Quby::Outcome.new
+        outcome = Quby::Answers::Entities::Outcome.new
         calculations = OutcomeCalculation.new(answer)
         OutcomeCalculation.stub(:new).with(answer).and_return(calculations)
         calculations.should_receive(:calculate).and_return(outcome)

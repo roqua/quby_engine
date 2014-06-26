@@ -1,4 +1,4 @@
-require 'quby/answer'
+require 'quby/answers/entities/answer'
 
 module Quby
   module Answers

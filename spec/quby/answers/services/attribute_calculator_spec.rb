@@ -31,6 +31,6 @@ describe Quby::Answers::Services::AttributeCalculator do
   end
 
   def make_answer(value = {})
-    Quby::Answer.new(questionnaire_key: 'test', value: value).tap(&:enhance_by_dsl)
+    Quby::Answers::Entities::Answer.new(questionnaire_key: 'test', value: value).tap(&:enhance_by_dsl)
   end
 end

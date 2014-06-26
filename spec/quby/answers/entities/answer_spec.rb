@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Answers::Entities
   describe Answer do
     let(:questionnaire) do
       double(key: "foo",

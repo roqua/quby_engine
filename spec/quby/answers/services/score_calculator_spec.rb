@@ -29,7 +29,7 @@ module Quby::Answers::Services
         calculator.instance_variable_get("@values").should eq({v_1: 1})
         calculator.instance_variable_get('@timestamp').should eq(timestamp)
         calculator.instance_variable_get("@patient").instance_variables
-                  .should eq ::Quby::Patient.new(gender: :male).instance_variables
+                  .should eq Quby::Answers::Entities::Patient.new(gender: :male).instance_variables
         calculator.instance_variable_get("@scores").should eq({score1: 2}.with_indifferent_access)
       end
     end

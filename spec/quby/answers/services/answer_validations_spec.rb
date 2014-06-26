@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Answers::Services
   describe AnswerValidations do
     let(:value) do
       {
@@ -62,7 +62,7 @@ module Quby
     end
 
     let(:answer) do
-      Answer.new(questionnaire_key: 'all_validations', value: value).tap(&:enhance_by_dsl)
+      Quby::Answers::Entities::Answer.new(questionnaire_key: 'all_validations', value: value).tap(&:enhance_by_dsl)
     end
 
     before do
