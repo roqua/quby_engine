@@ -39,8 +39,6 @@ module Quby
       @license = :unknown
       @renderer_version = :v1
       @extra_css = ""
-
-      enhance_by_dsl
     end
 
     attr_accessor :key
@@ -77,22 +75,6 @@ module Quby
 
     def to_param
       key
-    end
-
-    def enhance_by_dsl
-      if definition
-        @question_hash = {}
-        @score_calculations = {}
-        @charts = Charting::Charts.new
-
-        begin
-          QuestionnaireDsl.enhance(self, definition || "")
-          callback_after_dsl_enhance_on_questions
-          validate_questions
-        rescue SyntaxError, ValidationError => e
-          errors.add(:definition, "Questionnaire error: #{key} : #{e.message}")
-        end
-      end
     end
 
     def add_panel(panel)

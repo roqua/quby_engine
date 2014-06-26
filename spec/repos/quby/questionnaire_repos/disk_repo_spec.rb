@@ -7,20 +7,7 @@ module Quby::QuestionnaireRepos
 
     before { FileUtils.mkdir_p("/tmp") }
 
-    let(:questionnaire_class) do
-      Class.new do
-        attr_reader :key, :definition
-        attr_accessor :last_update
-
-        def initialize(key, definition, last_update = Time.now)
-          @key = key
-          @definition = definition
-          @last_update = last_update
-        end
-      end
-    end
-
-    let(:questionnaire_finder) { DiskRepo.new("/tmp", questionnaire_class) }
+    let(:questionnaire_finder)  { DiskRepo.new("/tmp") }
 
     describe '#find' do
       let(:key) { "test" }
@@ -28,11 +15,10 @@ module Quby::QuestionnaireRepos
       let(:definition_2) { "title 'bar'" }
 
       it 'finds one questionnaire' do
-        questionnaire = questionnaire_class.new(key, definition)
-        questionnaire_class.stub(:new).with(key, definition, anything).and_return { questionnaire }
-
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
-        questionnaire_finder.find(key).should eq questionnaire
+        questionnaire = questionnaire_finder.find(key)
+        questionnaire.key.should eq(key)
+        questionnaire.title.should eq 'foo'
       end
 
       it 'raises RecordNotFound if it doesnt exist' do
@@ -41,22 +27,17 @@ module Quby::QuestionnaireRepos
       end
 
       it 'reloads a questionnaire if the definition updated on disk' do
-
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
-
         found_questionnaire = questionnaire_finder.find(key)
-        found_questionnaire.definition.should eq definition
+        found_questionnaire.title.should eq 'foo'
 
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition_2 }
-
-        # FakeFS does not implement ctime yet
-        File.stub(ctime: Time.now + 10.minutes)
+        File.stub(ctime: Time.now + 10.minutes) # FakeFS does not implement ctime yet
         found_questionnaire = questionnaire_finder.find(key)
-        found_questionnaire.definition.should eq definition_2
+        found_questionnaire.title.should eq 'bar'
       end
 
       it 'uses the cache if a questionnaire definition on disk has not changed' do
-
         File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
         questionnaire_finder.find(key)
 

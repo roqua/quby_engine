@@ -36,7 +36,7 @@ module Quby
         question_builder = QuestionBuilder.new(key, options)
         question_builder.instance_eval(&block) if block
         question = question_builder.build
-        
+
         @panel.questionnaire.question_hash[key] = question
         @table.items << question
         @panel.items << question

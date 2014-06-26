@@ -4,7 +4,7 @@ module Quby
   describe FiltersAnswerValue do
 
     let(:questionnaire) do
-      questionnaire = Quby::Questionnaire.new("test", <<-END)
+      Quby::QuestionnaireDsl.build("test") do
         question :v_6, type: :radio do
           title "Testvraag"
           option :rad1
@@ -18,8 +18,7 @@ module Quby
         end
 
         question :date, type: :date
-      END
-      questionnaire
+      end
     end
 
     let(:attribute_filter) { FiltersAnswerValue.new questionnaire }
