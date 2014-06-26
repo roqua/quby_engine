@@ -9,7 +9,6 @@ require 'compass-rails'
 require 'jquery-rails'
 require 'susy'
 require 'andand'
-require 'quby/api'
 
 module Quby
   class Engine < Rails::Engine
