@@ -70,8 +70,5 @@ module Quby::Questionnaires::Repos
         end
       end
     end
-
-
-
   end
 end
