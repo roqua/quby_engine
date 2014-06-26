@@ -6,6 +6,7 @@ $:.unshift(File.expand_path("../../app/models", __FILE__))
 $:.unshift(File.expand_path("../../app/repos", __FILE__))
 $:.unshift(File.expand_path("../../app/services", __FILE__))
 
+require 'quby/dsl'
 require 'quby/questionnaire_repos/disk_repo'
 require 'quby/answer_repos'
 require 'quby/outcome_calculation'
