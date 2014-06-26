@@ -1,5 +1,5 @@
 require 'quby/charting/radar_chart'
-require 'quby/dsl/charting/chart_builder'
+require_relative 'chart_builder'
 
 module Quby
   module DSL

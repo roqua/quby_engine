@@ -1,4 +1,5 @@
 require 'quby/questionnaire_repos'
+require 'quby/questionnaires'
 
 module Quby
   module QuestionnaireRepos

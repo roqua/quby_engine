@@ -1,11 +1,10 @@
-require 'quby/dsl/panel_builder'
-require 'quby/dsl/table_builder'
-require 'quby/dsl/question_builder'
-require 'quby/dsl/score_builder'
-
-require 'quby/dsl/charting/line_chart_builder'
-require 'quby/dsl/charting/radar_chart_builder'
-require 'quby/dsl/charting/bar_chart_builder'
+require 'quby/questionnaires/dsl/panel_builder'
+require 'quby/questionnaires/dsl/table_builder'
+require 'quby/questionnaires/dsl/question_builder'
+require 'quby/questionnaires/dsl/score_builder'
+require 'quby/questionnaires/dsl/charting/line_chart_builder'
+require 'quby/questionnaires/dsl/charting/radar_chart_builder'
+require 'quby/questionnaires/dsl/charting/bar_chart_builder'
 
 require_relative 'standardized_panel_generators'
 

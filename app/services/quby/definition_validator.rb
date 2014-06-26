@@ -1,5 +1,5 @@
 require 'quby/questionnaire'
-require 'quby/dsl'
+require 'quby/questionnaires'
 
 module Quby
   class DefinitionValidator
