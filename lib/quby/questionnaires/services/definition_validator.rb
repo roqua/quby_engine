@@ -24,7 +24,8 @@ module Quby
           true
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception
-          questionnaire.errors.add(:definition, {message: "Questionnaire error: #{questionnaire.key}\n#{exception.message}",
+          questionnaire.errors.add(:definition, {message: "Questionnaire error: #{questionnaire.key}\n" \
+                                                          "#{exception.message}",
                                                  backtrace: exception.backtrace[0..5].join("<br/>")})
           false
         end
