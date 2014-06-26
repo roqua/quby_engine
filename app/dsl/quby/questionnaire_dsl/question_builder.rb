@@ -31,8 +31,8 @@ module Quby
       end
 
       def inner_title(value)
-        op = QuestionOption.new(nil, @question, inner_title: true, description: value)
-        @question.options << op
+        question_option = QuestionOption.new(nil, @question, inner_title: true, description: value)
+        @question.options << question_option
       end
 
       def description(value)
@@ -74,13 +74,13 @@ module Quby
       end
 
       def option(key, options = {}, &block)
-        op = QuestionOption.new(key, @question, options)
-        if @questionnaire.key_in_use?(op.input_key) || @question.key_in_use?(op.input_key)
-          fail "#{questionnaire.key}:#{@question.key}:#{op.key}: " \
-                "A question or option with input key #{op.input_key} is already defined."
+        question_option = QuestionOption.new(key, @question, options)
+        if @questionnaire.key_in_use?(question_option.input_key) || @question.key_in_use?(question_option.input_key)
+          fail "#{questionnaire.key}:#{@question.key}:#{question_option.key}: " \
+                "A question or option with input key #{question_option.input_key} is already defined."
         end
 
-        @question.options << op
+        @question.options << question_option
         instance_eval(&block) if block
       end
 
@@ -94,9 +94,9 @@ module Quby
                                                    parent: @question,
                                                    presentation: :next_to_title}.merge(options))
 
-        q = QuestionBuilder.new(key, options)
-        q.instance_eval(&block) if block
-        question = q.build
+        question_builder = QuestionBuilder.new(key, options)
+        question_builder.instance_eval(&block) if block
+        question = question_builder.build
 
         @questionnaire.question_hash[key] = question
         @title_question = question
@@ -107,12 +107,15 @@ module Quby
           fail "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
         end
 
-        q = QuestionBuilder.new(key, @default_question_options.merge(options)
-                                                              .merge(questionnaire: @questionnaire,
-                                                                     parent: @question,
-                                                                     parent_option_key: @question.options.last.key))
-        q.instance_eval(&block) if block
-        question = q.build
+        options = @default_question_options.merge(options)
+                                           .merge(questionnaire: @questionnaire,
+                                                  parent: @question,
+                                                  parent_option_key: @question.options.last.key)
+
+        question_builder = QuestionBuilder.new(key, options)
+        question_builder.instance_eval(&block) if block
+        question = question_builder.build
+
         @questionnaire.question_hash[key] = question
         @question.options.last.questions << question
       end
