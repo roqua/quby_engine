@@ -1,4 +1,5 @@
 require 'quby/dsl/questionnaire_builder'
+
 module Quby
   module DSL
     def self.build(key, definition = nil, timestamp: nil, &block)
