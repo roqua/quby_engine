@@ -1,6 +1,6 @@
 require "spec_helper"
 
-module Quby
+module Quby::Answers::Services
   describe ScoreCalculator do
 
     let(:timestamp) { Time.now }

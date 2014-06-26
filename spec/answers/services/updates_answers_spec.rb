@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Answers::Services
   describe UpdatesAnswers do
     let(:answer) { Quby.answers.create!('big') }
     let(:updates_answers) { UpdatesAnswers.new answer }
@@ -37,7 +37,7 @@ module Quby
       end
 
       it 'calculates scores' do
-        outcome = Outcome.new
+        outcome = Quby::Outcome.new
         calculations = OutcomeCalculation.new(answer)
         OutcomeCalculation.stub(:new).with(answer).and_return(calculations)
         calculations.should_receive(:calculate).and_return(outcome)

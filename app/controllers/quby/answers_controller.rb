@@ -46,7 +46,7 @@ module Quby
     end
 
     def update(printing = false)
-      updater = UpdatesAnswers.new(@answer)
+      updater = Answers::Services::UpdatesAnswers.new(@answer)
 
       updater.on_success do
         if printing

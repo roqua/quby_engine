@@ -1,6 +1,6 @@
-require 'quby/attribute_calculator'
 require 'quby/items/question'
-require 'quby/answer_validator'
+require 'quby/answers/services/attribute_calculator'
+require 'quby/answers/services/answer_validator'
 
 module Quby
   module AnswerValidations
@@ -28,7 +28,7 @@ module Quby
     end
 
     def calculated_attributes
-      @calculated_attributes ||= AttributeCalculator.new(questionnaire, self)
+      @calculated_attributes ||= Answers::Services::AttributeCalculator.new(questionnaire, self)
     end
 
     def hidden_questions
@@ -74,7 +74,7 @@ module Quby
     end
 
     def validate_answers
-      AnswerValidator.new(questionnaire, self).validate
+      Answers::Services::AnswerValidator.new(questionnaire, self).validate
     end
   end
 end

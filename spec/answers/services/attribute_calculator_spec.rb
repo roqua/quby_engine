@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Quby::AttributeCalculator do
+describe Quby::Answers::Services::AttributeCalculator do
   it 'marks questions hidden by a checkbox option as hidden' do
     questionnaire = inject_questionnaire("test", <<-END)
       question :v_1, type: :check_box, title: 'Q1' do

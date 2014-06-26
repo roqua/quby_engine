@@ -1,18 +1,18 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Answers::Services
   describe OutcomeCalculation do
     let(:scorer) { proc { {value: 3} } }
-    let(:score) { ScoreCalculation.new(:tot, {label: "Totaal", score: true}, &scorer) }
+    let(:score) { Quby::ScoreCalculation.new(:tot, {label: "Totaal", score: true}, &scorer) }
 
     let(:actioner) { proc { 5 } }
-    let(:action) { ScoreCalculation.new(:attention, {action: true}, &actioner) }
+    let(:action) { Quby::ScoreCalculation.new(:attention, {action: true}, &actioner) }
 
     let(:completioner) { proc { 0.9 } }
-    let(:completion) { ScoreCalculation.new(:completion, {completion: true}, &completioner) }
+    let(:completion) { Quby::ScoreCalculation.new(:completion, {completion: true}, &completioner) }
 
     let(:questionnaire) do
-      quest = Questionnaire.new "test"
+      quest = Quby::Questionnaire.new "test"
 
       quest.add_score_calculation score
       quest.add_score_calculation action
@@ -60,9 +60,9 @@ module Quby
       end
 
       it 'allows access to other scores' do
-        score2 = ScoreCalculation.new(:tot2,
-                                      {label: "Totaal2", score: true},
-                                      &proc { {value: score(:tot)[:value] + 2} })
+        score2 = Quby::ScoreCalculation.new(:tot2,
+                                            {label: "Totaal2", score: true},
+                                            &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.add_score_calculation score2
         outcome = OutcomeCalculation.new(answer).calculate

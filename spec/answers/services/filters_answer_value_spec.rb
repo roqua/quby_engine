@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Answers::Services
   describe FiltersAnswerValue do
 
     let(:questionnaire) do

@@ -34,7 +34,7 @@ module Quby
     end
 
     def calculate(score, values = {})
-      ScoreCalculator.calculate(values.stringify_keys, Time.now, {}, {}, &score.calculation)
+      Answers::Services::ScoreCalculator.calculate(values.stringify_keys, Time.now, {}, {}, &score.calculation)
     end
   end
 end
