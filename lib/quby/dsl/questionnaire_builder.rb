@@ -24,7 +24,7 @@ module Quby
       end
 
       def key(key)
-        # @questionnaire.key = key
+        # no-op, key is now passed in to Questionnaire constructor
       end
 
       def title(title)
