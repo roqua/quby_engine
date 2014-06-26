@@ -25,10 +25,6 @@ module Quby
                       :pay_per_completion, # costs associated with each completed questionnaire,
                       :private]            # not a publicly available questionnaire
 
-    def self.exists?(key)
-      Quby.questionnaires.exists?(key)
-    end
-
     def initialize(key, definition = nil, last_update = Time.now)
       @key = key
       @definition = definition if definition
