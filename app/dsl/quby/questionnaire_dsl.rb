@@ -10,10 +10,5 @@ module Quby
         questionnaire.validate_questions
       end
     end
-
-    def self.enhance(target_instance, definition)
-      q = QuestionnaireBuilder.new(target_instance)
-      q.instance_eval(definition)
-    end
   end
 end
