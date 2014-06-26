@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     describe ChartBuilder do
 
       let(:plottable_key) { 'some_key' }

@@ -2,7 +2,7 @@ require 'quby/items/panel'
 require 'quby/items/text'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class PanelBuilder
       attr_reader :title
       attr_reader :questionnaire

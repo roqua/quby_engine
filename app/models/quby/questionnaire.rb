@@ -1,13 +1,10 @@
 require 'active_model'
 
-require 'quby/charting/charts'
-require 'quby/questionnaire_dsl'
-
 require 'quby/items/panel'
 require 'quby/items/question'
 require 'quby/items/table'
 require 'quby/items/text'
-
+require 'quby/charting/charts'
 require 'quby/settings'
 
 include ActionView::Helpers::SanitizeHelper

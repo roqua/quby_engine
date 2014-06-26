@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     describe QuestionnaireBuilder do
       let(:questionnaire) { ::Quby::Questionnaire.new("example") }
       let(:builder)       { QuestionnaireBuilder.new(questionnaire) }

@@ -47,7 +47,7 @@ module Quby
       end
 
       def entity(key, definition, last_update)
-        QuestionnaireDsl.build(key, definition, timestamp: last_update)
+        Quby::DSL.build(key, definition, timestamp: last_update)
       end
     end
   end

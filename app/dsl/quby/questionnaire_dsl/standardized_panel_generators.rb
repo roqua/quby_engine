@@ -1,7 +1,7 @@
 # rubocop:disable LineLength
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     module StandardizedPanelGenerators
       def start_panel
         panel do

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     describe RadarChartBuilder do
       it_behaves_like ChartBuilder
 

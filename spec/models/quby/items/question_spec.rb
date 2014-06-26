@@ -4,7 +4,7 @@ module Quby
   describe Items::Question do
 
     let(:questionnaire) do
-      Quby::QuestionnaireDsl.build("test") do
+      Quby::DSL.build("test") do
         question :radio, type: :radio, depends_on: [:check] do
           title "Testvraag"
           option :rad1

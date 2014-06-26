@@ -2,7 +2,7 @@ require 'quby/items/table'
 require 'quby/items/text'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class TableBuilder
       def initialize(panel, options = {})
         @panel = panel

@@ -2,7 +2,7 @@ require 'quby/items/question'
 require 'quby/question_option'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class QuestionBuilder
       attr_reader :key
       attr_reader :title

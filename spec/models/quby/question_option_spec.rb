@@ -3,7 +3,7 @@ require 'spec_helper'
 module Quby
   describe QuestionOption do
     let(:questionnaire) do
-      Quby::QuestionnaireDsl.build("test") do
+      Quby::DSL.build("test") do
         question :one, type: :radio do
           title "Testvraag"
           option :a1, hides_questions: [:two]

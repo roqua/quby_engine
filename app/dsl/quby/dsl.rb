@@ -1,6 +1,6 @@
 require 'quby/questionnaire_dsl/questionnaire_builder'
 module Quby
-  module QuestionnaireDsl
+  module DSL
     def self.build(key, definition = nil, timestamp: nil, &block)
       Quby::Questionnaire.new(key, "", timestamp).tap do |questionnaire|
         builder = QuestionnaireBuilder.new(questionnaire)

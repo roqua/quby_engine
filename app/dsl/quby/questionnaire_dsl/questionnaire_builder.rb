@@ -10,7 +10,7 @@ require 'quby/questionnaire_dsl/bar_chart_builder'
 require_relative 'standardized_panel_generators'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class QuestionnaireBuilder
       include StandardizedPanelGenerators
 
@@ -129,17 +129,17 @@ module Quby
       end
 
       def line_chart(*args, &block)
-        builder = Quby::QuestionnaireDsl::LineChartBuilder.new(@questionnaire, *args)
+        builder = LineChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
       def bar_chart(*args, &block)
-        builder = Quby::QuestionnaireDsl::BarChartBuilder.new(@questionnaire, *args)
+        builder = BarChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
       def radar_chart(*args, &block)
-        builder = Quby::QuestionnaireDsl::RadarChartBuilder.new(@questionnaire, *args)
+        builder = RadarChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 

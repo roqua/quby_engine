@@ -1,7 +1,7 @@
 require 'quby/score_calculation'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class ScoreBuilder
       attr_reader :key
       attr_reader :calculation
