@@ -1,5 +1,5 @@
 require 'quby/charting/line_chart'
-require 'quby/questionnaire_dsl/chart_builder'
+require 'quby/dsl/chart_builder'
 
 module Quby
   module DSL
