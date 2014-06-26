@@ -51,7 +51,7 @@ if defined?(RSpec)
       end
 
       it 'raises when answer cannot be found' do
-        expect { repo.find('big', 'unknown_id') }.to raise_exception(Quby::AnswerRepos::AnswerNotFound)
+        expect { repo.find('big', 'unknown_id') }.to raise_exception(Quby::Answers::Repos::AnswerNotFound)
       end
     end
 

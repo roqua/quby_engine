@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'quby/api/specs/questionnaires_api_specs'
 
 module Quby
   module Questionnaires

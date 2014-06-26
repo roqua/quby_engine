@@ -10,7 +10,7 @@ require 'quby/api'
 require 'quby/questionnaires'
 require 'quby/questionnaires/repos/disk_repo'
 require 'quby/answers'
-require 'quby/answer_repos'
+require 'quby/answers/repos/memory_repo'
 require 'quby/outcome_calculation'
 
 module Quby
