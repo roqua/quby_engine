@@ -1,7 +1,9 @@
+require 'quby/extensions/maruku_extensions'
 require 'quby/questionnaires/entities/item'
 
 module Quby
   module Items
+    # Make sure this exists so that specific questions can subclass it
     class Question < Item
     end
   end
@@ -44,7 +46,6 @@ module Quby
           fail "Quby does not have a question type: #{type}"
         end
       end
-      require 'extensions/maruku_extensions'
 
       set_callback :after_dsl_enhance, :expand_depends_on_input_keys
 

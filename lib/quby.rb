@@ -1,11 +1,11 @@
-require "monkey_patches/virtus"
-require "quby/engine"
-
+require "quby/monkey_patches/virtus"
+require 'quby/extensions/maruku_extensions'
 require 'quby/settings'
 require 'quby/questionnaires'
 require 'quby/questionnaires/repos/disk_repo'
 require 'quby/answers'
 require 'quby/answers/repos/memory_repo'
+require "quby/engine"
 
 module Quby
   class << self

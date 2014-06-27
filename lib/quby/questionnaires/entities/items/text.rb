@@ -1,5 +1,5 @@
 require 'quby/questionnaires/entities/item'
-require 'extensions/maruku_extensions'
+require 'quby/extensions/maruku_extensions'
 
 module Quby
   module Items

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'extensions/maruku_extensions'
 
 class Maruku
   # rubocop:disable LineLength
