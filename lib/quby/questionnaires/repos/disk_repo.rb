@@ -4,7 +4,7 @@ require 'quby/questionnaires'
 module Quby
   module Questionnaires
     module Repos
-      class DiskRepo
+      class DiskRepo < Base
         attr_reader :path
 
         def initialize(path)
@@ -38,16 +38,14 @@ module Quby
           File.exist?(questionnaire_path)
         end
 
+        private
+
         def last_update_on_disk(key)
           Time.at(File.ctime(questionnaire_path(key)).to_i)
         end
 
         def questionnaire_path(key)
           File.join(path, "#{key}.rb")
-        end
-
-        def entity(key, definition, last_update)
-          Quby::DSL.build(key, definition, timestamp: last_update)
         end
       end
     end

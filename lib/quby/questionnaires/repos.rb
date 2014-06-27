@@ -1,5 +1,3 @@
-require 'quby/questionnaires/entities/questionnaire'
-
 module Quby
   module Questionnaires
     module Repos
@@ -7,3 +5,6 @@ module Quby
     end
   end
 end
+
+require 'quby/questionnaires/repos/base'
+require 'quby/questionnaires/repos/disk_repo'

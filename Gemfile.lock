@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quby (1.0.0)
+    quby (2.0.0)
       addressable
       coffee-rails
       compass-rails

@@ -4,7 +4,7 @@ require 'ostruct'
 module Quby
   module Answers
     module Repos
-      class MemoryRepo < AnswerRepo
+      class MemoryRepo < Base
         class Record < OpenStruct
         end
 
@@ -38,7 +38,7 @@ module Quby
         end
 
         def entity(record)
-          Entities::Answer.new(record.to_h).tap(&:enhance_by_dsl)
+          entity_class.new(record.to_h).tap(&:enhance_by_dsl)
         end
       end
     end
