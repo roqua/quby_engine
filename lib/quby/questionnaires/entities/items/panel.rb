@@ -1,5 +1,5 @@
-require 'quby/item'
-require 'quby/items/question'
+require 'quby/questionnaires/entities/item'
+require 'quby/questionnaires/entities/items/question'
 
 module Quby
   module Items

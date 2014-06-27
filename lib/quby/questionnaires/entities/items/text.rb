@@ -1,4 +1,4 @@
-require 'quby/item'
+require 'quby/questionnaires/entities/item'
 require 'extensions/maruku_extensions'
 
 module Quby

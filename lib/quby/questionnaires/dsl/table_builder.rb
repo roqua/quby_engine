@@ -1,5 +1,4 @@
-require 'quby/items/table'
-require 'quby/items/text'
+require 'quby/questionnaires/entities'
 
 module Quby
   module DSL

@@ -1,4 +1,4 @@
-require 'quby/questionnaire'
+require 'quby/questionnaires/entities/questionnaire'
 
 module Quby
   module Questionnaires

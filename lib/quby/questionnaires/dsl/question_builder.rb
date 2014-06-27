@@ -1,5 +1,4 @@
-require 'quby/items/question'
-require 'quby/question_option'
+require 'quby/questionnaires/entities'
 
 module Quby
   module DSL

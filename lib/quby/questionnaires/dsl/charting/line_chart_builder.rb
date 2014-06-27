@@ -1,4 +1,4 @@
-require 'quby/charting/line_chart'
+require 'quby/questionnaires/entities/charting/line_chart'
 require_relative 'chart_builder'
 
 module Quby

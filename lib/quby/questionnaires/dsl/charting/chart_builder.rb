@@ -1,6 +1,6 @@
-require 'quby/charting/plottable'
-require 'quby/score_calculation'
-require 'quby/items/question'
+require 'quby/questionnaires/entities/charting/plottable'
+require 'quby/questionnaires/entities/score_calculation'
+require 'quby/questionnaires/entities/items/question'
 
 module Quby
   module DSL

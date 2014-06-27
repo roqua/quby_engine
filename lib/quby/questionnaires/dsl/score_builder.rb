@@ -1,4 +1,4 @@
-require 'quby/score_calculation'
+require 'quby/questionnaires/entities'
 
 module Quby
   module DSL

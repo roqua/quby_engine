@@ -1,4 +1,4 @@
-require 'quby/charting/radar_chart'
+require 'quby/questionnaires/entities/charting/radar_chart'
 require_relative 'chart_builder'
 
 module Quby

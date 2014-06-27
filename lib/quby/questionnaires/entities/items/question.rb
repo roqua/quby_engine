@@ -1,4 +1,4 @@
-require 'quby/item'
+require 'quby/questionnaires/entities/item'
 
 module Quby
   module Items
@@ -7,15 +7,15 @@ module Quby
   end
 end
 
-require 'quby/questions/checkbox_question'
-require 'quby/questions/date_question'
-require 'quby/questions/deprecated_question'
-require 'quby/questions/float_question'
-require 'quby/questions/integer_question'
-require 'quby/questions/radio_question'
-require 'quby/questions/select_question'
-require 'quby/questions/string_question'
-require 'quby/questions/text_question'
+require 'quby/questionnaires/entities/questions/checkbox_question'
+require 'quby/questionnaires/entities/questions/date_question'
+require 'quby/questionnaires/entities/questions/deprecated_question'
+require 'quby/questionnaires/entities/questions/float_question'
+require 'quby/questionnaires/entities/questions/integer_question'
+require 'quby/questionnaires/entities/questions/radio_question'
+require 'quby/questionnaires/entities/questions/select_question'
+require 'quby/questionnaires/entities/questions/string_question'
+require 'quby/questionnaires/entities/questions/text_question'
 
 module Quby
   module Items

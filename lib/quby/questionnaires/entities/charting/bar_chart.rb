@@ -1,4 +1,4 @@
-require 'quby/charting/chart'
+require 'quby/questionnaires/entities/charting/chart'
 
 module Quby
   module Charting

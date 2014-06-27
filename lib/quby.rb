@@ -1,11 +1,7 @@
 require "monkey_patches/virtus"
 require "quby/engine"
 
-$:.unshift(File.expand_path("../../app/dsl", __FILE__))
-$:.unshift(File.expand_path("../../app/models", __FILE__))
-$:.unshift(File.expand_path("../../app/repos", __FILE__))
-$:.unshift(File.expand_path("../../app/services", __FILE__))
-
+require 'quby/settings'
 require 'quby/questionnaires'
 require 'quby/questionnaires/repos/disk_repo'
 require 'quby/answers'
