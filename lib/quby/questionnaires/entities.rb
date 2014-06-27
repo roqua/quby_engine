@@ -24,5 +24,3 @@ require 'quby/questionnaires/entities/questions/radio_question'
 require 'quby/questionnaires/entities/questions/select_question'
 require 'quby/questionnaires/entities/questions/string_question'
 require 'quby/questionnaires/entities/questions/text_question'
-
-

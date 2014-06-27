@@ -199,7 +199,8 @@ module Quby
           timestamp = Time.now.getgm.strftime("%Y-%m-%dT%H:%M:%S+00:00")
           plain_token = [Quby::Settings.shared_secret, token, timestamp].join('|')
 
-          # double slash removed from return_url (it's either this or removing the final slash in Settings.application_url)
+          # double slash removed from return_url (it's either this or removing the
+          # final slash in Settings.application_url)
           options.merge(
               display_mode: options[:display_mode] || "paged",
               token: token,

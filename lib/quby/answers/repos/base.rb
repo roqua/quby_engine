@@ -43,19 +43,19 @@ module Quby
 
         def initial_attributes(questionnaire, given_attributes)
           {
-              questionnaire_key:    questionnaire.key,
-              token:                SecureRandom.hex(8),
-              dsl_last_update:      questionnaire.last_update,
-              raw_params:           given_attributes.fetch(:raw_params,           {}),
-              import_notes:         given_attributes.fetch(:import_notes,         {}),
-              patient:              given_attributes.fetch(:patient,              {}),
-              test:                 given_attributes.fetch(:test,                 false),
-              outcome_generated_at: given_attributes.fetch(:outcome_generated_at, nil),
-              scores:               given_attributes.fetch(:scores,               {}),
-              actions:              given_attributes.fetch(:actions,              {}),
-              completion:           given_attributes.fetch(:completion,           {}),
-              completed_at:         given_attributes.fetch(:completed_at,         nil),
-              value:                default_answer_value(questionnaire, given_attributes)
+            questionnaire_key:    questionnaire.key,
+            token:                SecureRandom.hex(8),
+            dsl_last_update:      questionnaire.last_update,
+            raw_params:           given_attributes.fetch(:raw_params,           {}),
+            import_notes:         given_attributes.fetch(:import_notes,         {}),
+            patient:              given_attributes.fetch(:patient,              {}),
+            test:                 given_attributes.fetch(:test,                 false),
+            outcome_generated_at: given_attributes.fetch(:outcome_generated_at, nil),
+            scores:               given_attributes.fetch(:scores,               {}),
+            actions:              given_attributes.fetch(:actions,              {}),
+            completion:           given_attributes.fetch(:completion,           {}),
+            completed_at:         given_attributes.fetch(:completed_at,         nil),
+            value:                default_answer_value(questionnaire, given_attributes)
           }
         end
 
