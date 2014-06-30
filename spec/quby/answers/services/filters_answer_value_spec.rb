@@ -4,7 +4,7 @@ module Quby::Answers::Services
   describe FiltersAnswerValue do
 
     let(:questionnaire) do
-      Quby::DSL.build("test") do
+      Quby::Questionnaires::DSL.build("test") do
         question :v_6, type: :radio do
           title "Testvraag"
           option :rad1

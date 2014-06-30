@@ -2,16 +2,18 @@ require 'quby/questionnaires/entities/charting/radar_chart'
 require_relative 'chart_builder'
 
 module Quby
-  module DSL
-    class RadarChartBuilder < ChartBuilder
-      set_chart_class(::Quby::Questionnaires::Entities::Charting::RadarChart)
+  module Questionnaires
+    module DSL
+      class RadarChartBuilder < ChartBuilder
+        set_chart_class(::Quby::Questionnaires::Entities::Charting::RadarChart)
 
-      def range(range)
-        @chart.y_range = range
-      end
+        def range(range)
+          @chart.y_range = range
+        end
 
-      def tick_interval(tick_interval)
-        @chart.tick_interval = tick_interval
+        def tick_interval(tick_interval)
+          @chart.tick_interval = tick_interval
+        end
       end
     end
   end

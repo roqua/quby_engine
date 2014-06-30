@@ -16,7 +16,7 @@ module Quby
         end
 
         def validate
-          dummy_questionnaire = Quby::DSL.build("dummy_questionnaire", definition)
+          dummy_questionnaire = Quby::Questionnaires::DSL.build("dummy_questionnaire", definition)
 
           validate_questions(dummy_questionnaire)
           validate_table_edgecases(dummy_questionnaire)

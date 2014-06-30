@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-shared_examples_for Quby::DSL::ChartBuilder do
+shared_examples_for Quby::Questionnaires::DSL::ChartBuilder do
   let(:questionnaire) { double(key: 'honos') }
 
   it 'sets title' do

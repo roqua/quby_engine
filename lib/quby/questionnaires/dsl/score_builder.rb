@@ -1,17 +1,19 @@
 require 'quby/questionnaires/entities'
 
 module Quby
-  module DSL
-    class ScoreBuilder
-      attr_reader :key
-      attr_reader :calculation
+  module Questionnaires
+    module DSL
+      class ScoreBuilder
+        attr_reader :key
+        attr_reader :calculation
 
-      def initialize(key, options = {}, &block)
-        @score = ::Quby::Questionnaires::Entities::ScoreCalculation.new(key, options, &block)
-      end
+        def initialize(key, options = {}, &block)
+          @score = ::Quby::Questionnaires::Entities::ScoreCalculation.new(key, options, &block)
+        end
 
-      def build
-        @score
+        def build
+          @score
+        end
       end
     end
   end

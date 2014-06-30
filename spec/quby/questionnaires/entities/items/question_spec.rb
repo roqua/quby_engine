@@ -4,7 +4,7 @@ module Quby::Questionnaires::Entities
   describe Items::Question do
 
     let(:questionnaire) do
-      Quby::DSL.build("test") do
+      Quby::Questionnaires::DSL.build("test") do
         question :radio, type: :radio, depends_on: [:check] do
           title "Testvraag"
           option :rad1
