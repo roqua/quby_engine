@@ -3,6 +3,8 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Repos
   describe MemoryRepo do
+    it_behaves_like 'a questionnaire repository'
+
     context 'when integrated' do
       it_behaves_like 'a valid backend for the questionnaires api'
     end
