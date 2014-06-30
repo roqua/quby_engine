@@ -40,8 +40,8 @@ shared_examples_for Quby::Questionnaires::DSL::ChartBuilder do
 
     it 'can specify which item from the score hash to plot' do
       plottable = Quby::Questionnaires::Entities::Charting::Plottable.new(:tot, label: 'Totaal',
-                                                      plotted_key: :t_score,
-                                                      questionnaire_key: 'honos')
+                                                                                plotted_key: :t_score,
+                                                                                questionnaire_key: 'honos')
       dsl { plot :tot, plotted_key: :t_score }.plottables.should == [plottable]
     end
 
