@@ -1,6 +1,10 @@
 module Quby
-  module Questions
-    class FloatQuestion < Quby::Items::Question
+  module Questionnaires
+    module Entities
+      module Questions
+        class FloatQuestion < Quby::Items::Question
+        end
+      end
     end
   end
 end

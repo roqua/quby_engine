@@ -25,23 +25,23 @@ module Quby
       def self.for(type)
         case type.to_s
         when 'string'
-          ::Quby::Questions::StringQuestion
+          ::Quby::Questionnaires::Entities::Questions::StringQuestion
         when 'textarea'
-          ::Quby::Questions::TextQuestion
+          ::Quby::Questionnaires::Entities::Questions::TextQuestion
         when 'integer'
-          ::Quby::Questions::IntegerQuestion
+          ::Quby::Questionnaires::Entities::Questions::IntegerQuestion
         when 'float'
-          ::Quby::Questions::FloatQuestion
+          ::Quby::Questionnaires::Entities::Questions::FloatQuestion
         when 'radio', 'scale'
-          ::Quby::Questions::RadioQuestion
+          ::Quby::Questionnaires::Entities::Questions::RadioQuestion
         when 'select'
-          ::Quby::Questions::SelectQuestion
+          ::Quby::Questionnaires::Entities::Questions::SelectQuestion
         when 'check_box'
-          ::Quby::Questions::CheckboxQuestion
+          ::Quby::Questionnaires::Entities::Questions::CheckboxQuestion
         when 'date'
-          ::Quby::Questions::DateQuestion
+          ::Quby::Questionnaires::Entities::Questions::DateQuestion
         when 'hidden'
-          ::Quby::Questions::DeprecatedQuestion
+          ::Quby::Questionnaires::Entities::Questions::DeprecatedQuestion
         else
           fail "Quby does not have a question type: #{type}"
         end
