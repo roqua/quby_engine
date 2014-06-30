@@ -3,7 +3,12 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Repos
   describe DiskRepo do
-    it_behaves_like 'a questionnaire repository'
+    it_behaves_like 'a questionnaire repository' do
+      before { @repo_path = Dir.mktmpdir }
+      after  { FileUtils.remove_entry_secure(@repo_path) }
+
+      let(:repo) { DiskRepo.new(@repo_path) }
+    end
 
     context 'when integrated' do
       it_behaves_like 'a valid backend for the questionnaires api'
@@ -26,7 +31,7 @@ module Quby::Questionnaires::Repos
           questionnaire.title.should eq 'foo'
         end
 
-        it 'raises RecordNotFound if it doesnt exist' do
+        it 'raises QuestionnaireNotFound if it doesnt exist' do
           repo.stub(:exists?).with(key).and_return(false)
           expect { repo.find(key) }.to raise_error(QuestionnaireNotFound)
         end

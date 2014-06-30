@@ -38,6 +38,12 @@ module Quby
           File.exist?(questionnaire_path)
         end
 
+        def create!(key, definition)
+          fail(DuplicateQuestionnaire, key) if exists?(key)
+          File.open(questionnaire_path(key), 'w') { |f| f.write definition }
+          find(key)
+        end
+
         private
 
         def last_update_on_disk(key)

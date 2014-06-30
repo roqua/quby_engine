@@ -5,25 +5,40 @@ module Quby
   module Questionnaires
     module Repos
       class MemoryRepo < Base
-        attr_reader :definitions
+        attr_reader :records
 
         def initialize(definitions = {})
-          @definitions = definitions
+          @records = definitions.map do |key, definition|
+            [key, record_for_definition(definition)]
+          end.to_h
         end
 
         def all
-          definitions.keys.map do |key|
+          records.keys.map do |key|
             find(key)
           end
         end
 
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
-          entity(key, definitions.fetch(key), Time.now)
+          record = records.fetch(key)
+          entity(key, record.fetch(:definition), record[:last_update])
         end
 
         def exists?(key)
-          definitions.key?(key)
+          records.key?(key)
+        end
+
+        def create!(key, definition)
+          fail(DuplicateQuestionnaire, key) if exists?(key)
+          records[key] = record_for_definition(definition)
+          find(key)
+        end
+
+       private
+
+        def record_for_definition(definition)
+          {definition: definition, last_update: Time.now}
         end
       end
     end

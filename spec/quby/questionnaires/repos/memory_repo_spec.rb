@@ -3,41 +3,24 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Repos
   describe MemoryRepo do
-    it_behaves_like 'a questionnaire repository'
+    it_behaves_like 'a valid backend for the questionnaires api'
 
-    context 'when integrated' do
-      it_behaves_like 'a valid backend for the questionnaires api'
+    it_behaves_like 'a questionnaire repository' do
+      let(:repo) { MemoryRepo.new }
     end
 
-    context 'in isolation' do
-      let(:repo) { MemoryRepo.new("test" => "title 'foo'", 'a' => "", 'b' => "") }
+    describe '#initialize' do
+      it 'accepts a hash of keys and definitions to start with' do
+        repo = MemoryRepo.new("test1" => "title 'Foo'",
+                              "test2" => "title 'Bar'")
 
-      describe '#find' do
-        it 'finds one questionnaire' do
-          questionnaire = repo.find('test')
-          questionnaire.key.should eq('test')
-          questionnaire.title.should eq 'foo'
-        end
+        expect(repo.exists?('test1')).to be_true
+        expect(repo.find('test1').title).to eq("Foo")
 
-        it 'raises RecordNotFound if it doesnt exist' do
-          expect { repo.find('unknown') }.to raise_error(QuestionnaireNotFound)
-        end
-      end
+        expect(repo.exists?('test2')).to be_true
+        expect(repo.find('test2').title).to eq("Bar")
 
-      describe '#exists?' do
-        it 'returns true if questionnaire was added' do
-          repo.exists?("test").should be_true
-        end
-
-        it 'returns false if questionnaire was not added' do
-          repo.exists?("unknown").should be_false
-        end
-      end
-
-      describe '#all' do
-        it 'finds all questionnaires' do
-          repo.all.map(&:key).should eq %w(test a b)
-        end
+        expect(repo.exists?('test3')).to be_false
       end
     end
   end
