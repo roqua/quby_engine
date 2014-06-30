@@ -50,11 +50,11 @@ SingleLineBlockParams:
   Enabled: false
 
 # Complains than multiline ternary expressions should be if/else statements
-# Ternary are still often more readable. 
+# Ternary are still often more readable.
 MultilineTernaryOperator:
   Enabled: false
 
-# disallows `class Quby::Items::Text` style definitions.
+# disallows `class Quby::Questionnaires::Entities::Items::Text` style definitions.
 # Why waste all that indentation?
 ClassAndModuleChildren:
   Enabled: false

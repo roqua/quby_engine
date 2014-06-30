@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-shared_examples_for Quby::DSL::ChartBuilder do
+shared_examples_for Quby::Questionnaires::DSL::ChartBuilder do
   let(:questionnaire) { double(key: 'honos') }
 
   it 'sets title' do
@@ -12,12 +12,21 @@ shared_examples_for Quby::DSL::ChartBuilder do
   end
 
   describe 'setting which scores & answers should be included in the chart' do
-    let(:tot_score) { Quby::ScoreCalculation.new :tot, label: 'Totaal' }
-    let(:soc_score) { Quby::ScoreCalculation.new :soc, label: 'Sociaal' }
+    let(:tot_score) { Quby::Questionnaires::Entities::ScoreCalculation.new :tot, label: 'Totaal' }
+    let(:soc_score) { Quby::Questionnaires::Entities::ScoreCalculation.new :soc, label: 'Sociaal' }
     let(:float_question) { double(key: :v_1, type: :radio, options: []) }
-    let(:plotted_tot_score) { Quby::Charting::Plottable.new(:tot, label: 'Totaal',       questionnaire_key: 'honos') }
-    let(:plotted_soc_score) { Quby::Charting::Plottable.new(:soc, label: 'Sociaal',      questionnaire_key: 'honos') }
-    let(:plotted_question)  { Quby::Charting::Plottable.new(:v_1, label: 'Answer Label', questionnaire_key: 'honos') }
+
+    let(:plotted_tot_score) do
+      Quby::Questionnaires::Entities::Charting::Plottable.new(:tot, label: 'Totaal',       questionnaire_key: 'honos')
+    end
+
+    let(:plotted_soc_score) do
+      Quby::Questionnaires::Entities::Charting::Plottable.new(:soc, label: 'Sociaal',      questionnaire_key: 'honos')
+    end
+
+    let(:plotted_question) do
+      Quby::Questionnaires::Entities::Charting::Plottable.new(:v_1, label: 'Answer Label', questionnaire_key: 'honos')
+    end
 
     before do
       questionnaire.stub(:find_plottable).with(:tot).and_return(tot_score)
@@ -30,9 +39,9 @@ shared_examples_for Quby::DSL::ChartBuilder do
     end
 
     it 'can specify which item from the score hash to plot' do
-      plottable = Quby::Charting::Plottable.new(:tot, label: 'Totaal',
-                                                      plotted_key: :t_score,
-                                                      questionnaire_key: 'honos')
+      plottable = Quby::Questionnaires::Entities::Charting::Plottable.new(:tot, label: 'Totaal',
+                                                                                plotted_key: :t_score,
+                                                                                questionnaire_key: 'honos')
       dsl { plot :tot, plotted_key: :t_score }.plottables.should == [plottable]
     end
 

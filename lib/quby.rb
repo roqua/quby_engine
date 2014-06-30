@@ -1,16 +1,11 @@
-require "monkey_patches/virtus"
+require "quby/monkey_patches/virtus"
+require 'quby/extensions/maruku_extensions'
+require 'quby/settings'
+require 'quby/questionnaires'
+require 'quby/questionnaires/repos/disk_repo'
+require 'quby/answers'
+require 'quby/answers/repos/memory_repo'
 require "quby/engine"
-
-$:.unshift(File.expand_path("../../app/dsl", __FILE__))
-$:.unshift(File.expand_path("../../app/models", __FILE__))
-$:.unshift(File.expand_path("../../app/repos", __FILE__))
-$:.unshift(File.expand_path("../../app/services", __FILE__))
-
-require 'quby/api'
-require 'quby/dsl'
-require 'quby/questionnaire_repos/disk_repo'
-require 'quby/answer_repos'
-require 'quby/outcome_calculation'
 
 module Quby
   class << self
@@ -50,11 +45,11 @@ module Quby
     # ==================================================================================================================
 
     def answers
-      @answers_api ||= Quby::Api::Answers.new answer_repo: Quby.send(:answer_repo)
+      @answers_api ||= Quby::Answers::API.new answer_repo: Quby.send(:answer_repo)
     end
 
     def questionnaires
-      @questionnaires_api ||= Quby::Api::Questionnaires.new questionnaire_repo: Quby.send(:questionnaire_finder)
+      @questionnaires_api ||= Quby::Questionnaires::API.new questionnaire_repo: Quby.send(:questionnaire_finder)
     end
 
     # ==================================================================================================================
@@ -68,7 +63,7 @@ module Quby
     end
 
     def questionnaire_finder
-      @questionnaire_finder ||= Quby::QuestionnaireRepos::DiskRepo.new(Quby.questionnaires_path)
+      @questionnaire_finder ||= Quby::Questionnaires::Repos::DiskRepo.new(Quby.questionnaires_path)
     end
   end
 end

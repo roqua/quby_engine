@@ -5,7 +5,7 @@
 - itemclasses = [item.type, item.presentation]
 - extra_data = nil
 - itemkey = nil
-- if item.is_a?(Quby::Items::Question)
+- if item.is_a?(Quby::Questionnaires::Entities::Items::Question)
   - return if item.table
   - itemkey = "item_#{item.key}"
   - extra_data = item.extra_data
@@ -23,7 +23,7 @@
       - if different_header(item, previous_item)
         = render :partial => "quby/v1/bulk/item_radio_check_scale_options", :object => item
 
-- if item.raw_content and !item.is_a?(Quby::Items::Text)
+- if item.raw_content and !item.is_a?(Quby::Questionnaires::Entities::Items::Text)
   - if item.raw_content.is_a?(Hash) and item.raw_content[:bulk]
     = raw item.raw_content[:bulk]
   - else
@@ -31,48 +31,48 @@
 - else
   .item{:class => itemclasses, :data => extra_data, :id => itemkey}
     - case item
-    - when Quby::Items::Text
+    - when Quby::Questionnaires::Entities::Items::Text
       - if item.display_in.andand.include?(:bulk)
         .text
           = raw item.text
-    - when Quby::Questions::StringQuestion
+    - when Quby::Questionnaires::Entities::Questions::StringQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_string", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-    - when Quby::Questions::TextQuestion
+    - when Quby::Questionnaires::Entities::Questions::TextQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_textarea", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-    - when Quby::Questions::IntegerQuestion, Quby::Questions::FloatQuestion
+    - when Quby::Questionnaires::Entities::Questions::IntegerQuestion, Quby::Questionnaires::Entities::Questions::FloatQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_number", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-    - when Quby::Questions::RadioQuestion
+    - when Quby::Questionnaires::Entities::Questions::RadioQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_radio", :locals => {:not_bulk => not_bulk, :question => item, :subquestion => subquestion, :previous_item => previous_item, :disabled => disabled}
-    - when Quby::Questions::DateQuestion
+    - when Quby::Questionnaires::Entities::Questions::DateQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_date", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-    - when Quby::Questions::CheckboxQuestion
+    - when Quby::Questionnaires::Entities::Questions::CheckboxQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_check_box", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-    - when Quby::Questions::SelectQuestion
+    - when Quby::Questionnaires::Entities::Questions::SelectQuestion
       - return if item.hidden? and @answer.send(item.key).blank?
       - return if (item.display_modes and (not item.display_modes.include?(:bulk)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-    - when Quby::Questions::DeprecatedQuestion
+    - when Quby::Questionnaires::Entities::Questions::DeprecatedQuestion
       - # nothing rendered
-    - when Quby::Items::Table
+    - when Quby::Questionnaires::Entities::Items::Table
       = render :partial => "quby/v1/table/table", :locals => {:table => item}
     - else
       - raise "Unknown item type #{item.class.name} for question #{item.key}"

@@ -28,7 +28,7 @@ module Quby
     rescue_from TimestampValidationError, with: :bad_timestamp
     rescue_from InvalidAuthorization,     with: :bad_authorization
     rescue_from MissingAuthorization,     with: :bad_authorization
-    rescue_from Quby::QuestionnaireRepos::DiskRepo::RecordNotFound, with: :bad_questionnaire
+    rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound, with: :bad_questionnaire
 
     def show
       redirect_to action: "edit"
@@ -46,7 +46,7 @@ module Quby
     end
 
     def update(printing = false)
-      updater = UpdatesAnswers.new(@answer)
+      updater = Answers::Services::UpdatesAnswers.new(@answer)
 
       updater.on_success do
         if printing

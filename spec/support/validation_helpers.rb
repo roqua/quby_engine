@@ -72,7 +72,7 @@ module ServerSideValidationHelpers
   def self.included(base)
     base.let(:validation_run_location) { :server_side }
     base.let(:answer) { Quby.answers.create!(questionnaire.key) }
-    base.let(:updates_answers) { Quby::UpdatesAnswers.new(answer) }
+    base.let(:updates_answers) { Quby::Answers::Services::UpdatesAnswers.new(answer) }
     base.let(:answer_to_submit) { {} }
   end
 

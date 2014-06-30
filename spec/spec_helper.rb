@@ -28,6 +28,10 @@ require 'timecop'
 require 'fakefs/safe'
 require 'launchy'
 
+# Load up shared examples
+require 'quby/answers/specs'
+require 'quby/questionnaires/specs'
+
 Capybara.default_selector = :css
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, inspector: true, timeout: 120)
@@ -48,6 +52,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Quby.questionnaires_path = Quby.fixtures_path
-    Quby.answer_repo = Quby::AnswerRepos::MemoryRepo.new
+    Quby.answer_repo = Quby::Answers::Repos::MemoryRepo.new
   end
 end

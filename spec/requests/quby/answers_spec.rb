@@ -19,7 +19,7 @@ module Quby
       end
 
       it 'saves the answer' do
-        honos  = DSL.build("honos", "question(:v1, type: :string)")
+        honos  = Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string)")
         answer = create_answer(honos)
         put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
 
@@ -27,7 +27,7 @@ module Quby
       end
 
       it 'does not save invalid answers' do
-        honos  = DSL.build("honos", "question(:v1, type: :string, required: true)")
+        honos  = Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string, required: true)")
         answer = create_answer(honos)
         put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
 
@@ -36,7 +36,7 @@ module Quby
       end
 
       context 'upon successful save' do
-        let(:honos)      { DSL.build("honos", "question(:v1, type: :string)") }
+        let(:honos)      { Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string)") }
         let(:answer)     { create_answer(honos) }
         let(:url)        { "http://example.org" }
         let(:return_url) { url + "?key=abcd&return_from=quby&return_from_answer=#{answer.id}" }
