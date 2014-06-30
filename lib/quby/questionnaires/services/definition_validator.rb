@@ -16,7 +16,7 @@ module Quby
         end
 
         def validate
-          dummy_questionnaire = Quby::Questionnaires::DSL.build("dummy_questionnaire", definition)
+          dummy_questionnaire = DSL.build("dummy_questionnaire", definition)
 
           validate_questions(dummy_questionnaire)
           validate_table_edgecases(dummy_questionnaire)
@@ -53,9 +53,9 @@ module Quby
 
         def validate_table_edgecases(questionnaire)
           questionnaire.panels.each do |panel|
-            tables = panel.items.select { |item| item.is_a?(Quby::Questionnaires::Entities::Items::Table) }
+            tables = panel.items.select { |item| item.is_a?(Entities::Items::Table) }
             tables.each do |table|
-              questions = table.items.select { |item| item.is_a?(Quby::Questionnaires::Entities::Items::Question) }
+              questions = table.items.select { |item| item.is_a?(Entities::Items::Question) }
               questions.each { |question| validate_table_question(question) }
             end
           end

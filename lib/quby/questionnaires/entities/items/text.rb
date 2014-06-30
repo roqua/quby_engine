@@ -44,7 +44,7 @@ module Quby
             case other.class
             when String
               @text == other
-            when Quby::Questionnaires::Entities::Items::Text
+            when self.class
               @text == other.text
             else
               false

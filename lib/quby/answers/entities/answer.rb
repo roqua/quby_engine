@@ -79,7 +79,7 @@ module Quby
         end
 
         def enhance_by_dsl
-          Quby::Answers::DSL.enhance(self)
+          DSL.enhance(self)
         end
 
         def patient_id

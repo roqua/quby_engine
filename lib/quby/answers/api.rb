@@ -30,11 +30,11 @@ module Quby
       end
 
       def generate_outcome(answer)
-        Quby::Answers::Services::OutcomeCalculation.new(answer).calculate
+        Services::OutcomeCalculation.new(answer).calculate
       end
 
       def regenerate_outcome!(answer)
-        Quby::Answers::Services::OutcomeCalculation.new(answer).update_scores
+        Services::OutcomeCalculation.new(answer).update_scores
       end
     end
   end

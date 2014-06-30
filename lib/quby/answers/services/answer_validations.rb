@@ -30,7 +30,7 @@ module Quby
         end
 
         def calculated_attributes
-          @calculated_attributes ||= Answers::Services::AttributeCalculator.new(questionnaire, self)
+          @calculated_attributes ||= AttributeCalculator.new(questionnaire, self)
         end
 
         def hidden_questions
@@ -76,7 +76,7 @@ module Quby
         end
 
         def validate_answers
-          Answers::Services::AnswerValidator.new(questionnaire, self).validate
+          AnswerValidator.new(questionnaire, self).validate
         end
       end
     end

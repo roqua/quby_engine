@@ -91,7 +91,7 @@ module Quby
         end
 
         def entity_class
-          Quby::Answers::Entities::Answer
+          Entities::Answer
         end
       end
     end

@@ -164,7 +164,7 @@ module Quby
           end
 
           top_questions = panels.map do |panel|
-            panel.items.select { |item| item.is_a? Quby::Questionnaires::Entities::Items::Question }
+            panel.items.select { |item| item.is_a? Items::Question }
           end.flatten.compact
 
           top_questions.each do |question|

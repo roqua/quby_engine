@@ -49,7 +49,7 @@ module Quby
           def validations
             vals = {}
             items.each do |item|
-              if item.is_a? Quby::Questionnaires::Entities::Items::Question
+              if item.is_a? Items::Question
                 item.options.each do |opt|
                   if opt.questions
                     opt.questions.each do |q|

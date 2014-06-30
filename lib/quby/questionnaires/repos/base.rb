@@ -17,7 +17,7 @@ module Quby
         private
 
         def entity(key, definition, timestamp)
-          Quby::Questionnaires::DSL.build(key, definition, timestamp: timestamp)
+          DSL.build(key, definition, timestamp: timestamp)
         end
       end
     end

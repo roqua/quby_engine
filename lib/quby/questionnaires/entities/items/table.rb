@@ -66,7 +66,7 @@ module Quby
                 end
               end
 
-              if item.is_a?(Quby::Questionnaires::Entities::Items::Text) || !([:check_box, :radio, :scale].include? item.type)
+              if item.is_a?(Items::Text) || !([:check_box, :radio, :scale].include? item.type)
                 if item.row_span > 1
                   skips << [item.row_span, filled_columns, item.col_span]
                 end

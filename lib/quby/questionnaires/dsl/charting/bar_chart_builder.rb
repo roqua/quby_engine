@@ -5,7 +5,7 @@ module Quby
   module Questionnaires
     module DSL
       class BarChartBuilder < ChartBuilder
-        set_chart_class(::Quby::Questionnaires::Entities::Charting::BarChart)
+        set_chart_class(Entities::Charting::BarChart)
       end
     end
   end
