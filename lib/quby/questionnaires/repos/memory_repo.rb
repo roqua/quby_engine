@@ -23,7 +23,7 @@ module Quby
         end
 
         def exists?(key)
-          definitions.has_key?(key)
+          definitions.key?(key)
         end
       end
     end
