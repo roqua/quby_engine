@@ -1,7 +1,7 @@
 require 'active_model'
-
 require 'quby/settings'
 
+require 'action_view'
 include ActionView::Helpers::SanitizeHelper
 
 module Quby
