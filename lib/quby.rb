@@ -13,16 +13,6 @@ module Quby
     #                     Quby configuration
     # ==================================================================================================================
 
-    def questionnaires_path
-      @questionnaires_path
-    end
-
-    def questionnaires_path=(new_path)
-      @questionnaires_path  = new_path
-      @questionnaire_finder = nil
-      @questionnaires_api = nil
-    end
-
     def show_exceptions
       @show_exceptions
     end
@@ -34,6 +24,11 @@ module Quby
     def answer_repo=(repo)
       @answer_repo = repo
       @answers_api = nil
+    end
+
+    def questionnaire_repo=(repo)
+      @questionnaire_repo = repo
+      @questionnaires_api = nil
     end
 
     def fixtures_path
@@ -49,7 +44,7 @@ module Quby
     end
 
     def questionnaires
-      @questionnaires_api ||= Quby::Questionnaires::API.new questionnaire_repo: Quby.send(:questionnaire_finder)
+      @questionnaires_api ||= Quby::Questionnaires::API.new questionnaire_repo: Quby.send(:questionnaire_repo)
     end
 
     # ==================================================================================================================
@@ -62,8 +57,8 @@ module Quby
       @answer_repo || fail("Quby does not have its storage for answers (Quby.answer_repo) configured.")
     end
 
-    def questionnaire_finder
-      @questionnaire_finder ||= Quby::Questionnaires::Repos::DiskRepo.new(Quby.questionnaires_path)
+    def questionnaire_repo
+      @questionnaire_repo || fail("Quby does not have its storage for questionnaires (Quby.questionnaire_repo) configured.")
     end
   end
 end

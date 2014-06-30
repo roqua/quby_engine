@@ -7,4 +7,5 @@ module Quby
 end
 
 require 'quby/questionnaires/repos/base'
+require 'quby/questionnaires/repos/memory_repo'
 require 'quby/questionnaires/repos/disk_repo'

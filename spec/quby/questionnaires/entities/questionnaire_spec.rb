@@ -2,15 +2,6 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Entities
   describe Questionnaire do
-    before do
-      @temp_dir = Dir.mktmpdir
-      Quby.questionnaires_path = @temp_dir
-    end
-
-    after do
-      FileUtils.remove_entry_secure @temp_dir
-    end
-
     let(:key)           { 'test' }
     let(:definition)    { "title 'My Test'" }
     let(:questionnaire) { Quby::Questionnaires::DSL.build(key, definition) }
