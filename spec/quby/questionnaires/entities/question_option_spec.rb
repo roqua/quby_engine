@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Questionnaires::Entities
   describe QuestionOption do
     let(:questionnaire) do
       Quby::DSL.build("test") do

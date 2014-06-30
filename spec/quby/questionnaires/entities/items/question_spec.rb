@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Questionnaires::Entities
   describe Items::Question do
 
     let(:questionnaire) do

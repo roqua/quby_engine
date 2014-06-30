@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Questionnaires::Entities
   module Charting
     describe Plottable do
       it 'stores the key' do

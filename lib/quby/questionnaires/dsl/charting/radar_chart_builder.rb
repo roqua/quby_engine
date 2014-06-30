@@ -4,7 +4,7 @@ require_relative 'chart_builder'
 module Quby
   module DSL
     class RadarChartBuilder < ChartBuilder
-      set_chart_class(::Quby::Charting::RadarChart)
+      set_chart_class(::Quby::Questionnaires::Entities::Charting::RadarChart)
 
       def range(range)
         @chart.y_range = range

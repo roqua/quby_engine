@@ -4,7 +4,7 @@ require_relative 'chart_builder'
 module Quby
   module DSL
     class BarChartBuilder < ChartBuilder
-      set_chart_class(::Quby::Charting::BarChart)
+      set_chart_class(::Quby::Questionnaires::Entities::Charting::BarChart)
     end
   end
 end

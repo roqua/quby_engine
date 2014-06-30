@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class DeprecatedQuestion < Quby::Items::Question
+        class DeprecatedQuestion < Quby::Questionnaires::Entities::Items::Question
           def hidden?
             true
           end

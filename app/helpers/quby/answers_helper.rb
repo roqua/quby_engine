@@ -32,7 +32,7 @@ module Quby
 
     def get_question(table, rowi, j)
       q = get_item(table, rowi, j)
-      q.is_a?(Quby::Items::Question) ? q : nil
+      q.is_a?(Quby::Questionnaires::Entities::Items::Question) ? q : nil
     end
 
     def get_item(table, rowi, j)

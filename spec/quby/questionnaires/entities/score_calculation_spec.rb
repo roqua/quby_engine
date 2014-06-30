@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Questionnaires::Entities
   describe ScoreCalculation do
     let(:calculation) { proc { 1 } }
     subject { ScoreCalculation.new(:tot, label: "Totaal", &calculation) }

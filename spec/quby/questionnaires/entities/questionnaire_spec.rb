@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby
+module Quby::Questionnaires::Entities
   describe Questionnaire do
     before do
       @temp_dir = Dir.mktmpdir
@@ -13,7 +13,7 @@ module Quby
 
     let(:key)           { 'test' }
     let(:definition)    { "title 'My Test'" }
-    let(:questionnaire) { DSL.build(key, definition) }
+    let(:questionnaire) { Quby::DSL.build(key, definition) }
 
     describe 'licenses' do
       it 'defaults to being unknown' do
@@ -98,7 +98,7 @@ module Quby
 
     context 'key lists' do
       let(:questionnaire) do
-        DSL.build("test") do
+        Quby::DSL.build("test") do
           question :radio, type: :radio, depends_on: [:check] do
             title "Testvraag"
             option :rad1
@@ -135,7 +135,7 @@ module Quby
     describe '#key_in_use?' do
       let(:definition)    { "" }
       let(:questionnaire) do
-        DSL.build("test") do
+        Quby::DSL.build("test") do
           title 'My Test'
           question :v_1, type: :string
           score :score_1
@@ -156,7 +156,7 @@ module Quby
 
     describe '#to_codebook' do
       it "should be able to generate a codebook" do
-        questionnaire = DSL.build("test") do
+        questionnaire = Quby::DSL.build("test") do
           title 'My Test'
           question :v_1, type: :radio do
             option :a1, value: 0; option :a2, value: 1
@@ -167,7 +167,7 @@ module Quby
       end
 
       it "should not break off a codebook when encountering <" do
-        questionnaire = DSL.build("test2") do
+        questionnaire = Quby::DSL.build("test2") do
           title 'My Test'
           question :v_1, type: :radio do
             title ' < 20'
@@ -180,7 +180,7 @@ module Quby
       end
 
       it 'interleaves subquestions between checkbox options, to match quby_proxy behavior' do
-        questionnaire = DSL.build("test") do
+        questionnaire = Quby::DSL.build("test") do
           title 'My Test'
           question(:v_1, type: :check_box) do
             option :v_1_a1, value: 0 do
@@ -214,7 +214,7 @@ module Quby
 
     describe '#questions_of_type' do
       let(:definition)    { "text 'text thing' \n question :v_1, type: :radio \n question :v_2, type: :string" }
-      let(:questionnaire) { DSL.build(:questions_of_type_test, definition) }
+      let(:questionnaire) { Quby::DSL.build(:questions_of_type_test, definition) }
       it 'returns questions of the given type' do
         questionnaire.questions_of_type(:string).count.should eq 1
         questionnaire.questions_of_type(:string).first.type.should eq :string
@@ -234,7 +234,7 @@ module Quby
       end
 
       it 'returns nil if leave page alerts are disabled' do
-        Settings.stub(enable_leave_page_alert: false)
+        Quby::Settings.stub(enable_leave_page_alert: false)
         questionnaire = Questionnaire.new 'test'
         expect(questionnaire.leave_page_alert).to be_nil
       end

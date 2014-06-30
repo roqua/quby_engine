@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class CheckboxQuestion < Quby::Items::Question
+        class CheckboxQuestion < Quby::Questionnaires::Entities::Items::Question
           # checkbox option that checks all other options on check
           attr_accessor :check_all_option
           # checkbox option that unchecks all other options on check

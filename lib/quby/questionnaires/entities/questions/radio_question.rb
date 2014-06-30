@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class RadioQuestion < Quby::Items::Question
+        class RadioQuestion < Quby::Questionnaires::Entities::Items::Question
           def as_json(options = {})
             super.merge(options: @options.as_json)
           end

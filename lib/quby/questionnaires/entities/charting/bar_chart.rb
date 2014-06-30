@@ -1,8 +1,12 @@
 require 'quby/questionnaires/entities/charting/chart'
 
 module Quby
-  module Charting
-    class BarChart < Chart
+  module Questionnaires
+    module Entities
+      module Charting
+        class BarChart < Chart
+        end
+      end
     end
   end
 end

@@ -7,7 +7,7 @@ module Quby
       attr_reader :calculation
 
       def initialize(key, options = {}, &block)
-        @score = ::Quby::ScoreCalculation.new(key, options, &block)
+        @score = ::Quby::Questionnaires::Entities::ScoreCalculation.new(key, options, &block)
       end
 
       def build

@@ -46,7 +46,7 @@ module Quby
       end
 
       it 'makes a line chart' do
-        dsl { }.should be_an_instance_of(::Quby::Charting::LineChart)
+        dsl { }.should be_an_instance_of(::Quby::Questionnaires::Entities::Charting::LineChart)
       end
 
       def dsl(key = :test, options = {y_range: (0..20)}, &block)

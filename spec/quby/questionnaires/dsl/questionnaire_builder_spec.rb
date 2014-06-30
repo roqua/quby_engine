@@ -3,7 +3,7 @@ require 'spec_helper'
 module Quby
   module DSL
     describe QuestionnaireBuilder do
-      let(:questionnaire) { ::Quby::Questionnaire.new("example") }
+      let(:questionnaire) { Quby::Questionnaires::Entities::Questionnaire.new("example") }
       let(:builder)       { QuestionnaireBuilder.new(questionnaire) }
 
       it 'sets title' do

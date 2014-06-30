@@ -6,7 +6,7 @@ describe "quby/answers/show_questionnaire_errors" do
     Quby.show_exceptions = true
   end
   let(:questionnaire) do
-    q = Quby::Questionnaire.new('key')
+    q = Quby::Questionnaires::Entities::Questionnaire.new('key')
     q.errors.add(:definition, "all wrong")
     q
   end
@@ -17,7 +17,7 @@ describe "quby/answers/show_questionnaire_errors" do
     expect(rendered).to match /all wrong/
   end
 
-  let(:error) { fail Quby::Questionnaire::ValidationError, 'totally wrong' rescue $ERROR_INFO }
+  let(:error) { fail Quby::Questionnaires::Entities::Questionnaire::ValidationError, 'totally wrong' rescue $ERROR_INFO }
 
   it "displays errors passed on" do
     assign(:error, error)

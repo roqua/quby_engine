@@ -1,4 +1,4 @@
-shared_examples_for Quby::Charting::Chart do
+shared_examples_for Quby::Questionnaires::Entities::Charting::Chart do
   it 'initializes with a key and options' do
     described_class.new(:tot, title: "My Title").should be
   end

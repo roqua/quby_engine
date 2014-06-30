@@ -11,7 +11,7 @@ module Quby
 
       def initialize(key, options = {})
         question_type = options[:type] or fail "Question #{key} from #{options[:questionnaire].key} has no type!"
-        @question = Quby::Items::Question.for(question_type).new(key, options)
+        @question = Quby::Questionnaires::Entities::Items::Question.for(question_type).new(key, options)
         @default_question_options = options[:default_question_options] || {}
         @questionnaire = options[:questionnaire]
         @title_question = nil
@@ -30,7 +30,7 @@ module Quby
       end
 
       def inner_title(value)
-        question_option = QuestionOption.new(nil, @question, inner_title: true, description: value)
+        question_option = Questionnaires::Entities::QuestionOption.new(nil, @question, inner_title: true, description: value)
         @question.options << question_option
       end
 
@@ -73,7 +73,7 @@ module Quby
       end
 
       def option(key, options = {}, &block)
-        question_option = QuestionOption.new(key, @question, options)
+        question_option = Questionnaires::Entities::QuestionOption.new(key, @question, options)
         if @questionnaire.key_in_use?(question_option.input_key) || @question.key_in_use?(question_option.input_key)
           fail "#{questionnaire.key}:#{@question.key}:#{question_option.key}: " \
                 "A question or option with input key #{question_option.input_key} is already defined."

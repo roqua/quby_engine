@@ -4,7 +4,7 @@ require_relative 'chart_builder'
 module Quby
   module DSL
     class LineChartBuilder < ChartBuilder
-      set_chart_class(::Quby::Charting::LineChart)
+      set_chart_class(::Quby::Questionnaires::Entities::Charting::LineChart)
 
       def y_axis_label(label)
         @chart.y_label = label

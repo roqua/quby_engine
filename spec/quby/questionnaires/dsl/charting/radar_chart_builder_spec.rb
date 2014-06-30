@@ -8,7 +8,7 @@ module Quby
       let(:questionnaire) { double(key: 'questionnaire_key') }
 
       it 'makes a radar chart' do
-        dsl { }.should be_an_instance_of(::Quby::Charting::RadarChart)
+        dsl { }.should be_an_instance_of(::Quby::Questionnaires::Entities::Charting::RadarChart)
       end
 
       it 'sets y-axis range' do

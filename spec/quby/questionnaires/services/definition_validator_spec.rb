@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Services
   describe DefinitionValidator do
-    let(:questionnaire) { Quby::Questionnaire.new('test') }
+    let(:questionnaire) { Quby::Questionnaires::Entities::Questionnaire.new('test') }
 
     describe ":hides_questions" do
       it "throws an error if the question to be hidden does not exist" do
