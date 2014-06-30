@@ -112,8 +112,9 @@ module Quby
           # Whether we can collapse this in bulk view
           attr_accessor :disallow_bulk
 
-          # This question should not validate itself unless the depends_on question is answered
-          # May also be an array of "#{question_key}_#{option_key}" strings that specify options this question depends on
+          # This question should not validate itself unless the depends_on question is answered.
+          # May also be an array of "#{question_key}_#{option_key}" strings that specify options
+          # this question depends on.
           attr_accessor :depends_on
 
           # Extra data hash to store on the question item's html element

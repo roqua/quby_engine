@@ -59,6 +59,7 @@ module Quby
         end
 
         def clear?(answer, question)
+          # rubocop:disable LineLength
           return true if question.is_a?(Questionnaires::Entities::Questions::SelectQuestion)  && answer == question.extra_data[:placeholder].to_s
           return true if question.is_a?(Questionnaires::Entities::Questions::StringQuestion)  && answer == ""
           return true if question.is_a?(Questionnaires::Entities::Questions::TextQuestion)    && answer == ""

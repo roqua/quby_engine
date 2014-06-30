@@ -2,17 +2,19 @@ require 'spec_helper'
 
 module Quby::Answers::Services
   describe OutcomeCalculation do
+    include Quby::Questionnaires::Entities
+
     let(:scorer) { proc { {value: 3} } }
-    let(:score) { Quby::Questionnaires::Entities::ScoreCalculation.new(:tot, {label: "Totaal", score: true}, &scorer) }
+    let(:score) { ScoreCalculation.new(:tot, {label: "Totaal", score: true}, &scorer) }
 
     let(:actioner) { proc { 5 } }
-    let(:action) { Quby::Questionnaires::Entities::ScoreCalculation.new(:attention, {action: true}, &actioner) }
+    let(:action) { ScoreCalculation.new(:attention, {action: true}, &actioner) }
 
     let(:completioner) { proc { 0.9 } }
-    let(:completion) { Quby::Questionnaires::Entities::ScoreCalculation.new(:completion, {completion: true}, &completioner) }
+    let(:completion) { ScoreCalculation.new(:completion, {completion: true}, &completioner) }
 
     let(:questionnaire) do
-      quest = Quby::Questionnaires::Entities::Questionnaire.new "test"
+      quest = Questionnaire.new "test"
 
       quest.add_score_calculation score
       quest.add_score_calculation action
@@ -60,9 +62,8 @@ module Quby::Answers::Services
       end
 
       it 'allows access to other scores' do
-        score2 = Quby::Questionnaires::Entities::ScoreCalculation.new(:tot2,
-                                            {label: "Totaal2", score: true},
-                                            &proc { {value: score(:tot)[:value] + 2} })
+        score2 = ScoreCalculation.new(:tot2, {label: "Totaal2", score: true},
+                                      &proc { {value: score(:tot)[:value] + 2} })
 
         questionnaire.add_score_calculation score2
         outcome = OutcomeCalculation.new(answer).calculate

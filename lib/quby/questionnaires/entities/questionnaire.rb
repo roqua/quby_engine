@@ -49,7 +49,7 @@ module Quby
         attr_accessor :license
 
         attr_accessor :last_author
-        attr_accessor :allow_hotkeys # allow hotkeys for either :all views, just :bulk views (default), or :none for never
+        attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never
         attr_accessor :last_update
 
         attr_accessor :charts
