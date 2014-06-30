@@ -54,11 +54,11 @@ module Quby
     private
 
     def answer_repo
-      @answer_repo || fail("Quby does not have its storage for answers (Quby.answer_repo) configured.")
+      @answer_repo || fail("Quby does not have its answer repo (Quby.answer_repo) configured.")
     end
 
     def questionnaire_repo
-      @questionnaire_repo || fail("Quby does not have its storage for questionnaires (Quby.questionnaire_repo) configured.")
+      @questionnaire_repo || fail("Quby does not have its questionnaire repo (Quby.questionnaire_repo) configured.")
     end
   end
 end
