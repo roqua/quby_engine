@@ -4,7 +4,7 @@ module Quby
   describe Items::Question do
 
     let(:questionnaire) do
-      questionnaire = Quby::Questionnaire.new("test", <<-END)
+      Quby::DSL.build("test") do
         question :radio, type: :radio, depends_on: [:check] do
           title "Testvraag"
           option :rad1
@@ -33,8 +33,7 @@ module Quby
         question :int, type: :integer
 
         question :date, type: :date
-      END
-      questionnaire
+      end
     end
 
     describe '#input_keys' do

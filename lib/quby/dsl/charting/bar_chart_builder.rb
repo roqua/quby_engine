@@ -1,8 +1,8 @@
 require 'quby/charting/bar_chart'
-require 'quby/questionnaire_dsl/chart_builder'
+require 'quby/dsl/charting/chart_builder'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class BarChartBuilder < ChartBuilder
       set_chart_class(::Quby::Charting::BarChart)
     end

@@ -2,7 +2,7 @@ require 'quby/items/panel'
 require 'quby/items/text'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class PanelBuilder
       attr_reader :title
       attr_reader :questionnaire
@@ -42,18 +42,20 @@ module Quby
           fail "#{@panel.questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
         end
 
-        q = QuestionBuilder.new(key, @default_question_options.merge(options)
-                                                              .merge(questionnaire: @panel.questionnaire))
-        q.instance_eval(&block) if block
-        question = q.build
+        options = @default_question_options.merge(options).merge(questionnaire: @panel.questionnaire)
+        question_builder = QuestionBuilder.new(key, options)
+        question_builder.instance_eval(&block) if block
+
+        question = question_builder.build
+
         @questionnaire.question_hash[key] = question
         @panel.items << question
       end
 
       def table(options = {}, &block)
-        t = TableBuilder.new(@panel, options.merge(questionnaire: @panel.questionnaire,
-                                                   default_question_options: @default_question_options))
-        t.instance_eval(&block) if block
+        table_builder = TableBuilder.new(@panel, options.merge(questionnaire: @panel.questionnaire,
+                                                               default_question_options: @default_question_options))
+        table_builder.instance_eval(&block) if block
       end
 
       protected

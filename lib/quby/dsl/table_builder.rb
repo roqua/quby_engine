@@ -2,7 +2,7 @@ require 'quby/items/table'
 require 'quby/items/text'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class TableBuilder
       def initialize(panel, options = {})
         @panel = panel
@@ -20,8 +20,7 @@ module Quby
       end
 
       def text(value, options = {})
-        t = Quby::Items::Text.new(value.to_s, options)
-        @table.items << t
+        @table.items << Quby::Items::Text.new(value.to_s, options)
       end
 
       def question(key, options = {}, &block)
@@ -30,11 +29,14 @@ module Quby
         end
         fail "You can't create a slider in a table at the moment" if options[:as] == :slider
 
-        q = QuestionBuilder.new(key, @default_question_options.merge(options)
-                                                              .merge(table: @table,
-                                                                     questionnaire: @panel.questionnaire))
-        q.instance_eval(&block) if block
-        question = q.build
+        options = @default_question_options.merge(options)
+                                           .merge(table: @table,
+                                                  questionnaire: @panel.questionnaire)
+
+        question_builder = QuestionBuilder.new(key, options)
+        question_builder.instance_eval(&block) if block
+        question = question_builder.build
+
         @panel.questionnaire.question_hash[key] = question
         @table.items << question
         @panel.items << question

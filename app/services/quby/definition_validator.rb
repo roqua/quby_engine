@@ -1,5 +1,5 @@
 require 'quby/questionnaire'
-require 'quby/questionnaire_dsl'
+require 'quby/dsl'
 
 module Quby
   class DefinitionValidator
@@ -15,9 +15,7 @@ module Quby
     end
 
     def validate
-      dummy_questionnaire = Quby::Questionnaire.new(@questionnaire.key)
-
-      QuestionnaireDsl.enhance(dummy_questionnaire, definition)
+      dummy_questionnaire = Quby::DSL.build("dummy_questionnaire", definition)
 
       validate_questions(dummy_questionnaire)
       validate_table_edgecases(dummy_questionnaire)

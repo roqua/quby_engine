@@ -6,11 +6,9 @@ module Quby
       RecordNotFound = Class.new(::Quby::QuestionnaireRepos::QuestionnaireNotFound)
 
       attr_reader :path
-      attr_reader :questionnaire_class
 
-      def initialize(path, questionnaire_class = Quby::Questionnaire)
+      def initialize(path)
         @path = path
-        @questionnaire_class = questionnaire_class
         @questionnaire_cache = {}
       end
 
@@ -49,7 +47,7 @@ module Quby
       end
 
       def entity(key, definition, last_update)
-        questionnaire_class.new(key, definition, last_update)
+        Quby::DSL.build(key, definition, timestamp: last_update)
       end
     end
   end

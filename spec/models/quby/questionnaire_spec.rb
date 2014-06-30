@@ -13,7 +13,7 @@ module Quby
 
     let(:key)           { 'test' }
     let(:definition)    { "title 'My Test'" }
-    let(:questionnaire) { Questionnaire.new(key, definition) }
+    let(:questionnaire) { DSL.build(key, definition) }
 
     describe 'licenses' do
       it 'defaults to being unknown' do
@@ -98,7 +98,7 @@ module Quby
 
     context 'key lists' do
       let(:questionnaire) do
-        Quby::Questionnaire.new("test", <<-END)
+        DSL.build("test") do
           question :radio, type: :radio, depends_on: [:check] do
             title "Testvraag"
             option :rad1
@@ -114,7 +114,7 @@ module Quby
           question :int, type: :integer
 
           question :date, type: :date
-        END
+        end
       end
 
       describe '#input_keys' do
@@ -133,8 +133,15 @@ module Quby
     end
 
     describe '#key_in_use?' do
-      let(:definition)    { "title 'My Test' \n question(:v_1, type: :string) \n score :score_1 \n variable :var_1" }
-      let(:questionnaire) { Questionnaire.new("test", definition) }
+      let(:definition)    { "" }
+      let(:questionnaire) do
+        DSL.build("test") do
+          title 'My Test'
+          question :v_1, type: :string
+          score :score_1
+          variable :var_1
+        end
+      end
 
       it "should check if key is used by a question" do
         questionnaire.key_in_use?(:v_1).should be_true
@@ -149,22 +156,31 @@ module Quby
 
     describe '#to_codebook' do
       it "should be able to generate a codebook" do
-        definition    = "title 'My Test' \n question(:v_1, type: :radio) { option :a1, value: 0; option :a2, value: 1}"
-        questionnaire = Questionnaire.new("test", definition)
+        questionnaire = DSL.build("test") do
+          title 'My Test'
+          question :v_1, type: :radio do
+            option :a1, value: 0; option :a2, value: 1
+          end
+        end
+
         questionnaire.to_codebook.should be
       end
 
       it "should not break off a codebook when encountering <" do
-        definition    = """
+        questionnaire = DSL.build("test2") do
           title 'My Test'
-          question(:v_1, type: :radio, title: ' < 20') { option :a1, value: 0; option :a2, value: 1}
-        """
-        questionnaire = Questionnaire.new("test2", definition)
+          question :v_1, type: :radio do
+            title ' < 20'
+            option :a1, value: 0
+            option :a2, value: 1
+          end
+        end
+
         questionnaire.to_codebook.should eq "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
       end
 
       it 'interleaves subquestions between checkbox options, to match quby_proxy behavior' do
-        definition    = """
+        questionnaire = DSL.build("test") do
           title 'My Test'
           question(:v_1, type: :check_box) do
             option :v_1_a1, value: 0 do
@@ -176,8 +192,8 @@ module Quby
               question :v_1_a2_1, type: :string
             end
           end
-        """
-        questionnaire = Questionnaire.new("test", definition)
+        end
+
         # rubocop:disable LineLength
         questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1_a1 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a1_1 string \n\ttest_1_a1_2 string \n\ntest_1_a2 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a2_1 string \n")
         # rubocop:enable LineLength
@@ -198,7 +214,7 @@ module Quby
 
     describe '#questions_of_type' do
       let(:definition)    { "text 'text thing' \n question :v_1, type: :radio \n question :v_2, type: :string" }
-      let(:questionnaire) { Questionnaire.new(:questions_of_type_test, definition) }
+      let(:questionnaire) { DSL.build(:questions_of_type_test, definition) }
       it 'returns questions of the given type' do
         questionnaire.questions_of_type(:string).count.should eq 1
         questionnaire.questions_of_type(:string).first.type.should eq :string

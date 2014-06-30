@@ -3,7 +3,7 @@ require 'quby/score_calculation'
 require 'quby/items/question'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class ChartBuilder
       # rubocop:disable AccessorMethodName
       def self.set_chart_class(chart_class)

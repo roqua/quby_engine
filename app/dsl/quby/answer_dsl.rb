@@ -107,13 +107,6 @@ module Quby
             end
           end rescue nil
         end
-
-        if questionnaire.scores
-          questionnaire.scores.each do |score|
-            scorer = score.calculation
-            define_method("score_" + score.key.to_s, &scorer)
-          end
-        end
       end
     end
   end

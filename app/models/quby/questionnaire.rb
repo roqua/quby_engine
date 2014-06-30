@@ -1,13 +1,10 @@
 require 'active_model'
 
-require 'quby/charting/charts'
-require 'quby/questionnaire_dsl'
-
 require 'quby/items/panel'
 require 'quby/items/question'
 require 'quby/items/table'
 require 'quby/items/text'
-
+require 'quby/charting/charts'
 require 'quby/settings'
 
 include ActionView::Helpers::SanitizeHelper
@@ -25,10 +22,6 @@ module Quby
                       :pay_per_completion, # costs associated with each completed questionnaire,
                       :private]            # not a publicly available questionnaire
 
-    def self.exists?(key)
-      Quby.questionnaires.exists?(key)
-    end
-
     def initialize(key, definition = nil, last_update = Time.now)
       @key = key
       @definition = definition if definition
@@ -38,8 +31,7 @@ module Quby
       @question_hash ||= {}
       @license = :unknown
       @renderer_version = :v1
-
-      enhance_by_dsl
+      @extra_css = ""
     end
 
     attr_accessor :key
@@ -78,20 +70,9 @@ module Quby
       key
     end
 
-    def enhance_by_dsl
-      if definition
-        @question_hash = {}
-        @score_calculations = {}
-        @charts = Charting::Charts.new
-
-        begin
-          QuestionnaireDsl.enhance(self, definition || "")
-          callback_after_dsl_enhance_on_questions
-          validate_questions
-        rescue SyntaxError, ValidationError => e
-          errors.add(:definition, "Questionnaire error: #{key} : #{e.message}")
-        end
-      end
+    def add_panel(panel)
+      @panels ||= []
+      @panels << panel
     end
 
     def callback_after_dsl_enhance_on_questions

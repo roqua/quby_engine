@@ -1,16 +1,16 @@
-require 'quby/questionnaire_dsl/panel_builder'
-require 'quby/questionnaire_dsl/table_builder'
-require 'quby/questionnaire_dsl/question_builder'
-require 'quby/questionnaire_dsl/score_builder'
+require 'quby/dsl/panel_builder'
+require 'quby/dsl/table_builder'
+require 'quby/dsl/question_builder'
+require 'quby/dsl/score_builder'
 
-require 'quby/questionnaire_dsl/line_chart_builder'
-require 'quby/questionnaire_dsl/radar_chart_builder'
-require 'quby/questionnaire_dsl/bar_chart_builder'
+require 'quby/dsl/charting/line_chart_builder'
+require 'quby/dsl/charting/radar_chart_builder'
+require 'quby/dsl/charting/bar_chart_builder'
 
 require_relative 'standardized_panel_generators'
 
 module Quby
-  module QuestionnaireDsl
+  module DSL
     class QuestionnaireBuilder
       include StandardizedPanelGenerators
 
@@ -24,7 +24,7 @@ module Quby
       end
 
       def key(key)
-        # @questionnaire.key = key
+        # no-op, key is now passed in to Questionnaire constructor
       end
 
       def title(title)
@@ -64,7 +64,6 @@ module Quby
       end
 
       def css(value)
-        @questionnaire.extra_css ||= ""
         @questionnaire.extra_css += value
       end
 
@@ -75,11 +74,7 @@ module Quby
       def panel(title = nil, options = {}, &block)
         p = PanelBuilder.new(title, options.merge(default_panel_options))
         p.instance_eval(&block)
-
-        @questionnaire.instance_eval do
-          @panels ||= []
-          @panels << p.build
-        end
+        @questionnaire.add_panel(p.build)
       end
 
       def default_question_options(options = {})
@@ -134,17 +129,17 @@ module Quby
       end
 
       def line_chart(*args, &block)
-        builder = Quby::QuestionnaireDsl::LineChartBuilder.new(@questionnaire, *args)
+        builder = LineChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
       def bar_chart(*args, &block)
-        builder = Quby::QuestionnaireDsl::BarChartBuilder.new(@questionnaire, *args)
+        builder = BarChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
       def radar_chart(*args, &block)
-        builder = Quby::QuestionnaireDsl::RadarChartBuilder.new(@questionnaire, *args)
+        builder = RadarChartBuilder.new(@questionnaire, *args)
         @questionnaire.add_chart(builder.build(&block))
       end
 
