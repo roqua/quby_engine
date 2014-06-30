@@ -35,7 +35,7 @@ module Quby
           find(key)
         end
 
-       private
+        private
 
         def record_for_definition(definition)
           {definition: definition, last_update: Time.now}
