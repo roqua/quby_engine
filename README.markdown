@@ -3,24 +3,32 @@ Quby
 
 ## Usage
 
-Quby is a Rails 3.1 Mountable Engine, which means that you have to mount it
+Quby is a Rails mountable engine, which means that you have to mount it
 into your existing Rails application. First, you need to include Quby as a gem in your Gemfile:
 
-    gem 'quby', :git => "git://github.com/roqua/quby.git"
+```ruby
+    gem 'quby',         git: "git@github.com:roqua/quby_engine.git"
+    gem 'quby-mongoid'
+```
 
 Then, mount it at a path in your application. You can do this by putting a line
 in config/routes.rb. Note that "/quby" could be anything you want.
 
+```ruby
     mount Quby::Engine => "/quby", :as => "quby_engine"
+```
 
-In config/initializers/quby.rb, you need to tell Quby where it can find its questionnaire definitions.
+In config/initializers/quby.rb, you need to tell Quby where it can find its questionnaire definitions,
+and where it can store it's answers.
 
-    Quby.questionnaires_path = "db/questionnaires"
-    Quby.functions_path      = "db/functions"
-    Quby.show_exceptions     = true # default falsy
+```ruby
+    Quby.questionnaire_repo  = Quby::Questionnaires::Repos::CachingRepo.new(
+                                 Quby::Questionnaires::Repos::DiskRepo.new(Rails.root.join("db/questionnaires")))
+    Quby.answer_repo         = Quby::Answers::Repos::MongoidRepo.new
+```
 
 ## Contributing to Quby
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented
   or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it
