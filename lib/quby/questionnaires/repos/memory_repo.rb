@@ -32,19 +32,11 @@ module Quby
           records.fetch(key).fetch(:last_update)
         end
 
-        def create!(key, definition)
-          fail(DuplicateQuestionnaire, key) if exists?(key)
-          records[key] = record_for_definition(definition)
-          find(key)
-        end
-
-        def update!(key, definition)
-          fail(QuestionnaireNotFound, key) unless exists?(key)
-          records[key] = record_for_definition(definition)
-          find(key)
-        end
-
         private
+
+        def store!(key, definition)
+          records[key] = record_for_definition(definition)
+        end
 
         def record_for_definition(definition)
           {definition: definition, last_update: Time.now}

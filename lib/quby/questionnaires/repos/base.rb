@@ -19,10 +19,22 @@ module Quby
         end
 
         def create!(key, definition)
-          fail NotImplementedError
+          fail(DuplicateQuestionnaire, key) if exists?(key)
+          store!(key, definition)
+          find(key)
+        end
+
+        def update!(key, definition)
+          fail(QuestionnaireNotFound, key) unless exists?(key)
+          store!(key, definition)
+          find(key)
         end
 
         private
+
+        def store!(key, definition)
+          fail NotImplementedError
+        end
 
         def entity(key, definition, timestamp)
           DSL.build(key, definition, timestamp: timestamp)

@@ -34,19 +34,11 @@ module Quby
           Time.at(File.ctime(questionnaire_path(key)).to_i)
         end
 
-        def create!(key, definition)
-          fail(DuplicateQuestionnaire, key) if exists?(key)
-          File.open(questionnaire_path(key), 'w') { |f| f.write definition }
-          find(key)
-        end
-
-        def update!(key, definition)
-          fail(QuestionnaireNotFound, key) unless exists?(key)
-          File.open(questionnaire_path(key), 'w') { |f| f.write definition }
-          find(key)
-        end
-
         private
+
+        def store!(key, definition)
+          File.open(questionnaire_path(key), 'w') { |f| f.write definition }
+        end
 
         def questionnaire_path(key)
           File.join(path, "#{key}.rb")

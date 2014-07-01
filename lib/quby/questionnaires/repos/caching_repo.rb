@@ -42,6 +42,12 @@ module Quby
 
         private
 
+        def store!(key, definition)
+          # bypassed by overriding create! and update!
+          # we can't call store! on our subrepo, since it's not a public method
+          fail NotImplementedError
+        end
+
         def fresh?(key)
           return false unless cache[key].present?
           cache[key].last_update.to_i == timestamp(key).to_i
