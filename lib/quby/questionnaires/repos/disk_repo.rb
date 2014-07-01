@@ -12,25 +12,17 @@ module Quby
           @questionnaire_cache = {}
         end
 
-        def all
+        def keys
           Dir[File.join(path, "*.rb")].map do |filename|
-            key = File.basename(filename, '.rb')
-            find(key)
+            File.basename(filename, '.rb')
           end
         end
 
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
-
-          last_update = last_update_on_disk(key)
-
-          if @questionnaire_cache[key] && last_update.to_i == @questionnaire_cache[key].last_update.to_i
-            @questionnaire_cache[key]
-          else
-            definition                = File.read(questionnaire_path(key))
-            questionnaire             = entity(key, definition, last_update)
-            @questionnaire_cache[key] = questionnaire
-          end
+          definition = File.read(questionnaire_path(key))
+          timestamp  = timestamp(key)
+          entity(key, definition, timestamp)
         end
 
         def exists?(key)
@@ -38,10 +30,14 @@ module Quby
           File.exist?(questionnaire_path)
         end
 
+        def timestamp(key)
+          Time.at(File.ctime(questionnaire_path(key)).to_i)
+        end
+
         private
 
-        def last_update_on_disk(key)
-          Time.at(File.ctime(questionnaire_path(key)).to_i)
+        def store!(key, definition)
+          File.open(questionnaire_path(key), 'w') { |f| f.write definition }
         end
 
         def questionnaire_path(key)

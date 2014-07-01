@@ -38,20 +38,20 @@ Capybara.register_driver :poltergeist do |app|
 end
 Capybara.javascript_driver = :poltergeist
 
-Quby.questionnaires_path = Rails.root.join("..", "..", "spec", "fixtures")
+# This needs to happen once before the :each block so that spec/features/display_modes_spec.rb
+# can iterate over all fixtures and add specs for each of them.
+Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(Quby.fixtures_path)
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("../../spec/support/**/*.rb")].each { |f| require f }
-
-Quby.questionnaires_path = Quby.fixtures_path
 
 RSpec.configure do |config|
   config.mock_with :rspec
   config.include Capybara::DSL
 
   config.before(:each) do
-    Quby.questionnaires_path = Quby.fixtures_path
+    Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(Quby.fixtures_path)
     Quby.answer_repo = Quby::Answers::Repos::MemoryRepo.new
   end
 end

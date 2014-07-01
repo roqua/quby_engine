@@ -1,5 +1,4 @@
 def inject_questionnaire(key, definition)
-  questionnaire = Quby::Questionnaires::DSL.build(key, definition, timestamp: Time.now)
-  Quby.questionnaires.stub(:find).with(key).and_return(questionnaire)
-  questionnaire
+  Quby.questionnaire_repo = Quby::Questionnaires::Repos::MemoryRepo.new(key => definition)
+  Quby.questionnaires.find(key)
 end
