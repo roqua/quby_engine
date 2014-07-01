@@ -22,11 +22,16 @@ module Quby
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
           record = records.fetch(key)
-          entity(key, record.fetch(:definition), record[:last_update])
+          entity(key, record.fetch(:definition), record.fetch(:last_update))
         end
 
         def exists?(key)
           records.key?(key)
+        end
+
+        def timestamp(key)
+          fail(QuestionnaireNotFound, key) unless exists?(key)
+          records.fetch(key).fetch(:last_update)
         end
 
         def create!(key, definition)

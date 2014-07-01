@@ -52,5 +52,14 @@ if defined?(RSpec)
         end.to raise_error(Quby::Questionnaires::Repos::DuplicateQuestionnaire)
       end
     end
+
+    describe '#timestamp' do
+      let(:time) { Time.at(Time.now.to_i) }# disregard milliseconds
+
+      it 'returns the time a definition was stored' do
+        Timecop.freeze(time) { repo.create! 'test', '' }
+        expect(repo.timestamp('test')).to eq(time)
+      end
+    end
   end
 end

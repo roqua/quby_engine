@@ -22,7 +22,7 @@ module Quby
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
 
-          last_update = last_update_on_disk(key)
+          last_update = timestamp(key)
 
           if @questionnaire_cache[key] && last_update.to_i == @questionnaire_cache[key].last_update.to_i
             @questionnaire_cache[key]
@@ -38,6 +38,10 @@ module Quby
           File.exist?(questionnaire_path)
         end
 
+        def timestamp(key)
+          Time.at(File.ctime(questionnaire_path(key)).to_i)
+        end
+
         def create!(key, definition)
           fail(DuplicateQuestionnaire, key) if exists?(key)
           File.open(questionnaire_path(key), 'w') { |f| f.write definition }
@@ -45,10 +49,6 @@ module Quby
         end
 
         private
-
-        def last_update_on_disk(key)
-          Time.at(File.ctime(questionnaire_path(key)).to_i)
-        end
 
         def questionnaire_path(key)
           File.join(path, "#{key}.rb")
