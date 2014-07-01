@@ -44,8 +44,6 @@ module Quby
           find(key)
         end
 
-
-
         private
 
         def record_for_definition(definition)
