@@ -13,10 +13,8 @@ module Quby
           end.to_h
         end
 
-        def all
-          records.keys.map do |key|
-            find(key)
-          end
+        def keys
+          records.keys
         end
 
         def find(key)
@@ -39,6 +37,14 @@ module Quby
           records[key] = record_for_definition(definition)
           find(key)
         end
+
+        def update!(key, definition)
+          fail(QuestionnaireNotFound, key) unless exists?(key)
+          records[key] = record_for_definition(definition)
+          find(key)
+        end
+
+
 
         private
 

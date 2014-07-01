@@ -3,7 +3,7 @@ module Quby
     module Repos
       class Base
         def all
-          fail NotImplementedError
+          keys.map { |key| find(key) }
         end
 
         def find(key)
@@ -11,6 +11,14 @@ module Quby
         end
 
         def exists?(key)
+          fail NotImplementedError
+        end
+
+        def timestamp(key)
+          fail NotImplementedError
+        end
+
+        def create!(key, definition)
           fail NotImplementedError
         end
 

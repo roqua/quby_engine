@@ -12,25 +12,17 @@ module Quby
           @questionnaire_cache = {}
         end
 
-        def all
+        def keys
           Dir[File.join(path, "*.rb")].map do |filename|
-            key = File.basename(filename, '.rb')
-            find(key)
+            File.basename(filename, '.rb')
           end
         end
 
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
-
-          last_update = timestamp(key)
-
-          if @questionnaire_cache[key] && last_update.to_i == @questionnaire_cache[key].last_update.to_i
-            @questionnaire_cache[key]
-          else
-            definition                = File.read(questionnaire_path(key))
-            questionnaire             = entity(key, definition, last_update)
-            @questionnaire_cache[key] = questionnaire
-          end
+          definition = File.read(questionnaire_path(key))
+          timestamp  = timestamp(key)
+          entity(key, definition, timestamp)
         end
 
         def exists?(key)
@@ -44,6 +36,12 @@ module Quby
 
         def create!(key, definition)
           fail(DuplicateQuestionnaire, key) if exists?(key)
+          File.open(questionnaire_path(key), 'w') { |f| f.write definition }
+          find(key)
+        end
+
+        def update!(key, definition)
+          fail(QuestionnaireNotFound, key) unless exists?(key)
           File.open(questionnaire_path(key), 'w') { |f| f.write definition }
           find(key)
         end

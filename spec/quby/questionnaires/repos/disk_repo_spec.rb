@@ -35,26 +35,6 @@ module Quby::Questionnaires::Repos
           repo.stub(:exists?).with(key).and_return(false)
           expect { repo.find(key) }.to raise_error(QuestionnaireNotFound)
         end
-
-        it 'reloads a questionnaire if the definition updated on disk' do
-          File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
-          found_questionnaire = repo.find(key)
-          found_questionnaire.title.should eq 'foo'
-
-          File.open("/tmp/#{key}.rb", "w") { |f| f.write definition_2 }
-          File.stub(ctime: Time.now + 10.minutes) # FakeFS does not implement ctime yet
-          found_questionnaire = repo.find(key)
-          found_questionnaire.title.should eq 'bar'
-        end
-
-        it 'uses the cache if a questionnaire definition on disk has not changed' do
-          File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
-          repo.find(key)
-
-          # Second find should hit cache
-          File.should_not_receive(:read)
-          repo.find(key)
-        end
       end
 
       describe '#exists?' do

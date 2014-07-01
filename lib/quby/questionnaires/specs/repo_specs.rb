@@ -8,6 +8,14 @@ if defined?(RSpec)
       end
     end
 
+    describe '#keys' do
+      it 'returns the questionnaire keys' do
+        repo.create!("test1", "title 'foo'")
+        repo.create!("test2", "title 'bar'")
+        repo.keys.should eq %w(test1 test2)
+      end
+    end
+
     describe '#find' do
       it 'finds one questionnaire' do
         repo.create!('test', 'title "Foo"')
