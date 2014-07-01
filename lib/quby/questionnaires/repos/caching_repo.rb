@@ -52,10 +52,6 @@ module Quby
           return false unless cache[key].present?
           cache[key].last_update.to_i == timestamp(key).to_i
         end
-
-        def record_for_definition(definition)
-          {definition: definition, last_update: Time.now}
-        end
       end
     end
   end
