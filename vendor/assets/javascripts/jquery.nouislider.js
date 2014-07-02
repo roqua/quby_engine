@@ -688,7 +688,6 @@
 
 			// ROQUA EDIT make tap event happen only only actual taps
 			function tap_move(event, Dt, Op) {
-				console.log('tap move', event, Dt, Op)
 				// The set handle to the new position.
 				if(Math.abs(parallelMovement(event, Dt, Op)) < 5 && Math.abs(perpendicularMovement(event, Dt, Op)) < 5) {
 					jump( base, handle, to, [ Op['slide'], Op['set'] ]);
