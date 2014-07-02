@@ -197,7 +197,9 @@
 
 			// Prevent scrolling and panning on touch events, while
 			// attempting to slide. The tap event also depends on this.
-			e.preventDefault();
+			// ROQUA EDIT don't prevent default, so we can allow scrolling
+			// 	e.preventDefault();
+			// END ROQUA EDIT
 
 			// Filter the event to register the type, which can be
 			// touch, mouse or pointer. Offset changes need to be
@@ -502,6 +504,14 @@
 				.trigger('change')
 		}
 
+		// ROQUA EDIT helper methods for move event handlers
+		function parallelMovement(event, Dt, Op) {
+			return Op['orientation'] ? Dt.start['pointY'] - event['pointY'] : Dt.start['pointX'] - event['pointX']
+		}
+		function perpendicularMovement(event, Dt, Op) {
+			return Op['orientation'] ? Dt.start['pointX'] - event['PointX'] : Dt.start['pointY'] - event['pointY']
+		}
+		// END ROQUA EDIT
 
 // Event handlers
 
@@ -513,6 +523,13 @@
 				proposal = event[ Dt.point ] - Dt.start[ Dt.point ];
 
 			proposal = ( proposal * 100 ) / Dt.size;
+
+			// ROQUA EDIT to allow scrolling in perpendicular direction of slider
+			if ( !event.cursor ) {
+				if (Math.abs(parallelMovement(event, Dt, Op)) > Math.abs(perpendicularMovement(event, Dt, Op)))
+					event.preventDefault();
+			}
+			// END ROQUA EDIT
 
 			if ( handles.length === 1 ) {
 
@@ -669,13 +686,30 @@
 			handle = closestHandle( base.data('handles'), point, Op['style'] );
 			to = (( point - base.offset()[ Op['style'] ] ) * 100 ) / size;
 
-			// The set handle to the new position.
-			jump( base, handle, to, [ Op['slide'], Op['set'] ]);
+			// ROQUA EDIT make tap event happen only only actual taps
+			function tap_move(event, Dt, Op) {
+				console.log('tap move', event, Dt, Op)
+				// The set handle to the new position.
+				if(Math.abs(parallelMovement(event, Dt, Op)) < 5 && Math.abs(perpendicularMovement(event, Dt, Op)) < 5) {
+					jump( base, handle, to, [ Op['slide'], Op['set'] ]);
+					event.preventDefault();
+				}
+
+				doc.off( namespace );
+			}
+
+			attach ( actions.end, doc, tap_move, {
+				 start: event
+				,base: Dt.base
+				,target: Dt.target
+			});
+			// END ROQUA EDIT
 		}
 
 	// Move handle to edges when target gets tapped.
 		function edge ( event, Dt, Op ) {
 
+			event.preventDefault();
 			var handles = Dt.base.data('handles'), to, i;
 
 			i = Op['orientation'] ? event['pointY'] : event['pointX'];
