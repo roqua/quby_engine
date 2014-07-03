@@ -1,6 +1,6 @@
-title "MANSA"
+title "Subset of MANSA"
 short_description "Kwaliteit van Leven"
-description ""
+description "Bevat de eerste paar panels van de echte MANSA"
 outcome_description "De gemiddelde itemscore van de MANSA wordt berekend op basis van 12 items. De ja/nee vragen worden buiten beschouwing gelaten. De normering van de gemiddelde itemscore die u aantreft als u bij 'Schalen' kijkt is als volgt: scores lager of gelijk aan 3 (= 'ontevreden'); scores tussen 3 en kleiner of gelijk aan 5 (= 'matig tevreden'); scores hoger dan 5 (= 'tevreden')"
 panel do
   title "Kwaliteit van Leven (MANSA)"

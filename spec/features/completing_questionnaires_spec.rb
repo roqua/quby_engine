@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 feature 'Completing a questionnaire' do
-  let(:mansa) { Quby.questionnaires.find("mansa") }
+  let(:questionnaire) { Quby.questionnaires.find("subset_mansa") }
 
   scenario 'by filling out pages', js: true do
-    visit_new_answer_for(mansa)
+    visit_new_answer_for(questionnaire)
     find("#panel0").should be_visible
 
     click_on "nextButton0"
@@ -112,7 +112,7 @@ feature 'Completing a questionnaire' do
   # end
 
   scenario 'by filling out a bulk version', js: true do
-    visit_new_answer_for(mansa, "bulk")
+    visit_new_answer_for(questionnaire, "bulk")
 
     within("#item_v_1") { choose "answer_v_1_a3" }
     within("#item_v_6") { choose "answer_v_6_a5" }
@@ -129,7 +129,7 @@ feature 'Completing a questionnaire' do
   end
 
   scenario 'by not filling in answers, but asking to save regardless', js: true do
-    visit_new_answer_for(mansa, "bulk")
+    visit_new_answer_for(questionnaire, "bulk")
 
     click_on "Klaar"
     click_on "Toch opslaan"

@@ -2,18 +2,18 @@ require 'spec_helper'
 
 module Quby::Answers::Services
   describe UpdatesAnswers do
-    let(:answer) { Quby.answers.create!('big') }
+    let(:answer) { Quby.answers.create!('simple') }
     let(:updates_answers) { UpdatesAnswers.new answer }
 
     describe '#update' do
       it 'sets the raw parameters on the answer' do
-        updates_answers.update("v_6" => "value", 'unknown_field' => 'value_should_be_retained')
+        updates_answers.update("v_1" => "value", 'unknown_field' => 'value_should_be_retained')
         Quby.answers.reload(answer).raw_params["unknown_field"].should == "value_should_be_retained"
       end
 
       it 'sets answer value for the provided key to the provided value' do
-        updates_answers.update("v_6" => "value")
-        Quby.answers.reload(answer).attributes["value"]["v_6"].should == "value"
+        updates_answers.update("v_1" => "value")
+        Quby.answers.reload(answer).attributes["value"]["v_1"].should == "value"
       end
 
       it 'disallows setting attributes that are not questions' do

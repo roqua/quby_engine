@@ -25,7 +25,7 @@ if defined?(RSpec)
 
     describe 'record creation' do
       it 'creates new records' do
-        answer = repo.create!('big', attributes)
+        answer = repo.create!('simple', attributes)
 
         answer.id.should be_present
         verify(answer)
@@ -34,30 +34,30 @@ if defined?(RSpec)
 
     describe 'record retrieval' do
       it 'finds all records for a given questionnaire' do
-        answer1 = repo.create!('big', attributes.merge(_id: 'answer1'))
-        answer2 = repo.create!('big', attributes.merge(_id: 'answer2'))
+        answer1 = repo.create!('simple', attributes.merge(_id: 'answer1'))
+        answer2 = repo.create!('simple', attributes.merge(_id: 'answer2'))
 
-        answers = repo.all('big')
+        answers = repo.all('simple')
         answers.map(&:id).should eq([answer1.id, answer2.id])
 
       end
 
       it 'finds records' do
-        answer    = repo.create!('big', attributes)
-        retrieved = repo.find('big', answer.id)
+        answer    = repo.create!('simple', attributes)
+        retrieved = repo.find('simple', answer.id)
 
         retrieved.id.should eq(answer.id)
         verify(retrieved)
       end
 
       it 'raises when answer cannot be found' do
-        expect { repo.find('big', 'unknown_id') }.to raise_exception(Quby::Answers::Repos::AnswerNotFound)
+        expect { repo.find('simple', 'unknown_id') }.to raise_exception(Quby::Answers::Repos::AnswerNotFound)
       end
     end
 
     describe 'record updating' do
       it 'updates records' do
-        answer    = repo.create!('big', {})
+        answer    = repo.create!('simple', {})
         answer.raw_params           = attributes[:raw_params]
         answer.value                = attributes[:value]
         answer.patient              = attributes[:patient]
@@ -73,14 +73,14 @@ if defined?(RSpec)
 
         repo.update!(answer)
 
-        retrieved = repo.find('big', answer.id)
+        retrieved = repo.find('simple', answer.id)
         retrieved.id.should eq(answer.id)
         verify(retrieved)
       end
 
       it 'updates reorderings of scores' do
-        answer = repo.create!('big', scores: {tot: {label: 'Totaalscore'},
-                                              sub: {label: 'Subscore'}})
+        answer = repo.create!('simple', scores: {tot: {label: 'Totaalscore'},
+                                                sub: {label: 'Subscore'}})
         answer.scores.keys.should eq %w(tot sub)
         repo.reload(answer).scores.keys.should eq %w(tot sub)
 
@@ -93,10 +93,10 @@ if defined?(RSpec)
 
     describe 'retrieving all records' do
       it 'finds records updated since some time' do
-        answer1 = repo.create!('big')
-        answer2 = repo.create!('big', completed_at: 4.days.ago)
-        answer3 = repo.create!('big', completed_at: 1.days.ago)
-        answer4 = repo.create!('big', completed_at: 1.days.ago)
+        answer1 = repo.create!('simple')
+        answer2 = repo.create!('simple', completed_at: 4.days.ago)
+        answer3 = repo.create!('simple', completed_at: 1.days.ago)
+        answer4 = repo.create!('simple', completed_at: 1.days.ago)
 
         results = repo.find_completed_after(2.days.ago, [answer1.id, answer2.id, answer3.id]).to_a
         expect(results.map(&:id)).to eq([answer3.id])
@@ -105,7 +105,7 @@ if defined?(RSpec)
     end
 
     def verify(record)
-      record.questionnaire_key.should    eq('big')
+      record.questionnaire_key.should    eq('simple')
       record.raw_params.should           eq(stringified(attributes[:raw_params]))
       record.value.should                eq(stringified(attributes[:value]))
       record.patient.should              eq(stringified(attributes[:patient]))
