@@ -1,4 +1,4 @@
-title "SCARED-NL"
+title "Patient age can be used in scores"
 
 panel do
 end
