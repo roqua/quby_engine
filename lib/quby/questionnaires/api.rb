@@ -19,10 +19,9 @@ module Quby
       end
 
       def validate(key, sourcecode)
-        questionnaire = Entities::Questionnaire.new(key)
-        validator     = Services::DefinitionValidator.new(questionnaire, sourcecode)
-        validator.validate
-        questionnaire
+        definition = Entities::Definition.new(key: key, sourcecode: sourcecode)
+        definition.valid?
+        definition
       end
     end
   end
