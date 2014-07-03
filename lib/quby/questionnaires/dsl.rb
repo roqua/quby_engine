@@ -5,7 +5,7 @@ module Quby
   module Questionnaires
     module DSL
       def self.build_from_definition(definition)
-        Entities::Questionnaire.new(definition.key, "", definition.timestamp).tap do |questionnaire|
+        Entities::Questionnaire.new(definition.key, last_update: definition.timestamp).tap do |questionnaire|
           builder = QuestionnaireBuilder.new(questionnaire)
           builder.instance_eval(definition.sourcecode, definition.key) if definition.sourcecode
           questionnaire.callback_after_dsl_enhance_on_questions
@@ -14,7 +14,7 @@ module Quby
       end
 
       def self.build(key, sourcecode = nil, timestamp: nil, &block)
-        Entities::Questionnaire.new(key, "", timestamp).tap do |questionnaire|
+        Entities::Questionnaire.new(key, last_update: timestamp).tap do |questionnaire|
           builder = QuestionnaireBuilder.new(questionnaire)
           builder.instance_eval(sourcecode, key) if sourcecode
           builder.instance_eval(&block) if block
