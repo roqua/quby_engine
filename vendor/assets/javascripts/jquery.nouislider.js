@@ -529,6 +529,8 @@
 			if ( !event.cursor ) {
 				if (Math.abs(parallelMovement(event, Dt, Op)) > Math.abs(perpendicularMovement(event, Dt, Op)))
 					event.preventDefault();
+				else
+					doc.off( namespace );
 			}
 			// END ROQUA EDIT
 
@@ -598,6 +600,7 @@
 	// Unbind move events on document, call callbacks.
 		function end ( event, Dt, Op ) {
 
+			event.preventDefault();
 			// The handle is no longer active, so remove the class.
 			if ( Dt.handles.length === 1 ) {
 				Dt.handles[0].data('grab').removeClass(clsList[4]);
