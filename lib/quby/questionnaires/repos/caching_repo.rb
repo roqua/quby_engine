@@ -50,7 +50,7 @@ module Quby
 
         def fresh?(key)
           return false unless cache[key].present?
-          cache[key].last_update.to_i == timestamp(key).to_i
+          cache[key].timestamp.to_i == timestamp(key).to_i
         end
       end
     end

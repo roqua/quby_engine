@@ -1,3 +1,4 @@
+require 'quby/questionnaires/entities/definition'
 require 'quby/questionnaires/entities/questionnaire'
 require 'quby/questionnaires/entities/question_option'
 require 'quby/questionnaires/entities/item'

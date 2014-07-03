@@ -21,14 +21,13 @@ module Quby::Questionnaires::Repos
 
       describe '#find' do
         let(:key) { "test" }
-        let(:definition) { "title 'foo'" }
-        let(:definition_2) { "title 'bar'" }
+        let(:sourcecode) { "title 'foo'" }
 
         it 'finds one questionnaire' do
-          File.open("/tmp/#{key}.rb", "w") { |f| f.write definition }
+          File.open("/tmp/#{key}.rb", "w") { |f| f.write sourcecode }
           questionnaire = repo.find(key)
           questionnaire.key.should eq(key)
-          questionnaire.title.should eq 'foo'
+          questionnaire.sourcecode.should eq "title 'foo'"
         end
 
         it 'raises QuestionnaireNotFound if it doesnt exist' do

@@ -22,7 +22,7 @@ if defined?(RSpec)
 
         retrieved = repo.find('test')
         retrieved.key.should eq('test')
-        retrieved.title.should eq 'Foo'
+        retrieved.sourcecode.should eq 'title "Foo"'
       end
 
       it 'raises when record is not found' do
@@ -49,7 +49,7 @@ if defined?(RSpec)
 
         retrieved = repo.find('test')
         retrieved.key.should eq('test')
-        retrieved.title.should eq 'Foo'
+        retrieved.sourcecode.should eq 'title "Foo"'
       end
 
       it 'raises when key is already used' do

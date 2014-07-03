@@ -9,7 +9,7 @@ module Quby::Questionnaires::Repos
       let(:repo) { CachingRepo.new(MemoryRepo.new) }
     end
 
-    it 'reloads a questionnaire if the definition updated' do
+    it 'reloads a questionnaire if the sourcecode updated' do
       time         = Time.now
       memory_repo  = MemoryRepo.new
       caching_repo = CachingRepo.new(memory_repo)
@@ -17,14 +17,14 @@ module Quby::Questionnaires::Repos
       Timecop.freeze(time) { memory_repo.create!('foo', 'title "foo"') }
 
       found_questionnaire = caching_repo.find('foo')
-      found_questionnaire.title.should eq 'foo'
+      found_questionnaire.sourcecode.should eq 'title "foo"'
 
       Timecop.freeze(time + 1.second) { memory_repo.update!('foo', 'title "bar"') }
       found_questionnaire = caching_repo.find('foo')
-      found_questionnaire.title.should eq 'bar'
+      found_questionnaire.sourcecode.should eq 'title "bar"'
     end
 
-    it 'uses the cache if a questionnaire definition on disk has not changed' do
+    it 'uses the cache if a questionnaire sourcecode on disk has not changed' do
       memory_repo  = MemoryRepo.new('foo' => 'title "foo"')
       caching_repo = CachingRepo.new(memory_repo)
 

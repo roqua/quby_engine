@@ -6,7 +6,8 @@ module Quby
       end
 
       def find(key)
-        @repo.find key
+        definition = @repo.find key
+        DSL.build_from_definition(definition)
       end
 
       def exists?(questionnaire_key)
@@ -14,7 +15,14 @@ module Quby
       end
 
       def all
-        @repo.all
+        @repo.keys.map { |key| find(key) }
+      end
+
+      def validate(key, sourcecode)
+        questionnaire = Entities::Questionnaire.new(key)
+        validator     = Services::DefinitionValidator.new(questionnaire, sourcecode)
+        validator.validate
+        questionnaire
       end
     end
   end
