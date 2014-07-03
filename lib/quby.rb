@@ -44,7 +44,7 @@ module Quby
     end
 
     def questionnaires
-      @questionnaires_api ||= Quby::Questionnaires::API.new questionnaire_repo: Quby.send(:questionnaire_repo)
+      @questionnaires_api ||= Quby::Questionnaires::API.new questionnaire_repo: Quby.send(:questionnaire_finder)
     end
 
     # ==================================================================================================================
@@ -59,6 +59,10 @@ module Quby
 
     def questionnaire_repo
       @questionnaire_repo || fail("Quby does not have its questionnaire repo (Quby.questionnaire_repo) configured.")
+    end
+
+    def questionnaire_finder
+      @questionnaire_finder ||= Quby::Questionnaires::Repos::DiskRepo.new(Quby.send(:questionnaire_repo))
     end
   end
 end
