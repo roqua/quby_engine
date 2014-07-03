@@ -80,7 +80,7 @@ if defined?(RSpec)
 
       it 'updates reorderings of scores' do
         answer = repo.create!('simple', scores: {tot: {label: 'Totaalscore'},
-                                                sub: {label: 'Subscore'}})
+                                                 sub: {label: 'Subscore'}})
         answer.scores.keys.should eq %w(tot sub)
         repo.reload(answer).scores.keys.should eq %w(tot sub)
 
