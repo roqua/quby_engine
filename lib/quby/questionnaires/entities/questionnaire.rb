@@ -28,6 +28,7 @@ module Quby
           @license = :unknown
           @renderer_version = :v1
           @extra_css = ""
+          @panels = []
         end
 
         attr_accessor :key
@@ -66,7 +67,6 @@ module Quby
         end
 
         def add_panel(panel)
-          @panels ||= []
           @panels << panel
         end
 
