@@ -197,8 +197,9 @@
 
 			// Prevent scrolling and panning on touch events, while
 			// attempting to slide. The tap event also depends on this.
-			// ROQUA EDIT don't prevent default, so we can allow scrolling
-			// 	e.preventDefault();
+			// ROQUA EDIT don't prevent default for touch events, so we can allow scrolling
+			if ( e.cursor )
+			 	e.preventDefault();
 			// END ROQUA EDIT
 
 			// Filter the event to register the type, which can be
