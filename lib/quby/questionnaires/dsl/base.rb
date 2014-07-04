@@ -3,7 +3,7 @@ module Quby
     module DSL
       class Base
         def self.build(*args, &block)
-          builder = self.new(*args)
+          builder = new(*args)
           builder.instance_eval(&block) if block
           builder.build
         end

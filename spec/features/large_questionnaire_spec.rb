@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature 'Large questionnaires' do
   scenario 'should be fast to build from DSL' do
-    questionnaire = Quby::Questionnaires::DSL.build('vlq') do
+    Quby::Questionnaires::DSL.build('vlq') do
       title 'VLQ'
 
       (1..200).each do |i|
