@@ -3,7 +3,7 @@ require 'quby/questionnaires/entities'
 module Quby
   module Questionnaires
     module DSL
-      class PanelBuilder
+      class PanelBuilder < Base
         attr_reader :title
         attr_reader :questionnaire
 
@@ -43,10 +43,7 @@ module Quby
           end
 
           options = @default_question_options.merge(options).merge(questionnaire: @panel.questionnaire)
-          question_builder = QuestionBuilder.new(key, options)
-          question_builder.instance_eval(&block) if block
-
-          question = question_builder.build
+          question = QuestionBuilder.build(key, options, &block)
 
           @questionnaire.question_hash[key] = question
           @panel.items << question

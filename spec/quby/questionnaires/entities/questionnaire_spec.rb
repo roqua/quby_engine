@@ -205,7 +205,7 @@ module Quby::Questionnaires::Entities
 
     describe '#questions_of_type' do
       let(:definition)    { "text 'text thing' \n question :v_1, type: :radio \n question :v_2, type: :string" }
-      let(:questionnaire) { Quby::Questionnaires::DSL.build(:questions_of_type_test, definition) }
+      let(:questionnaire) { Quby::Questionnaires::DSL.build('questions_of_type_test', definition) }
       it 'returns questions of the given type' do
         questionnaire.questions_of_type(:string).count.should eq 1
         questionnaire.questions_of_type(:string).first.type.should eq :string

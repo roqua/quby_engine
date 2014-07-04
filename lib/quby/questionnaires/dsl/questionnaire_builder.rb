@@ -72,9 +72,8 @@ module Quby
         end
 
         def panel(title = nil, options = {}, &block)
-          p = PanelBuilder.new(title, options.merge(default_panel_options))
-          p.instance_eval(&block)
-          @questionnaire.add_panel(p.build)
+          panel = PanelBuilder.build(title, options.merge(default_panel_options), &block)
+          @questionnaire.add_panel(panel)
         end
 
         def default_question_options(options = {})
