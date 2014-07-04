@@ -10,7 +10,6 @@ tmp/**/*
 db/*.sqlite3
 config/database.yml
 db/questionnaires
-spec/dummy/db/questionnaires
 tmp/restart.txt
 .bundle
 gems/*
@@ -21,8 +20,11 @@ gems/*
 .DS_Store
 public/assets
 
+profiles/
+
 spec/dummy/config/database.yml
 spec/dummy/db/*.sqlite3
+spec/dummy/db/questionnaires
 spec/dummy/log/*.log
 spec/dummy/tmp/
 spec/internal/db/*.sqlite3
