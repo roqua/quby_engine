@@ -12,7 +12,6 @@ module Quby
           def initialize(key, options = {})
             question_type = options[:type] or fail "Question #{key} from #{options[:questionnaire].key} has no type!"
             @question = Entities::Items::Question.for(question_type).new(key, options)
-            @default_question_options = options[:default_question_options] || {}
             @questionnaire = options[:questionnaire]
           end
 
@@ -101,8 +100,9 @@ module Quby
         end
 
         module Subquestions
-          def initialize(*args, &block)
+          def initialize(key, options = {}, &block)
             super
+            @default_question_options = options[:default_question_options] || {}
             @title_question = nil
           end
 
