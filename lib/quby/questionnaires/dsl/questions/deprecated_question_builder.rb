@@ -3,7 +3,6 @@ module Quby
     module DSL
       module Questions
         class DeprecatedQuestionBuilder < Base
-
         end
       end
     end

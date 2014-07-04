@@ -61,7 +61,16 @@ module Quby
             @question.validations ||= []
             @question.validations << {type: :requires_answer}.reverse_merge(options)
           end
+        end
 
+        module RegexpValidations
+          def validates_format_with(regexp, options = {})
+            @question.validations ||= []
+            @question.validations << {type: :regexp, matcher: regexp}.reverse_merge(options)
+          end
+        end
+
+        module MinMaxValidations
           def validates_minimum(value, options = {})
             @question.validations ||= []
             @question.validations << {type: :minimum, value: value}.reverse_merge(options)
@@ -76,6 +85,76 @@ module Quby
             @question.validations ||= []
             @question.validations << {type: :minimum, value: range.first}.reverse_merge(options)
             @question.validations << {type: :maximum, value: range.last}.reverse_merge(options)
+          end
+        end
+
+        module Labeling
+          def label(value)
+            @question.labels << value
+          end
+
+          # deprecated
+          def left_label(value)
+            @question.labels.unshift(value)
+          end
+
+          # deprecated
+          def right_label(value)
+            @question.labels << value
+          end
+        end
+
+        module MultipleChoice
+          def option(key, options = {}, &block)
+            question_option = Entities::QuestionOption.new(key, @question, options)
+            if @questionnaire.key_in_use?(question_option.input_key) || @question.key_in_use?(question_option.input_key)
+              fail "#{questionnaire.key}:#{@question.key}:#{question_option.key}: " \
+                    "A question or option with input key #{question_option.input_key} is already defined."
+            end
+
+            @question.options << question_option
+            instance_eval(&block) if block
+          end
+        end
+
+        module Subquestions
+          def title_question(key, options = {}, &block)
+            if @questionnaire.key_in_use? key
+              fail "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
+            end
+
+            options = @default_question_options.merge({depends_on: @question.key,
+                                                       questionnaire: @questionnaire,
+                                                       parent: @question,
+                                                       presentation: :next_to_title}.merge(options))
+
+            question = QuestionBuilder.build(key, options, &block)
+
+            @questionnaire.question_hash[key] = question
+            @title_question = question
+          end
+
+          def question(key, options = {}, &block)
+            if @questionnaire.key_in_use? key
+              fail "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
+            end
+
+            options = @default_question_options.merge(options)
+                                               .merge(questionnaire: @questionnaire,
+                                                      parent: @question,
+                                                      parent_option_key: @question.options.last.key)
+
+            question = QuestionBuilder.build(key, options, &block)
+
+            @questionnaire.question_hash[key] = question
+            @question.options.last.questions << question
+          end
+        end
+
+        module InnerTitles
+          def inner_title(value)
+            question_option = Entities::QuestionOption.new(nil, @question, inner_title: true, description: value)
+            @question.options << question_option
           end
         end
       end
