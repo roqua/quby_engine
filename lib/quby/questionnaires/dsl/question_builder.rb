@@ -31,7 +31,6 @@ module Quby
         def self.build(key, options = {}, &block)
           BUILDERS.fetch(options.fetch(:type).to_s).build(key, options, &block)
         end
-
       end
     end
   end
