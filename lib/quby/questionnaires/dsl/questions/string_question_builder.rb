@@ -4,6 +4,8 @@ module Quby
       module Questions
         class StringQuestionBuilder < Base
           include RegexpValidations
+          include Units
+          include Sizes
         end
       end
     end

@@ -41,18 +41,6 @@ module Quby
             @question.hidden = value
           end
 
-          def lines(value)
-            @question.lines = value
-          end
-
-          def unit(value)
-            @question.unit = value
-          end
-
-          def size(value)
-            @question.size = value
-          end
-
           def depends_on(keys)
             @question.set_depends_on(keys)
           end
@@ -155,6 +143,18 @@ module Quby
           def inner_title(value)
             question_option = Entities::QuestionOption.new(nil, @question, inner_title: true, description: value)
             @question.options << question_option
+          end
+        end
+
+        module Units
+          def unit(value)
+            @question.unit = value
+          end
+        end
+
+        module Sizes
+          def size(value)
+            @question.size = value
           end
         end
       end

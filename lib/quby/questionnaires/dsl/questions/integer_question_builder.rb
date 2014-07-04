@@ -5,6 +5,8 @@ module Quby
         class IntegerQuestionBuilder < Base
           include MinMaxValidations
           include Labeling
+          include Units
+          include Sizes
         end
       end
     end
