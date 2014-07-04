@@ -14,14 +14,9 @@ module Quby
             @question = Entities::Items::Question.for(question_type).new(key, options)
             @default_question_options = options[:default_question_options] || {}
             @questionnaire = options[:questionnaire]
-            @title_question = nil
           end
 
           def build
-            if @title_question
-              @question.options.last.questions << @title_question
-              @title_question = nil
-            end
             @question
           end
 
@@ -106,6 +101,20 @@ module Quby
         end
 
         module Subquestions
+          def initialize(*args, &block)
+            super
+            @title_question = nil
+          end
+
+          def build
+            if @title_question
+              @question.options.last.questions << @title_question
+              @title_question = nil
+            end
+
+            super
+          end
+
           def title_question(key, options = {}, &block)
             if @questionnaire.key_in_use? key
               fail "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
