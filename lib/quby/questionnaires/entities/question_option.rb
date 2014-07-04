@@ -2,19 +2,20 @@ module Quby
   module Questionnaires
     module Entities
       class QuestionOption
-        attr_accessor :key
-        attr_accessor :value
-        attr_accessor :description
-        attr_accessor :questions
-        attr_accessor :inner_title
-        attr_accessor :hides_questions
-        attr_accessor :shows_questions
-        attr_accessor :hidden
-        attr_accessor :placeholder
-        attr_accessor :question
-        attr_accessor :view_id
+        attr_reader :key
+        attr_reader :value
+        attr_reader :description
+        attr_reader :questions
+        attr_reader :inner_title
+        attr_reader :hides_questions
+        attr_reader :shows_questions
+        attr_reader :hidden
+        attr_reader :placeholder
+        attr_reader :question
+        attr_reader :view_id
+        attr_reader :input_key
 
-        attr_accessor :start_chosen
+        attr_reader :start_chosen
 
         def initialize(key, question, options = {})
           @key         = key
@@ -26,13 +27,11 @@ module Quby
           @hides_questions = options[:hides_questions] || []
           @shows_questions = options[:shows_questions] || []
           @hidden = options[:hidden] || false
-          @view_id = "answer_#{input_key}"
           @placeholder = options[:placeholder] || false
           question.extra_data[:placeholder] = key if @placeholder
-        end
 
-        def input_key
-          question.type == :check_box ? @key : "#{question.key}_#{key}".to_sym
+          @input_key = (question.type == :check_box ? @key : "#{question.key}_#{key}".to_sym)
+          @view_id   = "answer_#{input_key}"
         end
 
         def inner_title?
