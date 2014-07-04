@@ -6,7 +6,6 @@ module Quby
           attr_reader :key
           attr_reader :title
           attr_reader :type
-          attr_reader :parent
           attr_reader :questionnaire
 
           def initialize(key, options = {})
