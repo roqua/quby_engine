@@ -6,6 +6,11 @@ module Quby
           include RegexpValidations
           include Units
           include Sizes
+
+          def initialize(key, options = {}, &block)
+            super
+            @question = Entities::Questions::StringQuestion.new(key, options)
+          end
         end
       end
     end

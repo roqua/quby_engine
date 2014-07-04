@@ -5,6 +5,11 @@ module Quby
         class TextQuestionBuilder < Base
           include RegexpValidations
 
+          def initialize(key, options = {}, &block)
+            super
+            @question = Entities::Questions::TextQuestion.new(key, options)
+          end
+
           def lines(value)
             @question.lines = value
           end

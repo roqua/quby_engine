@@ -4,6 +4,11 @@ module Quby
       module Questions
         class DateQuestionBuilder < Base
           include MinMaxValidations
+
+          def initialize(key, options = {}, &block)
+            super
+            @question = Entities::Questions::DateQuestion.new(key, options)
+          end
         end
       end
     end

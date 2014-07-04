@@ -7,6 +7,11 @@ module Quby
           include Labeling
           include Units
           include Sizes
+
+          def initialize(key, options = {}, &block)
+            super
+            @question = Entities::Questions::FloatQuestion.new(key, options)
+          end
         end
       end
     end

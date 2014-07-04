@@ -5,54 +5,7 @@ module Quby
   module Questionnaires
     module Entities
       module Items
-        # Make sure this exists so that specific questions can subclass it
         class Question < Item
-        end
-      end
-    end
-  end
-end
-
-require 'quby/questionnaires/entities/questions/checkbox_question'
-require 'quby/questionnaires/entities/questions/date_question'
-require 'quby/questionnaires/entities/questions/deprecated_question'
-require 'quby/questionnaires/entities/questions/float_question'
-require 'quby/questionnaires/entities/questions/integer_question'
-require 'quby/questionnaires/entities/questions/radio_question'
-require 'quby/questionnaires/entities/questions/select_question'
-require 'quby/questionnaires/entities/questions/string_question'
-require 'quby/questionnaires/entities/questions/text_question'
-
-module Quby
-  module Questionnaires
-    module Entities
-      module Items
-        class Question < Item
-          def self.for(type)
-            case type.to_s
-            when 'string'
-              Questions::StringQuestion
-            when 'textarea'
-              Questions::TextQuestion
-            when 'integer'
-              Questions::IntegerQuestion
-            when 'float'
-              Questions::FloatQuestion
-            when 'radio', 'scale'
-              Questions::RadioQuestion
-            when 'select'
-              Questions::SelectQuestion
-            when 'check_box'
-              Questions::CheckboxQuestion
-            when 'date'
-              Questions::DateQuestion
-            when 'hidden'
-              Questions::DeprecatedQuestion
-            else
-              fail "Quby does not have a question type: #{type}"
-            end
-          end
-
           set_callback :after_dsl_enhance, :expand_depends_on_input_keys
 
           # Standard attributes
@@ -340,3 +293,13 @@ module Quby
     end
   end
 end
+
+require 'quby/questionnaires/entities/questions/checkbox_question'
+require 'quby/questionnaires/entities/questions/date_question'
+require 'quby/questionnaires/entities/questions/deprecated_question'
+require 'quby/questionnaires/entities/questions/float_question'
+require 'quby/questionnaires/entities/questions/integer_question'
+require 'quby/questionnaires/entities/questions/radio_question'
+require 'quby/questionnaires/entities/questions/select_question'
+require 'quby/questionnaires/entities/questions/string_question'
+require 'quby/questionnaires/entities/questions/text_question'

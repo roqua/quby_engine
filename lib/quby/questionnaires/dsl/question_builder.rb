@@ -14,7 +14,7 @@ require 'quby/questionnaires/dsl/questions/text_question_builder'
 module Quby
   module Questionnaires
     module DSL
-      class QuestionBuilder < Base
+      module QuestionBuilder
         BUILDERS = {
           'string'    => Questions::StringQuestionBuilder,
           'textarea'  => Questions::TextQuestionBuilder,

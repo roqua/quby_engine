@@ -69,10 +69,10 @@ module Quby::Questionnaires::Entities
 
     describe '#key_in_use?' do
       let(:question) do
-        q = Items::Question.for(:radio).new(:v_1, type: :radio)
-        o = QuestionOption.new(:op1, q)
-        q.options << o
-        q
+        question = Questions::RadioQuestion.new(:v_1, type: :radio)
+        option   = QuestionOption.new(:op1, question)
+        question.options << option
+        question
       end
 
       it 'returns true if the key is the questions key' do

@@ -6,6 +6,11 @@ module Quby
           include MultipleChoice
           include Subquestions
           include InnerTitles
+
+          def initialize(key, options = {}, &block)
+            super
+            @question = Entities::Questions::RadioQuestion.new(key, options)
+          end
         end
       end
     end
