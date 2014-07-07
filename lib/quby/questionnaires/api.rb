@@ -7,7 +7,13 @@ module Quby
       end
 
       def find(key)
-        return @cache[key][:questionnaire] if fresh?(key)
+        if fresh?(key)
+          # print "HIT:#{key} "
+          return @cache[key][:questionnaire]
+        else
+          # print "MISS:#{key} "
+        end
+
         definition = @repo.find key
         @cache[key] = {questionnaire: DSL.build_from_definition(definition), timestamp: definition.timestamp}
         @cache[key][:questionnaire]
@@ -31,7 +37,7 @@ module Quby
 
       def fresh?(key)
         return false unless @cache.key?(key)
-        @cache[key][:timestamp].to_i == @repo.timestamp(key)
+        @cache[key][:timestamp].to_i == @repo.timestamp(key).to_i
       end
     end
   end
