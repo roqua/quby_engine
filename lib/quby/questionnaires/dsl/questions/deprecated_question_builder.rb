@@ -3,6 +3,8 @@ module Quby
     module DSL
       module Questions
         class DeprecatedQuestionBuilder < Base
+          include MultipleChoice
+
           def initialize(key, options = {}, &block)
             super
             @question = Entities::Questions::DeprecatedQuestion.new(key, options)
