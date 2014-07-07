@@ -600,7 +600,10 @@
 	// Unbind move events on document, call callbacks.
 		function end ( event, Dt, Op ) {
 
+			// ROQUA EDIT since we removed preventDefault for all events.
 			event.preventDefault();
+			// END ROQUA EDIT
+
 			// The handle is no longer active, so remove the class.
 			if ( Dt.handles.length === 1 ) {
 				Dt.handles[0].data('grab').removeClass(clsList[4]);
@@ -712,7 +715,10 @@
 	// Move handle to edges when target gets tapped.
 		function edge ( event, Dt, Op ) {
 
+			// ROQUA EDIT since we removed preventDefault for all events.
 			event.preventDefault();
+			// END ROQUA EDIT
+
 			var handles = Dt.base.data('handles'), to, i;
 
 			i = Op['orientation'] ? event['pointY'] : event['pointX'];
