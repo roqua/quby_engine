@@ -6,7 +6,7 @@ module Quby::Questionnaires::Services
 
     describe ":hides_questions" do
       it "throws an error if the question to be hidden does not exist" do
-        invalid_definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, hides_questions: [:v_2]
@@ -18,7 +18,7 @@ module Quby::Questionnaires::Services
       end
 
       it "throws an error if the question to be hidden is a subquestion" do
-        invalid_definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, hides_questions: [:v_1_a1_sq] do
@@ -32,7 +32,7 @@ module Quby::Questionnaires::Services
       end
 
       it 'does not throw an error when the question to be hidden exists' do
-        definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, hides_questions: [:v_2]
@@ -46,7 +46,7 @@ module Quby::Questionnaires::Services
 
     describe ":shows_questions" do
       it "throws an error if the question to be shown does not exist" do
-        invalid_definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, shows_questions: [:v_2]
@@ -58,7 +58,7 @@ module Quby::Questionnaires::Services
       end
 
       it "throws an error if the question to be shown is a subquestion" do
-        invalid_definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, shows_questions: [:v_1_a1_sq] do
@@ -72,7 +72,7 @@ module Quby::Questionnaires::Services
       end
 
       it 'does not throw an error when the question to be shown exists' do
-        definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, shows_questions: [:v_2]
@@ -86,7 +86,7 @@ module Quby::Questionnaires::Services
 
     describe ":default_invisible" do
       it 'throws an error if a subquestion has default_invisible set' do
-        invalid_definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1
@@ -101,7 +101,7 @@ module Quby::Questionnaires::Services
       end
 
       it 'does not throw an error if a non-subquestion has default_invisible set' do
-        valid_definition = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        valid_definition = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_1, type: :string default_invisible: true
         END
         valid_definition.valid?
@@ -111,13 +111,13 @@ module Quby::Questionnaires::Services
 
     describe ":validates_question_key_format" do
       it "validates length of the question keys" do
-        long_key = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        long_key = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :questionthree, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description'
           end
         END
-        valid_key = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        valid_key = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_12345678901, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description'
@@ -128,13 +128,13 @@ module Quby::Questionnaires::Services
       end
 
       it "validates that question key starts with a `v_`" do
-        invalid_key = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_key = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :one, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description', hides_questions: [:two]
           end
         END
-        valid_key = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        valid_key = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_2, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description'
@@ -145,13 +145,13 @@ module Quby::Questionnaires::Services
       end
 
       it "validates check_box question options start with `v_`" do
-        invalid_keys = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_keys = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :q1, description: 'some_description'
           end
         END
-        valid_keys = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        valid_keys = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :v_q1, description: 'some_description'
@@ -164,13 +164,13 @@ module Quby::Questionnaires::Services
       end
 
       it "validates check_box question options length" do
-        invalid_keys = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_keys = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :v_q1_has_a_very_long_key, description: 'some_description'
           end
         END
-        valid_keys = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        valid_keys = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :v_q1, description: 'some_description'
@@ -181,12 +181,12 @@ module Quby::Questionnaires::Services
       end
 
       it "validates question date keys" do
-        invalid_keys = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        invalid_keys = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_6, type: :date, year_key: :invalid_key, month_key: :v_62, day_key: :v_63 do
             title "Testvraag met een datum"
           end
         END
-        valid_keys = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        valid_keys = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_6, type: :date, year_key: :v_61, month_key: :v_62, day_key: :v_63 do
             title "Testvraag met een datum"
           end
@@ -198,14 +198,14 @@ module Quby::Questionnaires::Services
 
     describe 'the validation' do
       it 'does not accept subquestions in question of type select' do
-        select_type_without_subquestions = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        select_type_without_subquestions = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_7, type: :select do
             title "Vraag met hidden options"
             option :a1, :value => 1, :description => "Keuze1"
             option :a2, :value => 2, :description => "Keuze2"
           end
         END
-        select_type_with_subquestions = Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END)
+        select_type_with_subquestions = Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END)
           question :v_8, type: :select do
             title "Vraag met hidden options"
             option :a3, :value => 1, :description => "Keuze1"
@@ -224,7 +224,7 @@ module Quby::Questionnaires::Services
 
     describe 'subquestions inside a table' do
       it 'accepts title_questions' do
-        Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END).valid?.should be_true
+        Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END).valid?.should be_true
           panel do
             table do
               question :v_1, type: :radio do
@@ -239,7 +239,7 @@ module Quby::Questionnaires::Services
       end
 
       it 'does not accept subquestions in questions inside a table' do
-        Quby::Questionnaires::Entities::Definition.new(sourcecode: <<-END).valid?.should be_false
+        Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: <<-END).valid?.should be_false
           panel do
             table do
               question :v_1, type: :radio do
