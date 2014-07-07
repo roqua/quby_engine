@@ -19,9 +19,8 @@ module Quby
                           :pay_per_completion, # costs associated with each completed questionnaire,
                           :private]            # not a publicly available questionnaire
 
-        def initialize(key, definition = nil, last_update = Time.now)
+        def initialize(key, last_update: Time.now)
           @key = key
-          @definition = definition if definition
           @last_update = Time.at(last_update.to_i)
           @score_calculations ||= {}
           @charts = Charting::Charts.new
@@ -29,11 +28,11 @@ module Quby
           @license = :unknown
           @renderer_version = :v1
           @extra_css = ""
+          @panels = []
         end
 
         attr_accessor :key
         attr_accessor :title
-        attr_accessor :definition
         attr_accessor :description
         attr_accessor :outcome_description
         attr_accessor :short_description
@@ -68,7 +67,6 @@ module Quby
         end
 
         def add_panel(panel)
-          @panels ||= []
           @panels << panel
         end
 
@@ -146,7 +144,6 @@ module Quby
             description: description,
             outcome_description: outcome_description,
             short_description: short_description,
-            definition: definition,
             panels: panels
           }
         end

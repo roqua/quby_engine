@@ -1,33 +1,26 @@
+require 'active_model'
 require 'quby/questionnaires/entities/questionnaire'
 
 module Quby
   module Questionnaires
     module Services
-      class DefinitionValidator
+      class DefinitionValidator < ActiveModel::Validator
         MAX_KEY_LENGTH  = 13
         KEY_PREFIX      = 'v_'
 
-        attr_reader :questionnaire
         attr_reader :definition
+        attr_reader :questionnaire
 
-        def initialize(questionnaire, definition)
-          @questionnaire = questionnaire
-          @definition    = definition
-        end
+        def validate(definition)
+          questionnaire = DSL.build_from_definition(definition)
 
-        def validate
-          dummy_questionnaire = DSL.build("dummy_questionnaire", definition)
-
-          validate_questions(dummy_questionnaire)
-          validate_table_edgecases(dummy_questionnaire)
-
-          true
+          validate_questions(questionnaire)
+          validate_table_edgecases(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception
-          questionnaire.errors.add(:definition, {message: "Questionnaire error: #{questionnaire.key}\n" \
-                                                          "#{exception.message}",
-                                                 backtrace: exception.backtrace[0..5].join("<br/>")})
-          false
+          definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
+                                                       "#{exception.message}",
+                                              backtrace: exception.backtrace[0..5].join("<br/>")})
         end
 
         def validate_questions(questionnaire)

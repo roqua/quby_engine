@@ -15,10 +15,10 @@ module Quby::Questionnaires::Repos
                               "test2" => "title 'Bar'")
 
         expect(repo.exists?('test1')).to be_true
-        expect(repo.find('test1').title).to eq("Foo")
+        expect(repo.find('test1').sourcecode).to eq("title 'Foo'")
 
         expect(repo.exists?('test2')).to be_true
-        expect(repo.find('test2').title).to eq("Bar")
+        expect(repo.find('test2').sourcecode).to eq("title 'Bar'")
 
         expect(repo.exists?('test3')).to be_false
       end
