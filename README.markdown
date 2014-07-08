@@ -24,8 +24,9 @@ In config/initializers/quby.rb, you need to tell Quby where it can find its ques
 and where it can store it's answers.
 
 ```ruby
-Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(Rails.root.join("db/questionnaires"))
-Quby.answer_repo        = Quby::Answers::Repos::MongoidRepo.new
+Quby.questionnaire_repo      = Quby::Questionnaires::Repos::DiskRepo.new(Rails.root.join("db/questionnaires"))
+Quby.answer_repo             = Quby::Answers::Repos::MongoidRepo.new
+Quby::Settings.shared_secret = ENV["QUBY_SHARED_SECRET"]
 ```
 
 ## Contributing to Quby

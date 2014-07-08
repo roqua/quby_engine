@@ -1,9 +1,0 @@
-[2011-04]
-* Migratie naar rails3-settings
-  config/initializers/exception_notifier.rb uitcommentaren
-  rake db:migrate
-  config/initializers/exception_notifier.rb herstellen
-
-[2011-03]
-
-* [Questionnaires] Extra vragen in HoNOS65+-bulk toegevoegd om globale schaalscore te kunnen opgeven (wanneer gedetailleerdere informatie niet beschikbaar is)
