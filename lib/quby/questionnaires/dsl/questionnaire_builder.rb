@@ -51,8 +51,9 @@ module Quby
           @questionnaire.allow_hotkeys = type
         end
 
-        def license(type)
-          @questionnaire.license = type
+        def license(type, licensor = nil)
+          @questionnaire.license  = type
+          @questionnaire.licensor = licensor
         end
 
         def enable_previous_questionnaire_button
