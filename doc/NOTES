@@ -1,9 +1,0 @@
-Als we ooit overgaan van quest.id naar quest.key, dan kunnen we dat makkelijk doen
-voor alle answers met een ruw mongodb command:
-
-# syntax: db.collection.update(criteria, changes, upsert, multi)
-
-db.answers.update({questionnaire_id: quest.id}, 
-                  {$set:{questionnaire_key: quest.key}}, 
-                  false,
-                  true)
