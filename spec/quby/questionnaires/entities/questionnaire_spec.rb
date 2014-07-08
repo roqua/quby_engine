@@ -34,6 +34,11 @@ module Quby::Questionnaires::Entities
       it 'cannot be set to something else' do
         expect { questionnaire.license = :something }.to raise_error(ArgumentError)
       end
+
+      it 'can set licensor' do
+        questionnaire.licensor = 'Acme INC'
+        expect(questionnaire.licensor).to eq('Acme INC')
+      end
     end
 
     describe '#scores' do

@@ -46,6 +46,7 @@ module Quby
         attr_accessor :question_hash
         attr_accessor :extra_css
         attr_accessor :license
+        attr_accessor :licensor
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never
