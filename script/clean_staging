@@ -1,8 +1,0 @@
-cap symfora-staging deploy:cleanup
-cap ucp-staging deploy:cleanup
-cap lentis-staging deploy:cleanup
-cap meerkanten-staging deploy:cleanup
-cap ggzdrenthe-staging deploy:cleanup
-cap ggzfriesland-staging deploy:cleanup
-cap ggzoostbrabant-staging deploy:cleanup
-cap accare-staging deploy:cleanup

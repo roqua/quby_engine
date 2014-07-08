@@ -1,8 +1,0 @@
-#!/bin/sh
-cap ggzfriesland-staging deploy && \
-cap ggzdrenthe-staging deploy && \
-cap ggzoostbrabant-staging deploy && \
-cap meerkanten-staging deploy && \
-cap ucp-staging deploy && \
-cap symfora-staging deploy && \
-cap lentis-staging deploy
