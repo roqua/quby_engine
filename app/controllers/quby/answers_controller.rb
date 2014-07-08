@@ -166,7 +166,7 @@ module Quby
       end
     end
 
-    def verify_hmac
+    def verify_hmac # rubocop:disable CyclomaticComplexity
       if Quby::Settings.authorize_with_hmac
         fail TokenValidationError, "No HMAC secret is configured" unless Quby::Settings.shared_secret.present?
         hmac      = (params['hmac']      || @hmac         || '').strip
@@ -196,7 +196,7 @@ module Quby
           fail TokenValidationError, "HMAC"
         end
       end
-    end
+    end # rubocop:enable CyclomaticComplexity
 
     def load_token_and_hmac_and_timestamp
       @answer_token = params[:token]     if params[:token]
