@@ -17,7 +17,11 @@ module Quby
     end
 
     def self.enforce_questionnaire_key_format
-      @enforce_questionnaire_key_format || true
+      if @enforce_questionnaire_key_format.nil?
+        true
+      else
+        @enforce_questionnaire_key_format
+      end
     end
 
     def self.enforce_questionnaire_key_format=(value)
@@ -25,7 +29,11 @@ module Quby
     end
 
     def self.enable_leave_page_alert
-      @enable_leave_page_alert || true
+      if @enable_leave_page_alert.nil?
+        true
+      else
+        @enable_leave_page_alert
+      end
     end
 
     def self.enable_leave_page_alert=(value)
@@ -34,7 +42,11 @@ module Quby
 
     # Authorization protocols
     def self.authorize_with_hmac
-      @authorize_with_hmac || true
+      if @authorize_with_hmac.nil?
+        true
+      else
+        @authorize_with_hmac
+      end
     end
 
     def self.authorize_with_hmac=(value)
@@ -42,7 +54,11 @@ module Quby
     end
 
     def self.authorize_with_id_from_session
-      @authorize_with_id_from_session || true
+      if @authorize_with_id_from_session.nil?
+        true
+      else
+        @authorize_with_id_from_session
+      end
     end
 
     def self.authorize_with_id_from_session=(value)
