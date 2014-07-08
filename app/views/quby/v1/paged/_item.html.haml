@@ -4,7 +4,7 @@
 - itemclasses = [item.type, item.presentation]
 - extra_data = nil
 - itemkey = nil
-- if item.is_a? Quby::Questionnaires::Entities::Items::Question
+- if item.is_a? Quby::Questionnaires::Entities::Question
   - return if item.table
   - itemkey = "item_#{item.key}"
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
@@ -23,7 +23,7 @@
 - else
   .item{:class => itemclasses, :data => extra_data, :id => itemkey}
     - case item
-    - when Quby::Questionnaires::Entities::Items::Text
+    - when Quby::Questionnaires::Entities::Text
       -if item.display_in.andand.include?(:paged)
         .text
           :markdown
@@ -69,7 +69,7 @@
       - return if (item.display_modes and (not item.display_modes.include?(:paged)))
       = render :partial => 'quby/v1/shared/validations', :locals => {:question => item, :answer => @answer}
       = render :partial => "quby/v1/paged/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
-    - when Quby::Questionnaires::Entities::Items::Table
+    - when Quby::Questionnaires::Entities::Table
       = render :partial => "quby/v1/table/table", :locals => {:table => item}
     - else
       - raise Quby::Questionnaire::ValidationError, "Unknown item type #{item.class.name} for question #{item.key}"

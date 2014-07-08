@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class FloatQuestion < Items::Question
+        class FloatQuestion < Question
         end
       end
     end

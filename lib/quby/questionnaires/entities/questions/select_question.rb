@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class SelectQuestion < Items::Question
+        class SelectQuestion < Question
           def as_json(options = {})
             super.merge(options: @options.as_json)
           end

@@ -1,4 +1,4 @@
-require 'quby/questionnaires/entities/items/question'
+require 'quby/questionnaires/entities'
 require 'quby/answers/services/attribute_calculator'
 require 'quby/answers/services/answer_validator'
 

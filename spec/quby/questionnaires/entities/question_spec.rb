@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Quby::Questionnaires::Entities
-  describe Items::Question do
+  describe Question do
     let(:questionnaire) do
       Quby::Questionnaires::DSL.build("test") do
         question :radio, type: :radio, depends_on: [:check] do

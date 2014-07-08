@@ -51,9 +51,9 @@ module Quby::Questionnaires::Entities
 
     describe '#key_in_use?' do
       let(:option) do
-        q = Items::Question.new(:v_1, type: :radio)
+        q = Question.new(:v_1, type: :radio)
         o = QuestionOption.new(:op1, q)
-        q2 = Items::Question.new(:v_1_op1_v1)
+        q2 = Question.new(:v_1_op1_v1)
         o.questions << q2
         o
       end

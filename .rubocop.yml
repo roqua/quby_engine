@@ -54,7 +54,7 @@ SingleLineBlockParams:
 MultilineTernaryOperator:
   Enabled: false
 
-# disallows `class Quby::Questionnaires::Entities::Items::Text` style definitions.
+# disallows `class Quby::Questionnaires::Entities::Text` style definitions.
 # Why waste all that indentation?
 ClassAndModuleChildren:
   Enabled: false

@@ -121,7 +121,7 @@ module Quby
           end
 
           @questions_tree_cache = (@panels && @panels.map do |panel|
-            panel.items.map { |item| recurse.call(item) if item.is_a?(Quby::Questionnaires::Entities::Items::Question) }
+            panel.items.map { |item| recurse.call(item) if item.is_a?(Quby::Questionnaires::Entities::Question) }
           end)
         end
 
@@ -162,7 +162,7 @@ module Quby
           end
 
           top_questions = panels.map do |panel|
-            panel.items.select { |item| item.is_a? Items::Question }
+            panel.items.select { |item| item.is_a? Question }
           end.flatten.compact
 
           top_questions.each do |question|

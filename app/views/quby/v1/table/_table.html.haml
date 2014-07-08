@@ -83,7 +83,7 @@
           - next unless item
           - opt_set.each_with_index do |opt, i|
 
-            - if item.is_a? Quby::Questionnaires::Entities::Items::Question
+            - if item.is_a? Quby::Questionnaires::Entities::Question
               - question = item
               - validations = render :partial => 'quby/v1/shared/validations', :locals => {:question => question, :answer => @answer}
               - case question.type
@@ -107,7 +107,7 @@
                   = question.type
                   for question
                   = question.key
-            - elsif  item.is_a? Quby::Questionnaires::Entities::Items::Text
+            - elsif  item.is_a? Quby::Questionnaires::Entities::Text
               = render :partial => "quby/v1/table/item_text", :locals => {:item => item, :table => table, :cos_cycle =>cos_cycle}
             - if opt == opt_set.last and opt_set == opt_sets.last and filled_columns < table.columns
               - (0...(table.columns - filled_columns)).each do

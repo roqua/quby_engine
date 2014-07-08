@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class DateQuestion < Items::Question
+        class DateQuestion < Question
           # For optionally giving year, month and day fields of dates their own keys
           attr_accessor :year_key
           attr_accessor :month_key

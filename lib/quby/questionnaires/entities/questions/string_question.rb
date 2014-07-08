@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class StringQuestion < Items::Question
+        class StringQuestion < Question
           def as_json(options = {})
             super.merge(autocomplete: @autocomplete)
           end

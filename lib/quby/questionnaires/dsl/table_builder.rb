@@ -6,7 +6,7 @@ module Quby
       class TableBuilder
         def initialize(panel, options = {})
           @panel = panel
-          @table = Entities::Items::Table.new(options)
+          @table = Entities::Table.new(options)
           @default_question_options = options[:default_question_options] || {}
           @panel.items << @table
         end
@@ -20,7 +20,7 @@ module Quby
         end
 
         def text(value, options = {})
-          @table.items << Entities::Items::Text.new(value.to_s, options)
+          @table.items << Entities::Text.new(value.to_s, options)
         end
 
         def question(key, options = {}, &block)

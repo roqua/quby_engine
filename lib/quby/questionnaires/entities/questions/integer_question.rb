@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       module Questions
-        class IntegerQuestion < Items::Question
+        class IntegerQuestion < Question
         end
       end
     end

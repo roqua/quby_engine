@@ -5,7 +5,7 @@
 - itemclasses = [item.type, item.presentation]
 - extra_data = nil
 - itemkey = nil
-- if item.is_a?(Quby::Questionnaires::Entities::Items::Question)
+- if item.is_a?(Quby::Questionnaires::Entities::Question)
   - return if item.table
   - itemkey = "item_#{item.key}"
   - extra_data = item.extra_data
@@ -23,7 +23,7 @@
       - if different_header(item, previous_item)
         = render :partial => "quby/v1/bulk/item_radio_check_scale_options", :object => item
 
-- if item.raw_content and !item.is_a?(Quby::Questionnaires::Entities::Items::Text)
+- if item.raw_content and !item.is_a?(Quby::Questionnaires::Entities::Text)
   - if item.raw_content.is_a?(Hash) and item.raw_content[:bulk]
     = raw item.raw_content[:bulk]
   - else
@@ -31,7 +31,7 @@
 - else
   .item{:class => itemclasses, :data => extra_data, :id => itemkey}
     - case item
-    - when Quby::Questionnaires::Entities::Items::Text
+    - when Quby::Questionnaires::Entities::Text
       - if item.display_in.andand.include?(:bulk)
         .text
           = raw item.text
@@ -72,7 +72,7 @@
       = render :partial => "quby/v1/bulk/item_question_select", :locals => {:question => item, :subquestion => subquestion, :disabled => disabled}
     - when Quby::Questionnaires::Entities::Questions::DeprecatedQuestion
       - # nothing rendered
-    - when Quby::Questionnaires::Entities::Items::Table
+    - when Quby::Questionnaires::Entities::Table
       = render :partial => "quby/v1/table/table", :locals => {:table => item}
     - else
       - raise "Unknown item type #{item.class.name} for question #{item.key}"
