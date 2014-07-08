@@ -168,6 +168,7 @@ module Quby
 
     def verify_hmac
       if Quby::Settings.authorize_with_hmac
+        fail TokenValidationError, "No HMAC secret is configured" unless Quby::Settings.shared_secret.present?
         hmac      = (params['hmac']      || @hmac         || '').strip
         token     = (params['token']     || @answer_token || '').strip
         timestamp = (params['timestamp'] || @timestamp    || '').strip

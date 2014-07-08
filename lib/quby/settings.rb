@@ -9,7 +9,7 @@ module Quby
     end
 
     def self.shared_secret
-      @shared_secret || "77933b02b53df8c62c94e0e2959165a728aaa4504b49e14be76e31a499469ab5"
+      @shared_secret
     end
 
     def self.shared_secret=(value)
