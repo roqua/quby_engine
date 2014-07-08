@@ -12,6 +12,7 @@ module Quby
       Quby.questionnaire_finder.stub(find: questionnaire)
       Quby.answer_repo.stub(:find).with('honos', '1').and_return(answer)
       Quby::Settings.stub(authorize_with_id_from_session: false)
+      Quby::Settings.stub(shared_secret: "something_long_and_random")
     end
 
     describe 'HMAC check on show' do
@@ -34,6 +35,13 @@ module Quby
       end
 
       it 'raises when no hmac is given' do
+        expect do
+          get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp
+        end.to raise_error(AnswersController::TokenValidationError)
+      end
+
+      it 'raises when HMAC is not configured' do
+        Quby::Settings.stub(shared_secret: nil)
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp
         end.to raise_error(AnswersController::TokenValidationError)
