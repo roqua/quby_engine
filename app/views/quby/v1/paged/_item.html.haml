@@ -72,5 +72,5 @@
     - when Quby::Questionnaires::Entities::Table
       = render :partial => "quby/v1/table/table", :locals => {:table => item}
     - else
-      - raise Quby::Questionnaire::ValidationError, "Unknown item type #{item.class.name} for question #{item.key}"
+      - raise Quby::Questionnaires::Entities::Questionnaire::ValidationError, "Unknown item type #{item.class.name} for question #{item.key}"
 / End _item.html.haml

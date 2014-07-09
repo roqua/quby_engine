@@ -36,7 +36,7 @@ module Quby
 
     def edit
       render_versioned_template @display_mode
-    rescue Quby::Questionnaire::ValidationError => e
+    rescue Quby::Questionnaires::Entities::Questionnaire::ValidationError => e
       if Quby.show_exceptions
         @error = e
         render action: 'show_questionnaire_errors'
