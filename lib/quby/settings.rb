@@ -16,6 +16,14 @@ module Quby
       @shared_secret = value
     end
 
+    def self.previous_shared_secret
+      @previous_shared_secret
+    end
+
+    def self.previous_shared_secret=(value)
+      @previous_shared_secret = value
+    end
+
     def self.enforce_questionnaire_key_format
       if @enforce_questionnaire_key_format.nil?
         true

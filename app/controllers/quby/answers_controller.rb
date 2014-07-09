@@ -173,8 +173,8 @@ module Quby
         token     = (params['token']     || @answer_token || '').strip
         timestamp = (params['timestamp'] || @timestamp    || '').strip
 
-        plain_hmac = [Quby::Settings.shared_secret, token, timestamp].join('|')
-        our_hmac   = Digest::SHA1.hexdigest(plain_hmac)
+        current_hmac  = calculate_hmac(Quby::Settings.shared_secret, token, timestamp)
+        previous_hmac = calculate_hmac(Quby::Settings.previous_shared_secret, token, timestamp) if Quby::Settings.previous_shared_secret.present?
 
         if timestamp =~ /EB_PLUS/
           logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
@@ -191,7 +191,7 @@ module Quby
           redirect_to roqua_redirect(expired_session: "true") and return
         end
 
-        if our_hmac != hmac
+        if current_hmac != hmac && (previous_hmac.blank? || previous_hmac != hmac)
           logger.error "ERROR::Authentication error: Token does not validate"
           fail TokenValidationError, "HMAC"
         end
@@ -250,6 +250,10 @@ module Quby
 
       logger.info address.to_s
       address.to_s
+    end
+
+    def calculate_hmac(*args)
+      Digest::SHA1.hexdigest(args.join('|'))
     end
   end
 end
