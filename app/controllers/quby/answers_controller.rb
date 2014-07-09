@@ -174,7 +174,10 @@ module Quby
         timestamp = (params['timestamp'] || @timestamp    || '').strip
 
         current_hmac  = calculate_hmac(Quby::Settings.shared_secret, token, timestamp)
-        previous_hmac = calculate_hmac(Quby::Settings.previous_shared_secret, token, timestamp) if Quby::Settings.previous_shared_secret.present?
+
+        if Quby::Settings.previous_shared_secret.present?
+          previous_hmac = calculate_hmac(Quby::Settings.previous_shared_secret, token, timestamp)
+        end
 
         if timestamp =~ /EB_PLUS/
           logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"

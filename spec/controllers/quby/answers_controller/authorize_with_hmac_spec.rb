@@ -30,7 +30,8 @@ module Quby
 
       it 'allows correct hmacs from previous secret' do
         Quby::Settings.stub(previous_shared_secret: 'old_secret')
-        get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac('old_secret'), timestamp: timestamp
+        get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac('old_secret'),
+                   timestamp: timestamp
         expect(response).to render_template('v1/paged')
       end
 
