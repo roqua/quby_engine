@@ -17,14 +17,20 @@ module Quby
 
     describe 'HMAC check on show' do
       let(:timestamp) { Time.now.strftime("%Y-%m-%dT%H:%M:%S 00:00") }
-      let(:hmac) do
-        token = answer.token
-        plain_hmac = [Quby::Settings.shared_secret, token, timestamp].join('|')
+
+      def hmac(secret = Quby::Settings.shared_secret)
+        plain_hmac = [secret, answer.token, timestamp].join('|')
         Digest::SHA1.hexdigest(plain_hmac)
       end
 
       it 'allows correct hmacs' do
         get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac, timestamp: timestamp
+        expect(response).to render_template('v1/paged')
+      end
+
+      it 'allows correct hmacs from previous secret' do
+        Quby::Settings.stub(previous_shared_secret: 'old_secret')
+        get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac('old_secret'), timestamp: timestamp
         expect(response).to render_template('v1/paged')
       end
 
@@ -37,6 +43,19 @@ module Quby
       it 'raises when no hmac is given' do
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp
+        end.to raise_error(AnswersController::TokenValidationError)
+      end
+
+      it 'raises when wrong hmac is given' do
+        expect do
+          get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp, hmac: 'wrong'
+        end.to raise_error(AnswersController::TokenValidationError)
+      end
+
+      it 'raises when wrong hmac is given when previous secret is configured' do
+        Quby::Settings.stub(previous_shared_secret: 'old_secret')
+        expect do
+          get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp, hmac: 'wrong'
         end.to raise_error(AnswersController::TokenValidationError)
       end
 
