@@ -5,6 +5,7 @@ module Quby
   module Questionnaires
     module Entities
       class Text < Item
+        attr_reader :str
         attr_accessor :text
         attr_accessor :display_in
 
@@ -17,6 +18,7 @@ module Quby
             options[:raw_content] = "<div class='item text'>" + options[:html_content] + "</div>"
           end
           super(options)
+          @str = str
           @text = Maruku.new(str).to_html
           @display_in = options[:display_in] || [:paged]
           @col_span = options[:col_span] || 1
