@@ -35,7 +35,7 @@ module Quby
 
           question = QuestionBuilder.build(key, options, &block)
 
-          @panel.questionnaire.question_hash[key] = question
+          @panel.questionnaire.register_question(key, question)
           @table.items << question
           @panel.items << question
         end

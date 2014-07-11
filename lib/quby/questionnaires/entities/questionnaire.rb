@@ -24,6 +24,7 @@ module Quby
           @last_update = Time.at(last_update.to_i)
           @score_calculations ||= {}
           @charts = Charting::Charts.new
+          @fields = Fields.new
           @question_hash ||= {}
           @license = :unknown
           @renderer_version = :v1
@@ -43,6 +44,7 @@ module Quby
         attr_accessor :default_answer_value
         attr_accessor :renderer_version
         attr_accessor :leave_page_alert
+        attr_reader   :fields
         attr_accessor :question_hash
         attr_accessor :extra_css
         attr_accessor :license
@@ -69,6 +71,11 @@ module Quby
 
         def add_panel(panel)
           @panels << panel
+        end
+
+        def register_question(key, question)
+          @fields.add(question)
+          @question_hash[key] = question
         end
 
         def callback_after_dsl_enhance_on_questions
@@ -104,13 +111,13 @@ module Quby
 
         # Returns all question and options keys.
         def input_keys
-          question_hash.values.map { |q| q.input_keys }.flatten
+          @fields.input_keys
         end
 
         # Returns all possible answer keys.
         # Difference with input_keys is radio-inputs being answers of the question-key.
         def answer_keys
-          question_hash.values.map { |q| q.answer_keys }.flatten
+          @fields.answer_keys
         end
 
         def questions_tree
@@ -175,9 +182,9 @@ module Quby
         end
 
         def key_in_use?(key)
-          question_hash.key?(key)  ||
-          score_calculations.key?(key) ||
-          input_keys.include?(key)
+          fields.question_key?(key)  ||
+          fields.input_key?(key) ||
+          score_calculations.key?(key)
         end
 
         def add_score_calculation(builder)

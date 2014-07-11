@@ -4,6 +4,8 @@ require 'quby/questionnaires/entities/question_option'
 require 'quby/questionnaires/entities/item'
 require 'quby/questionnaires/entities/score_calculation'
 
+require 'quby/questionnaires/entities/fields'
+
 require 'quby/questionnaires/entities/charting/charts'
 require 'quby/questionnaires/entities/charting/chart'
 require 'quby/questionnaires/entities/charting/line_chart'
