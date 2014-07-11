@@ -55,6 +55,8 @@ module Quby
         attr_accessor :charts
 
         delegate :question_hash, to: :fields
+        delegate :input_keys,    to: :fields
+        delegate :answer_keys,   to: :fields
 
         def leave_page_alert
           return nil unless Settings.enable_leave_page_alert
@@ -106,17 +108,6 @@ module Quby
               fail UnknownInputKey, "Unknown input key #{key}"
             end
           end
-        end
-
-        # Returns all question and options keys.
-        def input_keys
-          @fields.input_keys
-        end
-
-        # Returns all possible answer keys.
-        # Difference with input_keys is radio-inputs being answers of the question-key.
-        def answer_keys
-          @fields.answer_keys
         end
 
         def questions_tree
