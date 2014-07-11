@@ -25,7 +25,6 @@ module Quby
           @score_calculations ||= {}
           @charts = Charting::Charts.new
           @fields = Fields.new
-          @question_hash ||= {}
           @license = :unknown
           @renderer_version = :v1
           @extra_css = ""
@@ -45,7 +44,6 @@ module Quby
         attr_accessor :renderer_version
         attr_accessor :leave_page_alert
         attr_reader   :fields
-        attr_accessor :question_hash
         attr_accessor :extra_css
         attr_accessor :license
         attr_accessor :licensor
@@ -55,6 +53,8 @@ module Quby
         attr_accessor :last_update
 
         attr_accessor :charts
+
+        delegate :question_hash, to: :fields
 
         def leave_page_alert
           return nil unless Settings.enable_leave_page_alert
@@ -75,17 +75,16 @@ module Quby
 
         def register_question(key, question)
           @fields.add(question)
-          @question_hash[key] = question
         end
 
         def callback_after_dsl_enhance_on_questions
-          @question_hash.values.each do |q|
+          question_hash.values.each do |q|
             q.run_callbacks :after_dsl_enhance
           end
         end
 
         def validate_questions
-          @question_hash.values.each do |q|
+          question_hash.values.each do |q|
             unless q.valid?
               q.errors.each { |attr, err| errors.add(attr, err) }
             end

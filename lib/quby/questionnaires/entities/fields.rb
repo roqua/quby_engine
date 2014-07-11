@@ -4,12 +4,12 @@ module Quby
   module Questionnaires
     module Entities
       class Fields
-        attr_reader :fields, :input_keys, :answer_keys
+        attr_reader :question_hash, :input_keys, :answer_keys
 
         def initialize
-          @fields      = {}
-          @input_keys  = Set.new
-          @answer_keys = Set.new
+          @question_hash = {}
+          @input_keys    = Set.new
+          @answer_keys   = Set.new
         end
 
         def add(question)
@@ -24,13 +24,13 @@ module Quby
             fail "Duplicate answer keys: #{@answer_keys.intersection(new_answer_keys)}"
           end
 
-          @fields[question.key.to_s] = question
+          @question_hash[question.key] = question
           @input_keys.merge(new_input_keys)
           @answer_keys.merge(new_answer_keys)
         end
 
         def question_key?(key)
-          @fields.key?(key)
+          @question_hash.key?(key)
         end
 
         def input_key?(key)
