@@ -54,9 +54,10 @@ module Quby
 
         attr_accessor :charts
 
-        delegate :question_hash, to: :fields
-        delegate :input_keys,    to: :fields
-        delegate :answer_keys,   to: :fields
+        delegate :question_hash,     to: :fields
+        delegate :input_keys,        to: :fields
+        delegate :answer_keys,       to: :fields
+        delegate :expand_input_keys, to: :fields
 
         def leave_page_alert
           return nil unless Settings.enable_leave_page_alert
@@ -89,23 +90,6 @@ module Quby
           question_hash.values.each do |q|
             unless q.valid?
               q.errors.each { |attr, err| errors.add(attr, err) }
-            end
-          end
-        end
-
-        # Given a list of question and option keys returns a list of input-keys.
-        # If a given key is a question-key, adds the question.input_keys
-        # If a given key is an option-input-key it adds the given key.
-        # Raises an error if a key is not defined.
-        def expand_input_keys(keys)
-          all_keys = input_keys
-          keys.reduce([]) do |ikeys, key|
-            if question_hash[key]
-              ikeys += question_hash[key].input_keys
-            elsif all_keys.include? key
-              ikeys << key
-            else
-              fail UnknownInputKey, "Unknown input key #{key}"
             end
           end
         end
@@ -172,9 +156,7 @@ module Quby
         end
 
         def key_in_use?(key)
-          fields.question_key?(key)  ||
-          fields.input_key?(key) ||
-          score_calculations.key?(key)
+          fields.key_in_use?(key) || score_calculations.key?(key)
         end
 
         def add_score_calculation(builder)

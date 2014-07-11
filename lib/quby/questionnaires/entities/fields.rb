@@ -40,12 +40,24 @@ module Quby
           @answer_keys.merge(new_answer_keys)
         end
 
-        def question_key?(key)
-          @question_hash.key?(key)
+        def key_in_use?(key)
+          @question_hash.key?(key) || @input_keys.include?(key)
         end
 
-        def input_key?(key)
-          @input_keys.include?(key)
+        # Given a list of question and option keys returns a list of input-keys.
+        # If a given key is a question-key, adds the question.input_keys
+        # If a given key is an option-input-key it adds the given key.
+        # Raises an error if a key is not defined.
+        def expand_input_keys(keys)
+          keys.reduce([]) do |ikeys, key|
+            if question_hash.key?(key)
+              ikeys += question_hash[key].input_keys
+            elsif input_keys.include? key
+              ikeys << key
+            else
+              fail UnknownInputKey, "Unknown input key #{key}"
+            end
+          end
         end
       end
     end
