@@ -13,7 +13,7 @@ module Quby
         attr_reader :answer_keys
 
         # An +input_key+ is a key that uniquely identifies a single <input> tag. For radio's, every radio option will
-        # have it's own input key. This is needed because option keys must be globally uniqueso that they can be
+        # have it's own input key. This is needed because option keys must be globally unique so that they can be
         # targeted by :depends_on relations.
         attr_reader :input_keys
 
