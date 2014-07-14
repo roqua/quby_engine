@@ -124,7 +124,7 @@ module Quby
 
             question = QuestionBuilder.build(key, options, &block)
 
-            @questionnaire.register_question(key, question)
+            @questionnaire.register_question(question)
             @title_question = question
           end
 
@@ -140,7 +140,7 @@ module Quby
 
             question = QuestionBuilder.build(key, options, &block)
 
-            @questionnaire.register_question(key, question)
+            @questionnaire.register_question(question)
             @question.options.last.questions << question
           end
         end

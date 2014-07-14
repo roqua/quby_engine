@@ -76,7 +76,7 @@ module Quby
           @panels << panel
         end
 
-        def register_question(key, question)
+        def register_question(question)
           @fields.add(question)
         end
 
