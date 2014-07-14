@@ -21,7 +21,7 @@ mount Quby::Engine => "/quby", :as => "quby_engine"
 ```
 
 In config/initializers/quby.rb, you need to tell Quby where it can find its questionnaire definitions,
-and where it can store it's answers.
+and where it can store its answers.
 
 ```ruby
 Quby.questionnaire_repo      = Quby::Questionnaires::Repos::DiskRepo.new(Rails.root.join("db/questionnaires"))
