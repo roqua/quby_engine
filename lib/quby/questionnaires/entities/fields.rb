@@ -27,13 +27,19 @@ module Quby
           new_answer_keys = Set.new(question.answer_keys)
           new_input_keys  = Set.new(question.input_keys)
 
-          if @answer_keys.intersect?(new_answer_keys)
-            fail "Duplicate answer keys: #{@answer_keys.intersection(new_answer_keys)}"
-          end
-
-          if @input_keys.intersect?(new_input_keys)
-            fail "Duplicate input keys: #{@input_keys.intersection(new_input_keys)}"
-          end
+          # TODO: Fix collision in questionnaire subquestion keys.
+          #
+          # This is probably the best place to ensure that keys don't collide. However,our current set of questionnaires
+          # does have a few collisions between +v_1+ option +a9+,and it's subquestion +v_1_a9+. For the time being,
+          # this check is therefor left commented out. The old check which exists in the DSL is left in place.
+          #
+          # if @answer_keys.intersect?(new_answer_keys)
+          #   fail "Duplicate answer keys: #{@answer_keys.intersection(new_answer_keys).inspect}"
+          # end
+          #
+          # if @input_keys.intersect?(new_input_keys)
+          #   fail "Duplicate input keys: #{@input_keys.intersection(new_input_keys).inspect}"
+          # end
 
           @question_hash[question.key] = question
           @input_keys.merge(new_input_keys)
