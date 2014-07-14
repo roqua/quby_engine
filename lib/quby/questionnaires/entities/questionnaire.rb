@@ -24,7 +24,7 @@ module Quby
           @last_update = Time.at(last_update.to_i)
           @score_calculations ||= {}
           @charts = Charting::Charts.new
-          @question_hash ||= {}
+          @fields = Fields.new
           @license = :unknown
           @renderer_version = :v1
           @extra_css = ""
@@ -43,7 +43,7 @@ module Quby
         attr_accessor :default_answer_value
         attr_accessor :renderer_version
         attr_accessor :leave_page_alert
-        attr_accessor :question_hash
+        attr_reader   :fields
         attr_accessor :extra_css
         attr_accessor :license
         attr_accessor :licensor
@@ -53,6 +53,11 @@ module Quby
         attr_accessor :last_update
 
         attr_accessor :charts
+
+        delegate :question_hash,     to: :fields
+        delegate :input_keys,        to: :fields
+        delegate :answer_keys,       to: :fields
+        delegate :expand_input_keys, to: :fields
 
         def leave_page_alert
           return nil unless Settings.enable_leave_page_alert
@@ -71,46 +76,22 @@ module Quby
           @panels << panel
         end
 
+        def register_question(question)
+          @fields.add(question)
+        end
+
         def callback_after_dsl_enhance_on_questions
-          @question_hash.values.each do |q|
+          question_hash.values.each do |q|
             q.run_callbacks :after_dsl_enhance
           end
         end
 
         def validate_questions
-          @question_hash.values.each do |q|
+          question_hash.values.each do |q|
             unless q.valid?
               q.errors.each { |attr, err| errors.add(attr, err) }
             end
           end
-        end
-
-        # Given a list of question and option keys returns a list of input-keys.
-        # If a given key is a question-key, adds the question.input_keys
-        # If a given key is an option-input-key it adds the given key.
-        # Raises an error if a key is not defined.
-        def expand_input_keys(keys)
-          all_keys = input_keys
-          keys.reduce([]) do |ikeys, key|
-            if question_hash[key]
-              ikeys += question_hash[key].input_keys
-            elsif all_keys.include? key
-              ikeys << key
-            else
-              fail UnknownInputKey, "Unknown input key #{key}"
-            end
-          end
-        end
-
-        # Returns all question and options keys.
-        def input_keys
-          question_hash.values.map { |q| q.input_keys }.flatten
-        end
-
-        # Returns all possible answer keys.
-        # Difference with input_keys is radio-inputs being answers of the question-key.
-        def answer_keys
-          question_hash.values.map { |q| q.answer_keys }.flatten
         end
 
         def questions_tree
@@ -175,9 +156,7 @@ module Quby
         end
 
         def key_in_use?(key)
-          question_hash.key?(key)  ||
-          score_calculations.key?(key) ||
-          input_keys.include?(key)
+          fields.key_in_use?(key) || score_calculations.key?(key)
         end
 
         def add_score_calculation(builder)

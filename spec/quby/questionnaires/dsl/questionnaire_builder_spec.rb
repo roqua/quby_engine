@@ -65,6 +65,19 @@ module Quby::Questionnaires::DSL
       end.to raise_exception
     end
 
+    it 'checks for subquestion clashing with parent question' do
+      pending
+      expect do
+        dsl do
+          question :v_1, type: :radio do
+            option :a1 do
+              question :v_1, type: :string
+            end
+          end
+        end
+      end.to raise_exception
+    end
+
     it 'checks for duplicate option keys' do
       expect do
         dsl do

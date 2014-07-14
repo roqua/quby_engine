@@ -45,7 +45,7 @@ module Quby
           options = @default_question_options.merge(options).merge(questionnaire: @panel.questionnaire)
           question = QuestionBuilder.build(key, options, &block)
 
-          @questionnaire.question_hash[key] = question
+          @questionnaire.register_question(question)
           @panel.items << question
         end
 
