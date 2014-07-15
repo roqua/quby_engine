@@ -28,6 +28,10 @@ module Quby
             validate_key_format(key)
           end
 
+          questionnaire.scores.each do |score|
+            validate_score_key_length(score)
+          end
+
           questionnaire.question_hash.each do |key, question|
             subquestions_cant_have_default_invisible question
             validate_subquestion_absence_in_select question
@@ -75,6 +79,12 @@ module Quby
         def subquestions_cant_have_default_invisible(question)
           if question.subquestion? && question.default_invisible
             fail "Question #{question.key} is a subquestion with default_invisible."
+          end
+        end
+
+        def validate_score_key_length(score)
+          if score.key.to_s.length > MAX_KEY_LENGTH
+            fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
           end
         end
 

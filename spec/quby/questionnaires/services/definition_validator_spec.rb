@@ -200,6 +200,32 @@ module Quby::Questionnaires::Services
       end
     end
 
+    describe 'validates score key length' do
+      it 'validates false when score key is longer than max allowed' do
+        definition_with_scores = make_definition(<<-END)
+          question :v_1, type: :radio do
+          end
+          score 'score_whose_key_is_longer_than_max', label: 'Long Score Key' do
+            {
+              wait_what_this_key_is_very_long: 42
+            }
+          end
+        END
+        expect(definition_with_scores.valid?).to be false
+      end
+
+      it 'validates true when score key length is not longer that max allowed' do
+        definition_with_scores = make_definition(<<-END)
+          question :v_1, type: :radio do
+          end
+          score 'ok_key_length', label: 'Score Key' do
+            { wait_what_this_key_is_very_long: 42 }
+          end
+        END
+        expect(definition_with_scores.valid?).to be true
+      end
+    end
+
     describe 'the validation' do
       it 'does not accept subquestions in question of type select' do
         select_type_without_subquestions = make_definition(<<-END)
