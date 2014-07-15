@@ -5,7 +5,7 @@ module Quby
   module Questionnaires
     module Services
       class DefinitionValidator < ActiveModel::Validator
-        MAX_KEY_LENGTH  = 13
+        MAX_KEY_LENGTH  = 19
         KEY_PREFIX      = 'v_'
 
         attr_reader :definition
