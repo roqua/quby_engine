@@ -13,8 +13,8 @@ module Quby
 
         def validate(definition)
           questionnaire = DSL.build_from_definition(definition)
-
           validate_questions(questionnaire)
+          validate_scores(questionnaire)
           validate_table_edgecases(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception
@@ -28,15 +28,18 @@ module Quby
             validate_key_format(key)
           end
 
-          questionnaire.scores.each do |score|
-            validate_score_key_length(score)
-          end
-
           questionnaire.question_hash.each do |key, question|
             subquestions_cant_have_default_invisible question
             validate_subquestion_absence_in_select question
 
             validate_question_options(questionnaire, question)
+          end
+        end
+
+        def validate_scores(questionnaire)
+          validate_score_key_uniqueness(questionnaire)
+          questionnaire.scores.each do |score|
+            validate_score_key_length(score)
           end
         end
 
@@ -82,12 +85,6 @@ module Quby
           end
         end
 
-        def validate_score_key_length(score)
-          if score.key.to_s.length > MAX_KEY_LENGTH
-            fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
-          end
-        end
-
         private
 
         def validate_question_key_exists?(questionnaire, key, msg_base:)
@@ -109,6 +106,18 @@ module Quby
           unless key.to_s.start_with?(KEY_PREFIX)
             fail "Key '#{key}' should start with '#{KEY_PREFIX}'."
           end
+        end
+
+        def validate_score_key_length(score)
+          if score.key.to_s.length > MAX_KEY_LENGTH
+            fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
+          end
+        end
+
+        def validate_score_key_uniqueness(questionnaire)
+          return if questionnaire.scores.empty?
+          keys = questionnaire.scores.map(&:key)
+          keys.length > keys.uniq.length
         end
 
         def validate_subquestion_absence_in_select(question)

@@ -200,32 +200,6 @@ module Quby::Questionnaires::Services
       end
     end
 
-    describe 'validates score key length' do
-      it 'validates false when score key is longer than max allowed' do
-        definition_with_scores = make_definition(<<-END)
-          question :v_1, type: :radio do
-          end
-          score 'score_whose_key_is_longer_than_max', label: 'Long Score Key' do
-            {
-              wait_what_this_key_is_very_long: 42
-            }
-          end
-        END
-        expect(definition_with_scores.valid?).to be false
-      end
-
-      it 'validates true when score key length is not longer that max allowed' do
-        definition_with_scores = make_definition(<<-END)
-          question :v_1, type: :radio do
-          end
-          score 'ok_key_length', label: 'Score Key' do
-            { wait_what_this_key_is_very_long: 42 }
-          end
-        END
-        expect(definition_with_scores.valid?).to be true
-      end
-    end
-
     describe 'the validation' do
       it 'does not accept subquestions in question of type select' do
         select_type_without_subquestions = make_definition(<<-END)
@@ -249,6 +223,37 @@ module Quby::Questionnaires::Services
         END
         select_type_with_subquestions.valid?.should be_false
         select_type_without_subquestions.valid?.should be_true
+      end
+
+      it 'does not accept score keys longer than allowed' do
+        invalid_definition = make_definition(<<-END)
+          score 'score_whose_key_is_longer_than_max' do
+            { t_score: 42 }
+          end
+        END
+        valid_definition = make_definition(<<-END)
+          score 'ok_key_length' do
+            { wait_what_this_key_is_very_long: 42 }
+          end
+        END
+        expect(invalid_definition.valid?).to be false
+        expect(valid_definition.valid?).to be true
+      end
+
+      it 'does not accept non-unique score keys' do
+        definition = make_definition(<<-END)
+          question :v_6, type: :radio do
+          end
+          score 'foo_score' do
+            { t_score: 42 }
+          end
+          score 'foo_score' do
+            { t_score: 42 }
+          end
+        END
+        expect(definition.valid?).to be true
+        score_questionnaire = Quby::Questionnaires::DSL.build_from_definition(definition)
+        expect(score_questionnaire.scores.length).to eq 1
       end
     end
 
