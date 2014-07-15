@@ -35,6 +35,6 @@ git checkout .
 git fetch
 BASE=$(fetch_next_release_or_master $CIRCLE_BRANCH)
 git checkout $BASE
-git pull --quiet
+git pull --quiet --no-edit
 # make sure to return git exit code
 git merge --no-edit $CIRCLE_BRANCH && git push && git checkout $CIRCLE_BRANCH
