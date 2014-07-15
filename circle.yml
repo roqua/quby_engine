@@ -41,3 +41,8 @@ test:
           RAILS_ENV: test
           RACK_ENV: test
     - bundle exec rubocop
+deployment:
+  release:
+    branch: /rel_.*/
+    commands:
+      - ./script/merge_release_to_master.sh
