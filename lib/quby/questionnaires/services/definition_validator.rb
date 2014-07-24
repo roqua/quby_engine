@@ -117,7 +117,9 @@ module Quby
         def validate_score_key_uniqueness(questionnaire)
           return if questionnaire.scores.empty?
           keys = questionnaire.scores.map(&:key)
-          keys.length > keys.uniq.length
+          if keys.length > keys.uniq.length
+            fail "Score key `#{score.key}` has already been defined."
+          end
         end
 
         def validate_subquestion_absence_in_select(question)
