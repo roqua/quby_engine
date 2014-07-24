@@ -225,22 +225,25 @@ module Quby::Questionnaires::Services
         select_type_without_subquestions.valid?.should be_true
       end
 
-      it 'does not accept score keys longer than allowed' do
-        invalid_definition = make_definition(<<-END)
-          score 'score_whose_key_is_longer_than_max' do
-            { t_score: 42 }
-          end
-        END
+      it 'accepts score keys that are the correct length' do
         valid_definition = make_definition(<<-END)
           score 'ok_key_length' do
             { wait_what_this_key_is_very_long: 42 }
           end
         END
-        expect(invalid_definition.valid?).to be false
         expect(valid_definition.valid?).to be true
       end
 
-      it 'does not accept non-unique score keys' do
+      it 'reject score keys that are too long' do
+        invalid_definition = make_definition(<<-END)
+          score 'score_whose_key_is_longer_than_max' do
+            { t_score: 42 }
+          end
+        END
+        expect(invalid_definition.valid?).to be false
+      end
+
+      it 'non-unique score keys overwrite previously ' do
         definition = make_definition(<<-END)
           question :v_6, type: :radio do
           end
@@ -248,12 +251,13 @@ module Quby::Questionnaires::Services
             { t_score: 42 }
           end
           score 'foo_score' do
-            { t_score: 42 }
+            { t_score: 43 }
           end
         END
         expect(definition.valid?).to be true
         score_questionnaire = Quby::Questionnaires::DSL.build_from_definition(definition)
         expect(score_questionnaire.scores.length).to eq 1
+        expect(score_questionnaire.scores[0].calculation.call[:t_score]).to eq 43
       end
     end
 
