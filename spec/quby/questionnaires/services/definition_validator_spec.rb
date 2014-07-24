@@ -243,7 +243,7 @@ module Quby::Questionnaires::Services
         expect(invalid_definition.valid?).to be false
       end
 
-      it 'passes validation if score key repeats' do
+      it 'reject score key if already defined' do
         definition = make_definition(<<-END)
           question :v_6, type: :radio do
           end
@@ -254,7 +254,7 @@ module Quby::Questionnaires::Services
             { t_score: 43 }
           end
         END
-        expect(definition.valid?).to be true
+        expect(definition.valid?).to be false
       end
     end
 
