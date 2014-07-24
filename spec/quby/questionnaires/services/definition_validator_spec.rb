@@ -243,7 +243,7 @@ module Quby::Questionnaires::Services
         expect(invalid_definition.valid?).to be false
       end
 
-      it 'non-unique score keys overwrite previously ' do
+      it 'passes validation if score key repeats' do
         definition = make_definition(<<-END)
           question :v_6, type: :radio do
           end
@@ -255,9 +255,6 @@ module Quby::Questionnaires::Services
           end
         END
         expect(definition.valid?).to be true
-        score_questionnaire = Quby::Questionnaires::DSL.build_from_definition(definition)
-        expect(score_questionnaire.scores.length).to eq 1
-        expect(score_questionnaire.scores[0].calculation.call[:t_score]).to eq 43
       end
     end
 
