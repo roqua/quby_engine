@@ -37,7 +37,6 @@ module Quby
         end
 
         def validate_scores(questionnaire)
-          validate_score_key_uniqueness(questionnaire)
           questionnaire.scores.each do |score|
             validate_score_key_length(score)
           end
@@ -111,14 +110,6 @@ module Quby
         def validate_score_key_length(score)
           if score.key.to_s.length > MAX_KEY_LENGTH
             fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
-          end
-        end
-
-        def validate_score_key_uniqueness(questionnaire)
-          return if questionnaire.scores.empty?
-          keys = questionnaire.scores.map(&:key)
-          if keys.length > keys.uniq.length
-            fail "Score key `#{score.key}` has already been defined."
           end
         end
 
