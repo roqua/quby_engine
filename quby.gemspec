@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency "ryansch-andand"
   s.add_dependency "json"
   s.add_dependency "addressable"
-  s.add_dependency "virtus", "~> 1.0"
+  s.add_dependency "virtus", ">= 1.0.3", "< 2.0"
 
   s.add_dependency "jquery-rails", "~> 2.2.1"
 
