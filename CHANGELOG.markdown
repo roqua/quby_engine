@@ -1,3 +1,7 @@
+# 2.1.3
+
+* Increased required Virtus version from 1.0.0 to backward compatible 1.0.3.
+
 # 2.1.0
 
 * Removed default value for `Quby::Settings.shared_secret`. You will now have
