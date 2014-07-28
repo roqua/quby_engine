@@ -1,4 +1,3 @@
-require "quby/monkey_patches/virtus"
 require 'quby/extensions/maruku_extensions'
 require 'quby/settings'
 require 'quby/questionnaires'
