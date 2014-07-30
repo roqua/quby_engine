@@ -224,6 +224,38 @@ module Quby::Questionnaires::Services
         select_type_with_subquestions.valid?.should be_false
         select_type_without_subquestions.valid?.should be_true
       end
+
+      it 'accepts score keys that are the correct length' do
+        valid_definition = make_definition(<<-END)
+          score 'ok_key_length' do
+            { wait_what_this_key_is_very_long: 42 }
+          end
+        END
+        expect(valid_definition.valid?).to be true
+      end
+
+      it 'reject score keys that are too long' do
+        invalid_definition = make_definition(<<-END)
+          score 'score_whose_key_is_longer_than_max' do
+            { t_score: 42 }
+          end
+        END
+        expect(invalid_definition.valid?).to be false
+      end
+
+      it 'reject score key if already defined' do
+        definition = make_definition(<<-END)
+          question :v_6, type: :radio do
+          end
+          score 'foo_score' do
+            { t_score: 42 }
+          end
+          score 'foo_score' do
+            { t_score: 43 }
+          end
+        END
+        expect(definition.valid?).to be false
+      end
     end
 
     describe 'subquestions inside a table' do

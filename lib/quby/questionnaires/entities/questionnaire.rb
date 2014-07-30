@@ -13,6 +13,7 @@ module Quby
 
         class ValidationError < StandardError; end
         class UnknownInputKey < ValidationError; end
+        class InputKeyAlreadyDefined < ValidationError; end
 
         VALID_LICENSES = [:unknown,
                           :free,               # freely available without license costs,
@@ -160,6 +161,9 @@ module Quby
         end
 
         def add_score_calculation(builder)
+          if score_calculations.key?(builder.key)
+            fail InputKeyAlreadyDefined, "Score key `#{builder.key}` already defined."
+          end
           score_calculations[builder.key] = builder
         end
 

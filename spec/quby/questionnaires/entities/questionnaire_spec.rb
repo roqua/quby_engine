@@ -69,12 +69,13 @@ module Quby::Questionnaires::Entities
         questionnaire.score_calculations.keys.should eq %w(c a d)
       end
 
-      it 'overwrites the score builder if there already is a score builder known for this key' do
+      it 'throws exception if there already is a score builder known for this key' do
         questionnaire.add_score_calculation double(key: "c")
 
-        new_builder = double(key: "c")
-        questionnaire.add_score_calculation new_builder
-        questionnaire.score_calculations.shift.last.should eq new_builder
+        expect do
+          questionnaire.add_score_calculation double(key: "c")
+        end.to raise_error(Quby::Questionnaires::Entities::Questionnaire::InputKeyAlreadyDefined,
+                           "Score key `c` already defined.")
       end
     end
 

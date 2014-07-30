@@ -5,7 +5,7 @@ module Quby
   module Questionnaires
     module Services
       class DefinitionValidator < ActiveModel::Validator
-        MAX_KEY_LENGTH  = 13
+        MAX_KEY_LENGTH  = 19
         KEY_PREFIX      = 'v_'
 
         attr_reader :definition
@@ -13,8 +13,8 @@ module Quby
 
         def validate(definition)
           questionnaire = DSL.build_from_definition(definition)
-
           validate_questions(questionnaire)
+          validate_scores(questionnaire)
           validate_table_edgecases(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception
@@ -33,6 +33,12 @@ module Quby
             validate_subquestion_absence_in_select question
 
             validate_question_options(questionnaire, question)
+          end
+        end
+
+        def validate_scores(questionnaire)
+          questionnaire.scores.each do |score|
+            validate_score_key_length(score)
           end
         end
 
@@ -98,6 +104,12 @@ module Quby
           end
           unless key.to_s.start_with?(KEY_PREFIX)
             fail "Key '#{key}' should start with '#{KEY_PREFIX}'."
+          end
+        end
+
+        def validate_score_key_length(score)
+          if score.key.to_s.length > MAX_KEY_LENGTH
+            fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
           end
         end
 
