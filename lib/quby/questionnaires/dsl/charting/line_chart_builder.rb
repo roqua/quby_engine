@@ -11,14 +11,6 @@ module Quby
           @chart.y_label = label
         end
 
-        def range(range)
-          @chart.y_range = range
-        end
-
-        def stepsize(value)
-          @chart.y_stepsize = value
-        end
-
         def tonality(value)
           @chart.tonality = value
         end

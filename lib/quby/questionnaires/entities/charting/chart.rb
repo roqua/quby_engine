@@ -11,6 +11,8 @@ module Quby
           attribute :title,                      String
           attribute :plottables,                 Array
           attribute :chart_type,                 Symbol
+          attribute :y_range,       Range
+          attribute :tick_interval, Float
 
           def initialize(key, options = {})
             self.key = key

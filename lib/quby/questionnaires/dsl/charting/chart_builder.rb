@@ -23,6 +23,14 @@ module Quby
           @chart.title = title
         end
 
+        def range(range)
+          @chart.y_range = range
+        end
+
+        def tick_interval(tick_interval)
+          @chart.tick_interval = tick_interval
+        end
+
         def plot(key, options = {})
           unless plottable = @questionnaire.find_plottable(key)
             fail "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"

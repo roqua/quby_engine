@@ -14,5 +14,14 @@ module Quby::Questionnaires::DSL
       builder = BarChartBuilder.new(questionnaire, key, options)
       builder.build(&block)
     end
+
+    it 'sets y-axis range' do
+      dsl { range 0..40 }.y_range.should == (0..40)
+    end
+
+    it 'sets y-axis tick interval' do
+      dsl { tick_interval 1 }.tick_interval.should == 1
+    end
+
   end
 end

@@ -14,12 +14,12 @@ module Quby::Questionnaires::DSL
       dsl { range 0..40 }.y_range.should == (0..40)
     end
 
-    it 'raises when y-axis range is not specified' do
-      expect { dsl(:test, {}) { } }.to raise_error(/no range specified/)
+    it 'sets y-axis tick interval' do
+      dsl { tick_interval 1 }.tick_interval.should == 1
     end
 
-    it 'sets y-axis stepsize' do
-      dsl { stepsize 4 }.y_stepsize.should == 4.0
+    it 'raises when y-axis range is not specified' do
+      expect { dsl(:test, {}) { } }.to raise_error(/no range specified/)
     end
 
     it 'sets tonality' do
