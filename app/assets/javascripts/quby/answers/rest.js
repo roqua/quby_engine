@@ -283,7 +283,9 @@ function handleAjaxFormRequests() {
         flashes.show();
     }
     // Scroll the flash at the bottom of the page into view
-    flashes[1].scrollIntoView(false);
+    if(flashes[1] != undefined){
+      flashes[1].scrollIntoView(false);
+    }
   });
 
   $(document).on('ajax:beforeSend', "form", function() {

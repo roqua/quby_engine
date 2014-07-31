@@ -166,7 +166,12 @@
     }
 
     // Scroll the first element that has validation errors into view
-    $('.error').not('.hidden')[0].scrollIntoView(true);
+    if(failed){
+        var first_error = $('.error').not('.hidden')[0];
+        if( first_error != undefined) {
+          first_error.scrollIntoView(true);
+        }
+    }
     return !failed;
   }
 
