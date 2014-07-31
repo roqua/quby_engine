@@ -275,7 +275,7 @@ function handleAjaxFormRequests() {
     if (xhr.status == 0 || xhr.responseText == "") {
         errorMessage = 'Er ging iets fout bij het opslaan van de antwoorden. ' +
                        'Controleer je internetverbinding en probeer het nogmaals.';
-        flashes .append('<div class="error">' + errorMessage +'</div>').show()
+        flashes.append('<div class="error">' + errorMessage +'</div>').show()
     } else {
         $('<div class="error">Er ging iets fout bij het opslaan van de antwoorden. Probeer het later nogmaals' +
           '<iframe id="error_iframe" style="width: 100%; height: 300px;" /></div>').appendTo(flashes);
