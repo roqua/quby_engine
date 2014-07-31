@@ -164,8 +164,9 @@
         }
       }
     }
-    //To correctly reposition the placeholders
-    //placeholder();
+
+    // Scroll the first element that has validation errors into view
+    $('.error').not('.hidden')[0].scrollIntoView(true);
     return !failed;
   }
 

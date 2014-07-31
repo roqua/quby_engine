@@ -12,7 +12,6 @@
 
 //= require jquery-ui
 //= require jquery_placeholder
-//= require jquery.scrollTo-min.js
 //= require jquery.watch.js
 //= require jquery.nouislider.with_roqua_modifications.js
 //= require ./better_range_inputs.js
