@@ -39,7 +39,19 @@
         .notice= flash[:notice]
       - if flash[:success]
         .success= flash[:success]
+
     = yield
+
+    .flash
+      - if flash[:error]
+        .error= flash[:error]
+      - if flash[:alert]
+        .alert= flash[:alert]
+      - if flash[:notice]
+        .notice= flash[:notice]
+      - if flash[:success]
+        .success= flash[:success]
+
 
   .x_container
 

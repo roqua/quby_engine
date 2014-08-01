@@ -22,7 +22,7 @@ function activatePanel(panel, updateHash, forward) {
     // The URL bar is then displayed on top of our content, which sometimes hides the first
     // question. Be scrolling to top again after it is enlarged already, we make sure it is
     // no longer over our content.
-    window.setTimeout(function() { window.scrollTo(0,0) }, 1)
+    window.setTimeout(function() { window.scrollTo(0,0) }, 1);
 
     $(document).trigger('panel_activated', [panel])
 }
@@ -32,7 +32,7 @@ function activatePanel(panel, updateHash, forward) {
 function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
     if(checked){
         // Setting all other checkboxes to checkValue
-        check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)")
+        check_boxes = $("#answer_"+question+"_input").find("input[type=checkbox]:not(:disabled)");
         if(check_boxes.length == 0){
             check_boxes = $("[data-for='"+question+"']").find("input[type=checkbox]:not(:disabled)")
         }
@@ -263,7 +263,7 @@ function setupLeavePageNag() {
 
 function handleAjaxFormRequests() {
   $(document).on('ajax:success', "form", function(event, data, status, xhr) {
-    content_type = (xhr.getResponseHeader("content-type")||"").split(';')[0]
+    content_type = (xhr.getResponseHeader("content-type")||"").split(';')[0];
     if (content_type == 'text/html') { // not json response
       $('#content').replaceWith(data);
       preparePaged();
@@ -271,23 +271,30 @@ function handleAjaxFormRequests() {
   });
   $(document).on('ajax:error', "form", function(event, xhr, status) {
     var errorMessage = '';
+    var flashes = $('.flash');
     if (xhr.status == 0 || xhr.responseText == "") {
         errorMessage = 'Er ging iets fout bij het opslaan van de antwoorden. ' +
                        'Controleer je internetverbinding en probeer het nogmaals.';
-        $('.flash').append('<div class="error">' + errorMessage +'</div>').show()
+        flashes.append('<div class="error">' + errorMessage +'</div>').show()
     } else {
         $('<div class="error">Er ging iets fout bij het opslaan van de antwoorden. Probeer het later nogmaals' +
-          '<iframe id="error_iframe" style="width: 100%; height: 300px;" /></div>').appendTo('.flash');
-        $('#error_iframe').contents().find('body').html(xhr.responseText)
-        $('.flash').show()
+          '<iframe id="error_iframe" style="width: 100%; height: 300px;" /></div>').appendTo(flashes);
+        $('#error_iframe').contents().find('body').html(xhr.responseText);
+        flashes.show();
+    }
+    // Scroll the flash at the bottom of the page into view
+    if(flashes[1] != undefined){
+      flashes[1].scrollIntoView(false);
     }
   });
+
   $(document).on('ajax:beforeSend', "form", function() {
     $('html').addClass('busy')
-  })
+  });
+
   $(document).on('ajax:success ajax:error', "form", function() {
     $('html').removeClass('busy')
-  })
+  });
 }
 
 var leave_page_text;
