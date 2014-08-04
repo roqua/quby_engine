@@ -29,6 +29,15 @@ Quby.answer_repo             = Quby::Answers::Repos::MongoidRepo.new
 Quby::Settings.shared_secret = ENV["QUBY_SHARED_SECRET"]
 ```
 
+If you use an OpenCPU server you can configure it through environment variables (or directly through OpenCPU.configure).
+
+```ruby
+ENV['OPENCPU_ENDPOINT_URL'] = 'http://opencpu.dev/ocpu'
+ENV['OPENCPU_USERNAME']     = 'optional_basicauth_username'
+ENV['OPENCPU_PASSWORD']     = 'optional_basicauth_password'
+ENV['OPENCPU_TIMEOUT']      = '30' # request timeout in seconds.
+```
+
 ## Contributing to Quby
 
 * Check out the latest master to make sure the feature hasn't been implemented
