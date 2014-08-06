@@ -54,7 +54,15 @@ module ClientSideValidationHelpers
 
   def expect_error_on(question_key, error_type)
     within '#panel0.current' do
-      expect(find("#item_#{question_key} .error.#{error_type}")).to be_visible
+      query = "#item_#{question_key} .error.#{error_type}, [data-for='#{question_key}'] .error.#{error_type}"
+      expect(find(query)).to be_visible
+    end
+  end
+
+  def expect_no_error_on(question_key)
+    within '#panel0.current' do
+      query = "#item_#{question_key} .error, [data-for='#{question_key}'] .error"
+      expect(all(query, visible: false)).to be_empty
     end
   end
 
@@ -115,5 +123,9 @@ module ServerSideValidationHelpers
 
   def expect_error_on(question_key, error_type)
     answer.errors[question_key].map { |error| error[:valtype].to_s }.should include(error_type.to_s)
+  end
+
+  def expect_no_error_on(question_key)
+    answer.errors[question_key].map { |error| error[:valtype] }.should be_empty
   end
 end

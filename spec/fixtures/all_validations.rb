@@ -104,5 +104,40 @@ panel do
   question :v_answer_group_over_maximum, question_group: :group4, group_maximum_answered: 1, type: :string
   question :v_answer_group_over_maximum1, question_group: :group4, group_maximum_answered: 1, type: :string
 
+  table columns: 4 do
+    question :v_check_answer_group_under_minimum, question_group: :cgroup1, group_minimum_answered: 3, type: :check_box do
+      option :v_check_answer_group_under_minimum_a1
+      option :v_check_answer_group_under_minimum_a2
+    end
+    question :v_check_answer_group_under_minimum1, question_group: :cgroup1, group_minimum_answered: 3, type: :check_box do
+      option :v_check_answer_group_under_minimum1_a1
+      option :v_check_answer_group_under_minimum1_a2
+    end
+    question :v_check_answer_group_over_minimum, question_group: :cgroup2, group_minimum_answered: 1, type: :check_box do
+      option :v_check_answer_group_over_minimum_a1
+      option :v_check_answer_group_over_minimum_a2
+    end
+    question :v_check_answer_group_over_minimum1, question_group: :cgroup2, group_minimum_answered: 1, type: :check_box do
+      option :v_check_answer_group_over_minimum1_a1
+      option :v_check_answer_group_over_minimum1_a2
+    end
+    question :v_check_answer_group_under_maximum, question_group: :cgroup3, group_maximum_answered: 2, type: :check_box do
+      option :v_check_answer_group_under_maximum_a1
+      option :v_check_answer_group_under_maximum_a2
+    end
+    question :v_check_answer_group_under_maximum1, question_group: :cgroup3, group_maximum_answered: 2, type: :check_box do
+      option :v_check_answer_group_under_maximum1_a1
+      option :v_check_answer_group_under_maximum1_a2
+    end
+    question :v_check_answer_group_over_maximum, question_group: :cgroup4, group_maximum_answered: 1, type: :check_box do
+      option :v_check_answer_group_over_maximum_a1
+      option :v_check_answer_group_over_maximum_a2
+    end
+    question :v_check_answer_group_over_maximum1, question_group: :cgroup4, group_maximum_answered: 1, type: :check_box do
+      option :v_check_answer_group_over_maximum1_a1
+      option :v_check_answer_group_over_maximum1_a2
+    end
+  end
+
   question :v_textarea, type: :textarea
 end
