@@ -162,7 +162,6 @@ end; end; end_panel
       check_option "v_check_answer_group_over_maximum_a1"
       check_option "v_check_answer_group_over_maximum1_a2"
 
-
       run_validations
       expect_error_on "v_check_answer_group_under_minimum", "answer_group_minimum"
       expect_no_error_on "v_check_answer_group_over_minimum"

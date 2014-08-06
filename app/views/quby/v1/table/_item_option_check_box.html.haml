@@ -5,6 +5,7 @@
   - checked = @answer.send(opt.key) == 1
   - return if( opt.hidden and not checked)
   - optionclasses =  [os_cycle]
+  - optionclasses << question.question_group if question.question_group
 
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     .radiocheckwrapper

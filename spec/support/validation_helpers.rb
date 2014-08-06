@@ -62,7 +62,7 @@ module ClientSideValidationHelpers
   def expect_no_error_on(question_key)
     within '#panel0.current' do
       query = "#item_#{question_key} .error, [data-for='#{question_key}'] .error"
-      expect(all(query, visible: false)).to be_empty
+      expect(all(query)).to be_empty
     end
   end
 
