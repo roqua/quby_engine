@@ -5,7 +5,9 @@
       -question.options.each do |opt|
         - checked = @answer.send(question.key) == opt.key.to_s
         - next if (opt.hidden and not checked)
-        - hash = {:value => opt.key, :class => question.type, :id => opt.view_id}
+        - classes = [question.type]
+        - classes << 'placeholder' if opt.placeholder
+        - hash = {:value => opt.key, :class => classes, :id => opt.view_id}
         - hash[:selected] = 'selected' if checked
         %option{hash}
           =opt.description

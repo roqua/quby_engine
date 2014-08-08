@@ -7,9 +7,15 @@ class Quby.Views.QuestionView extends Backbone.View
   decideVisibility: ->
     if @isVisible()
       @$el.addClass "show"
+      if @$el.is(".select")
+        @$el.find('option').removeAttr("disabled")
       @$el.removeClass "hide"
     else
       @$el.addClass "hide"
+      # Chrome counts visible select options as always hidden,
+      # so we need to also disable them to signify they are truly hidden
+      if @$el.is(".select")
+        @$el.find('option').attr("disabled", "disabled")
       @$el.removeClass "show"
 
   isVisible: ->
