@@ -41,6 +41,34 @@ shared_examples 'validations on select questions' do
       expect_error_on 'v_select', 'requires_answer'
     end
   end
+
+  context 'questions depending on select' do
+    let(:questionnaire) do
+      inject_questionnaire "test", <<-END
+panel do
+  question :v_select, type: :select, required: true do
+    title "Pick one"
+    option :a0, value: 0, description: "--- Kies ---", placeholder: true
+    option :a1, value: 1, description: 'Unicorns'
+    option :a2, value: 2, description: 'Rainbows'
+  end
+  question :v_string, type: :string, required: true, depends_on: [:v_select]
+end; end_panel
+      END
+    end
+
+    scenario 'validation triggered by depends on select' do
+      select_select_option 'v_select', 'a1'
+      run_validations
+      expect_error_on 'v_string', 'requires_answer'
+    end
+
+    scenario 'validation not triggered by depends on select' do
+      run_validations
+      expect_no_error_on 'v_string'
+      expect_error_on 'v_select', 'requires_answer'
+    end
+  end
 end
 
 feature 'Client-side validations on select questions', js: true do

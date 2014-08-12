@@ -11,6 +11,7 @@
         - next if (opt.hidden and not checked)
         - cls = [question.type]
         - cls << "subinput"  if subquestion
+        - cls << 'placeholder' if opt.placeholder
         - hash = {:value => opt.key, :class => cls, :disabled => disabled ? "" : nil, :id => opt.view_id}
         - hash[:selected] = 'selected' if @answer.send(question.key) == opt.key.to_s
         %option{hash}
