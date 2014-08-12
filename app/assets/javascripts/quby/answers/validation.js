@@ -206,9 +206,9 @@
   function get_answer_count(groupkey, panel){
     var answered = 0;
 
-    var quest_items = panel.find(".item."+ groupkey);
+    var quest_items = panel.find(".item."+ groupkey +", .option."+ groupkey);
     for(var i = 0; i < quest_items.length; i++){
-      var inputs = $(quest_items[i]).find("input, textarea, select").not(":disabled, :hidden")
+      var inputs = $(quest_items[i]).find("input, textarea, select").not(":disabled, :hidden");
       if (is_answered(inputs, quest_items.eq(i))) {
         answered++;
       }

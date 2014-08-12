@@ -110,6 +110,65 @@ shared_examples 'validations on checkbox questions' do
       expect_error_on 'v_check_box', 'not_all_checked'
     end
   end
+
+  context 'question groups' do
+    let(:questionnaire) do
+      inject_questionnaire "test", <<-END
+        panel do
+table columns: 4 do
+question :v_check_answer_group_under_minimum, question_group: :cgroup1, group_minimum_answered: 3, type: :check_box do
+  option :v_check_answer_group_under_minimum_a1
+  option :v_check_answer_group_under_minimum_a2
+end
+question :v_check_answer_group_under_minimum1, question_group: :cgroup1, group_minimum_answered: 3, type: :check_box do
+  option :v_check_answer_group_under_minimum1_a1
+  option :v_check_answer_group_under_minimum1_a2
+end
+question :v_check_answer_group_over_minimum, question_group: :cgroup2, group_minimum_answered: 1, type: :check_box do
+  option :v_check_answer_group_over_minimum_a1
+  option :v_check_answer_group_over_minimum_a2
+end
+question :v_check_answer_group_over_minimum1, question_group: :cgroup2, group_minimum_answered: 1, type: :check_box do
+  option :v_check_answer_group_over_minimum1_a1
+  option :v_check_answer_group_over_minimum1_a2
+end
+question :v_check_answer_group_under_maximum, question_group: :cgroup3, group_maximum_answered: 2, type: :check_box do
+  option :v_check_answer_group_under_maximum_a1
+  option :v_check_answer_group_under_maximum_a2
+end
+question :v_check_answer_group_under_maximum1, question_group: :cgroup3, group_maximum_answered: 2, type: :check_box do
+  option :v_check_answer_group_under_maximum1_a1
+  option :v_check_answer_group_under_maximum1_a2
+end
+question :v_check_answer_group_over_maximum, question_group: :cgroup4, group_maximum_answered: 1, type: :check_box do
+  option :v_check_answer_group_over_maximum_a1
+  option :v_check_answer_group_over_maximum_a2
+end
+question :v_check_answer_group_over_maximum1, question_group: :cgroup4, group_maximum_answered: 1, type: :check_box do
+  option :v_check_answer_group_over_maximum1_a1
+  option :v_check_answer_group_over_maximum1_a2
+end
+end; end; end_panel
+      END
+    end
+
+    scenario 'shows errors for invalid fillings and not for valid fillings' do
+      check_option "v_check_answer_group_under_minimum_a1"
+      check_option "v_check_answer_group_under_minimum1_a2"
+      check_option "v_check_answer_group_over_minimum_a1"
+      check_option "v_check_answer_group_over_minimum1_a2"
+      check_option "v_check_answer_group_under_maximum_a1"
+      check_option "v_check_answer_group_under_maximum1_a2"
+      check_option "v_check_answer_group_over_maximum_a1"
+      check_option "v_check_answer_group_over_maximum1_a2"
+
+      run_validations
+      expect_error_on "v_check_answer_group_under_minimum", "answer_group_minimum"
+      expect_no_error_on "v_check_answer_group_over_minimum"
+      expect_no_error_on "v_check_answer_group_under_maximum"
+      expect_error_on "v_check_answer_group_over_maximum", "answer_group_maximum"
+    end
+  end
 end
 
 feature 'Client-side validations on checkbox questions', js: true do
