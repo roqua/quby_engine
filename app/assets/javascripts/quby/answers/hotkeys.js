@@ -16,15 +16,15 @@
       $("body").on("click", function (){
         nextButtonFocussed = false;
         saveButtonFocussed = false;
-      })
+      });
       $(".item input, .item textarea, .buttons input, select").on("click", function(event){
         focusInput(event.target);
-      })
+      });
       $(".item input, .item textarea, .buttons input, select").on("focus", function(event){
         focusInput(event.target);
       });
     }
-  })
+  });
 
   $(document).on('panel_activated', function(e, $panel) {
     curPanel = $panel;
@@ -36,7 +36,7 @@
       focusI = 1;
       focusInputIndex(focusI, true);
     }
-  })
+  });
 
   function focusInputIndex(index, forward){
     if (forward) {
@@ -47,7 +47,7 @@
 
     if (index < 0 || index > panelInputs.length || lastInput.length == 0) {
       if(forward){
-        index = 0
+        index = 0;
         lastInput = panelInputs.filter(':eq('+index+'), :gt(' + index + ')').not(':hidden, :disabled').first();
       } else {
         index = panelInputs.length -1;
@@ -155,7 +155,7 @@
         }
       }
     });
-  }
+  };
 
 
   function handleDownHotKeys(event){
