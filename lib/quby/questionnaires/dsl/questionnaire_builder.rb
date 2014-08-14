@@ -5,6 +5,7 @@ require 'quby/questionnaires/dsl/score_builder'
 require 'quby/questionnaires/dsl/charting/line_chart_builder'
 require 'quby/questionnaires/dsl/charting/radar_chart_builder'
 require 'quby/questionnaires/dsl/charting/bar_chart_builder'
+require 'quby/questionnaires/dsl/example_answer_builder'
 
 require_relative 'standardized_panel_generators'
 
@@ -141,6 +142,11 @@ module Quby
         def radar_chart(*args, &block)
           builder = RadarChartBuilder.new(@questionnaire, *args)
           @questionnaire.add_chart(builder.build(&block))
+        end
+
+        def example(*args, &block)
+          builder = ExampleAnswerBuilder.new(*args)
+          @questionnaire.add_example_answer(builder.build(&block))
         end
 
         private

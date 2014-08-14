@@ -290,5 +290,63 @@ module Quby::Questionnaires::Services
         END
       end
     end
+
+    describe 'outcome tests' do
+      it 'throws if the outcome does not match the test case' do
+        invalid_definition = make_definition(<<-END)
+          question :v_1, type: :radio do
+            title "Testvraag"
+            option :a1, value: 1, description: 'A1'
+            option :a2, value: 2, description: 'A2'
+          end
+
+          question :v_2, type: :radio do
+            title "Testvraag"
+            option :a1, value: 1, description: 'A1'
+            option :a2, value: 2, description: 'A2'
+          end
+
+          score :tot, label: "Totaalscore" do
+            { value: sum(values(:v_1)) }
+          end
+
+          example 'all questions answered' do
+            values v_1: :a1, v_2: :a2
+            outcome tot: {value: 3}
+          end
+        END
+
+        invalid_definition.valid?
+        expect(invalid_definition.errors[:sourcecode].first[:message])
+          .to include('Outcome test "all questions answered" failed.')
+      end
+
+      it 'allows matching outcomes' do
+        definition = make_definition(<<-END)
+          question :v_1, type: :radio do
+            title "Testvraag"
+            option :a1, value: 1, description: 'A1'
+            option :a2, value: 2, description: 'A2'
+          end
+
+          question :v_2, type: :radio do
+            title "Testvraag"
+            option :a1, value: 1, description: 'A1'
+            option :a2, value: 2, description: 'A2'
+          end
+
+          score :tot, label: "Totaalscore" do
+            { value: sum(values(:v_1, :v_2)) }
+          end
+
+          example 'all questions answered' do
+            values v_1: :a1, v_2: :a2
+            outcome tot: {value: 3}
+          end
+        END
+
+        expect(definition).to be_valid
+      end
+    end
   end
 end

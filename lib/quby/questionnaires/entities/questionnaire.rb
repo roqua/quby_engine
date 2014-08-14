@@ -30,6 +30,7 @@ module Quby
           @renderer_version = :v1
           @extra_css = ""
           @panels = []
+          @example_answers = []
         end
 
         attr_accessor :key
@@ -54,6 +55,7 @@ module Quby
         attr_accessor :last_update
 
         attr_accessor :charts
+        attr_accessor :example_answers
 
         delegate :question_hash,     to: :fields
         delegate :input_keys,        to: :fields
@@ -185,6 +187,10 @@ module Quby
 
         def add_chart(chart)
           charts.add chart
+        end
+
+        def add_example_answer(example_answer)
+          example_answers << example_answer
         end
       end
     end

@@ -40,6 +40,11 @@ module Quby
         def initialize(attributes = {})
           super
 
+          # Allow passing in the questionnaire to be used. This allows using Answer
+          # with questionnaires that have not been saved, e.g. during questionnaire
+          # definition validation.
+          @questionnaire = attributes.with_indifferent_access["questionnaire"]
+
           # Initialize Hash attributes to empty hash even when explicitly given nil.
           # This differs from Virtus' default behaviour which would set them to nil.
           self.class.attribute_set.each do |attribute|
@@ -71,7 +76,7 @@ module Quby
 
         # Faux belongs_to :questionnaire
         def questionnaire
-          Quby.questionnaires.find(questionnaire_key)
+          @questionnaire || Quby.questionnaires.find(questionnaire_key)
         end
 
         def set_completed_at

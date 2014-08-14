@@ -1,5 +1,6 @@
 require 'active_model'
 require 'quby/questionnaires/entities/questionnaire'
+require 'quby/answers'
 
 module Quby
   module Questionnaires
@@ -16,6 +17,7 @@ module Quby
           validate_questions(questionnaire)
           validate_scores(questionnaire)
           validate_table_edgecases(questionnaire)
+          validate_outcome_using_example_answers(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
@@ -58,6 +60,26 @@ module Quby
               questions.each { |question| validate_table_question(question) }
             end
           end
+        end
+
+        def validate_outcome_using_example_answers(questionnaire)
+          errors = []
+          questionnaire.example_answers.each do |example_answer|
+            example_values  = example_answer[:values].stringify_keys
+            example_outcome = example_answer[:outcome]
+            answer  = Quby::Answers::Entities::Answer.new(questionnaire: questionnaire, value: example_values)
+            outcome = Quby::Answers::Services::OutcomeCalculation.new(answer).calculate
+            example_outcome.each do |key, score|
+              score.each do |field, expected_value|
+                gotten_value = outcome.scores[key][field]
+                unless gotten_value == expected_value
+                  errors << "Outcome test \"#{example_answer[:label]}\" failed. " \
+                    "Mismatch in #{key}.#{field}: Got: #{gotten_value}, expected: #{expected_value}"
+                end
+              end
+            end
+          end
+          fail errors.join("\n") unless errors.empty?
         end
 
         def to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option, msg_base:)
