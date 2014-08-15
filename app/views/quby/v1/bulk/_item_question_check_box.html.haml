@@ -19,9 +19,9 @@
       .option{ :for => question.key, :class => cls}
         .radiocheckwrapper
           - if question.uncheck_all_option == opt.key
-            -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', undefined); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+            -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', false); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
           - elsif question.check_all_option == opt.key
-            -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', 'checked'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+            -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', true); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
           - else
             -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
           -if disabled

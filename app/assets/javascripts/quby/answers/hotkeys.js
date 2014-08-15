@@ -133,7 +133,7 @@
       selectedInput = lastFocus.find("input[type='radio'][name='"+lastInput[0].name+"']:not(.subinput, :hidden, :disabled)").eq(value-1);
     }
     if(selectedInput.length > 0) {
-      selectedInput.attr('checked', 'checked');
+      selectedInput.prop('checked', true);
       radioCheckboxEvents(selectedInput[0]);
       focusNextInput();
     }
@@ -141,7 +141,7 @@
 
   function selectFocusedInput(){
     var el = $(document.activeElement);
-    el.attr('checked', 'checked');
+    el.prop('checked', true);
     radioCheckboxEvents(el);
     focusNextInput();
   }
@@ -156,7 +156,6 @@
       }
     });
   };
-
 
   function handleDownHotKeys(event){
     event.which = event.charCode || event.which || event.keyCode;
@@ -277,7 +276,4 @@
       selectFocusedInput();
     }
   }
-
-
-
 })();
