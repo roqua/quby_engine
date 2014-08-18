@@ -28,7 +28,7 @@ function activatePanel(panel, updateHash, forward) {
 }
 
 //This function is set to the onClick of the 'check_all' and the 'uncheck_all' checkboxes, with checkValue set
-// to "1" and "0" respectively
+// to true and false respectively
 function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
     if(checked){
         // Setting all other checkboxes to checkValue
@@ -37,19 +37,14 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
             check_boxes = $("[data-for='"+question+"']").find("input[type=checkbox]:not(:disabled)")
         }
         for (i = 0; i < check_boxes.length; i++) {
-          if (check_boxes[i].id != "answer_"+nothingKey && check_boxes[i].id != "answer_"+allKey){
-            $(check_boxes[i]).attr("checked", checkValue);
-            if (checkValue) {
-                $(check_boxes[i]).attr("checked", checkValue);
-            } else {
-                $(check_boxes[i]).removeAttr("checked");
-            }
+          if (check_boxes[i].id != "answer_" + nothingKey && check_boxes[i].id != "answer_" + allKey){
+            $(check_boxes[i]).prop("checked", checkValue);
             handleDisableCheckboxSubQuestions(check_boxes[i]);
           }
         }
 
         // Setting the 'check_all' and the 'uncheck_all' checkboxes appropriately, if both are used
-        correctAllNothingCheckboxes(checkValue == "checked", allKey, nothingKey);
+        correctAllNothingCheckboxes(checkValue, allKey, nothingKey);
     }
 }
 
@@ -65,7 +60,7 @@ function correctAllNothingCheckboxes(checked, allKey, nothingKey){
         el = $('#answer_'+allKey)[0];
     }
     if (el) {
-        $(el).removeAttr("checked");
+        $(el).prop('checked', false);
         handleDisableCheckboxSubQuestions(el);
     }
 }
@@ -129,7 +124,7 @@ function assignValue(qkey, val){
         if (type == "radio" || type == "scale") {
             var input = inputs.filter("[value='" + val + "']");
             if (input && input.length > 0) {
-                input.first().attr("checked", "checked");
+                input.first().prop("checked", true);
             }
         } else if (type == "text") {
             var input = inputs.get(0);
@@ -140,11 +135,7 @@ function assignValue(qkey, val){
         } else if (type == "checkbox") {
             $.each(val, function(ckey, cvalue){
                 var input = inputs.filter("input[name='answer["+ckey+"]']");
-                if (cvalue == 1) {
-                    input.attr("checked", "checked");
-                } else {
-                    input.removeAttr("checked");
-                }
+                input.prop("checked", cvalue == 1);
             });
         } else if (type == 'select-one'){
             var input = inputs.find("[value="+val+"]")[0]

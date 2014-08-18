@@ -18,19 +18,46 @@ feature 'Using hotkeys' do
     END
   end
 
+  let(:keypress_space) { "var e = jQuery.Event( 'keyup' ); e.which = $.ui.keyCode.SPACE; $('#item_v1').trigger(e);" }
+  let(:keypress_1) { "var e = jQuery.Event( 'keyup' ); e.which = 49; $('#item_v1').trigger(e);" }
+  let(:keypress_up) { "var e = jQuery.Event( 'keydown' ); e.which = 33; $('#item_v1').trigger(e);" }
+  let(:keypress_2) { "var e = jQuery.Event( 'keyup' ); e.which = 50; $('#item_v1').trigger(e);" }
+
   scenario 'can select options with space', js: true do
     visit_new_answer_for(questionnaire)
-    keypress_script = "var e = jQuery.Event( 'keyup' ); e.which = $.ui.keyCode.SPACE; $('#answer_v1_a1').trigger(e);"
-    page.driver.execute_script(keypress_script)
 
+    page.driver.execute_script(keypress_space)
+    page.should have_checked_field("answer_v1_a1")
+
+    page.driver.execute_script(keypress_up)
+    wait_until_focussed("#answer_v1_a1")
+
+    page.driver.execute_script(keypress_2)
+    page.should have_checked_field("answer_v1_a2")
+
+    page.driver.execute_script(keypress_up)
+    wait_until_focussed("#answer_v1_a1")
+
+    page.driver.execute_script(keypress_space)
     page.should have_checked_field("answer_v1_a1")
   end
 
   scenario 'can select options by pressing their number value', js: true do
     visit_new_answer_for(questionnaire)
-    # 49 is keycode for the character 1
-    keypress_script = "var e = jQuery.Event( 'keyup' ); e.which = 49; $('#answer_v1_a1').trigger(e);"
-    page.driver.execute_script(keypress_script)
+
+    page.driver.execute_script(keypress_1)
+    page.should have_checked_field("answer_v1_a1")
+
+    page.driver.execute_script(keypress_up)
+    wait_until_focussed("#answer_v1_a1")
+
+    page.driver.execute_script(keypress_2)
+    page.should have_checked_field("answer_v1_a2")
+
+    page.driver.execute_script(keypress_up)
+    wait_until_focussed("#answer_v1_a1")
+
+    page.driver.execute_script(keypress_1)
     page.should have_checked_field("answer_v1_a1")
   end
 end

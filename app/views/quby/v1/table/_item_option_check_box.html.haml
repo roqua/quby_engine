@@ -10,9 +10,9 @@
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     .radiocheckwrapper
       - if question.uncheck_all_option == opt.key
-        -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', undefined); handleDisableCheckboxSubQuestions(this);"}
+        -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', false); handleDisableCheckboxSubQuestions(this);"}
       - elsif question.check_all_option == opt.key
-        -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', 'checked'); handleDisableCheckboxSubQuestions(this);"}
+        -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', true); handleDisableCheckboxSubQuestions(this);"}
       - else
         -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);"}
       - attrs[:class] = question.type

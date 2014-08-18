@@ -16,15 +16,15 @@
       $("body").on("click", function (){
         nextButtonFocussed = false;
         saveButtonFocussed = false;
-      })
+      });
       $(".item input, .item textarea, .buttons input, select").on("click", function(event){
         focusInput(event.target);
-      })
+      });
       $(".item input, .item textarea, .buttons input, select").on("focus", function(event){
         focusInput(event.target);
       });
     }
-  })
+  });
 
   $(document).on('panel_activated', function(e, $panel) {
     curPanel = $panel;
@@ -36,7 +36,7 @@
       focusI = 1;
       focusInputIndex(focusI, true);
     }
-  })
+  });
 
   function focusInputIndex(index, forward){
     if (forward) {
@@ -47,7 +47,7 @@
 
     if (index < 0 || index > panelInputs.length || lastInput.length == 0) {
       if(forward){
-        index = 0
+        index = 0;
         lastInput = panelInputs.filter(':eq('+index+'), :gt(' + index + ')').not(':hidden, :disabled').first();
       } else {
         index = panelInputs.length -1;
@@ -133,7 +133,7 @@
       selectedInput = lastFocus.find("input[type='radio'][name='"+lastInput[0].name+"']:not(.subinput, :hidden, :disabled)").eq(value-1);
     }
     if(selectedInput.length > 0) {
-      selectedInput.attr('checked', 'checked');
+      selectedInput.prop('checked', true);
       radioCheckboxEvents(selectedInput[0]);
       focusNextInput();
     }
@@ -141,7 +141,7 @@
 
   function selectFocusedInput(){
     var el = $(document.activeElement);
-    el.attr('checked', 'checked');
+    el.prop('checked', true);
     radioCheckboxEvents(el);
     focusNextInput();
   }
@@ -155,8 +155,7 @@
         }
       }
     });
-  }
-
+  };
 
   function handleDownHotKeys(event){
     event.which = event.charCode || event.which || event.keyCode;
@@ -277,7 +276,4 @@
       selectFocusedInput();
     }
   }
-
-
-
 })();
