@@ -1,6 +1,11 @@
 #!/usr/bin/env rake
 begin
   require 'bundler/setup'
+  Bundler.require
+  # get the rails rake tasks to test things like assets:precompile.
+  require 'combustion'
+  Combustion.initialize!
+  Combustion::Application.load_tasks
 rescue LoadError
   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
@@ -19,9 +24,6 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
-
-APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
-load 'rails/tasks/engine.rake'
 
 # Let's not have a rake task that pushes our closed-source app to rubygems.org
 #Bundler::GemHelper.install_tasks
