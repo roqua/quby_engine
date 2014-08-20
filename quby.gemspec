@@ -20,13 +20,14 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">= 3.2", '< 5.0'
 
   # External (web-)services
-  s.add_dependency "opencpu",       '~> 0.7.0'
+  s.add_dependency "opencpu",       '~> 0.7.4'
 
   # Views
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
   s.add_dependency "sass-rails",    '>= 3.2', '< 5.0'
   s.add_dependency "maruku",        '0.6.1'
+  s.add_dependency "compass",       '~> 0.12'
   s.add_dependency "compass-rails"
   s.add_dependency "susy", "~> 1.0.rc"
 
@@ -51,7 +52,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry"
   s.add_development_dependency 'capybara-screenshot', '= 0.3.14'
   s.add_development_dependency "codeclimate-test-reporter"
-  # Do not upgrade simplecov to any of the 0.8.x versions. They cause rspec to exit 0 regardless test failures on ci.
-  # See: https://github.com/colszowka/simplecov/issues/281
-  s.add_development_dependency 'simplecov', '~> 0.7.1'
+  s.add_development_dependency 'simplecov', '~> 0.9.0'
 end
