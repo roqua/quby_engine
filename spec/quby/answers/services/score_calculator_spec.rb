@@ -9,19 +9,19 @@ module Quby::Answers::Services
 
     describe '.calculate' do
       let(:result) do
-        ScoreCalculator.calculate({'v_1' => 37}, timestamp) do
+        ScoreCalculator.calculate({'v_1' => 37, 'v_2' => 20}, timestamp) do
           {
-            value: sum(values(:v_1))
+            value: sum(values(:v_2, :v_1))
           }
         end
       end
 
       it 'calculates the value of a block' do
-        expect(result[:value]).to eq(37)
+        expect(result[:value]).to eq(57)
       end
 
-      it 'adds the list of referenced values' do
-        expect(result[:referenced_values]).to eq(%w(v_1))
+      it 'adds the list of referenced values, sorted by the order of the original values hash' do
+        expect(result[:referenced_values]).to eq(%w(v_1 v_2))
       end
     end
 

@@ -2,7 +2,8 @@ require 'spec_helper'
 
 module Quby::Answers::Services
   describe OutcomeCalculation do
-    include Quby::Questionnaires::Entities
+    ScoreCalculation = Quby::Questionnaires::Entities::ScoreCalculation
+    Questionnaire = Quby::Questionnaires::Entities::Questionnaire
 
     let(:scorer) { proc { {value: 3} } }
     let(:score) { ScoreCalculation.new(:tot, {label: "Totaal", score: true}, &scorer) }
@@ -32,9 +33,9 @@ module Quby::Answers::Services
 
     describe '#calculate' do
       it 'passes in the regular values and completed_at to the score calculator' do
-        answer.stub(value_by_regular_values: 'regular_values', completed_at: 'completed_at')
-        ScoreCalculator.stub :calculate
-        ScoreCalculator.should_receive(:calculate).with('regular_values', 'completed_at', {}, {})
+        answer.stub(value_by_regular_values: {v_2: 2, v_1: 1}, completed_at: 'completed_at')
+        ScoreCalculator.should_receive(:calculate).with({v_1: 1, v_2: 2}, 'completed_at', {}, {})
+        ScoreCalculator.stub(:calculate)
         OutcomeCalculation.new(answer).calculate
       end
 
@@ -137,6 +138,14 @@ module Quby::Answers::Services
       it 'assigns the calculated completion to self.completion' do
         OutcomeCalculation.new(answer).update_scores
         answer.completion.should eq('value' => 0.9)
+      end
+    end
+
+    describe '#value_by_regular_values' do
+      it 'orders the regular values according to the questionnaire\'s question order' do
+        questionnaire.stub_chain(:fields, :question_hash, :keys).and_return([:v_1, :v_2])
+        answer.stub(value_by_regular_values: {v_2: 2, v_1: 1}, completed_at: 'completed_at')
+        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values)).to eq(v_1: 1, v_2: 2)
       end
     end
   end

@@ -179,7 +179,7 @@ module Quby
         end
 
         def referenced_values
-          @referenced_values
+          @values.keys.select { |key| @referenced_values.andand.include? key }
         end
 
         def opencpu(package, function, parameters = {})
