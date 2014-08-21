@@ -2,16 +2,17 @@ require 'spec_helper'
 
 module Quby::Answers::Services
   describe OutcomeCalculation do
-    include Quby::Questionnaires::Entities
+    ScoreCalculation = Quby::Questionnaires::Entities::ScoreCalculation
+    Questionnaire = Quby::Questionnaires::Entities::Questionnaire
 
-    let(:scorer) { proc { {value: 3} } }
-    let(:score) { ScoreCalculation.new(:tot, {label: "Totaal", score: true}, &scorer) }
+    let(:scorer) { proc { { value: 3 } } }
+    let(:score) { ScoreCalculation.new(:tot, { label: "Totaal", score: true }, &scorer) }
 
     let(:actioner) { proc { 5 } }
-    let(:action) { ScoreCalculation.new(:attention, {action: true}, &actioner) }
+    let(:action) { ScoreCalculation.new(:attention, { action: true }, &actioner) }
 
     let(:completioner) { proc { 0.9 } }
-    let(:completion) { ScoreCalculation.new(:completion, {completion: true}, &completioner) }
+    let(:completion) { ScoreCalculation.new(:completion, { completion: true }, &completioner) }
 
     let(:questionnaire) do
       quest = Questionnaire.new "test"
@@ -32,38 +33,48 @@ module Quby::Answers::Services
 
     describe '#calculate' do
       it 'passes in the regular values and completed_at to the score calculator' do
-        answer.stub(value_by_regular_values: 'regular_values', completed_at: 'completed_at')
-        ScoreCalculator.stub :calculate
-        ScoreCalculator.should_receive(:calculate).with('regular_values', 'completed_at', {}, {})
+        answer.stub(value_by_regular_values: { v_2: 2, v_1: 1 }, completed_at: 'completed_at')
+        received_values, received_timestamp, received_patient_attrs = nil
+
+        ScoreCalculator.should_receive(:calculate).exactly(3).times do |values, timestamp, patient_attrs, scores|
+          received_values = values
+          received_timestamp = timestamp
+          received_patient_attrs = patient_attrs
+        end
+
         OutcomeCalculation.new(answer).calculate
+
+        received_values.to_a.should eq([[:v_2, 2], [:v_1, 1]])
+        received_timestamp.should eq('completed_at')
+        received_patient_attrs.should eq({ })
       end
 
       it 'calculates scores, alerts and completion' do
         outcome = OutcomeCalculation.new(answer).calculate
 
-        outcome.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
-                                           "score" => true, 'referenced_values' => []})
+        outcome.scores.should eq("tot" => { "value" => 3, "label" => "Totaal",
+                                            "score" => true, 'referenced_values' => [] })
         outcome.actions.should eq("attention" => 5)
         outcome.completion.should eq("value" => 0.9)
       end
 
       it 'calculates scores with integer values' do
-        score.stub(calculation: proc { {value: values(:v_1)} })
+        score.stub(calculation: proc { { value: values(:v_1) } })
         questionnaire.stub(questions: [double(key: :v_1,
                                               type: :radio,
                                               options: [
-                                                double(key: :a1, value: 2)
+                                                  double(key: :a1, value: 2)
                                               ],
                                               text_var: false)])
-        answer.value = {'v_1' => :a1}
+        answer.value = { 'v_1' => :a1 }
         outcome = OutcomeCalculation.new(answer).calculate
         outcome.scores[:tot].should eq("value" => [2], "label" => "Totaal",
                                        "score" => true, 'referenced_values' => ['v_1'])
       end
 
       it 'allows access to other scores' do
-        score2 = ScoreCalculation.new(:tot2, {label: "Totaal2", score: true},
-                                      &proc { {value: score(:tot)[:value] + 2} })
+        score2 = ScoreCalculation.new(:tot2, { label: "Totaal2", score: true },
+                                      &proc { { value: score(:tot)[:value] + 2 } })
 
         questionnaire.add_score_calculation score2
         outcome = OutcomeCalculation.new(answer).calculate
@@ -125,8 +136,8 @@ module Quby::Answers::Services
 
       it 'assigns the calculated score to self.scores' do
         OutcomeCalculation.new(answer).update_scores
-        answer.scores.should eq("tot" => {"value" => 3, "label" => "Totaal",
-                                          "score" => true, 'referenced_values' => []})
+        answer.scores.should eq("tot" => { "value" => 3, "label" => "Totaal",
+                                           "score" => true, 'referenced_values' => [] })
       end
 
       it 'assigns the calculated actions to self.actions' do
@@ -137,6 +148,14 @@ module Quby::Answers::Services
       it 'assigns the calculated completion to self.completion' do
         OutcomeCalculation.new(answer).update_scores
         answer.completion.should eq('value' => 0.9)
+      end
+    end
+
+    describe '#value_by_regular_values' do
+      it 'orders the regular values according to the questionnaire\'s question order' do
+        questionnaire.stub_chain(:fields, :question_hash, :keys).and_return([:v_1, :v_2])
+        answer.stub(value_by_regular_values: { v_2: 2, v_1: 1 }, completed_at: 'completed_at')
+        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values)).to eq(v_1: 1, v_2: 2)
       end
     end
   end
