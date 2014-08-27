@@ -18,7 +18,8 @@ module Quby
         VALID_LICENSES = [:unknown,
                           :free,               # freely available without license costs,
                           :pay_per_completion, # costs associated with each completed questionnaire,
-                          :private]            # not a publicly available questionnaire
+                          :private,            # not a publicly available questionnaire
+                          :deprecated]         # should no longer be used, hide from view
 
         def initialize(key, last_update: Time.now)
           @key = key
