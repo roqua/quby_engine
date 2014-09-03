@@ -206,7 +206,7 @@ feature 'Hiding and showing questions' do
       Quby.answers.reload(answer).value.should eq(answer_value("v_4" => "a1", "v_9" => "a1"))
     end
 
-    scenario 'by visiting an answer that has an option that shows something filled in', js: true do
+    scenario 'by visiting an answer that has a radio option that shows something filled in', js: true do
       answer = create_new_answer_for(questionnaire, "v_6" => "a6", "v_7" => "a5")
       visit_new_answer_for(questionnaire, "paged", answer)
       goto_second_page
@@ -214,6 +214,18 @@ feature 'Hiding and showing questions' do
       choose "answer_v_8_a3"
       goto_third_page and save_form
       Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_7" => "a5", "v_8" => "a3"))
+    end
+
+    scenario 'by visiting an answer that has a checkbox option that shows something filled in', js: true do
+      answer = create_new_answer_for(questionnaire, "v_5" => { "v_5_a1" => 1, "v_5_a2" => 1, "v_5_a3" => 0 },
+                                                    "v_5_a1" => 1, "v_5_a2" => 1)
+      visit_new_answer_for(questionnaire, "paged", answer)
+      page.should have_selector("#item_v_7.show")
+      goto_second_page
+      page.should have_selector("[data-for=v_9].show")
+      goto_third_page and save_form
+      Quby.answers.reload(answer).value.should eq(answer_value("v_5" => { "v_5_a1" => 1, "v_5_a2" => 1, "v_5_a3" => 0 },
+                                                               "v_5_a1" => 1, "v_5_a2" => 1))
     end
 
     scenario 'unshowing by deselecting a question', js: true do
@@ -289,7 +301,7 @@ feature 'Hiding and showing questions' do
 
   def answer_value(override = {})
     {
-      "v_5" => {"v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0},
+      "v_5" => { "v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0 },
       "v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0,
       "v_10_dd" => "", "v_10_mm" => "", "v_10_yyyy" => ""
     }.merge(override)

@@ -2,7 +2,10 @@
 - panel.items.select{ |item| item.is_a? ::Quby::Questionnaires::Entities::Question}.each do |question|
   - question_hash = question.as_json
   - question_hash[:options].andand.map do |option|
-    - option[:start_chosen] = (answer.send(question.key).to_s == option[:key].to_s)
+    - if question.type == :check_box
+      - option[:start_chosen] = (answer.send(question.key)[option[:key].to_s] == 1)
+    - else
+      - option[:start_chosen] = (answer.send(question.key).to_s == option[:key].to_s)
   - questions << question_hash
 
 :javascript

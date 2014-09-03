@@ -46,7 +46,6 @@ panel do
     option :a7, :value => 7, :description => "extreem show 3", :shows_questions => [:v_8] do
       question :v_7sub, type: :string
     end
-
   end
 
   table :columns => 1, :show_option_desc => true do
