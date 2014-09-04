@@ -42,6 +42,25 @@ shared_examples 'validations on select questions' do
     end
   end
 
+  context 'not required' do
+    let(:questionnaire) do
+      inject_questionnaire "test", <<-END
+        question :v_select, type: :select do
+          title "Pick one"
+          option :a0, value: 0, description: "--- Kies ---", placeholder: true
+          option :a1, value: 1, description: 'Unicorns'
+          option :a2, value: 2, description: 'Rainbows'
+        end; end_panel
+      END
+    end
+
+    scenario 'saving selecting the placeholder clears the placeholder value' do
+      select_select_option 'v_select', 'a0'
+      run_validations
+      expect_saved_value 'v_select', nil
+    end
+  end
+
   context 'questions depending on select' do
     let(:questionnaire) do
       inject_questionnaire "test", <<-END
