@@ -268,10 +268,11 @@ function handleAjaxFormRequests() {
                        'Controleer je internetverbinding en probeer het nogmaals.';
         flashes.append('<div class="error">' + errorMessage +'</div>').show()
     } else {
-        $('<div class="error">Er ging iets fout bij het opslaan van de antwoorden. Probeer het later nogmaals' +
-          '<iframe id="error_iframe" style="width: 100%; height: 300px;" /></div>').appendTo(flashes);
-        $('#error_iframe').contents().find('body').html(xhr.responseText);
-        flashes.show();
+      var response_text = $($.parseHTML(xhr.responseText));
+      $('<div class="error">Er ging iets fout bij het opslaan van de antwoorden. Probeer het later nogmaals' +
+        '<iframe id="error_iframe" style="width: 100%; height: 300px;" /></div>').appendTo(flashes);
+      $('#error_iframe').contents().find('body').html(response.text());
+      flashes.show();
     }
     // Scroll the flash at the bottom of the page into view
     if(flashes[1] != undefined){
