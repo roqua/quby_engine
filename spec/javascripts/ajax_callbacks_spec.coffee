@@ -13,13 +13,13 @@ describe "ajax error callbacks", ->
     $('.flash').remove()
 
   describe ".ajax:error with server error", ->
-    it 'shows the flash block with an iframe with the error', ->
+    it 'shows the flash block with a div with the error', ->
       expect($('.flash')).not.toBeVisible()
       $('#rails_ajax_form').trigger('submit')
       @requests[0].respond(500, { "Content-Type": "text/html" }, '<b class="error">error</b>')
       expect($('.flash')).toBeVisible()
-      expect($('.flash iframe')).toBeVisible()
-      expect($('.flash iframe').contents().find('body')).toHaveText('error')
+      expect($('.flash .error-details')).toBeVisible()
+      expect($('.flash .error-details')).toHaveText('error')
 
   describe ".ajax:error with server timeout", ->
     it 'shows the flash block with an iframe', ->

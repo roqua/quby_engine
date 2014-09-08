@@ -268,11 +268,11 @@ function handleAjaxFormRequests() {
                        'Controleer je internetverbinding en probeer het nogmaals.';
         flashes.append('<div class="error">' + errorMessage +'</div>').show()
     } else {
-      var response_text = $($.parseHTML(xhr.responseText));
       var error = $('<div class="error">Er ging iets fout bij het opslaan van de antwoorden. Probeer het later nogmaals</div>');
-      var error_details = $('<div class="error-details">').text(response.text());
+      var response_text = $($.parseHTML(xhr.responseText));
+      var error_details = $('<div class="error-details">').text(response_text.text());
       if (error_details.text().length > 0) { error.append(error_details); }
-      flashes.append(error)
+      flashes.append(error);
       flashes.show();
     }
     // Scroll the flash at the bottom of the page into view
