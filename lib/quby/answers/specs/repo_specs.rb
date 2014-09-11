@@ -109,8 +109,8 @@ if defined?(RSpec)
       record.raw_params.should           eq(stringified(attributes[:raw_params]))
       record.value.should                eq(stringified(attributes[:value]))
       record.patient.should              eq(stringified(attributes[:patient]))
-      record.active.should               be_true
-      record.test.should                 be_false
+      record.active.should               eq(true)
+      record.test.should                 eq(false)
       record.completed_at.should         eq(attributes[:completed_at])
       record.outcome_generated_at.should eq(attributes[:outcome_generated_at])
       record.scores.should               eq(stringified(attributes[:scores]))
