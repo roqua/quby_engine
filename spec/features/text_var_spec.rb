@@ -32,7 +32,7 @@ feature 'text_var replacement', js: true do
 
     visit_new_answer_for(questionnaire)
 
-    page.should have_content 'Probleemmiddel: {middel}'
+    page.should have_content 'Probleemmiddel: {{middel}}'
   end
 
 end
