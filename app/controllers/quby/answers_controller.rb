@@ -122,7 +122,7 @@ module Quby
     def check_questionnaire_valid
       # don't use valid?, since it clears the errors
       return if @questionnaire.errors.size == 0
-      raise InvalidQuestionnaireDefinition
+      fail InvalidQuestionnaireDefinition
     end
 
     def find_answer
