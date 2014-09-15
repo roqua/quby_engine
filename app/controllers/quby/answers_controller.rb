@@ -14,7 +14,7 @@ module Quby
     before_filter :load_custom_stylesheet
     before_filter :load_display_mode
 
-    before_filter :authorize!
+    before_filter :verify_answer_id_against_session
     before_filter :verify_hmac, only: [:edit, :print]
 
     before_filter :find_questionnaire
@@ -135,7 +135,7 @@ module Quby
       end
     end
 
-    def authorize!
+    def verify_answer_id_against_session
       if Quby::Settings.authorize_with_id_from_session
         fail MissingAuthorization unless session[:quby_answer_id].present?
         fail InvalidAuthorization unless params[:id].to_s == session[:quby_answer_id].to_s
