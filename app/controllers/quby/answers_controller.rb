@@ -54,7 +54,7 @@ module Quby
         elsif @return_url.blank?
           render_versioned_template "completed", layout: request.xhr? ? "content_only" : 'application'
         else
-          redirect_url = roqua_redirect(status: return_status)
+          redirect_url = return_url(status: return_status)
           request.xhr? ?
             render(js: "window.location = '#{redirect_url}'") :
             redirect_to(redirect_url)
@@ -96,7 +96,7 @@ module Quby
 
     def bad_authorization(exception)
       if @return_url
-        redirect_to roqua_redirect(status: 'authorization_error', return_from_answer: params[:id])
+        redirect_to return_url(status: 'authorization_error', return_from_answer: params[:id])
       else
         @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
         render template: 'quby/errors/generic', layout: 'quby/dialog'
@@ -175,7 +175,7 @@ module Quby
 
         if time < 24.hours.ago or 1.hour.since < time
           logger.error "ERROR::Authentication error: Request expired"
-          redirect_to roqua_redirect(expired_session: "true") and return
+          redirect_to return_url(expired_session: "true") and return
         end
 
         if current_hmac != hmac && (previous_hmac.blank? || previous_hmac != hmac)
@@ -223,7 +223,7 @@ module Quby
       end
     end
 
-    def roqua_redirect(options = {})
+    def return_url(options = {})
       address = Addressable::URI.parse(@return_url)
 
       # Addressable behaves strangely if were to do this directly on
