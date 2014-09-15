@@ -50,7 +50,7 @@ module Quby
         elsif @return_url.blank?
           render_versioned_template "completed", layout: request.xhr? ? "content_only" : 'application'
         else
-          redirect_url = return_url(status: 'updated', action: form_action)
+          redirect_url = return_url(status: 'updated', go: form_action)
           request.xhr? ?
             render(js: "window.location = '#{redirect_url}'") :
             redirect_to(redirect_url)

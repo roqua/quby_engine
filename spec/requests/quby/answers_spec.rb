@@ -47,7 +47,7 @@ module Quby
                                 return_from: 'quby',
                                 return_from_answer: answer.id,
                                 status: 'updated',
-                                action: 'next'}.merge(options)
+                                go: 'next'}.merge(options)
           end.to_s
         end
 
@@ -79,24 +79,24 @@ module Quby
           response.should redirect_to(expected_return_url(a: 'b'))
         end
 
-        it 'redirects with action of "close" if abort button was clicked' do
+        it 'redirects with go of "close" if abort button was clicked' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
               answer: {v_1: nil},
               return_url: return_url,
               return_token: return_token,
               commit: "Onderbreken"
 
-          response.should redirect_to(expected_return_url(action: 'stop'))
+          response.should redirect_to(expected_return_url(go: 'stop'))
         end
 
-        it 'redirects with action of "back" when a user navigates back' do
+        it 'redirects with go of "back" when a user navigates back' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
               answer: {v_1: nil},
               return_url: return_url,
               return_token: return_token,
               commit: "← Vorige vragenlijst"
 
-          response.should redirect_to(expected_return_url(action: 'back'))
+          response.should redirect_to(expected_return_url(go: 'back'))
         end
       end
     end
