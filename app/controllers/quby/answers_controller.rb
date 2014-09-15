@@ -25,12 +25,13 @@ module Quby
 
     before_filter :check_aborted, only: :update
 
-    rescue_from TokenValidationError,                               with: :bad_authorization
-    rescue_from TimestampValidationError,                           with: :bad_authorization
-    rescue_from InvalidAuthorization,                               with: :bad_authorization
-    rescue_from MissingAuthorization,                               with: :bad_authorization
-    rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound, with: :bad_questionnaire
-    rescue_from InvalidQuestionnaireDefinition,                     with: :bad_questionnaire_definition
+    rescue_from TokenValidationError,                                           with: :bad_authorization
+    rescue_from TimestampValidationError,                                       with: :bad_authorization
+    rescue_from InvalidAuthorization,                                           with: :bad_authorization
+    rescue_from MissingAuthorization,                                           with: :bad_authorization
+    rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound,             with: :bad_questionnaire
+    rescue_from InvalidQuestionnaireDefinition,                                 with: :bad_questionnaire_definition
+    rescue_from Quby::Questionnaires::Entities::Questionnaire::ValidationError, with: :bad_questionnaire_definition
 
     def show
       redirect_to action: "edit"
@@ -38,13 +39,6 @@ module Quby
 
     def edit
       render_versioned_template @display_mode
-    rescue Quby::Questionnaires::Entities::Questionnaire::ValidationError => e
-      if Quby.show_exceptions
-        @error = e
-        render action: 'show_questionnaire_errors'
-      else
-        raise
-      end
     end
 
     def update(printing = false)
@@ -79,15 +73,6 @@ module Quby
       update true
     end
 
-    def bad_questionnaire(exception)
-      if @return_url
-        redirect_to return_url(status: 'error', error: exception.class.to_s)
-      else
-        @error = exception
-        render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
-      end
-    end
-
     def bad_authorization(exception)
       if @return_url
         redirect_to return_url(status: 'error', error: exception.class.to_s)
@@ -98,14 +83,23 @@ module Quby
       end
     end
 
-    def invalid_questionnaire_definition(exception)
+    def bad_questionnaire(exception)
+      if @return_url
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+      else
+        @error = exception
+        render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
+      end
+    end
+
+    def bad_questionnaire_definition(exception)
       if Quby.show_exceptions
         render action: :show_questionnaire_errors
       elsif @return_url
         redirect_to return_url(status: 'error', error: exception.class.to_s)
         handle_exception exception
       else
-        @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
+        @error = "Er is iets mis met de vragenlijst zoals deze in ons systeem is ingebouwd."
         render template: 'quby/errors/generic', layout: 'quby/dialog'
         handle_exception exception
       end
@@ -150,10 +144,7 @@ module Quby
 
     def verify_token
       if Quby::Settings.authorize_with_hmac
-        unless @answer.token == (params[:token] || @answer_token)
-          flash[:error] = I18n.t(:invalid_answer_get, locale: :nl)
-          redirect_to "/"
-        end
+        fail InvalidAuthorization unless @answer.token == (params[:token] || @answer_token)
       end
     end
 
