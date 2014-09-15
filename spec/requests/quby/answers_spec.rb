@@ -46,7 +46,8 @@ module Quby
             uri.query_values = {key: return_token,
                                 return_from: 'quby',
                                 return_from_answer: answer.id,
-                                status: 'updated'}.merge(options)
+                                status: 'updated',
+                                action: 'next'}.merge(options)
           end.to_s
         end
 
@@ -85,7 +86,7 @@ module Quby
               return_token: return_token,
               commit: "Onderbreken"
 
-          response.should redirect_to(expected_return_url(action: 'close'))
+          response.should redirect_to(expected_return_url(action: 'stop'))
         end
 
         it 'redirects with action of "back" when a user navigates back' do

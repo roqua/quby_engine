@@ -222,11 +222,11 @@ module Quby
     def form_action
       case params[:commit]
       when "Onderbreken"
-        "close"
+        "stop"
       when "← Vorige vragenlijst"
         "back"
       else
-        nil
+        'next'
       end
     end
 
