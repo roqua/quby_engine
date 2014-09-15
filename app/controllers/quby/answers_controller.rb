@@ -22,7 +22,6 @@ module Quby
     before_filter :find_answer
     before_filter :verify_token, only: [:show, :edit, :update, :print]
 
-    before_filter :prevent_browser_cache, only: :edit
     before_filter :check_aborted, only: :update
 
     rescue_from TokenValidationError,     with: :bad_token
