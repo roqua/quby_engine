@@ -168,7 +168,7 @@ module Quby
 
         if time < 24.hours.ago or 1.hour.since < time
           logger.error "ERROR::Authentication error: Request expired"
-          redirect_to return_url(expired_session: "true") and return
+          fail RequestExpiredError
         end
 
         if current_hmac != hmac && (previous_hmac.blank? || previous_hmac != hmac)
