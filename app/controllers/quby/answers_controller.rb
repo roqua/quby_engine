@@ -3,12 +3,6 @@ require 'addressable/uri'
 
 module Quby
   class AnswersController < Quby::ApplicationController
-    class InvalidAuthorization < StandardError; end
-    class MissingAuthorization < StandardError; end
-    class TokenValidationError < Exception; end
-    class TimestampValidationError < Exception; end
-    class InvalidQuestionnaireDefinition < Exception; end
-
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token
     before_filter :load_custom_stylesheet
@@ -27,8 +21,9 @@ module Quby
 
     rescue_from TokenValidationError,                                           with: :bad_authorization
     rescue_from TimestampValidationError,                                       with: :bad_authorization
-    rescue_from InvalidAuthorization,                                           with: :bad_authorization
-    rescue_from MissingAuthorization,                                           with: :bad_authorization
+    rescue_from TimestampExpiredError,                                          with: :bad_authorization
+    rescue_from InvalidAuthorizationError,                                      with: :bad_authorization
+    rescue_from MissingAuthorizationError,                                      with: :bad_authorization
     rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound,             with: :bad_questionnaire
     rescue_from InvalidQuestionnaireDefinition,                                 with: :bad_questionnaire_definition
     rescue_from Quby::Questionnaires::Entities::Questionnaire::ValidationError, with: :bad_questionnaire_definition
@@ -137,14 +132,14 @@ module Quby
 
     def verify_answer_id_against_session
       if Quby::Settings.authorize_with_id_from_session
-        fail MissingAuthorization unless session[:quby_answer_id].present?
-        fail InvalidAuthorization unless params[:id].to_s == session[:quby_answer_id].to_s
+        fail MissingAuthorizationError unless session[:quby_answer_id].present?
+        fail InvalidAuthorizationError unless params[:id].to_s == session[:quby_answer_id].to_s
       end
     end
 
     def verify_token
       if Quby::Settings.authorize_with_hmac
-        fail InvalidAuthorization unless @answer.token == (params[:token] || @answer_token)
+        fail InvalidAuthorizationError unless @answer.token == (params[:token] || @answer_token)
       end
     end
 
@@ -168,7 +163,7 @@ module Quby
 
         if time < 24.hours.ago or 1.hour.since < time
           logger.error "ERROR::Authentication error: Request expired"
-          fail RequestExpiredError
+          fail TimestampExpiredError
         end
 
         if current_hmac != hmac && (previous_hmac.blank? || previous_hmac != hmac)

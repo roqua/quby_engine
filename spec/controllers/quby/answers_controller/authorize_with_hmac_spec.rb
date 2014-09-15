@@ -38,33 +38,33 @@ module Quby
       it 'raises when no hmac is given' do
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp
-        end.to raise_error(AnswersController::TokenValidationError)
+        end.to raise_error(TokenValidationError)
       end
 
       it 'raises when wrong hmac is given' do
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp, hmac: 'wrong'
-        end.to raise_error(AnswersController::TokenValidationError)
+        end.to raise_error(TokenValidationError)
       end
 
       it 'raises when wrong hmac is given when previous secret is configured' do
         Quby::Settings.stub(previous_shared_secret: 'old_secret')
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp, hmac: 'wrong'
-        end.to raise_error(AnswersController::TokenValidationError)
+        end.to raise_error(TokenValidationError)
       end
 
       it 'raises when HMAC is not configured' do
         Quby::Settings.stub(shared_secret: nil)
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp
-        end.to raise_error(AnswersController::TokenValidationError)
+        end.to raise_error(TokenValidationError)
       end
 
       it 'checks timestamp validity before checking the hmac validity' do
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac, timestamp: "fake"
-        end.to raise_error(AnswersController::TimestampValidationError)
+        end.to raise_error(TimestampValidationError)
       end
 
       it 'redirects to roqua if the timestamp is expired' do
@@ -74,8 +74,9 @@ module Quby
                    timestamp: 1.day.ago.strftime("%Y-%m-%dT%H:%M:%S+00:00"),
                    return_token: 'asdf',
                    return_url: "/evaluate/collect_answers"
-        expect(response).to redirect_to("/evaluate/collect_answers?expired_session=true" \
-                                        "&key=asdf&return_from=quby&return_from_answer=#{answer.id}")
+        expect(response).to redirect_to("/evaluate/collect_answers?error=Quby%3A%3ATimestampExpiredError" \
+                                        "&key=asdf&return_from=quby&return_from_answer=#{answer.id}" \
+                                        "&status=error")
       end
     end
   end

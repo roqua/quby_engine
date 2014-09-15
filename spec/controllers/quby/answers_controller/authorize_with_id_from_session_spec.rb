@@ -23,12 +23,12 @@ module Quby
     it 'disallows requests when they dont match with session' do
       session[:quby_answer_id] = '2'
       get :edit, questionnaire_id: 'honos', id: '1', return_url: '/returnurl', return_token: 'asdf'
-      expect(response).to redirect_to('/returnurl?error=Quby%3A%3AAnswersController%3A%3AInvalidAuthorization&key=asdf&return_from=quby&return_from_answer=1&status=error')
+      expect(response).to redirect_to('/returnurl?error=Quby%3A%3AInvalidAuthorizationError&key=asdf&return_from=quby&return_from_answer=1&status=error')
     end
 
     it 'disallows requests when they have no session' do
       get :edit, questionnaire_id: 'honos', id: '1', return_url: '/returnurl', return_token: 'asdf'
-      expect(response).to redirect_to('/returnurl?error=Quby%3A%3AAnswersController%3A%3AMissingAuthorization&key=asdf&return_from=quby&return_from_answer=1&status=error')
+      expect(response).to redirect_to('/returnurl?error=Quby%3A%3AMissingAuthorizationError&key=asdf&return_from=quby&return_from_answer=1&status=error')
     end
     # rubocop:enable LineLength
   end
