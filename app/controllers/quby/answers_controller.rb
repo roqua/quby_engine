@@ -8,18 +8,19 @@ module Quby
     class TokenValidationError < Exception; end
     class TimestampValidationError < Exception; end
 
-    before_filter :find_questionnaire
-    before_filter :check_questionnaire_valid
-    append_before_filter :find_answer
-
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token
     before_filter :load_custom_stylesheet
     before_filter :load_display_mode
 
     before_filter :authorize!
+    before_filter :verify_hmac, only: [:edit, :print]
+
+    before_filter :find_questionnaire
+    before_filter :check_questionnaire_valid
+
+    before_filter :find_answer
     before_filter :verify_token, only: [:show, :edit, :update, :print]
-    before_filter :verify_hmac,  only: [:edit, :print]
 
     before_filter :prevent_browser_cache, only: :edit
     before_filter :check_aborted, only: :update
@@ -246,7 +247,7 @@ module Quby
       # it's own hash, hence the (otherwise unneeded) temporary variable
       query_values = (address.query_values || {})
       query_values.merge!(key: @return_token, return_from: "quby")
-      query_values.merge!(return_from_answer: @answer.id)
+      query_values.merge!(return_from_answer: params[:id])
       options.each { |key, value| query_values[key] = value if value }
 
       address.query_values = query_values
