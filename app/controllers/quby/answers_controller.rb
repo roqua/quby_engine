@@ -161,11 +161,6 @@ module Quby
           previous_hmac = calculate_hmac(Quby::Settings.previous_shared_secret, token, timestamp)
         end
 
-        if timestamp =~ /EB_PLUS/
-          logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
-          fail TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
-        end
-
         unless timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ and time = Time.parse(timestamp)
           logger.error "ERROR::Authentication error: Invalid timestamp."
           fail TimestampValidationError
