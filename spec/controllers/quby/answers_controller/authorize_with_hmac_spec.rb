@@ -35,12 +35,6 @@ module Quby
         expect(response).to render_template('v1/paged')
       end
 
-      it 'Facebook spider does not report' do
-        get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac,
-                   timestamp: timestamp.gsub(" ", "EB_PLUS")
-        expect(response).to render_template('errors/generic')
-      end
-
       it 'raises when no hmac is given' do
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp

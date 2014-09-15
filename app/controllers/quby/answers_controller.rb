@@ -25,8 +25,8 @@ module Quby
 
     before_filter :check_aborted, only: :update
 
-    rescue_from TokenValidationError,                               with: :bad_token
-    rescue_from TimestampValidationError,                           with: :bad_timestamp
+    rescue_from TokenValidationError,                               with: :bad_authorization
+    rescue_from TimestampValidationError,                           with: :bad_authorization
     rescue_from InvalidAuthorization,                               with: :bad_authorization
     rescue_from MissingAuthorization,                               with: :bad_authorization
     rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound, with: :bad_questionnaire
@@ -56,7 +56,7 @@ module Quby
         elsif @return_url.blank?
           render_versioned_template "completed", layout: request.xhr? ? "content_only" : 'application'
         else
-          redirect_url = return_url(status: return_status)
+          redirect_url = return_url(status: 'updated', action: form_action)
           request.xhr? ?
             render(js: "window.location = '#{redirect_url}'") :
             redirect_to(redirect_url)
@@ -79,32 +79,12 @@ module Quby
       update true
     end
 
-    def bad_token(exception)
-      if @return_url
-        redirect_to return_url(status: 'error', error: exception.class.to_s)
-      else
-        @error = "Er is geen of een ongeldige token meegegeven."
-        render template: "quby/errors/generic", layout: "quby/dialog"
-        handle_exception exception unless exception.message =~ /Facebook/
-      end
-    end
-
     def bad_questionnaire(exception)
       if @return_url
         redirect_to return_url(status: 'error', error: exception.class.to_s)
       else
         @error = exception
         render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
-      end
-    end
-
-    def bad_timestamp(exception)
-      if @return_url
-        redirect_to return_url(status: 'error', error: exception.class.to_s)
-      else
-        @error = "Uw authenticatie is verlopen."
-        render template: "quby/errors/generic", layout: "quby/dialog"
-        handle_exception exception
       end
     end
 
@@ -239,7 +219,7 @@ module Quby
              layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
     end
 
-    def return_status
+    def form_action
       case params[:commit]
       when "Onderbreken"
         "close"
