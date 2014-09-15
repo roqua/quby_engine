@@ -27,7 +27,7 @@ if defined?(RSpec)
       it 'creates new records' do
         answer = repo.create!('simple', attributes)
 
-        answer.id.should be_present
+        expect(answer.id).to be_present
         verify(answer)
       end
     end
@@ -38,7 +38,7 @@ if defined?(RSpec)
         answer2 = repo.create!('simple', attributes.merge(_id: 'answer2'))
 
         answers = repo.all('simple')
-        answers.map(&:id).should eq([answer1.id, answer2.id])
+        expect(answers.map(&:id)).to eq([answer1.id, answer2.id])
 
       end
 
@@ -46,7 +46,7 @@ if defined?(RSpec)
         answer    = repo.create!('simple', attributes)
         retrieved = repo.find('simple', answer.id)
 
-        retrieved.id.should eq(answer.id)
+        expect(retrieved.id).to eq(answer.id)
         verify(retrieved)
       end
 
@@ -74,20 +74,20 @@ if defined?(RSpec)
         repo.update!(answer)
 
         retrieved = repo.find('simple', answer.id)
-        retrieved.id.should eq(answer.id)
+        expect(retrieved.id).to eq(answer.id)
         verify(retrieved)
       end
 
       it 'updates reorderings of scores' do
         answer = repo.create!('simple', scores: {tot: {label: 'Totaalscore'},
                                                  sub: {label: 'Subscore'}})
-        answer.scores.keys.should eq %w(tot sub)
-        repo.reload(answer).scores.keys.should eq %w(tot sub)
+        expect(answer.scores.keys).to eq %w(tot sub)
+        expect(repo.reload(answer).scores.keys).to eq %w(tot sub)
 
         answer.scores = {sub: {label: 'Subscore'}, tot: {label: 'Totaalscore'}}
-        answer.scores.keys.should eq %w(sub tot)
+        expect(answer.scores.keys).to eq %w(sub tot)
         repo.update!(answer)
-        repo.reload(answer).scores.keys.should eq %w(sub tot)
+        expect(repo.reload(answer).scores.keys).to eq %w(sub tot)
       end
     end
 
@@ -105,19 +105,19 @@ if defined?(RSpec)
     end
 
     def verify(record)
-      record.questionnaire_key.should    eq('simple')
-      record.raw_params.should           eq(stringified(attributes[:raw_params]))
-      record.value.should                eq(stringified(attributes[:value]))
-      record.patient.should              eq(stringified(attributes[:patient]))
-      record.active.should               eq(true)
-      record.test.should                 eq(false)
-      record.completed_at.should         eq(attributes[:completed_at])
-      record.outcome_generated_at.should eq(attributes[:outcome_generated_at])
-      record.scores.should               eq(stringified(attributes[:scores]))
-      record.actions.should              eq(stringified(attributes[:actions]))
-      record.completion.should           eq(stringified(attributes[:completion]))
-      record.import_notes.should         eq(stringified(attributes[:import_notes]))
-      record.dsl_last_update.should      be_present
+      expect(record.questionnaire_key).to    eq('simple')
+      expect(record.raw_params).to           eq(stringified(attributes[:raw_params]))
+      expect(record.value).to                eq(stringified(attributes[:value]))
+      expect(record.patient).to              eq(stringified(attributes[:patient]))
+      expect(record.active).to               eq(true)
+      expect(record.test).to                 eq(false)
+      expect(record.completed_at).to         eq(attributes[:completed_at])
+      expect(record.outcome_generated_at).to eq(attributes[:outcome_generated_at])
+      expect(record.scores).to               eq(stringified(attributes[:scores]))
+      expect(record.actions).to              eq(stringified(attributes[:actions]))
+      expect(record.completion).to           eq(stringified(attributes[:completion]))
+      expect(record.import_notes).to         eq(stringified(attributes[:import_notes]))
+      expect(record.dsl_last_update).to      be_present
     end
 
     def stringified(hash)
