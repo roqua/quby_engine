@@ -7,6 +7,7 @@ module Quby
     class MissingAuthorization < StandardError; end
     class TokenValidationError < Exception; end
     class TimestampValidationError < Exception; end
+    class InvalidQuestionnaireDefinition < Exception; end
 
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token
@@ -24,11 +25,12 @@ module Quby
 
     before_filter :check_aborted, only: :update
 
-    rescue_from TokenValidationError,     with: :bad_token
-    rescue_from TimestampValidationError, with: :bad_timestamp
-    rescue_from InvalidAuthorization,     with: :bad_authorization
-    rescue_from MissingAuthorization,     with: :bad_authorization
+    rescue_from TokenValidationError,                               with: :bad_token
+    rescue_from TimestampValidationError,                           with: :bad_timestamp
+    rescue_from InvalidAuthorization,                               with: :bad_authorization
+    rescue_from MissingAuthorization,                               with: :bad_authorization
     rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound, with: :bad_questionnaire
+    rescue_from InvalidQuestionnaireDefinition,                     with: :bad_questionnaire_definition
 
     def show
       redirect_to action: "edit"
@@ -78,25 +80,50 @@ module Quby
     end
 
     def bad_token(exception)
-      @error = "Er is geen of een ongeldige token meegegeven."
-      render template: "quby/errors/generic", layout: "quby/dialog"
-      handle_exception exception unless exception.message =~ /Facebook/
+      if @return_url
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+      else
+        @error = "Er is geen of een ongeldige token meegegeven."
+        render template: "quby/errors/generic", layout: "quby/dialog"
+        handle_exception exception unless exception.message =~ /Facebook/
+      end
     end
 
     def bad_questionnaire(exception)
-      @error = exception
-      render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
+      if @return_url
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+      else
+        @error = exception
+        render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
+      end
     end
 
     def bad_timestamp(exception)
-      @error = "Uw authenticatie is verlopen."
-      render template: "quby/errors/generic", layout: "quby/dialog"
-      handle_exception exception
+      if @return_url
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+      else
+        @error = "Uw authenticatie is verlopen."
+        render template: "quby/errors/generic", layout: "quby/dialog"
+        handle_exception exception
+      end
     end
 
     def bad_authorization(exception)
       if @return_url
-        redirect_to return_url(status: 'authorization_error', return_from_answer: params[:id])
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+      else
+        @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
+        render template: 'quby/errors/generic', layout: 'quby/dialog'
+        handle_exception exception
+      end
+    end
+
+    def invalid_questionnaire_definition(exception)
+      if Quby.show_exceptions
+        render action: :show_questionnaire_errors
+      elsif @return_url
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+        handle_exception exception
       else
         @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
         render template: 'quby/errors/generic', layout: 'quby/dialog'
@@ -115,7 +142,7 @@ module Quby
     def check_questionnaire_valid
       # don't use valid?, since it clears the errors
       return if @questionnaire.errors.size == 0
-      render action: :show_questionnaire_errors
+      raise InvalidQuestionnaireDefinition
     end
 
     def find_answer
