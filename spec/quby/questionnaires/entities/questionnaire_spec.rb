@@ -236,5 +236,34 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.leave_page_alert).to be_nil
       end
     end
+
+    describe 'flags integration' do
+      let(:definition)    do
+        "
+          flag key: :test, description: 'Test flag', shows_questions: [:v_1]
+          flag key: :test2, description: 'Test flag 2', hides_questions: [:v_2]
+        "
+      end
+
+      it 'presents flags that were defined in the definition' do
+        expect(questionnaire.flags).to eq({test: Quby::Questionnaires::Entities::Flag.new(
+                                               key: :test,
+                                               description: 'Test flag',
+                                               shows_questions: [:v_1],
+                                               hides_questions: []),
+                                           test2: Quby::Questionnaires::Entities::Flag.new(
+                                               key: :test2,
+                                               description: 'Test flag 2',
+                                               shows_questions: [],
+                                               hides_questions: [:v_2])})
+      end
+    end
+    describe '#add_flag' do
+      it 'checks if the key is not in use' do
+        questionnaire.add_flag(key: :a, description: 'a')
+        expect { questionnaire.add_flag(key: :a, description: 'a') }.to raise_error(ArgumentError,
+                                                                                    "Flag a already defined")
+      end
+    end
   end
 end

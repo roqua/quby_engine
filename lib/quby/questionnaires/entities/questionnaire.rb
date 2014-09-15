@@ -31,6 +31,7 @@ module Quby
           @renderer_version = :v1
           @extra_css = ""
           @panels = []
+          @flags = {}
         end
 
         attr_accessor :key
@@ -55,6 +56,8 @@ module Quby
         attr_accessor :last_update
 
         attr_accessor :charts
+
+        attr_accessor :flags
 
         delegate :question_hash,     to: :fields
         delegate :input_keys,        to: :fields
@@ -186,6 +189,12 @@ module Quby
 
         def add_chart(chart)
           charts.add chart
+        end
+
+        def add_flag(flag_options)
+          key = flag_options[:key]
+          fail(ArgumentError, "Flag #{key} already defined") if flags.key?(key)
+          flags[key] = Quby::Questionnaires::Entities::Flag.new(flag_options)
         end
       end
     end
