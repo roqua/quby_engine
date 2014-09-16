@@ -246,12 +246,12 @@ module Quby::Questionnaires::Entities
       end
 
       it 'presents flags that were defined in the definition' do
-        expect(questionnaire.flags).to eq({test: Quby::Questionnaires::Entities::Flag.new(
+        expect(questionnaire.flags).to eq({  test: Quby::Questionnaires::Entities::Flag.new(
                                                key: :test,
                                                description: 'Test flag',
                                                shows_questions: [:v_1],
                                                hides_questions: []),
-                                           test2: Quby::Questionnaires::Entities::Flag.new(
+                                             test2: Quby::Questionnaires::Entities::Flag.new(
                                                key: :test2,
                                                description: 'Test flag 2',
                                                shows_questions: [],
@@ -262,7 +262,7 @@ module Quby::Questionnaires::Entities
       it 'checks if the key is not in use' do
         questionnaire.add_flag(key: :a, description: 'a')
         expect { questionnaire.add_flag(key: :a, description: 'a') }.to raise_error(ArgumentError,
-                                                                                    "Flag a already defined")
+                                                                                    "Flag 'a' already defined")
       end
     end
   end

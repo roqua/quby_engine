@@ -193,7 +193,7 @@ module Quby
 
         def add_flag(flag_options)
           key = flag_options[:key]
-          fail(ArgumentError, "Flag #{key} already defined") if flags.key?(key)
+          fail(ArgumentError, "Flag '#{key}' already defined") if flags.key?(key)
           flags[key] = Quby::Questionnaires::Entities::Flag.new(flag_options)
         end
       end

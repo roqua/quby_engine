@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'quby/questionnaires/entities/flags/flag'
 
 module Quby::Answers::Entities
   describe Answer do
@@ -19,7 +20,18 @@ module Quby::Answers::Entities
              actions: [],
              completion: nil,
              default_answer_value: {},
-             last_update: Time.now)
+             last_update: Time.now,
+             flags: { test: Quby::Questionnaires::Entities::Flag.new(
+                        key: :test,
+                        description: 'Test flag',
+                        shows_questions: [:v_1],
+                        hides_questions: []),
+                      test2: Quby::Questionnaires::Entities::Flag.new(
+                        key: :test2,
+                        description: 'Test flag 2',
+                        shows_questions: [],
+                        hides_questions: [:v_2]) }
+      )
     end
 
     before do
@@ -189,6 +201,14 @@ module Quby::Answers::Entities
         answer.q1 = "Bar"
         answer.mark_completed(Time.now)
         answer.completed_at.should == time
+      end
+    end
+
+    describe "#filter_flags" do
+      let(:answer) { Answer.new }
+
+      it 'filters out flags that are not defined on the questionnaire' do
+        expect(answer.send(:filter_flags, {a: true, test: false})).to eq({test: false})
       end
     end
   end

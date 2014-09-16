@@ -31,6 +31,7 @@ module Quby
         attribute :completion,           Hash,    default: {}
         attribute :dsl_last_update
         attribute :import_notes,         Hash                      # For answers that are imported from external sources
+        attribute :flags,                Hash[Symbol => Boolean]
 
         attr_accessor :aborted
 
@@ -214,6 +215,12 @@ module Quby
         end
 
         protected
+
+        def filter_flags(flags)
+          flags.select do |flag_key, _|
+            questionnaire.flags.key? flag_key
+          end
+        end
 
         def calc_answered(qkeys)
           answered = 0
