@@ -3,32 +3,30 @@ require 'addressable/uri'
 
 module Quby
   class AnswersController < Quby::ApplicationController
-    class InvalidAuthorization < StandardError; end
-    class MissingAuthorization < StandardError; end
-    class TokenValidationError < Exception; end
-    class TimestampValidationError < Exception; end
-
-    before_filter :find_questionnaire
-    before_filter :check_questionnaire_valid
-    append_before_filter :find_answer
-
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token
     before_filter :load_custom_stylesheet
     before_filter :load_display_mode
 
-    before_filter :authorize!
-    before_filter :verify_token, only: [:show, :edit, :update, :print]
-    before_filter :verify_hmac,  only: [:edit, :print]
+    before_filter :verify_answer_id_against_session
+    before_filter :verify_hmac, only: [:edit, :print]
 
-    before_filter :prevent_browser_cache, only: :edit
+    before_filter :find_questionnaire
+    before_filter :check_questionnaire_valid
+
+    before_filter :find_answer
+    before_filter :verify_token, only: [:show, :edit, :update, :print]
+
     before_filter :check_aborted, only: :update
 
-    rescue_from TokenValidationError,     with: :bad_token
-    rescue_from TimestampValidationError, with: :bad_timestamp
-    rescue_from InvalidAuthorization,     with: :bad_authorization
-    rescue_from MissingAuthorization,     with: :bad_authorization
-    rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound, with: :bad_questionnaire
+    rescue_from TokenValidationError,                                           with: :bad_authorization
+    rescue_from TimestampValidationError,                                       with: :bad_authorization
+    rescue_from TimestampExpiredError,                                          with: :bad_authorization
+    rescue_from InvalidAuthorizationError,                                      with: :bad_authorization
+    rescue_from MissingAuthorizationError,                                      with: :bad_authorization
+    rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound,             with: :bad_questionnaire
+    rescue_from InvalidQuestionnaireDefinitionError,                            with: :bad_questionnaire_definition
+    rescue_from Quby::Questionnaires::Entities::Questionnaire::ValidationError, with: :bad_questionnaire_definition
 
     def show
       redirect_to action: "edit"
@@ -36,13 +34,6 @@ module Quby
 
     def edit
       render_versioned_template @display_mode
-    rescue Quby::Questionnaires::Entities::Questionnaire::ValidationError => e
-      if Quby.show_exceptions
-        @error = e
-        render action: 'show_questionnaire_errors'
-      else
-        raise
-      end
     end
 
     def update(printing = false)
@@ -54,7 +45,7 @@ module Quby
         elsif @return_url.blank?
           render_versioned_template "completed", layout: request.xhr? ? "content_only" : 'application'
         else
-          redirect_url = roqua_redirect(status: return_status)
+          redirect_url = return_url(status: 'updated', go: form_action)
           request.xhr? ?
             render(js: "window.location = '#{redirect_url}'") :
             redirect_to(redirect_url)
@@ -77,26 +68,9 @@ module Quby
       update true
     end
 
-    def bad_token(exception)
-      @error = "Er is geen of een ongeldige token meegegeven."
-      render template: "quby/errors/generic", layout: "quby/dialog"
-      handle_exception exception unless exception.message =~ /Facebook/
-    end
-
-    def bad_questionnaire(exception)
-      @error = exception
-      render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
-    end
-
-    def bad_timestamp(exception)
-      @error = "Uw authenticatie is verlopen."
-      render template: "quby/errors/generic", layout: "quby/dialog"
-      handle_exception exception
-    end
-
     def bad_authorization(exception)
       if @return_url
-        redirect_to roqua_redirect(status: 'authorization_error', return_from_answer: params[:id])
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
       else
         @error = "U probeert een vragenlijst te openen waar u geen toegang toe heeft op dit moment."
         render template: 'quby/errors/generic', layout: 'quby/dialog'
@@ -104,19 +78,25 @@ module Quby
       end
     end
 
-    def handle_exception(exception)
-      logger.error("EXCEPTION: #{exception.message}")
-      logger.error(exception.backtrace)
+    def bad_questionnaire(exception)
+      if @return_url
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+      else
+        @error = exception
+        render template: "quby/errors/questionnaire_not_found", layout: "quby/dialog", status: 404
+      end
+    end
 
-      if Rails.env.development? || Rails.env.test?
-        logger.error "Exception reraised"
-        fail exception
-      elsif defined?(notify_airbrake)
-        logger.error "Exception sent to Airbrake"
-        notify_airbrake(exception)
-      elsif defined?(ExceptionNotifier)
-        logger.error "Exception sent to ExceptionNotifier"
-        ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+    def bad_questionnaire_definition(exception)
+      if Quby.show_exceptions
+        render action: :show_questionnaire_errors
+      elsif @return_url
+        redirect_to return_url(status: 'error', error: exception.class.to_s)
+        handle_exception exception
+      else
+        @error = "Er is iets mis met de vragenlijst zoals deze in ons systeem is ingebouwd."
+        render template: 'quby/errors/generic', layout: 'quby/dialog'
+        handle_exception exception
       end
     end
 
@@ -131,7 +111,7 @@ module Quby
     def check_questionnaire_valid
       # don't use valid?, since it clears the errors
       return if @questionnaire.errors.size == 0
-      render action: :show_questionnaire_errors
+      fail InvalidQuestionnaireDefinitionError
     end
 
     def find_answer
@@ -150,19 +130,16 @@ module Quby
       end
     end
 
-    def authorize!
+    def verify_answer_id_against_session
       if Quby::Settings.authorize_with_id_from_session
-        fail MissingAuthorization unless session[:quby_answer_id].present?
-        fail InvalidAuthorization unless params[:id].to_s == session[:quby_answer_id].to_s
+        fail MissingAuthorizationError unless session[:quby_answer_id].present?
+        fail InvalidAuthorizationError unless params[:id].to_s == session[:quby_answer_id].to_s
       end
     end
 
     def verify_token
       if Quby::Settings.authorize_with_hmac
-        unless @answer.token == (params[:token] || @answer_token)
-          flash[:error] = I18n.t(:invalid_answer_get, locale: :nl)
-          redirect_to "/"
-        end
+        fail InvalidAuthorizationError unless @answer.token == (params[:token] || @answer_token)
       end
     end
 
@@ -179,11 +156,6 @@ module Quby
           previous_hmac = calculate_hmac(Quby::Settings.previous_shared_secret, token, timestamp)
         end
 
-        if timestamp =~ /EB_PLUS/
-          logger.error "ERROR::Authentiocation error: Facebook Spider with malformed parameters"
-          fail TokenValidationError, "Facebook Spider with EB_PLUS in timestamp"
-        end
-
         unless timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ and time = Time.parse(timestamp)
           logger.error "ERROR::Authentication error: Invalid timestamp."
           fail TimestampValidationError
@@ -191,7 +163,7 @@ module Quby
 
         if time < 24.hours.ago or 1.hour.since < time
           logger.error "ERROR::Authentication error: Request expired"
-          redirect_to roqua_redirect(expired_session: "true") and return
+          fail TimestampExpiredError
         end
 
         if current_hmac != hmac && (previous_hmac.blank? || previous_hmac != hmac)
@@ -228,25 +200,25 @@ module Quby
              layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
     end
 
-    def return_status
+    def form_action
       case params[:commit]
       when "Onderbreken"
-        "close"
+        "stop"
       when "← Vorige vragenlijst"
         "back"
       else
-        nil
+        'next'
       end
     end
 
-    def roqua_redirect(options = {})
+    def return_url(options = {})
       address = Addressable::URI.parse(@return_url)
 
       # Addressable behaves strangely if were to do this directly on
       # it's own hash, hence the (otherwise unneeded) temporary variable
       query_values = (address.query_values || {})
       query_values.merge!(key: @return_token, return_from: "quby")
-      query_values.merge!(return_from_answer: @answer.id)
+      query_values.merge!(return_from_answer: params[:id])
       options.each { |key, value| query_values[key] = value if value }
 
       address.query_values = query_values

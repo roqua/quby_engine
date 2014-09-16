@@ -36,10 +36,20 @@ module Quby
       end
 
       context 'upon successful save' do
-        let(:honos)      { Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string)") }
-        let(:answer)     { create_answer(honos) }
-        let(:url)        { "http://example.org" }
-        let(:return_url) { url + "?key=abcd&return_from=quby&return_from_answer=#{answer.id}" }
+        let(:honos)        { Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string)") }
+        let(:answer)       { create_answer(honos) }
+        let(:return_token) { 'abcd' }
+        let(:return_url)   { "http://example.org" }
+
+        def expected_return_url(options = {})
+          Addressable::URI.parse(return_url).tap do |uri|
+            uri.query_values = {key: return_token,
+                                return_from: 'quby',
+                                return_from_answer: answer.id,
+                                status: 'updated',
+                                go: 'next'}.merge(options)
+          end.to_s
+        end
 
         it 'renders print view if printing' do
           put "/quby/questionnaires/honos/answers/#{answer.id}/print", answer: {v_1: nil}
@@ -54,39 +64,39 @@ module Quby
         it 'redirects to roqua if return url is set' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
               answer: {v_1: nil},
-              return_url: url,
-              return_token: "abcd"
+              return_url: return_url,
+              return_token: return_token
 
-          response.should redirect_to(return_url)
+          response.should redirect_to(expected_return_url)
         end
 
         it 'respects existing query parameters in return url' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
               answer: {v_1: nil},
-              return_url: url + "?a=b",
-              return_token: "abcd"
+              return_url: return_url + "?a=b",
+              return_token: return_token
 
-          response.should redirect_to(url + "?a=b&key=abcd&return_from=quby&return_from_answer=#{answer.id}")
+          response.should redirect_to(expected_return_url(a: 'b'))
         end
 
-        it 'redirects with status of "close" if abort button was clicked' do
+        it 'redirects with go of "close" if abort button was clicked' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
               answer: {v_1: nil},
-              return_url: url,
-              return_token: "abcd",
+              return_url: return_url,
+              return_token: return_token,
               commit: "Onderbreken"
 
-          response.should redirect_to(return_url + "&status=close")
+          response.should redirect_to(expected_return_url(go: 'stop'))
         end
 
-        it 'redirects with status of "back" when a user navigates back' do
+        it 'redirects with go of "back" when a user navigates back' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
               answer: {v_1: nil},
-              return_url: url,
-              return_token: "abcd",
+              return_url: return_url,
+              return_token: return_token,
               commit: "← Vorige vragenlijst"
 
-          response.should redirect_to(return_url + "&status=back")
+          response.should redirect_to(expected_return_url(go: 'back'))
         end
       end
     end

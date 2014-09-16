@@ -8,6 +8,14 @@ require 'quby/answers/repos/memory_repo'
 require "quby/engine"
 
 module Quby
+  class BaseError < StandardError; end
+  class InvalidAuthorizationError < BaseError; end
+  class MissingAuthorizationError < BaseError; end
+  class TokenValidationError < BaseError; end
+  class TimestampValidationError < BaseError; end
+  class TimestampExpiredError < BaseError; end
+  class InvalidQuestionnaireDefinitionError < BaseError; end
+
   class << self
     # ==================================================================================================================
     #                     Quby configuration

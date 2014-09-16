@@ -8,6 +8,7 @@ module Quby
     protect_from_forgery
 
     around_filter :log_session_hash
+    before_filter :prevent_browser_cache
     before_filter :enable_internet_explorer_cookies_inside_iframe
     before_filter :configure_x_frame_header
 
@@ -75,6 +76,22 @@ module Quby
       yield
 
       logger.info  "  Post-request session hash: #{session.to_json}"
+    end
+
+    def handle_exception(exception)
+      logger.error("EXCEPTION: #{exception.message}")
+      logger.error(exception.backtrace)
+
+      if Rails.env.development? || Rails.env.test?
+        logger.error "Exception reraised"
+        fail exception
+      elsif defined?(notify_airbrake)
+        logger.error "Exception sent to Airbrake"
+        notify_airbrake(exception)
+      elsif defined?(ExceptionNotifier)
+        logger.error "Exception sent to ExceptionNotifier"
+        ExceptionNotifier::Notifier.exception_notification(request.env, exception).deliver
+      end
     end
   end
 end
