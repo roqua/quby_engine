@@ -25,7 +25,7 @@ module Quby
     rescue_from InvalidAuthorizationError,                                      with: :bad_authorization
     rescue_from MissingAuthorizationError,                                      with: :bad_authorization
     rescue_from Quby::Questionnaires::Repos::QuestionnaireNotFound,             with: :bad_questionnaire
-    rescue_from InvalidQuestionnaireDefinition,                                 with: :bad_questionnaire_definition
+    rescue_from InvalidQuestionnaireDefinitionError,                            with: :bad_questionnaire_definition
     rescue_from Quby::Questionnaires::Entities::Questionnaire::ValidationError, with: :bad_questionnaire_definition
 
     def show
@@ -111,7 +111,7 @@ module Quby
     def check_questionnaire_valid
       # don't use valid?, since it clears the errors
       return if @questionnaire.errors.size == 0
-      fail InvalidQuestionnaireDefinition
+      fail InvalidQuestionnaireDefinitionError
     end
 
     def find_answer
