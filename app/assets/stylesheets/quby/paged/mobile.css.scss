@@ -28,10 +28,10 @@
         .radiocheckwrapper { @include span-columns(1); }
         .labelwrapper { @include span-columns($columns - 1 omega); }
 
-        // &.show_values {
-        //   .value { @include span-columns(1); }
-        //   .labelwrapper { @include span-columns($columns - 2 omega); }
-        // }
+        &.show_values {
+           .value { @include span-columns(1); }
+           .labelwrapper { @include span-columns($columns - 2 omega); }
+        }
 
         // .subquestions {
         //   @include pre(1);
