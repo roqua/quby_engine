@@ -56,6 +56,7 @@ module Quby
             completion:           given_attributes.fetch(:completion,           {}),
             started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
+            flags:                given_attributes.fetch(:flags,                {}),
             value:                default_answer_value(questionnaire, given_attributes)
           }
         end
@@ -82,6 +83,7 @@ module Quby
           record.scores               = answer.scores.stringify_keys
           record.actions              = answer.actions.stringify_keys
           record.completion           = answer.completion.stringify_keys
+          record.flags                = answer.flags
         end
 
         def entities(records)
