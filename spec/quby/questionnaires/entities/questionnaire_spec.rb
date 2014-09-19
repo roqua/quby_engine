@@ -240,29 +240,33 @@ module Quby::Questionnaires::Entities
     describe 'flags integration' do
       let(:definition)    do
         "
-          flag key: :test, description: 'Test flag', shows_questions: [:v_1]
-          flag key: :test2, description: 'Test flag 2', hides_questions: [:v_2]
+        flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit', shows_questions: [:v_1]
+        flag key: :test2, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', hides_questions: [:v_2]
         "
       end
 
       it 'presents flags that were defined in the definition' do
-        expect(questionnaire.flags).to eq({  test: Quby::Questionnaires::Entities::Flag.new(
-                                               key: :test,
-                                               description: 'Test flag',
-                                               shows_questions: [:v_1],
-                                               hides_questions: []),
-                                             test2: Quby::Questionnaires::Entities::Flag.new(
-                                               key: :test2,
-                                               description: 'Test flag 2',
-                                               shows_questions: [],
-                                               hides_questions: [:v_2])})
+        expect(questionnaire.flags).to eq({ test: Quby::Questionnaires::Entities::Flag.new(
+                                                 key: :test,
+                                                 description_true: 'Test flag',
+                                                 description_false: 'Test flag uit',
+                                                 shows_questions: [:v_1],
+                                                 hides_questions: []),
+                                            test2: Quby::Questionnaires::Entities::Flag.new(
+                                                key: :test2,
+                                                description_true: 'Test flag 2',
+                                                description_false: 'Test flag 2 uit',
+                                                shows_questions: [],
+                                                hides_questions: [:v_2]) })
       end
     end
     describe '#add_flag' do
       it 'checks if the key is not in use' do
-        questionnaire.add_flag(key: :a, description: 'a')
-        expect { questionnaire.add_flag(key: :a, description: 'a') }.to raise_error(ArgumentError,
-                                                                                    "Flag 'a' already defined")
+        questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a')
+        expect do questionnaire.add_flag(key: :a,
+                                         description_true: 'a',
+                                         description_false: 'not a')
+        end.to raise_error(ArgumentError, "Flag 'a' already defined")
       end
     end
   end
