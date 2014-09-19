@@ -23,12 +23,14 @@ module Quby::Answers::Entities
              last_update: Time.now,
              flags: { test: Quby::Questionnaires::Entities::Flag.new(
                         key: :test,
-                        description: 'Test flag',
+                        description_true: 'Test flag',
+                        description_false: 'Test flag uit',
                         shows_questions: [:v_1],
                         hides_questions: []),
                       test2: Quby::Questionnaires::Entities::Flag.new(
                         key: :test2,
-                        description: 'Test flag 2',
+                        description_true: 'Test flag 2',
+                        description_false: 'Test flag 2 uit',
                         shows_questions: [],
                         hides_questions: [:v_2]) }
       )
