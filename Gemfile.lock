@@ -109,7 +109,7 @@ GEM
     equalizer (0.0.9)
     erubis (2.7.0)
     execjs (2.0.2)
-    fakefs (0.5.0)
+    fakefs (0.5.2)
     fast_stack (0.1.0)
       rake
       rake-compiler
