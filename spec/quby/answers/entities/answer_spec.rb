@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'quby/questionnaires/entities/flags/flag'
 
 module Quby::Answers::Entities
   describe Answer do
