@@ -28,9 +28,12 @@ module Quby
               result.reverse_merge!(calculation.options) if calculation.score
               result = {"value" => result} if calculation.completion
               results[key] = result
-            rescue StandardError => e
-              results[key] = {exception: e.message,
-                              backtrace: e.backtrace}.reverse_merge(calculation.options)
+            rescue StandardError => exception
+              if defined? Roqua::Support::Errors
+                Roqua::Support::Errors.report exception, root_path: Rails.root.to_s
+              end
+              results[key] = {exception: exception.message,
+                              backtrace: exception.backtrace}.reverse_merge(calculation.options)
             end
 
             score_results[key] = results[key] if calculation.score
