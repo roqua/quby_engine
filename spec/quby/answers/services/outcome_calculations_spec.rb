@@ -112,7 +112,7 @@ module Quby::Answers::Services
       context 'when calculation throws an exception' do
         it 'reports the exception' do
           exception = StandardError.new 'some error'
-          completion.stub(calculation: proc { raise exception })
+          completion.stub(calculation: proc { fail exception })
           expect(Roqua::Support::Errors).to receive(:report).with(exception, root_path: Rails.root.to_s)
           OutcomeCalculation.new(answer).calculate
         end
