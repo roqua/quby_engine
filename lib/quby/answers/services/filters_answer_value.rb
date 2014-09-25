@@ -7,7 +7,7 @@ module Quby
         end
 
         def filter(attributes)
-          attributes.keep_if do |key, value|
+          attributes.dup.keep_if do |key, value|
             valid_attribute_keys.include? key
           end
         end

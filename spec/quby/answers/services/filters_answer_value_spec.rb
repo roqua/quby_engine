@@ -41,6 +41,12 @@ module Quby::Answers::Services
         expect(attribute_filter.filter("v_7a1" => "value")).to eq("v_7a1" => "value")
         expect(attribute_filter.filter("v_7a2" => "value")).to eq("v_7a2" => "value")
       end
+
+      it 'does not mutate the original hash' do
+        hash = {"foo" => "bar"}
+        expect(attribute_filter.filter(hash)).to eq({})
+        expect(hash).to eq("foo" => "bar")
+      end
     end
   end
 end
