@@ -114,7 +114,7 @@ module Quby::Answers::Services
           exception = StandardError.new 'some error'
           completion.stub(calculation: proc { raise exception })
           expect(Roqua::Support::Errors).to receive(:report).with(exception, root_path: Rails.root.to_s)
-          outcome = OutcomeCalculation.new(answer).calculate
+          OutcomeCalculation.new(answer).calculate
         end
 
         it 'stores the exception' do
