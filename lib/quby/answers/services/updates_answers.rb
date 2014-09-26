@@ -24,7 +24,13 @@ module Quby
           answer.validate_answers
 
           if answer.errors.empty?
-            answer.set_completed_at
+            if new_attributes["rendered_at"]
+              started_completing_at = Time.at(new_attributes["rendered_at"].to_i)
+            else
+              started_completing_at = nil
+            end
+
+            answer.mark_completed(started_completing_at)
             answer.outcome = OutcomeCalculation.new(answer).calculate
             Quby.answers.update!(answer)
             succeed!

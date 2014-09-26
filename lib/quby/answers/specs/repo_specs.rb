@@ -4,22 +4,23 @@ if defined?(RSpec)
 
     let(:attributes) do
       {
-        _id:                  'id-string',
-        questionnaire_id:     123,
-        questionnaire_key:    'quest-key-string',
-        raw_params:           {v_1: 'test', v_2: :a1, some_else: 'other filtered out data'},
-        value:                {v_1: 'test', v_2: :a1},
-        patient:              {id: '123', gender: :male, birthyear: 1970},
-        token:                SecureRandom.hex(8),
-        active:               true,
-        test:                 false,
-        completed_at:         Time.local(2014, 1, 2, 3, 4, 5),
-        outcome_generated_at: Time.local(2014, 1, 2, 3, 6, 7),
-        scores:               {tot: {label: 'Totaalscore', value: 20}},
-        actions:              {attention: [:v_1], alarm: []},
-        completion:           {value: 1.0 / 3.0},
-        import_notes:         {original_id: 'aabbcc', original_values: {'232' => 'a'}},
-        dsl_last_update:      Time.local(2014, 1, 2, 3, 1, 1)
+        _id:                   'id-string',
+        questionnaire_id:      123,
+        questionnaire_key:     'quest-key-string',
+        raw_params:            {v_1: 'test', v_2: :a1, some_else: 'other filtered out data'},
+        value:                 {v_1: 'test', v_2: :a1},
+        patient:               {id: '123', gender: :male, birthyear: 1970},
+        token:                 SecureRandom.hex(8),
+        active:                true,
+        test:                  false,
+        started_completing_at: Time.local(2014, 1, 2, 3, 4, 0),
+        completed_at:          Time.local(2014, 1, 2, 3, 4, 5),
+        outcome_generated_at:  Time.local(2014, 1, 2, 3, 6, 7),
+        scores:                {tot: {label: 'Totaalscore', value: 20}},
+        actions:               {attention: [:v_1], alarm: []},
+        completion:            {value: 1.0 / 3.0},
+        import_notes:          {original_id: 'aabbcc', original_values: {'232' => 'a'}},
+        dsl_last_update:       Time.local(2014, 1, 2, 3, 1, 1)
       }
     end
 
@@ -58,18 +59,19 @@ if defined?(RSpec)
     describe 'record updating' do
       it 'updates records' do
         answer    = repo.create!('simple', {})
-        answer.raw_params           = attributes[:raw_params]
-        answer.value                = attributes[:value]
-        answer.patient              = attributes[:patient]
-        answer.active               = attributes[:active]
-        answer.test                 = attributes[:test]
-        answer.completed_at         = attributes[:completed_at]
-        answer.outcome_generated_at = attributes[:outcome_generated_at]
-        answer.scores               = attributes[:scores]
-        answer.actions              = attributes[:actions]
-        answer.completion           = attributes[:completion]
-        answer.import_notes         = attributes[:import_notes]
-        answer.dsl_last_update      = attributes[:dsl_last_update]
+        answer.raw_params            = attributes[:raw_params]
+        answer.value                 = attributes[:value]
+        answer.patient               = attributes[:patient]
+        answer.active                = attributes[:active]
+        answer.test                  = attributes[:test]
+        answer.started_completing_at = attributes[:started_completing_at]
+        answer.completed_at          = attributes[:completed_at]
+        answer.outcome_generated_at  = attributes[:outcome_generated_at]
+        answer.scores                = attributes[:scores]
+        answer.actions               = attributes[:actions]
+        answer.completion            = attributes[:completion]
+        answer.import_notes          = attributes[:import_notes]
+        answer.dsl_last_update       = attributes[:dsl_last_update]
 
         repo.update!(answer)
 
@@ -105,19 +107,20 @@ if defined?(RSpec)
     end
 
     def verify(record)
-      expect(record.questionnaire_key).to    eq('simple')
-      expect(record.raw_params).to           eq(stringified(attributes[:raw_params]))
-      expect(record.value).to                eq(stringified(attributes[:value]))
-      expect(record.patient).to              eq(stringified(attributes[:patient]))
-      expect(record.active).to               eq(true)
-      expect(record.test).to                 eq(false)
-      expect(record.completed_at).to         eq(attributes[:completed_at])
-      expect(record.outcome_generated_at).to eq(attributes[:outcome_generated_at])
-      expect(record.scores).to               eq(stringified(attributes[:scores]))
-      expect(record.actions).to              eq(stringified(attributes[:actions]))
-      expect(record.completion).to           eq(stringified(attributes[:completion]))
-      expect(record.import_notes).to         eq(stringified(attributes[:import_notes]))
-      expect(record.dsl_last_update).to      be_present
+      expect(record.questionnaire_key).to     eq('simple')
+      expect(record.raw_params).to            eq(stringified(attributes[:raw_params]))
+      expect(record.value).to                 eq(stringified(attributes[:value]))
+      expect(record.patient).to               eq(stringified(attributes[:patient]))
+      expect(record.active).to                eq(true)
+      expect(record.test).to                  eq(false)
+      expect(record.started_completing_at).to eq(attributes[:started_completing_at])
+      expect(record.completed_at).to          eq(attributes[:completed_at])
+      expect(record.outcome_generated_at).to  eq(attributes[:outcome_generated_at])
+      expect(record.scores).to                eq(stringified(attributes[:scores]))
+      expect(record.actions).to               eq(stringified(attributes[:actions]))
+      expect(record.completion).to            eq(stringified(attributes[:completion]))
+      expect(record.import_notes).to          eq(stringified(attributes[:import_notes]))
+      expect(record.dsl_last_update).to       be_present
     end
 
     def stringified(hash)

@@ -11,25 +11,26 @@ module Quby
         include Virtus.model
 
         attribute :_id, String
-        attribute :questionnaire_id,     Integer
-        attribute :questionnaire_key,    String
-        attribute :raw_params,           Hash                      # The raw form data (for recovery purposes)
-        attribute :value,                Hash                      # The filtered and transformed form data
-        attribute :patient_id,           String
-        attribute :patient,              Hash,    default: {}
-        attribute :token,                String
-        attribute :active,               Boolean, default: true
-        attribute :test,                 Boolean, default: false
-        attribute :created_at,           Time
-        attribute :updated_at,           Time
-        attribute :completed_at,         Time
-        attribute :outcome,              Outcome
-        attribute :outcome_generated_at, Time
-        attribute :scores,               Hash,    default: {}
-        attribute :actions,              Hash,    default: {}
-        attribute :completion,           Hash,    default: {}
+        attribute :questionnaire_id,      Integer
+        attribute :questionnaire_key,     String
+        attribute :raw_params,            Hash                     # The raw form data (for recovery purposes)
+        attribute :value,                 Hash                     # The filtered and transformed form data
+        attribute :patient_id,            String
+        attribute :patient,               Hash,    default: {}
+        attribute :token,                 String
+        attribute :active,                Boolean, default: true
+        attribute :test,                  Boolean, default: false
+        attribute :created_at,            Time
+        attribute :updated_at,            Time
+        attribute :started_completing_at, Time
+        attribute :completed_at,          Time
+        attribute :outcome,               Outcome
+        attribute :outcome_generated_at,  Time
+        attribute :scores,                Hash,    default: {}
+        attribute :actions,               Hash,    default: {}
+        attribute :completion,            Hash,    default: {}
         attribute :dsl_last_update
-        attribute :import_notes,         Hash                      # For answers that are imported from external sources
+        attribute :import_notes,          Hash                     # For answers that are imported from external sources
 
         attr_accessor :aborted
 
@@ -74,8 +75,11 @@ module Quby
           Quby.questionnaires.find(questionnaire_key)
         end
 
-        def set_completed_at
-          self.completed_at = Time.now if completed_at.blank? && (completed? || @aborted)
+        def mark_completed(start_time)
+          if completed? || @aborted
+            self.started_completing_at = start_time if started_completing_at.blank?
+            self.completed_at = Time.now if completed_at.blank?
+          end
         end
 
         def enhance_by_dsl

@@ -156,14 +156,14 @@ module Quby::Answers::Entities
       end
     end
 
-    describe "#set_completed_at" do
+    describe "#mark_completed" do
       let(:answer) { Quby.answers.create!('foo') }
       let(:time)   { Time.gm(2011, 11, 5, 11, 24, 00) }
 
       it "should record the time when answer is completed" do
         Timecop.freeze(time) do
           answer.q1 = "Foo"
-          answer.set_completed_at
+          answer.mark_completed(Time.now)
         end
         answer.completed_at.should == time
       end
@@ -171,23 +171,23 @@ module Quby::Answers::Entities
       it "should record the time when answer is aborted" do
         Timecop.freeze(time) do
           answer.aborted = true
-          answer.set_completed_at
+          answer.mark_completed(Time.now)
         end
         answer.completed_at.should == time
       end
 
       it "should not set completed_at for incomplete answers, even if it is called" do
-        answer.set_completed_at
+        answer.mark_completed(Time.now)
         answer.completed_at.should_not be
       end
 
       it "should not change when answer was previously completed" do
         Timecop.freeze(time) do
           answer.q1 = "Foo"
-          answer.set_completed_at
+          answer.mark_completed(Time.now)
         end
         answer.q1 = "Bar"
-        answer.set_completed_at
+        answer.mark_completed(Time.now)
         answer.completed_at.should == time
       end
     end
