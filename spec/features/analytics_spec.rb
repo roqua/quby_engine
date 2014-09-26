@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Analytics' do
-  feature 'Timing how long completing a questionnaire took' do
+  describe 'Timing how long completing a questionnaire took' do
     let(:questionnaire) { Quby.questionnaires.find("simple") }
 
     it 'stores the first time the answer was opened' do
