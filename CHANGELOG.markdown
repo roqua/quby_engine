@@ -1,3 +1,7 @@
+# 2.2.0
+
+* Added `started_at` field. AnswerRepos need to implement this field.
+
 # 2.1.1
 
 * Increased required Virtus version from 1.0.0 to backward compatible 1.0.3.
