@@ -13,8 +13,8 @@ module Quby
         attribute :_id, String
         attribute :questionnaire_id,     Integer
         attribute :questionnaire_key,    String
-        attribute :raw_params,           Hash                     # The raw form data (for recovery purposes)
-        attribute :value,                Hash                     # The filtered and transformed form data
+        attribute :raw_params,           Hash                      # The raw form data (for recovery purposes)
+        attribute :value,                Hash                      # The filtered and transformed form data
         attribute :patient_id,           String
         attribute :patient,              Hash,    default: {}
         attribute :token,                String
@@ -30,7 +30,7 @@ module Quby
         attribute :actions,              Hash,    default: {}
         attribute :completion,           Hash,    default: {}
         attribute :dsl_last_update
-        attribute :import_notes,         Hash                     # For answers that are imported from external sources
+        attribute :import_notes,         Hash                      # For answers that are imported from external sources
 
         attr_accessor :aborted
 
