@@ -31,10 +31,10 @@ module Quby::Answers::Services
         updates_answers.update
       end
 
-      it 'sets the started_completing_at and completed_at' do
-        started_completing_at = Time.new(2014, 2, 4, 5, 6, 7)
-        answer.should_receive(:mark_completed).with(started_completing_at)
-        updates_answers.update("rendered_at" => started_completing_at.to_i.to_s)
+      it 'sets the started_at and completed_at' do
+        started_at = Time.new(2014, 2, 4, 5, 6, 7)
+        answer.should_receive(:mark_completed).with(started_at)
+        updates_answers.update("rendered_at" => started_at.to_i.to_s)
       end
 
       it 'calculates scores' do

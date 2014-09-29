@@ -19,8 +19,8 @@ feature 'Analytics' do
         page.should have_content("Uw antwoorden zijn opgeslagen")
       end
 
-      expect(Quby.answers.reload(answer).started_completing_at).to eq(time_opened)
-      expect(Quby.answers.reload(answer).completed_at).to          eq(time_completed)
+      expect(Quby.answers.reload(answer).started_at).to   eq(time_opened)
+      expect(Quby.answers.reload(answer).completed_at).to eq(time_completed)
     end
   end
 end

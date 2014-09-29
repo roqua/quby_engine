@@ -25,12 +25,12 @@ module Quby
 
           if answer.errors.empty?
             if new_attributes["rendered_at"]
-              started_completing_at = Time.at(new_attributes["rendered_at"].to_i)
+              started_at = Time.at(new_attributes["rendered_at"].to_i)
             else
-              started_completing_at = nil
+              started_at = nil
             end
 
-            answer.mark_completed(started_completing_at)
+            answer.mark_completed(started_at)
             answer.outcome = OutcomeCalculation.new(answer).calculate
             Quby.answers.update!(answer)
             succeed!
