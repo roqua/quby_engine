@@ -54,6 +54,7 @@ module Quby
             scores:               given_attributes.fetch(:scores,               {}),
             actions:              given_attributes.fetch(:actions,              {}),
             completion:           given_attributes.fetch(:completion,           {}),
+            started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
             value:                default_answer_value(questionnaire, given_attributes)
           }
@@ -75,6 +76,7 @@ module Quby
           record.raw_params           = answer.raw_params.stringify_keys
           record.import_notes         = answer.import_notes.stringify_keys
           record.value                = answer.value.stringify_keys
+          record.started_at           = answer.started_at
           record.completed_at         = answer.completed_at
           record.outcome_generated_at = answer.outcome_generated_at
           record.scores               = answer.scores.stringify_keys

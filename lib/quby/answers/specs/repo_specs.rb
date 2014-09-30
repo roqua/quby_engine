@@ -13,6 +13,7 @@ if defined?(RSpec)
         token:                SecureRandom.hex(8),
         active:               true,
         test:                 false,
+        started_at:           Time.local(2014, 1, 2, 3, 4, 0),
         completed_at:         Time.local(2014, 1, 2, 3, 4, 5),
         outcome_generated_at: Time.local(2014, 1, 2, 3, 6, 7),
         scores:               {tot: {label: 'Totaalscore', value: 20}},
@@ -63,6 +64,7 @@ if defined?(RSpec)
         answer.patient              = attributes[:patient]
         answer.active               = attributes[:active]
         answer.test                 = attributes[:test]
+        answer.started_at           = attributes[:started_at]
         answer.completed_at         = attributes[:completed_at]
         answer.outcome_generated_at = attributes[:outcome_generated_at]
         answer.scores               = attributes[:scores]
@@ -111,6 +113,7 @@ if defined?(RSpec)
       expect(record.patient).to              eq(stringified(attributes[:patient]))
       expect(record.active).to               eq(true)
       expect(record.test).to                 eq(false)
+      expect(record.started_at).to           eq(attributes[:started_at])
       expect(record.completed_at).to         eq(attributes[:completed_at])
       expect(record.outcome_generated_at).to eq(attributes[:outcome_generated_at])
       expect(record.scores).to               eq(stringified(attributes[:scores]))

@@ -61,7 +61,7 @@ module Quby
         end
       end
 
-      updater.update(params[:answer] || {})
+      updater.update((params[:answer] || {}).merge("rendered_at" => params[:rendered_at]))
     end
 
     def print

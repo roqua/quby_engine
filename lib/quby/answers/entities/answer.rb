@@ -22,6 +22,7 @@ module Quby
         attribute :test,                 Boolean, default: false
         attribute :created_at,           Time
         attribute :updated_at,           Time
+        attribute :started_at,           Time
         attribute :completed_at,         Time
         attribute :outcome,              Outcome
         attribute :outcome_generated_at, Time
@@ -74,8 +75,11 @@ module Quby
           Quby.questionnaires.find(questionnaire_key)
         end
 
-        def set_completed_at
-          self.completed_at = Time.now if completed_at.blank? && (completed? || @aborted)
+        def mark_completed(start_time)
+          if completed? || @aborted
+            self.started_at = start_time if started_at.blank?
+            self.completed_at = Time.now if completed_at.blank?
+          end
         end
 
         def enhance_by_dsl
