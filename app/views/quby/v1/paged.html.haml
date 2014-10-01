@@ -18,10 +18,6 @@
 - if @questionnaire.leave_page_alert
   #leave_page_alert.hidden= @questionnaire.leave_page_alert
 
-:javascript
-  $(function() {
-    Quby.initShowsHides()
-  });
-
+= render :partial => "quby/v1/shared/footer_javascript", locals: {answer: @answer}
 = render :partial => "quby/v1/modal_iframe"
 
