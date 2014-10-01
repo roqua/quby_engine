@@ -6,5 +6,10 @@ class Quby.Collections.Flags extends Backbone.Collection
 
   addFlags: (flag_definitions, flag_values) ->
     _.each _.pairs(flag_definitions), ([flagkey, flag]) =>
-      flag.value = flag_values[flagkey]
-      @.add(flag)
+      bb_flag =
+        value: flag_values[flagkey]
+        key: flagkey
+        hidesQuestionsKeys: flag.hides_questions
+        showsQuestionsKeys: flag.shows_questions
+        triggerOn: flag.trigger_on
+      @.add(bb_flag)

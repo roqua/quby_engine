@@ -6,6 +6,7 @@ class Quby.Models.Flag extends Backbone.Model
     showsQuestions: new Quby.Collections.Questions
     hidesQuestionsKeys: []
     showsQuestionsKeys: []
+    triggerOn: true
 
   initShowsHides: (allQuestions)->
     showsQuestionsKeys = @get("showsQuestionsKeys")
@@ -19,30 +20,19 @@ class Quby.Models.Flag extends Backbone.Model
       _.contains(hidesQuestionsKeys, question.get("key"))
     )
     @get("hidesQuestions").add(hidesQuestions)
+    @doHiding()
 
   doHiding: ->
     value = @get("value")
-    if value != null
-      if value
-        @hideQuestions()
-        @showQuestions()
-      else
-        @unhideQuestions()
-        @unshowQuestions()
+    if value == @get("triggerOn")
+      @hideQuestions()
+      @showQuestions()
 
   hideQuestions: ->
-    option = @
+    flag = @
     @get("hidesQuestions").each (question) ->
-      question.trigger "hide", option
-  unhideQuestions: ->
-    option = @
-    @get("hidesQuestions").each (question) ->
-      question.trigger "unhide", option
+      question.trigger "hide", flag
   showQuestions: ->
-    option = @
+    flag = @
     @get("showsQuestions").each (question) ->
-      question.trigger "show", option
-  unshowQuestions: ->
-    option = @
-    @get("showsQuestions").each (question) ->
-      question.trigger "unshow", option
+      question.trigger "show", flag

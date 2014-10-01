@@ -5,6 +5,15 @@ outcome_description ""
 
 default_question_options deselectable: true
 
+flag key: :hides_flag,
+     hides_questions: [:v_7],
+     description_true: 'Hides v_7',
+     description_false: 'Does not hide v_7'
+flag key: :shows_flag,
+     shows_questions: [:v_9],
+     description_true: 'Shows v_9',
+     description_false: 'Does not show v_9'
+
 panel do
   question :v_4, :type => :select do
     title "P00"

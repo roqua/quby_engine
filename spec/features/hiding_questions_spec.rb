@@ -61,6 +61,12 @@ feature 'Hiding and showing questions' do
       Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6"))
     end
 
+    scenario 'by visiting an answer with a flag that hides a question set to true', js: true do
+      answer = create_new_answer_for(questionnaire, {}, {'hides_flag' => true})
+      visit_new_answer_for(questionnaire, "paged", answer)
+      page.should have_selector("#item_v_7.hide", visible: false)
+    end
+
     scenario 'editing an answer to hide a question should remove the value', js: true do
       answer = visit_new_answer_for(questionnaire)
 
@@ -214,6 +220,12 @@ feature 'Hiding and showing questions' do
       choose "answer_v_8_a3"
       goto_third_page and save_form
       Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_7" => "a5", "v_8" => "a3"))
+    end
+
+    scenario 'by visiting an answer with a flag that shows a question set to true', js: true do
+      answer = create_new_answer_for(questionnaire, {}, {'shows_flag' => true})
+      visit_new_answer_for(questionnaire, "paged", answer)
+      page.should have_selector("[data-for=v_9].show", count: 8, visible: false)
     end
 
     scenario 'by visiting an answer that has a checkbox option that shows something filled in', js: true do

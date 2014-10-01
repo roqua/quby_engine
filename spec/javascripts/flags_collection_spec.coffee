@@ -35,8 +35,8 @@ describe "Quby.Collections.Flags", ->
           description_true: "De invuller rookt"
           description_false: "De invuller rookt niet"
           internal: false
-          shows_questions: []
-          hides_questions:[]
+          shows_questions: ['v_33']
+          hides_questions: ['v_2']
         last_measurement_of_day:
           key: "last_measurement_of_day"
           description_true: "Laatste meting van de dag"
@@ -47,5 +47,9 @@ describe "Quby.Collections.Flags", ->
       @flagsC.addFlags(flag_definitions, flag_values)
       expect(@flagsC.toArray()[0].get('key')).toEqual 'smokes'
       expect(@flagsC.toArray()[0].get('value')).toEqual true
+      expect(@flagsC.toArray()[0].get('showsQuestionsKeys')).toEqual ['v_33']
+      expect(@flagsC.toArray()[0].get('hidesQuestionsKeys')).toEqual ['v_2']
       expect(@flagsC.toArray()[1].get('key')).toEqual 'last_measurement_of_day'
       expect(@flagsC.toArray()[1].get('value')).toEqual null
+      expect(@flagsC.toArray()[1].get('showsQuestionsKeys')).toEqual []
+      expect(@flagsC.toArray()[1].get('hidesQuestionsKeys')).toEqual []

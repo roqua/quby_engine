@@ -1,7 +1,7 @@
-def create_new_answer_for(questionnaire, answer_value = {})
+def create_new_answer_for(questionnaire, answer_value = {}, flags = {})
   Quby::AnswersController.any_instance.stub(verify_hmac: true)
   Quby::AnswersController.any_instance.stub(verify_token: true)
-  Quby.answers.create!(questionnaire.key, value: answer_value)
+  Quby.answers.create!(questionnaire.key, value: answer_value, flags: flags)
 end
 
 def visit_new_answer_for(questionnaire, mode = "paged", answer = nil, params = {})
