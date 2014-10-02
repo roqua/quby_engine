@@ -193,9 +193,14 @@ module Quby
         end
 
         def add_flag(flag_options)
-          key = flag_options[:key]
-          fail(ArgumentError, "Flag '#{key}' already defined") if flags.key?(key)
-          flags[key] = Flag.new(flag_options)
+          if flag_options[:internal]
+            flag_key = flag_options[:key].to_sym
+          else
+            flag_key = "#{key}_#{flag_options[:key]}".to_sym
+          end
+          flag_options[:key] = flag_key
+          fail(ArgumentError, "Flag '#{flag_key}' already defined") if flags.key?(flag_key)
+          flags[flag_key] = Flag.new(flag_options)
         end
       end
     end
