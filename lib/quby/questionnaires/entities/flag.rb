@@ -14,6 +14,10 @@ module Quby
           super(key, description_true, description_false, internal, trigger_on, shows_questions, hides_questions)
         end
         # rubocop:enable ParameterLists
+
+        def if_triggered_by(answer_flags)
+          yield if answer_flags[key] == trigger_on
+        end
       end
     end
   end
