@@ -68,7 +68,7 @@
             height: 8px;
             line-height: 8px;
             width: 6px;
-            background: #999;
+            background: #fff;
             font-size: 6px;
             text-indent: -1234em;
             display: block;
@@ -77,8 +77,13 @@
             margin: 0;
             &.first-child { width: 8px; border-radius: 5px 0 0 5px; }
             &.last-child  { width: 8px; border-radius: 0 5px 5px 0; }
-            &.active      { background: #fff; }
-            &.current     { border-radius: 0 5px 5px 0; }
+            &.active      { background: #999; }
+            &.current     {
+              border-radius: 0 5px 5px 0;
+              &.first-child {
+                border-radius: 5px;
+              }
+            }
           }
         }
         .progress-details {
