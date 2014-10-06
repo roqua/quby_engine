@@ -32,6 +32,7 @@
             - class_name << ' active'      if item <= current
             - class_name << ' first-child' if item == 1
             - class_name << ' last-child'  if item == panels.length
+            - class_name << ' current'     if item == current
             %span.progress-stop{ class: class_name }= i + 1
         .progress-details
           = "Stap #{panel_counter + 1} van #{panels.length}"
