@@ -1,7 +1,7 @@
 class Quby.Collections.Flags extends Backbone.Collection
   model: Quby.Models.Flag
   initShowsHides: (allQuestions) ->
-    @.each (flag) =>
+    @each (flag) =>
       flag.initShowsHides(allQuestions)
 
   addFlags: (flag_definitions, flag_values) ->
@@ -12,4 +12,4 @@ class Quby.Collections.Flags extends Backbone.Collection
         hidesQuestionsKeys: flag.hides_questions
         showsQuestionsKeys: flag.shows_questions
         triggerOn: flag.trigger_on
-      @.add(bb_flag)
+      @add(bb_flag)
