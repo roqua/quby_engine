@@ -71,10 +71,6 @@ module Quby
           errors.empty?
         end
 
-        def flags
-          @flags.with_indifferent_access
-        end
-
         # Faux belongs_to :questionnaire
         def questionnaire
           Quby.questionnaires.find(questionnaire_key)
