@@ -71,6 +71,10 @@ module Quby
           errors.empty?
         end
 
+        def flags
+          @flags.with_indifferent_access
+        end
+
         # Faux belongs_to :questionnaire
         def questionnaire
           Quby.questionnaires.find(questionnaire_key)
@@ -214,13 +218,13 @@ module Quby
           )
         end
 
-        protected
-
-        def filter_flags(flags)
+        def self.filter_flags(flags, questionnaire)
           flags.select do |flag_key, _|
             questionnaire.flags.key? flag_key
           end
         end
+
+        protected
 
         def calc_answered(qkeys)
           answered = 0

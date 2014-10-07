@@ -246,13 +246,13 @@ module Quby::Questionnaires::Entities
       end
 
       it 'presents flags that were defined in the definition' do
-        expect(questionnaire.flags).to eq({ test_test: Quby::Questionnaires::Entities::Flag.new(
+        expect(questionnaire.flags).to eq({ 'test_test' => Quby::Questionnaires::Entities::Flag.new(
                                                  key: :test_test,
                                                  description_true: 'Test flag',
                                                  description_false: 'Test flag uit',
                                                  shows_questions: [:v_1],
                                                  hides_questions: []),
-                                            test_test2: Quby::Questionnaires::Entities::Flag.new(
+                                            'test_test2' => Quby::Questionnaires::Entities::Flag.new(
                                                 key: :test_test2,
                                                 description_true: 'Test flag 2',
                                                 description_false: 'Test flag 2 uit',
@@ -272,13 +272,13 @@ module Quby::Questionnaires::Entities
       it 'uses the flag key if the flag is internal' do
         questionnaire.stub(key: 'test')
         questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a', internal: true)
-        expect(questionnaire.flags.keys).to eq([:a])
+        expect(questionnaire.flags.keys).to eq(['a'])
       end
 
       it 'prepends the questionnaire key if the flag is not internal' do
         questionnaire.stub(key: 'test')
         questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a')
-        expect(questionnaire.flags.keys).to eq([:test_a])
+        expect(questionnaire.flags.keys).to eq(['test_a'])
       end
     end
   end

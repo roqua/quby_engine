@@ -32,7 +32,7 @@ module Quby
           @renderer_version = :v1
           @extra_css = ""
           @panels = []
-          @flags = {}
+          @flags = {}.with_indifferent_access
         end
 
         attr_accessor :key

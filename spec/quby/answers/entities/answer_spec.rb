@@ -206,10 +206,8 @@ module Quby::Answers::Entities
     end
 
     describe "#filter_flags" do
-      let(:answer) { Answer.new }
-
       it 'filters out flags that are not defined on the questionnaire' do
-        expect(answer.send(:filter_flags, {a: true, test: false})).to eq({test: false})
+        expect(Answer.filter_flags({a: true, test: false}, questionnaire)).to eq({test: false})
       end
     end
   end
