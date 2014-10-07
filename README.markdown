@@ -1,7 +1,7 @@
 Quby
 ====
-[![CircleCI](https://circleci.com/gh/roqua/quby_engine.png?circle-token=b8c29e6c847094da985e5cbcd0e20648b11f0217)](https://circleci.com/gh/roqua/quby_engine)
-[![Code Climate](https://codeclimate.com/repos/50a0b29456b1025ac6000437/badges/476040b8e82af8e87adf/gpa.png)](https://codeclimate.com/repos/50a0b29456b1025ac6000437/feed)
+[![CircleCI](https://circleci.com/gh/roqua/quby_engine.png?circle-token=b8c29e6c847094da985e5cbcd0e20648b11f0217&style=shield)](https://circleci.com/gh/roqua/quby_engine)
+[![Code Climate](https://codeclimate.com/github/roqua/quby_engine/badges/gpa.svg)](https://codeclimate.com/github/roqua/quby_engine)
 
 ## Usage
 
