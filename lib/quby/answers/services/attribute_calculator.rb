@@ -12,7 +12,21 @@ module Quby
           @shown  = []
           @groups = {}
 
+          init_flag_result
           questionnaire.questions.compact.each { |question| process_question(question) }
+        end
+
+        def init_flag_result
+          questionnaire.flags.each do |_flag_key, flag|
+            flag.if_triggered_by answer.flags do
+              flag.hides_questions.each do |question_key|
+                @hidden.push question_key unless @shown.include?(question_key)
+              end
+              flag.shows_questions.each do |question_key|
+                @shown.push question_key
+              end
+            end
+          end
         end
 
         def process_question(question)

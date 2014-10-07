@@ -16,6 +16,7 @@ module Quby
           validate_questions(questionnaire)
           validate_scores(questionnaire)
           validate_table_edgecases(questionnaire)
+          validate_flags(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
@@ -56,6 +57,22 @@ module Quby
             tables.each do |table|
               questions = table.items.select { |item| item.is_a?(Entities::Question) }
               questions.each { |question| validate_table_question(question) }
+            end
+          end
+        end
+
+        def validate_flags(questionnaire)
+          questionnaire.flags.each do |flag_key, flag|
+            shows_questions = flag.shows_questions
+            hides_questions = flag.hides_questions
+            unknown_shows_questions = shows_questions.select { |key| !questionnaire.key_in_use?(key) }
+            unknown_hides_questions = hides_questions.select { |key| !questionnaire.key_in_use?(key) }
+
+            if unknown_shows_questions.present?
+              fail(ArgumentError, "Flag '#{key}' has unknown shows_questions keys #{unknown_shows_questions}")
+            end
+            if unknown_hides_questions.present?
+              fail(ArgumentError, "Flag '#{key}' has unknown hides_questions keys #{unknown_hides_questions}")
             end
           end
         end

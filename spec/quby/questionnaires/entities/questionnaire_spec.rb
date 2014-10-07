@@ -236,5 +236,50 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.leave_page_alert).to be_nil
       end
     end
+
+    describe 'flags integration' do
+      let(:definition)    do
+        "
+        flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit', shows_questions: [:v_1]
+        flag key: :test2, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', hides_questions: [:v_2]
+        "
+      end
+
+      it 'presents flags that were defined in the definition' do
+        expect(questionnaire.flags).to eq({ 'test_test' => Quby::Questionnaires::Entities::Flag.new(
+                                                 key: :test_test,
+                                                 description_true: 'Test flag',
+                                                 description_false: 'Test flag uit',
+                                                 shows_questions: [:v_1],
+                                                 hides_questions: []),
+                                            'test_test2' => Quby::Questionnaires::Entities::Flag.new(
+                                                key: :test_test2,
+                                                description_true: 'Test flag 2',
+                                                description_false: 'Test flag 2 uit',
+                                                shows_questions: [],
+                                                hides_questions: [:v_2]) })
+      end
+    end
+    describe '#add_flag' do
+      it 'checks if the key is not in use' do
+        questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a')
+        expect do questionnaire.add_flag(key: :a,
+                                         description_true: 'a',
+                                         description_false: 'not a')
+        end.to raise_error(ArgumentError, "Flag 'test_a' already defined")
+      end
+
+      it 'uses the flag key if the flag is internal' do
+        questionnaire.stub(key: 'test')
+        questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a', internal: true)
+        expect(questionnaire.flags.keys).to eq(['a'])
+      end
+
+      it 'prepends the questionnaire key if the flag is not internal' do
+        questionnaire.stub(key: 'test')
+        questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a')
+        expect(questionnaire.flags.keys).to eq(['test_a'])
+      end
+    end
   end
 end

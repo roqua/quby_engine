@@ -19,7 +19,20 @@ module Quby::Answers::Entities
              actions: [],
              completion: nil,
              default_answer_value: {},
-             last_update: Time.now)
+             last_update: Time.now,
+             flags: { test: Quby::Questionnaires::Entities::Flag.new(
+                        key: :test,
+                        description_true: 'Test flag',
+                        description_false: 'Test flag uit',
+                        shows_questions: [:v_1],
+                        hides_questions: []),
+                      test2: Quby::Questionnaires::Entities::Flag.new(
+                        key: :test2,
+                        description_true: 'Test flag 2',
+                        description_false: 'Test flag 2 uit',
+                        shows_questions: [],
+                        hides_questions: [:v_2]) }
+      )
     end
 
     before do
@@ -189,6 +202,12 @@ module Quby::Answers::Entities
         answer.q1 = "Bar"
         answer.mark_completed(Time.now)
         answer.completed_at.should == time
+      end
+    end
+
+    describe "#filter_flags" do
+      it 'filters out flags that are not defined on the questionnaire' do
+        expect(Answer.filter_flags({a: true, test: false}, questionnaire)).to eq({test: false})
       end
     end
   end

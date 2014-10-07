@@ -143,6 +143,10 @@ module Quby
           @questionnaire.add_chart(builder.build(&block))
         end
 
+        def flag(flag_options)
+          @questionnaire.add_flag flag_options
+        end
+
         private
 
         def default_panel_options

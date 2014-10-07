@@ -46,9 +46,5 @@
         = image_tag "quby/print.gif"
         Print Antwoorden
 
-:javascript
-  $(function() {
-    Quby.questions.trigger("initShowsHides")
-  });
-
+= render :partial => "quby/v1/shared/footer_javascript", locals: {answer: @answer}
 = render :partial => "quby/v1/modal_iframe"

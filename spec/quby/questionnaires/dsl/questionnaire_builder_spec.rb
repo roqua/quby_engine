@@ -170,6 +170,19 @@ module Quby::Questionnaires::DSL
       questionnaire.question_hash[:v_2].parent_option_key.should == :v_1a
     end
 
+    describe 'flag' do
+      before do
+        Quby::Questionnaires::Entities::Questionnaire.any_instance.stub(:add_flag)
+      end
+
+      it 'defines flags' do
+        dsl do
+          flag key: :test, description: 'test flag'
+        end
+        expect(questionnaire).to have_received(:add_flag).with(key: :test, description: 'test flag')
+      end
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end

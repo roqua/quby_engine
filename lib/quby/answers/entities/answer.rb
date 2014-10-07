@@ -31,6 +31,7 @@ module Quby
         attribute :completion,           Hash,    default: {}
         attribute :dsl_last_update
         attribute :import_notes,         Hash                      # For answers that are imported from external sources
+        attribute :flags,                Hash[Symbol => Boolean]
 
         attr_accessor :aborted
 
@@ -211,6 +212,12 @@ module Quby
               timestamp: timestamp,
               hmac: Digest::SHA1.hexdigest(plain_token)
           )
+        end
+
+        def self.filter_flags(flags, questionnaire)
+          flags.select do |flag_key, _|
+            questionnaire.flags.key? flag_key
+          end
         end
 
         protected

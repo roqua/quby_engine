@@ -1,5 +1,6 @@
 require 'active_model'
 require 'quby/settings'
+require 'quby/questionnaires/entities/flag'
 
 require 'action_view'
 include ActionView::Helpers::SanitizeHelper
@@ -31,6 +32,7 @@ module Quby
           @renderer_version = :v1
           @extra_css = ""
           @panels = []
+          @flags = {}.with_indifferent_access
         end
 
         attr_accessor :key
@@ -55,6 +57,8 @@ module Quby
         attr_accessor :last_update
 
         attr_accessor :charts
+
+        attr_accessor :flags
 
         delegate :question_hash,     to: :fields
         delegate :input_keys,        to: :fields
@@ -186,6 +190,17 @@ module Quby
 
         def add_chart(chart)
           charts.add chart
+        end
+
+        def add_flag(flag_options)
+          if flag_options[:internal]
+            flag_key = flag_options[:key].to_sym
+          else
+            flag_key = "#{key}_#{flag_options[:key]}".to_sym
+          end
+          flag_options[:key] = flag_key
+          fail(ArgumentError, "Flag '#{flag_key}' already defined") if flags.key?(flag_key)
+          flags[flag_key] = Flag.new(flag_options)
         end
       end
     end

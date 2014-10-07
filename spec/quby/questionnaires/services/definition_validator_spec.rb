@@ -290,5 +290,33 @@ module Quby::Questionnaires::Services
         END
       end
     end
+
+    describe 'flags' do
+      it 'does not accept shows_questions arrays with unknown keys' do
+        make_definition(<<-END).valid?.should be_false
+          flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
+        END
+      end
+
+      it 'does not accept hides_questions arrays with unknown keys' do
+        make_definition(<<-END).valid?.should be_false
+          flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
+        END
+      end
+
+      it 'accepts shows_questions arrays with known keys' do
+        make_definition(<<-END).valid?.should be_true
+          flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
+          question :v_22, type: :string
+        END
+      end
+
+      it 'accepts hides_questions arrays with known keys' do
+        make_definition(<<-END).valid?.should be_true
+          flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
+          question :v_22, type: :string
+        END
+      end
+    end
   end
 end
