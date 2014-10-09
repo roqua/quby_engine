@@ -130,7 +130,11 @@ module Quby
           end
           result
         rescue Exception => e
-          logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
+          if defined? Roqua::Support::Errors
+            Roqua::Support::Errors.report e, root_path: Rails.root.to_s
+          end
+          raise e if Rails.env.development? || Rails.env.test?
+          Rails.logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
           {}
         end
 
@@ -153,7 +157,11 @@ module Quby
           end
           result
         rescue Exception => e
-          logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
+          if defined? Roqua::Support::Errors
+            Roqua::Support::Errors.report e, root_path: Rails.root.to_s
+          end
+          raise e if Rails.env.development? || Rails.env.test?
+          Rails.logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
           {}
         end
 
