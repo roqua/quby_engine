@@ -73,19 +73,23 @@ module Quby::Answers::Entities
         end
 
         it 'converts value\'s to the option\'s value :radio, :scale & :select questions' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q1: :a1, q2: :a2, q3: :a1}).value_by_regular_values).to eq({q1: 0, q2: 3, q3: 4})
+          expect(Answer.new(questionnaire_key: 'foo', value: {q1: :a1, q2: :a2, q3: :a1}).value_by_regular_values)
+            .to eq({q1: 0, q2: 3, q3: 4})
         end
 
         it 'converts values of float and integer questions to floats and integers' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q4: "1.2", q5: "3.4"}).value_by_regular_values).to eq({q4: 1.2, q5: 3})
+          expect(Answer.new(questionnaire_key: 'foo', value: {q4: "1.2", q5: "3.4"}).value_by_regular_values)
+            .to eq({q4: 1.2, q5: 3})
         end
 
         it 'does not touch other question types values, such as of :open' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q6: "antwoord"}).value_by_regular_values).to eq({q6: "antwoord"})
+          expect(Answer.new(questionnaire_key: 'foo', value: {q6: "antwoord"}).value_by_regular_values)
+            .to eq({q6: "antwoord"})
         end
 
         it 'does not touch values of questions that are not in the questionnaire anymore' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q22: "val", q5: "3.4"}).value_by_regular_values).to eq({q5: 3, q22: "val"})
+          expect(Answer.new(questionnaire_key: 'foo', value: {q22: "val", q5: "3.4"}).value_by_regular_values)
+            .to eq({q5: 3, q22: "val"})
         end
       end
     end
