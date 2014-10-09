@@ -260,6 +260,7 @@ module Quby::Questionnaires::Entities
                                                 hides_questions: [:v_2]) })
       end
     end
+
     describe '#add_flag' do
       it 'checks if the key is not in use' do
         questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a')
@@ -279,6 +280,13 @@ module Quby::Questionnaires::Entities
         questionnaire.stub(key: 'test')
         questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a')
         expect(questionnaire.flags.keys).to eq(['test_a'])
+      end
+    end
+
+    describe "#filter_flags" do
+      it 'filters out flags that are not defined on the questionnaire' do
+        questionnaire.add_flag key: :a, description_true: 'a', description_false: 'not a'
+        expect(questionnaire.filter_flags({test_a: true, test_b: false, something: false})).to eq({test_a: true})
       end
     end
   end

@@ -57,7 +57,7 @@ module Quby
             completion:           given_attributes.fetch(:completion,           {}),
             started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
-            flags:                entity_class.filter_flags(flags, questionnaire),
+            flags:                questionnaire.filter_flags(flags),
             value:                default_answer_value(questionnaire, given_attributes)
           }
         end

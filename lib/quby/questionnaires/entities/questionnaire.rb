@@ -202,6 +202,12 @@ module Quby
           fail(ArgumentError, "Flag '#{flag_key}' already defined") if flags.key?(flag_key)
           flags[flag_key] = Flag.new(flag_options)
         end
+
+        def filter_flags(given_flags)
+          given_flags.select do |flag_key, _|
+            flags.key? flag_key
+          end
+        end
       end
     end
   end

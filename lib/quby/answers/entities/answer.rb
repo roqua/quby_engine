@@ -214,12 +214,6 @@ module Quby
           )
         end
 
-        def self.filter_flags(flags, questionnaire)
-          flags.select do |flag_key, _|
-            questionnaire.flags.key? flag_key
-          end
-        end
-
         protected
 
         def calc_answered(qkeys)
