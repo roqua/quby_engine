@@ -132,7 +132,8 @@ module Quby
             description: description,
             outcome_description: outcome_description,
             short_description: short_description,
-            panels: panels
+            panels: panels,
+            flags: flags
           }
         end
 
