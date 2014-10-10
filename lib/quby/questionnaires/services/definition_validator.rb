@@ -34,6 +34,7 @@ module Quby
             validate_subquestion_absence_in_select question
 
             validate_question_options(questionnaire, question)
+            validate_presence_of_titles question
           end
         end
 
@@ -48,6 +49,12 @@ module Quby
             msg_base = "Question #{option.question.key} option #{option.key}"
             to_be_hidden_questions_exist_and_not_subquestion?(questionnaire, option, msg_base: msg_base)
             to_be_shown_questions_exist_and_not_subquestion?(questionnaire, option, msg_base: msg_base)
+          end
+        end
+
+        def validate_presence_of_titles(question)
+          if !question.subquestion? && question.title.blank? && question.context_free_title.blank?
+            fail "Question #{question.key} must define either `:title` or `:context_free_title`."
           end
         end
 
