@@ -11,6 +11,7 @@ module Quby
         attr_accessor :key
         attr_accessor :questionnaire
         attr_accessor :title
+        attr_accessor :context_free_title
         attr_accessor :description
 
         attr_accessor :labels
@@ -112,6 +113,7 @@ module Quby
           @type = options[:type]
           @as = options[:as]
           @title = options[:title]
+          @context_free_title = options[:context_free_title]
           @description = options[:description]
           @display_modes = options[:display_modes]
           @presentation = options[:presentation]
