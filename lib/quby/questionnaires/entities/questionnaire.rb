@@ -87,7 +87,10 @@ module Quby
 
         def register_question(question)
           fields.add(question)
-          add_textvar key: question.text_var, description: "Variable depending on value of #{question.key}" if question.text_var
+
+          if question.text_var
+            add_textvar key: question.text_var, description: "Variable depending on value of #{question.key}"
+          end
         end
 
         def callback_after_dsl_enhance_on_questions
