@@ -277,6 +277,14 @@ module Quby::Questionnaires::Services
           END
           expect(definition.valid?).to be true
         end
+
+        it 'does not fail on table question' do
+          definition = make_definition(<<-END)
+            table columns: 4 do
+            end
+          END
+          expect(definition.valid?).to be true
+        end
       end
 
       context ':title or :context_free_title exist' do

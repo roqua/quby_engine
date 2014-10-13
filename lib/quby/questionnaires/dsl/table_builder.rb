@@ -15,10 +15,6 @@ module Quby
           @table.title = value
         end
 
-        def context_free_title(value)
-          @table.context_free_title = value
-        end
-
         def description(value)
           @table.description = value
         end
