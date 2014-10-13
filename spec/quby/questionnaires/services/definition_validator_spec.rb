@@ -259,21 +259,44 @@ module Quby::Questionnaires::Services
         END
         expect(definition.valid?).to be false
       end
+    end
 
-      it 'does not fail when :title or :context_free_title exist' do
-        definition = make_definition(<<-END)
-          question :v_6, type: :radio do
-            title 'foo'
-          end
-        END
-        expect(definition.valid?).to be true
+    describe 'title validations' do
+      context ':title and :context_free_title do not exist' do
+        it 'fails' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio
+          END
+          expect(definition.valid?).to be false
+        end
+
+        it 'does not fail with :skip_title option' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio, skip_title: true do
+            end
+          END
+          expect(definition.valid?).to be true
+        end
       end
 
-      it 'fails when no :title exists' do
-        definition = make_definition(<<-END)
-          question :v_6, type: :radio
-        END
-        expect(definition.valid?).to be false
+      context ':title or :context_free_title exist' do
+        it 'does not fail when :title exiests' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio do
+              title 'foo'
+            end
+          END
+          expect(definition.valid?).to be true
+        end
+
+        it 'does not fail when :context_free_title exiests' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio do
+              context_free_title 'bar'
+            end
+          END
+          expect(definition.valid?).to be true
+        end
       end
     end
 
