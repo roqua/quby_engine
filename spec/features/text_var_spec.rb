@@ -35,4 +35,17 @@ feature 'text_var replacement', js: true do
     page.should have_content 'Probleemmiddel: {{middel}}'
   end
 
+  scenario 'setting var value from answer record' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      textvar key: 'thing', description: 'Name of the thing'
+      text "Yo dawg I herd you like {{test_thing}}s so we put a {{test_thing}} in your {{test_thing}}..."
+      question :v_1, :type => :string do
+        title "Foo"
+      end; end_panel
+    END
+
+    answer = create_new_answer_for(questionnaire, {}, textvars: {test_thing: 'car'})
+    visit_new_answer_for(questionnaire, 'paged', answer)
+    page.should have_content 'Yo dawg I herd you like cars so we put a car in your car'
+  end
 end

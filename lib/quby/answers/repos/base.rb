@@ -43,6 +43,8 @@ module Quby
 
         def initial_attributes(questionnaire, given_attributes)
           flags = given_attributes.fetch(:flags, {})
+          textvars = given_attributes.fetch(:textvars, {})
+
           {
             questionnaire_key:    questionnaire.key,
             token:                SecureRandom.hex(8),
@@ -58,6 +60,7 @@ module Quby
             started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
             flags:                questionnaire.filter_flags(flags),
+            textvars:             questionnaire.filter_textvars(textvars),
             value:                default_answer_value(questionnaire, given_attributes)
           }
         end
@@ -85,6 +88,7 @@ module Quby
           record.actions              = answer.actions.stringify_keys
           record.completion           = answer.completion.stringify_keys
           record.flags                = answer.flags
+          record.textvars             = answer.textvars
         end
 
         def entities(records)

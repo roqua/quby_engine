@@ -4,5 +4,8 @@ $(document).on('change', 'input[text_var]', function() {
   $("span[text_var='"+tvar+"']").html(this.value);
 })
 $(function(){
+  $("span[text_var]").each(function(idx, elm) {
+    $(elm).html(window.text_vars[elm.getAttribute('text_var')]);
+  });
   $('input[text_var][value][value!=""]').trigger('change');
 });
