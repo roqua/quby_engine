@@ -88,8 +88,8 @@ module Quby
         def register_question(question)
           fields.add(question)
 
-          if question.text_var
-            add_textvar key: question.text_var, description: "Variable depending on value of #{question.key}"
+          if question.text_var && !textvars.key?(question.text_var)
+            raise "Undefined textvar: #{question.text_var}"
           end
         end
 

@@ -8,8 +8,10 @@ feature 'text_var replacement', js: true do
 
   scenario 'setting and changing a text_var' do
     questionnaire = inject_questionnaire("test", <<-END)
-      question :v_00, :type => :string, :text_var => "middel" do
-        title "Probleemmiddel: {{middel}}"
+      textvar key: 'middel', description: 'Probleemmiddel'
+
+      question :v_00, :type => :string, :text_var => "test_middel" do
+        title "Probleemmiddel: {{test_middel}}"
       end; end_panel
     END
 
@@ -25,14 +27,16 @@ feature 'text_var replacement', js: true do
 
   scenario 'starting with no value' do
     questionnaire = inject_questionnaire("test", <<-END)
-      question :v_00, :type => :string, :text_var => "middel" do
-        title "Probleemmiddel: {{middel}}"
+      textvar key: 'middel', description: 'Probleemmiddel'
+
+      question :v_00, :type => :string, :text_var => "test_middel" do
+        title "Probleemmiddel: {{test_middel}}"
       end; end_panel
     END
 
     visit_new_answer_for(questionnaire)
 
-    page.should have_content 'Probleemmiddel: {{middel}}'
+    page.should have_content 'Probleemmiddel: {{test_middel}}'
   end
 
   scenario 'setting var value from answer record' do
