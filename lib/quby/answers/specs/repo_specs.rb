@@ -1,6 +1,7 @@
 if defined?(RSpec)
   RSpec.shared_examples "an answer repository" do
     let(:repo) { described_class.new }
+    let(:api)  { Quby::Answers::API.new(answer_repo: repo) }
 
     let(:attributes) do
       {
@@ -26,7 +27,9 @@ if defined?(RSpec)
 
     describe 'record creation' do
       it 'creates new records' do
-        answer = repo.create!('simple', attributes)
+        questionnaire = Quby.questionnaires.find('simple')
+        unpersisted_entity = Quby::Answers::Services::BuildAnswer.new(questionnaire, attributes).build
+        answer = repo.create!(unpersisted_entity)
 
         expect(answer.id).to be_present
         verify(answer)
@@ -35,8 +38,8 @@ if defined?(RSpec)
 
     describe 'record retrieval' do
       it 'finds all records for a given questionnaire' do
-        answer1 = repo.create!('simple', attributes.merge(_id: 'answer1'))
-        answer2 = repo.create!('simple', attributes.merge(_id: 'answer2'))
+        answer1 = api.create!('simple', attributes.merge(_id: 'answer1'))
+        answer2 = api.create!('simple', attributes.merge(_id: 'answer2'))
 
         answers = repo.all('simple')
         expect(answers.map(&:id)).to eq([answer1.id, answer2.id])
@@ -44,7 +47,7 @@ if defined?(RSpec)
       end
 
       it 'finds records' do
-        answer    = repo.create!('simple', attributes)
+        answer    = api.create!('simple', attributes)
         retrieved = repo.find('simple', answer.id)
 
         expect(retrieved.id).to eq(answer.id)
@@ -58,7 +61,7 @@ if defined?(RSpec)
 
     describe 'record updating' do
       it 'updates records' do
-        answer    = repo.create!('simple', {})
+        answer    = api.create!('simple', {})
         answer.raw_params           = attributes[:raw_params]
         answer.value                = attributes[:value]
         answer.patient              = attributes[:patient]
@@ -81,8 +84,8 @@ if defined?(RSpec)
       end
 
       it 'updates reorderings of scores' do
-        answer = repo.create!('simple', scores: {tot: {label: 'Totaalscore'},
-                                                 sub: {label: 'Subscore'}})
+        answer = api.create!('simple', scores: {tot: {label: 'Totaalscore'},
+                                                sub: {label: 'Subscore'}})
         expect(answer.scores.keys).to eq %w(tot sub)
         expect(repo.reload(answer).scores.keys).to eq %w(tot sub)
 
@@ -95,10 +98,10 @@ if defined?(RSpec)
 
     describe 'retrieving all records' do
       it 'finds records updated since some time' do
-        answer1 = repo.create!('simple')
-        answer2 = repo.create!('simple', completed_at: 4.days.ago)
-        answer3 = repo.create!('simple', completed_at: 1.days.ago)
-        answer4 = repo.create!('simple', completed_at: 1.days.ago)
+        answer1 = api.create!('simple')
+        answer2 = api.create!('simple', completed_at: 4.days.ago)
+        answer3 = api.create!('simple', completed_at: 1.days.ago)
+        answer4 = api.create!('simple', completed_at: 1.days.ago)
 
         results = repo.find_completed_after(2.days.ago, [answer1.id, answer2.id, answer3.id]).to_a
         expect(results.map(&:id)).to eq([answer3.id])

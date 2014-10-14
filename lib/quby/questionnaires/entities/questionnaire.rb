@@ -89,7 +89,7 @@ module Quby
           fields.add(question)
 
           if question.sets_textvar && !textvars.key?(question.sets_textvar)
-            raise "Undefined textvar: #{question.sets_textvar}"
+            fail "Undefined textvar: #{question.sets_textvar}"
           end
         end
 
@@ -231,8 +231,8 @@ module Quby
         end
 
         def default_textvars
-          textvars.select {|key, textvar| textvar.default.present? }
-                  .map    {|key, textvar| [key, textvar.default] }
+          textvars.select { |key, textvar| textvar.default.present? }
+                  .map    { |key, textvar| [key, textvar.default] }
                   .to_h
         end
       end
