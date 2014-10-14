@@ -17,8 +17,6 @@ module Quby
         private
 
         def attributes
-          flags = given_attributes.fetch(:flags, {})
-
           {
             questionnaire_key:    questionnaire.key,
             token:                SecureRandom.hex(8),
@@ -33,20 +31,25 @@ module Quby
             completion:           given_attributes.fetch(:completion,           {}),
             started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
-            flags:                questionnaire.filter_flags(flags),
-            textvars:             default_textvars(questionnaire, given_attributes),
-            value:                default_answer_value(questionnaire, given_attributes)
+            flags:                calculate_flags(questionnaire, given_attributes),
+            textvars:             calculate_textvars(questionnaire, given_attributes),
+            value:                calculate_value(questionnaire, given_attributes)
           }
         end
 
-        def default_answer_value(questionnaire, given_attributes)
+        def calculate_value(questionnaire, given_attributes)
           quest_value = questionnaire.default_answer_value || {}
           given_value = given_attributes[:value] || {}
 
           quest_value.merge(given_value).stringify_keys
         end
 
-        def default_textvars(questionnaire, given_attributes)
+        def calculate_flags(questionnaire, given_attributes)
+          flags = given_attributes.fetch(:flags, {})
+          questionnaire.filter_flags(flags)
+        end
+
+        def calculate_textvars(questionnaire, given_attributes)
           given    = questionnaire.filter_textvars(given_attributes.fetch(:textvars, {}))
           defaults = questionnaire.default_textvars
           textvars = defaults.merge(given)
