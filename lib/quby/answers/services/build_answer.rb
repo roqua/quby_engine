@@ -31,25 +31,25 @@ module Quby
             completion:           given_attributes.fetch(:completion,           {}),
             started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
-            flags:                calculate_flags(questionnaire, given_attributes),
-            textvars:             calculate_textvars(questionnaire, given_attributes),
-            value:                calculate_value(questionnaire, given_attributes)
+            flags:                calculate_flags,
+            textvars:             calculate_textvars,
+            value:                calculate_value
           }
         end
 
-        def calculate_value(questionnaire, given_attributes)
+        def calculate_value
           quest_value = questionnaire.default_answer_value || {}
           given_value = given_attributes[:value] || {}
 
           quest_value.merge(given_value).stringify_keys
         end
 
-        def calculate_flags(questionnaire, given_attributes)
+        def calculate_flags
           flags = given_attributes.fetch(:flags, {})
           questionnaire.filter_flags(flags)
         end
 
-        def calculate_textvars(questionnaire, given_attributes)
+        def calculate_textvars
           given    = questionnaire.filter_textvars(given_attributes.fetch(:textvars, {}))
           defaults = questionnaire.default_textvars
           textvars = defaults.merge(given)
