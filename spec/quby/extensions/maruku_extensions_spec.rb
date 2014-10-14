@@ -9,13 +9,13 @@ class Maruku
     end
   end
 
-  describe "text variable extenstion {{text_var}}" do
+  describe "text variable extenstion {{textvar}}" do
     it "converts {{test}} into a text variable span" do
-      Maruku.new("{{test}}").to_html.should == "<p><span class='text_var' text_var='test'>{{test}}</span></p>"
+      Maruku.new("{{test}}").to_html.should == "<p><span class='textvar' textvar='test'>{{test}}</span></p>"
     end
 
     it "properly converts 2 text tags next to each other" do
-      Maruku.new("{{test}} {{test2}}").to_html.should == "<p><span class='text_var' text_var='test'>{{test}}</span> <span class='text_var' text_var='test2'>{{test2}}</span></p>"
+      Maruku.new("{{test}} {{test2}}").to_html.should == "<p><span class='textvar' textvar='test'>{{test}}</span> <span class='textvar' textvar='test2'>{{test2}}</span></p>"
     end
   end
 

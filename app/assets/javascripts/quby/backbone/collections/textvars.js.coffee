@@ -4,7 +4,7 @@ class Quby.Collections.Textvars
     @vars = initial
 
   get: (key) ->
-    @vars[key] || "{{#{key}}}"
+    @vars["#{Quby.questionnaire_key}_#{key}"] || "{{#{key}}}"
 
   set: (key, value) ->
     @vars[key] = value

@@ -2,8 +2,8 @@ require 'maruku'
 
 # rubocop:disable LineLength
 
-# Replace {{var_name}} with <span class='text_var' text_var=var_name></span>
-# TODO: add ability to specify default text to use in case text_var is empty
+# Replace {{var_name}} with <span class='textvar' textvar='var_name'></span>
+# TODO: add ability to specify default text to use in case textvar is empty
 TEXT_VAR = /(\{\{)(.+?)(\}\})/
 
 MaRuKu::In::Markdown.register_span_extension(chars: (RUBY_VERSION >= '1.9' ? '{' : 123), # ASCII ordinal of {
@@ -11,7 +11,7 @@ MaRuKu::In::Markdown.register_span_extension(chars: (RUBY_VERSION >= '1.9' ? '{'
                                              handler: lambda do |doc, src, con|
                                                         m = src.read_regexp3(TEXT_VAR)
                                                         var_name = m.captures.compact[1]
-                                                        string = "<span class='text_var' text_var='#{var_name}'>{{#{var_name}}}</span>"
+                                                        string = "<span class='textvar' textvar='#{var_name}'>{{#{var_name}}}</span>"
                                                         con.push doc.md_html(string)
                                                         # con.push doc.md_html("<p>raw html</p>")
                                                         true

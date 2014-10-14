@@ -12,4 +12,4 @@ Quby.Components.Textvar = React.createClass
       @forceUpdate()
 
   render: ->
-    React.DOM.span {}, Quby.textvars.get(@props.text_var)
+    React.DOM.span {}, Quby.textvars.get(@props.textvar)

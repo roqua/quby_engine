@@ -19,6 +19,7 @@ $ ->
   Quby.flags = new Quby.Collections.Flags
 
 Quby.init = (options) ->
+  Quby.questionnaire_key = options.questionnaire_key
   Quby.flags.addFlags(options.flag_definitions, options.flag_values)
   Quby.initTextvars(options.textvars)
   Quby.initShowsHides()
@@ -27,16 +28,16 @@ Quby.initTextvars = (textvars) ->
   Quby.textvars = new Quby.Collections.Textvars(textvars)
 
   # Convert textvars to React components
-  $("span[text_var]").each (idx, elm) ->
-    text_var = elm.getAttribute('text_var')
-    React.renderComponent(Quby.Components.Textvar(text_var: text_var), elm)
+  $("span[textvar]").each (idx, elm) ->
+    textvar = elm.getAttribute('textvar')
+    React.renderComponent(Quby.Components.Textvar(textvar: textvar), elm)
 
   # Listen to changes of textvar inputs
-  $(document).on "change", "input[text_var]", ->
-    Quby.textvars.set(@getAttribute("text_var"), @value)
+  $(document).on "change", "input[sets_textvar]", ->
+    Quby.textvars.set(@getAttribute("sets_textvar"), @value)
 
   # Initialize textvars from inputs once
-  $("input[text_var][value][value!=\"\"]").trigger "change"
+  $("input[sets_textvar][value][value!=\"\"]").trigger "change"
 
 Quby.initShowsHides = ->
   Quby.questions.trigger("initShowsHides")
