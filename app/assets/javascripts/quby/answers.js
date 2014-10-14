@@ -8,6 +8,5 @@
 //= require ./answers/hotkeys.js
 //= require ./answers/dont_submit_on_enter.js
 //= require ./answers/navigation.js
-//= require ./answers/text_vars.js
 //= require ./answers/rest.js
 //= require ./answers/hash_change.js

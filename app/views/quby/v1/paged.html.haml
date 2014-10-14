@@ -4,7 +4,6 @@
   window.extra_question_values = #{@answer.extra_question_values};
   // for showing validations of raw content
   window.extra_failed_validations = #{@answer.extra_failed_validations};
-  window.text_vars = #{@answer.textvars.to_json};
 
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, @questionnaire.extra_css)
