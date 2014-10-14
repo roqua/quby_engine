@@ -229,6 +229,12 @@ module Quby
             textvars.key? textvar_key
           end
         end
+
+        def default_textvars
+          textvars.select {|key, textvar| textvar.default.present? }
+                  .map    {|key, textvar| [key, textvar.default] }
+                  .to_h
+        end
       end
     end
   end

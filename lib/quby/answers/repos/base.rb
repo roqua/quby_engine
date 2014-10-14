@@ -43,7 +43,6 @@ module Quby
 
         def initial_attributes(questionnaire, given_attributes)
           flags = given_attributes.fetch(:flags, {})
-          textvars = given_attributes.fetch(:textvars, {})
 
           {
             questionnaire_key:    questionnaire.key,
@@ -60,7 +59,7 @@ module Quby
             started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
             flags:                questionnaire.filter_flags(flags),
-            textvars:             questionnaire.filter_textvars(textvars),
+            textvars:             default_textvars(questionnaire, given_attributes),
             value:                default_answer_value(questionnaire, given_attributes)
           }
         end
@@ -70,6 +69,12 @@ module Quby
           given_value = given_attributes[:value] || {}
 
           quest_value.merge(given_value).stringify_keys
+        end
+
+        def default_textvars(questionnaire, given_attributes)
+          given    = questionnaire.filter_textvars(given_attributes.fetch(:textvars, {}))
+          defaults = questionnaire.default_textvars
+          defaults.merge(given)
         end
 
         def update_attributes(record, answer)

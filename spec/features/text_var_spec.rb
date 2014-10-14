@@ -46,4 +46,20 @@ feature 'textvar replacement', js: true do
     visit_new_answer_for(questionnaire, 'paged', answer)
     page.should have_content 'Yo dawg I herd you like cars so we put a car in your car'
   end
+
+  scenario 'showing default var value' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      textvar key: 'thing', description: 'Name of the thing', default: 'car'
+
+      text "Yo dawg I herd you like {{thing}}s so we put a {{thing}} in your {{thing}}..."
+
+      question :v_1, :type => :string do
+        title "Foo"
+      end; end_panel
+    END
+
+    answer = create_new_answer_for(questionnaire, {})
+    visit_new_answer_for(questionnaire, 'paged', answer)
+    page.should have_content 'Yo dawg I herd you like cars so we put a car in your car'
+  end
 end
