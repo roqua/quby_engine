@@ -3,9 +3,7 @@ require 'maruku'
 # rubocop:disable LineLength
 
 # Replace {{var_name}} with <span class='textvar' textvar='var_name'></span>
-# TODO: add ability to specify default text to use in case textvar is empty
 TEXT_VAR = /(\{\{)(.+?)(\}\})/
-
 MaRuKu::In::Markdown.register_span_extension(chars: (RUBY_VERSION >= '1.9' ? '{' : 123), # ASCII ordinal of {
                                              regexp: TEXT_VAR,
                                              handler: lambda do |doc, src, con|
