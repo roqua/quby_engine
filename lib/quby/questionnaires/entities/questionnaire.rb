@@ -140,7 +140,8 @@ module Quby
             outcome_description: outcome_description,
             short_description: short_description,
             panels: panels,
-            flags: flags
+            flags: flags,
+            textvars: textvars
           }
         end
 
