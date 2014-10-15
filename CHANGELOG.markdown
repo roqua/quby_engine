@@ -1,3 +1,10 @@
+# 2.3.0
+
+* Added `flags` and `textvars` fields. AnswerRepos need to implement these fields.
+* `AnswerRepo#create` now receives an entity instead of a questionnaire key and
+  a hash of attributes. This was not part of the public interface, so this
+  shouldn't be breaking.
+
 # 2.2.0
 
 * Added `started_at` field. AnswerRepos need to implement this field.
