@@ -147,6 +147,10 @@ module Quby
           @questionnaire.add_flag flag_options
         end
 
+        def textvar(textvar_options)
+          @questionnaire.add_textvar textvar_options
+        end
+
         private
 
         def default_panel_options

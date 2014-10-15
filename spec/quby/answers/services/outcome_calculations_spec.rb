@@ -65,7 +65,7 @@ module Quby::Answers::Services
                                               options: [
                                                   double(key: :a1, value: 2)
                                               ],
-                                              text_var: false)])
+                                              sets_textvar: nil)])
         answer.value = { 'v_1' => :a1 }
         outcome = OutcomeCalculation.new(answer).calculate
         outcome.scores[:tot].should eq("value" => [2], "label" => "Totaal",

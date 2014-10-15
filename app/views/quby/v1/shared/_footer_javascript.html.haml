@@ -1,5 +1,9 @@
 :javascript
   $(function() {
-    Quby.flags.addFlags(#{answer.questionnaire.flags.to_json}, #{answer.flags.to_json})
-    Quby.initShowsHides()
+    Quby.init({
+      questionnaire_key: #{@questionnaire.key.to_json},
+      flag_definitions: #{answer.questionnaire.flags.to_json},
+      flag_values: #{answer.flags.to_json},
+      textvars: #{@answer.textvars.to_json}
+    });
   });

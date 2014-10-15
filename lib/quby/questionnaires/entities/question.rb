@@ -85,7 +85,7 @@ module Quby
 
         # Text variable name that will be replaced with the answer to this question
         # In all following text elements that support markdown
-        attr_accessor :text_var
+        attr_accessor :sets_textvar
 
         # Amount of rows and cols a textarea has
         attr_accessor :lines
@@ -125,7 +125,7 @@ module Quby
           @deselectable = options[:deselectable] || false
           @disallow_bulk = options[:disallow_bulk]
           @score_header = options[:score_header] || :none
-          @text_var = options[:text_var]
+          @sets_textvar = "#{questionnaire.key}_#{options[:sets_textvar]}" if options[:sets_textvar]
           @unit = options[:unit]
           @lines = options[:lines] || 6
           @cols = options[:cols] || 40

@@ -1,6 +1,7 @@
 require 'active_model'
 require 'quby/settings'
 require 'quby/questionnaires/entities/flag'
+require 'quby/questionnaires/entities/textvar'
 
 require 'action_view'
 include ActionView::Helpers::SanitizeHelper
@@ -33,6 +34,7 @@ module Quby
           @extra_css = ""
           @panels = []
           @flags = {}.with_indifferent_access
+          @textvars = {}.with_indifferent_access
         end
 
         attr_accessor :key
@@ -59,6 +61,7 @@ module Quby
         attr_accessor :charts
 
         attr_accessor :flags
+        attr_accessor :textvars
 
         delegate :question_hash,     to: :fields
         delegate :input_keys,        to: :fields
@@ -83,7 +86,11 @@ module Quby
         end
 
         def register_question(question)
-          @fields.add(question)
+          fields.add(question)
+
+          if question.sets_textvar && !textvars.key?(question.sets_textvar)
+            fail "Undefined textvar: #{question.sets_textvar}"
+          end
         end
 
         def callback_after_dsl_enhance_on_questions
@@ -208,6 +215,25 @@ module Quby
           given_flags.select do |flag_key, _|
             flags.key? flag_key
           end
+        end
+
+        def add_textvar(textvar_options)
+          textvar_key = "#{key}_#{textvar_options.fetch(:key)}".to_sym
+          textvar_options[:key] = textvar_key
+          fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
+          textvars[textvar_key] = Textvar.new(textvar_options)
+        end
+
+        def filter_textvars(given_textvars)
+          given_textvars.select do |textvar_key, _|
+            textvars.key? textvar_key
+          end
+        end
+
+        def default_textvars
+          textvars.select { |key, textvar| textvar.default.present? }
+                  .map    { |key, textvar| [key, textvar.default] }
+                  .to_h
         end
       end
     end

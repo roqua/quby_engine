@@ -10,7 +10,7 @@ module Quby::Answers::Entities
                           hides_questions: [:v_2]
 
         panel do
-          question :q1, type: :string, text_var: 'a', required: true
+          question :q1, type: :string, required: true
         end
       END
     end

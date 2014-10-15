@@ -22,7 +22,9 @@ module Quby
       end
 
       def create!(questionnaire_key, attributes = {})
-        @repo.create! questionnaire_key, attributes
+        questionnaire = Quby.questionnaires.find(questionnaire_key)
+        answer = Services::BuildAnswer.new(questionnaire, attributes).build
+        @repo.create! answer
       end
 
       def update!(answer)

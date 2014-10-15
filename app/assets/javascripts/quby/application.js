@@ -7,6 +7,11 @@
 
 //= require_tree ./browser_fixes
 
+//= require es5-shim.min.js
+//= require es5-sham.min.js
+//= require html5shiv-printshiv.min.js
+//= require react-with-addons-0.11-ie7-patched.js
+
 //= require backbone
 //= require ./backbone/quby
 
@@ -14,6 +19,7 @@
 //= require jquery_placeholder
 //= require jquery.watch.js
 //= require jquery.nouislider.with_roqua_modifications.js
+
 //= require ./better_range_inputs.js
 //= require jquery.ba-hashchange.js
 //= require jquery.deselectableRadio.1.0.3.js

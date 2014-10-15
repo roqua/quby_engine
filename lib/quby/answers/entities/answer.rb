@@ -32,6 +32,7 @@ module Quby
         attribute :dsl_last_update
         attribute :import_notes,         Hash                      # For answers that are imported from external sources
         attribute :flags,                Hash[Symbol => Boolean]
+        attribute :textvars,             Hash[Symbol => String]
 
         attr_accessor :aborted
 
