@@ -28,14 +28,13 @@ module Quby::Answers::Services
         expect(answer.textvars).to eq({test_foo: 'something_given'})
       end
 
-      it 'fails if textvar without default is not given' do
+      it 'without default are replaced with {{text_var_key}}' do
         questionnaire = inject_questionnaire 'test', <<-END
           textvar key: 'foo', description: ''
         END
 
-        expect do
-          BuildAnswer.new(questionnaire, {}).build
-        end.to raise_error
+        answer = BuildAnswer.new(questionnaire, {}).build
+        expect(answer.textvars).to eq({test_foo: '{{test_foo}}'})
       end
     end
   end

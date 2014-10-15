@@ -74,8 +74,8 @@ feature 'textvar replacement', js: true do
       end; end_panel
     END
 
-    expect do
-      create_new_answer_for(questionnaire, {})
-    end.to raise_error
+    answer = create_new_answer_for(questionnaire, {})
+    visit_new_answer_for(questionnaire, 'paged', answer)
+    page.should have_content 'Yo dawg I herd you like {{test_thing}}s so we put a {{test_thing}} in your {{test_thing}}'
   end
 end

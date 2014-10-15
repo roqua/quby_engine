@@ -54,8 +54,8 @@ module Quby
           defaults = questionnaire.default_textvars
           textvars = defaults.merge(given)
 
-          unless textvars.keys.sort == questionnaire.textvars.keys.sort
-            fail "Not all textvars have a value. Got: #{textvars.keys}, want: #{questionnaire.textvars.keys}"
+          (questionnaire.textvars.keys - textvars.keys).each do |unsupplied_textvar_key|
+            textvars[unsupplied_textvar_key] = "{{#{unsupplied_textvar_key}}}"
           end
 
           textvars
