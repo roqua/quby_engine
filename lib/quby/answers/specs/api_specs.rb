@@ -50,7 +50,7 @@ if defined?(RSpec)
     end
 
     it 'supports regenerating outcome for an answer' do
-      allow(Quby).to receive_messages(answer_repo: repo)
+      allow(Quby).to receive(:answer_repo).and_return(repo)
       answer_with_outcome.value = {'v_1' => 2}
       api.regenerate_outcome!(answer_with_outcome)
       expect(answer_with_outcome.scores).to eq(
