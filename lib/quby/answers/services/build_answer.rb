@@ -54,7 +54,10 @@ module Quby
           defaults = questionnaire.default_textvars
           textvars = defaults.merge(given)
 
-          fail "Not all textvars have a value." unless textvars.keys == questionnaire.textvars.keys
+          unless textvars.keys.sort == questionnaire.textvars.keys.sort
+            fail "Not all textvars have a value. Got: #{textvars.keys}, want: #{questionnaire.textvars.keys}"
+          end
+
           textvars
         end
       end
