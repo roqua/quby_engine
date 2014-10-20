@@ -209,7 +209,7 @@
     var quest_items = panel.find(".item."+ groupkey +", .option."+ groupkey);
     for(var i = 0; i < quest_items.length; i++){
       var inputs = $(quest_items[i]).find("input, textarea, select").not(":disabled, :hidden");
-      if (is_answered(inputs)) {
+      if (inputs.length > 0 && is_answered(inputs)) {
         answered++;
       }
     }
