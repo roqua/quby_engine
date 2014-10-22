@@ -244,7 +244,6 @@ shared_examples 'group_minimum_answered' do
     end
   end
 
-
   def expect_errors_on_group
     expect_error_on 'v_radio', 'answer_group_minimum'
     expect_error_on 'v_scale', 'answer_group_minimum'
