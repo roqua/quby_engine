@@ -207,6 +207,44 @@ shared_examples 'group_minimum_answered' do
     end
   end
 
+  context 'with hidden questions in the mix' do
+    let(:questionnaire) do
+      inject_questionnaire 'test', <<-END
+        n = 3
+
+        panel do
+          question :v_radio, type: :radio, question_group: :grp1, group_minimum_answered: n do
+            title 'Radio Question'
+            option :a1, value: 1, description: "Radio Option 1"
+            option :a2, value: 2, description: "Radio Option 2"
+          end
+
+          question :v_scale, type: :scale, default_invisible: true, question_group: :grp1, group_minimum_answered: n do
+            title 'Scale Question'
+            option :a1, value: 1, description: "Scale Option 1"
+            option :a2, value: 2, description: "Scale Option 2"
+          end
+
+          question :v_select, type: :select, question_group: :grp1, group_minimum_answered: n do
+            title 'Select Question'
+            option :a0, value: 0, description: "--- Kies ---", placeholder: true
+            option :a1, value: 1, description: "Select Option 1"
+            option :a2, value: 2, description: "Select Option 2"
+          end
+        end; end_panel
+      END
+    end
+
+    it 'does not count hidden as answered' do
+      select_radio_option 'v_radio', 'a1'
+      select_select_option 'v_select', 'a1'
+      run_validations
+      expect_error_on 'v_radio', 'answer_group_minimum'
+      expect_error_on 'v_select', 'answer_group_minimum'
+    end
+  end
+
+
   def expect_errors_on_group
     expect_error_on 'v_radio', 'answer_group_minimum'
     expect_error_on 'v_scale', 'answer_group_minimum'
