@@ -191,6 +191,10 @@ module Quby
         end
         # rubocop:enable AccessorMethodName
 
+        def title
+          @context_free_title || @title
+        end
+
         def expand_depends_on_input_keys
           return unless @depends_on
           @depends_on = questionnaire.expand_input_keys(@depends_on)
