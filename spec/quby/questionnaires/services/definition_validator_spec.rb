@@ -249,7 +249,7 @@ module Quby::Questionnaires::Services
 
       it 'reject score key if already defined' do
         definition = make_definition(<<-END)
-          question :v_6, type: :radio, title 'foo'
+          question :v_6, type: :radio, title: 'foo'
           score 'foo_score' do
             { t_score: 42 }
           end
