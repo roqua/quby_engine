@@ -75,6 +75,18 @@ panel do
     end
   end
 
+  question :v_14, type: :check_box, uncheck_all_option: :v_14_a3 do
+    option :v_14_a1, shows_questions: [:v_9]
+    option :v_14_a2, hides_questions: [:v_8]
+    option :v_14_a3
+  end
+
+  question :v_15, type: :check_box, check_all_option: :v_15_a3 do
+    option :v_15_a1, shows_questions: [:v_9]
+    option :v_15_a2, hides_questions: [:v_8]
+    option :v_15_a3
+  end
+
   # Hiding subquestions is not supported for now
   # question :v_14, :type => :check_box do
   #   title "P5"

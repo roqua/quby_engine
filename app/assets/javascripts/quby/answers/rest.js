@@ -38,7 +38,9 @@ function setAllCheckboxes(checked, allKey, nothingKey, question, checkValue){
         }
         for (i = 0; i < check_boxes.length; i++) {
           if (check_boxes[i].id != "answer_" + nothingKey && check_boxes[i].id != "answer_" + allKey){
-            $(check_boxes[i]).prop("checked", checkValue);
+            if (checkValue != $(check_boxes[i]).is(':checked')) {
+              $(check_boxes[i]).trigger('click')
+            }
             handleDisableCheckboxSubQuestions(check_boxes[i]);
           }
         }

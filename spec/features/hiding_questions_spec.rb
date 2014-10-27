@@ -105,6 +105,29 @@ feature 'Hiding and showing questions' do
       save_form
       Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_8" => "a2"))
     end
+
+    scenario 'by unchecking a check box question through the uncheck_all_option', js: true do
+      visit_new_answer_for(questionnaire)
+
+      check "answer_v_14_a1"
+      check "answer_v_14_a3"
+
+      goto_second_page
+
+      # Test that question 9 got hidden
+      page.should have_selector("[data-for=v_9].hide", count: 8, visible: false)
+    end
+
+    scenario 'by checking a check box question through the check_all_option', js: true do
+      visit_new_answer_for(questionnaire)
+
+      check "answer_v_15_a3"
+
+      goto_second_page
+
+      # Test that question 8 got hidden
+      page.should have_selector("[data-for=v_8].hide", count: 8, visible: false)
+    end
   end
 
   context 'Hiding all questions hides panels' do
@@ -259,6 +282,29 @@ feature 'Hiding and showing questions' do
       goto_third_page and save_form
       Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6"))
     end
+
+    scenario 'by unchecking a check box question through the uncheck_all_option', js: true do
+      visit_new_answer_for(questionnaire)
+
+      check "answer_v_14_a2"
+      check "answer_v_14_a3"
+
+      goto_second_page
+
+      # Test that question 8 got shown
+      page.should have_selector("[data-for=v_8].show", count: 8)
+    end
+
+    scenario 'by checking a check box question through the check_all_option', js: true do
+      visit_new_answer_for(questionnaire)
+
+      check "answer_v_15_a3"
+
+      goto_second_page
+
+      # Test that question 9 got shown
+      page.should have_selector("[data-for=v_9].show", count: 8)
+    end
   end
 
   context 'Default invisible questions' do
@@ -315,7 +361,15 @@ feature 'Hiding and showing questions' do
     {
       "v_5" => { "v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0 },
       "v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0,
-      "v_10_dd" => "", "v_10_mm" => "", "v_10_yyyy" => ""
+      "v_10_dd" => "", "v_10_mm" => "", "v_10_yyyy" => "",
+      "v_14" => { "v_14_a1" => 0, "v_14_a2" => 0, "v_14_a3" => 0 },
+      "v_14_a1" => 0,
+      "v_14_a2" => 0,
+      "v_14_a3" => 0,
+      "v_15" => { "v_15_a1" => 0, "v_15_a2" => 0, "v_15_a3" => 0 },
+      "v_15_a1" => 0,
+      "v_15_a2" => 0,
+      "v_15_a3" => 0
     }.merge(override)
   end
 end
