@@ -31,6 +31,19 @@ feature 'textvar replacement', js: true do
     page.should have_content 'Probleemmiddel: {{middel}}'
   end
 
+  scenario 'starting with no default, sets {{key}} as default' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      textvar key: 'middel', description: 'Probleemmiddel'
+
+      question :v_00, :type => :string, :sets_textvar => "middel" do
+        title "Probleemmiddel: {{middel}}"
+      end; end_panel
+    END
+
+    visit_new_answer_for(questionnaire)
+    page.should have_content 'Probleemmiddel: {{test_middel}}'
+  end
+
   scenario 'setting var value from answer record' do
     questionnaire = inject_questionnaire("test", <<-END)
       textvar key: 'thing', description: 'Name of the thing'

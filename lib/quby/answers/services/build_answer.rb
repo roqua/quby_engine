@@ -54,10 +54,6 @@ module Quby
           defaults = questionnaire.default_textvars
           textvars = defaults.merge(given)
 
-          (questionnaire.textvars.keys - textvars.keys).each do |unsupplied_textvar_key|
-            textvars[unsupplied_textvar_key] = "{{#{unsupplied_textvar_key}}}"
-          end
-
           textvars
         end
       end
