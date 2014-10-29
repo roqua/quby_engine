@@ -288,7 +288,7 @@ module Quby::Questionnaires::Services
       end
 
       context ':title or :context_free_title exist' do
-        it 'does not fail when :title exiests' do
+        it 'does not fail when :title exists' do
           definition = make_definition(<<-END)
             question :v_6, type: :radio do
               title 'foo'
@@ -297,7 +297,7 @@ module Quby::Questionnaires::Services
           expect(definition.valid?).to be true
         end
 
-        it 'does not fail when :context_free_title exiests' do
+        it 'does not fail when :context_free_title exists' do
           definition = make_definition(<<-END)
             question :v_6, type: :radio do
               context_free_title 'bar'
