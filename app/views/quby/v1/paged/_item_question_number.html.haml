@@ -16,7 +16,8 @@
       - minimum = minimum_validation && minimum_validation[:value]
       - maximum_validation = question.validations.detect {|i| i[:type] == :maximum }
       - maximum = maximum_validation && maximum_validation[:value]
-      - data[:default_position] = question.default_position || 'false'
+      - if question.default_position
+        - data[:default_position] = question.default_position
       = range_field :answer, question.key, autocomplete: question.autocomplete,
                                            class: cls,
                                            disabled: (disabled ? "" : nil),
