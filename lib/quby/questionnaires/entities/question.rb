@@ -191,7 +191,7 @@ module Quby
         end
         # rubocop:enable AccessorMethodName
 
-        def title
+        def context_free_title
           @context_free_title || @title
         end
 

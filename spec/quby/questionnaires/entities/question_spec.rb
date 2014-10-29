@@ -38,7 +38,7 @@ module Quby::Questionnaires::Entities
 
     describe '#context_free_title' do
       it 'should fallback to title' do
-        expect(questionnaire.question_hash[:radio].title).to eq 'Contextvrije testvraag'
+        expect(questionnaire.question_hash[:radio].context_free_title).to eq 'Contextvrije testvraag'
       end
     end
 
