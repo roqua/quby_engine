@@ -16,7 +16,8 @@ module Quby
              autocomplete: false,
              disabled: false,
              size: nil,
-             unit: nil)
+             unit: nil,
+             default_position: nil)
     end
 
     before { view.stub(marukufix: "HOI") }
@@ -72,6 +73,13 @@ module Quby
       render partial: "quby/v1/paged/item_question_number",
              locals: {question: question, subquestion: false, disabled: false}
       rendered.should include(%q~data-foo="bar"~)
+    end
+
+    it 'sets default position of the slider' do
+      question.stub(default_position: 42)
+      render partial: "quby/v1/paged/item_question_number",
+             locals: {question: question, subquestion: false, disabled: false}
+      expect(rendered).to include(%q~data-default-position="42"~)
     end
   end
 end

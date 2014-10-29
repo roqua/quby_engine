@@ -29,9 +29,12 @@ class BetterSlider
   init_slider: ->
     @$el.after(@$slider)
 
+    start = @$el.val() || (@max + @min) / 2
+    start = @$el.data('default-position') if @$el.data('default-position') != false
+
     @set_slider
       range: [@min, @max],
-      start: @$el.val() || (@max+@min)/2,
+      start: start,
       handles: 1,
       step: @step,
       serialization:
