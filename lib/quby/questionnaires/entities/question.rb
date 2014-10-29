@@ -100,6 +100,9 @@ module Quby
 
         attr_accessor :default_invisible
 
+        # Slider only: where to place the sliding thing by default
+        attr_accessor :default_position
+
         ##########################################################
 
         # rubocop:disable CyclomaticComplexity
