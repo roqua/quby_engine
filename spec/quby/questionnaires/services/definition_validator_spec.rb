@@ -42,7 +42,9 @@ module Quby::Questionnaires::Services
             option :a1, hides_questions: [:v_2]
           end
 
-          question :v_2, type: :textarea
+          question :v_2, type: :textarea do
+            title "Testvraag"
+          end
         END
         expect(definition.valid?).to be_true
       end
@@ -82,7 +84,9 @@ module Quby::Questionnaires::Services
             option :a1, shows_questions: [:v_2]
           end
 
-          question :v_2, type: :textarea
+          question :v_2, type: :textarea do
+            title 'Testvraag'
+          end
         END
         expect(definition.valid?).to be_true
       end
@@ -245,8 +249,7 @@ module Quby::Questionnaires::Services
 
       it 'reject score key if already defined' do
         definition = make_definition(<<-END)
-          question :v_6, type: :radio do
-          end
+          question :v_6, type: :radio, title: 'foo'
           score 'foo_score' do
             { t_score: 42 }
           end
@@ -258,6 +261,53 @@ module Quby::Questionnaires::Services
       end
     end
 
+    describe 'title validations' do
+      context ':title and :context_free_title do not exist' do
+        it 'fails' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio
+          END
+          expect(definition.valid?).to be false
+        end
+
+        it 'does not fail with :skip_title option' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio, skip_title: true do
+            end
+          END
+          expect(definition.valid?).to be true
+        end
+
+        it 'does not fail on table question' do
+          definition = make_definition(<<-END)
+            table columns: 4 do
+            end
+          END
+          expect(definition.valid?).to be true
+        end
+      end
+
+      context ':title or :context_free_title exist' do
+        it 'does not fail when :title exists' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio do
+              title 'foo'
+            end
+          END
+          expect(definition.valid?).to be true
+        end
+
+        it 'does not fail when :context_free_title exists' do
+          definition = make_definition(<<-END)
+            question :v_6, type: :radio do
+              context_free_title 'bar'
+            end
+          END
+          expect(definition.valid?).to be true
+        end
+      end
+    end
+
     describe 'subquestions inside a table' do
       it 'accepts title_questions' do
         make_definition(<<-END).valid?.should be_true
@@ -265,7 +315,7 @@ module Quby::Questionnaires::Services
             table do
               question :v_1, type: :radio do
                 title "Question"
-                title_question :v_2, :type => :string, :title => "", :depends_on => [:v_1_a1]
+                title_question :v_2, :type => :string, :title => "Title Question", :depends_on => [:v_1_a1]
                 option :a1, value: 1, description: "Option 1"
                 option :a2, value: 2, description: "Option 2"
               end
@@ -307,14 +357,18 @@ module Quby::Questionnaires::Services
       it 'accepts shows_questions arrays with known keys' do
         make_definition(<<-END).valid?.should be_true
           flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
-          question :v_22, type: :string
+          question :v_22, type: :string do
+            title 'Question'
+          end
         END
       end
 
       it 'accepts hides_questions arrays with known keys' do
         make_definition(<<-END).valid?.should be_true
           flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
-          question :v_22, type: :string
+          question :v_22, type: :string do
+            title 'Question'
+          end
         END
       end
     end

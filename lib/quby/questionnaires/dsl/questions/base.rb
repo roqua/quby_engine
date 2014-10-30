@@ -20,6 +20,10 @@ module Quby
             @question.title = value
           end
 
+          def context_free_title(value)
+            @question.context_free_title = value
+          end
+
           def description(value)
             @question.description = value
           end

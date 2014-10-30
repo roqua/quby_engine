@@ -11,6 +11,7 @@ module Quby
         attr_accessor :key
         attr_accessor :questionnaire
         attr_accessor :title
+        attr_accessor :context_free_title
         attr_accessor :description
 
         attr_accessor :labels
@@ -30,6 +31,10 @@ module Quby
 
         # Multiple-choice questions have options to choose from
         attr_accessor :options
+
+        # Question validation fails when there are no title and no context_free_title.
+        # When :skip_title => true passed, validation does not fail. Any other value will raise the failure.
+        attr_accessor :skip_title
 
         # Minimum and maximum values for float and integer types
         attr_accessor :minimum
@@ -112,6 +117,7 @@ module Quby
           @type = options[:type]
           @as = options[:as]
           @title = options[:title]
+          @skip_title = options[:skip_title]
           @description = options[:description]
           @display_modes = options[:display_modes]
           @presentation = options[:presentation]
@@ -184,6 +190,10 @@ module Quby
           @depends_on = keys
         end
         # rubocop:enable AccessorMethodName
+
+        def context_free_title
+          @context_free_title || @title
+        end
 
         def expand_depends_on_input_keys
           return unless @depends_on

@@ -4,8 +4,9 @@ module Quby::Questionnaires::Entities
   describe Question do
     let(:questionnaire) do
       Quby::Questionnaires::DSL.build("test") do
-        question :radio, type: :radio, depends_on: [:check] do
+        question :radio, type: :radio, depends_on: [:check], context_free_title: "Contextvrije testvraag" do
           title "Testvraag"
+          context_free_title "Contextvrije testvraag"
           option :rad1
           option :rad2
         end
@@ -32,6 +33,12 @@ module Quby::Questionnaires::Entities
         question :int, type: :integer
 
         question :date, type: :date
+      end
+    end
+
+    describe '#context_free_title' do
+      it 'should fallback to title' do
+        expect(questionnaire.question_hash[:radio].context_free_title).to eq 'Contextvrije testvraag'
       end
     end
 
