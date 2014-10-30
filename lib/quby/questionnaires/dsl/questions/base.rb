@@ -40,6 +40,10 @@ module Quby
             @question.set_depends_on(keys)
           end
 
+          def default_position(value)
+            @question.default_position = value
+          end
+
           def validates_presence_of_answer(options = {})
             @question.validations ||= []
             @question.validations << {type: :requires_answer}.reverse_merge(options)

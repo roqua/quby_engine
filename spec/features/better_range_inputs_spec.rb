@@ -105,4 +105,32 @@ feature 'Displaying a input of type range', js: true do
     input.should be_visible
   end
 
+  scenario 'A slider with default slider position set' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      question :v1, type: :integer, presentation: :horizontal, as: :slider, show_values: true do
+        title "Relatie/Contact"
+        default_position 10
+      end; end_panel
+    END
+    visit_new_answer_for(questionnaire)
+
+    input = find("#answer_v1", visible: false)
+    find('#item_v1 .noUi-handle').click
+    expect(input.value).to eq '10'
+  end
+
+  scenario 'A slider with default slider position and value set' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      default_answer_value({v1: #{default_value}})
+      question :v1, type: :integer, presentation: :horizontal, as: :slider, show_values: true do
+        title "Relatie/Contact"
+        default_position 10
+      end; end_panel
+    END
+    visit_new_answer_for(questionnaire)
+
+    input = find("#answer_v1", visible: false)
+    find('#item_v1 .noUi-handle').click
+    expect(input.value).to eq '40'
+  end
 end

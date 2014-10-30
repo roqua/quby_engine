@@ -22,16 +22,22 @@ class BetterSlider
     @$value_div = $('<div class="noUi-value" />')
 
     value = el.getAttribute('value') # in ie value is set on init.
-    @init_slider()
+
+    @init_slider(value)
     @start_invalid() unless value
     @$el.watch 'disabled', {call_immediately: true}, @copy_disabled, true
 
-  init_slider: ->
+  init_slider: (value) ->
     @$el.after(@$slider)
+
+    start = value || @$el.data('default-position') || (@max + @min) / 2
+    # Dirty hack because 0 above is false
+    if @$el.data('default-position') == 0
+      start = @$el.data('default-position')
 
     @set_slider
       range: [@min, @max],
-      start: @$el.val() || (@max+@min)/2,
+      start: start,
       handles: 1,
       step: @step,
       serialization:
