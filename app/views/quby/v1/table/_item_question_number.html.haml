@@ -1,5 +1,8 @@
 - available_width = question.presentation == :horizontal ? 100 : 66
-%td.item{:class => os_cycle, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
+- classes = [os_cycle]
+- classes << question.question_group if question.question_group
+- itemkey = "item_#{question.key}"
+%td.item{:id => itemkey, :class => classes, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   .fields{:class => question.type, :id => question.html_id}
     - cls = [question.type]
     - cls << question.as if question.as

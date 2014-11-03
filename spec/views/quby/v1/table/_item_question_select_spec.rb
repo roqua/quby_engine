@@ -20,7 +20,8 @@ module Quby
              unit: nil,
              presentation: :vertical,
              row_span: nil,
-             extra_data: nil
+             extra_data: nil,
+             question_group: nil
       )
     end
 
