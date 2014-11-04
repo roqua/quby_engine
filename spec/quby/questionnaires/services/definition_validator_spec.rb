@@ -270,9 +270,9 @@ module Quby::Questionnaires::Services
           expect(definition.valid?).to be false
         end
 
-        it 'does not fail with :skip_title option' do
+        it 'does not fail with :allow_blank_titles option' do
           definition = make_definition(<<-END)
-            question :v_6, type: :radio, skip_title: true do
+            question :v_6, type: :radio, allow_blank_titles: true do
             end
           END
           expect(definition.valid?).to be true

@@ -33,8 +33,8 @@ module Quby
         attr_accessor :options
 
         # Question validation fails when there are no title and no context_free_title.
-        # When :skip_title => true passed, validation does not fail. Any other value will raise the failure.
-        attr_accessor :skip_title
+        # When :allow_blank_titles => true passed, validation does not fail. Any other value will raise the failure.
+        attr_accessor :allow_blank_titles
 
         # Minimum and maximum values for float and integer types
         attr_accessor :minimum
@@ -120,7 +120,7 @@ module Quby
           @type = options[:type]
           @as = options[:as]
           @title = options[:title]
-          @skip_title = options[:skip_title]
+          @allow_blank_titles = options[:allow_blank_titles]
           @description = options[:description]
           @display_modes = options[:display_modes]
           @presentation = options[:presentation]
