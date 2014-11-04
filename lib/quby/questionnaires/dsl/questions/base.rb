@@ -128,7 +128,8 @@ module Quby
             options = @default_question_options.merge({depends_on: @question.key,
                                                        questionnaire: @questionnaire,
                                                        parent: @question,
-                                                       presentation: :next_to_title}.merge(options))
+                                                       presentation: :next_to_title,
+                                                       allow_blank_titles: @question.allow_blank_titles}.merge(options))
 
             question = QuestionBuilder.build(key, options, &block)
 
