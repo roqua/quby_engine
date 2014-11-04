@@ -136,6 +136,10 @@ module Quby
           end
         end
 
+        def input_or_answer_key_answered(key)
+
+        end
+
         private
 
         def convert_answer_value(question, value)
