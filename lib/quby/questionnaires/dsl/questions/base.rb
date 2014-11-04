@@ -105,12 +105,6 @@ module Quby
         end
 
         module Subquestions
-          def initialize(key, options = {}, &block)
-            super
-            @default_question_options = options[:default_question_options] || {}
-            @title_question = nil
-          end
-
           def build
             if @title_question
               @question.options.last.questions << @title_question

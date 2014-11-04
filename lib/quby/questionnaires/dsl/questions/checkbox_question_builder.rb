@@ -9,6 +9,8 @@ module Quby
 
           def initialize(key, options = {}, &block)
             super
+            @default_question_options = options[:default_question_options] || {}
+            @title_question = nil
             @question = Entities::Questions::CheckboxQuestion.new(key, options)
           end
         end
