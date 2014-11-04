@@ -45,6 +45,10 @@ module Quby
           calculated_attributes.groups
         end
 
+        def depends_on_lookup
+          calculated_attributes.depends_on_lookup
+        end
+
         def parent_option_is_not_selected(question)
           return false unless question.parent and question.parent_option_key
 

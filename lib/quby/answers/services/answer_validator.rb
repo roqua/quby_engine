@@ -23,7 +23,7 @@ module Quby
             next if question.hidden?
 
             if question.depends_on.present?
-              next unless question.depends_on.any? { |key| answer.send(key) }
+              next unless question.depends_on.any? { |key| depends_on_key_answered(key) }
             end
 
             value = answer.send(question.key)
@@ -62,9 +62,7 @@ module Quby
         # rubocop:enable CyclomaticComplexity
 
         def validate_required(question, validation, value)
-          if question.type == :check_box && value.values.reduce(:+) == 0
-            answer.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.")
-          elsif value.blank?
+          if question.type == :check_box && value.values.reduce(:+) == 0 || value.blank?
             answer.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.")
           end
         end
@@ -136,8 +134,8 @@ module Quby
           end
         end
 
-        def input_or_answer_key_answered(key)
-
+        def depends_on_key_answered(key)
+          answer.depends_on_lookup[key]
         end
 
         private
