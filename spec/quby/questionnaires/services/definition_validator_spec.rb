@@ -333,8 +333,12 @@ module Quby::Questionnaires::Services
         it 'acts the same on title_question' do
           definition = make_definition(<<-END)
             default_question_options allow_blank_titles: true
-            question :v_22a, :type => :check_box do
-              title_question :v_22_a01, :type => :string, :title: ""
+            question :v_100a, :type => :radio, :presentation => :horizontal, :required => false do
+              title "  100a."
+              title_question :v_100a_01, :type => :string, :title => ''
+              option :a1, :value => 0, :description => "Optie 1"
+              option :a2, :value => 1, :description => "Optie 2"
+              option :a3, :value => 2, :description => "Optie 3"
             end
           END
           expect(definition).to be_valid
