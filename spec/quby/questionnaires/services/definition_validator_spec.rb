@@ -306,6 +306,40 @@ module Quby::Questionnaires::Services
           expect(definition.valid?).to be true
         end
       end
+
+      context 'default question options' do
+        it 'is valid when no title exist and default question options set to true' do
+          definition = make_definition(<<-END)
+            default_question_options allow_blank_titles: true
+            question :v_6, type: :radio do
+              context_free_title 'bar'
+            end
+          END
+          expect(definition).to be_valid
+        end
+      end
+
+      context 'subquestions' do
+        it 'acts the same on subquestions' do
+          definition = make_definition(<<-END)
+            default_question_options allow_blank_titles: true
+            question :v_22a, :type => :check_box do
+              option :v_22_a01, :description => "Niet genoeg informatie"
+            end
+          END
+          expect(definition).to be_valid
+        end
+
+        it 'acts the same on title_question' do
+          definition = make_definition(<<-END)
+            default_question_options allow_blank_titles: true
+            question :v_22a, :type => :check_box do
+              title_question :v_22_a01, :type => :string, :title: ""
+            end
+          END
+          expect(definition).to be_valid
+        end
+      end
     end
 
     describe 'subquestions inside a table' do
