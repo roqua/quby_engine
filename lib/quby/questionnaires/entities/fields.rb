@@ -30,7 +30,7 @@ module Quby
           # TODO: Fix collision in questionnaire subquestion keys.
           #
           # This is probably the best place to ensure that keys don't collide. However,our current set of questionnaires
-          # does have a few collisions between +v_1+ option +a9+,and it's subquestion +v_1_a9+. For the time being,
+          # does have a few collisions between +v_1+ option +a9+ and its subquestion +v_1_a9+. For the time being,
           # this check is therefor left commented out. The old check which exists in the DSL is left in place.
           #
           # if @answer_keys.intersect?(new_answer_keys)

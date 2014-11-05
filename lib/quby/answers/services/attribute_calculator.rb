@@ -5,12 +5,17 @@ module Quby
         attr_reader :questionnaire, :answer
         attr_reader :hidden, :shown, :groups
 
+        # To check if a question or question option that is depended on is filled in,
+        # we can look up the question that fits the key in the depends_on_lookup hash.
+        attr_reader :depends_on_lookup
+
         def initialize(questionnaire, answer)
           @questionnaire = questionnaire
           @answer = answer
           @hidden = []
           @shown  = []
           @groups = {}
+          @depends_on_lookup = {}
 
           init_flag_result
           questionnaire.questions.compact.each { |question| process_question(question) }
@@ -33,7 +38,7 @@ module Quby
           return if question.hidden?
 
           process_questions_that_are_invisible_by_default(question)
-          process_showing_and_hiding(question)
+          process_question_answer(question)
           process_question_groups(question)
         end
 
@@ -43,14 +48,16 @@ module Quby
           end
         end
 
-        def process_showing_and_hiding(question)
+        def process_question_answer(question)
           case question.type
           when :radio, :scale, :select
             process_radioish(question)
           when :check_box
             process_checkbox(question)
           else
-            # nothing
+            if answer.send(question.key).present?
+              @depends_on_lookup[question.key] = true
+            end
           end
         end
 
@@ -68,15 +75,18 @@ module Quby
             if selected_option
               process_option_hiding(selected_option)
               process_option_showing(selected_option)
+              @depends_on_lookup[selected_option.input_key] = true
             end
           end
         end
 
         def process_checkbox(question)
           selected_options = question.options.select { |option| !option.inner_title? && answer.send(option.key) == 1 }
+
           selected_options.each do |option|
             process_option_hiding(option)
             process_option_showing(option)
+            @depends_on_lookup[option.input_key] = true
           end
         end
 

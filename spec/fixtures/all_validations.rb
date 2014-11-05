@@ -62,6 +62,18 @@ panel do
     option :a0, value: 0
   end
 
+  question :v_depended_check, type: :check_box do
+    title_question :v_depend_title, type: :string, depends_on: [:v_depended_check_a1], required: true
+    option :v_depended_check_a1
+    option :v_depended_check_a2
+  end
+
+  question :v_depended_check2, type: :check_box do
+    title_question :v_depend2_title, type: :string, depends_on: [:v_depended_check2_a1], required: true
+    option :v_depended_check2_a1
+    option :v_depended_check2_a2
+  end
+
   question :v_invalid_integer, type: :integer
   question :v_valid_integer, type: :integer
   question :v_invalid_float, type: :float
