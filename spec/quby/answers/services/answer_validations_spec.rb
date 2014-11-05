@@ -22,6 +22,14 @@ module Quby::Answers::Services
         "v_depend" => nil,
         "v_depends_on" => "a0",
         "v_depends_on2" => nil,
+        "v_depend_title" => nil,
+        "v_depended_check" => {v_depended_check_a1: 1, v_depended_check_a2: 0},
+        "v_depended_check_a1" => 1,
+        "v_depended_check_a2" => 0,
+        "v_depend2_title" => nil,
+        "v_depended_check2" => {v_depended_check2_a1: 0, v_depended_check2_a2: 1},
+        "v_depended_check2_a1" => 0,
+        "v_depended_check2_a2" => 1,
         "v_invalid_integer" => "0.2",
         "v_invalid_float" => "0,2",
         "v_invalid_regexp" => "b",
@@ -323,6 +331,15 @@ module Quby::Answers::Services
 
           it 'does not add an error if not too many answers are in a question group with a maximum' do
             answer.errors.messages[:v_check_answer_group_under_maximum].should be_nil
+          end
+
+          it 'adds an error on an empty required title question if a depended on checkbox option is checked' do
+            expect(answer.errors.messages[:v_depend_title]).to eq([{message: "Must be answered.",
+                                                                    valtype: :requires_answer}])
+          end
+
+          it 'does not add error on an empty required title question if a depended on checkbox option is unchecked' do
+            expect(answer.errors.messages[:v_depend2_title]).to eq(nil)
           end
         end
       end
