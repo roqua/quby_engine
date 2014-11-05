@@ -53,7 +53,7 @@ module Quby
         end
 
         def validate_presence_of_titles(question)
-          return if question.skip_title == true
+          return if question.allow_blank_titles
           if !question.subquestion? && question.title.blank? && question.context_free_title.blank?
             fail "Question #{question.key} must define either `:title` or `:context_free_title`."
           end

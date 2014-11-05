@@ -270,9 +270,9 @@ module Quby::Questionnaires::Services
           expect(definition.valid?).to be false
         end
 
-        it 'does not fail with :skip_title option' do
+        it 'does not fail with :allow_blank_titles option' do
           definition = make_definition(<<-END)
-            question :v_6, type: :radio, skip_title: true do
+            question :v_6, type: :radio, allow_blank_titles: true do
             end
           END
           expect(definition.valid?).to be true
@@ -304,6 +304,44 @@ module Quby::Questionnaires::Services
             end
           END
           expect(definition.valid?).to be true
+        end
+      end
+
+      context 'default question options' do
+        it 'is valid when no title exist and default question options set to true' do
+          definition = make_definition(<<-END)
+            default_question_options allow_blank_titles: true
+            question :v_6, type: :radio do
+              context_free_title 'bar'
+            end
+          END
+          expect(definition).to be_valid
+        end
+      end
+
+      context 'subquestions' do
+        it 'acts the same on subquestions' do
+          definition = make_definition(<<-END)
+            default_question_options allow_blank_titles: true
+            question :v_22a, :type => :check_box do
+              option :v_22_a01, :description => "Niet genoeg informatie"
+            end
+          END
+          expect(definition).to be_valid
+        end
+
+        it 'acts the same on title_question' do
+          definition = make_definition(<<-END)
+            default_question_options allow_blank_titles: true
+            question :v_100a, :type => :radio, :presentation => :horizontal, :required => false do
+              title "  100a."
+              title_question :v_100a_01, :type => :string, :title => ''
+              option :a1, :value => 0, :description => "Optie 1"
+              option :a2, :value => 1, :description => "Optie 2"
+              option :a3, :value => 2, :description => "Optie 3"
+            end
+          END
+          expect(definition).to be_valid
         end
       end
     end
