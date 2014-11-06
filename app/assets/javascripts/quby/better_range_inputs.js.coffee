@@ -20,24 +20,19 @@ class BetterSlider
     @step = +@$el.attr('step') || 1
     @$slider = $('<div />')
     @$value_div = $('<div class="noUi-value" />')
+    @value = el.getAttribute('value') # in ie value is set on init.
+    @set_start()
 
-    value = el.getAttribute('value') # in ie value is set on init.
-
-    @init_slider(value)
-    @start_invalid() unless value
+    @init_slider()
+    @start_invalid() unless @value
     @$el.watch 'disabled', {call_immediately: true}, @copy_disabled, true
 
-  init_slider: (value) ->
+  init_slider: ->
     @$el.after(@$slider)
-
-    start = value || @$el.data('default-position') || (@max + @min) / 2
-    # Dirty hack because 0 above is false
-    if @$el.data('default-position') == 0
-      start = @$el.data('default-position')
 
     @set_slider
       range: [@min, @max],
-      start: start,
+      start: @start,
       handles: 1,
       step: @step,
       serialization:
@@ -46,6 +41,12 @@ class BetterSlider
 
     @$el.hide() unless @$el.data('show-values')
     @$el.prop('type', 'text').removeClass('slider')
+
+  set_start: ->
+    @start = @value ? @$el.data('default-position') ? (@max + @min) / 2
+    if @start < @min
+      @start = @min
+      @$el.addClass('hide_invalid_handle')
 
   set_slider: (options) ->
     initialized = @$slider.hasClass('noUi-target')
@@ -61,7 +62,6 @@ class BetterSlider
   # Starts the slider as invalid, makes it valid on slide or click.
   start_invalid: ->
     @$el.addClass('invalid')
-    @$slider.addClass('invalid')
     @$slider.one 'slide', =>
       @$el.removeClass('invalid')
     @$slider.data('base').data('handles')[0].one 'click', =>

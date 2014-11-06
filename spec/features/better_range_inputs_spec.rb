@@ -133,4 +133,23 @@ feature 'Displaying a input of type range', js: true do
     find('#item_v1 .noUi-handle').click
     expect(input.value).to eq '40'
   end
+
+  scenario 'A slider with default_value < min (hide handle at first)' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      question :v1, type: :integer, presentation: :horizontal, as: :slider do
+        title "Relatie/Contact"
+        validates_in_range 0..100
+        default_position -1
+      end; end_panel
+    END
+    visit_new_answer_for(questionnaire)
+
+    input = find("#answer_v1", visible: false)
+    find('#item_v1 .noUi-handle', visible: false).should_not be_visible
+    expect(input.value).to eq ''
+    # after clicking the bar, the value is set and the handle visible
+    find('#item_v1 .noUi-base', visible: false).click
+    find('#item_v1 .noUi-handle', visible: false).should be_visible
+    expect(input.value).to eq '50'
+  end
 end
