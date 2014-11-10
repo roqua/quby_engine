@@ -97,5 +97,24 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.question_hash[:radio].depends_on).to eq [:check1, :check2]
       end
     end
+
+    describe '#default_position' do
+      it 'defaults to halfway between minimum and maximum' do
+        question = Questions::IntegerQuestion.new(:v_1, type: :integer, minimum: 1, maximum: 5)
+        expect(question.default_position).to eq 3
+      end
+
+      it 'overrides the default if set' do
+        question = Questions::IntegerQuestion.new(:v_1, type: :integer, minimum: 1, maximum: 5,
+                                                        default_position: 4)
+        expect(question.default_position).to eq 4
+      end
+
+      it 'allows explicit nil value' do
+        question = Questions::IntegerQuestion.new(:v_1, type: :integer, minimum: 1, maximum: 5,
+                                                        default_position: :hidden)
+        expect(question.default_position).to eq :hidden
+      end
+    end
   end
 end

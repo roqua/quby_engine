@@ -43,8 +43,8 @@ class BetterSlider
     @$el.prop('type', 'text').removeClass('slider')
 
   set_start: ->
-    @start = @value ? @$el.data('default-position') ? (@max + @min) / 2
-    if @start < @min
+    @start = @value ? @$el.data('default-position')
+    unless @start
       @start = @min
       @$el.addClass('hide_invalid_handle')
 

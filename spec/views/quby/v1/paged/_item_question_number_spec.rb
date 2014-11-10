@@ -11,6 +11,8 @@ module Quby
              as: :slider,
              validations: [{type: :minimum, value: 1},
                            {type: :maximum, value: 20}],
+             minimum: 1,
+             maximum: 20,
              input_data: {},
              show_values: :bulk,
              autocomplete: false,

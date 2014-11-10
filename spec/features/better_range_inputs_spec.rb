@@ -136,10 +136,9 @@ feature 'Displaying a input of type range', js: true do
 
   scenario 'A slider with default_value < min (hide handle at first)' do
     questionnaire = inject_questionnaire("test", <<-END)
-      question :v1, type: :integer, presentation: :horizontal, as: :slider do
+      question :v1, type: :integer, presentation: :horizontal, as: :slider, default_position: :hidden do
         title "Relatie/Contact"
         validates_in_range 0..100
-        default_position -1
       end; end_panel
     END
     visit_new_answer_for(questionnaire)
