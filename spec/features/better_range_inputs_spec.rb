@@ -96,7 +96,7 @@ feature 'Displaying a input of type range', js: true do
   scenario 'A slider with show_values set' do
     questionnaire = inject_questionnaire("test", <<-END)
       question :v1, type: :integer, presentation: :horizontal, as: :slider,
-                    show_values: true do
+                    show_values: :all do
         title "Relatie/Contact"
       end; end_panel
     END
@@ -107,7 +107,7 @@ feature 'Displaying a input of type range', js: true do
 
   scenario 'A slider with default slider position set' do
     questionnaire = inject_questionnaire("test", <<-END)
-      question :v1, type: :integer, presentation: :horizontal, as: :slider, show_values: true do
+      question :v1, type: :integer, presentation: :horizontal, as: :slider, show_values: :all do
         title "Relatie/Contact"
         default_position 10
       end; end_panel
@@ -122,7 +122,7 @@ feature 'Displaying a input of type range', js: true do
   scenario 'A slider with default slider position and value set' do
     questionnaire = inject_questionnaire("test", <<-END)
       default_answer_value({v1: #{default_value}})
-      question :v1, type: :integer, presentation: :horizontal, as: :slider, show_values: true do
+      question :v1, type: :integer, presentation: :horizontal, as: :slider, show_values: :all do
         title "Relatie/Contact"
         default_position 10
       end; end_panel

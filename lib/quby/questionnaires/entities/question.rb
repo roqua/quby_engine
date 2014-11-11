@@ -44,11 +44,14 @@ module Quby
         attr_accessor :autocomplete
 
         # Whether we show the value for each option
-        # true or :all => in all questionnaire display modes
-        # false or :none => in none of display modes
+        # :all => in all questionnaire display modes
+        # :none => in none of display modes
         # :paged => for only in :paged display mode
         # :bulk => for only in :bulk display mode
         attr_accessor :show_values
+        validates :show_values, inclusion: {
+          in: [:all, :none, :paged, :bulk],
+          message: "option invalid: %{value}. Valid options: :all, :none, :paged, :bulk)" }
 
         # Structuring
         attr_accessor :validations

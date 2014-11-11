@@ -8,6 +8,19 @@ module Quby::Questionnaires::Services
       Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: definition)
     end
 
+    describe 'questions with activemodel validation errors' do
+      it "throws an error if the question to be hidden does not exist" do
+        invalid_definition = make_definition(<<-END)
+          question :v_1, type: :string, show_values: :error do
+            title "Testvraag"
+          end
+        END
+        invalid_definition.valid?
+        expect(invalid_definition.errors[:sourcecode].first[:message])
+          .to include("Question v_1 is invalid: Show values option invalid: error.")
+      end
+    end
+
     describe ":hides_questions" do
       it "throws an error if the question to be hidden does not exist" do
         invalid_definition = make_definition(<<-END)
