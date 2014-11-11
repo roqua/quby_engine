@@ -5,6 +5,18 @@ module Quby
   module Answers
     module Services
       class ScoreCalculator
+        class UnknownFieldsReferenced < StandardError; end
+
+        class MissingAnswerValues < StandardError
+          attr_reader :questionnaire_key, :values, :missing
+
+          def initialize(questionnaire_key:, values:, missing:)
+            @questionnaire_key = questionnaire_key
+            @values = values
+            @missing = missing
+          end
+        end
+
         # Evaluates block within the context of a new calculator
         # instance. All instance methods are accessible.
         def self.calculate(*args, &block)
@@ -45,9 +57,9 @@ module Quby
         # restriction is placed. And for open questions the value will probably
         # be a String.
         def values(*keys)
-          keys.map(&:to_s).each do |key|
-            fail "Key #{key.inspect} not found in values: #{@values.inspect}" unless @values.key?(key)
-          end
+          keys = keys.map(&:to_s)
+
+          ensure_answer_values_for(keys)
           values_with_nils(*keys)
         end
 
@@ -71,7 +83,9 @@ module Quby
         # unknown, nil will be returned for that question.
         def values_with_nils(*keys)
           keys = keys.map(&:to_s)
-          fail ArgumentError, 'Key requested more than once' if keys.uniq!
+
+          ensure_defined_question_keys(keys)
+          ensure_no_duplicate_keys(keys)
 
           if keys.empty?
             remember_usage_of_value_keys(@values.keys)
@@ -175,10 +189,6 @@ module Quby
           @scores.fetch(key)
         end
 
-        def remember_usage_of_value_keys(keys)
-          @referenced_values += keys
-        end
-
         def referenced_values
           @values.keys.select { |key| @referenced_values.andand.include? key }
         end
@@ -186,6 +196,35 @@ module Quby
         def opencpu(package, function, parameters = {})
           client = ::OpenCPU.client
           client.execute(package, function, parameters)
+        end
+
+        private
+
+        def remember_usage_of_value_keys(keys)
+          @referenced_values += keys
+        end
+
+        def ensure_defined_question_keys(keys)
+          unknown_keys = keys.reject { |key| @questionnaire.fields.key_in_use?(key) }
+
+          if unknown_keys.present?
+            fail UnknownFieldsReferenced.new(questionnaire_key: @questionnaire.key,
+                                             unknown: unknown_keys.inspect)
+          end
+        end
+
+        def ensure_no_duplicate_keys(keys)
+          fail ArgumentError, 'Key requested more than once' if keys.uniq!
+        end
+
+        def ensure_answer_values_for(keys)
+          unanswered_keys = keys.reject { |key| @values.key?(key) }
+
+          if unanswered_keys.present?
+            fail MissingAnswerValues.new(questionnaire_key: @questionnaire.key,
+                                         values: @values,
+                                         missing: unanswered_keys)
+          end
         end
       end
     end

@@ -9,6 +9,8 @@ module Quby::Answers::Services
         question :v_1, type: :integer, title: 'Q1'
         question :v_2, type: :integer, title: 'Q2'
         question :v_3, type: :integer, title: 'Q3'
+        question :v_4, type: :integer, title: 'Q4'
+        question :v_5, type: :integer, title: 'Q5'
       END
     end
 
@@ -73,7 +75,7 @@ module Quby::Answers::Services
       it 'raises if a value is requested which does not exist' do
         expect do
           calculator.values(:unknown_key)
-        end.to raise_error(/unknown_key/)
+        end.to raise_error(ScoreCalculator::MissingAnswerValues)
       end
     end
 
