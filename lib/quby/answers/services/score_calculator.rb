@@ -208,8 +208,8 @@ module Quby
           unknown_keys = keys.reject { |key| @questionnaire.fields.key_in_use?(key) }
 
           if unknown_keys.present?
-            fail UnknownFieldsReferenced.new(questionnaire_key: @questionnaire.key,
-                                             unknown: unknown_keys.inspect)
+            fail UnknownFieldsReferenced, questionnaire_key: @questionnaire.key,
+                                          unknown: unknown_keys
           end
         end
 
@@ -221,9 +221,9 @@ module Quby
           unanswered_keys = keys.reject { |key| @values.key?(key) }
 
           if unanswered_keys.present?
-            fail MissingAnswerValues.new(questionnaire_key: @questionnaire.key,
-                                         values: @values,
-                                         missing: unanswered_keys)
+            fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
+                                      values: @values,
+                                      missing: unanswered_keys
           end
         end
       end

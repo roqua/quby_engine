@@ -123,8 +123,14 @@ module Quby::Answers::Services
 
       it 'raises if a value is requested more than once' do
         expect do
-          calculator.values_with_nils(:v_1, 'v_1').should  eq [nil]
+          calculator.values_with_nils(:v_1, 'v_1')
         end.to raise_error(/requested more than once/)
+      end
+
+      it 'raises if a value is requested that does not have a definition in the questionnaire' do
+        expect do
+          calculator.values_with_nils(:v_undefined)
+        end.to raise_error(ScoreCalculator::UnknownFieldsReferenced)
       end
     end
 
