@@ -36,7 +36,8 @@ module Quby::Answers::Services
         answer.stub(value_by_regular_values: { v_2: 2, v_1: 1 }, completed_at: 'completed_at')
         received_values, received_timestamp, received_patient_attrs = nil
 
-        ScoreCalculator.should_receive(:calculate).exactly(3).times do |values, timestamp, patient_attrs, scores|
+        ScoreCalculator.should_receive(:calculate)
+                       .exactly(3).times do |questionnaire, values, timestamp, patient_attrs, scores|
           received_values = values
           received_timestamp = timestamp
           received_patient_attrs = patient_attrs

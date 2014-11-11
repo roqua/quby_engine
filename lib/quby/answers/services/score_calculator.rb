@@ -26,7 +26,8 @@ module Quby
         #                     :male, :female or :unknown (optional)
         # scores - The Hash containing other scores calculated for the answer, so
         #          that these scores can be accessed from the current calculation.
-        def initialize(values, timestamp, patient_attrs = {}, scores = {})
+        def initialize(questionnaire, values, timestamp, patient_attrs = {}, scores = {})
+          @questionnaire = questionnaire
           @values = values
           @timestamp = timestamp
           @patient = Entities::Patient.new(patient_attrs)

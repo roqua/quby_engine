@@ -20,7 +20,8 @@ module Quby
 
           questionnaire.score_calculations.each do |key, calculation|
             begin
-              result = ScoreCalculator.calculate(value_by_regular_values,
+              result = ScoreCalculator.calculate(answer.questionnaire,
+                                                 value_by_regular_values,
                                                  completed_at,
                                                  patient.andand.slice("birthyear", "gender"),
                                                  results,
