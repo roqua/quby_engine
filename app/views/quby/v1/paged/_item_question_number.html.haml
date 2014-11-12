@@ -12,17 +12,13 @@
     - data[:show_values] = [true, :all, :paged].include? question.show_values
     - case question.as
     - when :slider
-      - minimum_validation = question.validations.detect {|i| i[:type] == :minimum }
-      - minimum = minimum_validation && minimum_validation[:value]
-      - maximum_validation = question.validations.detect {|i| i[:type] == :maximum }
-      - maximum = maximum_validation && maximum_validation[:value]
-      - if question.default_position
+      - if question.default_position.is_a? Numeric
         - data[:default_position] = question.default_position
       = range_field :answer, question.key, autocomplete: question.autocomplete,
                                            class: cls,
                                            disabled: (disabled ? "" : nil),
-                                           min: minimum,
-                                           max: maximum,
+                                           min: question.minimum,
+                                           max: question.maximum,
                                            step: (question.type == :float ? 0.01 : 1),
                                            data: data
       - unless question.labels.blank?

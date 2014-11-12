@@ -106,6 +106,7 @@ module Quby
         attr_accessor :default_invisible
 
         # Slider only: where to place the sliding thing by default
+        # Can have value :hidden for a hidden handle.
         attr_accessor :default_position
 
         ##########################################################
@@ -172,6 +173,7 @@ module Quby
           if options[:maximum] and (@type == :integer || @type == :float)
             @validations << {type: :maximum, value: options[:maximum], explanation: options[:error_explanation]}
           end
+          @default_position = options[:default_position]
 
           if @question_group
             if @group_minimum_answered
@@ -243,6 +245,19 @@ module Quby
         # Difference with input_keys is radio/select/scale-options being answers of the question-key.
         def answer_keys
           [key]
+        end
+
+        def default_position
+          half = (type == :float) ? 2.0 : 2
+          @default_position || ((minimum + maximum) / half if minimum && maximum)
+        end
+
+        def minimum
+          validations.find { |i| i[:type] == :minimum }.try(:fetch, :value)
+        end
+
+        def maximum
+          validations.find { |i| i[:type] == :maximum }.try(:fetch, :value)
         end
 
         def key_in_use?(k)
