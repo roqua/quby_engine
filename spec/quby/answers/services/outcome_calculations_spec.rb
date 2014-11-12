@@ -15,7 +15,12 @@ module Quby::Answers::Services
     let(:completion) { ScoreCalculation.new(:completion, { completion: true }, &completioner) }
 
     let(:questionnaire) do
-      quest = Questionnaire.new "test"
+      quest = inject_questionnaire "test", <<-END
+        question :v_1, type: :radio do
+          title 'Q1'
+          option :a1, value: 2, description: '1'
+        end
+      END
 
       quest.add_score_calculation score
       quest.add_score_calculation action
@@ -36,7 +41,8 @@ module Quby::Answers::Services
         answer.stub(value_by_regular_values: { v_2: 2, v_1: 1 }, completed_at: 'completed_at')
         received_values, received_timestamp, received_patient_attrs = nil
 
-        ScoreCalculator.should_receive(:calculate).exactly(3).times do |values, timestamp, patient_attrs, scores|
+        ScoreCalculator.should_receive(:calculate)
+                       .exactly(3).times do |questionnaire, values, timestamp, patient_attrs, scores|
           received_values = values
           received_timestamp = timestamp
           received_patient_attrs = patient_attrs
@@ -80,6 +86,15 @@ module Quby::Answers::Services
         outcome = OutcomeCalculation.new(answer).calculate
         outcome.scores[:tot2].should eq("value" => 5, "label" => "Totaal2",
                                         "score" => true, 'referenced_values' => [])
+      end
+
+      context 'when calculation misses some values' do
+        before { score.stub(calculation: proc { values(:v_unknown) }) }
+
+        it 'records a missing score outcome' do
+          outcome = OutcomeCalculation.new(answer).calculate
+          expect(outcome.scores[:tot]).to eq('label' => 'Totaal', 'score' => true, 'missing_values' => ['v_unknown'])
+        end
       end
 
       context 'when calculation throws an exception' do

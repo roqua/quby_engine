@@ -18,7 +18,7 @@ module Quby
         attr_reader :input_keys
 
         def initialize
-          @question_hash = {}
+          @question_hash = HashWithIndifferentAccess.new
           @answer_keys   = Set.new
           @input_keys    = Set.new
         end

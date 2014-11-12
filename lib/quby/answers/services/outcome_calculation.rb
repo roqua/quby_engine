@@ -20,7 +20,8 @@ module Quby
 
           questionnaire.score_calculations.each do |key, calculation|
             begin
-              result = ScoreCalculator.calculate(value_by_regular_values,
+              result = ScoreCalculator.calculate(answer.questionnaire,
+                                                 value_by_regular_values,
                                                  completed_at,
                                                  patient.andand.slice("birthyear", "gender"),
                                                  results,
@@ -28,6 +29,8 @@ module Quby
               result.reverse_merge!(calculation.options) if calculation.score
               result = {"value" => result} if calculation.completion
               results[key] = result
+            rescue ScoreCalculator::MissingAnswerValues => exception
+              results[key] = calculation.options.merge(missing_values: exception.missing)
             rescue StandardError => exception
               if defined? Roqua::Support::Errors
                 Roqua::Support::Errors.report exception, root_path: Rails.root.to_s
