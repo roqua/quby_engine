@@ -9,13 +9,12 @@
       :markdown
         #{raw question.description}
   .fields{:id => question.html_id, :class => "options#{question.options.size}"}
-    - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :bulk)
     - question.options.each do |opt|
       - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
       - next if( opt.hidden and not checked)
       - cls = ["optionwidth#{question.options.size}"]
-      - cls << "show_values" if show_values
+      - cls << "show_values" if question.show_values_in_mode? :bulk
       .option{ :for => question.key, :class => cls}
         .radiocheckwrapper
           - if question.uncheck_all_option == opt.key
@@ -27,7 +26,7 @@
           -if disabled
             -attrs[:disabled] = ""
           = check_box(:answer, "#{opt.key}", attrs)
-        - if show_values
+        - if question.show_values_in_mode? :bulk
           .value= opt.value
         .labelwrapper
           %label{for: opt.view_id}
