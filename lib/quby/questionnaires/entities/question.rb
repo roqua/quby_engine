@@ -50,7 +50,7 @@ module Quby
         # :bulk => for only in :bulk display mode
         attr_accessor :show_values
         validates :show_values, inclusion: {
-          in: [:all, :none, :paged, :bulk],
+          in: [:all, :none, :paged, :bulk, :print],
           message: "option invalid: %{value}. Valid options: :all, :none, :paged, :bulk)" }
 
         # Structuring
@@ -278,6 +278,14 @@ module Quby
 
         def hidden?
           hidden
+        end
+
+        def show_values_in_mode?(mode)
+          case show_values
+          when :none then false
+          when :all then true
+          else show_values == mode
+          end
         end
 
         def subquestions
