@@ -179,6 +179,12 @@ module Quby::Answers::Services
         answer.stub(value_by_regular_values: { v_2: 2, v_1: 1 }, completed_at: 'completed_at')
         expect(OutcomeCalculation.new(answer).send(:value_by_regular_values)).to eq(v_1: 1, v_2: 2)
       end
+
+      it 'tries to preserve order of keys that are not found in the question hash' do
+        questionnaire.stub_chain(:fields, :question_hash, :keys).and_return([:v_1, :v_2])
+        answer.stub(value_by_regular_values: { v_2: 2, v_3: 3, v_4: 4, v_1: 1 }, completed_at: 'completed_at')
+        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values)).to eq(v_1: 1, v_3: 3, v_4: 4, v_2: 2)
+      end
     end
   end
 end
