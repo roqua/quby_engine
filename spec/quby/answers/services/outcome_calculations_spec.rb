@@ -20,6 +20,15 @@ module Quby::Answers::Services
           title 'Q1'
           option :a1, value: 2, description: '1'
         end
+        question :v_2, type: :radio do
+          title 'Q2'
+          option :a1, value: 2, description: '1'
+        end
+
+        question :v_3, type: :radio do
+          title 'Q3'
+          option :a1, value: 2, description: '1'
+        end
       END
 
       quest.add_score_calculation score
@@ -175,15 +184,19 @@ module Quby::Answers::Services
 
     describe '#value_by_regular_values' do
       it 'orders the regular values according to the questionnaire\'s question order' do
-        questionnaire.stub_chain(:fields, :question_hash, :keys).and_return([:v_1, :v_2])
-        answer.stub(value_by_regular_values: { v_2: 2, v_1: 1 }, completed_at: 'completed_at')
-        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values)).to eq(v_1: 1, v_2: 2)
+        answer.stub(value_by_regular_values: { 'v_2' => 2, 'v_1' => 1 },
+                    completed_at: 'completed_at')
+        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({'v_1' => 1, 'v_2' => 2}.to_a)
       end
 
-      it 'tries to preserve order of keys that are not found in the question hash' do
-        questionnaire.stub_chain(:fields, :question_hash, :keys).and_return([:v_1, :v_2])
-        answer.stub(value_by_regular_values: { v_2: 2, v_3: 3, v_4: 4, v_1: 1 }, completed_at: 'completed_at')
-        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values)).to eq(v_1: 1, v_3: 3, v_4: 4, v_2: 2)
+      # given that the only known question order is ['v_1', 'v_2', 'v_3']
+      it 'sorts unknown question keys to the end of the regular values hash' do
+        answer.stub(value_by_regular_values: { 'v_2' => 2, 'v_5' => 5, 'v_4' => 4, 'v_3' => 3, 'v_1' => 1 },
+                    completed_at: 'completed_at')
+        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({'v_1' => 1, 'v_2' => 2,
+                                                                                          'v_3' => 3, 'v_5' => 5,
+                                                                                          'v_4' => 4
+                                                                                         }.to_a)
       end
     end
   end

@@ -69,7 +69,7 @@ module Quby
         def value_by_regular_values
           regular_values = answer.value_by_regular_values
           @value_by_regular_values ||= regular_values.sort_by do |key, value|
-            questionnaire.fields.question_hash.keys.index(key) || regular_values.keys.index(key)
+            questionnaire.fields.question_hash.keys.index(key) || Float::INFINITY
           end.to_h
         end
 
