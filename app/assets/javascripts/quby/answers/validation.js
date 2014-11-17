@@ -214,9 +214,12 @@
       var inputs = $(groupItems[i]).find("input, textarea, select").not(":disabled, :hidden");
       if (inputs.length == 0) {
         hidden++;
-      } else if (inputs.length > 0 && is_answered(inputs)) {
+      } else {
         visible++;
-        answered++;
+
+        if (is_answered(inputs)) {
+          answered++;
+        }
       }
     }
     return {total: groupItems.length, visible: visible, hidden: hidden, answered: answered};
