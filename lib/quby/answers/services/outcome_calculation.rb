@@ -26,6 +26,7 @@ module Quby
                                                  patient.andand.slice("birthyear", "gender"),
                                                  results,
                                                  &calculation.calculation)
+              result ||= {}
               result.reverse_merge!(calculation.options) if calculation.score
               result = {"value" => result} if calculation.completion
               results[key] = result

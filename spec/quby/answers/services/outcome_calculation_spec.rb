@@ -97,6 +97,12 @@ module Quby::Answers::Services
                                         "score" => true, 'referenced_values' => [])
       end
 
+      it 'does not report an error when the calculation returns nil' do
+        allow(score).to receive(:calculation).and_return proc { nil }
+        outcome = OutcomeCalculation.new(answer).calculate
+        expect(outcome.scores[:tot][:exception]).not_to be
+      end
+
       context 'when calculation misses some values' do
         before { score.stub(calculation: proc { values(:v_unknown) }) }
 
