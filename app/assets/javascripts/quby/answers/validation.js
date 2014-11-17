@@ -138,14 +138,14 @@
                   }
                   break;
               case "answer_group_minimum":
-                  var count = get_answer_count(validation.group, panel);
-                  if(count < validation.value){
+                  var count = calculateAnswerGroup(validation.group, panel);
+                  if(count.visible > 0 && count.answered < validation.value){
                       pushFailVal(validation.type);
                   }
                   break;
               case "answer_group_maximum":
-                  var count = get_answer_count(validation.group, panel);
-                  if(count > validation.value){
+                  var count = calculateAnswerGroup(validation.group, panel);
+                  if(count.visible > 0 && count.answered > validation.value){
                       pushFailVal(validation.type);
                   }
                   break;
@@ -203,17 +203,23 @@
     return inputs.length == 0;
   }
 
-  function get_answer_count(groupkey, panel){
-    var answered = 0;
+  function calculateAnswerGroup(groupkey, panel){
+    var groupItems = panel.find(".item." + groupkey + ", .option." + groupkey);
 
-    var quest_items = panel.find(".item."+ groupkey +", .option."+ groupkey);
-    for(var i = 0; i < quest_items.length; i++){
-      var inputs = $(quest_items[i]).find("input, textarea, select").not(":disabled, :hidden");
-      if (inputs.length > 0 && is_answered(inputs)) {
+    var answered = 0;
+    var visible = 0;
+    var hidden = 0;
+
+    for(var i = 0; i < groupItems.length; i++){
+      var inputs = $(groupItems[i]).find("input, textarea, select").not(":disabled, :hidden");
+      if (inputs.length == 0) {
+        hidden++;
+      } else if (inputs.length > 0 && is_answered(inputs)) {
+        visible++;
         answered++;
       }
     }
-    return answered;
+    return {total: groupItems.length, visible: visible, hidden: hidden, answered: answered};
   }
 
 })();

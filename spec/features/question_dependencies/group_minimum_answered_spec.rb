@@ -211,7 +211,7 @@ shared_examples 'group_minimum_answered' do
     it_behaves_like 'group_minimum_answered_tests'
   end
 
-  context 'minimum number of given answers in a group' do
+  context 'table-based minimum number of given answers in a group' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END
       n = 8
@@ -302,6 +302,38 @@ shared_examples 'group_minimum_answered' do
       run_validations
       expect_error_on 'v_radio', 'answer_group_minimum'
       expect_error_on 'v_select', 'answer_group_minimum'
+    end
+  end
+
+  context 'when all questions are hidden' do
+    let(:questionnaire) do
+      inject_questionnaire 'test', <<-END
+        panel do
+          question :v_1, type: :radio do
+            title 'Q1'
+            option :a1, value: 1, description: "Hide", hides_questions: [:v_2, :v_3]
+            option :a2, value: 2, description: "None"
+          end
+
+          question :v_2, type: :radio, question_group: :grp1, group_minimum_answered: 2 do
+            title 'Radio Question'
+            option :a1, value: 1, description: "Radio Option 1"
+            option :a2, value: 2, description: "Radio Option 2"
+          end
+
+          question :v_3, type: :radio, question_group: :grp1, group_minimum_answered: 2 do
+            title 'Radio Question'
+            option :a1, value: 1, description: "Radio Option 1"
+            option :a2, value: 2, description: "Radio Option 2"
+          end
+        end; end_panel
+      END
+    end
+
+    it 'does not count hidden required' do
+      select_radio_option 'v_1', 'a1'
+      run_validations
+      expect_no_errors
     end
   end
 
