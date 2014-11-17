@@ -204,7 +204,7 @@ module Quby::Questionnaires::Services
       end
     end
 
-    describe 'the validation' do
+    describe 'subquestion validation' do
       it 'does not accept subquestions in question of type select' do
         select_type_without_subquestions = make_definition(<<-END)
           question :v_7, type: :select do
@@ -225,20 +225,23 @@ module Quby::Questionnaires::Services
             end
           end
         END
+
         select_type_with_subquestions.valid?.should be_false
         select_type_without_subquestions.valid?.should be_true
       end
+    end
 
+    describe 'score key validation' do
       it 'accepts score keys that are the correct length' do
         valid_definition = make_definition(<<-END)
-          score 'ok_key_length' do
+          score 'ok_key_length', label: 'some_label' do
             { wait_what_this_key_is_very_long: 42 }
           end
         END
         expect(valid_definition.valid?).to be true
       end
 
-      it 'reject score keys that are too long' do
+      it 'reject score keys that are too long', label: 'some_label' do
         invalid_definition = make_definition(<<-END)
           score 'score_whose_key_is_longer_than_max' do
             { t_score: 42 }
@@ -247,7 +250,7 @@ module Quby::Questionnaires::Services
         expect(invalid_definition.valid?).to be false
       end
 
-      it 'reject score key if already defined' do
+      it 'reject score key if already defined', label: 'some_label' do
         definition = make_definition(<<-END)
           question :v_6, type: :radio, title: 'foo'
           score 'foo_score' do
@@ -258,6 +261,26 @@ module Quby::Questionnaires::Services
           end
         END
         expect(definition.valid?).to be false
+      end
+    end
+
+    describe 'score label validation' do
+      it 'accepts the label option' do
+        score_definition = make_definition(<<-END)
+          score 'score_key', label: 'score_label' do
+            {}
+          end
+        END
+        expect(score_definition).to be_valid
+      end
+
+      it 'rejects score definitions without the label option' do
+        score_definition = make_definition(<<-END)
+          score 'score_key' do
+            {}
+          end
+        END
+        expect(score_definition).not_to be_valid
       end
     end
 

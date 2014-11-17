@@ -41,6 +41,7 @@ module Quby
         def validate_scores(questionnaire)
           questionnaire.scores.each do |score|
             validate_score_key_length(score)
+            validate_score_label_present(score)
           end
         end
 
@@ -136,6 +137,10 @@ module Quby
           if score.key.to_s.length > MAX_KEY_LENGTH
             fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
           end
+        end
+
+        def validate_score_label_present(score)
+          fail "Score #{score.key} label must be passed in as an option." unless score.label.present?
         end
 
         def validate_subquestion_absence_in_select(question)
