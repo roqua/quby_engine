@@ -30,7 +30,7 @@ module Quby
               if calculation.completion
                 result = {"value" => result}
               elsif calculation.score
-                result = result.reverse_merge(calculation.options)
+                result = (result || {}).reverse_merge(calculation.options)
               end
 
               results[key] = result
