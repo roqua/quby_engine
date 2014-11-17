@@ -11,6 +11,12 @@ module Quby::Answers::Services
         question :v_3, type: :integer, title: 'Q3'
         question :v_4, type: :integer, title: 'Q4'
         question :v_5, type: :integer, title: 'Q5'
+
+        question :v_6, type: :check_box do
+          title 'Q6'
+          option :v_6_a1, description: 'A1'
+          option :v_6_a2, description: 'A2'
+        end
       END
     end
 
@@ -91,7 +97,7 @@ module Quby::Answers::Services
     end
 
     describe '#values_with_nils' do
-      let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
+      let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil, 'v_6_a2' => 1} }
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
 
@@ -114,7 +120,7 @@ module Quby::Answers::Services
 
       it 'annotates usage of keys when fetching all values' do
         calculator.values_with_nils
-        expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3))
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3 v_6_a2))
       end
 
       it 'returns nil if a value is requested which is not available' do
@@ -125,6 +131,10 @@ module Quby::Answers::Services
         expect do
           calculator.values_with_nils(:v_1, 'v_1')
         end.to raise_error(/requested more than once/)
+      end
+
+      it 'does not miss checkbox values' do
+        expect(calculator.values_with_nils(:v_6_a1, :v_6_a2)).to eq([nil, 1])
       end
 
       it 'raises if a value is requested that does not have a definition in the questionnaire' do

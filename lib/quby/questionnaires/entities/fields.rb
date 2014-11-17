@@ -47,7 +47,7 @@ module Quby
         end
 
         def key_in_use?(key)
-          @question_hash.key?(key) || @input_keys.include?(key)
+          @question_hash.key?(key) || input_keys.map(&:to_s).include?(key.to_s)
         end
 
         # Given a list of question and option keys returns a list of input-keys. If a given key is a question-key,
@@ -57,10 +57,10 @@ module Quby
           keys.reduce([]) do |ikeys, key|
             if question_hash.key?(key)
               ikeys += question_hash[key].input_keys
-            elsif input_keys.include? key
+            elsif input_keys.map(&:to_s).include?(key.to_s)
               ikeys << key
             else
-              fail UnknownInputKey, "Unknown input key #{key}"
+              fail Entities::Questionnaire::UnknownInputKey, "Unknown input key #{key}"
             end
           end
         end
