@@ -248,7 +248,12 @@ feature 'Hiding and showing questions' do
     scenario 'by visiting an answer with a flag that shows a question set to true', js: true do
       answer = create_new_answer_for(questionnaire, {}, flags: {question_hiding_shows_flag: true})
       visit_new_answer_for(questionnaire, "paged", answer)
-      page.should have_selector("[data-for=v_9].show", count: 8, visible: false)
+      goto_second_page
+      page.should have_selector("[data-for=v_9].show", count: 8)
+      choose "answer_v_9_a2"
+      goto_third_page and save_form
+      page.should have_content("Uw antwoorden zijn opgeslagen")
+      Quby.answers.reload(answer).value.should eq(answer_value("v_9" => "a2"))
     end
 
     scenario 'by visiting an answer that has a checkbox option that shows something filled in', js: true do
