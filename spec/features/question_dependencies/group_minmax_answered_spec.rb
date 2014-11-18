@@ -43,13 +43,15 @@ shared_examples 'group_minmax_answered' do
         n = 1
 
         panel do
-          question :v_radio, type: :radio, question_group: :group1, group_minimum_answered: n, group_maximum_answered: n do
+          question :v_radio, type: :radio, question_group: :group1, group_minimum_answered: n,
+                                                                    group_maximum_answered: n do
             title 'Radio Question'
             option :a1, value: 1, description: "Radio Option 1"
             option :a2, value: 2, description: "Radio Option 2"
           end
 
-          question :v_scale, type: :scale, question_group: :group1, group_minimum_answered: n, group_maximum_answered: n do
+          question :v_scale, type: :scale, question_group: :group1, group_minimum_answered: n,
+                                                                    group_maximum_answered: n do
             title 'Scale Question'
             option :a1, value: 1, description: "Scale Option 1"
             option :a2, value: 2, description: "Scale Option 2"
@@ -68,13 +70,15 @@ shared_examples 'group_minmax_answered' do
 
       panel do
         table columns: 20 do
-          question :v_radio, type: :radio, question_group: :group1, group_minimum_answered: n, group_maximum_answered: n do
+          question :v_radio, type: :radio, question_group: :group1, group_minimum_answered: n,
+                                                                    group_maximum_answered: n do
             title 'Radio Question'
             option :a1, value: 1, description: "Radio Option 1"
             option :a2, value: 2, description: "Radio Option 2"
           end
 
-          question :v_scale, type: :scale, question_group: :group1, group_minimum_answered: n, group_maximum_answered: n do
+          question :v_scale, type: :scale, question_group: :group1, group_minimum_answered: n,
+                                                                    group_maximum_answered: n do
             title 'Scale Question'
             option :a1, value: 1, description: "Scale Option 1"
             option :a2, value: 2, description: "Scale Option 2"
