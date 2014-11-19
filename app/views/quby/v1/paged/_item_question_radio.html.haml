@@ -4,7 +4,7 @@
   -insert = render :partial => "quby/v1/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
 
 = render :partial => "quby/v1/shared/main_label", :locals => {:question => question, :title_insert => insert}
-- show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
+- show_values = question.show_values_in_mode? :paged
 .description-and-fields
   .description
     - unless question.description.blank?

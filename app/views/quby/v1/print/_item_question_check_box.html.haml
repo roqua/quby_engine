@@ -5,7 +5,7 @@
       - next if opt.inner_title
       - checked = @answer.send(opt.key) == 1
       - next if( not checked)
-      - show_values = (question.show_values == true or question.show_values == :all or question.show_values == :paged)
+      - show_values = question.show_values_in_mode? :paged
       .option{:class => show_values ? "show_values" : nil}
         .labelwrapper
           - if show_values

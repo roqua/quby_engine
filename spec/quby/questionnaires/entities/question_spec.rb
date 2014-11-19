@@ -36,6 +36,8 @@ module Quby::Questionnaires::Entities
       end
     end
 
+    let(:valid_question_options) { {type: :string} }
+
     describe '#context_free_title' do
       it 'should fallback to title' do
         expect(questionnaire.question_hash[:radio].context_free_title).to eq 'Contextvrije testvraag'
@@ -114,6 +116,27 @@ module Quby::Questionnaires::Entities
         question = Questions::IntegerQuestion.new(:v_1, type: :integer, minimum: 1, maximum: 5,
                                                         default_position: :hidden)
         expect(question.default_position).to eq :hidden
+      end
+    end
+
+    describe '#show_values' do
+      subject(:question) { Question.new('v_1', valid_question_options) }
+      it 'defaults to :bulk' do
+        expect(question.show_values).to eq :bulk
+      end
+
+      [:paged, :all, :none].each do |val|
+        it "can be set to #{val}" do
+          valid_question_options[:show_values] = val
+          expect(question.show_values).to eq val
+        end
+      end
+
+      it "can't be set other values" do
+        valid_question_options[:show_values] = :error
+        expect(question).to be_invalid
+        expect(question.errors[:show_values][0])
+          .to eq "option invalid: error. Valid options: :all, :none, :paged, :bulk)"
       end
     end
   end

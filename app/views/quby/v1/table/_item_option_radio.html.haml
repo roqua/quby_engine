@@ -11,7 +11,7 @@
   %td.option{:class => optionclasses, :style => "width:#{available_width/(table.columns)}%", :data => {:for => question.key}, :rowspan => question.row_span}
     - radio_classes = [question.type]
     - radio_classes << "deselectable" if question.deselectable
-    - show_values = (question.show_values == true or question.show_values == :all)
+    - show_values = question.show_values_in_mode? :all
     .radiocheckwrapper
       - if show_values
         .value= opt.value

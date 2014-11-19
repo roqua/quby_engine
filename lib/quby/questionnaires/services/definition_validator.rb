@@ -30,11 +30,18 @@ module Quby
           end
 
           questionnaire.question_hash.each do |key, question|
+            validate_question(question)
             subquestions_cant_have_default_invisible question
             validate_subquestion_absence_in_select question
 
             validate_question_options(questionnaire, question)
             validate_presence_of_titles question
+          end
+        end
+
+        def validate_question(question)
+          unless question.valid?
+            fail "Question #{question.key} is invalid: #{question.errors.full_messages.join(", ")}"
           end
         end
 

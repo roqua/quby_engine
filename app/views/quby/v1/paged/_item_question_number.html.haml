@@ -9,7 +9,7 @@
     - cls << "subinput"  if subquestion
     - cls << question.as if question.as
     - data = question.input_data
-    - data[:show_values] = [true, :all, :paged].include? question.show_values
+    - data[:show_values] = question.show_values_in_mode? :paged
     - case question.as
     - when :slider
       - if question.default_position.is_a? Numeric
