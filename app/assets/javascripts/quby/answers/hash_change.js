@@ -33,8 +33,6 @@
       } else {
         jQuery(window).bind('hashchange', hashchangeEventHandler);
       }
-      // Trigger the hashchange event (useful on page load).
-      $(window).hashchange();
     }
   });
 })();

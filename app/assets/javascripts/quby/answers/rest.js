@@ -1,3 +1,10 @@
+function initShowsHides(untilPanelId) {
+  Quby.panels.find(function (bbPanel) {
+    bbPanel.initShowsHides(Quby.questions);
+    return bbPanel.get('panelId') == untilPanelId;
+  });
+}
+
 function activatePanel(panel, updateHash, forward) {
     if (shownFlash) {
         $('.flash').hide();
@@ -5,6 +12,9 @@ function activatePanel(panel, updateHash, forward) {
     shownFlash = true;
     $('.panel').hide().removeClass('current');
     panel.show().addClass('current');
+
+    // initialize every panel in front of the panel that is activated
+    initShowsHides(panel[0].id);
 
     //If panel has no visible questions, skip to the next or previous panel based on 'forward'
     if (panel.is(".noVisibleQuestions")) {
@@ -20,7 +30,7 @@ function activatePanel(panel, updateHash, forward) {
     window.scrollTo(0,0);
     // iOS 7 will scroll to top, then figure "hey, you scrolled up" and enlarge the URL bar.
     // The URL bar is then displayed on top of our content, which sometimes hides the first
-    // question. Be scrolling to top again after it is enlarged already, we make sure it is
+    // question. By scrolling to top again after it is enlarged already, we make sure it is
     // no longer over our content.
     window.setTimeout(function() { window.scrollTo(0,0) }, 1);
 

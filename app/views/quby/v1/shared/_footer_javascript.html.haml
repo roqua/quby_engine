@@ -6,4 +6,11 @@
       flag_values: #{answer.flags.to_json},
       textvars: #{@answer.textvars.to_json}
     });
+
+    //Trigger hash change to activate correct panel
+    if(isBulk) {
+      initShowsHides("all_panels"); // will initialize every 'panel'
+    } else {
+      $(window).hashchange();
+    }
   });

@@ -11,7 +11,7 @@ class Quby.Models.QuestionOption extends Backbone.Model
   addedToCollection: ->
     if !_.isEmpty(@get("hidesQuestionsKeys")) or !_.isEmpty(@get("showsQuestionsKeys"))
       @collection.on "initShowsHides", @initShowsHides, @
-  initShowsHides: (allQuestions)->
+  initShowsHides: (allQuestions) ->
     showsQuestionsKeys = @get("showsQuestionsKeys")
     showsQuestions = allQuestions.select( (question) ->
       _.contains(showsQuestionsKeys, question.get("key"))
