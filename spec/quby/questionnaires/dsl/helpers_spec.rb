@@ -7,11 +7,11 @@ module Quby::Questionnaires::DSL
 
     # this helper has some extra tests to check that helpers are included everywhere
     describe '.image_tag' do
-      let(:expected_html) { "<img alt='Happy-face' src='/assets/quby/happy-face.png' />" }
+      let(:expected_html) { "<img alt='Happy.face' src='/assets/quby/happy-face.png' />" }
 
       it 'builds image tags outside of panels' do
         dsl { text image_tag('quby/happy-face.png') }
-        expect(questionnaire.panels.first.items.first.text).to eq(expected_html)
+        expect(questionnaire.panels.first.items.first.text).to match(expected_html)
       end
 
       it 'builds image tags inside of panels' do
@@ -21,13 +21,13 @@ module Quby::Questionnaires::DSL
           end
         end
 
-        expect(questionnaire.panels.first.items.first.text).to eq(expected_html)
+        expect(questionnaire.panels.first.items.first.text).to match(expected_html)
       end
 
       it 'builds image tags inside of questions' do
         # this one is different because markdown/maruku transforms double quotes into single quotes
         # and question descriptions are not passed through markdown/maruku
-        expected_html = "<img alt=\"Happy-face\" src=\"/assets/quby/happy-face.png\" />"
+        expected_html = "<img alt=\"Happy.face\" src=\"/assets/quby/happy-face.png\" />"
         dsl do
           panel do
             question :v_1, type: :radio do
@@ -35,7 +35,7 @@ module Quby::Questionnaires::DSL
             end
           end
         end
-        expect(questionnaire.panels.first.items.first.options.first.description).to eq(expected_html)
+        expect(questionnaire.panels.first.items.first.options.first.description).to match(expected_html)
       end
     end
 
