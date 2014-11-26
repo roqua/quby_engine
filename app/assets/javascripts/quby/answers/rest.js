@@ -27,6 +27,10 @@ function activatePanel(panel, updateHash, forward) {
 
     if (updateHash)
         changeHash(panel[0].id);
+
+    panel.find('input[type="checkbox"]:not(.subinput), input[type="radio"]:not(.subinput)').each( function(index, element){
+      radioCheckboxEvents(element);
+    });
     window.scrollTo(0,0);
     // iOS 7 will scroll to top, then figure "hey, you scrolled up" and enlarge the URL bar.
     // The URL bar is then displayed on top of our content, which sometimes hides the first
@@ -322,10 +326,6 @@ $(function() {
 
             preparePaged();
         }
-
-        $('input[type="checkbox"]:not(.subinput), input[type="radio"]:not(.subinput)').each( function(index, element){
-           radioCheckboxEvents(element);
-        });
 
         enableAllSubquestionsOfCheckedRadiosCheckboxes();
     }
