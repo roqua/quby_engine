@@ -13,6 +13,7 @@ module Quby
     module DSL
       class QuestionnaireBuilder
         include StandardizedPanelGenerators
+        include Helpers
 
         def initialize(target_instance)
           @questionnaire = target_instance

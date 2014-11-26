@@ -15,6 +15,7 @@ module Quby
   module Questionnaires
     module DSL
       module QuestionBuilder
+        include Helpers
         BUILDERS = {
           'string'    => Questions::StringQuestionBuilder,
           'textarea'  => Questions::TextQuestionBuilder,
