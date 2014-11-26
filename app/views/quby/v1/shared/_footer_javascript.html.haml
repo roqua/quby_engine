@@ -7,9 +7,9 @@
       textvars: #{@answer.textvars.to_json}
     });
 
-    //Trigger hash change to activate correct panel
+    // Initialize all panels in bulk, activate first panel otherwise
     if(isBulk) {
-      initShowsHides("all_panels"); // will initialize every 'panel'
+      initShowsHides("all_panels");
     } else {
       activatePanel($(".panel:first"), true);
     }
