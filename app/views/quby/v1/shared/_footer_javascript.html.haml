@@ -11,6 +11,6 @@
     if(isBulk) {
       initShowsHides("all_panels"); // will initialize every 'panel'
     } else {
-      $(window).hashchange();
+      activatePanel($(".panel:first"), true);
     }
   });

@@ -5,7 +5,7 @@ function initShowsHides(untilPanelId) {
   });
 }
 
-function activatePanel(panel, updateHash, forward) {
+function activatePanel(panel, forward) {
     if (shownFlash) {
         $('.flash').hide();
     }
@@ -19,14 +19,11 @@ function activatePanel(panel, updateHash, forward) {
     //If panel has no visible questions, skip to the next or previous panel based on 'forward'
     if (panel.is(".noVisibleQuestions")) {
         if (forward) {
-            return activatePanel(panel.next(), updateHash, true);
+            return activatePanel(panel.next(), true);
         } else {
-            return activatePanel(panel.prev(), updateHash, false);
+            return activatePanel(panel.prev(), false);
         }
     }
-
-    if (updateHash)
-        changeHash(panel[0].id);
 
     panel.find('input[type="checkbox"]:not(.subinput), input[type="radio"]:not(.subinput)').each( function(index, element){
       radioCheckboxEvents(element);
@@ -241,7 +238,7 @@ function preparePaged(){
     var errors = $('.errors');
     if (errors.length > 0){
         shownFlash = false;
-        activatePanel(errors.closest('.panel').eq(0), true, true);
+        activatePanel(errors.closest('.panel').eq(0), true);
     }
 }
 
