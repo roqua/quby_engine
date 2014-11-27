@@ -21,7 +21,6 @@
 //= require jquery.nouislider.with_roqua_modifications.js
 
 //= require ./better_range_inputs.js
-//= require jquery.ba-hashchange.js
 //= require jquery.deselectableRadio.1.0.3.js
 //= require ./printer.js
 //

@@ -2,10 +2,12 @@ class Quby.Models.Panel extends Backbone.Model
   defaults: ->
     questions: new Quby.Collections.Questions
     view: new Quby.Views.PanelView(model: @)
-    viewSelector: ""
+    panelId: null
+    initShowsHidesCalled: false
   initialize: ->
-    viewSelector = @get("viewSelector")
-    if !_.isEmpty viewSelector
+    panelId = @get('panelId')
+    viewSelector = "##{panelId}"
+    if panelId
       @get("view").setElement $(viewSelector)[0]
 
     hidePanelTrigger = ->
@@ -16,6 +18,15 @@ class Quby.Models.Panel extends Backbone.Model
     @get("questions").on "unshow", hidePanelTrigger, @
     @on "hidePanelCheck", @hidePanelCheck, @
     @trigger "hidePanelCheck"
+
+  initShowsHides: (allQuestions) ->
+    unless @get 'initedShowsHidesCalled'
+      @set('initedShowsHidesCalled', true)
+      @get("questions").each (question) ->
+        options = question.get("options")
+        options.each (option) ->
+          option.initShowsHides allQuestions
+
   hidePanelCheck: ->
     if @hidden()
       if !@get("questions").noneVisible()
