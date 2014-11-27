@@ -6,11 +6,5 @@ class Quby.Collections.Questions extends Backbone.Collection
     questionNotVisible = (question) ->
       !question.isVisible()
     @every questionNotVisible
-  addAndRegisterInit: (questions) ->
+  addQuestions: (questions) ->
     @add questions.models
-    questions.each (question) =>
-      initShowHidesCallback = ->
-        options = question.get("options")
-        options.each (option) =>
-          option.initShowsHides @
-      @on "initShowsHides", initShowHidesCallback, @

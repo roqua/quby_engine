@@ -16,15 +16,9 @@ describe "Quby.Collections.Questions", ->
     it "returns false if there are no questions in the collection", ->
       expect(new Quby.Collections.Questions().noneVisible()).toEqual(false)
 
-  describe "#addAndRegisterInit", ->
+  describe "#addQuestions", ->
     it 'adds the question to the collection', ->
       allQuestions = new Quby.Collections.Questions
       sinon.spy(allQuestions, 'add')
-      allQuestions.addAndRegisterInit(@questionC)
+      allQuestions.addQuestions(@questionC)
       expect(allQuestions.add).toHaveBeenCalledWith(@questionC.models)
-    it 'sets initShowHides listener on the collection to trigger initShowHides on the question options', ->
-      allQuestions = new Quby.Collections.Questions
-      spy = sinon.spy(@questionOption, 'initShowsHides')
-      allQuestions.addAndRegisterInit(@questionC)
-      allQuestions.trigger 'initShowsHides'
-      expect(spy).toHaveBeenCalled()

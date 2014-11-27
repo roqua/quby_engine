@@ -27,7 +27,7 @@
   $(document).on('click', '.paged .panel .prev input', function(event) {
     event.preventDefault();
     var prevPanel = $(this).parents('.panel').prev()
-    activatePanel(prevPanel, true, false);
+    activatePanel(prevPanel, false);
   });
 
   // .paged .next:click: show next panel
@@ -35,7 +35,7 @@
     event.preventDefault();
     var $panel = $(this).parents('.panel').first();
     if (validatePanel($panel)) {
-      activatePanel($panel.next(), true, true);
+      activatePanel($panel.next(), true);
     }
   });
 })();

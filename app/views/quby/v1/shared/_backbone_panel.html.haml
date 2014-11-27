@@ -14,6 +14,7 @@
     var questions = #{questions.as_json.to_json};
     var initializer = new Quby.Logic.InitQuestions(questions);
     Quby.currentPanelQuestions = initializer.initializeQuestions();
-    Quby.questions.addAndRegisterInit(Quby.currentPanelQuestions);
-    Quby.panels.add(new Quby.Models.Panel({viewSelector: "##{panel_id}", questions: Quby.currentPanelQuestions}));
+    Quby.questions.addQuestions(Quby.currentPanelQuestions);
+    panelProps = {panelId: '#{panel_id}', questions: Quby.currentPanelQuestions}
+    Quby.panels.add(new Quby.Models.Panel(panelProps));
   });
