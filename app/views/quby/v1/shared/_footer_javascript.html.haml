@@ -6,4 +6,11 @@
       flag_values: #{answer.flags.to_json},
       textvars: #{@answer.textvars.to_json}
     });
+
+    // Initialize all panels in bulk, activate first panel otherwise
+    if(isBulk) {
+      initShowsHides("all_panels");
+    } else {
+      activatePanel($(".panel:first"), true);
+    }
   });
