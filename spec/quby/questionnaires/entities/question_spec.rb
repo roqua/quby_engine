@@ -4,14 +4,14 @@ module Quby::Questionnaires::Entities
   describe Question do
     let(:questionnaire) do
       Quby::Questionnaires::DSL.build("test") do
-        question :radio, type: :radio, depends_on: [:check], context_free_title: "Contextvrije testvraag" do
+        question :radio, type: :radio, depends_on: [:check] do
           title "Testvraag"
           context_free_title "Contextvrije testvraag"
           option :rad1
           option :rad2
         end
 
-        question :check, type: :check_box do
+        question :check, type: :check_box, context_free_title: "Contextvrije testvraag" do
           title "Checkbox vraag"
           option :check1
           inner_title 'foobar'
@@ -21,6 +21,7 @@ module Quby::Questionnaires::Entities
         end
 
         question :scale, type: :scale do
+          title 'Scale vraag'
           option :scale1
           option :scale2
         end
@@ -39,8 +40,16 @@ module Quby::Questionnaires::Entities
     let(:valid_question_options) { {type: :string} }
 
     describe '#context_free_title' do
-      it 'should fallback to title' do
+      it 'can be set by method call' do
         expect(questionnaire.question_hash[:radio].context_free_title).to eq 'Contextvrije testvraag'
+      end
+
+      it 'can be set by options hash' do
+        expect(questionnaire.question_hash[:check].context_free_title).to eq 'Contextvrije testvraag'
+      end
+
+      it 'should fallback to title' do
+        expect(questionnaire.question_hash[:scale].context_free_title).to eq 'Scale vraag'
       end
     end
 

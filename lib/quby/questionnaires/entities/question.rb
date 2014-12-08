@@ -124,6 +124,7 @@ module Quby
           @type = options[:type]
           @as = options[:as]
           @title = options[:title]
+          @context_free_title = options[:context_free_title]
           @allow_blank_titles = options[:allow_blank_titles]
           @description = options[:description]
           @display_modes = options[:display_modes]
