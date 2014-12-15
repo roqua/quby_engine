@@ -10,34 +10,14 @@ dependencies:
     - "bundle check --path=../vendor/bundle --gemfile='gemfiles/rails41.gemfile' || bundle install --path=../vendor/bundle --gemfile='gemfiles/rails41.gemfile'"
 test:
   override:
-    - bundle exec rspec spec:
+    - script/appraisal_ci_parallel.rb bundle exec rspec spec:
+        parallel: true
         environment:
-          BUNDLE_GEMFILE: gemfiles/rails32.gemfile
           RAILS_ENV: test
           RACK_ENV: test
-    - bundle exec teaspoon:
+    - script/appraisal_ci_parallel.rb bundle exec teaspoon:
+        parallel: true
         environment:
-          BUNDLE_GEMFILE: gemfiles/rails32.gemfile
-          RAILS_ENV: test
-          RACK_ENV: test
-    - bundle exec rspec spec:
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails40.gemfile
-          RAILS_ENV: test
-          RACK_ENV: test
-    - bundle exec teaspoon:
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails40.gemfile
-          RAILS_ENV: test
-          RACK_ENV: test
-    - bundle exec rspec spec:
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails41.gemfile
-          RAILS_ENV: test
-          RACK_ENV: test
-    - bundle exec teaspoon:
-        environment:
-          BUNDLE_GEMFILE: gemfiles/rails41.gemfile
           RAILS_ENV: test
           RACK_ENV: test
     - bundle exec rubocop
