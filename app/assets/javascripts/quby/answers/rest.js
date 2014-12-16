@@ -290,7 +290,7 @@ function handleAjaxFormRequests() {
     }
     // Scroll the flash at the bottom of the page into view
     if(flashes[1] != undefined){
-      $('body').scrollTop(flashes[1].offsetTop);
+      flashes[1].scrollIntoView();
     }
   });
 

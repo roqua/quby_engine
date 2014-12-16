@@ -171,7 +171,7 @@
     if(failed){
         var first_error = $('.error').not('.hidden')[0];
         if( first_error != undefined) {
-          $('body').scrollTop(first_error.offsetTop);
+          first_error.scrollIntoView();
         }
     }
     return !failed;
