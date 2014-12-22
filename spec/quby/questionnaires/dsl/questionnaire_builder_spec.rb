@@ -183,6 +183,16 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#question' do
+      it 'does not overwrite the @default_question_options' do
+        dsl do
+          default_question_options required: false, type: :checkbox
+          question :v_1, type: :string, required: true
+        end
+        expect(builder.default_question_options[:required]).to eq false
+      end
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end
