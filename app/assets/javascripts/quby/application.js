@@ -15,7 +15,7 @@
 //= require backbone
 //= require ./backbone/quby
 
-//= require jquery.scrollTo.min
+//= require jquery.scrollTo
 //= require jquery-ui
 //= require jquery_placeholder
 //= require jquery.watch.js
