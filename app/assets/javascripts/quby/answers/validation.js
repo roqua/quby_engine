@@ -150,13 +150,13 @@
                   }
                   break;
               case "maximum_checked_allowed":
-                  var checkboxes = panel.find('input[type=checkbox]:checked');
+                  var checkboxes = question_item.find('input[type=checkbox]:checked');
                   if (checkboxes.length > validation.maximum_checked_value) {
                       pushFailVal(validation.type);
                   }
                   break;
               case "minimum_checked_required":
-                  var checkboxes = panel.find('input[type=checkbox]:checked');
+                  var checkboxes = question_item.find('input[type=checkbox]:checked');
                   if (checkboxes.length < validation.minimum_checked_value) {
                     pushFailVal(validation.type);
                   }
