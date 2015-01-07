@@ -24,7 +24,7 @@
             - handlers = "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', true);"
           - else
             - handlers = "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}');"
-          - handlers += " handleDisableCheckboxSubQuestions(this);",
+          - handlers += " handleDisableCheckboxSubQuestions(this);"
 
           - if question.maximum_checked_allowed
             - handlers += " handleMaximumCheckedAllowed(this, #{question.maximum_checked_allowed});"
