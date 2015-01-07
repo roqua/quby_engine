@@ -37,13 +37,13 @@ module Quby
 
             if @maximum_checked_allowed
               @validations << {type: :maximum_checked_allowed,
-                               maximum_checked_key: @maximum_checked_allowed,
+                               maximum_checked_value: @maximum_checked_allowed,
                                explanation: options[:error_explanation]}
             end
 
             if @minimum_checked_required
               @validations << {type: :minimum_checked_required,
-                               minimum_checked_key: @minimum_checked_required,
+                               minimum_checked_value: @minimum_checked_required,
                                explanation: options[:error_explanation]}
             end
           end

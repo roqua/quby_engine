@@ -133,7 +133,7 @@ shared_examples 'validations on checkbox questions' do
     end
 
     scenario 'is valid when 2 options are checked' do
-      next if validation_run_location == :client_side
+      next if validation_run_locationce == :client_side
       check_option 'v_ck_a1'
       check_option 'v_ck_a2'
       uncheck_option 'v_ck_a3'

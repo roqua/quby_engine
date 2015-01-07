@@ -149,6 +149,18 @@
                       pushFailVal(validation.type);
                   }
                   break;
+              case "maximum_checked_allowed":
+                  var checkboxes = panel.find('input[type=checkbox]:checked');
+                  if (checkboxes.length > validation.maximum_checked_value) {
+                      pushFailVal(validation.type);
+                  }
+                  break;
+              case "minimum_checked_required":
+                  var checkboxes = panel.find('input[type=checkbox]:checked');
+                  if (checkboxes.length < validation.minimum_checked_value) {
+                    pushFailVal(validation.type);
+                  }
+                  break;
               //These validations would only come into play if the javascript that makes it impossible
               //to check an invalid combination of checkboxes fails.
               case "too_many_checked":
