@@ -111,6 +111,50 @@ shared_examples 'validations on checkbox questions' do
     end
   end
 
+  context 'maximum_checked_allowed' do
+    let(:questionnaire) do
+      inject_questionnaire 'test', <<-END
+        question :v_check_box, type: :check_box, maximum_checked_allowed: 2 do
+          title "Pick max two"
+          option :v_ck_a1, value: 1, description: 'Unicorns'
+          option :v_ck_a2, value: 2, description: 'Rainbows'
+          option :v_ck_a3, value: 3, description: 'Wortels'
+        end
+      END
+    end
+
+    scenario 'is valid when 1 or 2 are checked' do
+      next if validation_run_location == :client_side
+      check_option 'v_ck_a1'
+      check_option 'v_ck_a2'
+      check_option 'v_ck_a3'
+      run_validations
+      expect_error_on 'v_check_box', 'maximum_checked_allowed'
+    end
+  end
+
+  context 'minimum_checked_required' do
+    let(:questionnaire) do
+      inject_questionnaire 'test', <<-END
+        question :v_check_box, type: :check_box, minimum_checked_required: 2 do
+          title "Pick max two"
+          option :v_ck_a1, value: 1, description: 'Unicorns'
+          option :v_ck_a2, value: 2, description: 'Rainbows'
+          option :v_ck_a3, value: 3, description: 'Wortels'
+        end
+      END
+    end
+
+    scenario 'is valid when 2 or 3 are checked' do
+      next if validation_run_location == :client_side
+      check_option 'v_ck_a1'
+      uncheck_option 'v_ck_a2'
+      uncheck_option 'v_ck_a3'
+      run_validations
+      expect_error_on 'v_check_box', 'minimum_checked_required'
+    end
+  end
+
   context 'question groups' do
     let(:questionnaire) do
       inject_questionnaire "test", <<-END
