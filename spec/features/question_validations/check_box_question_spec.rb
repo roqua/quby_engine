@@ -123,13 +123,22 @@ shared_examples 'validations on checkbox questions' do
       END
     end
 
-    scenario 'is valid when 1 or 2 are checked' do
+    scenario 'is invalid when 3 options are checked' do
       next if validation_run_location == :client_side
       check_option 'v_ck_a1'
       check_option 'v_ck_a2'
       check_option 'v_ck_a3'
       run_validations
       expect_error_on 'v_check_box', 'maximum_checked_allowed'
+    end
+
+    scenario 'is valid when 2 options are checked' do
+      next if validation_run_location == :client_side
+      check_option 'v_ck_a1'
+      check_option 'v_ck_a2'
+      uncheck_option 'v_ck_a3'
+      run_validations
+      expect_no_errors
     end
   end
 
@@ -145,13 +154,22 @@ shared_examples 'validations on checkbox questions' do
       END
     end
 
-    scenario 'is valid when 2 or 3 are checked' do
+    scenario 'is invalid when 1 is checked' do
       next if validation_run_location == :client_side
       check_option 'v_ck_a1'
       uncheck_option 'v_ck_a2'
       uncheck_option 'v_ck_a3'
       run_validations
       expect_error_on 'v_check_box', 'minimum_checked_required'
+    end
+
+    scenario 'is valid when 2 options are checked' do
+      next if validation_run_location == :client_side
+      check_option 'v_ck_a1'
+      check_option 'v_ck_a2'
+      uncheck_option 'v_ck_a3'
+      run_validations
+      expect_no_errors
     end
   end
 
