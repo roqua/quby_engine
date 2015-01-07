@@ -48,6 +48,10 @@ module Quby
                   validate_too_many_checked(question, validation, value)
                 when :not_all_checked
                   validate_not_all_checked(question, validation, value)
+                when :maximum_checked_allowed
+                  validate_maximum_checked_allowed(question, validation, value)
+                when :minimum_checked_required
+                  validate_minimum_checked_required(question, validation, value)
                 when :answer_group_minimum
                   validate_answer_group_minimum(question, validation, value)
                 when :answer_group_maximum
@@ -115,6 +119,18 @@ module Quby
           if answer.send(question.check_all_option) == 1 and
               value.values.reduce(:+) < value.length - (question.uncheck_all_option ? 1 : 0)
             answer.send(:add_error, question, :not_all_checked, validation[:message] || "Invalid combination of options.")
+          end
+        end
+
+        def validate_maximum_checked_allowed(question, validation, value)
+          if value.values.reduce(:+) > question.maximum_checked_allowed.to_i
+            answer.send(:add_error, question, :maximum_checked_allowed, validation[:message] || "Too many options checked.")
+          end
+        end
+
+        def validate_minimum_checked_required(question, validation, value)
+          if value.values.reduce(:+) < question.minimum_checked_required.to_i
+            answer.send(:add_error, question, :minimum_checked_required, validation[:message] || "Not enough options checked.")
           end
         end
 

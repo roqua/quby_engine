@@ -17,14 +17,22 @@
       - cls << "show_values" if question.show_values_in_mode? :bulk
       .option{ :for => question.key, :class => cls}
         .radiocheckwrapper
+          - handlers = ''
           - if question.uncheck_all_option == opt.key
-            -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', false); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+            - handlers = "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', false);"
           - elsif question.check_all_option == opt.key
-            -attrs = {:onClick => "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', true); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
+            - handlers = "setAllCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}', '#{question.key}', true);"
           - else
-            -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);", :class => subquestion ? "subinput" : ""}
-          -if disabled
-            -attrs[:disabled] = ""
+            - handlers = "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}');"
+          - handlers += " handleDisableCheckboxSubQuestions(this);"
+
+          - if question.maximum_checked_allowed
+            - handlers += " handleMaximumCheckedAllowed(this, #{question.maximum_checked_allowed});"
+
+          - attrs = {onClick: handlers, class: subquestion ? 'subinput' : ''}
+
+          - if disabled
+            - attrs[:disabled] = ""
           = check_box(:answer, "#{opt.key}", attrs)
         - if question.show_values_in_mode? :bulk
           .value= opt.value

@@ -110,6 +110,20 @@ function handleDisableCheckboxSubQuestions(element){
     }
 }
 
+function handleMaximumCheckedAllowed(element, max) {
+  var item                 = $(element).closest('.item');
+  var checkboxes           = item.find('input[type=checkbox]');
+  var checked_checkboxes   = checkboxes.filter(':checked');
+  var unchecked_checkboxes = checkboxes.filter(':not(:checked)');
+
+  if (checked_checkboxes.length >= max) {
+    unchecked_checkboxes.attr('disabled', true);
+  }
+  else {
+    checkboxes.removeAttr('disabled');
+  }
+}
+
 function preventDefault(event){
     if (event.preventDefault) {
         event.preventDefault();
