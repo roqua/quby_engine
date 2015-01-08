@@ -221,20 +221,45 @@
     var answered = 0;
     var visible = 0;
     var hidden = 0;
+    var total = 0;
+    var countedKeys = [];
+    var answeredKeys = [];
 
     for(var i = 0; i < groupItems.length; i++){
-      var inputs = $(groupItems[i]).find("input, textarea, select").not(":disabled, :hidden");
+      var item = $(groupItems[i]);
+      var inputs = item.find("input, textarea, select").not(":disabled, :hidden");
+      var countsFor = 1;
+      var answersFor = 1;
+
+      if(item.is('.option')){
+        var questionKey = item.attr('data-for');
+        if(_.contains(countedKeys, questionKey)){
+          countsFor = 0;
+        }
+        countedKeys.push(questionKey);
+      }
+
       if (inputs.length == 0) {
-        hidden++;
+        hidden += countsFor;
       } else {
-        visible++;
+        visible += countsFor;
 
         if (is_answered(inputs)) {
-          answered++;
+          if(item.is('.option')){
+            questionKey = item.attr('data-for');
+            if (_.contains(answeredKeys, questionKey)){
+              answersFor = 0;
+            } else {
+              answeredKeys.push(questionKey);
+            }
+          }
+          answered += answersFor;
         }
       }
+      total += countsFor;
     }
-    return {total: groupItems.length, visible: visible, hidden: hidden, answered: answered};
+    return {total: total, visible: visible, hidden: hidden, answered: answered};
   }
 
+  window.calculateAnswerGroup = calculateAnswerGroup; //for testing
 })();
