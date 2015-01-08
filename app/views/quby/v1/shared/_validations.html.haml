@@ -28,6 +28,8 @@
     %div{:class => exp_classes}= validation[:explanation] || "Beantwoord minstens #{validation[:value]} van deze vragen"
   - when :answer_group_maximum
     %div{:class => exp_classes}= validation[:explanation] || "Beantwoord hoogstens #{validation[:value]} van deze vragen"
+  - when :answer_group_require_all_or_none
+    %div{:class => exp_classes}= validation[:explanation] || "Beantwoord deze vragen allemaal óf allemaal niet"
   - else
     %strong
       Error: unknown validation type

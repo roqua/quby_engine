@@ -12,7 +12,7 @@ module Quby
         def initialize(questionnaire, answer)
           @questionnaire = questionnaire
           @answer = answer
-          @hidden = []
+          @hidden = [] # does not include hidden questions that are shown
           @shown  = []
           @groups = {}
           @depends_on_lookup = {}
@@ -64,7 +64,7 @@ module Quby
         def process_question_groups(question)
           if question.question_group
             @groups[question.question_group] = [] unless @groups[question.question_group]
-            @groups[question.question_group] << question.key
+            @groups[question.question_group] << question.key unless @hidden.include?(question.key)
           end
         end
 

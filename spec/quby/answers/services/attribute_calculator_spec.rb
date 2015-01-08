@@ -85,6 +85,18 @@ describe Quby::Answers::Services::AttributeCalculator do
     calculator.hidden.should eq([])
   end
 
+  it 'does not count hidden questions as part of a group' do
+    questionnaire = inject_questionnaire("test", <<-END)
+    panel do
+      question :v_1, type: :string, title: 'Q1', default_invisible: true, question_group: 'group1'
+      question :v_2, type: :string, title: "Q2", question_group: 'group1'
+    end
+    END
+
+    calculator = described_class.new(questionnaire, make_answer)
+    calculator.groups.should eq({"group1" => [:v_2]})
+  end
+
   def make_answer(value = {}, flags: {})
     Quby::Answers::Entities::Answer.new(questionnaire_key: 'test', value: value, flags: flags).tap(&:enhance_by_dsl)
   end

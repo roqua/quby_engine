@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 shared_examples 'group_require_all_or_none_tests' do
-  it 'is valid when np question is filled in' do
+  it 'is valid when no question is filled in' do
     run_validations
     expect_no_errors
   end
