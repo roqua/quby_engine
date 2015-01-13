@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">= 3.2", '< 5.0'
 
   # External (web-)services
-  s.add_dependency "opencpu",       '~> 0.7.4'
+  s.add_dependency "opencpu",       '~> 0.8.0'
 
   # Views
   s.add_dependency 'coffee-rails'
