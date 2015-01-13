@@ -163,7 +163,7 @@
                   break;
               case "answer_group_require_all_or_none":
                 var count = calculateAnswerGroup(validation.group, panel);
-                if(count.visible > 0 && count.answered > 0 && count.answered < (count.total - count.hidden)){
+                if(count.visible > 0 && count.answered > 0 && count.answered < count.visible ){
                   pushFailVal(validation.type);
                 }
                 break;
