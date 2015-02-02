@@ -6,6 +6,6 @@
   .fields{:class => question.type, :id => question.html_id}
     - cls = [question.type]
     - cls << question.as if question.as
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :data => {'field-key' => question.key}
     %span.unit= raw question.unit    
     = validations

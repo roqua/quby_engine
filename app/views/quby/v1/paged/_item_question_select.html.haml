@@ -5,7 +5,7 @@
       :markdown
         #{raw question.description}
   .fields{:id => question.html_id}
-    %select(name="answer[#{question.key}]" onchange="$(\"#answer_#{question.key}_\"+this.value).trigger(\"click\")")
+    %select{:name => "answer[#{question.key}]", :onchange => "$(\"#answer_#{question.key}_\"+this.value).trigger(\"click\")", data: {"field-key" => question.key}}
       -question.options.each do |opt|
         - checked = @answer.send(question.key) == opt.key.to_s
         - next if (opt.hidden and not checked)

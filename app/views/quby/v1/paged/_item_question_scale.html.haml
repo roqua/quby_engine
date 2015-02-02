@@ -30,7 +30,7 @@
               - cls = [question.type]
               - cls << "subinput" if subquestion
               - cls << "deselectable" if question.deselectable
-              = radio_button(:answer, question.key, opt.key, {:class => cls, :disabled => disabled ? "" : nil})
+              = radio_button(:answer, question.key, opt.key, {:class => cls, :disabled => disabled ? "" : nil, data: {"field-key" => question.key}})
               %br/
               %label{for: opt.view_id}
                 %span

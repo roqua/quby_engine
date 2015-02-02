@@ -10,6 +10,7 @@
     - cls << question.as if question.as
     - data = question.input_data
     - data[:show_values] = question.show_values_in_mode? :paged
+    - data['field-key'] = question.key
     - case question.as
     - when :slider
       - if question.default_position.is_a? Numeric
@@ -29,5 +30,5 @@
             - left = i * 100 / (question.labels.size - 1)
             %div{class: lcls, style: left != 100 ? "left: #{left}%" : ''}= label.html_safe
     - else
-      = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30)
+      = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30), data: data
     %span.unit= raw question.unit

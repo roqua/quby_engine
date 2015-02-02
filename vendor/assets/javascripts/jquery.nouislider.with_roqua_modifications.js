@@ -138,7 +138,12 @@
 	// Returns a proxy to set a target using the public value method.
 		function setN ( target, number ) {
 
-			return function(){
+			// ROQUA EDIT capture eventData, and if set to noUpdate, dont set slider value
+			return function(event, eventData){
+				if (eventData !== undefined && eventData.noUpdateSlider) {
+					return;
+				}
+			// ROQUA EDIT don't prevent default for touch events, so we can allow scrolling
 
 				// Determine the correct position to set,
 				// leave the other one unchanged.
