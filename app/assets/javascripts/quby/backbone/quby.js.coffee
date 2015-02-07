@@ -49,5 +49,4 @@ Quby.initFieldListeners = ->
   $("select[data-field-key], input[data-field-key], textarea[data-field-key]").on "change", (event) ->
     fieldKey = $(event.target).data("field-key")
     fieldValue = event.target.value
-    console.log("Setting #{fieldKey} to #{fieldValue}")
     Quby.answer.setField(fieldKey, fieldValue)
