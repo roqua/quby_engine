@@ -26,7 +26,7 @@ module Quby
 
         def all_records(questionnaire_key)
           storage.map    { |filename| load_file(filename) }
-                                 .select { |record| record.questionnaire_key == questionnaire_key }
+                 .select { |record| record.questionnaire_key == questionnaire_key }
         end
 
         def find_record(id)
@@ -37,7 +37,9 @@ module Quby
 
         def load_file(filename)
           File.open(filename, 'r') do |file|
-            YAML.load(file.read)
+            record = YAML.load(file.read)
+            record.created_at = File.ctime(filename)
+            record
           end
         end
 
