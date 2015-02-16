@@ -19,7 +19,7 @@ if defined?(RSpec)
       answer # make sure answer is persisted
       other_answer = api.create! 'simple'
       answer_with_outcome # make sure answer_with_outcome is persisted
-      expect(api.all('simple').map(&:id)).to eq([answer, other_answer].map(&:id))
+      expect(api.all('simple').map(&:id).sort).to eq([answer, other_answer].map(&:id).sort)
     end
 
     it 'supports finding all answers completed after some date' do
