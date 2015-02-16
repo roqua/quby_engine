@@ -19,7 +19,7 @@ if defined?(RSpec)
       answer # make sure answer is persisted
       other_answer = api.create! 'simple'
       answer_with_outcome # make sure answer_with_outcome is persisted
-      expect(api.all('simple').map(&:id)).to eq([answer, other_answer].map(&:id))
+      expect(api.all('simple').map(&:id).sort).to eq([answer, other_answer].map(&:id).sort)
     end
 
     it 'supports finding all answers completed after some date' do
@@ -27,8 +27,8 @@ if defined?(RSpec)
       repo.update! answer
       recent_answer     = api.create! 'simple', completed_at: 1.day.ago
       incomplete_answer = api.create! 'simple'
-      answer_ids = [answer, recent_answer, incomplete_answer].map(&:id)
-      expect(api.find_completed_after(2.days.ago, answer_ids).map(&:id)).to eq([recent_answer.id])
+      answer_ids = [answer, recent_answer, incomplete_answer].map(&:id).sort
+      expect(api.find_completed_after(2.days.ago, answer_ids).map(&:id).sort).to eq([recent_answer.id])
     end
 
     it 'supports creating an answer' do
