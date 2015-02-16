@@ -27,8 +27,8 @@ if defined?(RSpec)
       repo.update! answer
       recent_answer     = api.create! 'simple', completed_at: 1.day.ago
       incomplete_answer = api.create! 'simple'
-      answer_ids = [answer, recent_answer, incomplete_answer].map(&:id)
-      expect(api.find_completed_after(2.days.ago, answer_ids).map(&:id)).to eq([recent_answer.id])
+      answer_ids = [answer, recent_answer, incomplete_answer].map(&:id).sort
+      expect(api.find_completed_after(2.days.ago, answer_ids).map(&:id).sort).to eq([recent_answer.id])
     end
 
     it 'supports creating an answer' do

@@ -42,7 +42,7 @@ if defined?(RSpec)
         answer2 = api.create!('simple', attributes.merge(_id: 'answer2'))
 
         answers = repo.all('simple')
-        expect(answers.map(&:id)).to eq([answer1.id, answer2.id])
+        expect(answers.map(&:id).sort).to eq([answer1.id, answer2.id].sort)
 
       end
 
