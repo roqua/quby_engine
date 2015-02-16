@@ -32,7 +32,6 @@ module Quby
         def find_record(id)
           load_file(path.join("answer-#{id}.yml"))
         rescue StandardError => e
-          puts e.message
           nil
         end
 
