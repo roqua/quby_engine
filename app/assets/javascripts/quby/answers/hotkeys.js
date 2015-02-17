@@ -142,7 +142,7 @@
   function selectFocusedInput(){
     var el = $(document.activeElement);
     el.prop('checked', true);
-    radioCheckboxEvents(el[0]);
+    radioCheckboxEvents(el);
     focusNextInput();
   }
 
