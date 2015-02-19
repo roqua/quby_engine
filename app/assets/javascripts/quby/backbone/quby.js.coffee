@@ -21,8 +21,10 @@ $ ->
 Quby.init = (options) ->
   Quby.questionnaire_key = options.questionnaire_key
   Quby.flags.addFlags(options.flag_definitions, options.flag_values)
+  Quby.answer = new Quby.Models.Answer(options.answer_value)
   Quby.initTextvars(options.textvars)
   Quby.initShowsHides()
+  Quby.initFieldListeners()
 
 Quby.initTextvars = (textvars) ->
   Quby.textvars = new Quby.Collections.Textvars(textvars)
@@ -42,3 +44,9 @@ Quby.initTextvars = (textvars) ->
 Quby.initShowsHides = ->
   Quby.questions.trigger("initShowsHides")
   Quby.flags.initShowsHides(Quby.questions)
+
+Quby.initFieldListeners = ->
+  $("select[data-field-key], input[data-field-key], textarea[data-field-key]").on "change", (event) ->
+    fieldKey = $(event.target).data("field-key")
+    fieldValue = event.target.value
+    Quby.answer.setField(fieldKey, fieldValue)

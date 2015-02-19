@@ -51,6 +51,7 @@ class BetterSlider
   set_slider: (options) ->
     initialized = @$slider.hasClass('noUi-target')
     @$slider.noUiSlider(options, initialized)
+    @$slider.on("change", (=> @$el.trigger('change', {noUpdateSlider: true})))
     @add_value_div() if @$el.data('value-tooltip')
     @add_wia_aria_support()
     @add_keyboard_interaction()

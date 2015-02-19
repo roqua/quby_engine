@@ -4,7 +4,7 @@
 - itemkey = "item_#{question.key}"
 %td.item{:id => itemkey, :class => classes, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   .fields{:class => question.type, :id => question.html_id}
-    %select(name="answer[#{question.key}]" onchange="$(\"#answer_#{question.key}_\"+this.value).trigger(\"click\")")
+    %select{:name => "answer[#{question.key}]", :onchange => "$(\"#answer_#{question.key}_\"+this.value).trigger(\"click\")", :data => {'field-key' => question.key}}
       -question.options.each do |opt|
         - checked = @answer.send(question.key) == opt.key.to_s
         - next if (opt.hidden and not checked)

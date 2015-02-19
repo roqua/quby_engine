@@ -15,7 +15,7 @@
     .radiocheckwrapper
       - if show_values
         .value= opt.value
-      = radio_button(:answer, question.key, opt.key, {:class => radio_classes})
+      = radio_button(:answer, question.key, opt.key, {:class => radio_classes, :data => {'field-key' => question.key}})
     -if question.table.show_option_desc
       .labelwrapper
         %label{for: opt.view_id}

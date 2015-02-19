@@ -29,7 +29,7 @@
           - if question.maximum_checked_allowed
             - handlers += " handleMaximumCheckedAllowed(this, #{question.maximum_checked_allowed});"
 
-          - attrs = {onClick: handlers, class: subquestion ? 'subinput' : ''}
+          - attrs = {onClick: handlers, class: subquestion ? 'subinput' : '', data: {'field-key' => opt.key}}
 
           - if disabled
             - attrs[:disabled] = ""

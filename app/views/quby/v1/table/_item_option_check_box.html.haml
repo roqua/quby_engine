@@ -16,6 +16,7 @@
       - else
         -attrs = {:onClick => "correctAllNothingCheckboxes(this.checked, '#{question.check_all_option}', '#{question.uncheck_all_option}'); handleDisableCheckboxSubQuestions(this);"}
       - attrs[:class] = question.type
+      - attrs[:data] = {'field-key' => opt.key}
       = check_box(:answer, "#{opt.key}", attrs)
 
     -if question.table.show_option_desc

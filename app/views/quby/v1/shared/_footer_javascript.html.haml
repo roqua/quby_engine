@@ -2,6 +2,7 @@
   $(function() {
     Quby.init({
       questionnaire_key: #{@questionnaire.key.to_json},
+      answer_value: #{@answer.value.to_json},
       flag_definitions: #{answer.questionnaire.flags.to_json},
       flag_values: #{answer.flags.to_json},
       textvars: #{@answer.textvars.to_json}

@@ -21,6 +21,6 @@
           - radio_classes = []
           - radio_classes << "subinput" if subquestion
           - radio_classes << "deselectable" if question.deselectable
-          = radio_button(:answer, question.key, opt.key, {:class => radio_classes, :disabled => disabled ? "" : nil})
+          = radio_button(:answer, question.key, opt.key, {:class => radio_classes, :disabled => disabled ? "" : nil, data: {"field-key" => question.key}})
           - if question.show_values_in_mode? :bulk
             %span.value= opt.value

@@ -6,4 +6,4 @@
       :markdown
         #{raw question.description}
   .fields{:id => question.html_id}
-    = text_area :answer, question.key, :rows => question.lines, :cols => question.cols, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil
+    = text_area :answer, question.key, :rows => question.lines, :cols => question.cols, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil, data: {"field-key" => question.key}
