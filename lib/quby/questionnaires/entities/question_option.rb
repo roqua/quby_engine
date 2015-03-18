@@ -65,7 +65,7 @@ module Quby
 
           if question.type == :check_box
             option_key = question.codebook_key(key, questionnaire, opts)
-            output << "#{option_key} #{question.codebook_output_type}#{' deprecated' if hidden}"
+            output << "#{option_key} #{question.codebook_output_type}#{' deprecated' if (hidden || question.hidden) }"
             output << "\"#{question.title} -- #{description}\"" unless question.title.blank? and description.blank?
             output << "1\tChecked"
             output << "0\tUnchecked"
