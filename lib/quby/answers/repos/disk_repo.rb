@@ -48,9 +48,11 @@ module Quby
         end
 
         def store_record(record)
-          File.open(path.join("answer-#{record[:_id]}.yml"), 'w') do |file|
+          filename = path.join("answer-#{record[:_id]}.yml")
+          File.open(filename, 'w') do |file|
             file.write YAML.dump(record)
           end
+          record.created_at = File.ctime(filename)
         end
 
         def storage

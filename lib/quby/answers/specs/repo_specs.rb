@@ -32,6 +32,7 @@ if defined?(RSpec)
         answer = repo.create!(unpersisted_entity)
 
         expect(answer.id).to be_present
+        expect(answer.created_at).to be_present
         verify(answer)
       end
     end
@@ -51,6 +52,7 @@ if defined?(RSpec)
         retrieved = repo.find('simple', answer.id)
 
         expect(retrieved.id).to eq(answer.id)
+        expect(answer.created_at).to be_present
         verify(retrieved)
       end
 

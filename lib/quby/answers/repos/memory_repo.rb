@@ -31,6 +31,7 @@ module Quby
 
         def store_record(record)
           storage[record[:_id]] = record
+          record.created_at = Time.zone.now
         end
 
         def storage
