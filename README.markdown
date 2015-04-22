@@ -3,6 +3,9 @@ Quby
 [![CircleCI](https://circleci.com/gh/roqua/quby_engine.png?circle-token=b8c29e6c847094da985e5cbcd0e20648b11f0217&style=shield)](https://circleci.com/gh/roqua/quby_engine)
 [![Code Climate](https://codeclimate.com/github/roqua/quby_engine/badges/gpa.svg)](https://codeclimate.com/github/roqua/quby_engine)
 
+Evaluating: [![Dependency Status](https://gemnasium.com/roqua/quby_engine.svg)](https://gemnasium.com/roqua/quby_engine)
+[![Dependency Status](https://www.versioneye.com/user/projects/553790697f43bc3f4400040c/badge.svg?style=flat)](https://www.versioneye.com/user/projects/553790697f43bc3f4400040c)
+
 ## Usage
 
 Quby is a Rails mountable engine, which means that you have to mount it
