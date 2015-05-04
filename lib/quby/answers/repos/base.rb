@@ -2,7 +2,7 @@ module Quby
   module Answers
     module Repos
       class Base
-        def find(questionnaire_key, answer_id)
+        def find(questionnaire_key, answer_id, options = {})
           record = find_record(answer_id)
           fail AnswerNotFound, "Answer #{answer_id.inspect} could not be found." unless record.present?
           entity(record)

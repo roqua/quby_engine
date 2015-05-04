@@ -5,8 +5,8 @@ module Quby
         @repo = answer_repo
       end
 
-      def find(questionnaire_key, answer_id)
-        @repo.find questionnaire_key, answer_id
+      def find(questionnaire_key, answer_id, options = {})
+        @repo.find questionnaire_key, answer_id, options
       end
 
       def find_completed_after(time, answer_ids)
