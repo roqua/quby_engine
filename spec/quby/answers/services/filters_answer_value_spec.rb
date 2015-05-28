@@ -25,8 +25,8 @@ module Quby::Answers::Services
 
     let(:empty_hash) do
       {
-        "aborted"=>nil, "v_6"=>nil, "v_7a1"=>nil, "v_7a2"=>nil,
-        "date_dd"=>nil, "date_mm"=>nil, "date_yyyy"=>nil
+        "aborted" => nil, "v_6" => nil, "v_7a1" => nil, "v_7a2" => nil,
+        "date_dd" => nil, "date_mm" => nil, "date_yyyy" => nil
       }
     end
 
