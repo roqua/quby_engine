@@ -7,11 +7,9 @@ module Quby
         end
 
         def filter(attributes)
-          filtered_attributes = valid_attribute_keys.map do |key|
-            [key, attributes[key]]
+          valid_attribute_keys.each_with_object({}) do |key, obj|
+            obj[key] = attributes.fetch(key, nil)
           end
-
-          Hash[filtered_attributes]
         end
 
         private
