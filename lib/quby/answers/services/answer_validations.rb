@@ -24,12 +24,6 @@ module Quby
           question.answer_keys.each do |key|
             value[key.to_s] = nil
           end
-
-          # if question.type == :check_box
-          #   question.options.each do |opt|
-          #     value.delete(opt.key.to_s)
-          #   end
-          # end
         end
 
         def calculated_attributes
