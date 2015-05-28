@@ -7,9 +7,11 @@ module Quby
         end
 
         def filter(attributes)
-          attributes.dup.keep_if do |key, value|
-            valid_attribute_keys.include? key
+          filtered_attributes = valid_attribute_keys.map do |key|
+            [key, attributes[key]]
           end
+
+          Hash[filtered_attributes]
         end
 
         private

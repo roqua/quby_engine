@@ -21,7 +21,8 @@ feature 'Hiding and showing questions' do
       page.should have_selector("[data-for=v_13].hide, #answer_v_13_input.hide", count: 2, visible: false)
 
       goto_third_page and save_form
-      Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_7" => "a3"))
+      Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_7" => "a3",
+                                                               "v_10_dd" => nil, "v_10_mm" => nil, "v_10_yyyy" => nil))
     end
 
     scenario 'by clicking a checkbox option that hides a question', js: true do
@@ -58,7 +59,8 @@ feature 'Hiding and showing questions' do
       page.should have_selector("[data-for=v_8].hide", count: 8, visible: false)
 
       goto_third_page and save_form
-      Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6"))
+      Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_10_dd" => nil,
+                                                               "v_10_mm" => nil, "v_10_yyyy" => nil))
     end
 
     scenario 'by visiting an answer with a flag that hides a question set to true', js: true do
@@ -285,7 +287,8 @@ feature 'Hiding and showing questions' do
 
       # Test that data from hidden v_8 does not get saved
       goto_third_page and save_form
-      Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6"))
+      Quby.answers.reload(answer).value.should eq(answer_value("v_6" => "a6", "v_10_dd" => nil,
+                                                               "v_10_mm" => nil, "v_10_yyyy" => nil))
     end
 
     scenario 'by unchecking a check box question through the uncheck_all_option', js: true do
@@ -364,9 +367,17 @@ feature 'Hiding and showing questions' do
 
   def answer_value(override = {})
     {
+      "v_4" => nil,
       "v_5" => { "v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0 },
       "v_5_a1" => 0, "v_5_a2" => 0, "v_5_a3" => 0,
+      "v_6" => nil,
+      "v_7" => nil, "v_7sub" => nil,
+      "v_8" => nil,
+      "v_9" => nil,
       "v_10_dd" => "", "v_10_mm" => "", "v_10_yyyy" => "",
+      "v_11" => nil,
+      "v_12" => nil,
+      "v_13" => nil,
       "v_14" => { "v_14_a1" => 0, "v_14_a2" => 0, "v_14_a3" => 0 },
       "v_14_a1" => 0,
       "v_14_a2" => 0,

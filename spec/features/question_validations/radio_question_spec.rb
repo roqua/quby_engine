@@ -41,6 +41,30 @@ shared_examples 'validations on radio questions' do
       expect_error_on 'v_radio', 'requires_answer'
     end
   end
+
+  context 'deselecting' do
+    let(:questionnaire) do
+      inject_questionnaire "test", <<-END
+        question :v_radio, type: :radio, deselectable: true do
+          title "Pick one"
+          option :a1, value: 1, description: 'Unicorns'
+          option :a2, value: 2, description: 'Rainbows'
+        end; end_panel
+      END
+    end
+
+    scenario 'clearing a saved choice' do
+      x = @answer || answer
+      x.value["v_radio"] = "a1"
+      Quby.answers.update! x
+
+      select_radio_option 'v_radio', 'a1'
+      deselect_radio_option 'v_radio', 'a1'
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_radio', nil
+    end
+  end
 end
 
 feature 'Client-side validations on radio questions', js: true do
