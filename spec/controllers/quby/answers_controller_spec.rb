@@ -30,5 +30,24 @@ module Quby
       end
 
     end
+
+    describe '#bad_questionnaire' do
+      before do
+        controller.stub(:find_questionnaire).and_raise(Quby::Questionnaires::Repos::QuestionnaireNotFound,
+                                                       questionnaire.key)
+      end
+
+      it 'redirects to return_url when available' do
+        put :edit, return_url: 'blah', questionnaire_id: questionnaire.key, id: answer.id
+        expect(response).to redirect_to('blah?error=Quby%3A%3AQuestionnaires%3A%3ARepos%3A%3A' +
+                                          'QuestionnaireNotFound&key&return_from=quby&return_from_answer=' +
+                                          "#{answer.id}&status=error")
+      end
+
+      it 'renders questionnaire_not_found if return_url is unavailable' do
+        put :edit, questionnaire_id: questionnaire.key, id: answer.id
+        expect(response).to render_template('quby/errors/questionnaire_not_found')
+      end
+    end
   end
 end
