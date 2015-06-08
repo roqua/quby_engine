@@ -39,9 +39,12 @@ module Quby
 
       it 'redirects to return_url when available' do
         put :edit, return_url: 'blah', questionnaire_id: questionnaire.key, id: answer.id
-        expect(response).to redirect_to('blah?error=Quby%3A%3AQuestionnaires%3A%3ARepos%3A%3A' +
-                                          'QuestionnaireNotFound&key&return_from=quby&return_from_answer=' +
-                                          "#{answer.id}&status=error")
+
+        expected = "\
+blah?error=Quby%3A%3AQuestionnaires%3A%3ARepos%3A%3A\
+QuestionnaireNotFound&key&return_from=quby&return_from_answer=#{answer.id}&status=error"
+
+        expect(response).to redirect_to(expected)
       end
 
       it 'renders questionnaire_not_found if return_url is unavailable' do
