@@ -21,11 +21,8 @@ module Quby
         end
 
         def clear_question(question)
-          value.delete(question.key.to_s)
-          if question.type == :check_box
-            question.options.each do |opt|
-              value.delete(opt.key.to_s)
-            end
+          question.answer_keys.each do |key|
+            value[key.to_s] = nil
           end
         end
 

@@ -7,8 +7,8 @@ module Quby
         end
 
         def filter(attributes)
-          attributes.dup.keep_if do |key, value|
-            valid_attribute_keys.include? key
+          valid_attribute_keys.each_with_object({}) do |key, obj|
+            obj[key] = attributes.fetch(key, nil)
           end
         end
 

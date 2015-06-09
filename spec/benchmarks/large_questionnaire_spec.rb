@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Large questionnaires' do
+feature 'Large questionnaires', benchmark: true do
   scenario 'should be fast to build from DSL' do
     Quby::Questionnaires::DSL.build('vlq') do
       title 'VLQ'
