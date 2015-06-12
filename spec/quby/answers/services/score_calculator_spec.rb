@@ -83,6 +83,12 @@ module Quby::Answers::Services
           calculator.values(:unknown_key)
         end.to raise_error(ScoreCalculator::MissingAnswerValues)
       end
+
+      it 'treats nil values the same as values of which the key does not exist' do
+        expect do
+          calculator.values(:v_3)
+        end.to raise_error(ScoreCalculator::MissingAnswerValues)
+      end
     end
 
     describe '#value' do
@@ -92,7 +98,12 @@ module Quby::Answers::Services
 
       it 'returns the value for the provided argument key' do
         expect(calculator.value(:v_1)).to eq 1
-        expect(calculator.value(:v_3)).to eq nil
+      end
+
+      it 'raises if a value is requested which does not exist' do
+        expect do
+          calculator.values(:v_3)
+        end.to raise_error(ScoreCalculator::MissingAnswerValues)
       end
     end
 
