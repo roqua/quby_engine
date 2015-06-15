@@ -38,7 +38,7 @@ module Quby
               results[key] = calculation.options.merge(missing_values: exception.missing)
             rescue StandardError => exception
               if defined? Roqua::Support::Errors
-                Roqua::Support::Errors.report exception, root_path: Rails.root.to_s
+                Roqua::Support::Errors.report exception, root_path: Rails.root.to_s, quby_answer_id: answer.id
               end
               results[key] = {exception: exception.message,
                               backtrace: exception.backtrace}.reverse_merge(calculation.options)

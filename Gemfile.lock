@@ -339,3 +339,6 @@ DEPENDENCIES
   therubyracer
   timecop
   uglifier
+
+BUNDLED WITH
+   1.10.3
