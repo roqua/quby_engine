@@ -69,7 +69,9 @@ module Quby
         #
         # Returns a value.
         def value(key)
-          values_with_nils(key.to_s).first
+          key = key.to_s
+          ensure_answer_values_for([key])
+          values_with_nils(key).first
         end
 
         # Public: Get values for given question keys, or nil if the question is not filled in
@@ -218,7 +220,8 @@ module Quby
         end
 
         def ensure_answer_values_for(keys)
-          unanswered_keys = keys.reject { |key| @values.key?(key) }
+          # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
+          unanswered_keys = keys.select { |key| @values[key].blank? }
 
           if unanswered_keys.present?
             fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
