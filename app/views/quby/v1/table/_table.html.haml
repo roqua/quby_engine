@@ -64,7 +64,7 @@
         - cyclei = 1 if ros_cycle == "dark"
         - if question and question.presentation != :horizontal
           - unless same_question
-            - rowspan = (question.options.length.to_f/table.columns).ceil
+            - rowspan = [(question.options.length.to_f/table.columns).ceil, 1].max
             - rowspan = 1 if question.type == :select
             - title_insert = nil
             - subq = question.options.last.andand.questions.andand.first
