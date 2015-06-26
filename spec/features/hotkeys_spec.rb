@@ -18,7 +18,7 @@ feature 'Using hotkeys' do
     END
   end
 
-  let(:keypress_space) { "var e = jQuery.Event( 'keyup' ); e.which = $.ui.keyCode.SPACE; $('#item_v1').trigger(e);" }
+  let(:keypress_space) { "var e = jQuery.Event( 'keyup' ); e.which = 32; $('#item_v1').trigger(e);" }
   let(:keypress_1) { "var e = jQuery.Event( 'keyup' ); e.which = 49; $('#item_v1').trigger(e);" }
   let(:keypress_up) { "var e = jQuery.Event( 'keydown' ); e.which = 33; $('#item_v1').trigger(e);" }
   let(:keypress_2) { "var e = jQuery.Event( 'keyup' ); e.which = 50; $('#item_v1').trigger(e);" }
