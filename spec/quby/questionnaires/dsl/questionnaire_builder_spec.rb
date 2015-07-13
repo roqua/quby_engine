@@ -34,6 +34,12 @@ module Quby::Questionnaires::DSL
     it 'can set license' do
       dsl { license :free }
       expect(questionnaire.license).to eq(:free)
+      expect(questionnaire.licensor).to be_nil
+    end
+
+    it 'can set licensor' do
+      dsl { license :free, licensor: 'FOO' }
+      expect(questionnaire.licensor).to eq('FOO')
     end
 
     it 'builds panels' do

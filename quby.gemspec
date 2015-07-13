@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.markdown"]
   s.test_files = Dir["spec/**/*"]
 
+  s.required_ruby_version = '>= 2.0'
   s.add_dependency "rails", ">= 3.2", '< 5.0'
 
   # External (web-)services

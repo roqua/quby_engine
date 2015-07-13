@@ -52,7 +52,7 @@ module Quby
           @questionnaire.allow_hotkeys = type
         end
 
-        def license(type, licensor = nil)
+        def license(type, licensor: nil)
           @questionnaire.license  = type
           @questionnaire.licensor = licensor
         end
