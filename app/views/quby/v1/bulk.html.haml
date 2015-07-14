@@ -10,8 +10,8 @@
 
 = form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off" do
   = render :partial => "quby/v1/session_params"
-  - if not @answer.errors.empty?
-    .force-submit
+  - unless @answer.errors.empty?
+    .force-submit.noprint
       %h1 Deze vragenlijst is nog niet volledig ingevuld!
       %p Als u de vragenlijst toch opslaat, kan het zijn dat er geen schaalscores berekend worden omdat hiervoor onvoldoende informatie voorhanden is. U kunt uw antwoorden hieronder alsnog aanvullen. Vragen die nog niet volledig zijn beantwoord, worden rood gemarkeerd.
       = submit_tag "Toch opslaan"

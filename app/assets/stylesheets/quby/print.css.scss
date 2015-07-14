@@ -129,9 +129,10 @@ body > #content{
       display: inline;
   }
 
-  .hidden, #hotkeyDialogLink, #mastfoot, .buttons{
-    display: none;
+  .hidden, #hotkeyDialogLink, #mastfoot, .buttons, .noprint {
+    display: none !important;
   }
+
   :disabled {
     display: none;
   }
