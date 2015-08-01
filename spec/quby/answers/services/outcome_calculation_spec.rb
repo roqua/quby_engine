@@ -61,7 +61,7 @@ module Quby::Answers::Services
 
         received_values.to_a.should eq([[:v_2, 2], [:v_1, 1]])
         received_timestamp.should eq('completed_at')
-        received_patient_attrs.should eq({ })
+        received_patient_attrs.should eq({})
       end
 
       it 'calculates scores, alerts and completion' do
@@ -78,7 +78,7 @@ module Quby::Answers::Services
         questionnaire.stub(questions: [double(key: :v_1,
                                               type: :radio,
                                               options: [
-                                                  double(key: :a1, value: 2)
+                                                double(key: :a1, value: 2)
                                               ],
                                               sets_textvar: nil)])
         answer.value = { 'v_1' => :a1 }
@@ -143,7 +143,9 @@ module Quby::Answers::Services
         it 'reports the exception' do
           exception = StandardError.new 'some error'
           completion.stub(calculation: proc { fail exception })
-          expect(Roqua::Support::Errors).to receive(:report).with(exception, root_path: Rails.root.to_s)
+          expect(Roqua::Support::Errors).to receive(:report).with(exception,
+                                                                  root_path: Rails.root.to_s,
+                                                                  quby_answer_id: answer.id)
           OutcomeCalculation.new(answer).calculate
         end
 
@@ -192,16 +194,17 @@ module Quby::Answers::Services
       it 'orders the regular values according to the questionnaire\'s question order' do
         answer.stub(value_by_regular_values: { 'v_2' => 2, 'v_1' => 1 },
                     completed_at: 'completed_at')
-        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({'v_1' => 1, 'v_2' => 2}.to_a)
+        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({ 'v_1' => 1,
+                                                                                           'v_2' => 2 }.to_a)
       end
 
       # given that the only known question order is ['v_1', 'v_2', 'v_3']
       it 'sorts unknown question keys to the end of the regular values hash' do
         answer.stub(value_by_regular_values: { 'v_2' => 2, 'v_5' => 5, 'v_4' => 4, 'v_3' => 3, 'v_1' => 1 },
                     completed_at: 'completed_at')
-        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({'v_1' => 1, 'v_2' => 2,
-                                                                                          'v_3' => 3, 'v_5' => 5,
-                                                                                          'v_4' => 4
+        expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({ 'v_1' => 1, 'v_2' => 2,
+                                                                                           'v_3' => 3, 'v_5' => 5,
+                                                                                           'v_4' => 4
                                                                                          }.to_a)
       end
     end
