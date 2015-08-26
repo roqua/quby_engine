@@ -25,9 +25,7 @@ function activatePanel(panel, forward) {
         }
     }
 
-    panel.find('input[type="checkbox"]:not(.subinput), input[type="radio"]:not(.subinput)').each( function(index, element){
-      radioCheckboxEvents(element);
-    });
+    enableDisableSubquestionsOfCheckedRadiosCheckboxes(panel)
     window.scrollTo(0,0);
     // iOS 7 will scroll to top, then figure "hey, you scrolled up" and enlarge the URL bar.
     // The URL bar is then displayed on top of our content, which sometimes hides the first
@@ -87,8 +85,9 @@ function radioCheckboxEvents(event){
     }
 }
 
-function enableAllSubquestionsOfCheckedRadiosCheckboxes() {
-    $('input[type="radio"]:checked, input[type="checkbox"]:checked').each(function(i, el) {
+// uses handleDisableCheckboxSubQuestions, since radio checking would disable all if the last options was not checked.
+function enableDisableSubquestionsOfCheckedRadiosCheckboxes(panel) {
+    panel.find('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').each(function(i, el) {
         handleDisableCheckboxSubQuestions(el)
     })
 }
@@ -337,7 +336,5 @@ $(function() {
 
             preparePaged();
         }
-
-        enableAllSubquestionsOfCheckedRadiosCheckboxes();
     }
 );
