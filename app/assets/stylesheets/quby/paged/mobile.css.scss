@@ -1,5 +1,5 @@
 @mixin paged-mobile($width, $columns) {
-  $grid-padding: 10px;
+  $grid-padding: 20px;
   $label-columns: $columns / 3;
   $field-columns: $columns - $label-columns;
 
