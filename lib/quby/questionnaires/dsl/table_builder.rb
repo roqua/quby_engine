@@ -4,6 +4,8 @@ module Quby
   module Questionnaires
     module DSL
       class TableBuilder
+        include Helpers
+
         def initialize(panel, options = {})
           @panel = panel
           @table = Entities::Table.new(options)
@@ -24,14 +26,12 @@ module Quby
         end
 
         def question(key, options = {}, &block)
-          if @panel.questionnaire.key_in_use? key
-            fail "#{@panel.questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
-          end
-          fail "You can't create a slider in a table at the moment" if options[:as] == :slider
-
           options = @default_question_options.merge(options)
                                              .merge(table: @table,
                                                     questionnaire: @panel.questionnaire)
+
+          check_question_keys_uniqueness key, options, @panel.questionnaire
+          fail "You can't create a slider in a table at the moment" if options[:as] == :slider
 
           question = QuestionBuilder.build(key, options, &block)
 

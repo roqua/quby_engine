@@ -38,11 +38,10 @@ module Quby
         end
 
         def question(key, options = {}, &block)
-          if @panel.questionnaire.key_in_use? key
-            fail "#{@panel.questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
-          end
-
           options = @default_question_options.merge(options).merge(questionnaire: @panel.questionnaire)
+
+          check_question_keys_uniqueness key, options, @questionnaire
+
           question = QuestionBuilder.build(key, options, &block)
 
           @questionnaire.register_question(question)

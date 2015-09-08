@@ -121,15 +121,13 @@ module Quby
           end
 
           def title_question(key, options = {}, &block)
-            if @questionnaire.key_in_use? key
-              fail "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
-            end
-
             options = @default_question_options.merge({depends_on: @question.key,
                                                        questionnaire: @questionnaire,
                                                        parent: @question,
                                                        presentation: :next_to_title,
                                                        allow_blank_titles: @question.allow_blank_titles}.merge(options))
+
+            check_question_keys_uniqueness key, options, @questionnaire
 
             question = QuestionBuilder.build(key, options, &block)
 
@@ -138,14 +136,12 @@ module Quby
           end
 
           def question(key, options = {}, &block)
-            if @questionnaire.key_in_use? key
-              fail "#{@questionnaire.key}:#{key}: A question or option with input key #{key} is already defined."
-            end
-
             options = @default_question_options.merge(options)
                                                .merge(questionnaire: @questionnaire,
                                                       parent: @question,
                                                       parent_option_key: @question.options.last.key)
+
+            check_question_keys_uniqueness key, options, @questionnaire
 
             question = QuestionBuilder.build(key, options, &block)
 

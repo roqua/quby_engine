@@ -48,6 +48,10 @@ module Quby
             end
           end
 
+          def claimed_keys
+            [key]
+          end
+
           def answer_keys
             # Some options don't have a key (inner_title), they are stripped.
             options.map { |opt| opt.input_key }.compact

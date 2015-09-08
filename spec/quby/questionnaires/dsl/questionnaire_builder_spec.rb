@@ -109,6 +109,30 @@ module Quby::Questionnaires::DSL
       end.to raise_exception
     end
 
+    it 'checks for duplicates in past date input keys' do
+      expect do
+        dsl do
+          question :v_1_a, type: :date do
+            option :a1
+          end
+
+          question :v_1_yyyy, type: :text
+        end
+      end.to raise_exception
+    end
+
+    it 'checks for duplicates when creating date input keys' do
+      expect do
+        dsl do
+          question :v_1_yyyy, type: :text
+
+          question :v_1_a, type: :date do
+            option :a1
+          end
+        end
+      end.to raise_exception
+    end
+
     it 'checks for checkbox option keys clashing with question keys' do
       expect do
         dsl do

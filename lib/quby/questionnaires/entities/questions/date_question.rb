@@ -28,8 +28,8 @@ module Quby
             (@day_key || "#{key}_dd").to_s
           end
 
-          def input_keys
-            [day_key.to_sym, month_key.to_sym, year_key.to_sym]
+          def claimed_keys
+            [key, day_key.to_sym, month_key.to_sym, year_key.to_sym]
           end
 
           def answer_keys

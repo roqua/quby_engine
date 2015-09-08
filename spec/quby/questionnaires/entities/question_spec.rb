@@ -64,6 +64,17 @@ module Quby::Questionnaires::Entities
       end
     end
 
+    describe '#claimed_keys' do
+      it 'should list all answer keys' do
+        expect(questionnaire.question_hash[:radio].claimed_keys).to eql [:radio]
+        expect(questionnaire.question_hash[:check].claimed_keys).to eql [:check]
+        expect(questionnaire.question_hash[:scale].claimed_keys).to eql [:scale]
+        expect(questionnaire.question_hash[:select].claimed_keys).to eql [:select]
+        expect(questionnaire.question_hash[:int]  .claimed_keys).to eql [:int]
+        expect(questionnaire.question_hash[:date] .claimed_keys).to eql [:date, :date_dd, :date_mm, :date_yyyy]
+      end
+    end
+
     describe '#answer_keys' do
       it 'should list all answer keys' do
         expect(questionnaire.question_hash[:radio].answer_keys).to eql [:radio]
