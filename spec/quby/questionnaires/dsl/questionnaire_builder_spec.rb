@@ -223,6 +223,26 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#custom_method' do
+      it 'can build a question with options' do
+        dsl do
+          add_custom_method :zzl_question do |question_key, question_title|
+            question question_key, type: :scale do
+              title question_title
+              option :a1, value: 1
+              option :a2, value: 2
+            end
+          end
+          panel do
+            custom_method :zzl_question, :v_1, 'zzl title'
+          end
+        end
+        expect(questionnaire.question_hash[:v_1].title).to eq 'zzl title'
+        expect(questionnaire.question_hash[:v_1].type).to eq :scale
+        expect(questionnaire.question_hash[:v_1].options[0].key).to eq :a1
+      end
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end

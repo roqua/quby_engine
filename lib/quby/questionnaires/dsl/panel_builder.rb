@@ -11,10 +11,15 @@ module Quby
           @panel = Entities::Panel.new(options.merge(title: title, items: []))
           @default_question_options = options[:default_question_options] || {}
           @questionnaire = options[:questionnaire]
+          @custom_methods = options[:custom_methods]
         end
 
         def build
           @panel
+        end
+
+        def custom_method(method, *args)
+          @custom_methods[method].bind(self).call(*args)
         end
 
         def title(value)

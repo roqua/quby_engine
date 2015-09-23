@@ -18,6 +18,7 @@ module Quby
         def initialize(target_instance)
           @questionnaire = target_instance
           @default_question_options = {}
+          @custom_methods = {}
         end
 
         def leave_page_alert(text)
@@ -76,6 +77,10 @@ module Quby
         def panel(title = nil, options = {}, &block)
           panel = PanelBuilder.build(title, options.merge(default_panel_options), &block)
           @questionnaire.add_panel(panel)
+        end
+
+        def add_custom_method(key, &block)
+          @custom_methods[key] = block
         end
 
         def default_question_options(options = {})
@@ -155,7 +160,8 @@ module Quby
         private
 
         def default_panel_options
-          {questionnaire: @questionnaire, default_question_options: @default_question_options}
+          {questionnaire: @questionnaire, default_question_options: @default_question_options,
+           custom_methods: @custom_methods}
         end
       end
     end
