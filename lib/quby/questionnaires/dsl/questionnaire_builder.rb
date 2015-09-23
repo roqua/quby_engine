@@ -79,7 +79,7 @@ module Quby
           @questionnaire.add_panel(panel)
         end
 
-        def add_custom_method(key, &block)
+        def custom_method(key, &block)
           if PanelBuilder.new(nil).respond_to? key
             fail 'Custom method trying to override existing method'
           end

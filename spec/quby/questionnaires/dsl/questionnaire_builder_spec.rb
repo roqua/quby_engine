@@ -226,7 +226,7 @@ module Quby::Questionnaires::DSL
     describe '#custom_method' do
       it 'can build a question with options' do
         dsl do
-          add_custom_method :zzl_question do |question_key, question_title|
+          custom_method :zzl_question do |question_key, question_title|
             question question_key, type: :scale do
               title question_title
               option :a1, value: 1
@@ -245,7 +245,7 @@ module Quby::Questionnaires::DSL
       it 'fails when specifying an existing method' do
         expect do
           dsl do
-            add_custom_method :question do |question_key, question_title|
+            custom_method :question do |question_key, question_title|
               question question_key, type: :string, title: question_title
             end
             panel do
