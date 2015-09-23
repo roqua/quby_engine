@@ -18,10 +18,6 @@ module Quby
           @panel
         end
 
-        def custom_method(method, *args)
-          @custom_methods[method].bind(self).call(*args)
-        end
-
         def title(value)
           @panel.title = value
         end
@@ -57,6 +53,14 @@ module Quby
           table_builder = TableBuilder.new(@panel, options.merge(questionnaire: @panel.questionnaire,
                                                                  default_question_options: @default_question_options))
           table_builder.instance_eval(&block) if block
+        end
+
+        def method_missing(method_sym, *args, &block)
+          if @custom_methods.key? method_sym
+            @custom_methods[method_sym].bind(self).call(*args)
+          else
+            super
+          end
         end
       end
     end

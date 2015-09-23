@@ -234,7 +234,7 @@ module Quby::Questionnaires::DSL
             end
           end
           panel do
-            custom_method :zzl_question, :v_1, 'zzl title'
+            zzl_question :v_1, 'zzl title'
           end
         end
         expect(questionnaire.question_hash[:v_1].title).to eq 'zzl title'
