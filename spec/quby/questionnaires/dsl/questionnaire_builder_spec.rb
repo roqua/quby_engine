@@ -241,6 +241,19 @@ module Quby::Questionnaires::DSL
         expect(questionnaire.question_hash[:v_1].type).to eq :scale
         expect(questionnaire.question_hash[:v_1].options[0].key).to eq :a1
       end
+
+      it 'fails when specifying an existing method' do
+        expect do
+          dsl do
+            add_custom_method :question do |question_key, question_title|
+              question question_key, type: :string, title: question_title
+            end
+            panel do
+              zzl_question :v_1, 'zzl title'
+            end
+          end
+        end.to raise_exception
+      end
     end
 
     def dsl(&block)
