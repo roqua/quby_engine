@@ -23,6 +23,7 @@ platforms :ruby, :jruby do
 end
 
 group :test, :development do
+  gem 'test-unit'
   gem 'guard-rspec'
   gem 'guard-teaspoon'
   gem 'guard-rubocop'
