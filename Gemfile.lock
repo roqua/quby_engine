@@ -48,7 +48,7 @@ GEM
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     addressable (2.3.8)
-    appraisal (1.0.0.beta3)
+    appraisal (2.1.0)
       bundler
       rake
       thor (>= 0.14.0)
@@ -178,7 +178,7 @@ GEM
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    nio4r (1.0.1)
+    nio4r (1.1.1)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     opencpu (0.8.0)
@@ -312,7 +312,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  appraisal (= 1.0.0.beta3)
+  appraisal (= 2.1.0)
   bson_ext
   capybara
   capybara-screenshot (= 0.3.14)
@@ -339,3 +339,6 @@ DEPENDENCIES
   therubyracer
   timecop
   uglifier
+
+BUNDLED WITH
+   1.10.6

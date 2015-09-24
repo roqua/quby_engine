@@ -2,10 +2,10 @@
 
 source "http://rubygems.org"
 
-gem "appraisal", "1.0.0.beta3"
+gem "appraisal", "2.1.0"
 gem "bson_ext"
 gem "roqua-support"
-gem "rails", "~> 4.1.4"
+gem "rails", "~> 4.1.13"
 gem "sass-rails", "~> 4.0.0"
 gem "compass-rails", "1.1.7"
 
@@ -27,4 +27,4 @@ platforms :ruby, :jruby do
   gem "therubyracer"
 end
 
-gemspec :path=>".././"
+gemspec :path => "../"
