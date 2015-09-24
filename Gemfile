@@ -26,6 +26,6 @@ group :test, :development do
   gem 'guard-rspec'
   gem 'guard-teaspoon'
   gem 'guard-rubocop'
-  gem 'flamegraph'
+  gem 'stackprof'
   gem 'rspec-prof'
 end

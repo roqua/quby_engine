@@ -114,12 +114,7 @@ GEM
     erubis (2.7.0)
     execjs (2.6.0)
     fakefs (0.6.7)
-    fast_stack (0.1.0)
-      rake
-      rake-compiler
     ffi (1.9.10)
-    flamegraph (0.1.0)
-      fast_stack
     formatador (0.2.5)
     fssm (0.2.10)
     fuubar (1.3.3)
@@ -233,8 +228,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (10.4.2)
-    rake-compiler (0.9.5)
-      rake
     rb-fsevent (0.9.6)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -292,6 +285,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    stackprof (0.2.7)
     susy (1.0.9)
       compass (>= 0.12.2)
       sass (>= 3.2.0)
@@ -335,7 +329,6 @@ DEPENDENCIES
   combustion (~> 0.5.1)
   compass-rails (= 1.1.7)
   fakefs
-  flamegraph
   fuubar
   guard-rspec
   guard-rubocop
@@ -351,6 +344,7 @@ DEPENDENCIES
   rubocop (~> 0.34.0)
   sass-rails (~> 4.0.0)
   simplecov (~> 0.9.0)
+  stackprof
   teaspoon (~> 0.8.0)
   therubyracer
   timecop
