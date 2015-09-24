@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem 'appraisal', '1.0.0.beta3'
+gem 'appraisal', '2.1.0'
 gem 'bson_ext'
 
 # Optional dependency on RoQua Support gem.
@@ -23,10 +23,10 @@ platforms :ruby, :jruby do
 end
 
 group :test, :development do
+  gem 'test-unit'
   gem 'guard-rspec'
   gem 'guard-teaspoon'
-  gem 'guard-spork'
   gem 'guard-rubocop'
-  gem 'flamegraph'
+  gem 'stackprof'
   gem 'rspec-prof'
 end

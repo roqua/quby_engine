@@ -2,12 +2,12 @@
 
 source "http://rubygems.org"
 
-gem "appraisal", "1.0.0.beta3"
+gem "appraisal", "2.1.0"
 gem "bson_ext"
 gem "roqua-support"
-gem "rails", "~> 3.2.19"
-gem "haml", "3.1.8"
-gem "compass-rails", "= 1.0.1"
+gem "rails", "~> 4.2.4"
+gem "sass-rails", "~> 4.0.0"
+gem "compass-rails", "1.1.7"
 
 group :assets do
   gem "coffee-rails"
@@ -17,9 +17,8 @@ end
 group :test, :development do
   gem "guard-rspec"
   gem "guard-teaspoon"
-  gem "guard-spork"
   gem "guard-rubocop"
-  gem "flamegraph"
+  gem "stackprof"
   gem "rspec-prof"
 end
 
@@ -27,4 +26,4 @@ platforms :ruby, :jruby do
   gem "therubyracer"
 end
 
-gemspec :path=>".././"
+gemspec :path => "../"

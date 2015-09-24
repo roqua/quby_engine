@@ -11,6 +11,7 @@ module Quby
           @panel = Entities::Panel.new(options.merge(title: title, items: []))
           @default_question_options = options[:default_question_options] || {}
           @questionnaire = options[:questionnaire]
+          @custom_methods = options[:custom_methods]
         end
 
         def build
@@ -52,6 +53,14 @@ module Quby
           table_builder = TableBuilder.new(@panel, options.merge(questionnaire: @panel.questionnaire,
                                                                  default_question_options: @default_question_options))
           table_builder.instance_eval(&block) if block
+        end
+
+        def method_missing(method_sym, *args, &block)
+          if @custom_methods.key? method_sym
+            instance_exec *args, &@custom_methods[method_sym]
+          else
+            super
+          end
         end
       end
     end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'benchmark'
-require 'flamegraph'
+require 'stackprof'
 
 describe 'Benchmark making answer entities', benchmark: true do
   let(:definition) do

@@ -167,13 +167,13 @@ module Quby::Questionnaires::Entities
         questionnaire = Quby::Questionnaires::DSL.build("test2") do
           title 'My Test'
           question :v_1, type: :radio do
-            title ' < 20'
+            title ' < 20 <b>foo</b>'
             option :a1, value: 0
             option :a2, value: 1
           end
         end
 
-        questionnaire.to_codebook.should eq "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
+        questionnaire.to_codebook.should eq "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20 foo\"\n0\t\"\"\n1\t\"\"\n"
       end
 
       it 'interleaves subquestions between checkbox options, to match quby_proxy behavior' do

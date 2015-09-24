@@ -115,6 +115,7 @@ module Quby
           @extra_failed_validations.to_json
         end
 
+        # rubocop:disable Metrics/MethodLength
         def value_by_values
           result = {}
           if value
@@ -165,6 +166,7 @@ module Quby
           Rails.logger.error "RESCUED #{e.message} \n #{e.backtrace.join('\n')}"
           {}
         end
+        # rubocop:enable Metrics/MethodLength
 
         def outcome
           Outcome.new(scores: @scores, actions: @actions, completion: @completion, generated_at: @outcome_generated_at)

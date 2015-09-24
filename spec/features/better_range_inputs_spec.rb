@@ -87,7 +87,7 @@ feature 'Displaying a input of type range', js: true do
 
     input.value.to_i.should eq default_value
     slider_value.to_i.should eq default_value
-    find('.noUi-value', visible: false).should have_content(default_value)
+    page.source.should have_selector('.noUi-value', text: default_value)
 
     slider['class'].should_not include 'invalid'
 
