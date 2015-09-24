@@ -15,4 +15,7 @@ when "1"
 when "2"
   puts "Running #{ARGV.join(" ")} for Rails 4.1"
   exec({"BUNDLE_GEMFILE" => "gemfiles/rails41.gemfile"}, ARGV.join(" "))
+when "3"
+  puts "Running #{ARGV.join(" ")} for Rails 4.2"
+  exec({"BUNDLE_GEMFILE" => "gemfiles/rails41.gemfile"}, ARGV.join(" "))
 end
