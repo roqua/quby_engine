@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-unless ENV["CIRCLE_NODE_TOTAL"] == "3"
-  puts "Circle parallelism should be 3 (number of different Rails versions)"
+unless ENV["CIRCLE_NODE_TOTAL"] == "4"
+  puts "Circle parallelism should be 4 (number of different Rails versions)"
   exit 1
 end
 
