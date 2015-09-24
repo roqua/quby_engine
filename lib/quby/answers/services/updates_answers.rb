@@ -11,6 +11,7 @@ module Quby
           @answer = answer
         end
 
+        # rubocop:disable Metrics/MethodLength
         def update(new_attributes = {})
           answer.raw_params = new_attributes
 
@@ -38,6 +39,7 @@ module Quby
             fail!
           end
         end
+        # rubocop:enable Metrics/MethodLength
 
         def on_success(&block)
           @success_callback = block

@@ -27,7 +27,7 @@ module Quby
         end
 
         # FIXME: code to be ashamed of
-        # rubocop:disable CyclomaticComplexity
+        # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
         def rows
           return @rows if @rows
           @item_table = [[]]
@@ -130,7 +130,7 @@ module Quby
           end
           @rows
         end
-        # rubocop:enable CyclomaticComplexity
+        # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
 
         def type
           "table"

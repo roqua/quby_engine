@@ -11,7 +11,8 @@ Gem::Specification.new do |s|
   s.email       = ["m.veldthuis@roqua.nl", "j.beek@roqua.nl", "s.esposito@roqua.nl", "a.emerencia@roqua.nl"]
   s.homepage    = "http://www.roqua.nl"
   s.summary     = "Questionnaire engine"
-  s.description = "Quby is a Rails engine that can render and update answers for questionnaires defined in a custom DSL."
+  s.description = "Quby is a Rails engine that can render and update answers for questionnaires " \
+                  "defined in a custom DSL."
   s.license     = 'Unlicensed'
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.markdown"]

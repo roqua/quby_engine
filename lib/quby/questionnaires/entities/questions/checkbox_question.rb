@@ -15,6 +15,7 @@ module Quby
           # checkbox option that forces to select a minimum amount of checkboxes
           attr_accessor :minimum_checked_required
 
+          # rubocop:disable Metrics/MethodLength
           def initialize(key, options = {})
             super
 
@@ -47,6 +48,7 @@ module Quby
                                explanation: options[:error_explanation]}
             end
           end
+          # rubocop:enable Metrics/MethodLength
 
           def claimed_keys
             [key]

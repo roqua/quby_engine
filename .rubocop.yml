@@ -1,14 +1,14 @@
-inherit_from: rubocop-todo.yml
+inherit_from: .rubocop_todo.yml
 
 AllCops:
-  Excludes:
-    - 'config/**'
-    - 'db/**'
-    - 'script/**'
-    - 'tmp/**'
-    - 'vendor/**'
+  Exclude:
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
     - 'spec/fixtures/*.rb'
-    - 'spec/dummy/**'
+    - 'spec/dummy/**/*'
   RunRailsCops: true
 
 # Use UTF-8 as the source file encoding.
@@ -33,7 +33,7 @@ SpaceInsideBlockBraces:
 
 AmbiguousRegexpLiteral:
   Exclude:
-    - 'spec/**'
+    - 'spec/**/*'
 
 CyclomaticComplexity:
   Max: 15 # should be set to 6, too many for now
