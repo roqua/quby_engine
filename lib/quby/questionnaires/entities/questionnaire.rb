@@ -167,7 +167,7 @@ module Quby
           end
 
           output = output.join("\n")
-          strip_tags(output).gsub("&lt;", "<")
+          strip_tags(output.gsub(/<([^\/a-z])/, '&lt;\1')).gsub("&lt;", "<")
         end
 
         def key_in_use?(key)

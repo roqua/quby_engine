@@ -57,7 +57,7 @@ module Quby
 
         def method_missing(method_sym, *args, &block)
           if @custom_methods.key? method_sym
-            @custom_methods[method_sym].bind(self).call(*args)
+            instance_exec *args, &@custom_methods[method_sym]
           else
             super
           end
