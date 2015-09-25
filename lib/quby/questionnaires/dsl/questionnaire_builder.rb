@@ -80,7 +80,7 @@ module Quby
         end
 
         def custom_method(key, &block)
-          if PanelBuilder.new(nil).respond_to? key
+          if PanelBuilder.new(nil, custom_methods: @custom_methods).respond_to? key
             fail 'Custom method trying to override existing method'
           end
           @custom_methods[key] = block

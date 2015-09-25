@@ -254,6 +254,22 @@ module Quby::Questionnaires::DSL
           end
         end.to raise_exception
       end
+
+      it 'fails when specifying a a method twice' do
+        expect do
+          dsl do
+            custom_method :zzl_question do |question_key, question_title|
+              question question_key, type: :string, title: question_title
+            end
+            custom_method :zzl_question do |question_key, question_title|
+              question question_key, type: :string, title: question_title
+            end
+            panel do
+              zzl_question :v_1, 'zzl title'
+            end
+          end
+        end.to raise_exception
+      end
     end
 
     def dsl(&block)

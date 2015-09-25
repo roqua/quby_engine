@@ -11,7 +11,7 @@ module Quby
           @panel = Entities::Panel.new(options.merge(title: title, items: []))
           @default_question_options = options[:default_question_options] || {}
           @questionnaire = options[:questionnaire]
-          @custom_methods = options[:custom_methods]
+          @custom_methods = options[:custom_methods] || {}
         end
 
         def build
@@ -61,6 +61,10 @@ module Quby
           else
             super
           end
+        end
+
+        def respond_to_missing?(method_name, include_private = false)
+          @custom_methods.key?(method_name) || super
         end
       end
     end
