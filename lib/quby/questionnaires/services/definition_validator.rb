@@ -6,6 +6,7 @@ module Quby
     module Services
       class DefinitionValidator < ActiveModel::Validator
         MAX_KEY_LENGTH  = 19
+        MAX_SHORT_KEY_LENGTH = 8
         KEY_PREFIX      = 'v_'
 
         attr_reader :definition
@@ -49,6 +50,8 @@ module Quby
           questionnaire.scores.each do |score|
             validate_score_key_length(score)
             validate_score_label_present(score)
+            validate_score_short_key_length(score)
+            # validate_score_short_key_uniqueness(score)
           end
         end
 
@@ -142,12 +145,22 @@ module Quby
 
         def validate_score_key_length(score)
           if score.key.to_s.length > MAX_KEY_LENGTH
-            fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
+            fail "Score key '#{score.key}' should contain at most #{MAX_KEY_LENGTH} characters."
           end
         end
 
         def validate_score_label_present(score)
           fail "Score #{score.key} label must be passed in as an option." unless score.label.present?
+        end
+
+        def validate_score_short_key_length(score)
+          if score.short_key.to_s.length > MAX_SHORT_KEY_LENGTH
+            fail "Short key '#{score.short_key}' should contain at most #{MAX_SHORT_KEY_LENGTH} characters."
+          end
+        end
+
+        def validate_score_short_key_uniqueness(score)
+          fail "Score short key `#{score.short_key}` should be unique." unless score.short_key.uniq?
         end
 
         def validate_subquestion_absence_in_select(question)

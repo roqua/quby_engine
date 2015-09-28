@@ -6,9 +6,11 @@ module Quby
         attr_accessor :label
         attr_accessor :options
         attr_accessor :calculation
+        attr_accessor :short_key
 
         def initialize(key, options, &block)
           @key = key
+          @short_key = options[:short_key]
           @label = options[:label]
           @options = options
           @calculation = block

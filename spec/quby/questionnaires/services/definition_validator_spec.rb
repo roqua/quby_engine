@@ -277,6 +277,51 @@ module Quby::Questionnaires::Services
       end
     end
 
+    describe 'score short_key validation' do
+      it 'accepts the short_key option' do
+        score_definition = make_definition(<<-END)
+          score 'score_key', label: 'some_label', short_key: 'short1' do
+            {}
+          end
+        END
+        expect(score_definition).to be_valid
+      end
+
+      it 'should default to the first 8 charactes of key' do
+        pending "Should be something default"
+      end
+      it 'accepts score short_keys that are the correct length' do
+        score_definition = make_definition(<<-END)
+          score 'some_score_key', label: 'some_label', short_key: 'short_sc' do
+            {}
+          end
+        END
+        expect(score_definition.valid?).to be true
+      end
+
+      it 'reject score short_keys that are too long', label: 'some_label' do
+        invalid_score_definition = make_definition(<<-END)
+          score 'some_score_key', short_key: 'not_so_short_key' do
+            { t_score: 42 }
+          end
+        END
+        expect(invalid_score_definition.valid?).to be false
+      end
+
+      it 'rejects score short_key if already defined', label: 'some_label' do
+        score_definition = make_definition(<<-END)
+          question :v_6, type: :radio, title: 'foo'
+          score 'one_score', short_key: 'some_key'  do
+            { t_score: 42 }
+          end
+          score 'two_score', short_key: 'same_key' do
+            { t_score: 43 }
+          end
+        END
+        expect(score_definition.valid?).to be false
+      end
+    end
+
     describe 'score label validation' do
       it 'accepts the label option' do
         score_definition = make_definition(<<-END)
