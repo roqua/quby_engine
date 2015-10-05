@@ -287,10 +287,7 @@ module Quby::Questionnaires::Services
         expect(score_definition).to be_valid
       end
 
-      it 'should default to the first 8 charactes of key' do
-        pending "Should be something default"
-      end
-      it 'accepts score short_keys that are the correct length' do
+      it 'accepts score short keys that are the correct length' do
         score_definition = make_definition(<<-END)
           score 'some_score_key', label: 'some_label', short_key: 'short_sc' do
             {}
@@ -299,7 +296,7 @@ module Quby::Questionnaires::Services
         expect(score_definition.valid?).to be true
       end
 
-      it 'reject score short_keys that are too long', label: 'some_label' do
+      it 'reject score short keys that are too long', label: 'some_label' do
         invalid_score_definition = make_definition(<<-END)
           score 'some_score_key', short_key: 'not_so_short_key' do
             { t_score: 42 }

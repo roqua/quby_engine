@@ -51,8 +51,8 @@ module Quby
             validate_score_key_length(score)
             validate_score_label_present(score)
             validate_score_short_key_length(score)
-            # validate_score_short_key_uniqueness(score)
           end
+          validate_score_short_key_uniqueness(questionnaire.scores)
         end
 
         def validate_question_options(questionnaire, question)
@@ -159,8 +159,10 @@ module Quby
           end
         end
 
-        def validate_score_short_key_uniqueness(score)
-          fail "Score short key `#{score.short_key}` should be unique." unless score.short_key.uniq?
+        def validate_score_short_key_uniqueness(scores)
+          short_keys = scores.map(&:short_key)
+          short_keys_not_unique = short_keys - short_keys.uniq
+          fail "Score short key(s) `#{diff.to_sentence}` should be unique." unless short_keys_not_unique.empty?
         end
 
         def validate_subquestion_absence_in_select(question)
