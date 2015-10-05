@@ -9,6 +9,10 @@ module Quby::Questionnaires::Entities
     its(:label) { should == "Totaal" }
     its(:calculation) { should == calculation }
 
+    context 'when a short_key is not given it should default to the first (8) chars of key' do
+      its(:short_key) { should == "tot" }
+    end
+
     context 'when not given any options' do
       subject { ScoreCalculation.new(:tot, {}, &calculation) }
       its(:label) { should be_nil }

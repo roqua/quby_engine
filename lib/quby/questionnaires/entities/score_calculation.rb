@@ -16,6 +16,10 @@ module Quby
           @calculation = block
         end
 
+        def short_key
+          @short_key || @key[0..7]
+        end
+
         def score
           @options[:score]
         end
