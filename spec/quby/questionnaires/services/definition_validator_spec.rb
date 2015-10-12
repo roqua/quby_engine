@@ -296,7 +296,7 @@ module Quby::Questionnaires::Services
         expect(score_definition.valid?).to be true
       end
 
-      it 'reject score short keys that are too long', label: 'some_label' do
+      it 'reject score short keys that are too long' do
         invalid_score_definition = make_definition(<<-END)
           score 'some_score_key', short_key: 'not_so_short_key' do
             { t_score: 42 }
@@ -305,7 +305,7 @@ module Quby::Questionnaires::Services
         expect(invalid_score_definition.valid?).to be false
       end
 
-      it 'rejects score short_key if already defined', label: 'some_label' do
+      it 'rejects score short_key if already defined' do
         score_definition = make_definition(<<-END)
           score 'some_score_key', label: 'some_label', short_key: 'same_key' do
             {}
@@ -314,7 +314,7 @@ module Quby::Questionnaires::Services
             {}
           end
         END
-        expect(score_definition.valid?).to be false
+        expect(score_definition).to_not be_valid
       end
     end
 

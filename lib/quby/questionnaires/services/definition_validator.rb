@@ -161,8 +161,8 @@ module Quby
 
         def validate_score_short_key_uniqueness(scores)
           short_keys = scores.map(&:short_key)
-          short_keys_not_unique = short_keys - short_keys.uniq
-          fail "Score short key(s) `#{diff.to_sentence}` should be unique." unless short_keys_not_unique.empty?
+          short_keys_not_unique = short_keys.length - short_keys.uniq.length
+          fail "Score short key(s) `#{diff.to_sentence}` should be unique." if short_keys_not_unique > 0
         end
 
         def validate_subquestion_absence_in_select(question)

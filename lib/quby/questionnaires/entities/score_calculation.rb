@@ -17,7 +17,8 @@ module Quby
         end
 
         def short_key
-          @short_key || @key[0..7]
+          max_short_length = Services::DefinitionValidator::MAX_SHORT_KEY_LENGTH
+          @short_key || @key[0...max_short_length]
         end
 
         def score
