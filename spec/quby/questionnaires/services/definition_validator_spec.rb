@@ -307,12 +307,11 @@ module Quby::Questionnaires::Services
 
       it 'rejects score short_key if already defined', label: 'some_label' do
         score_definition = make_definition(<<-END)
-          question :v_6, type: :radio, title: 'foo'
-          score 'one_score', short_key: 'some_key'  do
-            { t_score: 42 }
+          score 'some_score_key', label: 'some_label', short_key: 'same_key' do
+            {}
           end
-          score 'two_score', short_key: 'same_key' do
-            { t_score: 43 }
+          score 'other_score_key', label: 'some_label', short_key: 'same_key' do
+            {}
           end
         END
         expect(score_definition.valid?).to be false
