@@ -101,6 +101,7 @@ module Quby
         # Public: Gives mean of values
         #
         # values - An Array of Numerics
+        # ignoring - An array of values to remove before taking the mean.
         #
         # Returns the mean of the given values
         def mean(values, ignoring: nil)
