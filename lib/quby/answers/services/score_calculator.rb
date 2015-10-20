@@ -103,8 +103,9 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the mean of the given values
-        def mean(values)
-          return 0.0 if values.length == 0
+        def mean(values, ignoring: nil)
+          values = values.reject { |v| ignoring.include? v } if ignoring
+          return 0.0 if values.blank?
           sum(values).to_f / values.length
         end
 
