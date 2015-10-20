@@ -166,8 +166,8 @@ module Quby::Answers::Services
         calculator.mean([2, 3]).should be_an_instance_of Float
       end
 
-      it 'returns 0 for empty array' do
-        calculator.mean([]).should eq 0
+      it 'returns nil for empty array' do
+        calculator.mean([]).should be_nil
       end
 
       it 'raises for nil values' do
