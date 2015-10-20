@@ -104,8 +104,8 @@ module Quby
         # ignoring - An array of values to remove before taking the mean.
         #
         # Returns the mean of the given values
-        def mean(values, ignoring: nil)
-          values = values.reject { |v| ignoring.include? v } if ignoring
+        def mean(values, ignoring: [])
+          values = values.reject { |v| ignoring.include? v }
           return 0.0 if values.blank?
           sum(values).to_f / values.length
         end
