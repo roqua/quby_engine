@@ -280,7 +280,7 @@ module Quby::Questionnaires::Services
     describe 'score short_key validation' do
       it 'accepts the short_key option' do
         score_definition = make_definition(<<-END)
-          score 'score_key', label: 'some_label', short_key: 'short1' do
+          score 'score_key', label: 'some_label', short_key: 'shrt' do
             {}
           end
         END
@@ -289,7 +289,7 @@ module Quby::Questionnaires::Services
 
       it 'accepts score short keys that are the correct length' do
         score_definition = make_definition(<<-END)
-          score 'some_score_key', label: 'some_label', short_key: 'short_sc' do
+          score 'some_score_key', label: 'some_label', short_key: 'shrt' do
             {}
           end
         END
@@ -315,6 +315,23 @@ module Quby::Questionnaires::Services
           end
         END
         expect(score_definition).to_not be_valid
+      end
+
+      describe '#validate_score_short_key_uniqueness' do
+        it 'should raise if therea are non-unique short_keys' do
+          score_definition = make_definition(<<-END)
+            score 'some_score_key', label: 'some_label', short_key: 'same_key' do
+              {}
+            end
+            score 'other_score_key', label: 'some_label', short_key: 'same_key' do
+              {}
+            end
+          END
+          questionnaire = Quby::Questionnaires::DSL.build_from_definition(score_definition)
+          expect do
+            described_class.new(score_definition).send(:validate_score_short_key_uniqueness, questionnaire.scores)
+          end.to raise_error
+        end
       end
     end
 

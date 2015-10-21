@@ -6,7 +6,7 @@ module Quby
     module Services
       class DefinitionValidator < ActiveModel::Validator
         MAX_KEY_LENGTH  = 19
-        MAX_SHORT_KEY_LENGTH = 8
+        MAX_SHORT_KEY_LENGTH = 4
         KEY_PREFIX      = 'v_'
 
         attr_reader :definition
@@ -160,9 +160,15 @@ module Quby
         end
 
         def validate_score_short_key_uniqueness(scores)
+          non_unique_keys = short_keys_not_unique(scores)
+          fail "Score short key(s) `#{non_unique_keys.to_sentence}` should be unique." if non_unique_keys.any?
+        end
+
+        def short_keys_not_unique(scores)
           short_keys = scores.map(&:short_key)
-          short_keys_not_unique = short_keys.length - short_keys.uniq.length
-          fail "Score short key(s) `#{diff.to_sentence}` should be unique." if short_keys_not_unique > 0
+          short_keys.group_by { |short_key| short_key }
+                    .select { |_, value| value.count > 1 }
+                    .keys
         end
 
         def validate_subquestion_absence_in_select(question)
