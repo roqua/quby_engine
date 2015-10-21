@@ -10,7 +10,7 @@ module Quby::Questionnaires::Entities
     its(:calculation) { should == calculation }
 
     context 'when a short_key is not given it should default to the first (8) chars of key' do
-      its(:short_key) { should == "totaal_k" }
+      its(:short_key) { should == "tota" }
     end
 
     context 'when not given any options' do
