@@ -125,3 +125,87 @@ feature 'question with a depends_on', js: true do
     end
   end
 end
+
+feature 'question group with radios, scales and checkboxes in a table', js: true do
+  scenario 'does not count every option as a question' do
+    questionnaire = inject_questionnaire("tableqgroup_test", <<-END)
+      panel do
+        table columns: 8 do
+          question :v_1, type: :scale, question_group: 'group1' do
+            option :a1, description: 'vraag 1a'
+            option :a2, description: 'vraag 1b'
+          end
+
+          question :v_2, type: :check_box, question_group: 'group1' do
+            option :v_2_a1, description: 'vraag 2a'
+            option :v_2_a2, description: 'vraag 2b'
+          end
+
+          question :v_3, type: :scale, question_group: 'group1' do
+            option :a1, description: 'vraag 3a'
+            option :a2, description: 'vraag 3b'
+          end
+
+          question :v_4, type: :scale, question_group: 'group1', default_invisible: true do
+            option :a1, description: 'vraag 3a'
+            option :a2, description: 'vraag 3b'
+          end
+        end
+      end; end_panel
+    END
+
+    visit_new_answer_for(questionnaire)
+
+    within ".panel.current" do
+      choose 'answer_v_1_a1'
+      check 'answer_v_2_a1'
+      choose 'answer_v_3_a1'
+    end
+
+    answer_counts = page.driver.evaluate_script("calculateAnswerGroup('group1', $('#panel0'))")
+    expect(answer_counts['total']).to eq 4
+    expect(answer_counts['answered']).to eq 3
+    expect(answer_counts['hidden']).to eq 1
+  end
+end
+
+feature 'question group with radios, scales and checkboxes', js: true do
+  scenario 'does not count every option as a question' do
+    questionnaire = inject_questionnaire("qgroup_test", <<-END)
+      panel do
+        question :v_1, type: :scale, question_group: 'group1' do
+          option :a1, description: 'vraag 1a'
+          option :a2, description: 'vraag 1b'
+        end
+
+        question :v_2, type: :check_box, question_group: 'group1' do
+          option :v_2_a1, description: 'vraag 2a'
+          option :v_2_a2, description: 'vraag 2b'
+        end
+
+        question :v_3, type: :scale, question_group: 'group1' do
+          option :a1, description: 'vraag 3a'
+          option :a2, description: 'vraag 3b'
+        end
+
+        question :v_4, type: :scale, question_group: 'group1', default_invisible: true do
+          option :a1, description: 'vraag 3a'
+          option :a2, description: 'vraag 3b'
+        end
+      end; end_panel
+    END
+
+    visit_new_answer_for(questionnaire)
+
+    within ".panel.current" do
+      choose 'answer_v_1_a1'
+      check 'answer_v_2_a1'
+      choose 'answer_v_3_a1'
+    end
+
+    answer_counts = page.driver.evaluate_script("calculateAnswerGroup('group1', $('#panel0'))")
+    expect(answer_counts['total']).to eq 4
+    expect(answer_counts['answered']).to eq 3
+    expect(answer_counts['hidden']).to eq 1
+  end
+end

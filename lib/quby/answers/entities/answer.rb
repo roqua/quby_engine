@@ -229,7 +229,7 @@ module Quby
           answered = 0
           qkeys.each do |qk|
             ans = send(qk)
-            if ans.is_a? Hash # in case of check_box, only count checked check_boxes as answered
+            if ans.is_a? Hash # in case of check_box, only count any number of checked check_boxes as 1 answer
               answered += (ans.values.sum >= 1 ? 1 : 0)
             elsif send(qk).present?
               answered += 1

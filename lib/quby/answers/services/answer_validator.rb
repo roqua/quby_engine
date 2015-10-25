@@ -56,6 +56,8 @@ module Quby
                   validate_answer_group_minimum(question, validation, value)
                 when :answer_group_maximum
                   validate_answer_group_maximum(question, validation, value)
+                when :answer_group_require_all_or_none
+                  validate_answer_group_require_all_or_none(question, validation, value)
                 end
               rescue InvalidValue
                 answer.send(:add_error, question, validation[:type], validation[:message] || "Invalid value.")
@@ -147,6 +149,15 @@ module Quby
           if answered > validation[:value]
             answer.send(:add_error, question, :answer_group_maximum,
                         validation[:message] || "Needs at most #{validation[:value]} question(s) answered.")
+          end
+        end
+
+        def validate_answer_group_require_all_or_none(question, validation, value)
+          group = answer.question_groups[validation[:group]]
+          answered = answer.send(:calc_answered, group)
+          if answered > 0 && answered < group.count
+            answer.send(:add_error, question, :answer_group_require_all_or_none,
+                        validation[:message] || "Needs all or none of these questions answered.")
           end
         end
 

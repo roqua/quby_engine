@@ -90,6 +90,7 @@ module Quby
         attr_accessor :question_group
         attr_accessor :group_minimum_answered
         attr_accessor :group_maximum_answered
+        attr_accessor :group_require_all_or_none
 
         # Text variable name that will be replaced with the answer to this question
         # In all following text elements that support markdown
@@ -154,6 +155,7 @@ module Quby
           @question_group = options[:question_group]
           @group_minimum_answered = options[:group_minimum_answered]
           @group_maximum_answered = options[:group_maximum_answered]
+          @group_require_all_or_none = options[:group_require_all_or_none]
 
           @input_data = {}
           @input_data[:value_tooltip] = true if options[:value_tooltip]
@@ -186,6 +188,10 @@ module Quby
             end
             if @group_maximum_answered
               @validations << {type: :answer_group_maximum, group: @question_group, value: @group_maximum_answered,
+                               explanation: options[:error_explanation]}
+            end
+            if @group_require_all_or_none
+              @validations << {type: :answer_group_require_all_or_none, group: @question_group,
                                explanation: options[:error_explanation]}
             end
           end
