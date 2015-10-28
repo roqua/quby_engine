@@ -161,7 +161,7 @@ module Quby
 
         def validate_score_short_key_uniqueness(scores)
           non_unique_keys = short_keys_not_unique(scores)
-          fail "Score short key(s) `#{non_unique_keys.to_sentence}` should be unique." if non_unique_keys.any?
+          fail "Score short key(s) '#{non_unique_keys.to_sentence}' should be unique." if non_unique_keys.any?
         end
 
         def short_keys_not_unique(scores)

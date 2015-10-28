@@ -330,7 +330,7 @@ module Quby::Questionnaires::Services
           questionnaire = Quby::Questionnaires::DSL.build_from_definition(score_definition)
           expect do
             described_class.new(score_definition).send(:validate_score_short_key_uniqueness, questionnaire.scores)
-          end.to raise_error
+          end.to raise_error Exception, 'Score short key(s) \'same_key\' should be unique.'
         end
       end
     end
