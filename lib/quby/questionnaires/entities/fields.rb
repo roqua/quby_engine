@@ -6,6 +6,10 @@ module Quby
       class Fields
         attr_reader :question_hash
 
+        # hash of all options from input_key to the QuestionOption.
+        # Used by including applications to lookup the definition of e.g. a check_box question.
+        attr_reader :option_hash
+
         # An +answer_key+ is a key that will exist in the values hash of an answer. This means that answer keys for
         # radio's will be just the question key, and answer keys for checkboxes will be the keys of all the options.
         # These are the POST parameters when submitting the form, an so they must be globally unique or we won't know
@@ -19,6 +23,7 @@ module Quby
 
         def initialize
           @question_hash = HashWithIndifferentAccess.new
+          @option_hash   = HashWithIndifferentAccess.new
           @answer_keys   = Set.new
           @input_keys    = Set.new
         end
@@ -44,6 +49,9 @@ module Quby
           @question_hash[question.key] = question
           @input_keys.merge(new_input_keys)
           @answer_keys.merge(new_answer_keys)
+          question.options.each do |option|
+            @option_hash[option.input_key] = option
+          end
         end
 
         def key_in_use?(key)
