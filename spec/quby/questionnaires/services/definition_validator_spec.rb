@@ -307,10 +307,10 @@ module Quby::Questionnaires::Services
 
       it 'rejects score short_key if already defined' do
         score_definition = make_definition(<<-END)
-          score 'some_score_key', label: 'some_label', short_key: 'same_key' do
+          score 'some_score_key', label: 'some_label', short_key: 'same' do
             {}
           end
-          score 'other_score_key', label: 'some_label', short_key: 'same_key' do
+          score 'other_score_key', label: 'some_label', short_key: 'same' do
             {}
           end
         END
@@ -320,17 +320,16 @@ module Quby::Questionnaires::Services
       describe '#validate_score_short_key_uniqueness' do
         it 'should raise if therea are non-unique short_keys' do
           score_definition = make_definition(<<-END)
-            score 'some_score_key', label: 'some_label', short_key: 'same_key' do
+            score 'some_score_key', label: 'some_label', short_key: 'same' do
               {}
             end
-            score 'other_score_key', label: 'some_label', short_key: 'same_key' do
+            score 'other_score_key', label: 'some_label', short_key: 'same' do
               {}
             end
           END
-          questionnaire = Quby::Questionnaires::DSL.build_from_definition(score_definition)
-          expect do
-            described_class.new(score_definition).send(:validate_score_short_key_uniqueness, questionnaire.scores)
-          end.to raise_error Exception, 'Score short key(s) \'same_key\' should be unique.'
+          expect(score_definition).to_not be_valid
+          expect(score_definition.errors[:sourcecode].first[:message])
+            .to eq "Questionnaire error: test\nScore short key(s) 'same' should be unique."
         end
       end
     end
