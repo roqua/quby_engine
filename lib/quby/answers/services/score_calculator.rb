@@ -101,11 +101,14 @@ module Quby
         # Public: Gives mean of values
         #
         # values - An Array of Numerics
+        # ignoring - An array of values to remove before taking the mean.
+        # minimum_present - return nil if less values than this are left after filtering
         #
         # Returns the mean of the given values
-        def mean(values)
-          return 0.0 if values.length == 0
-          sum(values).to_f / values.length
+        def mean(values, ignoring: [], minimum_present: 1)
+          compacted_values = values.reject { |v| ignoring.include? v }
+          return nil if compacted_values.blank? || compacted_values.length < minimum_present
+          sum(compacted_values).to_f / compacted_values.length
         end
 
         # Public: Gives mean of values, ignoring nil values
@@ -114,9 +117,7 @@ module Quby
         #
         # Returns the mean of the given values
         def mean_ignoring_nils(values)
-          compacted_values = values.reject(&:blank?)
-          return nil if compacted_values.length == 0
-          mean(compacted_values)
+          mean(values, ignoring: [nil])
         end
 
         # Public: Gives mean of values, ignoring nil values if >= 80% is filled in
@@ -125,10 +126,7 @@ module Quby
         #
         # Returns the mean of the given values, or nil if less than 80% is present
         def mean_ignoring_nils_80_pct(values)
-          compacted_values = values.reject(&:blank?)
-          return nil if compacted_values.length == 0
-          return nil if compacted_values.length < values.length * 0.8
-          mean(compacted_values)
+          mean(values, ignoring: [nil], minimum_present: values.length * 0.8)
         end
 
         # Public: Sums values, extrapolating nils to be valued as the mean of the present values

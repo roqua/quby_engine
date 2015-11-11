@@ -166,12 +166,23 @@ module Quby::Answers::Services
         calculator.mean([2, 3]).should be_an_instance_of Float
       end
 
-      it 'returns 0 for empty array' do
-        calculator.mean([]).should eq 0
+      it 'returns nil for empty array' do
+        calculator.mean([]).should be_nil
       end
 
       it 'raises for nil values' do
         expect { calculator.mean([nil, 2]) }.to raise_error(/coerce/)
+      end
+
+      context 'with ignoring' do
+        it 'ignores the given values' do
+          expect(calculator.mean([2, 4, -1], ignoring: [-1])).to eq 3
+          expect(calculator.mean([2, 4, -1], ignoring: [-1, 4])).to eq 2
+        end
+
+        it 'returns the same as an empty array when all values are ignored' do
+          expect(calculator.mean([2, 4, -1], ignoring: [-1, 4, 2])).to eq calculator.mean([])
+        end
       end
     end
 
