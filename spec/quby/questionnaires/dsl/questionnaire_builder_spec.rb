@@ -3,7 +3,7 @@ require 'spec_helper'
 module Quby::Questionnaires::DSL
   describe QuestionnaireBuilder do
     let(:questionnaire) { Quby::Questionnaires::Entities::Questionnaire.new("example") }
-    let(:builder)       { QuestionnaireBuilder.new(questionnaire) }
+    let(:builder) { QuestionnaireBuilder.new(questionnaire) }
 
     it 'sets title' do
       dsl { title 'Foo' }
@@ -224,22 +224,42 @@ module Quby::Questionnaires::DSL
     end
 
     describe '#custom_method' do
-      it 'can build a question with options' do
-        dsl do
-          custom_method :zzl_question do |question_key, question_title|
-            question question_key, type: :scale do
-              title question_title
-              option :a1, value: 1
-              option :a2, value: 2
+      context 'valid definition' do
+        before do
+          dsl do
+            custom_method :zzl_question do |question_key, question_title|
+              question question_key, type: :scale do
+                title question_title
+                option :a1, value: 1
+                option :a2, value: 2
+              end
             end
           end
-          panel do
-            zzl_question :v_1, 'zzl title'
-          end
         end
-        expect(questionnaire.question_hash[:v_1].title).to eq 'zzl title'
-        expect(questionnaire.question_hash[:v_1].type).to eq :scale
-        expect(questionnaire.question_hash[:v_1].options[0].key).to eq :a1
+
+        it 'can build a question with options' do
+          dsl do
+            panel do
+              zzl_question :v_1, 'zzl title'
+            end
+          end
+          expect(questionnaire.question_hash[:v_1].title).to eq 'zzl title'
+          expect(questionnaire.question_hash[:v_1].type).to eq :scale
+          expect(questionnaire.question_hash[:v_1].options[0].key).to eq :a1
+        end
+
+        it 'can be used within a table' do
+          dsl do
+            panel do
+              table columns: 4 do
+                zzl_question :v_1, 'zzl title'
+              end
+            end
+          end
+          expect(questionnaire.question_hash[:v_1].title).to eq 'zzl title'
+          expect(questionnaire.question_hash[:v_1].type).to eq :scale
+          expect(questionnaire.question_hash[:v_1].options[0].key).to eq :a1
+        end
       end
 
       it 'fails when specifying an existing method' do

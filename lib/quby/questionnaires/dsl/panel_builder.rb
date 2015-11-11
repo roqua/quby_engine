@@ -51,7 +51,8 @@ module Quby
 
         def table(options = {}, &block)
           table_builder = TableBuilder.new(@panel, options.merge(questionnaire: @panel.questionnaire,
-                                                                 default_question_options: @default_question_options))
+                                                                 default_question_options: @default_question_options,
+                                                                 custom_methods: @custom_methods))
           table_builder.instance_eval(&block) if block
         end
 
