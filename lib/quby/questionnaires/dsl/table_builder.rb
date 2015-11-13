@@ -4,13 +4,13 @@ module Quby
   module Questionnaires
     module DSL
       class TableBuilder
+        prepend CallsCustomMethods
         include Helpers
 
         def initialize(panel, options = {})
           @panel = panel
           @table = Entities::Table.new(options)
           @default_question_options = options[:default_question_options] || {}
-          @custom_methods = options[:custom_methods] || {}
           @panel.items << @table
         end
 
@@ -39,18 +39,6 @@ module Quby
           @panel.questionnaire.register_question(question)
           @table.items << question
           @panel.items << question
-        end
-
-        def method_missing(method_sym, *args, &block)
-          if @custom_methods.key? method_sym
-            instance_exec(*args, &@custom_methods[method_sym])
-          else
-            super
-          end
-        end
-
-        def respond_to_missing?(method_name, include_private = false)
-          @custom_methods.key?(method_name) || super
         end
       end
     end
