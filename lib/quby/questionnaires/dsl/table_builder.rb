@@ -4,6 +4,7 @@ module Quby
   module Questionnaires
     module DSL
       class TableBuilder
+        prepend CallsCustomMethods
         include Helpers
 
         def initialize(panel, options = {})

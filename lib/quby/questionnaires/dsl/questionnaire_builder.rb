@@ -12,6 +12,7 @@ module Quby
   module Questionnaires
     module DSL
       class QuestionnaireBuilder
+        prepend CallsCustomMethods
         include StandardizedPanelGenerators
         include Helpers
 

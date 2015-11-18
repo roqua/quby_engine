@@ -1,4 +1,5 @@
 require 'quby/questionnaires/dsl/helpers'
+require 'quby/questionnaires/dsl/calls_custom_methods'
 
 module Quby
   module Questionnaires
