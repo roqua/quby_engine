@@ -47,17 +47,21 @@ feature 'textvar replacement', js: true do
   scenario 'setting var value from answer record' do
     questionnaire = inject_questionnaire("test", <<-END)
       textvar key: 'thing', description: 'Name of the thing'
+      panel do
 
-      text "Yo dawg I herd you like {{thing}}s so we put a {{thing}} in your {{thing}}..."
+        question :v_1, type: :string, sets_textvar: 'thing', title: 'What do you like?'
 
-      question :v_1, :type => :string do
-        title "Foo"
-      end; end_panel
+        text "Yo dawg I herd you like {{thing}}s so we put a {{thing}} in your {{thing}}..."
+
+      end
     END
 
     answer = create_new_answer_for(questionnaire, {}, textvars: {test_thing: 'car'})
     visit_new_answer_for(questionnaire, 'paged', answer)
+    # sets the variable in the any markdown enabled text.
     page.should have_content 'Yo dawg I herd you like cars so we put a car in your car'
+    # sets the value of input with sets_textvar to the textvar if given.
+    page.should have_field("answer_v_1", text: 'car')
   end
 
   scenario 'showing default var value' do
