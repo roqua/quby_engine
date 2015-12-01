@@ -277,6 +277,63 @@ module Quby::Questionnaires::Services
       end
     end
 
+    describe 'score short_key validation' do
+      it 'accepts the short_key option' do
+        score_definition = make_definition(<<-END)
+          score 'score_key', label: 'some_label', short_key: 'shrt' do
+            {}
+          end
+        END
+        expect(score_definition).to be_valid
+      end
+
+      it 'accepts score short keys that are the correct length' do
+        score_definition = make_definition(<<-END)
+          score 'some_score_key', label: 'some_label', short_key: 'shrt' do
+            {}
+          end
+        END
+        expect(score_definition.valid?).to be true
+      end
+
+      it 'reject score short keys that are too long' do
+        invalid_score_definition = make_definition(<<-END)
+          score 'some_score_key', short_key: 'not_so_short_key' do
+            { t_score: 42 }
+          end
+        END
+        expect(invalid_score_definition.valid?).to be false
+      end
+
+      it 'rejects score short_key if already defined' do
+        score_definition = make_definition(<<-END)
+          score 'some_score_key', label: 'some_label', short_key: 'same' do
+            {}
+          end
+          score 'other_score_key', label: 'some_label', short_key: 'same' do
+            {}
+          end
+        END
+        expect(score_definition).to_not be_valid
+      end
+
+      describe '#validate_score_short_key_uniqueness' do
+        it 'should raise if therea are non-unique short_keys' do
+          score_definition = make_definition(<<-END)
+            score 'some_score_key', label: 'some_label', short_key: 'same' do
+              {}
+            end
+            score 'other_score_key', label: 'some_label', short_key: 'same' do
+              {}
+            end
+          END
+          expect(score_definition).to_not be_valid
+          expect(score_definition.errors[:sourcecode].first[:message])
+            .to eq "Questionnaire error: test\nScore short key(s) 'same' should be unique."
+        end
+      end
+    end
+
     describe 'score label validation' do
       it 'accepts the label option' do
         score_definition = make_definition(<<-END)

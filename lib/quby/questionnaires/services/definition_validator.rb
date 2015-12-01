@@ -6,6 +6,7 @@ module Quby
     module Services
       class DefinitionValidator < ActiveModel::Validator
         MAX_KEY_LENGTH  = 19
+        MAX_SHORT_KEY_LENGTH = 4
         KEY_PREFIX      = 'v_'
 
         attr_reader :definition
@@ -49,7 +50,9 @@ module Quby
           questionnaire.scores.each do |score|
             validate_score_key_length(score)
             validate_score_label_present(score)
+            validate_score_short_key_length(score)
           end
+          validate_score_short_key_uniqueness(questionnaire.scores)
         end
 
         def validate_question_options(questionnaire, question)
@@ -142,12 +145,30 @@ module Quby
 
         def validate_score_key_length(score)
           if score.key.to_s.length > MAX_KEY_LENGTH
-            fail "Score key `#{score.key}` should contain at most #{MAX_KEY_LENGTH} characters."
+            fail "Score key '#{score.key}' should contain at most #{MAX_KEY_LENGTH} characters."
           end
         end
 
         def validate_score_label_present(score)
           fail "Score #{score.key} label must be passed in as an option." unless score.label.present?
+        end
+
+        def validate_score_short_key_length(score)
+          if score.short_key.to_s.length > MAX_SHORT_KEY_LENGTH
+            fail "Short key '#{score.short_key}' should contain at most #{MAX_SHORT_KEY_LENGTH} characters."
+          end
+        end
+
+        def validate_score_short_key_uniqueness(scores)
+          non_unique_keys = short_keys_not_unique(scores)
+          fail "Score short key(s) '#{non_unique_keys.to_sentence}' should be unique." if non_unique_keys.any?
+        end
+
+        def short_keys_not_unique(scores)
+          short_keys = scores.map(&:short_key)
+          short_keys.group_by { |short_key| short_key }
+                    .select { |_, value| value.count > 1 }
+                    .keys
         end
 
         def validate_subquestion_absence_in_select(question)

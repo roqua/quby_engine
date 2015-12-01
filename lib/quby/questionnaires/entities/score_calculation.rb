@@ -6,12 +6,19 @@ module Quby
         attr_accessor :label
         attr_accessor :options
         attr_accessor :calculation
+        attr_accessor :short_key
 
         def initialize(key, options, &block)
           @key = key
+          @short_key = options[:short_key]
           @label = options[:label]
           @options = options
           @calculation = block
+        end
+
+        def short_key
+          max_short_length = Services::DefinitionValidator::MAX_SHORT_KEY_LENGTH
+          @short_key || @key[0...max_short_length]
         end
 
         def score
