@@ -33,6 +33,7 @@ module Quby
     end
 
     def edit
+      default_to_textvar_values(@answer)
       render_versioned_template @display_mode
     end
 
@@ -229,6 +230,15 @@ module Quby
 
     def calculate_hmac(*args)
       Digest::SHA1.hexdigest(args.join('|'))
+    end
+
+    def default_to_textvar_values(answer)
+      @questionnaire.questions.each do |question|
+        textvar = question.sets_textvar or next
+        if answer.textvars.key?(textvar.to_sym) && !answer.value.key?(question.key.to_s)
+          answer.value[question.key.to_s] ||= answer.textvars[textvar.to_sym]
+        end
+      end
     end
   end
 end

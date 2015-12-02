@@ -61,12 +61,12 @@ feature 'textvar replacement', js: true do
     # sets the variable in the any markdown enabled text.
     page.should have_content 'Yo dawg I herd you like cars so we put a car in your car'
     # sets the value of input with sets_textvar to the textvar if given.
-    page.should have_field("answer_v_1", text: 'car')
+    expect(page).to have_selector("#answer_v_1[value='car']")
 
     answer = create_new_answer_for(questionnaire, {'v_1' => 'new_value'}, textvars: {test_thing: 'car'})
     visit_new_answer_for(questionnaire, 'paged', answer)
     # does not overwrite the input with set_textvar, if a value is present
-    page.should have_field("answer_v_1", text: 'new_value')
+    expect(page).to have_selector("#answer_v_1[value='new_value']")
   end
 
   scenario 'showing default var value' do

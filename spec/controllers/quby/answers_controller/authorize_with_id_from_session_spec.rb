@@ -5,7 +5,7 @@ module Quby
     include EngineControllerTesting
 
     let(:answer)        { double("Answer", id: '1') }
-    let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: []) }
+    let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: [], questions: []) }
 
     before do
       Quby::Settings.stub(authorize_with_hmac: false)
