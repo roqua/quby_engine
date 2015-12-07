@@ -23,10 +23,10 @@ platforms :ruby, :jruby do
 end
 
 group :test, :development do
-  gem 'guard-rspec', '~> 4.2.6'
-  gem 'guard-teaspoon', '~> 0.0.4'
-  gem 'guard-spork', '~> 1.5.1'
-  gem 'guard-rubocop', '~> 1.0.2'
-  gem 'flamegraph', '~> 0.0.5'
-  gem 'rspec-prof', '~> 0.0.5'
+  gem 'guard-rspec',    '~> 4.2'
+  gem 'guard-teaspoon', '~> 0.0'
+  gem 'guard-spork',    '~> 1.5'
+  gem 'guard-rubocop',  '~> 1.0'
+  gem 'flamegraph',     '~> 0.0'
+  gem 'rspec-prof',     '~> 0.0'
 end
