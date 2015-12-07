@@ -6,7 +6,7 @@ module Quby
     include EngineControllerTesting
 
     let(:answer)        { double("Answer", id: '1', token: 'answer_token') }
-    let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: []) }
+    let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: [], questions: []) }
 
     before do
       Quby.questionnaires.stub(find: questionnaire)

@@ -120,11 +120,11 @@ module Quby
         end
 
         def questions
-          @questions_cache ||= (questions_tree.flatten rescue [])
+          question_hash.values
         end
 
         def questions_of_type(type)
-          questions.compact.select { |question| question.type == type }
+          questions.select { |question| question.type == type }
         end
 
         def license=(type)
