@@ -198,7 +198,18 @@ module Quby
           client.execute(package, function, parameters)
         end
 
+        def table_lookup(table_key, parameters)
+          table_hash[table_key] ||= Quby::Answers::Entities::LookupTable.new table_key
+          table = table_hash[table_key]
+
+          table.lookup(parameters)
+        end
+
         private
+
+        def table_hash
+          @table_hash ||= {}.with_indifferent_access
+        end
 
         def remember_usage_of_value_keys(keys)
           @referenced_values += keys
