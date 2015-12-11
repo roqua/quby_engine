@@ -38,8 +38,21 @@ module Quby
                   validate_float(question, validation, value)
                 when :regexp
                   validate_regexp(question, validation, value)
+                when :well_formed_date
+                  value = question.components.each_with_object({}) do |component, hash|
+                    key = question.send("#{component}_key")
+                    hash[component] = answer.send(key)
+                  end
+                  validate_well_formed_date(question, validation, value)
                 when :requires_answer
-                  validate_required(question, validation, value)
+                  if question.type == :date
+                    _value = question.answer_keys.each_with_object({}) do |key, hash|
+                      hash[key] = answer.send(key)
+                    end
+                  else
+                    _value = value
+                  end
+                  validate_required(question, validation, _value)
                 when :minimum
                   validate_minimum(question, validation, value)
                 when :maximum
@@ -66,9 +79,15 @@ module Quby
         # rubocop:enable CyclomaticComplexity
 
         def validate_required(question, validation, value)
-          if question.type == :check_box && value.values.reduce(:+) == 0 || value.blank?
-            answer.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.")
-          end
+          valid = case question.type
+                  when :date
+                    !value.values.all?(&:blank?)
+                  when :check_box
+                    value.values.reduce(:+) > 0
+                  else
+                    value.present?
+                  end
+          answer.send(:add_error, question, validation[:type], validation[:message] || "Must be answered.") unless valid
         end
 
         def validate_integer(question, validation, value)
@@ -85,6 +104,35 @@ module Quby
           answer.send(:add_error, question, :valid_float, validation[:message] || "Invalid float")
         end
 
+        def validate_well_formed_date(question, validation, value)
+          # Skip this validation early if all date parts are empty
+          return if value.values.all? { |date_part| date_part.empty? }
+
+          valid = value.all? { |key, date_part| send("valid_#{key}?", date_part) }
+
+          answer.send(:add_error, question, validation[:type], validation[:message] || "Does not match pattern expected.") unless valid
+        end
+
+        def valid_year?(year)
+          (1900..2100).include?(year.to_i)
+        end
+
+        def valid_month?(month)
+          (1..12).include?(month.to_i)
+        end
+
+        def valid_day?(day)
+          (1..31).include?(day.to_i)
+        end
+
+        def valid_hour?(hour)
+          (0..23).include?(hour.to_i)
+        end
+
+        def valid_minute?(minute)
+          (0..59).include?(minute.to_i)
+        end
+
         def validate_regexp(question, validation, value)
           return if value.blank?
           match = validation[:matcher].match(value)
@@ -94,7 +142,7 @@ module Quby
         end
 
         def validate_minimum(question, validation, value)
-          return if value.blank?
+          return if value.blank? || (question.type == :date && value.values.all?(&:empty?))
           converted_answer_value = convert_answer_value(question, value)
           if converted_answer_value < validation[:value]
             answer.send(:add_error, question, validation[:type], validation[:message] || "Smaller than minimum")
@@ -102,7 +150,7 @@ module Quby
         end
 
         def validate_maximum(question, validation, value)
-          return if value.blank?
+          return if value.blank? || (question.type == :date && value.values.all?(&:empty?))
           converted_answer_value = convert_answer_value(question, value)
           if converted_answer_value > validation[:value]
             answer.send(:add_error, question, validation[:type], validation[:message] || "Exceeds maximum")
@@ -163,7 +211,7 @@ module Quby
           when :integer
             Integer(value)
           when :date
-            DateTime.strptime(value, "%d-%m-%Y")
+            DateTime.strptime("#{value[:day] || 1}-#{value[:month] || 1}-#{value[:year] || 2000} #{value[:hour] || '00'}:#{value[:minute] || '00'}", "%d-%m-%Y %H:%M")
           else
             value
           end

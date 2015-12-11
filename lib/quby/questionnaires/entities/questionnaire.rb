@@ -233,8 +233,8 @@ module Quby
 
         def default_textvars
           textvars.select { |key, textvar| textvar.default.present? }
-                  .map    { |key, textvar| [key, textvar.default] }
-                  .to_h
+            .map    { |key, textvar| [key, textvar.default] }
+            .to_h
         end
 
         def answer_dsl_module
@@ -247,45 +247,36 @@ module Quby
               case question.type
               when :date
 
-                define_method(question.year_key) do
-                  self.value ||= Hash.new
-                  self.value[question.year_key]
-                end
+                question.components.each do |component|
+                  key = question.send("#{component}_key")
+                  define_method(key) do
+                    self.value ||= Hash.new
+                    self.value[key]
+                  end
 
-                define_method("#{question.year_key}=") do |v|
-                  self.value ||= Hash.new
-                  self.value[question.year_key] = v
-                end
-
-                define_method(question.month_key) do
-                  self.value ||= Hash.new
-                  self.value[question.month_key]
-                end
-
-                define_method("#{question.month_key}=") do |v|
-                  self.value ||= Hash.new
-                  self.value[question.month_key] = v
-                end
-
-                define_method(question.day_key) do
-                  self.value ||= Hash.new
-                  self.value[question.day_key]
-                end
-
-                define_method("#{question.day_key}=") do |v|
-                  self.value ||= Hash.new
-                  self.value[question.day_key] = v
+                  define_method("#{key}=") do |v|
+                    self.value ||= Hash.new
+                    self.value[key] = v
+                  end
                 end
 
                 define_method(question.key) do
                   self.value ||= Hash.new
-                  v = [self.value[question.day_key.to_s   || "#{question.key}_dd"],
-                       self.value[question.month_key.to_s || "#{question.key}_mm"],
-                       self.value[question.year_key.to_s  || "#{question.key}_yyyy"]]
-                  if v.reduce(true) { |allblank, it| it.blank? and allblank }
-                    return ""
-                  else
-                    return v.join("-")
+
+                  case question.components.sort
+                  when [:day, :month, :year]
+                    v = [self.value[question.day_key.to_s   || "#{question.key}_dd"],
+                         self.value[question.month_key.to_s || "#{question.key}_mm"],
+                         self.value[question.year_key.to_s  || "#{question.key}_yyyy"]]
+                    v.all?(&:blank?) ? '' : v.join('-')
+                  when [:month, :year]
+                    v = [self.value[question.day_key.to_s   || "#{question.key}_dd"],
+                         self.value[question.month_key.to_s || "#{question.key}_mm"]]
+                    v.all?(&:blank?) ? '' : v.join('-')
+                  when [:hour, :minute]
+                    v = [self.value[question.hour_key.to_s   || "#{question.key}_hh"],
+                         self.value[question.hour_key.to_s || "#{question.key}_ii"]]
+                    v.all?(&:blank?) ? '' : v.join(':')
                   end
                 end
 
