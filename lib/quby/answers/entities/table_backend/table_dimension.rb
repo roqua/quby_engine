@@ -1,0 +1,34 @@
+module Quby::Answers::Entities::TableBackend
+# TableDimension acts like nodes of a tree, every level consists of an array of table dimensions that each
+# have multiple ranges that point to either an array of TableDimensions for the next dimension or
+#   a non-TableDimension, which will be seen as a result
+
+# Going down the tree a level is like evaluating dimensions AND-wise,
+# going side to side on a level is evaluating dimensions OR-wise
+  class TableDimension < Struct.new(:name, :ranges)
+    class AcceptsAnythingRange
+      include Singleton
+
+      def include?(_)
+        true
+      end
+    end
+
+    def lookup(parameters)
+      next_dimensions_or_result = ranges.find do |range, _|
+        range.include? parameters[name]
+      end.andand.last
+
+      if next_dimensions_or_result.is_a?(Array) && next_dimensions_or_result.all? { |item| item.is_a?(TableDimension) }
+        # find first dimension that gives us a result for the given parameters
+        result = nil
+        next_dimensions_or_result.find do |dimension|
+          result = dimension.lookup(parameters)
+        end
+        result
+      else # it is a result
+        next_dimensions_or_result
+      end
+    end
+  end
+end
