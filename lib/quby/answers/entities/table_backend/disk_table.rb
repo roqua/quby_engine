@@ -4,6 +4,7 @@ module Quby::Answers::Entities::TableBackend
     require "pathname"
 
     def self.disk_table_root
+      fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
       Quby.lookup_table_path
     end
 

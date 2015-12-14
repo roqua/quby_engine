@@ -88,8 +88,13 @@ describe Quby::Answers::Entities::TableBackend::DiskTable do
     end
 
     it 'calls Quby.lookup_table_path' do
-      expect(Quby).to receive(:lookup_table_path).and_return 'toot'
+      expect(Quby).to receive(:lookup_table_path).at_least(:once).and_return 'toot'
       expect(described_class.disk_table_root).to eq('toot')
+    end
+
+    it 'raises if Quby.lookup_table_path is blank' do
+      expect(Quby).to receive(:lookup_table_path).and_return nil
+      expect { described_class.disk_table_root }.to raise_error('Quby.lookup_table_path not configured')
     end
   end
 
