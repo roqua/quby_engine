@@ -33,7 +33,7 @@ shared_examples 'validations on date questions' do
       fill_in_question('v_date_month', '12')
       fill_in_question('v_date_day',   '')
       run_validations
-      expect_error_on 'v_date', 'well_formed_date'
+      expect_error_on 'v_date', 'valid_date'
     end
 
     context 'when "components: [:year, :month]" is provided' do
@@ -57,7 +57,7 @@ shared_examples 'validations on date questions' do
       scenario 'saving with only a year value' do
         fill_in_question('v_date_year',  '2013')
         run_validations
-        expect_error_on 'v_date', 'well_formed_date'
+        expect_error_on 'v_date', 'valid_date'
       end
     end
 
@@ -65,7 +65,7 @@ shared_examples 'validations on date questions' do
       let(:questionnaire) do
         inject_questionnaire "test_with_components", <<-END
           question :v_date, type: :date, required: true,
-                            hour_key: :v_date_hour, minute_key: :v_date_month,
+                            hour_key: :v_date_hour, minute_key: :v_date_minute,
                             components: [:hour, :minute] do
             title "Enter a date"
           end; end_panel
@@ -83,7 +83,7 @@ shared_examples 'validations on date questions' do
         fill_in_question('v_date_hour',  '24')
         fill_in_question('v_date_minute', '60')
         run_validations
-        expect_error_on 'v_date', 'well_formed_date'
+        expect_error_on 'v_date', 'valid_date'
       end
     end
   end
@@ -137,13 +137,13 @@ shared_examples 'validations on date questions' do
       fill_in_question('v_date_month', 'bar')
       fill_in_question('v_date_day',   'baz')
       run_validations
-      expect_error_on 'v_date', 'well_formed_date'
+      expect_error_on 'v_date', 'valid_date'
 
       fill_in_question('v_date_year',  '2013')
       fill_in_question('v_date_month', '10')
       fill_in_question('v_date_day',   '33')
       run_validations
-      expect_error_on 'v_date', 'well_formed_date'
+      expect_error_on 'v_date', 'valid_date'
     end
   end
 end

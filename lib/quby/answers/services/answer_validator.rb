@@ -36,14 +36,14 @@ module Quby
                   validate_integer(question, validation, value)
                 when :valid_float
                   validate_float(question, validation, value)
-                when :regexp
-                  validate_regexp(question, validation, value)
-                when :well_formed_date
+                when :valid_date
                   value = question.components.each_with_object({}) do |component, hash|
                     key = question.send("#{component}_key")
                     hash[component] = answer.send(key)
                   end
-                  validate_well_formed_date(question, validation, value)
+                  validate_date(question, validation, value)
+                when :regexp
+                  validate_regexp(question, validation, value)
                 when :requires_answer
                   if question.type == :date
                     _value = question.answer_keys.each_with_object({}) do |key, hash|
@@ -104,13 +104,13 @@ module Quby
           answer.send(:add_error, question, :valid_float, validation[:message] || "Invalid float")
         end
 
-        def validate_well_formed_date(question, validation, value)
+        def validate_date(question, validation, value)
           # Skip this validation early if all date parts are empty
-          return if value.values.all? { |date_part| date_part.empty? }
+          return if value.values.all? { |date_part| date_part.blank? }
 
           valid = value.all? { |key, date_part| send("valid_#{key}?", date_part) }
 
-          answer.send(:add_error, question, validation[:type], validation[:message] || "Does not match pattern expected.") unless valid
+          answer.send(:add_error, question, :valid_date, validation[:message] || "Does not match pattern expected.") unless valid
         end
 
         def valid_year?(year)

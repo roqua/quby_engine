@@ -5,6 +5,7 @@ module Quby
         class DateQuestion < Question
           POSSIBLE_COMPONENTS = %i( year month day hour minute )
           COMPONENT_KEYS = Hash[POSSIBLE_COMPONENTS.zip %w( yyyy mm dd hh ii)]
+          COMPONENT_PLACEHOLDERS = Hash[POSSIBLE_COMPONENTS.zip %w( YYYY MM DD hh mm)]
           DEFAULT_COMPONENTS  = %i( year month day )
 
           # For optionally giving year, month and day fields of dates their own keys

@@ -110,20 +110,20 @@ module Quby::Questionnaires::Entities
 
           question :int, type: :integer
 
-          question :date, type: :date
+          question :date, type: :date, components: [:year, :month]
         end
       end
 
       describe '#input_keys' do
         it 'should list all input keys' do
           expect(questionnaire.input_keys).to eq Set.new([:radio_rad1, :radio_rad2, :check1, :check2, :int,
-                                                          :date_dd, :date_mm, :date_yyyy])
+                                                          :date_mm, :date_yyyy])
         end
       end
 
       describe '#answer_keys' do
         it 'should list all answer keys' do
-          expect(questionnaire.answer_keys).to eq Set.new([:radio, :check1, :check2, :int, :date_dd,
+          expect(questionnaire.answer_keys).to eq Set.new([:radio, :check1, :check2, :int,
                                                            :date_mm, :date_yyyy])
         end
       end
