@@ -33,4 +33,4 @@ spec/internal/log/*.log
 spec/internal/tmp/
 .ruby-version
 .ruby-gemset
-
+.byebug-history

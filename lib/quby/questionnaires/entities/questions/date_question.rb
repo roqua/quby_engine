@@ -3,10 +3,10 @@ module Quby
     module Entities
       module Questions
         class DateQuestion < Question
-          POSSIBLE_COMPONENTS = %i( year month day hour minute )
-          COMPONENT_KEYS = Hash[POSSIBLE_COMPONENTS.zip %w( yyyy mm dd hh ii)]
-          COMPONENT_PLACEHOLDERS = Hash[POSSIBLE_COMPONENTS.zip %w( YYYY MM DD hh mm)]
-          DEFAULT_COMPONENTS  = %i( year month day )
+          POSSIBLE_COMPONENTS = %i( day month year hour minute )
+          COMPONENT_KEYS = Hash[POSSIBLE_COMPONENTS.zip %w( dd mm yyyy hh ii)]
+          COMPONENT_PLACEHOLDERS = Hash[POSSIBLE_COMPONENTS.zip %w( DD MM YYYY hh mm)]
+          DEFAULT_COMPONENTS  = %i( day month year )
 
           # For optionally giving year, month and day fields of dates their own keys
           POSSIBLE_COMPONENTS.each do |component|
@@ -20,7 +20,7 @@ module Quby
 
             @components = options[:components] || DEFAULT_COMPONENTS
 
-            @components.each do |component|
+            components.each do |component|
               instance_variable_set("@#{component}_key", options[:"#{component}_key"])
             end
           end
@@ -36,13 +36,13 @@ module Quby
           end
 
           def answer_keys
-            @components.map do |component|
+            components.map do |component|
               send("#{component}_key").to_sym
             end
           end
 
           def as_json(options = {})
-            component_keys = @components.each_with_object({}) do |component, hash|
+            component_keys = components.each_with_object({}) do |component, hash|
               hash["#{component}_key"] = send("#{component}_key")
             end
             super.merge(component_keys)
