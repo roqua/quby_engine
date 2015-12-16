@@ -30,7 +30,7 @@ shared_examples 'validations on date questions' do
 
     scenario 'saving an invalid date' do
       fill_in_question('v_date_year',  '2013')
-      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_month', '13')
       fill_in_question('v_date_day',   '')
       run_validations
       expect_error_on 'v_date', 'valid_date'

@@ -105,32 +105,20 @@ module Quby
         end
 
         def validate_date(question, validation, value)
-          # Skip this validation early if all date parts are empty
-          return if value.values.all? { |date_part| date_part.blank? }
+          # Skip this validation if all date parts are empty
+          return if value.values.all?(&:blank?)
 
-          valid = value.all? { |key, date_part| send("valid_#{key}?", date_part) }
+          send_date_error(question, validation) if value.values.any?(&:blank?)
 
-          answer.send(:add_error, question, :valid_date, validation[:message] || "Does not match pattern expected.") unless valid
+          begin
+            convert_answer_value(question, value)
+          rescue InvalidValue
+            send_date_error(question, validation)
+          end
         end
 
-        def valid_year?(year)
-          (1900..2100).include?(year.to_i)
-        end
-
-        def valid_month?(month)
-          (1..12).include?(month.to_i)
-        end
-
-        def valid_day?(day)
-          (1..31).include?(day.to_i)
-        end
-
-        def valid_hour?(hour)
-          (0..23).include?(hour.to_i)
-        end
-
-        def valid_minute?(minute)
-          (0..59).include?(minute.to_i)
+        def send_date_error(question, validation)
+          answer.send(:add_error, question, :valid_date, validation[:message] || "Does not match pattern expected.")
         end
 
         def validate_regexp(question, validation, value)
