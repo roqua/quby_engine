@@ -68,13 +68,15 @@ module Quby
           end
 
           def to_codebook(questionnaire, opts = {})
-            components.each_with_object([]) do |component, output|
-              output << "#{codebook_key(send("#{component}_key"), questionnaire, opts)}" \
-              " #{type}_#{component} #{codebook_output_range}"
+            output = []
+            components.each do |component|
+              output << "#{codebook_key(send("#{component}_key"), questionnaire, opts)} " \
+              "#{type}_#{component} #{codebook_output_range}"
               output << "\"#{title}\"" unless title.blank?
               output << options.map(&:to_codebook).join("\n") unless options.blank?
               output << ""
-            end.join("\n")
+            end
+            output.join("\n")
           end
         end
       end
