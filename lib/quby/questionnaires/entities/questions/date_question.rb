@@ -68,20 +68,13 @@ module Quby
           end
 
           def to_codebook(questionnaire, opts = {})
-            output = []
-            output << "#{codebook_key(day_key, questionnaire, opts)} #{type}_day #{codebook_output_range}"
-            output << "\"#{title}\"" unless title.blank?
-            output << options.map(&:to_codebook).join("\n") unless options.blank?
-            output << ""
-            output << "#{codebook_key(month_key, questionnaire, opts)} #{type}_month #{codebook_output_range}"
-            output << "\"#{title}\"" unless title.blank?
-            output << options.map(&:to_codebook).join("\n") unless options.blank?
-            output << ""
-            output << "#{codebook_key(year_key, questionnaire, opts)} #{type}_year #{codebook_output_range}"
-            output << "\"#{title}\"" unless title.blank?
-            output << options.map(&:to_codebook).join("\n") unless options.blank?
-            output << ""
-            output.join("\n")
+            components.each_with_object([]) do |component, output|
+              output << "#{codebook_key(send("#{component}_key"), questionnaire, opts)}" \
+              " #{type}_#{component} #{codebook_output_range}"
+              output << "\"#{title}\"" unless title.blank?
+              output << options.map(&:to_codebook).join("\n") unless options.blank?
+              output << ""
+            end.join("\n")
           end
         end
       end
