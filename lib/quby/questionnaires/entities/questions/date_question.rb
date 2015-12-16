@@ -23,6 +23,25 @@ module Quby
             components.each do |component|
               instance_variable_set("@#{component}_key", options[:"#{component}_key"])
             end
+
+            add_date_validation(options[:error_explanation])
+          end
+
+          def add_date_validation(explanation)
+            @validations << {type: :valid_date,
+                             explanation: (explanation ||
+                                           "Vul een geldige datum in (#{expected_format})")}
+          end
+
+          def expected_format
+            case components.sort
+            when [:day, :month, :year]
+              'DD-MM-YYYY'
+            when [:month, :year]
+              'MM-YYYY'
+            when [:hour, :minute]
+              'hh:mm'
+            end
           end
 
           COMPONENT_KEYS.each do |component, name|

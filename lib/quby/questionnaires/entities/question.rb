@@ -166,9 +166,6 @@ module Quby
             @validations << {type: :valid_float, explanation: options[:error_explanation]}
           elsif @type == :integer
             @validations << {type: :valid_integer, explanation: options[:error_explanation]}
-          elsif @type == :date
-            @validations << {type: :valid_date,
-                             explanation: (options[:error_explanation] || "Voer een geldige datum in (DD-MM-JJJJ).") }
           end
 
           if options[:minimum] and (@type == :integer || @type == :float)
