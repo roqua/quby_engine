@@ -209,6 +209,24 @@
   };
 
   function parsePartialDate(inputs) {
+    var values = partialDateValues(inputs)
+    if(!dateValuesValid(values)) {
+      throw "invalidDate";
+    }
+    else {
+      return new Date(values.year, values.month, values.day, values.hour, values.minute);
+    }
+  }
+
+  function dateValuesValid(values) {
+    return values['year']   >= 1900 && values['year']   <= 2100 &&
+           values['month']  >= 0    && values['month']  <= 11   &&
+           values['day']    >= 1    && values['day']    <= 31   &&
+           values['hour']   >= 0    && values['hour']   <= 23   &&
+           values['minute'] >= 0    && values['minute'] <= 59;
+  }
+
+  function partialDateValues(inputs) {
     var value = function(placeholder) {
       var val = inputs.filter("[placeholder=" + placeholder + "]").first().val();
       if(val === undefined || val == "")
@@ -220,20 +238,13 @@
       }
     };
 
-    var year   = value('YYYY') || 2000;
-    var month  = value('MM')   ? value('MM')-1 : 0;    // JS months range from 0-11 instead of 1-12
-    var day    = value('DD')   || 1;
-    var hour   = value('hh')   || 0;
-    var minute = value('mm')   || 0;
-
-    if(year   < 1900 || year   > 2100 ||
-       month  < 0    || month  > 11 ||
-       day    < 1    || day    > 31 ||
-       hour   < 0    || hour   > 23 ||
-       minute < 0    || minute > 59) {
-      throw "invalidDate";
+    return {
+      year:   value('YYYY') || 2000,
+      month:  value('MM')   ? value('MM')-1 : 0,    // JS months range from 0-11 instead of 1-12
+      day:    value('DD')   || 1,
+      hour:   value('hh')   || 0,
+      minute: value('mm')   || 0,
     }
-    return new Date(year, month, day, hour, minute);
   }
 
   function numberOfEmptyDateFields(inputs) {
