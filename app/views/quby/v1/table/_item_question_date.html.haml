@@ -4,7 +4,4 @@
 - itemkey = "item_#{question.key}"
 %td.item{:id => itemkey, :class => classes, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   %span.nowrap.fields{:id => question.html_id, :class => question.type}
-    - placeholders = Quby::Questionnaires::Entities::Questions::DateQuestion::COMPONENT_PLACEHOLDERS
-    - question.components.each do |component|
-      = text_field :answer, question.send("#{component}_key"), :placeholder => placeholders[component], :size => 4, :autocomplete => question.autocomplete, data: {field: {key: question.send("#{component}_key")}}
-  = validations
+    = render 'quby/v1/shared/date_inputs', :question => question, :subquestion => subquestion, :disabled => disabled

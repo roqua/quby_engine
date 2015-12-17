@@ -5,8 +5,4 @@
       :markdown
         #{raw question.description}
   .fields{:id => question.html_id}
-    - cls = [question.type]
-    - cls << "subinput"  if subquestion
-    - placeholders = Quby::Questionnaires::Entities::Questions::DateQuestion::COMPONENT_PLACEHOLDERS
-    - question.components.each do |component|
-      = text_field :answer, question.send("#{component}_key"), :placeholder => placeholders[component], :size => 4, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.send("#{component}_key")}}
+    = render 'quby/v1/shared/date_inputs', :question => question, :subquestion => subquestion, :disabled => disabled
