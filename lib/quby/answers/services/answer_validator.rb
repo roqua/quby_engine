@@ -116,14 +116,14 @@ module Quby
         end
 
         def send_date_error(question, validation)
-          answer.send(:add_error, question, :valid_date, validation[:message] || "Does not match pattern expected.")
+          answer.send(:add_error, question, :valid_date, validation[:message] || "Does not match expected pattern.")
         end
 
         def validate_regexp(question, validation, value)
           return if value.blank?
           match = validation[:matcher].match(value)
           unless match && match[0] == value
-            answer.send(:add_error, question, validation[:type], validation[:message] || "Does not match pattern expected.")
+            answer.send(:add_error, question, validation[:type], validation[:message] || "Does not match expected pattern.")
           end
         end
 
