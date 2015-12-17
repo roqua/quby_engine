@@ -213,9 +213,8 @@
     if(!dateValuesValid(values)) {
       throw "invalidDate";
     }
-    else {
-      return new Date(values.year, values.month, values.day, values.hour, values.minute);
-    }
+    
+    return new Date(values.year, values.month, values.day, values.hour, values.minute);
   }
 
   function dateValuesValid(values) {
