@@ -79,7 +79,7 @@ module Quby
         def validate_required(question, validation, value)
           valid = case question.type
                   when :date
-                    !value.values.all?(&:blank?)
+                    value.values.all?(&:present?)
                   when :check_box
                     value.values.reduce(:+) > 0
                   else
