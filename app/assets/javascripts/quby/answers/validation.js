@@ -247,13 +247,12 @@
   }
 
   function numberOfEmptyDateFields(inputs) {
-    var fieldsEmpty = 0;
-    $(inputs).each(function() {
-      if($(this).val() == '') {
-        fieldsEmpty++;
+    return inputs.toArray().reduce(function(fieldsEmpty, field) {
+      if($(field).val() == '') {
+        return ++fieldsEmpty;
       }
-    });
-    return fieldsEmpty;
+      return fieldsEmpty;
+    }, 0);
   }
 
   function allDateFieldsFilledIn(inputs) {
