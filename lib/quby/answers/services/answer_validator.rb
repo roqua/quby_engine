@@ -46,13 +46,11 @@ module Quby
                   validate_regexp(question, validation, value)
                 when :requires_answer
                   if question.type == :date
-                    _value = question.answer_keys.each_with_object({}) do |key, hash|
+                    value = question.answer_keys.each_with_object({}) do |key, hash|
                       hash[key] = answer.send(key)
                     end
-                  else
-                    _value = value
                   end
-                  validate_required(question, validation, _value)
+                  validate_required(question, validation, value)
                 when :minimum
                   validate_minimum(question, validation, value)
                 when :maximum
