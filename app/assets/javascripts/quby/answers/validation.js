@@ -225,7 +225,7 @@
            values['minute'] >= 0    && values['minute'] <= 59;
   }
 
-  function partialDateValues(inputs) {
+  function dateValuesWithDefaults(inputs) {
     var value = function(placeholder) {
       var val = inputs.filter("[placeholder=" + placeholder + "]").first().val();
       if(val === undefined || val == "")
