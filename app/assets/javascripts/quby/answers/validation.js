@@ -209,7 +209,7 @@
   };
 
   function parsePartialDate(inputs) {
-    var values = partialDateValues(inputs)
+    var values = dateValuesWithDefaults(inputs)
     if(!dateValuesValid(values)) {
       throw "invalidDate";
     }
