@@ -233,8 +233,8 @@ module Quby
 
         def default_textvars
           textvars.select { |key, textvar| textvar.default.present? }
-            .map    { |key, textvar| [key, textvar.default] }
-            .to_h
+                  .map    { |key, textvar| [key, textvar.default] }
+                  .to_h
         end
 
         def answer_dsl_module
