@@ -226,12 +226,12 @@ module Quby::Answers::Services
 
         it 'adds an error if an answer doesnt match a given regex' do
           answer.errors.messages[:v_invalid_regexp].should ==
-              [{message: "Does not match pattern expected.", valtype: :regexp}]
+              [{message: "Does not match expected pattern.", valtype: :regexp}]
         end
 
         it 'does not add an error if an answer matches a given regex' do
           answer.errors.messages[:v_valid_regexp].should_not ==
-              [{message: "Does not match pattern expected.", valtype: :regexp}]
+              [{message: "Does not match expected_pattern.", valtype: :regexp}]
         end
 
         it 'adds an error if a required question is unfilled' do
