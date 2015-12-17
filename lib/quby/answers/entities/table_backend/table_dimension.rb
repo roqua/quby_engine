@@ -15,8 +15,11 @@ module Quby::Answers::Entities::TableBackend
     end
 
     def lookup(parameters)
+      parameters = parameters.with_indifferent_access
       next_dimensions_or_result = ranges.find do |range, _|
-        range.include? parameters[name]
+        relevant_parameter = parameters[name]
+        relevant_parameter = relevant_parameter.to_s if relevant_parameter.is_a?(Symbol)
+        range.include? relevant_parameter
       end.andand.last
 
       if next_dimensions_or_result.is_a?(Array) && next_dimensions_or_result.all? { |item| item.is_a?(TableDimension) }

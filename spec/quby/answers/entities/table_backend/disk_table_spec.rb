@@ -75,7 +75,7 @@ describe Quby::Answers::Entities::TableBackend::DiskTable do
   end
 
   describe '#lookup' do
-    it 'calls lookup on the root dimensions' do
+    it 'calls lookup on the root dimensions'
       parameters = {age: 22, gender: :female, score_tscore: 11}
       expect(table.instance_variable_get(:@root_dimensions)[0]).to receive(:lookup).with(parameters).and_call_original
       expect(table.lookup(parameters)).to eq(33)
