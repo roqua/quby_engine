@@ -136,7 +136,7 @@ module Quby
         end
 
         def validate_maximum(question, validation, value)
-          return if value.blank? || (question.type == :date && value.values.all?(&:empty?))
+          return if value.blank? || (question.type == :date && value.values.all?(&:blank?))
           converted_answer_value = convert_answer_value(question, value)
           if converted_answer_value > validation[:value]
             answer.send(:add_error, question, validation[:type], validation[:message] || "Exceeds maximum")
