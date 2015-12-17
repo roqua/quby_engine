@@ -4,4 +4,5 @@
 - itemkey = "item_#{question.key}"
 %td.item{:id => itemkey, :class => classes, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   %span.nowrap.fields{:id => question.html_id, :class => question.type}
-    = render 'quby/v1/shared/date_inputs', :question => question, :subquestion => subquestion, :disabled => disabled
+    = render 'quby/v1/shared/date_inputs', :question => question
+  = validations
