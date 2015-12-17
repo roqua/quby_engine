@@ -265,17 +265,13 @@ module Quby
 
                   case question.components.sort
                   when [:day, :month, :year]
-                    v = [self.value[question.day_key.to_s   || "#{question.key}_dd"],
-                         self.value[question.month_key.to_s || "#{question.key}_mm"],
-                         self.value[question.year_key.to_s  || "#{question.key}_yyyy"]]
+                    v = [:day, :month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
                     v.all?(&:blank?) ? '' : v.join('-')
                   when [:month, :year]
-                    v = [self.value[question.day_key.to_s   || "#{question.key}_dd"],
-                         self.value[question.month_key.to_s || "#{question.key}_mm"]]
+                    v = [:month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
                     v.all?(&:blank?) ? '' : v.join('-')
                   when [:hour, :minute]
-                    v = [self.value[question.hour_key.to_s   || "#{question.key}_hh"],
-                         self.value[question.hour_key.to_s || "#{question.key}_ii"]]
+                    v = [:hour, :minute].map { |component| self.value[question.send("#{component}_key").to_s] }
                     v.all?(&:blank?) ? '' : v.join(':')
                   end
                 end
