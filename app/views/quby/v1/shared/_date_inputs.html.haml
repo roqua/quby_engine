@@ -1,0 +1,20 @@
+- disabled ||= false
+- subquestion ||= false
+- cls = [question.type]
+- cls << "subinput"  if subquestion
+- placeholders = Quby::Questionnaires::Entities::Questions::DateQuestion::COMPONENT_PLACEHOLDERS
+- case question.components.sort
+- when [:day, :month, :year]
+  = text_field :answer, question.day_key, :placeholder => placeholders[:day], :size => 3, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.day_key}}
+  \-
+  = text_field :answer, question.month_key, :placeholder => placeholders[:month], :size => 3, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.month_key}}
+  \-
+  = text_field :answer, question.year_key, :placeholder => placeholders[:year], :size => 5, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.year_key}}
+- when [:month, :year]
+  = text_field :answer, question.month_key, :placeholder => placeholders[:month], :size => 3, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.month_key}}
+  \-
+  = text_field :answer, question.year_key, :placeholder => placeholders[:year], :size => 5, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.year_key}}
+- when [:hour, :minute]
+  = text_field :answer, question.hour_key, :placeholder => placeholders[:hour], :size => 3, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.hour_key}}
+  \:
+  = text_field :answer, question.minute_key, :placeholder => placeholders[:minute], :size => 3, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.minute_key}}

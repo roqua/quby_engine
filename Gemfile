@@ -29,4 +29,5 @@ group :test, :development do
   gem 'guard-rubocop',  '~> 1.0'
   gem 'flamegraph',     '~> 0.0'
   gem 'rspec-prof',     '~> 0.0'
+  gem 'byebug'
 end

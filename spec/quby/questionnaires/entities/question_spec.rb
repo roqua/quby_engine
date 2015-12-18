@@ -60,7 +60,7 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.question_hash[:scale].input_keys).to eql [:scale_scale1, :scale_scale2]
         expect(questionnaire.question_hash[:select].input_keys).to eql [:select_select1, :select_select2]
         expect(questionnaire.question_hash[:int].input_keys).to eql [:int]
-        expect(questionnaire.question_hash[:date].input_keys).to eql [:date_dd, :date_mm, :date_yyyy]
+        expect(questionnaire.question_hash[:date].input_keys.sort).to eql [:date_dd, :date_mm, :date_yyyy].sort
       end
     end
 
@@ -71,7 +71,8 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.question_hash[:scale].claimed_keys).to eql [:scale]
         expect(questionnaire.question_hash[:select].claimed_keys).to eql [:select]
         expect(questionnaire.question_hash[:int]  .claimed_keys).to eql [:int]
-        expect(questionnaire.question_hash[:date] .claimed_keys).to eql [:date, :date_dd, :date_mm, :date_yyyy]
+        expect(questionnaire.question_hash[:date] .claimed_keys.sort).to eql(
+          [:date, :date_dd, :date_mm, :date_yyyy].sort)
       end
     end
 
@@ -82,7 +83,7 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.question_hash[:scale].answer_keys).to eql [:scale]
         expect(questionnaire.question_hash[:select].answer_keys).to eql [:select]
         expect(questionnaire.question_hash[:int]  .answer_keys).to eql [:int]
-        expect(questionnaire.question_hash[:date] .answer_keys).to eql [:date_dd, :date_mm, :date_yyyy]
+        expect(questionnaire.question_hash[:date] .answer_keys.sort).to eql [:date_dd, :date_mm, :date_yyyy].sort
       end
     end
 

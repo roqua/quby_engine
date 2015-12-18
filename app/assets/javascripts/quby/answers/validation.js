@@ -62,13 +62,16 @@
                   }
                   break;
               case "minimum":
-                  if (inputs.length == 3 && (values[0] != "" && values[1] != "" && values[2] != "")) {
-                      var enteredDate = new Date(values[2], values[1], values[0]);
-                      var minimumDate = Date.parse(validation.value);
-
-                      if(enteredDate < minimumDate) {
+                  if ($(inputs[0]).attr('class') === 'date') {
+                    try {
+                      if(allDateFieldsFilledIn(inputs)) {
+                        var enteredDate = parsePartialDate(inputs);
+                        var minimumDate = new Date(validation.value)
+                        if(enteredDate < minimumDate) {
                           pushFailVal(validation.type);
+                        }
                       }
+                    } catch(e) {}
                   } else if (inputs.length == 1) {
                       var value = values[0];
                       if(value === undefined || value == ""){
@@ -80,13 +83,16 @@
                   }
                   break;
               case "maximum":
-                  if (inputs.length == 3 && (values[0] != "" && values[1] != "" && values[2] != "")) {
-                      var enteredDate = new Date(values[2], parseInt(values[1]) - 1, values[0]);
-                      var maximumDate = Date.parse(validation.value);
-
-                      if(enteredDate > maximumDate) {
+                  if ($(inputs[0]).attr('class') === 'date') {
+                    try {
+                      if(allDateFieldsFilledIn(inputs)) {
+                        var enteredDate = parsePartialDate(inputs);
+                        var maximumDate = new Date(validation.value)
+                        if(enteredDate > maximumDate) {
                           pushFailVal(validation.type);
+                        }
                       }
+                    } catch(e) {}
                   } else if (inputs.length == 1) {
                       var value = values[0];
                       if(value === undefined || value == ""){
@@ -137,6 +143,19 @@
                       pushFailVal(validation.type);
                   }
                   break;
+              case "valid_date":
+                try {
+                  fieldsEmpty = numberOfEmptyDateFields(inputs);
+                  if(fieldsEmpty > 0 && fieldsEmpty < $(inputs).size()) {
+                    throw "invalidDate";
+                  }
+
+                  var date = parsePartialDate(inputs);
+                }
+                catch(e) {
+                  pushFailVal(validation.type);
+                }
+                break;
               case "answer_group_minimum":
                   var count = calculateAnswerGroup(validation.group, panel);
                   if(count.visible > 0 && count.answered < validation.value){
@@ -188,6 +207,57 @@
     }
     return !failed;
   };
+
+  function parsePartialDate(inputs) {
+    var values = dateValuesWithDefaults(inputs)
+    if(!dateValuesValid(values)) {
+      throw "invalidDate";
+    }
+    
+    return new Date(values.year, values.month, values.day, values.hour, values.minute);
+  }
+
+  function dateValuesValid(values) {
+    return values['year']   >= 1900 && values['year']   <= 2100 &&
+           values['month']  >= 0    && values['month']  <= 11   &&
+           values['day']    >= 1    && values['day']    <= 31   &&
+           values['hour']   >= 0    && values['hour']   <= 23   &&
+           values['minute'] >= 0    && values['minute'] <= 59;
+  }
+
+  function dateValuesWithDefaults(inputs) {
+    var value = function(placeholder) {
+      var val = inputs.filter("[placeholder=" + placeholder + "]").first().val();
+      if(val === undefined || val == "")
+        return null;
+      if(intVal = parseInt(val)) {
+        return intVal;
+      } else {
+        throw "invalidDate";
+      }
+    };
+
+    return {
+      year:   value('YYYY') || 2000,
+      month:  value('MM')   ? value('MM')-1 : 0,    // JS months range from 0-11 instead of 1-12
+      day:    value('DD')   || 1,
+      hour:   value('hh')   || 0,
+      minute: value('mm')   || 0,
+    }
+  }
+
+  function numberOfEmptyDateFields(inputs) {
+    return inputs.toArray().reduce(function(fieldsEmpty, field) {
+      if($(field).val() == '') {
+        return ++fieldsEmpty;
+      }
+      return fieldsEmpty;
+    }, 0);
+  }
+
+  function allDateFieldsFilledIn(inputs) {
+    return numberOfEmptyDateFields(inputs) == 0;
+  }
 
   function pushFailVal(val){
     fail_vals[validationI] = val;

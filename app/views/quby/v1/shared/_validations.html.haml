@@ -16,6 +16,8 @@
     %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een afgerond getal zijn."
   - when :valid_float
     %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen)."
+  - when :valid_date
+    %div{:class => exp_classes}= validation[:explanation] || "Uw antwoord moet een geldige datum zijn."
   - when :too_many_checked
     %div{:class => exp_classes}= validation[:explanation] || "U heeft te veel opties gekozen."
   - when :not_all_checked

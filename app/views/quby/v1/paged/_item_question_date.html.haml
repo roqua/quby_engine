@@ -5,11 +5,4 @@
       :markdown
         #{raw question.description}
   .fields{:id => question.html_id}
-    - cls = [question.type]
-    - cls << "subinput"  if subquestion
-    = text_field :answer, question.day_key, :placeholder => "DD", :size => 2, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.day_key}}
-    = "-"
-    = text_field :answer, question.month_key, :placeholder => "MM", :size => 2, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.month_key}}
-    = "-"
-    = text_field :answer, question.year_key, :placeholder => "JJJJ", :size => 4, :autocomplete => question.autocomplete, :class => cls, :disabled => disabled ? "" : nil, data: {field: {key: question.year_key}}
-
+    = render 'quby/v1/shared/date_inputs', :question => question, :subquestion => subquestion, :disabled => disabled

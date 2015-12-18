@@ -4,9 +4,5 @@
 - itemkey = "item_#{question.key}"
 %td.item{:id => itemkey, :class => classes, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :data => question.extra_data}
   %span.nowrap.fields{:id => question.html_id, :class => question.type}
-    = text_field :answer, question.day_key, :placeholder => "DD", :size => 2, :autocomplete => question.autocomplete, :data => {field: {key: question.day_key}}
-    %span= "-"
-    = text_field :answer, question.month_key, :placeholder => "MM", :size => 2, :autocomplete => question.autocomplete, :data => {field: {key: question.month_key}}
-    %span= "-"
-    = text_field :answer, question.year_key, :placeholder => "JJJJ", :size => 4, :autocomplete => question.autocomplete, :data => {field: {key: question.year_key}}
+    = render 'quby/v1/shared/date_inputs', :question => question
   = validations
