@@ -233,11 +233,10 @@
       }
 
       var intVal = parseInt(val);
-      if(intVal || intVal === 0) {
-        return intVal;
-      } else {
+      if(!intVal && intVal !== 0) {
         throw "invalidDate";
       }
+      return intVal;
     };
 
     return {
