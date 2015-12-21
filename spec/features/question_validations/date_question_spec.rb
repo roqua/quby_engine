@@ -80,7 +80,7 @@ shared_examples 'validations on date questions' do
       end
 
       scenario 'saving with zero values for hour and minute' do
-        fill_in_question('v_date_hour',  '1')
+        fill_in_question('v_date_hour',  '0')
         fill_in_question('v_date_minute', '0')
         run_validations
         expect_no_errors
