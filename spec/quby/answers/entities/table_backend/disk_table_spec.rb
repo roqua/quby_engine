@@ -32,6 +32,11 @@ describe Quby::Answers::Entities::TableBackend::DiskTable do
       dimensions = table.dimensions_from_children(dir_path)
       expect(dimensions.length).to eq(1)
     end
+    it 'raises if the path contains both directories and files' do
+      dir_path = fixture_root.join('mix_file_directory')
+      expected_message = 'disk_table path contains directories and files mixed together'
+      expect { table.dimensions_from_children(dir_path) }.to raise_exception(expected_message)
+    end
   end
 
   describe '#dimensions_from_directories' do
