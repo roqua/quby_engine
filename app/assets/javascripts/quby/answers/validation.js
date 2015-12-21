@@ -228,13 +228,15 @@
   function dateValuesWithDefaults(inputs) {
     var value = function(placeholder) {
       var val = inputs.filter("[placeholder=" + placeholder + "]").first().val();
-      if(val === undefined || val == "")
+      if(val === undefined || val == "") {
         return null;
-      if(intVal = parseInt(val)) {
-        return intVal;
-      } else {
+      }
+
+      var intVal = parseInt(val);
+      if(!intVal && intVal !== 0) {
         throw "invalidDate";
       }
+      return intVal;
     };
 
     return {
