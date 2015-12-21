@@ -236,7 +236,6 @@
       if(intVal || intVal === 0) {
         return intVal;
       } else {
-        debugger;
         throw "invalidDate";
       }
     };
