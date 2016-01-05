@@ -1,5 +1,5 @@
-require 'quby/answers/entities/table_backend/table_dimension'
-module Quby::Answers::Entities::TableBackend
+require 'quby/table_backend/table_dimension'
+module Quby::TableBackend
   class DiskTable
     require "pathname"
 
@@ -22,7 +22,7 @@ module Quby::Answers::Entities::TableBackend
     #    this will be returned as is
     def self.parse_range(range)
       if range.length == 0
-        Quby::Answers::Entities::TableBackend::TableDimension::AcceptsAnythingRange.instance
+        Quby::TableBackend::TableDimension::AcceptsAnythingRange.instance
       elsif parse_float(range.first).present?
         parse_float_range(range)
       else
@@ -83,34 +83,50 @@ module Quby::Answers::Entities::TableBackend
         child.expand_path.basename.to_s.split('_').first
       end
 
-      dimensions.map do |dimension_key, pathnames|
-        ranges = pathnames.map do |pathname|
-          range_key = self.class.parse_range pathname.expand_path.basename.to_s.split('_')[1..-1]
-          range_value = dimensions_from_children(pathname)
-
-          [range_key, range_value]
-        end.to_h
-
-        TableDimension.new(dimension_key, ranges)
+      dimensions.map do |dimension_key, dimension_pathnames|
+        dimension_from_directories(dimension_key, dimension_pathnames)
       end
     end
 
+    def dimension_from_directories(dimension_key, pathnames)
+      ranges = pathnames.map do |pathname|
+        range_key = self.class.parse_range pathname.expand_path.basename.to_s.split('_')[1..-1]
+        range_value = dimensions_from_children(pathname)
+
+        [range_key, range_value]
+      end.to_h
+
+      TableDimension.new(dimension_key, ranges)
+    end
+
+    # CSV files are expected to be 2 columns wide
+    # first column is the start value of a leaf range, ranging to the value on the next row first column open ended
+    # second column is the result value for the range leaf range that starts with the value in the first column
+    # the last row defines a range to infinity
+    #
+    # 1, 15
+    # 8, 18
+    # becomes {(1...8) => 15, (8...Float::INFINITY) => 18}
     def dimensions_from_files(file_path_names)
       file_path_names.map do |file_name|
         rows = CSV.read(file_name)
         ranges = rows.each_with_index.map do |(key, value), index|
-          fail "blank entry in #{file_name} row #{index + 1}" if key.blank? || value.blank?
-
-          next_key = if (index + 1) < rows.length
-                       rows[index + 1].first
-                     else
-                       Float::INFINITY # the last row defines a range to infinity
-                     end
-          [(key.to_f...next_key.to_f), value.to_f]
+          range_from_row(file_name, key, value, index, rows)
         end.to_h
 
         TableDimension.new(file_name.basename('.*').to_s, ranges)
       end
+    end
+
+    def range_from_row(file_name, key, value, index, rows)
+      fail "blank entry in #{file_name} row #{index + 1}" if key.blank? || value.blank?
+
+      next_key = if (index + 1) < rows.length
+                   rows[index + 1].first
+                 else
+                   Float::INFINITY # the last row defines a range to infinity
+                 end
+      [(key.to_f...next_key.to_f), value.to_f]
     end
   end
 end

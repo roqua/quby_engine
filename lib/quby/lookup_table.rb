@@ -1,11 +1,11 @@
-require 'quby/answers/entities/table_backend/disk_table'
+require 'quby/table_backend/disk_table'
 
-module Quby::Answers::Entities
+module Quby
   class LookupTable
     attr_accessor :key
 
     def self.backend_class
-      Quby::Answers::Entities::TableBackend::DiskTable
+      Quby::TableBackend::DiskTable
     end
 
     def initialize(key)

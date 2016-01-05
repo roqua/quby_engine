@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Quby::Answers::Entities
+module Quby
   describe LookupTable do
     let(:table) { described_class.new('test_table') }
     let(:expected_backing) { double.as_null_object }

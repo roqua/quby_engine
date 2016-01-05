@@ -199,7 +199,7 @@ module Quby
         end
 
         def table_lookup(table_key, parameters)
-          table_hash[table_key] ||= Quby::Answers::Entities::LookupTable.new table_key
+          table_hash[table_key] ||= Quby::LookupTable.new table_key
           table = table_hash[table_key]
 
           table.lookup(parameters)

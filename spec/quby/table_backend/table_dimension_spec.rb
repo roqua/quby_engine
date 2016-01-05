@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Quby::Answers::Entities::TableBackend::TableDimension do
+describe Quby::TableBackend::TableDimension do
   describe 'described_class::AcceptsAnythingRange' do
     it 'always returns true on an include? call' do
       range = described_class::AcceptsAnythingRange.instance

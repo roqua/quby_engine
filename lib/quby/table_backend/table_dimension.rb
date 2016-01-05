@@ -1,4 +1,4 @@
-module Quby::Answers::Entities::TableBackend
+module Quby::TableBackend
 # TableDimension acts like nodes of a tree, every level consists of an array of table dimensions that each
 # have multiple ranges that point to either an array of TableDimensions for the next dimension or
 #   a non-TableDimension, which will be seen as a result

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Quby::Answers::Entities::TableBackend::DiskTable do
+describe Quby::TableBackend::DiskTable do
   let(:table) { described_class.new('test_table') }
   let(:fixture_root) { Rails.root.join('..', 'fixtures', 'lookup_tables') }
   before do
@@ -41,7 +41,7 @@ describe Quby::Answers::Entities::TableBackend::DiskTable do
 
   describe '#dimensions_from_directories' do
     it 'transforms directories into dimensions' do
-      table_dimension_class = Quby::Answers::Entities::TableBackend::TableDimension
+      table_dimension_class = Quby::TableBackend::TableDimension
       dir_children = fixture_root.join('test_table', 'age_11_infinity').children
       f_score_dimension = table_dimension_class.new('score_tscore',
                                                     {(10.0...12.0) => 33.0,
@@ -152,7 +152,7 @@ describe Quby::Answers::Entities::TableBackend::DiskTable do
 
     it 'returns an AcceptsAnythingRange if the range is empty' do
       expect(described_class.parse_range([])).to be_a(
-        Quby::Answers::Entities::TableBackend::TableDimension::AcceptsAnythingRange)
+        Quby::TableBackend::TableDimension::AcceptsAnythingRange)
     end
 
     it 'passes through string arrays' do
