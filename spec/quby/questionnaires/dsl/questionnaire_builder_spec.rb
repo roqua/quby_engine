@@ -42,6 +42,16 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.licensor).to eq('FOO')
     end
 
+    it 'can set language' do
+      dsl { language :en }
+      expect(questionnaire.language).to eq(:en)
+    end
+
+    it 'defaults to Dutch language' do
+      dsl { }
+      expect(questionnaire.language).to eq(:nl)
+    end
+
     it 'builds panels' do
       dsl { panel { title 'My Title' } }
       questionnaire.panels.first.title.should == 'My Title'
