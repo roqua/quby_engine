@@ -52,6 +52,12 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.language).to eq(:nl)
     end
 
+    it 'can set respondent_types' do
+      respondent_types = [:patient, :parent]
+      dsl { respondent_types respondent_types }
+      expect(questionnaire.respondent_types).to eq(respondent_types)
+    end
+
     it 'builds panels' do
       dsl { panel { title 'My Title' } }
       questionnaire.panels.first.title.should == 'My Title'

@@ -446,5 +446,24 @@ module Quby::Questionnaires::Services
         END
       end
     end
+
+    describe 'respondent_types' do
+      it 'is optional' do
+        make_definition(<<-END).valid?.should be_true
+        END
+      end
+
+      it 'accepts valid respondent_types' do
+        make_definition(<<-END).valid?.should be_true
+          respondent_types [:patient, :parent]
+        END
+      end
+
+      it 'does not accept invalid respondent_types' do
+        make_definition(<<-END).valid?.should be_false
+          respondent_types [:santa_claus]
+        END
+      end
+    end
   end
 end

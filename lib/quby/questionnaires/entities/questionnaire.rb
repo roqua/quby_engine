@@ -23,6 +23,8 @@ module Quby
                           :private,            # not a publicly available questionnaire
                           :deprecated]         # should no longer be used, hide from view
 
+        RESPONDENT_TYPES = %i( patient parent second_parent teacher caregiver )
+
         def initialize(key, last_update: Time.now)
           @key = key
           @last_update = Time.at(last_update.to_i)
@@ -36,6 +38,7 @@ module Quby
           @flags = {}.with_indifferent_access
           @textvars = {}.with_indifferent_access
           @language = :nl
+          @respondent_types = []
         end
 
         attr_accessor :key
@@ -55,6 +58,7 @@ module Quby
         attr_accessor :license
         attr_accessor :licensor
         attr_accessor :language
+        attr_accessor :respondent_types
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never

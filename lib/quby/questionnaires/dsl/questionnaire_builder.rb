@@ -63,6 +63,10 @@ module Quby
           @questionnaire.language = language
         end
 
+        def respondent_types(respondent_types)
+          @questionnaire.respondent_types = respondent_types
+        end
+
         def enable_previous_questionnaire_button
           @questionnaire.enable_previous_questionnaire_button = true
         end
