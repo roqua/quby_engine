@@ -328,6 +328,7 @@ DEPENDENCIES
   guard-rubocop (~> 1.0)
   guard-spork (~> 1.5)
   guard-teaspoon (~> 0.0)
+  i18n
   launchy
   poltergeist
   pry
@@ -343,4 +344,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

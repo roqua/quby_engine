@@ -8,8 +8,6 @@
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
--#= button_to_function 'Print', "window.print();", :class => "print_button"
-
 %h1=@questionnaire.title
 
 - previous_item = nil

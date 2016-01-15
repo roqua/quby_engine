@@ -35,28 +35,28 @@
             - class_name << ' current'     if item == current
             %span.progress-stop{ class: class_name }= i + 1
         .progress-details
-          = "Stap #{panel_counter + 1} van #{panels.length}"
+          = translate('step_i_of_n', i: panel_counter + 1, n: panels.length)
 
   .buttons
     - if panel_counter == 0 and @questionnaire.enable_previous_questionnaire_button
       .back
-        = submit_tag raw("&larr; Vorige vragenlijst"), :id => "back", :tabindex => "-1"
+        = submit_tag raw("&larr; #{t('previous_questionnaire')}"), :id => "back", :tabindex => "-1", name: 'previous_questionnaire'
     - else
       .prev
-        = submit_tag raw("&larr; Terug"), :id => "prevButton#{panel_counter}", :tabindex => "-1"
+        = submit_tag raw("&larr; #{t('previous')}"), :id => "prevButton#{panel_counter}", :tabindex => "-1", name: 'previous'
 
     .abort
       - if questionnaire.abortable
-        = submit_tag "Onderbreken", :id => "abortButton#{panel_counter}", :tabindex => "-1"
+        = submit_tag translate('abort'), :id => "abortButton#{panel_counter}", :tabindex => "-1", name: 'abort'
       - else
         &nbsp;
 
     - if panel_counter < panels.length - 1
       .next
-        = submit_tag raw("Verder &rarr;"), :id => "nextButton#{panel_counter}"
+        = submit_tag raw("#{t('next')} &rarr;"), :id => "nextButton#{panel_counter}", name: 'next'
     - else
       .save
-        = submit_tag "Klaar", :id => "done-button"
+        = submit_tag translate('done'), :id => "done-button", name: 'done'
 
     - if panel_counter == panels.length - 1
       .print

@@ -1,5 +1,13 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  step_i_of_n: "Step %{i} out of %{n}"
+  previous: Vorige
+  next: Next
+  abort: Save for later
+  previous_questionnaire: Previous questionnaire
+  done: Done
+  print_answers: Print answers
+  questionnaire_not_completed:
+    heading: "This questionnaire hasn't been filled out completely!"
+    explanation: "If you decide to store the questionnaire anyway, it could prevent us from calculating scale scores because we don't have all required answers. You may complete the questionnaire below."
+    save_anyway: Save anyway
+  thanks_for_filling_out: Thank you for filling out the questionnaire.
