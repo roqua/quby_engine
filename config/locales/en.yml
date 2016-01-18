@@ -1,5 +1,31 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  step_i_of_n: "Step %{i} of %{n}"
+  previous: Previous
+  next: Next
+  abort: Save for later
+  previous_questionnaire: Previous questionnaire
+  done: Done
+  print_answers: Print answers
+  questionnaire_not_completed:
+    heading: "This questionnaire hasn't been filled out completely!"
+    explanation: "If you decide to store the questionnaire anyway, it could prevent us from calculating scale scores because we don't have all required answers. You may complete the questionnaire below."
+    save_anyway: Save anyway
+  thanks_for_filling_out: Thank you for filling out the questionnaire.
+  validations:
+    maximum: "Enter a number of at most %{value}."
+    minimum: "Enter a number of at least %{value}."
+    requires_answer: "Please fill out this question."
+    regexp: "Please enter an answer in the format  %{matcher}."
+    valid_integer: "Enter a valid integer number"
+    valid_float: "Enter a number. Use a period (.) for decimals."
+    valid_date: "Enter a valid date."
+    too_many_checked: "You chose too many options"
+    not_all_checked: "You chose too few options"
+    maximum_checked_allowed:
+      one: "Choose up to %{maximum_checked_value} options."
+      other: "Choose up to %{maximum_checked_value} options."
+    minimum_checked_required:
+      one: "Choose at least %{minimum_checked_value} options."
+      other: "Choose at least %{minimum_checked_value} options."
+    answer_group_minimum: "Answer at least %{value} of these questions"
+    answer_group_maximum: "Answer up to %{value} of these questions"

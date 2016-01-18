@@ -78,6 +78,7 @@ panel do
   question :v_valid_integer, type: :integer
   question :v_invalid_float, type: :float
   question :v_valid_float, type: :float
+  question :v_valid_date, type: :date
   question :v_invalid_regexp, type: :string do
     validates_format_with /a/
   end
@@ -98,6 +99,17 @@ panel do
     option :v_not_too_many_checked_a0
     option :v_not_too_many_checked_a1
   end
+
+  question :v_over_maximum_checked_allowed, type: :check_box, maximum_checked_allowed: 1 do
+    option :v_over_maximum_checked_allowed_a0
+    option :v_over_maximum_checked_allowed_a1
+  end
+
+  question :v_under_minimum_checked_required, type: :check_box, minimum_checked_required: 3 do
+    option :v_under_minimum_checked_required_a0
+    option :v_under_minimum_checked_required_a1
+  end
+
   question :v_all_checked, type: :check_box, check_all_option: :v_all_checked_a0 do
     option :v_all_checked_a0
     option :v_all_checked_a1

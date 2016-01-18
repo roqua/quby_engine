@@ -35,6 +35,7 @@ module Quby
           @panels = []
           @flags = {}.with_indifferent_access
           @textvars = {}.with_indifferent_access
+          @language = :nl
         end
 
         attr_accessor :key
@@ -53,6 +54,7 @@ module Quby
         attr_accessor :extra_css
         attr_accessor :license
         attr_accessor :licensor
+        attr_accessor :language
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never

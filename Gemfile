@@ -11,6 +11,8 @@ gem 'bson_ext'
 # Optional dependency on RoQua Support gem.
 gem 'roqua-support'
 
+gem 'i18n'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

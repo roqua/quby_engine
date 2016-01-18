@@ -63,7 +63,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     visit_new_answer_for(questionnaire)
 
     fill_in 'answer_v1', with: 'INVALID'
-    click_on 'Onderbreken'
+    click_on 'Later afmaken'
     page.should have_content("Uw antwoorden zijn opgeslagen")
   end
 

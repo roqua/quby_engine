@@ -120,9 +120,9 @@ module Quby
     end
 
     def check_aborted
-      if (params[:commit] == "Onderbreken" && @questionnaire.abortable) ||
-        (params[:commit] == "Toch opslaan" && @display_mode == "bulk") ||
-        (params[:commit] == "← Vorige vragenlijst")
+      if (params[:abort] && @questionnaire.abortable) ||
+        (params[:save_anyway] && @display_mode == "bulk") ||
+        (params[:previous_questionnaire])
         params[:answer] ||= HashWithIndifferentAccess.new
         params[:answer][:aborted] = true
       else
@@ -202,11 +202,10 @@ module Quby
     end
 
     def form_action
-      case params[:commit]
-      when "Onderbreken"
-        "stop"
-      when "← Vorige vragenlijst"
-        "back"
+      if params[:abort]
+        'stop'
+      elsif params[:previous_questionnaire]
+        'back'
       else
         'next'
       end
@@ -240,5 +239,13 @@ module Quby
         end
       end
     end
+
+    # I18n.t based on the questionnaire's configuration.
+    # This is done instead of configuring I18n.locale to allow for example
+    # English questionnaires within a Dutch RoQua.
+    def translate(key, options = {})
+      I18n.t(key, options.merge(locale: @answer.questionnaire.language))
+    end
+    helper_method :translate
   end
 end
