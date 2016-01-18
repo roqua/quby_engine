@@ -1,6 +1,6 @@
 en:
   step_i_of_n: "Step %{i} out of %{n}"
-  previous: Vorige
+  previous: Previous
   next: Next
   abort: Save for later
   previous_questionnaire: Previous questionnaire
