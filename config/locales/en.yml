@@ -1,5 +1,5 @@
 en:
-  step_i_of_n: "Step %{i} out of %{n}"
+  step_i_of_n: "Step %{i} of %{n}"
   previous: Previous
   next: Next
   abort: Save for later
