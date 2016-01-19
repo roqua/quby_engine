@@ -67,6 +67,10 @@ module Quby
           @questionnaire.respondent_types = respondent_types
         end
 
+        def tags(tags)
+          @questionnaire.tags = tags
+        end
+
         def enable_previous_questionnaire_button
           @questionnaire.enable_previous_questionnaire_button = true
         end

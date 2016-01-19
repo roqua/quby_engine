@@ -58,6 +58,12 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.respondent_types).to eq(respondent_types)
     end
 
+    it 'can set tags based on a whitelist' do
+      dsl { tags [:diary] }
+      expect(questionnaire.tags.diary).to be_true
+      expect(questionnaire.tags.another_tag).to be_false
+    end
+
     it 'builds panels' do
       dsl { panel { title 'My Title' } }
       questionnaire.panels.first.title.should == 'My Title'

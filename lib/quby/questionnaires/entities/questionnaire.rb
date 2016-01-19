@@ -39,6 +39,7 @@ module Quby
           @textvars = {}.with_indifferent_access
           @language = :nl
           @respondent_types = []
+          @tags = OpenStruct.new
         end
 
         attr_accessor :key
@@ -59,6 +60,7 @@ module Quby
         attr_accessor :licensor
         attr_accessor :language
         attr_accessor :respondent_types
+        attr_reader :tags # tags= is manually defined below
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never
@@ -73,6 +75,12 @@ module Quby
         delegate :input_keys,        to: :fields
         delegate :answer_keys,       to: :fields
         delegate :expand_input_keys, to: :fields
+
+        def tags=(tags)
+          tags.each do |tag|
+            @tags.send("#{tag}=", true)
+          end
+        end
 
         def leave_page_alert
           return nil unless Settings.enable_leave_page_alert
@@ -336,6 +344,10 @@ module Quby
               end rescue nil
             end
           end
+        end
+
+        def diary?
+          @diary
         end
       end
     end
