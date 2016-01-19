@@ -78,7 +78,7 @@ module Quby
 
         def tags=(tags)
           tags.each do |tag|
-            @tags.send("#{tag}=", true)
+            @tags[tag] = true
           end
         end
 
