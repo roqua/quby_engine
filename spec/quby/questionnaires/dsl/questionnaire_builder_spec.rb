@@ -53,13 +53,12 @@ module Quby::Questionnaires::DSL
     end
 
     it 'can set respondent_types' do
-      respondent_types = [:patient, :parent]
-      dsl { respondent_types respondent_types }
-      expect(questionnaire.respondent_types).to eq(respondent_types)
+      dsl { respondent_types :patient, :parent }
+      expect(questionnaire.respondent_types).to eq([:patient, :parent])
     end
 
-    it 'can set tags based on a whitelist' do
-      dsl { tags [:diary] }
+    it 'can set tags' do
+      dsl { tags :diary }
       expect(questionnaire.tags.diary).to be_true
       expect(questionnaire.tags.another_tag).to be_false
     end

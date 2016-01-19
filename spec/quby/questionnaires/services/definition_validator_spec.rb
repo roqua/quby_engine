@@ -455,13 +455,13 @@ module Quby::Questionnaires::Services
 
       it 'accepts valid respondent_types' do
         make_definition(<<-END).valid?.should be_true
-          respondent_types [:patient, :parent]
+          respondent_types :patient, :parent
         END
       end
 
       it 'does not accept invalid respondent_types' do
         make_definition(<<-END).valid?.should be_false
-          respondent_types [:santa_claus]
+          respondent_types :santa_claus
         END
       end
     end

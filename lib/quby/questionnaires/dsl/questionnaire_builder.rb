@@ -63,11 +63,11 @@ module Quby
           @questionnaire.language = language
         end
 
-        def respondent_types(respondent_types)
+        def respondent_types(*respondent_types)
           @questionnaire.respondent_types = respondent_types
         end
 
-        def tags(tags)
+        def tags(*tags)
           @questionnaire.tags = tags
         end
 
