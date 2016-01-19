@@ -23,7 +23,7 @@ module Quby
                           :private,            # not a publicly available questionnaire
                           :deprecated]         # should no longer be used, hide from view
 
-        RESPONDENT_TYPES = %i( patient parent second_parent teacher caregiver )
+        RESPONDENT_TYPES = %i( profess patient parent second_parent teacher caregiver )
 
         def initialize(key, last_update: Time.now)
           @key = key
