@@ -3,6 +3,13 @@ module Quby::TableBackend
   class DiskTable
     require "pathname"
 
+    def initialize(key)
+      path = Pathname.new self.class.disk_table_root.join(key)
+      fail "path #{path} outside of jail" unless self.class.validate_jailed_path(path)
+
+      @root_dimensions = dimensions_from_children(path)
+    end
+
     def self.disk_table_root
       fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
       Quby.lookup_table_path
@@ -47,13 +54,6 @@ module Quby::TableBackend
       when 'infinity' then Float::INFINITY
       else float
       end
-    end
-
-    def initialize(key)
-      path = Pathname.new self.class.disk_table_root.join(key)
-      fail "path #{path} outside of jail" unless self.class.validate_jailed_path(path)
-
-      @root_dimensions = dimensions_from_children(path)
     end
 
     def lookup(parameters)
