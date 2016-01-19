@@ -5,6 +5,11 @@ module Quby::TableBackend
 
 # Going down the tree a level is like evaluating dimensions AND-wise,
 # going side to side on a level is evaluating dimensions OR-wise
+
+# ranges is assumed to be a hash of right side open ended numberranges pointing to either an array of TableDimensions or
+# anything else, which is seen as a result, for example:
+# leaf = TableDimension.new 'age2score', {(0...3) => 16, (3...22) => 20} # a leaf TableDimension
+# TableDimension 'gender', {('m' => [leaf])} # non-leaf TableDimension specifying we only have results for gender 'm'
   class TableDimension < Struct.new(:name, :ranges)
     class AcceptsAnythingRange
       include Singleton

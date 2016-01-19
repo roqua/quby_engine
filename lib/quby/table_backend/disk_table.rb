@@ -90,7 +90,7 @@ module Quby::TableBackend
 
     def dimension_from_directories(dimension_key, pathnames)
       ranges = pathnames.map do |pathname|
-        range_key = self.class.parse_range pathname.expand_path.basename.to_s.split('_')[1..-1]
+        range_key = self.class.parse_range pathname.basename.to_s.split('_')[1..-1]
         range_value = dimensions_from_children(pathname)
 
         [range_key, range_value]
