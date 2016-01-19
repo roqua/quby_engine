@@ -95,8 +95,6 @@ module Quby
         end
 
         def validate_respondent_types(questionnaire)
-          return if questionnaire.respondent_types.blank?
-
           valid_respondent_types = Entities::Questionnaire::RESPONDENT_TYPES
           invalid_types = questionnaire.respondent_types.reject do |respondent_type|
             valid_respondent_types.include? respondent_type
