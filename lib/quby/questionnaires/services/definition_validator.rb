@@ -96,9 +96,8 @@ module Quby
 
         def validate_respondent_types(questionnaire)
           valid_respondent_types = Entities::Questionnaire::RESPONDENT_TYPES
-          invalid_types = questionnaire.respondent_types.reject do |respondent_type|
-            valid_respondent_types.include? respondent_type
-          end
+
+          invalid_types = questionnaire.respondent_types - valid_respondent_types
 
           if invalid_types.any?
             fail "Invalid respondent types: :#{invalid_types.join(', :')}\n"\
