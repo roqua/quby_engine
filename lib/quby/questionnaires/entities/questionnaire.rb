@@ -345,10 +345,6 @@ module Quby
             end
           end
         end
-
-        def diary?
-          @diary
-        end
       end
     end
   end
