@@ -99,7 +99,7 @@ module Quby
 
           invalid_types = questionnaire.respondent_types - valid_respondent_types
 
-          if invalid_types.any?
+          if invalid_types.present?
             fail "Invalid respondent types: :#{invalid_types.join(', :')}\n"\
                  "Choose one or more from: :#{valid_respondent_types.join(', :')}"
           end
