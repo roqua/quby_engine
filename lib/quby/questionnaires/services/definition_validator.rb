@@ -17,6 +17,7 @@ module Quby
           validate_scores(questionnaire)
           validate_table_edgecases(questionnaire)
           validate_flags(questionnaire)
+          validate_respondent_types(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
@@ -90,6 +91,17 @@ module Quby
             if unknown_hides_questions.present?
               fail(ArgumentError, "Flag '#{key}' has unknown hides_questions keys #{unknown_hides_questions}")
             end
+          end
+        end
+
+        def validate_respondent_types(questionnaire)
+          valid_respondent_types = Entities::Questionnaire::RESPONDENT_TYPES
+
+          invalid_types = questionnaire.respondent_types - valid_respondent_types
+
+          if invalid_types.present?
+            fail "Invalid respondent types: :#{invalid_types.join(', :')}\n"\
+                 "Choose one or more from: :#{valid_respondent_types.join(', :')}"
           end
         end
 

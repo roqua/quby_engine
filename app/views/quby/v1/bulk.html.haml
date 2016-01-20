@@ -12,9 +12,9 @@
   = render :partial => "quby/v1/session_params"
   - unless @answer.errors.empty?
     .force-submit.noprint
-      %h1 Deze vragenlijst is nog niet volledig ingevuld!
-      %p Als u de vragenlijst toch opslaat, kan het zijn dat er geen schaalscores berekend worden omdat hiervoor onvoldoende informatie voorhanden is. U kunt uw antwoorden hieronder alsnog aanvullen. Vragen die nog niet volledig zijn beantwoord, worden rood gemarkeerd.
-      = submit_tag "Toch opslaan"
+      %h1= translate('questionnaire_not_completed.heading')
+      %p= translate('questionnaire_not_completed.explanation')
+      = submit_tag translate('questionnaire_not_completed.save_anyway'), name: 'save_anyway'
 
   = render :partial => "quby/v1/hotkey_dialog"
   - all_items = @questionnaire.panels.map(&:items).flatten
@@ -37,14 +37,14 @@
   .buttons
     - if @questionnaire.enable_previous_questionnaire_button
       .back
-        = submit_tag raw("&larr; Vorige vragenlijst"), :id => "back"
+        = submit_tag raw("&larr; #{translate('previous_questionnaire')}"), id: 'back', name: 'previous_questionnaire'
     .prev &nbsp;
     .save
-      = submit_tag "Klaar", :id => "done-button"
+      = submit_tag translate('done'), id: 'done-button', name: 'done'
     .print
       %a.print_button{:onclick => raw("doDivPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
         = image_tag "quby/print.gif"
-        Print Antwoorden
+        = translate('print_answers')
 
 = render :partial => "quby/v1/shared/footer_javascript", locals: {answer: @answer}
 = render :partial => "quby/v1/modal_iframe"

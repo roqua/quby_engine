@@ -84,7 +84,7 @@ module Quby
               answer: {v_1: nil},
               return_url: return_url,
               return_token: return_token,
-              commit: "Onderbreken"
+              abort: true
 
           response.should redirect_to(expected_return_url(go: 'stop'))
         end
@@ -94,7 +94,7 @@ module Quby
               answer: {v_1: nil},
               return_url: return_url,
               return_token: return_token,
-              commit: "← Vorige vragenlijst"
+              previous_questionnaire: true
 
           response.should redirect_to(expected_return_url(go: 'back'))
         end

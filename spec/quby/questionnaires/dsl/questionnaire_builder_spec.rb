@@ -42,6 +42,27 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.licensor).to eq('FOO')
     end
 
+    it 'can set language' do
+      dsl { language :en }
+      expect(questionnaire.language).to eq(:en)
+    end
+
+    it 'defaults to Dutch language' do
+      dsl { }
+      expect(questionnaire.language).to eq(:nl)
+    end
+
+    it 'can set respondent_types' do
+      dsl { respondent_types :patient, :parent }
+      expect(questionnaire.respondent_types).to eq([:patient, :parent])
+    end
+
+    it 'can set tags' do
+      dsl { tags :diary }
+      expect(questionnaire.tags.diary).to be_true
+      expect(questionnaire.tags.another_tag).to be_false
+    end
+
     it 'builds panels' do
       dsl { panel { title 'My Title' } }
       questionnaire.panels.first.title.should == 'My Title'
