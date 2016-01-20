@@ -9,6 +9,7 @@ require 'compass-rails'
 require 'jquery-rails'
 require 'susy'
 require 'andand'
+require 'quby/lookup_table'
 
 module Quby
   class Engine < Rails::Engine

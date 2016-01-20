@@ -315,6 +315,32 @@ module Quby::Answers::Services
       end
     end
 
+    describe '#table_lookup' do
+      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp, {}) }
+
+      before do
+        allow(Quby::LookupTable.backend_class).to receive(:new).and_return(double.as_null_object)
+      end
+
+      it 'instantiates a new Quby::Answers::Entities::LookupTable if the table_hash cache does not know the key' do
+        expect(calculator.send :table_hash).to be_empty
+        calculator.table_lookup :test_table, score: 1
+        expect(calculator.send(:table_hash)[:test_table]).to be_a(Quby::LookupTable)
+      end
+
+      it 'uses the already instantiated lookuptable if there is a cache hit' do
+        calculator.table_lookup :test_table, score: 1
+        expect(calculator.send(:table_hash)[:test_table]).to receive(:lookup)
+        calculator.table_lookup :test_table, score: 1
+      end
+
+      it 'looks up the given parameters on the given table' do
+        parameters = {score: 1}
+        expect_any_instance_of(Quby::LookupTable).to receive(:lookup).with parameters
+        calculator.table_lookup :test_table, parameters
+      end
+    end
+
     describe 'when dealing with nil values' do
       it 'can be ignored, raising an error' do
         score = ScoreCalculation.new :som, label: "Somscore" do
