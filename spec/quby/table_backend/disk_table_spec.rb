@@ -160,4 +160,10 @@ describe Quby::TableBackend::DiskTable do
       expect(described_class.parse_range(input)).to eq(input)
     end
   end
+
+  describe 'Quby.lookup_table_path' do
+    it 'allows assigning new paths' do
+      expect { Quby.lookup_table_path = Rails.root }.to_not raise_exception
+    end
+  end
 end
