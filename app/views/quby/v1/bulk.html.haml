@@ -37,10 +37,10 @@
   .buttons
     - if @questionnaire.enable_previous_questionnaire_button
       .back
-        = submit_tag raw("&larr; #{t('previous_questionnaire')}"), :id => "back", name: 'previous_questionnaire'
+        = submit_tag raw("&larr; #{t('previous_questionnaire')}"), id: 'back', name: 'previous_questionnaire'
     .prev &nbsp;
     .save
-      = submit_tag translate('done'), :id => "done-button", name: 'done'
+      = submit_tag translate('done'), id: 'done-button', name: 'done'
     .print
       %a.print_button{:onclick => raw("doDivPrint('#{print_questionnaire_answer_path(@questionnaire, @answer)}'); return false;")}
         = image_tag "quby/print.gif"
