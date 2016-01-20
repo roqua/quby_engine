@@ -80,7 +80,7 @@ module Quby::TableBackend
 
     def dimensions_from_directories(directory_names)
       dimensions = directory_names.group_by do |child|
-        child.expand_path.basename.to_s.split('_').first
+        child.basename.to_s.split('_').first
       end
 
       dimensions.map do |dimension_key, dimension_pathnames|
