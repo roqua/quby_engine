@@ -4,6 +4,7 @@ vendor/bundle/
 .sass-cache
 doc/*.log
 doc/**/*.log
+local
 log/*
 pkg/
 .idea
