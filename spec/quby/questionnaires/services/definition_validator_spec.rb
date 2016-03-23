@@ -59,7 +59,7 @@ module Quby::Questionnaires::Services
             title "Testvraag"
           end
         END
-        expect(definition.valid?).to be_true
+        expect(definition.valid?).to be_truthy
       end
     end
 
@@ -101,7 +101,7 @@ module Quby::Questionnaires::Services
             title 'Testvraag'
           end
         END
-        expect(definition.valid?).to be_true
+        expect(definition.valid?).to be_truthy
       end
     end
 
@@ -126,7 +126,7 @@ module Quby::Questionnaires::Services
           question :v_1, type: :string default_invisible: true
         END
         valid_definition.valid?
-        expect(valid_definition.errors[:sourcecode].first[:message]).to be_true
+        expect(valid_definition.errors[:sourcecode].first[:message]).to be_truthy
       end
     end
 
@@ -144,8 +144,8 @@ module Quby::Questionnaires::Services
             option :a1, description: 'some_description'
           end
         END
-        long_key.valid?.should be_false
-        valid_key.valid?.should be_true
+        expect(long_key.valid?).to be_falsey
+        expect(valid_key.valid?).to be_truthy
       end
 
       it "validates that question key starts with a `v_`" do
@@ -161,8 +161,8 @@ module Quby::Questionnaires::Services
             option :a1, description: 'some_description'
           end
         END
-        invalid_key.valid?.should be_false
-        valid_key.valid?.should be_true
+        expect(invalid_key.valid?).to be_falsey
+        expect(valid_key.valid?).to be_truthy
       end
 
       it "validates check_box question options start with `v_`" do
@@ -180,8 +180,8 @@ module Quby::Questionnaires::Services
             option :v_q2, description: 'more_description'
           end
         END
-        invalid_keys.valid?.should be_false
-        valid_keys.valid?.should be_true
+        expect(invalid_keys.valid?).to be_falsey
+        expect(valid_keys.valid?).to be_truthy
       end
 
       it "validates check_box question options length" do
@@ -197,8 +197,8 @@ module Quby::Questionnaires::Services
             option :v_q1, description: 'some_description'
           end
         END
-        invalid_keys.valid?.should be_false
-        valid_keys.valid?.should be_true
+        expect(invalid_keys.valid?).to be_falsey
+        expect(valid_keys.valid?).to be_truthy
       end
 
       it "validates question date keys" do
@@ -212,8 +212,8 @@ module Quby::Questionnaires::Services
             title "Testvraag met een datum"
           end
         END
-        invalid_keys.valid?.should be_false
-        valid_keys.valid?.should be_true
+        expect(invalid_keys.valid?).to be_falsey
+        expect(valid_keys.valid?).to be_truthy
       end
     end
 
@@ -239,8 +239,8 @@ module Quby::Questionnaires::Services
           end
         END
 
-        select_type_with_subquestions.valid?.should be_false
-        select_type_without_subquestions.valid?.should be_true
+        expect(select_type_with_subquestions.valid?).to be_falsey
+        expect(select_type_without_subquestions.valid?).to be_truthy
       end
     end
 
@@ -384,7 +384,7 @@ module Quby::Questionnaires::Services
 
     describe 'subquestions inside a table' do
       it 'accepts title_questions' do
-        make_definition(<<-END).valid?.should be_true
+        definition = make_definition(<<-END)
           panel do
             table do
               question :v_1, type: :radio do
@@ -396,10 +396,11 @@ module Quby::Questionnaires::Services
             end
           end
         END
+        expect(definition).to be_valid
       end
 
       it 'does not accept subquestions in questions inside a table' do
-        make_definition(<<-END).valid?.should be_false
+        definition = make_definition(<<-END)
           panel do
             table do
               question :v_1, type: :radio do
@@ -412,57 +413,65 @@ module Quby::Questionnaires::Services
             end
           end
         END
+        expect(definition).not_to be_valid
       end
     end
 
     describe 'flags' do
       it 'does not accept shows_questions arrays with unknown keys' do
-        make_definition(<<-END).valid?.should be_false
+        definition = make_definition(<<-END)
           flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
         END
+        expect(definition).not_to be_valid
       end
 
       it 'does not accept hides_questions arrays with unknown keys' do
-        make_definition(<<-END).valid?.should be_false
+        definition = make_definition(<<-END)
           flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
         END
+        expect(definition).not_to be_valid
       end
 
       it 'accepts shows_questions arrays with known keys' do
-        make_definition(<<-END).valid?.should be_true
+        definition = make_definition(<<-END)
           flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
           question :v_22, type: :string do
             title 'Question'
           end
         END
+        expect(definition).to be_valid
       end
 
       it 'accepts hides_questions arrays with known keys' do
-        make_definition(<<-END).valid?.should be_true
+        definition = make_definition(<<-END)
           flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
           question :v_22, type: :string do
             title 'Question'
           end
         END
+        expect(definition).to be_valid
       end
     end
 
     describe 'respondent_types' do
       it 'is optional' do
-        make_definition(<<-END).valid?.should be_true
+        definition = make_definition(<<-END)
         END
+        expect(definition).to be_valid
       end
 
       it 'accepts valid respondent_types' do
-        make_definition(<<-END).valid?.should be_true
+        definition = make_definition(<<-END)
           respondent_types :patient, :parent
         END
+        expect(definition).to be_valid
       end
 
       it 'does not accept invalid respondent_types' do
-        make_definition(<<-END).valid?.should be_false
+        definition = make_definition(<<-END)
           respondent_types :santa_claus
         END
+        expect(definition).not_to be_valid
       end
     end
   end

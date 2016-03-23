@@ -25,11 +25,11 @@ platforms :ruby, :jruby do
 end
 
 group :test, :development do
-  gem 'guard-rspec',    '~> 4.2'
-  gem 'guard-teaspoon', '~> 0.0'
-  gem 'guard-spork',    '~> 1.5'
-  gem 'guard-rubocop',  '~> 1.0'
-  gem 'flamegraph',     '~> 0.0'
-  gem 'rspec-prof',     '~> 0.0'
+  gem 'guard-rspec',    '~> 4.4'
+  gem 'guard-teaspoon', '~> 0.8'
+  gem 'guard-spork',    '~> 2.1'
+  gem 'guard-rubocop',  '~> 1.2'
+  gem 'flamegraph',     '~> 0.1.0'
+  gem 'rspec-prof',     '~> 0.0.5'
   gem 'byebug'
 end

@@ -19,6 +19,7 @@ Combustion.path = 'spec/internal'
 Combustion.initialize! :action_controller, :action_view, :sprockets
 
 require 'rspec/rails'
+require 'rspec/its'
 require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'
@@ -55,3 +56,6 @@ RSpec.configure do |config|
     Quby.answer_repo = Quby::Answers::Repos::MemoryRepo.new
   end
 end
+
+# Ignore fails with no Exception type
+RSpec::Expectations.configuration.warn_about_potential_false_positives = false

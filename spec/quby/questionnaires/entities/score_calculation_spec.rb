@@ -16,15 +16,15 @@ module Quby::Questionnaires::Entities
 
     context 'when having a score option set to true' do
       subject { ScoreCalculation.new(:tot, {score: true}, &calculation) }
-      its(:score) { should be_true }
+      its(:score) { should be_truthy }
     end
     context 'when having an action option set to true' do
       subject { ScoreCalculation.new(:tot, {action: true}, &calculation) }
-      its(:action) { should be_true }
+      its(:action) { should be_truthy }
     end
     context 'when having a completion option set to true' do
       subject { ScoreCalculation.new(:tot, {completion: true}, &calculation) }
-      its(:completion) { should be_true }
+      its(:completion) { should be_truthy }
     end
   end
 end

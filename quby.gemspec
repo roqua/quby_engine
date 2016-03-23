@@ -41,11 +41,12 @@ Gem::Specification.new do |s|
 
   s.add_dependency "jquery-rails", "~> 2.2.1"
 
-  s.add_development_dependency 'combustion',       '~> 0.5.1'
-  s.add_development_dependency 'rspec-rails',      '~> 2.14.0'
+  s.add_development_dependency 'combustion',       '~> 0.5.4'
+  s.add_development_dependency 'rspec-rails',      '~> 3.4'
+  s.add_development_dependency 'rspec-its',        '~> 1.2.0'
   s.add_development_dependency 'capybara'
-  s.add_development_dependency 'teaspoon',         '~> 0.7.9'
-  s.add_development_dependency 'rubocop',          '~> 0.19.0'
+  s.add_development_dependency 'teaspoon',         '~> 0.8.0'
+  s.add_development_dependency 'rubocop',          '~> 0.20'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'fuubar'

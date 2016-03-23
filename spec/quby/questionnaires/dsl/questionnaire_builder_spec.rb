@@ -7,28 +7,28 @@ module Quby::Questionnaires::DSL
 
     it 'sets title' do
       dsl { title 'Foo' }
-      questionnaire.title.should == 'Foo'
+      expect(questionnaire.title).to eq 'Foo'
     end
 
     it 'sets description' do
       dsl { description 'This is a questionnaire description' }
-      questionnaire.description.should == 'This is a questionnaire description'
+      expect(questionnaire.description).to eq 'This is a questionnaire description'
     end
 
     it 'sets outcome_description' do
       dsl { outcome_description 'Outcome description' }
-      questionnaire.outcome_description.should == 'Outcome description'
+      expect(questionnaire.outcome_description).to eq 'Outcome description'
     end
 
     it 'can be abortable' do
-      questionnaire.abortable.should be_false
+      expect(questionnaire.abortable).to be_falsey
       dsl { abortable }
-      questionnaire.abortable.should be_true
+      expect(questionnaire.abortable).to be_truthy
     end
 
     it 'can allow hotkeys' do
       dsl { allow_hotkeys }
-      questionnaire.allow_hotkeys.should == "all"
+      expect(questionnaire.allow_hotkeys).to eq "all"
     end
 
     it 'can set license' do
@@ -59,28 +59,28 @@ module Quby::Questionnaires::DSL
 
     it 'can set tags' do
       dsl { tags :diary }
-      expect(questionnaire.tags.diary).to be_true
-      expect(questionnaire.tags.another_tag).to be_false
+      expect(questionnaire.tags.diary).to be_truthy
+      expect(questionnaire.tags.another_tag).to be_falsey
     end
 
     it 'builds panels' do
       dsl { panel { title 'My Title' } }
-      questionnaire.panels.first.title.should == 'My Title'
+      expect(questionnaire.panels.first.title).to eq 'My Title'
     end
 
     it 'builds line charts' do
       dsl { line_chart(:tot) { title 'My Title'; range 0..40 } }
-      questionnaire.charts.find(:tot).title.should == 'My Title'
+      expect(questionnaire.charts.find(:tot).title).to eq 'My Title'
     end
 
     it 'builds bar charts' do
       dsl { bar_chart(:tot) { title 'My Title' } }
-      questionnaire.charts.find(:tot).title.should == 'My Title'
+      expect(questionnaire.charts.find(:tot).title).to eq 'My Title'
     end
 
     it 'builds radar charts' do
       dsl { radar_chart(:tot) { title 'My Title' } }
-      questionnaire.charts.find(:tot).title.should == 'My Title'
+      expect(questionnaire.charts.find(:tot).title).to eq 'My Title'
     end
 
     it 'checks for duplicate question keys' do
@@ -89,7 +89,7 @@ module Quby::Questionnaires::DSL
           question :v_1, type: :string
           question :v_1, type: :string
         end
-      end.to raise_exception
+      end.to raise_exception RuntimeError
     end
 
     it 'checks for subquestion clashing with parent question' do
@@ -218,12 +218,12 @@ module Quby::Questionnaires::DSL
           option :v_1b
         end
       end
-      questionnaire.question_hash[:v_2].parent_option_key.should == :v_1a
+      expect(questionnaire.question_hash[:v_2].parent_option_key).to eq :v_1a
     end
 
     describe 'flag' do
       before do
-        Quby::Questionnaires::Entities::Questionnaire.any_instance.stub(:add_flag)
+        allow_any_instance_of(Quby::Questionnaires::Entities::Questionnaire).to receive(:add_flag)
       end
 
       it 'defines flags' do

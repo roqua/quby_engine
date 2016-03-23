@@ -15,3 +15,9 @@ appraise "rails41" do
   gem 'sass-rails', '~> 4.0.0'
   gem 'compass-rails', '1.1.7'
 end
+
+appraise "rails42" do
+  gem 'rails', '~> 4.2.6'
+  gem 'sass-rails', '~> 5.0.4'
+  gem 'compass-rails', '~> 3.0.2'
+end

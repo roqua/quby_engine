@@ -7,15 +7,15 @@ module Quby::Questionnaires::DSL
     let(:questionnaire) { double(key: 'questionnaire_key') }
 
     it 'sets y-axis label' do
-      dsl { y_axis_label 'Label' }.y_label.should == 'Label'
+      expect(dsl { y_axis_label 'Label' }.y_label).to eq 'Label'
     end
 
     it 'sets y-axis range' do
-      dsl { range 0..40 }.y_range.should == (0..40)
+      expect(dsl { range 0..40 }.y_range).to eq (0..40)
     end
 
     it 'sets y-axis tick interval' do
-      dsl { tick_interval 1 }.tick_interval.should == 1
+      expect(dsl { tick_interval 1 }.tick_interval).to eq 1
     end
 
     it 'raises when y-axis range is not specified' do
@@ -23,15 +23,15 @@ module Quby::Questionnaires::DSL
     end
 
     it 'sets tonality' do
-      dsl { tonality :higher_is_better }.tonality.should == :higher_is_better
+      expect(dsl { tonality :higher_is_better }.tonality).to eq :higher_is_better
     end
 
     it 'sets baseline to constant value' do
-      dsl { baseline 5 }.baseline.call(1, :male).should == 5.0
+      expect(dsl { baseline 5 }.baseline.call(1, :male)).to eq 5.0
     end
 
     it 'sets baseline to proc' do
-      dsl { baseline { |age, gender| age } }.baseline.call(5, :male).should eq(5.0)
+      expect(dsl { baseline { |age, gender| age } }.baseline.call(5, :male)).to eq(5.0)
       expect { dsl { baseline { |age| age } } }.to raise_error(ArgumentError, /must take two arguments/)
     end
 
@@ -41,11 +41,11 @@ module Quby::Questionnaires::DSL
     end
 
     it 'sets clinically relevant change' do
-      dsl { clinically_relevant_change 5 }.clinically_relevant_change.should == 5.0
+      expect(dsl { clinically_relevant_change 5 }.clinically_relevant_change).to eq 5.0
     end
 
     it 'makes a line chart' do
-      dsl { }.should be_an_instance_of(::Quby::Questionnaires::Entities::Charting::LineChart)
+      expect(dsl { }).to be_an_instance_of(::Quby::Questionnaires::Entities::Charting::LineChart)
     end
 
     def dsl(key = :test, options = {y_range: (0..20)}, &block)

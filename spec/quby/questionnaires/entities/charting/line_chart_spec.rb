@@ -13,7 +13,7 @@ module Quby::Questionnaires::Entities
       end
 
       it 'has a type' do
-        LineChart.new(:tot).type.should == 'line_chart'
+        expect(LineChart.new(:tot).type).to eq 'line_chart'
       end
     end
   end

@@ -14,13 +14,13 @@ module Quby::Questionnaires::Entities
     describe "#to_s" do
       it "should return the string the Text was initialized with" do
         text = Quby::Questionnaires::Entities::Text.new(@some_string)
-        text.to_s.should == @markdown_result
+        expect(text.to_s).to eq(@markdown_result)
       end
     end
 
     it "should be valid for any hash" do
       text = Quby::Questionnaires::Entities::Text.new(@some_string)
-      text.validate_answer({}).should be_true
+      expect(text.validate_answer({})).to be_truthy
     end
   end
 end

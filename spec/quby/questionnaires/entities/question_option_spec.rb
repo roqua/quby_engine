@@ -27,13 +27,13 @@ module Quby::Questionnaires::Entities
 
     describe "#hides_questions" do
       it "returns an array with the keys of the questions that are hidden when this option is picked" do
-        questionnaire.question_hash[:one].options.first.hides_questions.should == [:two]
+        expect(questionnaire.question_hash[:one].options.first.hides_questions).to eq [:two]
       end
     end
 
     describe "#shows_questions" do
       it "returns an array with the keys of the questions that are shown when this option is picked" do
-        questionnaire.question_hash[:one].options.last.shows_questions.should == [:five]
+        expect(questionnaire.question_hash[:one].options.last.shows_questions).to eq [:five]
       end
     end
 

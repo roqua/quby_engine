@@ -4,7 +4,7 @@ if defined?(RSpec)
       it 'finds all questionnaires' do
         repo.create!("test1", "title 'foo'")
         repo.create!("test2", "title 'bar'")
-        repo.all.map(&:key).should eq %w(test1 test2)
+        expect(repo.all.map(&:key)).to eq %w(test1 test2)
       end
     end
 
@@ -12,7 +12,7 @@ if defined?(RSpec)
       it 'returns the questionnaire keys' do
         repo.create!("test1", "title 'foo'")
         repo.create!("test2", "title 'bar'")
-        repo.keys.should eq %w(test1 test2)
+        expect(repo.keys).to eq %w(test1 test2)
       end
     end
 
@@ -21,8 +21,8 @@ if defined?(RSpec)
         repo.create!('test', 'title "Foo"')
 
         retrieved = repo.find('test')
-        retrieved.key.should eq('test')
-        retrieved.sourcecode.should eq 'title "Foo"'
+        expect(retrieved.key).to eq('test')
+        expect(retrieved.sourcecode).to eq 'title "Foo"'
       end
 
       it 'raises when record is not found' do
@@ -35,11 +35,11 @@ if defined?(RSpec)
     describe '#exists?' do
       it 'returns true if questionnaire was added' do
         repo.create!("test", "")
-        repo.exists?("test").should be_true
+        expect(repo.exists?("test")).to be_truthy
       end
 
       it 'returns false if questionnaire was not added' do
-        repo.exists?("unknown").should be_false
+        expect(repo.exists?("unknown")).to be_falsey
       end
     end
 
@@ -48,8 +48,8 @@ if defined?(RSpec)
         repo.create!('test', 'title "Foo"')
 
         retrieved = repo.find('test')
-        retrieved.key.should eq('test')
-        retrieved.sourcecode.should eq 'title "Foo"'
+        expect(retrieved.key).to eq('test')
+        expect(retrieved.sourcecode).to eq 'title "Foo"'
       end
 
       it 'raises when key is already used' do
