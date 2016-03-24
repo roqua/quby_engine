@@ -304,7 +304,7 @@ module Quby
           output = []
           question_key = codebook_key(key, questionnaire, opts)
           output << "#{question_key} #{codebook_output_type} #{codebook_output_range}#{' deprecated' if hidden}"
-          output << "\"#{context_free_title}\"" unless title.blank?
+          output << "\"#{context_free_title}\"" unless context_free_title.blank?
           options_string = options.map do |option|
             option.to_codebook(questionnaire, opts)
           end.compact.join("\n")
