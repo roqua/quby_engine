@@ -16,7 +16,7 @@ feature 'Analytics' do
       Timecop.freeze(time_completed) do
         choose "answer_v_1_a1"
         click_on "Klaar"
-        page.should have_content("Uw antwoorden zijn opgeslagen")
+        expect(page).to have_content("Uw antwoorden zijn opgeslagen")
       end
 
       expect(Quby.answers.reload(answer).started_at).to   eq(time_opened)

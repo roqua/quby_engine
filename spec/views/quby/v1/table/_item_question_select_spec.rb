@@ -1,6 +1,6 @@
 require 'spec_helper'
 module Quby
-  describe "quby/v1/table/item_question_select" do
+  describe "quby/v1/table/item_question_select", type: :view do
     let(:question) do
       double(key: :v_1,
              description: "",

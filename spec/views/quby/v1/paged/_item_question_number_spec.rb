@@ -1,6 +1,6 @@
 require 'spec_helper'
 module Quby
-  describe "quby/v1/paged/_item_question_number" do
+  describe "quby/v1/paged/_item_question_number", type: :view do
     let(:question_options) do {type: :integer,
                                title: "Titel!",
                                description: "",
@@ -13,7 +13,7 @@ module Quby
       Questionnaires::Entities::Questions::IntegerQuestion.new :q1, question_options
     end
 
-    before { view.stub(marukufix: "HOI") }
+    before { allow(view).to receive(:marukufix).and_return("HOI") }
 
     subject(:render_partial) do
       render partial: "quby/v1/paged/item_question_number",
@@ -21,48 +21,48 @@ module Quby
     end
 
     it 'renders a left and right label if both provided' do
-      question.stub(labels: ["mijn left label", "mijn right label"])
+      allow(question).to receive(:labels).and_return(["mijn left label", "mijn right label"])
       render_partial
-      rendered.should include("mijn left label")
-      rendered.should include("mijn right label")
+      expect(rendered).to include("mijn left label")
+      expect(rendered).to include("mijn right label")
     end
 
     it 'sets the right min and max attributes' do
       render_partial
-      rendered.should include('min="1"')
-      rendered.should include('max="20"')
+      expect(rendered).to include('min="1"')
+      expect(rendered).to include('max="20"')
     end
 
     it 'sets a floating step size for float questions' do
-      question.stub(type: :float)
+      allow(question).to receive(:type).and_return(:float)
       render_partial
-      rendered.should include("step=\"0.01\"")
+      expect(rendered).to include("step=\"0.01\"")
     end
 
     it 'sets data: {show_values: true} when show_values in [:paged, :all, true]' do
-      question.stub(show_values: :paged)
+      allow(question).to receive(:show_values).and_return(:paged)
       render_partial
-      rendered.should include(%q~data-show-values="true"~)
+      expect(rendered).to include(%q~data-show-values="true"~)
 
-      question.stub(show_values: :true)
+      allow(question).to receive(:show_values).and_return(true)
       render_partial
-      rendered.should include(%q~data-show-values="true"~)
+      expect(rendered).to include(%q~data-show-values="true"~)
 
-      question.stub(show_values: :all)
+      allow(question).to receive(:show_values).and_return(:all)
       render_partial
-      rendered.should include(%q~data-show-values="true"~)
+      expect(rendered).to include(%q~data-show-values="true"~)
     end
 
     it 'should not set data: {show_values: true} when show_values in [:none]' do
-      question.stub(show_values: :none)
+      allow(question).to receive(:show_values).and_return(:none)
       render_partial
-      rendered.should_not include(%q~data-show-values="true"~)
+      expect(rendered).to_not include(%q~data-show-values="true"~)
     end
 
     it 'should pass on any input-data to the inputs data attributes' do
-      question.stub(input_data: {foo: 'bar'})
+      allow(question).to receive(:input_data).and_return({foo: 'bar'})
       render_partial
-      rendered.should include(%q~data-foo="bar"~)
+      expect(rendered).to include(%q~data-foo="bar"~)
     end
 
     it 'sets default position of the slider' do

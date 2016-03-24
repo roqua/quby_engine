@@ -2,17 +2,20 @@
 require 'spec_helper'
 
 module Quby
-  describe AnswersController do
-    include EngineControllerTesting
+  describe AnswersController, type: :controller do
+    # include EngineControllerTesting
+
+    routes { Quby::Engine.routes }
 
     let(:answer)        { double("Answer", id: '1', token: 'answer_token') }
     let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: [], questions: []) }
 
     before do
-      Quby.questionnaires.stub(find: questionnaire)
-      Quby.answers.stub(:find).with('honos', '1').and_return(answer)
-      Quby::Settings.stub(authorize_with_id_from_session: false)
-      Quby::Settings.stub(shared_secret: "something_long_and_random")
+      allow(Quby.questionnaires).to receive(:find).and_return(questionnaire)
+      allow(Quby.answers).to receive(:find).with('honos', '1').and_return(answer)
+
+      allow(Quby::Settings).to receive(:authorize_with_id_from_session).and_return(false)
+      allow(Quby::Settings).to receive(:shared_secret).and_return("something_long_and_random")
     end
 
     describe 'HMAC check on show' do
@@ -29,7 +32,7 @@ module Quby
       end
 
       it 'allows correct hmacs from previous secret' do
-        Quby::Settings.stub(previous_shared_secret: 'old_secret')
+        allow(Quby::Settings).to receive(:previous_shared_secret).and_return('old_secret')
         get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac('old_secret'),
                    timestamp: timestamp
         expect(response).to render_template('v1/paged')
@@ -48,14 +51,14 @@ module Quby
       end
 
       it 'raises when wrong hmac is given when previous secret is configured' do
-        Quby::Settings.stub(previous_shared_secret: 'old_secret')
+        allow(Quby::Settings).to receive(:previous_shared_secret).and_return('old_secret')
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp, hmac: 'wrong'
         end.to raise_error(TokenValidationError)
       end
 
       it 'raises when HMAC is not configured' do
-        Quby::Settings.stub(shared_secret: nil)
+        allow(Quby::Settings).to receive(:shared_secret).and_return(nil)
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp
         end.to raise_error(TokenValidationError)

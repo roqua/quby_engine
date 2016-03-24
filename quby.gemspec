@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails',      '~> 3.4'
   s.add_development_dependency 'rspec-its',        '~> 1.2.0'
   s.add_development_dependency 'capybara'
-  s.add_development_dependency 'teaspoon',         '~> 0.8.0'
+  s.add_development_dependency 'teaspoon',         '~> 1.1.4'
   s.add_development_dependency 'rubocop',          '~> 0.20'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'timecop'
@@ -53,7 +53,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "poltergeist"
   s.add_development_dependency "launchy"
   s.add_development_dependency "pry"
-  s.add_development_dependency 'capybara-screenshot', '= 0.3.14'
+  s.add_development_dependency 'capybara-screenshot', '~> 1.0.11' # '= 0.3.14'
   s.add_development_dependency "codeclimate-test-reporter"
   s.add_development_dependency 'simplecov', '~> 0.9.0'
 end

@@ -1,7 +1,7 @@
 require "spec_helper"
 require 'English'
 
-describe "quby/answers/show_questionnaire_errors" do
+describe "quby/answers/show_questionnaire_errors", type: :view do
   before do
     Quby.show_exceptions = true
   end

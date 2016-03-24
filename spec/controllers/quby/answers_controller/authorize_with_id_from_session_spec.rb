@@ -1,16 +1,18 @@
 require 'spec_helper'
 
 module Quby
-  describe AnswersController do
-    include EngineControllerTesting
+  describe AnswersController, type: :controller do
+    # include EngineControllerTesting
+
+    routes { Quby::Engine.routes }
 
     let(:answer)        { double("Answer", id: '1') }
     let(:questionnaire) { double("Questionnaire", key: 'honos', renderer_version: :v1, errors: [], questions: []) }
 
     before do
-      Quby::Settings.stub(authorize_with_hmac: false)
-      Quby.answers.stub(:find).with('honos', '1').and_return(answer)
-      Quby.questionnaires.stub(find: questionnaire)
+      allow(Quby::Settings).to receive(:authorize_with_hmac).and_return(false)
+      allow(Quby.answers).to receive(:find).with('honos', '1').and_return(answer)
+      allow(Quby.questionnaires).to receive(:find).and_return(questionnaire)
     end
 
     it 'allows requests when they match session and url answer id' do

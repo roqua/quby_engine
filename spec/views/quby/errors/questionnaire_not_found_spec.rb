@@ -1,5 +1,5 @@
 require "spec_helper"
-describe "quby/errors/questionnaire_not_found" do
+describe "quby/errors/questionnaire_not_found", type: :view do
 
   let(:error) { Quby::Questionnaires::Repos::QuestionnaireNotFound.new 'testkey' }
 
