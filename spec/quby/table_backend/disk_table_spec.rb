@@ -89,7 +89,8 @@ describe Quby::TableBackend::DiskTable do
 
   describe '.disk_table_root' do
     before do
-      RSpec::Mocks.proxy_for(described_class).reset # remove the allow to_receive(:disk_table_root) just for this test
+      #RSpec::Mocks.proxy_for(described_class).reset # remove the allow to_receive(:disk_table_root) just for this test
+      allow(described_class).to receive(:disk_table_root).and_call_original
     end
 
     it 'calls Quby.lookup_table_path' do
