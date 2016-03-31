@@ -5,6 +5,7 @@ source "http://rubygems.org"
 gem "appraisal", "1.0.0.beta3"
 gem "bson_ext"
 gem "roqua-support"
+gem "i18n"
 gem "rails", "~> 4.1.4"
 gem "sass-rails", "~> 4.0.0"
 gem "compass-rails", "1.1.7"
@@ -15,12 +16,11 @@ group :assets do
 end
 
 group :test, :development do
-  gem "guard-rspec"
-  gem "guard-teaspoon"
-  gem "guard-spork"
-  gem "guard-rubocop"
-  gem "flamegraph"
-  gem "rspec-prof"
+  gem "guard-rspec", "~> 4.4"
+  gem "guard-teaspoon", "~> 0.0"
+  gem "guard-spork", "~> 2.1"
+  gem "guard-rubocop", "~> 1.2"
+  gem "flamegraph", "~> 0.1.0"
 end
 
 platforms :ruby, :jruby do
