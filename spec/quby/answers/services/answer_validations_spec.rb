@@ -115,25 +115,25 @@ module Quby::Answers::Services
 
     describe '#hidden_questions' do
       it 'sets the @hidden_questions attribute to the hidden questions' do
-        answer.hidden_questions.should include(:v_hidden)
+        expect(answer.hidden_questions).to include(:v_hidden)
       end
       it 'does not add the hidden questions keys to @hidden_questions if it is already shown' do
-        answer.hidden_questions.should_not include(:v_shown_and_hidden)
+        expect(answer.hidden_questions).to_not include(:v_shown_and_hidden)
       end
       it 'removes the hidden questions keys from @hidden_questions if it is shown' do
-        answer.hidden_questions.should_not include(:v_hidden_and_shown)
+        expect(answer.hidden_questions).to_not include(:v_hidden_and_shown)
       end
     end
 
     describe '#shown_questions' do
       it 'sets the @shown_questions attribute to the shown questions' do
-        answer.shown_questions.should include(:v_hidden_and_shown, :v_shown_and_hidden, :v_default_invisible_shown)
+        expect(answer.shown_questions).to include(:v_hidden_and_shown, :v_shown_and_hidden, :v_default_invisible_shown)
       end
     end
 
     describe '#question_groups' do
       it 'sets the @question_groups attribute to a hash of the question groups' do
-        answer.question_groups.should ==
+        expect(answer.question_groups).to eq(
             {group1: [:v_answer_group_under_minimum, :v_answer_group_under_minimum1],
              group2: [:v_answer_group_over_minimum, :v_answer_group_over_minimum1],
              group3: [:v_answer_group_under_maximum, :v_answer_group_under_maximum1],
@@ -143,6 +143,7 @@ module Quby::Answers::Services
              cgroup3: [:v_check_answer_group_under_maximum, :v_check_answer_group_under_maximum1],
              cgroup4: [:v_check_answer_group_over_maximum, :v_check_answer_group_over_maximum1]
             }
+        )
       end
     end
 
@@ -152,48 +153,48 @@ module Quby::Answers::Services
       end
 
       it 'clears placeholder answers' do
-        answer.v_placeholder.should be_nil
+        expect(answer.v_placeholder).to be_nil
       end
 
       it 'clears answers of questions that are being hidden' do
-        answer.v_hidden.should be_nil
+        expect(answer.v_hidden).to be_nil
       end
 
       it 'does not clear answers of questions that are being hidden and shown at the same time' do
-        answer.v_hidden_and_shown.should == "a0"
+        expect(answer.v_hidden_and_shown).to eq "a0"
       end
 
       it 'clears answers of questions that are default invisible and not shown' do
-        answer.v_default_invisible.should be_nil
+        expect(answer.v_default_invisible).to be_nil
       end
 
       it 'does not clear answers of questions that are default invisible that are shown' do
-        answer.v_default_invisible_shown.should == "a0"
+        expect(answer.v_default_invisible_shown).to eq "a0"
       end
 
       it 'clears answers of questions where the parent option is not selected' do
-        answer.v_child.should be_nil
+        expect(answer.v_child).to be_nil
       end
 
       it 'skips questions that have the :hidden type (deprecated questions)' do
-        answer.v_hidden_type.should == "a0"
+        expect(answer.v_hidden_type).to eq "a0"
       end
 
       it 'does not clear questions that depend on unfilled questions' do
-        answer.v_depends_on.should == "a0"
+        expect(answer.v_depends_on).to eq "a0"
       end
 
       it 'does not clear checkbox questions' do
-        answer.v_check_box.should eq("v_c1" => 0, "v_c2" => 1, "v_c3" => 1)
-        answer.v_c1.should eq 0
-        answer.v_c2.should eq 1
-        answer.v_c3.should eq 1
+        expect(answer.v_check_box).to eq("v_c1" => 0, "v_c2" => 1, "v_c3" => 1)
+        expect(answer.v_c1).to eq 0
+        expect(answer.v_c2).to eq 1
+        expect(answer.v_c3).to eq 1
       end
 
       it 'converts windows line ends to linux line ends' do
         answer.v_textarea = "foo\r\nbar"
         answer.cleanup_input
-        answer.v_textarea.should eq("foo\nbar")
+        expect(answer.v_textarea).to eq("foo\nbar")
       end
     end
 
@@ -205,136 +206,136 @@ module Quby::Answers::Services
         end
 
         it 'skips validating questions that depend on unfilled questions' do
-          answer.errors.messages[:v_depends_on2].should be_nil
+          expect(answer.errors.messages[:v_depends_on2]).to be_nil
         end
 
         it 'adds an error if integers are formatted incorrectly' do
-          answer.errors.messages[:v_invalid_integer].should ==
-              [{message: "Invalid integer", valtype: :valid_integer}]
+          expect(answer.errors.messages[:v_invalid_integer])
+              .to eq([{message: "Invalid integer", valtype: :valid_integer}])
         end
 
         it 'does not add an error if integers are formatted correctly' do
-          answer.errors.messages[:v_valid_integer].should_not ==
-              [{message: "Invalid integer", valtype: :valid_integer}]
+          expect(answer.errors.messages[:v_valid_integer])
+              .to_not eq([{message: "Invalid integer", valtype: :valid_integer}])
         end
 
         it 'adds an error if floats are formatted incorrectly' do
-          answer.errors.messages[:v_invalid_float].should ==
-              [{message: "Invalid float", valtype: :valid_float}]
+          expect(answer.errors.messages[:v_invalid_float])
+              .to eq([{message: "Invalid float", valtype: :valid_float}])
         end
 
         it 'does not add an error if floats are formatted correctly' do
-          answer.errors.messages[:v_valid_float].should_not ==
-              [{message: "Invalid float", valtype: :valid_float}]
+          expect(answer.errors.messages[:v_valid_float])
+              .to_not eq([{message: "Invalid float", valtype: :valid_float}])
         end
 
         it 'adds an error if an answer doesnt match a given regex' do
-          answer.errors.messages[:v_invalid_regexp].should ==
-              [{message: "Does not match expected pattern.", valtype: :regexp}]
+          expect(answer.errors.messages[:v_invalid_regexp])
+              .to eq([{message: "Does not match expected pattern.", valtype: :regexp}])
         end
 
         it 'does not add an error if an answer matches a given regex' do
-          answer.errors.messages[:v_valid_regexp].should_not ==
-              [{message: "Does not match expected_pattern.", valtype: :regexp}]
+          expect(answer.errors.messages[:v_valid_regexp])
+              .to_not eq([{message: "Does not match expected_pattern.", valtype: :regexp}])
         end
 
         it 'adds an error if a required question is unfilled' do
-          answer.errors.messages[:v_required].should ==
-              [{message: "Must be answered.", valtype: :requires_answer}]
+          expect(answer.errors.messages[:v_required])
+              .to eq([{message: "Must be answered.", valtype: :requires_answer}])
         end
 
         it 'does not add an error if a required question is a child of an unchecked option' do
-          answer.errors.messages[:v_child].should_not ==
-              [{message: "Must be answered.", valtype: :requires_answer}]
+          expect(answer.errors.messages[:v_child])
+              .to_not eq([{message: "Must be answered.", valtype: :requires_answer}])
         end
 
         it 'adds an error if a child of a filled option of a required question is not filled' do
-          answer.errors.messages[:v_child2].should ==
-              [{message: "Must be answered.", valtype: :requires_answer}]
+          expect(answer.errors.messages[:v_child2])
+              .to eq([{message: "Must be answered.", valtype: :requires_answer}])
         end
 
         it 'does not adds an error if a required question is filled' do
-          answer.errors.messages[:v_valid_required].should_not ==
-              [{message: "Must be answered.", valtype: :requires_answer}]
+          expect(answer.errors.messages[:v_valid_required])
+              .to_not eq([{message: "Must be answered.", valtype: :requires_answer}])
         end
 
         it 'adds an error if a value is under a given minimum' do
-          answer.errors.messages[:v_under_minimum].should ==
-              [{message: "Smaller than minimum", valtype: :minimum}]
+          expect(answer.errors.messages[:v_under_minimum])
+              .to eq([{message: "Smaller than minimum", valtype: :minimum}])
         end
 
         it 'does not add an error if a value is over a given minimum' do
-          answer.errors.messages[:v_over_minimum].should_not ==
-              [{message: "Smaller than minimum", valtype: :minimum}]
+          expect(answer.errors.messages[:v_over_minimum])
+              .to_not eq([{message: "Smaller than minimum", valtype: :minimum}])
         end
 
         it 'adds an error if a value exceeds given maximum' do
-          answer.errors.messages[:v_over_maximum].should ==
-              [{message: "Exceeds maximum", valtype: :maximum}]
+          expect(answer.errors.messages[:v_over_maximum])
+              .to eq([{message: "Exceeds maximum", valtype: :maximum}])
         end
 
         it 'does not add an error if a value is under a given maximum' do
-          answer.errors.messages[:v_under_maximum].should_not ==
-              [{message: "Exceeds maximum", valtype: :maximum}]
+          expect(answer.errors.messages[:v_under_maximum])
+              .to_not eq([{message: "Exceeds maximum", valtype: :maximum}])
         end
 
         it 'adds an error if too many checkbox options are checked' do
-          answer.errors.messages[:v_too_many_checked].should ==
-              [{message: "Invalid combination of options.", valtype: :too_many_checked}]
+          expect(answer.errors.messages[:v_too_many_checked])
+              .to eq([{message: "Invalid combination of options.", valtype: :too_many_checked}])
         end
 
         it 'does not add an error if not too many checkbox options are checked' do
-          answer.errors.messages[:v_not_too_many_checked].should_not ==
-              [{message: "Invalid combination of options.", valtype: :too_many_checked}]
+          expect(answer.errors.messages[:v_not_too_many_checked])
+              .to_not eq([{message: "Invalid combination of options.", valtype: :too_many_checked}])
         end
 
         it 'adds an error if not enough checkbox options are checked' do
-          answer.errors.messages[:v_not_all_checked].should ==
-              [{message: "Invalid combination of options.", valtype: :not_all_checked}]
+          expect(answer.errors.messages[:v_not_all_checked])
+              .to eq([{message: "Invalid combination of options.", valtype: :not_all_checked}])
         end
 
         it 'does not add an error if enough checkbox options are checked' do
-          answer.errors.messages[:v_all_checked].should_not ==
-              [{message: "Invalid combination of options.", valtype: :not_all_checked}]
+          expect(answer.errors.messages[:v_all_checked])
+              .to_not eq([{message: "Invalid combination of options.", valtype: :not_all_checked}])
         end
 
         it 'adds an error if not enough answers are in a question group with a minimum' do
-          answer.errors.messages[:v_answer_group_under_minimum].should ==
-              [{message: "Needs at least 1 question(s) answered.", valtype: :answer_group_minimum}]
+          expect(answer.errors.messages[:v_answer_group_under_minimum])
+              .to eq([{message: "Needs at least 1 question(s) answered.", valtype: :answer_group_minimum}])
         end
 
         it 'does not add an error if enough answers are in a question group with a minimum' do
-          answer.errors.messages[:v_answer_group_over_minimum].should_not ==
-              [{message: "Needs at least 1 question(s) answered.", valtype: :answer_group_minimum}]
+          expect(answer.errors.messages[:v_answer_group_over_minimum])
+              .to_not eq([{message: "Needs at least 1 question(s) answered.", valtype: :answer_group_minimum}])
         end
 
         it 'adds an error if too many answers are in a question group with a maximum' do
-          answer.errors.messages[:v_answer_group_over_maximum].should ==
-              [{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}]
+          expect(answer.errors.messages[:v_answer_group_over_maximum])
+              .to eq([{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}])
         end
 
         it 'does not add an error if not too many answers are in a question group with a maximum' do
-          answer.errors.messages[:v_answer_group_under_maximum].should_not ==
-              [{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}]
+          expect(answer.errors.messages[:v_answer_group_under_maximum])
+              .to_not eq([{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}])
         end
 
         describe 'for checkboxes' do
           it 'adds an error if not enough answers are in a question group with a minimum' do
-            answer.errors.messages[:v_check_answer_group_under_minimum].should ==
-                [{message: "Needs at least 3 question(s) answered.", valtype: :answer_group_minimum}]
+            expect(answer.errors.messages[:v_check_answer_group_under_minimum])
+                .to eq([{message: "Needs at least 3 question(s) answered.", valtype: :answer_group_minimum}])
           end
 
           it 'does not add an error if enough answers are in a question group with a minimum' do
-            answer.errors.messages[:v_check_answer_group_over_minimum].should be_nil
+            expect(answer.errors.messages[:v_check_answer_group_over_minimum]).to be_nil
           end
 
           it 'adds an error if too many answers are in a question group with a maximum' do
-            answer.errors.messages[:v_check_answer_group_over_maximum].should ==
-                [{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}]
+            expect(answer.errors.messages[:v_check_answer_group_over_maximum])
+                .to eq([{message: "Needs at most 1 question(s) answered.", valtype: :answer_group_maximum}])
           end
 
           it 'does not add an error if not too many answers are in a question group with a maximum' do
-            answer.errors.messages[:v_check_answer_group_under_maximum].should be_nil
+            expect(answer.errors.messages[:v_check_answer_group_under_maximum]).to be_nil
           end
 
           it 'adds an error on an empty required title question if a depended on checkbox option is checked' do
@@ -350,12 +351,12 @@ module Quby::Answers::Services
 
       describe 'if the questionnaire was aborted' do
         before do
-          answer.stub(aborted: true)
+          allow(answer).to receive(:aborted).and_return(true)
           answer.cleanup_input
           answer.validate_answers
         end
         it 'skips all validations' do
-          answer.errors.should be_empty
+          expect(answer.errors).to be_empty
         end
       end
     end

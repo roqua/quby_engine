@@ -1,15 +1,15 @@
-inherit_from: rubocop-todo.yml
+inherit_from: .rubocop_todo.yml
 
 AllCops:
-  Excludes:
-    - 'config/**'
-    - 'db/**'
-    - 'script/**'
-    - 'tmp/**'
-    - 'vendor/**'
+  TargetRubyVersion: 2.2
+  Exclude:
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
     - 'spec/fixtures/*.rb'
-    - 'spec/dummy/**'
-  RunRailsCops: true
+    - 'spec/dummy/**/*'
 
 # Use UTF-8 as the source file encoding.
 Encoding:
@@ -33,10 +33,29 @@ SpaceInsideBlockBraces:
 
 AmbiguousRegexpLiteral:
   Exclude:
-    - 'spec/**'
+    - 'spec/**/*'
 
 CyclomaticComplexity:
   Max: 15 # should be set to 6, too many for now
+
+################################################################ RAILS
+
+Rails:
+  Enabled: true
+
+# Cop supports --auto-correct.
+Rails/Delegate:
+  Enabled: false
+
+# Enforce Rails.logger in favor of puts. Exclude some scripts.
+Rails/Output:
+  Enabled: true
+
+# We actually didn't have any ScopeArgs warnings. Enabled it for now; when
+# ScopeArgs raises, feel free to disable this one if you like.
+Rails/ScopeArgs:
+  Enabled: true
+
 
 ################################################################## DISABLED COPS
 # These cops are disabled because we think they are a Bad Idea. If you add one
