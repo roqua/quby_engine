@@ -21,6 +21,8 @@ group :test, :development do
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.2"
   gem "flamegraph", "~> 0.1.0"
+  gem "rspec-prof", "~> 0.0.5"
+  gem "byebug"
 end
 
 platforms :ruby, :jruby do
