@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-unless ENV["CIRCLE_NODE_TOTAL"] == "3"
-  puts "Circle parallelism should be 3 (number of different Rails versions)"
+unless ENV["CIRCLE_NODE_TOTAL"] == "4"
+  puts "Circle parallelism should be 4 (number of different Rails versions)"
   exit 1
 end
 
@@ -15,4 +15,7 @@ when "1"
 when "2"
   puts "Running #{ARGV.join(" ")} for Rails 4.1"
   exec({"BUNDLE_GEMFILE" => "gemfiles/rails41.gemfile"}, ARGV.join(" "))
+when "3"
+  puts "Running #{ARGV.join(" ")} for Rails 4.2"
+  exec({"BUNDLE_GEMFILE" => "gemfiles/rails42.gemfile"}, ARGV.join(" "))
 end
