@@ -376,6 +376,7 @@ DEPENDENCIES
   poltergeist
   pry
   quby!
+  rails-deprecated_sanitizer
   roqua-support
   rspec-its (~> 1.2.0)
   rspec-prof (~> 0.0.5)

@@ -13,6 +13,9 @@ gem 'roqua-support'
 
 gem 'i18n'
 
+# Mimic pre-Rails 4.2 html sanitization
+gem 'rails-deprecated_sanitizer'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
