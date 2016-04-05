@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.required_ruby_version = '>= 2.0'
-  s.add_dependency "rails", ">= 3.2", '< 5.0'
+  s.add_dependency "rails", ">= 4.0", '< 5.0'
 
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.9.0'
@@ -26,10 +26,15 @@ Gem::Specification.new do |s|
   # Views
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
-  s.add_dependency "sass-rails",    '>= 3.2', '< 5.1'
+  # Lock sass-rails to prevent warnings and errors:
+  # - .css.scss filename warnings
+  # - Undefined variable: "$experimental-support-for-mozilla".
+  # - Poltergeist/Capybara MouseClick errors
+  s.add_dependency "sass-rails",    '4.0.5'
   s.add_dependency "maruku",        '0.6.1'
-  s.add_dependency "compass" #,       '~> 0.12'
+  s.add_dependency "compass",       '~> 0.12'
   s.add_dependency "compass-rails", '< 3.0'
+  s.add_dependency "compass-blueprint"
   s.add_dependency "susy", "~> 1.0.rc"
 
   # Helpers
@@ -44,8 +49,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'combustion',       '~> 0.5.4'
   s.add_development_dependency 'rspec-rails',      '~> 3.4'
   s.add_development_dependency 'rspec-its',        '~> 1.2.0'
-  s.add_development_dependency 'capybara'
-  s.add_development_dependency 'teaspoon',         '~> 1.1.4'
+  s.add_development_dependency 'capybara',         '~> 2.6.2'
+  s.add_development_dependency 'teaspoon',         '~> 1.1.5'
   s.add_development_dependency 'rubocop',          '~> 0.20'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'timecop'

@@ -2,7 +2,7 @@
 
 source "http://rubygems.org"
 
-gem "appraisal", "1.0.0.beta3"
+gem "appraisal", "= 2.1.0"
 gem "bson_ext"
 gem "roqua-support"
 gem "i18n"
@@ -17,7 +17,7 @@ end
 
 group :test, :development do
   gem "guard-rspec", "~> 4.4"
-  gem "guard-teaspoon", "~> 0.0"
+  gem "guard-teaspoon", "~> 0.8"
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.2"
   gem "flamegraph", "~> 0.1.0"
@@ -29,4 +29,4 @@ platforms :ruby, :jruby do
   gem "therubyracer"
 end
 
-gemspec :path=>".././"
+gemspec :path => "../"

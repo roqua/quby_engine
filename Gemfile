@@ -5,16 +5,13 @@ source 'http://rubygems.org'
 # development dependencies will be added by default to the :development group.
 gemspec
 
-gem 'appraisal', '1.0.0.beta3'
+gem 'appraisal', '= 2.1.0' # '1.0.0.beta3'
 gem 'bson_ext'
 
 # Optional dependency on RoQua Support gem.
 gem 'roqua-support'
 
 gem 'i18n'
-
-# Mimic pre-Rails 4.2 html sanitization
-gem 'rails-deprecated_sanitizer'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -29,7 +26,7 @@ end
 
 group :test, :development do
   gem 'guard-rspec',    '~> 4.4'
-  gem 'guard-teaspoon', '~> 0.0'
+  gem 'guard-teaspoon', '~> 0.8'
   gem 'guard-spork',    '~> 2.1'
   gem 'guard-rubocop',  '~> 1.2'
   gem 'flamegraph',     '~> 0.1.0'
