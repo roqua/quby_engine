@@ -12,10 +12,10 @@ feature 'textvar replacement', js: true do
 
     answer = create_new_answer_for(questionnaire, 'v_00' => 'init')
     visit_new_answer_for(questionnaire, 'paged', answer)
-    page.should have_content 'Probleemmiddel: init'
+    expect(page).to have_content 'Probleemmiddel: init'
 
     fill_in 'answer[v_00]', with: 'new'
-    page.should have_content 'Probleemmiddel: new'
+    expect(page).to have_content 'Probleemmiddel: new'
   end
 
   scenario 'starting with no value' do
@@ -28,7 +28,7 @@ feature 'textvar replacement', js: true do
     END
 
     visit_new_answer_for(questionnaire)
-    page.should have_content 'Probleemmiddel: {{middel}}'
+    expect(page).to have_content 'Probleemmiddel: {{middel}}'
   end
 
   scenario 'starting with no default, sets {{key}} as default' do
@@ -41,7 +41,7 @@ feature 'textvar replacement', js: true do
     END
 
     visit_new_answer_for(questionnaire)
-    page.should have_content 'Probleemmiddel: {{test_middel}}'
+    expect(page).to have_content 'Probleemmiddel: {{test_middel}}'
   end
 
   scenario 'setting var value from answer record' do
@@ -59,7 +59,7 @@ feature 'textvar replacement', js: true do
     answer = create_new_answer_for(questionnaire, {}, textvars: {test_thing: 'car'})
     visit_new_answer_for(questionnaire, 'paged', answer)
     # sets the variable in the any markdown enabled text.
-    page.should have_content 'Yo dawg I herd you like cars so we put a car in your car'
+    expect(page).to have_content 'Yo dawg I herd you like cars so we put a car in your car'
     # sets the value of input with sets_textvar to the textvar if given.
     expect(page).to have_selector("#answer_v_1[value='car']")
 
@@ -82,9 +82,10 @@ feature 'textvar replacement', js: true do
 
     answer = create_new_answer_for(questionnaire, {})
     visit_new_answer_for(questionnaire, 'paged', answer)
-    page.should have_content 'Yo dawg I herd you like cars so we put a car in your car'
+    expect(page).to have_content 'Yo dawg I herd you like cars so we put a car in your car'
   end
 
+  # rubocop:disable Metrics/LineLength
   scenario 'creating without value' do
     questionnaire = inject_questionnaire("test", <<-END)
       textvar key: 'thing', description: 'Name of the thing'
@@ -98,6 +99,7 @@ feature 'textvar replacement', js: true do
 
     answer = create_new_answer_for(questionnaire, {})
     visit_new_answer_for(questionnaire, 'paged', answer)
-    page.should have_content 'Yo dawg I herd you like {{test_thing}}s so we put a {{test_thing}} in your {{test_thing}}'
+    expect(page).to have_content 'Yo dawg I herd you like {{test_thing}}s so we put a {{test_thing}} in your {{test_thing}}'
   end
+  # rubucop:enable Metrics/LineLength
 end
