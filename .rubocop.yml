@@ -10,6 +10,7 @@ AllCops:
     - 'vendor/**/*'
     - 'spec/fixtures/*.rb'
     - 'spec/dummy/**/*'
+    - 'quby.gemspec'
 
 # Use UTF-8 as the source file encoding.
 Encoding:

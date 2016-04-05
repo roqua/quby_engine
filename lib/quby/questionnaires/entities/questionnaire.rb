@@ -251,6 +251,7 @@ module Quby
                   .to_h
         end
 
+        # rubocop:disable Metrics/MethodLength
         def answer_dsl_module
           # Have to put this in a local variable so the module definition block can access it
           questions_in_var = questions
@@ -345,6 +346,7 @@ module Quby
             end
           end
         end
+        # rubocop:enable Metrics/MethodLength
       end
     end
   end

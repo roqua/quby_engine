@@ -37,6 +37,7 @@ module Quby
       render_versioned_template @display_mode
     end
 
+    # rubocop:disable MethodLength
     def update(printing = false)
       updater = Answers::Services::UpdatesAnswers.new(@answer)
 
@@ -64,6 +65,7 @@ module Quby
 
       updater.update((params[:answer] || {}).merge("rendered_at" => params[:rendered_at]))
     end
+    # rubocop:enable MethodLength
 
     def print
       update true
@@ -144,7 +146,8 @@ module Quby
       end
     end
 
-    def verify_hmac # rubocop:disable CyclomaticComplexity
+    # rubocop:disable CyclomaticComplexity, Metrics/MethodLength
+    def verify_hmac
       if Quby::Settings.authorize_with_hmac
         fail TokenValidationError, "No HMAC secret is configured" unless Quby::Settings.shared_secret.present?
         hmac      = (params['hmac']      || @hmac         || '').strip
@@ -172,7 +175,7 @@ module Quby
           fail TokenValidationError, "HMAC"
         end
       end
-    end # rubocop:enable CyclomaticComplexity
+    end # rubocop:enable CyclomaticComplexity, Metrics/MethodLength
 
     def load_token_and_hmac_and_timestamp
       @answer_token = params[:token]     if params[:token]

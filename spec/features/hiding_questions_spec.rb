@@ -370,6 +370,7 @@ feature 'Hiding and showing questions' do
     expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
+  # rubocop:disable Metrics/MethodLength
   def answer_value(override = {})
     {
       "v_4" => nil,
@@ -393,4 +394,5 @@ feature 'Hiding and showing questions' do
       "v_15_a3" => 0
     }.merge(override)
   end
+  # rubocop:enable Metrics/MethodLength
 end

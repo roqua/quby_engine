@@ -12,6 +12,7 @@ module Quby
           @answer = answer
         end
 
+        # rubocop:disable Metrics/MethodLength
         def calculate
           results = {}
           score_results = {}
@@ -54,6 +55,7 @@ module Quby
                                 completion: completion_result,
                                 generated_at: Time.now)
         end
+        # rubocop:enable Metrics/MethodLength
 
         # Calculate scores and actions, write to the database but bypass any validations
         # This function is called by parts of the system that only want to calculate
