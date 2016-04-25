@@ -197,7 +197,13 @@ module Quby
           when :integer
             Integer(value)
           when :date
-            DateTime.strptime("#{value[:day] || 1}-#{value[:month] || 1}-#{value[:year] || 2000} #{value[:hour] || '00'}:#{value[:minute] || '00'}", "%d-%m-%Y %H:%M")
+            day = value[:day].andand.strip || 1
+            month = value[:month].andand.strip || 1
+            year = value[:year].andand.strip || 2000
+            hour = value[:hour].andand.strip || '00'
+            minute = value[:minute].andand.strip || '00'
+
+            DateTime.strptime("#{day}-#{month}-#{year} #{hour}:#{minute}", "%d-%m-%Y %H:%M")
           else
             value
           end
