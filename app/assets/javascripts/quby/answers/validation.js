@@ -66,12 +66,12 @@
                     try {
                       if(allDateFieldsFilledIn(inputs)) {
                         var enteredDate = parsePartialDate(inputs);
-                        var minimumDate = new Date(validation.value)
+                        var minimumDate = new Date(validation.value);
                         if(enteredDate < minimumDate) {
                           pushFailVal(validation.type);
                         }
                       }
-                    } catch(e) {}
+                    } catch(e) {} // errors in date parsing are handled by valid_date
                   } else if (inputs.length == 1) {
                       var value = values[0];
                       if(value === undefined || value == ""){
@@ -227,9 +227,13 @@
 
   function dateValuesWithDefaults(inputs) {
     var value = function(placeholder) {
-      var val = inputs.filter("[placeholder=" + placeholder + "]").first().val();
+      var val = $.trim(inputs.filter("[placeholder=" + placeholder + "]").first().val());
       if(val === undefined || val == "") {
         return null;
+      }
+
+      if(!/^\d+$/.test(val)){
+        throw "invalidDate";
       }
 
       var intVal = parseInt(val);
@@ -240,10 +244,10 @@
     };
 
     return {
-      year:   value('YYYY') || 2000,
+      year:   value('JJJJ') || 2000,
       month:  value('MM')   ? value('MM')-1 : 0,    // JS months range from 0-11 instead of 1-12
       day:    value('DD')   || 1,
-      hour:   value('hh')   || 0,
+      hour:   value('uu')   || 0,
       minute: value('mm')   || 0,
     }
   }

@@ -5,7 +5,7 @@ module Quby
         class DateQuestion < Question
           POSSIBLE_COMPONENTS = %i( day month year hour minute )
           COMPONENT_KEYS = Hash[POSSIBLE_COMPONENTS.zip %w( dd mm yyyy hh ii)]
-          COMPONENT_PLACEHOLDERS = Hash[POSSIBLE_COMPONENTS.zip %w( DD MM YYYY hh mm)]
+          COMPONENT_PLACEHOLDERS = Hash[POSSIBLE_COMPONENTS.zip %w( DD MM JJJJ uu mm)]
           DEFAULT_COMPONENTS  = %i( day month year )
 
           # For optionally giving year, month and day fields of dates their own keys
@@ -36,11 +36,11 @@ module Quby
           def expected_format
             case components.sort
             when [:day, :month, :year]
-              'DD-MM-YYYY'
+              'DD-MM-JJJJ, bijvoorbeeld 02-08-2015'
             when [:month, :year]
-              'MM-YYYY'
+              'MM-JJJJ, bijvoorbeeld 08-2015'
             when [:hour, :minute]
-              'hh:mm'
+              'uu:mm, bijvoorbeeld 13:05'
             end
           end
 
