@@ -36,3 +36,11 @@ guard :rubocop, all_on_start: false, cli: ['-D'] do
   watch(%r{(.+\.rb)$}) { |m| m[0] unless excludes.find {|excluded| File.fnmatch(excluded, m[0]) } }
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
+
+guard :bundler do
+  require 'guard/bundler'
+  require 'guard/bundler/verify'
+  helper = Guard::Bundler::Verify.new
+
+  watch(helper.real_path('Gemfile'))
+end
