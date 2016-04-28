@@ -270,7 +270,7 @@ module Quby
 
                   define_method("#{key}=") do |v|
                     self.value ||= Hash.new
-                    self.value[key] = v
+                    self.value[key] = v.andand.strip
                   end
                 end
 

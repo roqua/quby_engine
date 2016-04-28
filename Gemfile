@@ -32,4 +32,5 @@ group :test, :development do
   gem 'flamegraph',     '~> 0.0'
   gem 'rspec-prof',     '~> 0.0'
   gem 'byebug'
+  gem 'test-unit'
 end
