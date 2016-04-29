@@ -29,6 +29,8 @@ group :test, :development do
   gem 'guard-teaspoon', '~> 0.0'
   gem 'guard-spork',    '~> 1.5'
   gem 'guard-rubocop',  '~> 1.0'
+  gem 'guard-bundler',  '~> 2.1.0'
+
   gem 'flamegraph',     '~> 0.0'
   gem 'rspec-prof',     '~> 0.0'
   gem 'byebug'

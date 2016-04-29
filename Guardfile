@@ -22,7 +22,6 @@ guard :rspec, rspec_options do
 
   # Specials
   watch('app/controllers/application_controller.rb')        { "spec/controllers" }
-  watch('spec/support/examples_for_answer_repositories.rb') { 'spec/repos' }
 end
 
 guard :teaspoon, teaspoon_options do
@@ -35,4 +34,12 @@ guard :rubocop, all_on_start: false, cli: ['-D'] do
   excludes = YAML.load_file('.rubocop.yml')['AllCops']['Excludes']
   watch(%r{(.+\.rb)$}) { |m| m[0] unless excludes.find {|excluded| File.fnmatch(excluded, m[0]) } }
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+end
+
+guard :bundler do
+  require 'guard/bundler'
+  require 'guard/bundler/verify'
+  helper = Guard::Bundler::Verify.new
+
+  watch(helper.real_path('Gemfile'))
 end
