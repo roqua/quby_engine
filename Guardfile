@@ -22,7 +22,6 @@ guard :rspec, rspec_options do
 
   # Specials
   watch('app/controllers/application_controller.rb')        { "spec/controllers" }
-  watch('spec/support/examples_for_answer_repositories.rb') { 'spec/repos' }
 end
 
 guard :teaspoon, teaspoon_options do
