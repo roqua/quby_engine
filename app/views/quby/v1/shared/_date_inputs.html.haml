@@ -7,7 +7,7 @@
 - components = question.components.sort
 - components.each do |component|
   - size = component == :year ? 5 : 3
-  - key = question.send(:"#{component}_key")
-  = text_field :answer, key, :placeholder => translate(placeholders[component]), :size => size, |
-    autocomplete: question.autocomplete, class: cls, disabled: disabled ? "" : nil,             |
-    data: {field: {key: key}, "default-date-key" => default_date_keys[component]}               |
+  - key = question.send("#{component}_key")
+  = text_field :answer, key, placeholder: translate(placeholders[component]), size: size, |
+    autocomplete: question.autocomplete, class: cls, disabled: disabled ? "" : nil,       |
+    data: {field: {key: key}, "default-date-key" => default_date_keys[component]}         |
