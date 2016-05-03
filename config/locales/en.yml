@@ -18,7 +18,10 @@ en:
     regexp: "Please enter an answer in the format  %{matcher}."
     valid_integer: "Enter a valid integer number"
     valid_float: "Enter a number. Use a period (.) for decimals."
-    valid_date: "Enter a valid date."
+    valid_date:
+      valid_date_day_month_year: "Enter a valid date in the format DD-MM-YYYY, for example 12-08-2015"
+      valid_date_month_year: "Enter a valid date in the format DD-MM-YYYY, for example 08-2015"
+      valid_date_day_hour_minute: "Enter a valid time in the format hh:mm, for example 13:05"
     too_many_checked: "You chose too many options"
     not_all_checked: "You chose too few options"
     maximum_checked_allowed:
@@ -29,3 +32,8 @@ en:
       other: "Choose at least %{minimum_checked_value} options."
     answer_group_minimum: "Answer at least %{value} of these questions"
     answer_group_maximum: "Answer up to %{value} of these questions"
+  DD: DD
+  MM: MM
+  YYYY: YYYY
+  hh: hh
+  mm: mm

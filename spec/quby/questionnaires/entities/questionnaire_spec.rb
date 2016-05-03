@@ -293,7 +293,7 @@ module Quby::Questionnaires::Entities
     describe "#answer_dsl_module" do
       it 'misses a lot of tests'
 
-      context 'date questionnaire' do
+      context 'questionnaire with date' do
         let(:questionnaire) do
           Quby::Questionnaires::DSL.build("test") do
             question :v_1, type: :date, title: 'vraag'

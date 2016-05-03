@@ -14,7 +14,7 @@ feature 'Validation messages' do
       regexp: 'Uw antwoord moet voldoen aan de vorm (?-mix:a).',
       valid_integer: 'Uw antwoord moet een afgerond getal zijn.',
       valid_float: 'Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen).',
-      valid_date: 'Vul een geldige datum in (DD-MM-JJJJ, bijvoorbeeld 02-08-2015)',
+      valid_date: 'Vul een geldige datum in met formaat DD-MM-JJJJ, bijvoorbeeld 13-08-2015',
       too_many_checked: 'U heeft te veel opties gekozen.',
       not_all_checked: 'U heeft te weinig opties gekozen.',
       maximum_checked_allowed: 'U mag maximaal 1 optie kiezen.',

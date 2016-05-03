@@ -226,8 +226,8 @@
   }
 
   function dateValuesWithDefaults(inputs) {
-    var value = function(placeholder) {
-      var val = $.trim(inputs.filter("[placeholder=" + placeholder + "]").first().val());
+    var value = function(default_date_key) {
+      var val = $.trim(inputs.filter("[data-default-date-key='" + default_date_key + "']").first().val());
       if(val === undefined || val == "") {
         return null;
       }
@@ -244,11 +244,11 @@
     };
 
     return {
-      year:   value('JJJJ') || 2000,
-      month:  value('MM')   ? value('MM')-1 : 0,    // JS months range from 0-11 instead of 1-12
-      day:    value('DD')   || 1,
-      hour:   value('uu')   || 0,
-      minute: value('mm')   || 0,
+      year:   value('yyyy') || 2000,
+      month:  value('mm')   ? value('mm') - 1 : 0,    // JS months range from 0-11 instead of 1-12
+      day:    value('dd')   || 1,
+      hour:   value('hh')   || 0,
+      minute: value('ii')   || 0
     }
   }
 

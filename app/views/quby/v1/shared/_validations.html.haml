@@ -18,4 +18,6 @@
     %strong
       Error: unknown validation type
       = validation[:type]
-  %div{:class => exp_classes}= validation[:explanation] || translate("validations.#{validation[:type]}", translate_options)
+  - validation_text = validation[:explanation]
+  - validation_text ||= translate("validations.#{validation[:type]}.#{validation[:subtype]}", translate_options)
+  %div{:class => exp_classes}= validation_text
