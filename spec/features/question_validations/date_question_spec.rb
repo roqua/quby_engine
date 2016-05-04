@@ -13,11 +13,11 @@ shared_examples 'validations on date questions' do
 
     scenario 'saving a valid date' do
       fill_in_question('v_date_year',  '2013')
-      fill_in_question('v_date_month', '12')
+      fill_in_question('v_date_month', '02 ')
       fill_in_question('v_date_day',   '10')
       run_validations
       expect_no_errors
-      expect_saved_value 'v_date', '10-12-2013'
+      expect_saved_value 'v_date', '10-02-2013'
     end
 
     scenario 'saving without a date' do
@@ -32,6 +32,22 @@ shared_examples 'validations on date questions' do
       fill_in_question('v_date_year',  '2013')
       fill_in_question('v_date_month', '13')
       fill_in_question('v_date_day',   '')
+      run_validations
+      expect_error_on 'v_date', 'valid_date'
+    end
+
+    scenario 'saving a date with invalid characters' do
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '13-03')
+      fill_in_question('v_date_day',   '')
+      run_validations
+      expect_error_on 'v_date', 'valid_date'
+    end
+
+    scenario 'saving a date with invalid characters 2' do
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '13')
+      fill_in_question('v_date_day',   '03h')
       run_validations
       expect_error_on 'v_date', 'valid_date'
     end

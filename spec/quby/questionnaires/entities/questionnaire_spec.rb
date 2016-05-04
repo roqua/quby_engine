@@ -289,5 +289,23 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.filter_flags({test_a: true, test_b: false, something: false})).to eq({test_a: true})
       end
     end
+
+    describe "#answer_dsl_module" do
+      it 'misses a lot of tests'
+
+      context 'questionnaire with date' do
+        let(:questionnaire) do
+          Quby::Questionnaires::DSL.build("test") do
+            question :v_1, type: :date, title: 'vraag'
+          end
+        end
+
+        it 'strips values of date questions' do
+          fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
+          fake_answer.v_1_yyyy = '2002 '
+          expect(fake_answer.v_1_yyyy).to eq('2002')
+        end
+      end
+    end
   end
 end

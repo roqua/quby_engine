@@ -4,7 +4,7 @@
   -#TODO: if a hidden option is checked it should get its own new scale header
   - cls = ['scaleheader']
   - if question.score_header == :question_description
-    %th.option{:title => raw(question.description), :class => cls, :colspan => colspan,  :class => os_cycle}
+    %th.option{:title => raw(question.description), :class => cls, :colspan => colspan}
       :markdown
         #{raw question.description}
   - else

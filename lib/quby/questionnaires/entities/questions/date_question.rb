@@ -29,19 +29,8 @@ module Quby
 
           def add_date_validation(explanation)
             @validations << {type: :valid_date,
-                             explanation: (explanation ||
-                                           "Vul een geldige datum in (#{expected_format})")}
-          end
-
-          def expected_format
-            case components.sort
-            when [:day, :month, :year]
-              'DD-MM-YYYY'
-            when [:month, :year]
-              'MM-YYYY'
-            when [:hour, :minute]
-              'hh:mm'
-            end
+                             subtype: :"valid_date_#{components.sort.join('_')}",
+                             explanation: explanation}
           end
 
           COMPONENT_KEYS.each do |component, name|
