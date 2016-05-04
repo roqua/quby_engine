@@ -28,6 +28,10 @@ shared_examples "validations on float questions" do
       run_validations
       expect_error_on 'v_float', 'valid_float'
 
+      fill_in_question 'v_float', '-'
+      run_validations
+      expect_error_on 'v_float', 'valid_float'
+
       fill_in_question 'v_float', ''
       run_validations
       expect_error_on 'v_float', 'requires_answer'

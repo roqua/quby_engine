@@ -126,7 +126,7 @@
                   if(value === undefined || value == ""){
                       continue;
                   }
-                  var rgx = /(\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]?\s*)/;
+                  var rgx = /(\s*-?[1-9]+[0-9]+\s*|\s*-?[0-9]\s*)/;
                   var result = rgx.exec(value);
                   if(result == null || result[0] != value){
                       pushFailVal(validation.type);
@@ -137,10 +137,9 @@
                   if(value === undefined || value == ""){
                       continue;
                   }
-                  var rgx = /(\s*-?[1-9]+[0-9]*\.[0-9]+\s*|\s*-?[1-9]+[0-9]*\s*|\s*-?[0-9]\.[0-9]+\s*|\s*-?[0-9]?\s*)/;
-                  var result = rgx.exec(value);
-                  if(result === null || result[0] != value){
-                      pushFailVal(validation.type);
+                  var isNumber = !isNaN(parseFloat(value)) && isFinite(value);
+                  if(!isNumber){
+                    pushFailVal(validation.type);
                   }
                   break;
               case "valid_date":
