@@ -36,6 +36,8 @@ guard :rubocop, all_on_start: false, cli: ['-D'] do
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
+# TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
+=begin
 guard :bundler do
   require 'guard/bundler'
   require 'guard/bundler/verify'
@@ -43,3 +45,4 @@ guard :bundler do
 
   watch(helper.real_path('Gemfile'))
 end
+=end
