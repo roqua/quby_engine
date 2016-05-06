@@ -28,6 +28,10 @@ shared_examples "validations on integer questions" do
       run_validations
       expect_error_on 'v_integer', 'valid_integer'
 
+      fill_in_question 'v_integer', '-'
+      run_validations
+      expect_error_on 'v_integer', 'valid_integer'
+
       fill_in_question 'v_integer', ''
       run_validations
       expect_error_on 'v_integer', 'requires_answer'
