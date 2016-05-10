@@ -289,7 +289,7 @@ GEM
       railties (>= 3.2.5, < 5)
     test-unit (3.1.8)
       power_assert
-    therubyracer (0.12.1)
+    therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
     thor (0.19.1)

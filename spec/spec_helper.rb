@@ -16,7 +16,12 @@ require 'sprockets/railtie'
 require 'jquery/rails'
 require 'combustion'
 Combustion.path = 'spec/internal'
-Combustion.initialize! :action_controller, :action_view, :sprockets
+Combustion.initialize! :action_controller, :action_view, :sprockets do
+  # config.action_view.raise_on_missing_translations = true # only works for rails > 4.1
+end
+I18n.exception_handler = lambda do |exception, locale, key, options|
+  raise "missing translation: #{key}"
+end
 
 require 'rspec/rails'
 require 'roqua/support/request_logger'
