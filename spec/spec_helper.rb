@@ -20,7 +20,7 @@ Combustion.initialize! :action_controller, :action_view, :sprockets do
   # config.action_view.raise_on_missing_translations = true # only works for rails > 4.1
 end
 I18n.exception_handler = lambda do |exception, locale, key, options|
-  fail "translation error: #{key}, #{locale}, #{exception}, #{options}"
+  fail "translation error: #{exception}, #{options}"
 end
 
 require 'rspec/rails'
