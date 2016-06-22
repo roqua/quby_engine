@@ -29,7 +29,8 @@ module EngineControllerTesting
     if Rails::VERSION::MAJOR < 4
       process(action, parameters.merge!(use_route: :quby), session, flash, method)
     else
-      process(action, method, parameters.merge!(use_route: :quby), session, flash)
+      # process(action, method, parameters.merge!(use_route: :quby), session, flash)
+      process(action, method, parameters, session, flash)
     end
   end
 end

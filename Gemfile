@@ -25,16 +25,17 @@ platforms :ruby, :jruby do
 end
 
 group :test, :development do
+  # TODO: fix broken guard functionality
   gem 'guard-rspec',    '~> 4.2'
   gem 'guard-teaspoon', '~> 0.0'
-  gem 'guard-spork',    '~> 1.5'
+  # gem 'guard-spork',    '~> 1.5'
   gem 'guard-rubocop',  '~> 1.0'
 
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
-  # gem 'guard-bundler',  '~> 2.1.0' 
+  # gem 'guard-bundler',  '~> 2.1.0'
 
   gem 'flamegraph',     '~> 0.0'
-  gem 'rspec-prof',     '~> 0.0'
+  gem 'stackprof', require: false
   gem 'byebug'
   gem 'test-unit'
 end

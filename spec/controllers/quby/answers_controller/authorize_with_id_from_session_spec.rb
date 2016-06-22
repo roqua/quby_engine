@@ -11,6 +11,7 @@ module Quby
       Quby::Settings.stub(authorize_with_hmac: false)
       Quby.answers.stub(:find).with('honos', '1').and_return(answer)
       Quby.questionnaires.stub(find: questionnaire)
+      @routes = Engine.routes
     end
 
     it 'allows requests when they match session and url answer id' do

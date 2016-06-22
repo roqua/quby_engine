@@ -20,6 +20,7 @@ module Quby
     before do
       Quby::Settings.stub(authorize_with_hmac: false)
       Quby::Settings.stub(authorize_with_id_from_session: false)
+      @routes = Engine.routes
     end
 
     describe '#print' do

@@ -39,12 +39,13 @@ Gem::Specification.new do |s|
   s.add_dependency "virtus", ">= 1.0.3", "< 2.0"
   s.add_dependency "i18n", "~> 0.6"
 
-  s.add_dependency "jquery-rails", "~> 2.2.1"
+  s.add_dependency "jquery-rails", "~> 2.3.0"
+  s.add_dependency "jquery-ui-rails"
 
   s.add_development_dependency 'combustion',       '~> 0.5.1'
   s.add_development_dependency 'rspec-rails',      '~> 2.14.0'
   s.add_development_dependency 'capybara'
-  s.add_development_dependency 'teaspoon',         '~> 0.7.9'
+  s.add_development_dependency 'teaspoon',         '~> 1.1.5'
   s.add_development_dependency 'rubocop',          '~> 0.19.0'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'timecop'

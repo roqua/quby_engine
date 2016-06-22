@@ -13,6 +13,7 @@ module Quby
       Quby.answers.stub(:find).with('honos', '1').and_return(answer)
       Quby::Settings.stub(authorize_with_id_from_session: false)
       Quby::Settings.stub(shared_secret: "something_long_and_random")
+      @routes = Engine.routes
     end
 
     describe 'HMAC check on show' do

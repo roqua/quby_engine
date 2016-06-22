@@ -27,7 +27,7 @@ module Quby::Questionnaires::DSL
       it 'builds image tags inside of questions' do
         # this one is different because markdown/maruku transforms double quotes into single quotes
         # and question descriptions are not passed through markdown/maruku
-        expected_html = "<img alt=\"Happy.face\" src=\"/assets/quby/happy-face.png\" />"
+        expected_html = "<img src=\"/assets/quby/happy-face.png\" alt=\"Happy face\" />"
         dsl do
           panel do
             question :v_1, type: :radio do
