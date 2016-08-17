@@ -4,7 +4,7 @@ PATH
     quby (2.3.0)
       addressable
       coffee-rails
-      compass (~> 0.12)
+      compass
       compass-rails
       haml
       i18n (~> 0.6)

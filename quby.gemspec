@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency "haml"
   s.add_dependency "sass-rails",    '>= 4.0', '< 5.0'
   s.add_dependency "maruku",        '0.6.1'
-  s.add_dependency "compass",       '~> 0.12'
+  s.add_dependency "compass"
   s.add_dependency "compass-rails"
   s.add_dependency "susy", "~> 1.0.rc"
 
