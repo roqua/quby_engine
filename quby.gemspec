@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.required_ruby_version = '>= 2.0'
-  s.add_dependency "rails", ">= 3.2", '< 5.0'
+  s.add_dependency "rails", ">= 4.0", '< 5.0'
 
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.9.0'
@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   # Views
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
-  s.add_dependency "sass-rails",    '>= 3.2', '< 5.0'
+  s.add_dependency "sass-rails",    '>= 4.0', '< 5.0'
   s.add_dependency "maruku",        '0.6.1'
   s.add_dependency "compass",       '~> 0.12'
   s.add_dependency "compass-rails"
