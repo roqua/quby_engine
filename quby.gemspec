@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   s.add_dependency "virtus", ">= 1.0.3", "< 2.0"
   s.add_dependency "i18n", "~> 0.6"
 
-  s.add_dependency "jquery-rails", "~> 2.2.1"
+  s.add_dependency "jquery-rails"
 
   s.add_development_dependency 'combustion',       '~> 0.5.1'
   s.add_development_dependency 'rspec-rails',      '~> 2.14.0'
