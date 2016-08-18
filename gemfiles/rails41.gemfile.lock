@@ -5,7 +5,7 @@ PATH
       addressable
       coffee-rails
       compass (~> 0.12)
-      compass-rails
+      compass-rails (= 1.1.7)
       haml
       i18n (~> 0.6)
       jquery-rails (~> 3.1.4)
@@ -13,9 +13,9 @@ PATH
       json
       maruku (= 0.6.1)
       opencpu (~> 0.9.0)
-      rails (>= 3.2, < 5.0)
+      rails (>= 4.0, < 5.0)
       ryansch-andand
-      sass-rails (>= 3.2, < 5.0)
+      sass-rails (~> 4.0.0)
       susy (~> 1.0.rc)
       virtus (>= 1.0.3, < 2.0)
 
