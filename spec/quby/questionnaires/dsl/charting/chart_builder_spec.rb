@@ -48,7 +48,7 @@ module Quby::Questionnaires::DSL
 
     describe '#y_categories' do
       it 'assigns y_categories' do
-        categories = ['Bad', 'Great']
+        categories = %w(Bad Great Best)
         chart_builder.y_categories categories
         expect(chart_builder.build{}.y_categories ).to eq(categories)
       end
@@ -57,26 +57,26 @@ module Quby::Questionnaires::DSL
     describe '#range' do
       it 'assigns y_range' do
         chart_builder.range 0..5
-        expect(chart_builder.build{}.y_range ).to eq(0..5)
+        expect(chart_builder.build{ }.y_range).to eq(0..5)
       end
     end
     describe '#validate' do
       describe 'when there is no range defined but y_categories are present' do
         it 'uses the 0..y_categories.count-1 as a range' do
-          chart_builder.y_categories ['Bad', 'Great', 'Best']
-          expect(chart_builder.build{}.y_range ).to eq(0..2)
+          chart_builder.y_categories %w(Bad Great Best)
+          expect(chart_builder.build{ }.y_range).to eq(0..2)
         end
       end
       describe 'when range and y_categories are present' do
         it 'raises if the range does not correspond to the y_categories length' do
           chart_builder.range 0..3
-          chart_builder.y_categories ['Bad', 'Great', 'Best']
-          expect{chart_builder.build{} }.to raise_error(ArgumentError)
+          chart_builder.y_categories %w(Bad Great Best)
+          expect { chart_builder.build{ } }.to raise_error(ArgumentError)
         end
         it 'does not raise if the range matches the y_categories', focus: true do
           chart_builder.range 0..2
-          chart_builder.y_categories ['Bad', 'Great', 'Best']
-          expect{chart_builder.build{} }.to_not raise_error(ArgumentError)
+          chart_builder.y_categories %w(Bad Great Best)
+          expect { chart_builder.build{ } }.to_not raise_error(ArgumentError)
         end
       end
     end

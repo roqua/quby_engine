@@ -58,7 +58,7 @@ module Quby
         def validate!
           if @chart.y_categories.present? && @chart.y_range.present?
             if @chart.y_range != (0..(@chart.y_categories.count - 1))
-              raise ArgumentError, 'Y_categories size and range do not match'
+              fail ArgumentError, 'Y_categories size and range do not match'
             end
           elsif @chart.y_categories.present? && @chart.y_range.blank?
             @chart.y_range = (0..(@chart.y_categories.count - 1))
