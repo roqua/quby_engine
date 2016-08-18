@@ -31,6 +31,10 @@ module Quby
           @chart.tick_interval = tick_interval
         end
 
+        def y_categories(y_categories)
+          @chart.y_categories = y_categories
+        end
+
         def plot(key, options = {})
           unless plottable = @questionnaire.find_plottable(key)
             fail "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"
@@ -52,6 +56,13 @@ module Quby
         end
 
         def validate!
+          if @chart.y_categories.present? && @chart.y_range.present?
+            if @chart.y_range != (0..(@chart.y_categories.count - 1))
+              raise ArgumentError, 'Y_categories size and range do not match'
+            end
+          elsif @chart.y_categories.present? && @chart.y_range.blank?
+            @chart.y_range = (0..(@chart.y_categories.count - 1))
+          end
           true
         end
 
