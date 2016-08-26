@@ -24,7 +24,9 @@ module Quby::Questionnaires::DSL
       it 'creates a plottable with the options merged into the plottable options' do
         plottable.stub(options: {some: 'options', other: 'options'})
         Quby::Questionnaires::Entities::Charting::Plottable.should_receive(:new)
-          .with(plottable.key, some: 'different_options', other: 'options',
+          .with(plottable.key,
+                some: 'different_options',
+                other: 'options',
                 questionnaire_key: 'questionnaire_key')
         chart_builder.plot plottable_key, some: 'different_options'
       end
@@ -57,26 +59,26 @@ module Quby::Questionnaires::DSL
     describe '#range' do
       it 'assigns y_range' do
         chart_builder.range 0..5
-        expect(chart_builder.build {}.y_range).to eq(0..5)
+        expect(chart_builder.build { }.y_range).to eq(0..5)
       end
     end
     describe '#validate' do
       describe 'when there is no range defined but y_categories are present' do
         it 'uses the 0..y_categories.count-1 as a range' do
           chart_builder.y_categories %w(Bad Great Best)
-          expect(chart_builder.build {}.y_range).to eq(0..2)
+          expect(chart_builder.build { }.y_range).to eq(0..2)
         end
       end
       describe 'when range and y_categories are present' do
         it 'raises if the range does not correspond to the y_categories length' do
           chart_builder.range 0..3
           chart_builder.y_categories %w(Bad Great Best)
-          expect { chart_builder.build {} }.to raise_error(ArgumentError)
+          expect { chart_builder.build { } }.to raise_error(ArgumentError)
         end
         it 'does not raise if the range matches the y_categories' do
           chart_builder.range 0..2
           chart_builder.y_categories %w(Bad Great Best)
-          expect { chart_builder.build {} }.not_to raise_error
+          expect { chart_builder.build { } }.not_to raise_error
         end
       end
     end

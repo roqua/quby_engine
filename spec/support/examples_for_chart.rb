@@ -19,7 +19,7 @@ shared_examples_for Quby::Questionnaires::Entities::Charting::Chart do
 
     describe 'when y_categories is given and no y_range is given' do
       it 'returns 0..(y_categories.count - 1)' do
-        expect(described_class.new('chart', y_categories: ['a','b','c']).y_range).to eq(0..2)
+        expect(described_class.new('chart', y_categories: %w(Bad Great Best)).y_range).to eq(0..2)
       end
     end
   end
