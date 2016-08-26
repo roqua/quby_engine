@@ -52,7 +52,7 @@ module Quby::Questionnaires::DSL
       it 'assigns y_categories' do
         categories = %w(Bad Great Best)
         chart_builder.y_categories categories
-        expect(chart_builder.build {}.y_categories).to eq(categories)
+        expect(chart_builder.build { }.y_categories).to eq(categories)
       end
     end
 
