@@ -60,8 +60,6 @@ module Quby
             if @chart.y_range != (0..(@chart.y_categories.count - 1))
               fail ArgumentError, 'Y_categories size and range do not match'
             end
-          elsif @chart.y_categories.present? && @chart.y_range.blank?
-            @chart.y_range = (0..(@chart.y_categories.count - 1))
           end
           true
         end
