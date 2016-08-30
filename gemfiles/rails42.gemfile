@@ -6,8 +6,9 @@ gem "appraisal", "2.1.0"
 gem "bson_ext"
 gem "roqua-support"
 gem "i18n"
-gem "rails", "~> 4.1.4"
-gem "compass-rails", "1.1.7"
+gem "rails", "~> 4.2.7"
+gem "compass-rails", "2.0.0"
+gem "eventmachine", "~> 1.2.0"
 
 group :assets do
   gem "coffee-rails"
