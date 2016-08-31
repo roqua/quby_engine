@@ -43,6 +43,7 @@ class Quby.Models.Question extends Backbone.Model
       lastClickedOption.trigger "checkChosen"
     optionModel.trigger "checkChosen"
     @setLastClickedOption optionModel
+    true
 
   setLastClickedOption: (optionModel) ->
     @set "lastClickedOption", optionModel

@@ -1,4 +1,4 @@
-.bulk_paged {
+.single_page {
   @include at-breakpoint(35em 24 lt-ie9) {
     $desktop-columns: 24;
     $label-columns: 12;

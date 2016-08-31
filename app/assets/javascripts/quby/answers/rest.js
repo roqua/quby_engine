@@ -257,7 +257,6 @@ function preparePaged(){
 
 function prepareBulkPaged() {
     $(document).trigger('panel_activated', [$('form')])
-    // $('.panel').show();
 }
 
 function setupLeavePageNag() {
@@ -338,7 +337,7 @@ $(function() {
     } else if (displayMode == 'paged') {
         handleAjaxFormRequests();
         preparePaged();
-    } else if (displayMode == 'bulk_paged') {
+    } else if (displayMode == 'single_page') {
         prepareBulkPaged();
     }
   }

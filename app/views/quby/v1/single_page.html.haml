@@ -8,7 +8,7 @@
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
-= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk_paged"].join(" "), :autocomplete => "off" do
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "single_page"].join(" "), :autocomplete => "off" do
   = render :partial => "quby/v1/session_params"
   - unless @answer.errors.empty?
     .force-submit.noprint
@@ -16,7 +16,6 @@
       %p= translate('questionnaire_not_completed.explanation')
       = submit_tag translate('questionnaire_not_completed.save_anyway'), name: 'save_anyway'
 
-  = render :partial => "quby/v1/hotkey_dialog"
   - all_items = @questionnaire.panels.map(&:items).flatten
   - previous_item = nil
 

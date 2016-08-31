@@ -3,7 +3,7 @@ require 'addressable/uri'
 
 module Quby
   class AnswersController < Quby::ApplicationController
-    DISPLAY_MODES = %w(paged bulk bulk_paged)
+    DISPLAY_MODES = %w(paged bulk single_page)
 
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token
@@ -123,7 +123,7 @@ module Quby
 
     def check_aborted
       if (params[:abort] && @questionnaire.abortable) ||
-        (params[:save_anyway] && (@display_mode == "bulk" || @display_mode == "bulk_paged")) ||
+        (params[:save_anyway] && (@display_mode == "bulk" || @display_mode == "single_page")) ||
         (params[:previous_questionnaire])
         params[:answer] ||= HashWithIndifferentAccess.new
         params[:answer][:aborted] = true
