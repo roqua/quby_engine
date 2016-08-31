@@ -114,7 +114,7 @@ module Quby
 
         ##########################################################
 
-        # rubocop:disable CyclomaticComplexity
+        # rubocop:disable CyclomaticComplexity, Metrics/MethodLength
         def initialize(key, options = {})
           super(options)
           @extra_data ||= {}
@@ -187,7 +187,7 @@ module Quby
             end
           end
         end
-        # rubocop:enable CyclomaticComplexity
+        # rubocop:enable CyclomaticComplexity, Metrics/MethodLength
 
         # rubocop:disable AccessorMethodName
         def set_depends_on(keys)

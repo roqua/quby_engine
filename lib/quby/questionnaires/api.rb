@@ -10,7 +10,7 @@ module Quby
         if fresh?(key)
           # print "HIT:#{key} "
           return @cache[key][:questionnaire]
-        else
+          # else
           # print "MISS:#{key} "
         end
 
