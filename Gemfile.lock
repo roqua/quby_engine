@@ -8,8 +8,7 @@ PATH
       compass-rails
       haml
       i18n (~> 0.6)
-      jquery-rails (~> 3.1.4)
-      jquery-ui-rails
+      jquery-rails (~> 2.2.1)
       json
       maruku (= 0.6.1)
       opencpu (~> 0.9.0)
@@ -153,15 +152,13 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.6.11)
     ice_nine (0.11.2)
-    jquery-rails (3.1.4)
+    jquery-rails (2.2.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (5.0.5)
-      railties (>= 3.2.16)
     json (1.8.3)
     launchy (2.4.2)
       addressable (~> 2.3)
-    libv8 (3.16.14.3)
+    libv8 (3.16.14.15)
     listen (2.7.9)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
