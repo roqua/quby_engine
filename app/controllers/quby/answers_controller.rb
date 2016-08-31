@@ -3,6 +3,8 @@ require 'addressable/uri'
 
 module Quby
   class AnswersController < Quby::ApplicationController
+    DISPLAY_MODES = %w(paged bulk bulk_paged)
+
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token
     before_filter :load_custom_stylesheet
@@ -188,7 +190,7 @@ module Quby
     end
 
     def load_display_mode
-      @display_mode = params[:display_mode] if %w(paged bulk).include? params[:display_mode]
+      @display_mode = params[:display_mode] if DISPLAY_MODES.include? params[:display_mode]
       @display_mode ||= 'paged'
     end
 

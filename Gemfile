@@ -31,7 +31,7 @@ group :test, :development do
   gem 'guard-rubocop',  '~> 1.0'
 
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
-  # gem 'guard-bundler',  '~> 2.1.0' 
+  # gem 'guard-bundler',  '~> 2.1.0'
 
   gem 'flamegraph',     '~> 0.0'
   gem 'stackprof' # needed by flamegraph

@@ -255,6 +255,11 @@ function preparePaged(){
     }
 }
 
+function prepareBulkPaged() {
+    $(document).trigger('panel_activated', [$('form')])
+    $('.panel').show();
+}
+
 function setupLeavePageNag() {
   leave_page_text = $("#leave_page_alert").html();
 
@@ -328,13 +333,13 @@ $(function() {
 
         processExtraData();
 
-        if (isBulk) {
+        if (displayMode == 'bulk') {
             prepareBulk();
-        } else {
-
+        } else if (displayMode == 'paged') {
             handleAjaxFormRequests();
-
             preparePaged();
+        } else if (displayMode == 'bulk_paged') {
+            prepareBulkPaged();
         }
     }
 );
