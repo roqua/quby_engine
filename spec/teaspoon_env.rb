@@ -6,25 +6,28 @@
 # ENV["RAILS_ROOT"] = File.expand_path("../dummy/", __FILE__)
 # require File.expand_path("../dummy/config/environment", __FILE__)
 
-require 'rails'
-require 'action_controller/railtie'
-require 'action_view/railtie'
-require 'sprockets/railtie'
-require 'jquery/rails'
-require 'combustion'
-Combustion.path = 'spec/internal'
+unless defined? Rails
+  require 'rails'
+  require 'action_controller/railtie'
+  require 'action_view/railtie'
+  require 'sprockets/railtie'
+  require 'jquery/rails'
+  require 'combustion'
+  Combustion.path = 'spec/internal'
 
-require 'quby'
-require 'teaspoon'
+  require 'quby'
+  require 'teaspoon'
+  require 'teaspoon-jasmine'
 
-if Rails.env.test? || Rails.env.development?
-  Rails.application.config.assets.paths << Quby::Engine.root.join("spec", "javascripts") <<
-      Quby::Engine.root.join("spec", "stylesheets")
-  # Add engine to view path so that spec/javascripts/fixtures are accessible
-  ActionController::Base.prepend_view_path Quby::Engine.root
+  if Rails.env.test? || Rails.env.development?
+    Rails.application.config.assets.paths << Quby::Engine.root.join("spec", "javascripts") <<
+        Quby::Engine.root.join("spec", "stylesheets")
+    # Add engine to view path so that spec/javascripts/fixtures are accessible
+    ActionController::Base.prepend_view_path Quby::Engine.root
+  end
+
+  Combustion.initialize! :action_controller, :action_view, :sprockets
 end
-
-Combustion.initialize! :action_controller, :action_view, :sprockets
 
 # Provide default configuration.
 #
@@ -32,7 +35,7 @@ Combustion.initialize! :action_controller, :action_view, :sprockets
 #
 # teaspoon --driver=selenium --suppress-log
 # rake teaspoon DRIVER=selenium SUPPRESS_LOG=false
-Teaspoon.setup do |config|
+Teaspoon.configure do |config|
 
   # This determines where the Teaspoon routes will be mounted. Changing this to "/jasmine" would allow you to browse to
   # http://localhost:3000/jasmine to run your specs.
@@ -48,7 +51,7 @@ Teaspoon.setup do |config|
 
   # Fixtures are rendered through a standard controller. This means you can use things like HAML or RABL/JBuilder, etc.
   # to generate fixtures within this path.
-  config.fixture_path = "spec/javascripts/fixtures"
+  config.fixture_paths = ["spec/javascripts/fixtures"]
 
   # You can modify the default suite configuration and create new suites here. Suites can be isolated from one another.
   # When defining a suite you can provide a name and a block. If the name is left blank, :default is assumed. You can
@@ -58,6 +61,7 @@ Teaspoon.setup do |config|
   #   - in the browser: http://localhost/teaspoon/[suite_name]
   #   - from the command line: rake teaspoon suite=[suite_name]
   config.suite do |suite|
+    suite.use_framework :jasmine, "2.2.0"
 
     # You can specify a file matcher and all matching files will be loaded when the suite is run. It's important that
     # these files are serve-able from sprockets.
@@ -68,19 +72,6 @@ Teaspoon.setup do |config|
     # Each suite can load a different helper, which can in turn require additional files. This file is loaded before
     # your specs are loaded, and can be used as a manifest.
     suite.helper = "spec_helper"
-
-    # These are the core Teaspoon javascripts. It's strongly encouraged to include only the base files here. You can
-    # require other support libraries in your spec helper, which allows you to change them without having to restart the
-    # server.
-    #
-    # Available frameworks: teaspoon-jasmine, teaspoon-mocha, teaspoon-qunit
-    #
-    # Note: To use the CoffeeScript source files use `"teaspoon/jasmine"` etc.
-    suite.javascripts = ["teaspoon-jasmine"]
-
-    # If you want to change how Teaspoon looks, or include your own stylesheets you can do that here. The default is the
-    # stylesheet for the HTML reporter.
-    suite.stylesheets = ["teaspoon"]
 
     # When running coverage reports, you probably want to exclude libraries that you're not testing.
     # Accepts an array of filenames or regular expressions. The default is to exclude assets from vendors or gems.

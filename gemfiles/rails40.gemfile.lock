@@ -284,8 +284,10 @@ GEM
       compass (>= 0.12.2)
       sass (>= 3.2.0)
     syntax (1.2.1)
-    teaspoon (0.9.1)
-      railties (>= 3.2.5, < 5)
+    teaspoon (1.1.5)
+      railties (>= 3.2.5, < 6)
+    teaspoon-jasmine (2.2.0)
+      teaspoon (>= 1.0.0)
     test-unit (3.2.1)
       power_assert
     therubyracer (0.12.2)
@@ -342,7 +344,8 @@ DEPENDENCIES
   rubocop (~> 0.19.0)
   simplecov (~> 0.9.0)
   stackprof
-  teaspoon (~> 0.9)
+  teaspoon
+  teaspoon-jasmine
   test-unit
   therubyracer
   timecop
