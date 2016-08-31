@@ -123,7 +123,7 @@ module Quby
 
     def check_aborted
       if (params[:abort] && @questionnaire.abortable) ||
-        (params[:save_anyway] && @display_mode == "bulk") ||
+        (params[:save_anyway] && (@display_mode == "bulk" || @display_mode == "bulk_paged")) ||
         (params[:previous_questionnaire])
         params[:answer] ||= HashWithIndifferentAccess.new
         params[:answer][:aborted] = true

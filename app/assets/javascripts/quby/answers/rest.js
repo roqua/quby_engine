@@ -257,7 +257,7 @@ function preparePaged(){
 
 function prepareBulkPaged() {
     $(document).trigger('panel_activated', [$('form')])
-    $('.panel').show();
+    // $('.panel').show();
 }
 
 function setupLeavePageNag() {
@@ -323,23 +323,23 @@ function handleAjaxFormRequests() {
 
 var leave_page_text;
 $(function() {
-        $('input').placeholder();
+    $('input').placeholder();
 
-        setupLeavePageNag();
+    setupLeavePageNag();
 
-        $(".deselectable").deselectable();
+    $(".deselectable").deselectable();
 
-        $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').on("click", radioCheckboxEvents );
+    $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').on("click", radioCheckboxEvents );
 
-        processExtraData();
+    processExtraData();
 
-        if (displayMode == 'bulk') {
-            prepareBulk();
-        } else if (displayMode == 'paged') {
-            handleAjaxFormRequests();
-            preparePaged();
-        } else if (displayMode == 'bulk_paged') {
-            prepareBulkPaged();
-        }
+    if (displayMode == 'bulk') {
+        prepareBulk();
+    } else if (displayMode == 'paged') {
+        handleAjaxFormRequests();
+        preparePaged();
+    } else if (displayMode == 'bulk_paged') {
+        prepareBulkPaged();
     }
+  }
 );
