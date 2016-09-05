@@ -17,7 +17,7 @@
         nextButtonFocussed = false;
         saveButtonFocussed = false;
       });
-      $(".item input, .item textarea, .buttons input, select").on("click keyup", function(event){
+      $(".item input, .item textarea, .buttons input, select").on("click", function(event){
         focusInput(event.target);
       });
       $(".item input, .item textarea, .buttons input, select").on("focus", function(event){

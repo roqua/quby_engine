@@ -255,7 +255,7 @@ function preparePaged(){
     }
 }
 
-function prepareBulkPaged() {
+function prepareSinglePage() {
     $(document).trigger('panel_activated', [$('form')])
 }
 
@@ -282,12 +282,12 @@ function setupLeavePageNag() {
   }
 }
 
-function handleAjaxFormRequests() {
+function handleAjaxFormRequests(prepareDisplayModeCallback) {
   $(document).on('ajax:success', "form", function(event, data, status, xhr) {
     content_type = (xhr.getResponseHeader("content-type")||"").split(';')[0];
     if (content_type == 'text/html') { // not json response
       $('#content').replaceWith(data);
-      preparePaged();
+      prepareDisplayModeCallback();
     }
   });
   $(document).on('ajax:error', "form", function(event, xhr, status) {
@@ -335,10 +335,11 @@ $(function() {
     if (displayMode == 'bulk') {
         prepareBulk();
     } else if (displayMode == 'paged') {
-        handleAjaxFormRequests();
+        handleAjaxFormRequests(preparePaged);
         preparePaged();
     } else if (displayMode == 'single_page') {
-        prepareBulkPaged();
+        handleAjaxFormRequests(prepareSinglePage);
+        prepareSinglePage();
     }
   }
 );

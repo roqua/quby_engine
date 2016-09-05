@@ -4,8 +4,7 @@ class Quby.Views.QuestionOptionView extends Backbone.View
     @model.set("view", @)
   events:
     "click" : "clicked"
-  clicked: (ev) ->
+  clicked: ->
     @model.trigger "clicked", @model
-    true
   chosen: ->
     @$el.is(":selected, :checked")

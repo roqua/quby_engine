@@ -46,7 +46,7 @@ Quby.initShowsHides = ->
   Quby.flags.initShowsHides(Quby.questions)
 
 Quby.initFieldListeners = ->
-  $("select[data-field-key], input[data-field-key], textarea[data-field-key]").on "change keyup", (event) ->
+  $("select[data-field-key], input[data-field-key], textarea[data-field-key]").on "change", (event) ->
     fieldKey = $(event.target).data("field-key")
     fieldValue = event.target.value
     Quby.answer.setField(fieldKey, fieldValue)
