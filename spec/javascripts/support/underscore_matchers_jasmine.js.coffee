@@ -1,14 +1,15 @@
 #_ = require('underscore')
 
 invoke = (method_name, args...) ->
-  if _.isFunction(@actual[method_name])
-    @actual[method_name].apply(@actual, args)
-  else
-    args.unshift(@actual)
-    _[method_name].apply(@actual, args)
+  compare: (actual, expected) ->
+    if _.isFunction(actual[method_name])
+      pass: actual[method_name].apply(actual, args)
+    else
+      args.unshift(actual)
+      pass: _[method_name].apply(actual, args)
 
 beforeEach ->
-  @addMatchers
+  jasmine.addMatchers
     toBeEmpty: ->
       invoke.call(this, 'isEmpty')
 
@@ -44,11 +45,14 @@ beforeEach ->
       _.any attrs, (attr) =>
         invoke.call(this, 'has', attr)
 
-    toBeAnInstanceOf: (clazz) ->
-      @actual instanceof clazz
+    toBeAnInstanceOf: ->
+      compare: (actual, clazz) ->
+        pass: actual instanceof clazz
 
-    toBeA: (clazz) ->
-      @actual instanceof clazz
+    toBeA: ->
+      compare: (actual, clazz) ->
+        pass: actual instanceof clazz
 
-    toBeAn: (clazz) ->
-      @actual instanceof clazz
+    toBeAn: ->
+      compare: (actual, clazz) ->
+        pass: actual instanceof clazz

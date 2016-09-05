@@ -19,7 +19,7 @@ module Quby
           validate_flags(questionnaire)
           validate_respondent_types(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
-        rescue Exception => exception
+        rescue Exception => exception # rubocop:disable Lint/RescueException
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
                                                        "#{exception.message}",
                                               backtrace: exception.backtrace[0..5].join("<br/>")})
@@ -30,7 +30,7 @@ module Quby
             validate_key_format(key)
           end
 
-          questionnaire.question_hash.each do |key, question|
+          questionnaire.question_hash.each do |_key, question|
             validate_question(question)
             subquestions_cant_have_default_invisible question
             validate_subquestion_absence_in_select question
@@ -42,7 +42,7 @@ module Quby
 
         def validate_question(question)
           unless question.valid?
-            fail "Question #{question.key} is invalid: #{question.errors.full_messages.join(", ")}"
+            fail "Question #{question.key} is invalid: #{question.errors.full_messages.join(', ')}"
           end
         end
 
@@ -79,7 +79,7 @@ module Quby
         end
 
         def validate_flags(questionnaire)
-          questionnaire.flags.each do |flag_key, flag|
+          questionnaire.flags.each do |_flag_key, flag|
             shows_questions = flag.shows_questions
             hides_questions = flag.hides_questions
             unknown_shows_questions = shows_questions.select { |key| !questionnaire.key_in_use?(key) }

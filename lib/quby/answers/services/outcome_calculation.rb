@@ -12,7 +12,7 @@ module Quby
           @answer = answer
         end
 
-        def calculate
+        def calculate # rubocop:disable Metrics/MethodLength
           results = {}
           score_results = {}
           action_results = {}

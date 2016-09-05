@@ -1,15 +1,18 @@
-inherit_from: rubocop-todo.yml
+inherit_from: .rubocop_todo.yml
 
 AllCops:
-  Excludes:
-    - 'config/**'
-    - 'db/**'
-    - 'script/**'
-    - 'tmp/**'
-    - 'vendor/**'
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
     - 'spec/fixtures/*.rb'
-    - 'spec/dummy/**'
-  RunRailsCops: true
+    - 'spec/dummy/**/*'
+
+Rails:
+  Enabled: true
 
 # Use UTF-8 as the source file encoding.
 Encoding:
@@ -18,11 +21,15 @@ Encoding:
 # Limit lines to 80 characters.
 LineLength:
   Max: 120
+  Exclude:
+    - 'quby.gemspec'
 
 # Avoid methods longer than 10 lines of code
 MethodLength:
   CountComments: false  # count full line comments?
-  Max: 20
+  Max: 25 # need to go lower.
+  Exclude:
+    - 'spec/features'
 
 BracesAroundHashParameters:
   Enabled: false
@@ -31,9 +38,9 @@ SpaceInsideBlockBraces:
   EnforcedStyle: space
   EnforcedStyleForEmptyBraces: space
 
-AmbiguousRegexpLiteral:
+Lint/AmbiguousRegexpLiteral:
   Exclude:
-    - 'spec/**'
+    - 'spec/**/*'
 
 CyclomaticComplexity:
   Max: 15 # should be set to 6, too many for now

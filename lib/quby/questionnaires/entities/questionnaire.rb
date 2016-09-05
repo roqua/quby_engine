@@ -181,7 +181,7 @@ module Quby
           end
 
           output = output.join("\n")
-          strip_tags(output).gsub("&lt;", "<")
+          strip_tags(output.gsub(/\<([ 1-9])/, '&lt;\1')).gsub("&lt;", "<")
         end
 
         def key_in_use?(key)
@@ -251,7 +251,7 @@ module Quby
                   .to_h
         end
 
-        def answer_dsl_module
+        def answer_dsl_module # rubocop:disable Metrics/MethodLength
           # Have to put this in a local variable so the module definition block can access it
           questions_in_var = questions
 

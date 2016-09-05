@@ -14,7 +14,7 @@ module Quby
           @answer        = answer
         end
 
-        # rubocop:disable CyclomaticComplexity
+        # rubocop:disable CyclomaticComplexity, Metrics/MethodLength
         def validate
           return if answer.aborted
 
@@ -74,7 +74,7 @@ module Quby
             end
           end
         end
-        # rubocop:enable CyclomaticComplexity
+        # rubocop:enable CyclomaticComplexity, Metrics/MethodLength
 
         def validate_required(question, validation, value)
           valid = case question.type
