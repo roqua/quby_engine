@@ -31,7 +31,7 @@ guard :teaspoon, teaspoon_options do
 end
 
 guard :rubocop, all_on_start: false, cli: ['-D'] do
-  excludes = YAML.load_file('.rubocop.yml')['AllCops']['Excludes']
+  excludes = YAML.load_file('.rubocop.yml')['AllCops']['Exclude']
   watch(%r{(.+\.rb)$}) { |m| m[0] unless excludes.find { |excluded| File.fnmatch(excluded, m[0]) } }
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
