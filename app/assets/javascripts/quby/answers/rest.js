@@ -334,12 +334,12 @@ $(function() {
 
     if (displayMode == 'bulk') {
         prepareBulk();
-    } else if (displayMode == 'paged') {
-        handleAjaxFormRequests(preparePaged);
-        preparePaged();
     } else if (displayMode == 'single_page') {
         handleAjaxFormRequests(prepareSinglePage);
         prepareSinglePage();
+    } else { // paged
+        handleAjaxFormRequests(preparePaged);
+        preparePaged();
     }
   }
 );

@@ -3,7 +3,7 @@ require 'addressable/uri'
 
 module Quby
   class AnswersController < Quby::ApplicationController
-    DISPLAY_MODES = %w(paged bulk single_page)
+    DISPLAY_MODES = %w(paged bulk single_page).freeze
 
     before_filter :load_token_and_hmac_and_timestamp
     before_filter :load_return_url_and_token

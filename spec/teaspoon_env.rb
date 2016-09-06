@@ -75,9 +75,13 @@ Teaspoon.configure do |config|
 
     # When running coverage reports, you probably want to exclude libraries that you're not testing.
     # Accepts an array of filenames or regular expressions. The default is to exclude assets from vendors or gems.
-    suite.no_coverage = [%r{/lib/ruby/gems/}, %r{/vendor/assets/}, %r{/support/}, %r{/(.+)_helper.}]
+    # suite.no_coverage = [%r{/lib/ruby/gems/}, %r{/vendor/assets/}, %r{/support/}, %r{/(.+)_helper.}]
     # suite.no_coverage << "jquery.min.js" # excludes jquery from coverage reports
 
+  end
+
+  config.coverage do |coverage|
+    coverage.ignore += [%r{/lib/ruby/gems/}, %r{/vendor/assets/}, %r{/support/}, %r{/(.+)_helper.}]
   end
 
   # Example suite. Since we're just filtering to files already within the root spec/javascripts, these files will also
