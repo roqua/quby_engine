@@ -25,16 +25,17 @@
       .save { @include span-columns(6 omega); text-align: right; }
     }
 
-    .panel.noVisibleQuestions { display: none;}
+    // Uncomment these rules to enable show/hide of panels and questions, if we ever change our minds...
+    // .panel.noVisibleQuestions { display: none;}
 
-    .item.hide {
-      margin:  0 !important;
-      outline: none !important;
-    }
+    // .item.hide {
+    //   margin:  0 !important;
+    //   outline: none !important;
+    // }
 
-    .item.hide > * {
-      display: none !important;
-    }
+    // .item.hide > * {
+    //   display: none !important;
+    // }
 
     .panel {
       @include span-columns($desktop-columns omega);
