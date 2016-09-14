@@ -16,7 +16,6 @@
       %p= translate('questionnaire_not_completed.explanation')
       = submit_tag translate('questionnaire_not_completed.save_anyway'), name: 'save_anyway'
 
-  - all_items = @questionnaire.panels.map(&:items).flatten
   - previous_item = nil
 
   - @questionnaire.panels.each_with_index do |panel, panel_counter|
@@ -28,7 +27,7 @@
                                                                  :panel_id => panel_id, |
                                                                  :answer => @answer} |
       - if panel.title
-        %h1&= panel.title
+        %h1= panel.title
 
       - panel.items.each_with_index do |item, idx|
         = render :partial => "quby/v1/paged/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item }

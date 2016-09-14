@@ -257,6 +257,7 @@ function preparePaged(){
 
 function prepareSinglePage() {
     $(document).trigger('panel_activated', [$('form')])
+    $('fieldset.panel').removeClass('hidden')
 }
 
 function setupLeavePageNag() {
