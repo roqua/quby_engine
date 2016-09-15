@@ -2,16 +2,18 @@
   @extend .bulk;
 
   @include at-breakpoint(35em 24 lt-ie9) {
-    .option {
-      border: none;
-      padding: 0;
-      text-align: center;
-    }
+    .panel {
+      .option {
+        border: none;
+        padding: 0;
+        text-align: center;
+      }
 
-    .item {
-      .description-and-fields {
-        width: 100%;
-        float: left;
+      .item {
+        .description-and-fields {
+          width: 100%;
+          float: left;
+        }
       }
     }
   }
