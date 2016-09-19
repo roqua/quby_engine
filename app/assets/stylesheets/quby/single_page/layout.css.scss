@@ -1,20 +1,4 @@
 .single_page {
-  @extend .bulk;
+  @extend .paged;
 
-  @include at-breakpoint(35em 24 lt-ie9) {
-    .panel {
-      .option {
-        border: none;
-        padding: 0;
-        text-align: center;
-      }
-
-      .item {
-        .description-and-fields {
-          width: 100%;
-          float: left;
-        }
-      }
-    }
-  }
 }
