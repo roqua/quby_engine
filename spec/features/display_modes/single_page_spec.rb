@@ -2,22 +2,6 @@ require 'spec_helper'
 
 module Quby
   describe "quby/answers/single_page/panel" do
-    # let(:questionnaire) { inject_questionnaire("panels", <<-END) }
-    #   title "Questionnaire with a bunch of panels"
-
-    #   panel do
-    #     text "First panel"
-    #   end
-
-    #   panel do
-    #     text "Second panel"
-    #   end
-
-    #   panel do
-    #     text "Third panel"
-    #   end
-    # END
-
     let(:questionnaire) { inject_questionnaire("test", <<-END) }
       panel do
         question :v1, type: :radio, required: true do
