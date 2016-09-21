@@ -60,4 +60,17 @@ feature 'Using hotkeys' do
     page.driver.execute_script(keypress_1)
     page.should have_checked_field("answer_v1_a1")
   end
+
+  scenario 'show and close hotkeys dialog when help link is clicked', js: true do
+    visit_new_answer_for(questionnaire)
+
+    page.should have_content('Sneltoetsen Help')
+    page.should_not have_content('Gebruik de volgende toetsen')
+
+    page.click_link('Sneltoetsen Help')
+    page.should have_content('Gebruik de volgende toetsen')
+
+    page.find('button', text: 'Sluiten').trigger('click')
+    page.should_not have_content('Gebruik de volgende toetsen')
+  end
 end
