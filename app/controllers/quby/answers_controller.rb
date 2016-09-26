@@ -56,7 +56,7 @@ module Quby
       end
 
       updater.on_failure do
-        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode != "bulk"
+        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode == "paged"
         if printing
           render_versioned_template @display_mode, layout: "content_only"
         else
