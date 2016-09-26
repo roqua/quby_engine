@@ -32,14 +32,16 @@
       - panel.items.each_with_index do |item, idx|
         = render :partial => "quby/v1/paged/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item }
         - previous_item = item if item.is_a?(Quby::Questionnaires::Entities::Question)
-  .buttons
-    - if @questionnaire.enable_previous_questionnaire_button
-      .back
-        = submit_tag raw("&larr; #{translate('previous_questionnaire')}"), id: 'back', name: 'previous_questionnaire'
-    .prev &nbsp;
-    .save
-      = submit_tag translate('done'), id: 'done-button', name: 'done'
-    = render :partial => 'quby/v1/shared/print_button'
+
+  %fieldset{class: "panel last-panel"}
+    .buttons
+      - if @questionnaire.enable_previous_questionnaire_button
+        .back
+          = submit_tag raw("&larr; #{translate('previous_questionnaire')}"), id: 'back', name: 'previous_questionnaire'
+      .prev &nbsp;
+      .save
+        = submit_tag translate('done'), id: 'done-button', name: 'done'
+      = render :partial => 'quby/v1/shared/print_button'
 
 = render :partial => "quby/v1/shared/footer_javascript", locals: {answer: @answer}
 = render :partial => "quby/v1/modal_iframe"
