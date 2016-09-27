@@ -40,7 +40,7 @@ module Quby
     it 'shows all panels and questions' do
       visit_new_answer_for(questionnaire, "single_page")
 
-      page.should have_selector('.panel', count: 2)
+      page.should have_selector('.panel', count: 3)
       page.should have_content('Verbergt vraag 2')
       page.should have_content('Vul dit in')
       page.should have_content('Verbergt vraag 4 op volgende panel')
@@ -83,7 +83,7 @@ module Quby
 
       # Show warning first
       click_on('Klaar')
-      page.should have_content("De vragenlijst is nog niet volledig ingevuld.")
+      page.should have_content("Deze vragenlijst is nog niet volledig ingevuld")
 
       # But allow to skip validation and save
       click_on('Toch opslaan')
