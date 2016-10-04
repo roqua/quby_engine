@@ -212,7 +212,7 @@ function doDivPrint(url){
           }});
         } else {
           $("body > #content").replaceWith(result.find("#content"));
-          if (isBulk){
+          if (isBulkOrSinglePage){
             prepareBulk();
           } else {
             preparePaged();

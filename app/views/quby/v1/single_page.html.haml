@@ -8,7 +8,7 @@
 - content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
-= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "single_page"].join(" "), :autocomplete => "off" do
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "single-page"].join(" "), :autocomplete => "off" do
   = render :partial => "quby/v1/session_params"
   - unless @answer.errors.empty?
     .force-submit.noprint

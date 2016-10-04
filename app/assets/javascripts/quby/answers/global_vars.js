@@ -1,8 +1,8 @@
 var displayMode;
-var isBulk;
+var isBulkOrSinglePage;
 var shownFlash = false;
 
 $(function() {
   displayMode = $('#display_mode').val();
-  isBulk = (displayMode === 'bulk' || displayMode === 'single_page');
+  isBulkOrSinglePage = (displayMode === 'bulk' || displayMode === 'single_page');
 });
