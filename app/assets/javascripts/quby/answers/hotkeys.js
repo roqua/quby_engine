@@ -154,7 +154,7 @@
           $(this).dialog("close");
         }
       }
-    });
+    }).dialog({position: {my: 'center top', at: 'center', of: $('#content')}}); // center dialog fix
   };
 
   function handleDownHotKeys(event){
