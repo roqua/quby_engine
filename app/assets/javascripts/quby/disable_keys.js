@@ -43,10 +43,3 @@ document.onkeydown = function(event) {
         }
     }
 }
-
-
-
-// Disable Context menu
-document.oncontextmenu=new Function("return false");
-
-
