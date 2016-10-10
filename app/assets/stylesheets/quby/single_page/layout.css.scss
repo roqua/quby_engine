@@ -1,4 +1,18 @@
 .single-page {
   @extend .paged;
 
+  .hidden { display: none;}
+
+  .panel.noVisibleQuestions {
+    display: none;
+  }
+
+  .item.hide {
+    margin: 0 !important;
+    outline: none !important;
+  }
+
+  .item.hide > * {
+    display: none !important;
+  }
 }
