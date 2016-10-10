@@ -10,7 +10,7 @@
 
 - target = params[:target_top] ? "_top" : nil
 
-- form_classes = [@questionnaire.key, "paged", "can-hide-panels"]
+- form_classes = [@questionnaire.key, "paged"]
 = form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :target => target, :class => form_classes, :autocomplete => "off", remote: true do
   = render :partial => "quby/v1/session_params"
   = render :partial => "quby/v1/paged/panel", :collection => @questionnaire.panels, :locals => {:panels => @questionnaire.panels, :questionnaire => @questionnaire}

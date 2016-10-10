@@ -1,10 +1,9 @@
 @import "paged/mobile";
 @import "paged/desktop";
 
-// Show/hide related styles
-.can-hide-panels {
-  .hidden { display: none;}
+.hidden { display: none;}
 
+.paged {
   .noVisibleQuestions { display: none;}
 
   .hide {
@@ -15,9 +14,7 @@
   .hide > * {
     display: none !important;
   }
-}
 
-.paged {
   // grid setup
   $column-width: 2em;
   $gutter-width: 0.5em;
