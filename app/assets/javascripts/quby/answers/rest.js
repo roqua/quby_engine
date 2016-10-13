@@ -212,7 +212,7 @@ function doDivPrint(url){
           }});
         } else {
           $("body > #content").replaceWith(result.find("#content"));
-          if (isBulk){
+          if (isBulkOrSinglePage){
             prepareBulk();
           } else {
             preparePaged();
@@ -255,6 +255,11 @@ function preparePaged(){
     }
 }
 
+function prepareSinglePage() {
+    $(document).trigger('panel_activated', [$('form')])
+    $('fieldset.panel').removeClass('hidden')
+}
+
 function setupLeavePageNag() {
   leave_page_text = $("#leave_page_alert").html();
 
@@ -278,12 +283,12 @@ function setupLeavePageNag() {
   }
 }
 
-function handleAjaxFormRequests() {
+function handleAjaxFormRequests(prepareDisplayModeCallback) {
   $(document).on('ajax:success', "form", function(event, data, status, xhr) {
     content_type = (xhr.getResponseHeader("content-type")||"").split(';')[0];
     if (content_type == 'text/html') { // not json response
       $('#content').replaceWith(data);
-      preparePaged();
+      prepareDisplayModeCallback();
     }
   });
   $(document).on('ajax:error', "form", function(event, xhr, status) {
@@ -318,23 +323,24 @@ function handleAjaxFormRequests() {
 
 var leave_page_text;
 $(function() {
-        $('input').placeholder();
+    $('input').placeholder();
 
-        setupLeavePageNag();
+    setupLeavePageNag();
 
-        $(".deselectable").deselectable();
+    $(".deselectable").deselectable();
 
-        $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').on("click", radioCheckboxEvents );
+    $('input[type="radio"]:not(.subinput), input[type="checkbox"]:not(.subinput)').on("click", radioCheckboxEvents );
 
-        processExtraData();
+    processExtraData();
 
-        if (isBulk) {
-            prepareBulk();
-        } else {
-
-            handleAjaxFormRequests();
-
-            preparePaged();
-        }
+    if (displayMode == 'bulk') {
+        prepareBulk();
+    } else if (displayMode == 'single_page') {
+        handleAjaxFormRequests(prepareSinglePage);
+        prepareSinglePage();
+    } else { // paged
+        handleAjaxFormRequests(preparePaged);
+        preparePaged();
     }
+  }
 );

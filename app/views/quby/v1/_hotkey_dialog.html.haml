@@ -14,7 +14,7 @@
       Sneltoetsen Help
     .hotkeyDialog{ :title => "Sneltoetsen", :style => "display:none"}
       %p Gebruik de volgende toetsen voor het invullen van de schalen:
-    
+
       %table
         %tr
           - (1..9).each do |i|
@@ -25,7 +25,7 @@
           - hotkeys.each do |hk|
             %td
               = image_tag(hk)
-      %p 
+      %p
         De cijfers komen overeen met de score op de schaal. Indien er geen scores bij de opties staan is de eerste optie gekoppeld aan cijfer 1,
         de tweede aan cijfer 2 enz.
       %p

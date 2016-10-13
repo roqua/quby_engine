@@ -1,6 +1,6 @@
 describe "ajax error callbacks", ->
   beforeEach ->
-    $('body').prepend('<form action="foobar" id="rails_ajax_form" data-remote="true">link</a>')
+    $('body').prepend('<form action="foobar" id="rails_ajax_form" data-remote="true"></form>')
     $('body').prepend('<div class="flash" style="display: none"></div')
     this.xhr = sinon.useFakeXMLHttpRequest()
     requests = this.requests = []

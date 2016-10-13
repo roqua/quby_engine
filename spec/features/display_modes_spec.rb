@@ -55,6 +55,11 @@ module Quby
           visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=bulk"
           screenshot "#{questionnaire.key}_bulk"
         end
+
+        it "screenshots #{questionnaire.key} in single_page view", js: true do
+          visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=single_page"
+          screenshot "#{questionnaire.key}_single_page"
+        end
       end
     end
   end

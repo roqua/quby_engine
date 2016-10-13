@@ -40,6 +40,15 @@ ENV['OPENCPU_PASSWORD']     = 'optional_basicauth_password'
 ENV['OPENCPU_TIMEOUT']      = '30' # request timeout in seconds.
 ```
 
+## Testing
+
+When testing with guard or teaspoon, choose the Rails version you want to use and set the teaspoon environment:
+
+```ruby
+bundle exec appraisal rails42 bundle # install dependencies for Rails 4.2
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails42 guard
+```
+
 ## Contributing to Quby
 
 * Check out the latest master to make sure the feature hasn't been implemented

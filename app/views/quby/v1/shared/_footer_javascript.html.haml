@@ -9,7 +9,7 @@
     });
 
     // Initialize all panels in bulk, activate first panel otherwise
-    if(isBulk) {
+    if(isBulkOrSinglePage) {
       initShowsHides("all_panels");
     } else {
       activatePanel($(".panel:first"), true);

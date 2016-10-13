@@ -1,0 +1,47 @@
+:javascript
+  window.panel_validations = {};
+  // for setting values of raw_content
+  window.extra_question_values = #{@answer.extra_question_values};
+  // for showing validations of raw content
+  window.extra_failed_validations = #{@answer.extra_failed_validations};
+
+- content_for(:page_title, @questionnaire.title)
+- content_for(:extra_css, raw(@questionnaire.extra_css))
+
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "single-page"].join(" "), :autocomplete => "off" do
+  = render :partial => "quby/v1/session_params"
+  - unless @answer.errors.empty?
+    .force-submit.noprint
+      %h1= translate('questionnaire_not_completed.heading')
+      %p= translate('questionnaire_not_completed.explanation')
+      = submit_tag translate('questionnaire_not_completed.save_anyway'), name: 'save_anyway'
+
+  - previous_item = nil
+
+  - @questionnaire.panels.each_with_index do |panel, panel_counter|
+    - panel_id = "panel#{panel_counter}"
+    %fieldset{:id => panel_id, :class => "panel"}
+      :javascript
+        panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
+      = render :partial => 'quby/v1/shared/backbone_panel', :locals => {:panel => panel, |
+                                                                 :panel_id => panel_id, |
+                                                                 :answer => @answer} |
+      - if panel.title
+        %h1= panel.title
+
+      - panel.items.each_with_index do |item, idx|
+        = render :partial => "quby/v1/paged/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item }
+        - previous_item = item if item.is_a?(Quby::Questionnaires::Entities::Question)
+
+  %fieldset{class: "panel last-panel"}
+    .buttons
+      - if @questionnaire.enable_previous_questionnaire_button
+        .back
+          = submit_tag raw("&larr; #{translate('previous_questionnaire')}"), id: 'back', name: 'previous_questionnaire'
+      .prev &nbsp;
+      .save
+        = submit_tag translate('done'), id: 'done-button', name: 'done'
+      = render :partial => 'quby/v1/shared/print_button'
+
+= render :partial => "quby/v1/shared/footer_javascript", locals: {answer: @answer}
+= render :partial => "quby/v1/modal_iframe"

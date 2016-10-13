@@ -1,6 +1,8 @@
-var isBulk;
+var displayMode;
+var isBulkOrSinglePage;
 var shownFlash = false;
 
 $(function() {
-  isBulk = $('form.bulk, form.print').size() > 0;
+  displayMode = $('#display_mode').val();
+  isBulkOrSinglePage = (displayMode === 'bulk' || displayMode === 'single_page');
 });
