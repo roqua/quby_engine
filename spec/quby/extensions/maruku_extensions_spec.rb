@@ -3,13 +3,13 @@ require 'spec_helper'
 class Maruku
   # rubocop:disable LineLength
 
-  describe "link tag extenstion ~~url~~body~~" do
+  describe "link tag extension ~~url~~body~~" do
     it "converts ~~url~~body~~ into a modal frame link" do
       Maruku.new("~~http://google.com~~google~~").to_html.should == "<p><a href='#' onclick='modalFrame(\"http://google.com\");'>google</a></p>"
     end
   end
 
-  describe "text variable extenstion {{textvar}}" do
+  describe "text variable extension {{textvar}}" do
     it "converts {{test}} into a text variable span" do
       Maruku.new("{{test}}").to_html.should == "<p><span class='textvar' textvar='test'>{{test}}</span></p>"
     end
