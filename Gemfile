@@ -33,9 +33,8 @@ group :test, :development do
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
   # gem 'guard-bundler',  '~> 2.1.0'
 
-  gem 'flamegraph',     '~> 0.0'
+  gem 'flamegraph'
   gem 'stackprof' # needed by flamegraph
   gem 'rspec-prof',     '~> 0.0'
-  gem 'byebug'
   gem 'test-unit'
 end

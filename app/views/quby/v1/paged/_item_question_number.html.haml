@@ -28,7 +28,7 @@
             -# Remove class when ie8 is dropped.
             - lcls = (i == 0) ? 'first' : (i == question.labels.size-1) ? 'last' : ''
             - left = i * 100 / (question.labels.size - 1)
-            %div{class: lcls, style: left != 100 ? "left: #{left}%" : ''}= label.html_safe
+            %div{class: lcls, style: left != 100 ? "left: #{left}%" : ''}= raw Maruku.new(label).to_html
     - else
       = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30), data: data
     %span.unit= raw question.unit
