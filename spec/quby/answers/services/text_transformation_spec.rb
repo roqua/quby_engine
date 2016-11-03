@@ -10,8 +10,8 @@ module Quby
 
     describe '#link_html' do
       it 'returns an anchor tag' do
-        expected_text = "<a href='#' onclick='modalFrame(\"http://google.com\");'>google</a>"
-        expect(described_instance.link_html('http://google.com', 'google')).to eq(expected_text)
+        expected_text = "<a href='#' onclick='modalFrame(\"http://roqua.nl\");'>roqua</a>"
+        expect(described_instance.link_html('http://roqua.nl', 'roqua')).to eq(expected_text)
       end
     end
 
@@ -24,8 +24,8 @@ module Quby
 
     describe '#transform_special_text' do
       it 'transforms links' do
-        expected_text = "<a href='#' onclick='modalFrame(\"http://google.com\");'>google</a>"
-        expect(described_instance.transform_special_text('~~http://google.com~~google~~')).to eq(expected_text)
+        expected_text = "<a href='#' onclick='modalFrame(\"http://roqua.nl\");'>roqua</a>"
+        expect(described_instance.transform_special_text('~~http://roqua.nl~~roqua~~')).to eq(expected_text)
       end
       it 'transforms textvars' do
         expected_text = "<span class='textvar' textvar='test'>{{test}}</span>"
@@ -37,9 +37,14 @@ module Quby
         expect(described_instance.transform_special_text('{{test}}{{test2}}')).to eq(expected_text)
       end
 
+      it 'transforms double links' do
+        expected_text = "<a href='#' onclick='modalFrame(\"http://roqua.nl\");'>roqua</a> <a href='#' onclick='modalFrame(\"http://roqua.nl\");'>roqua</a>"
+        expect(described_instance.transform_special_text('~~http://roqua.nl~~roqua~~ ~~http://roqua.nl~~roqua~~')).to eq(expected_text)
+      end
+
       it 'transforms mixtures of textvar and link' do
-        expected_text = "<a href='#' onclick='modalFrame(\"http://google.com\");'><span class='textvar' textvar='google'>{{google}}</span></a>"
-        expect(described_instance.transform_special_text("~~http://google.com~~{{google}}~~")).to eq(expected_text)
+        expected_text = "<a href='#' onclick='modalFrame(\"http://roqua.nl\");'><span class='textvar' textvar='roqua'>{{roqua}}</span></a>"
+        expect(described_instance.transform_special_text("~~http://roqua.nl~~{{roqua}}~~")).to eq(expected_text)
       end
     end
   end

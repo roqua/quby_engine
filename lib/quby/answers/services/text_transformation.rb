@@ -1,16 +1,16 @@
 module Quby
   module TextTransformation
     # Modal pop up window link: ~~url~~link_body~~
-    LINK_URL_REGEX = /(\~\~)(.+)(\~\~)(.+)(\~\~)/
+    LINK_URL_REGEX = /\~\~(?<url>.+?)\~\~(?<link_content>.+?)\~\~/
 
     # Textvars: Replace {{var_name}} with <span class='textvar' textvar='var_name'></span>
-    TEXT_VAR_REGEX = /(\{\{)(.+?)(\}\})/
+    TEXT_VAR_REGEX = /\{\{(?<text_var>.+?)\}\}/
 
     # to eventually replace maruku_extensions.rb
-    # this helper transforms ~~ links and text vars into appropriate html
+    # this helper transforms ~~ links and {{text vars}} into html
     def transform_special_text(text)
-      transformed_links = text.gsub(LINK_URL_REGEX, link_html('\2', '\4'))
-      transformed_links.gsub(TEXT_VAR_REGEX, textvar_html('\2'))
+      text.gsub(LINK_URL_REGEX) { |_match| link_html($~[:url], $~[:link_content]) }
+          .gsub(TEXT_VAR_REGEX) { |_match| textvar_html($~[:text_var]) }
     end
 
     def link_html(url, link_content)
