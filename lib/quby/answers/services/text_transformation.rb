@@ -9,8 +9,8 @@ module Quby
     # to eventually replace maruku_extensions.rb
     # this helper transforms ~~ links and {{text vars}} into html
     def transform_special_text(text)
-      text.gsub(LINK_URL_REGEX) { |_match| link_html($~[:url], $~[:link_content]) }
-          .gsub(TEXT_VAR_REGEX) { |_match| textvar_html($~[:text_var]) }
+      text.gsub(LINK_URL_REGEX) { link_html($~[:url], $~[:link_content]) }
+          .gsub(TEXT_VAR_REGEX) { textvar_html($~[:text_var]) }
     end
 
     def link_html(url, link_content)
