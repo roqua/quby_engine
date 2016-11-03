@@ -15,7 +15,7 @@ module Quby
         end
 
         definition = @repo.find key
-        @cache[key] = {questionnaire: DSL.build_from_definition(definition), timestamp: definition.timestamp}
+        @cache[key] = {questionnaire: build_from_definition(definition), timestamp: definition.timestamp}
         @cache[key][:questionnaire]
       end
 
@@ -34,6 +34,12 @@ module Quby
       end
 
       private
+
+      def build_from_definition(definition)
+        ActiveSupport::Notifications.instrument('quby.questionaire.build') do
+          DSL.build_from_definition(definition)
+        end
+      end
 
       def fresh?(key)
         return false unless @cache.key?(key)
