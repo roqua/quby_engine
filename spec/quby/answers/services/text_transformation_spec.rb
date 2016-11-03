@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 module Quby
-  describe AnswersHelper do
+  describe TextTransformation do
 
     let(:described_instance) do
-      class TestClass include Quby::AnswersHelper end
+      class TestClass include Quby::TextTransformation end
       TestClass.new
     end
 
