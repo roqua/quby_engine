@@ -225,14 +225,17 @@ function doDivPrint(url){
 function modalFrame(url){
     $("#modalFrame").attr('src', url);
     //window.scrollTo(0,0);
-    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width : 700, height : 600,
+    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width: '90%', height : 600,
     buttons: {
-        "Terug": function(){
-            $(this).dialog("close");
-            $("#modalFrame").attr('src', "about:blank");
-        }
+        "Terug": closeModalFrame
     }
     });
+    $('.ui-widget-overlay').on('click', closeModalFrame);
+}
+
+function closeModalFrame() {
+  $("#modalFrameDialog").dialog("close");
+  $("#modalFrame").attr('src', "about:blank");
 }
 
 function prepareBulk(){
