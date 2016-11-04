@@ -13,7 +13,7 @@ module Quby
       Questionnaires::Entities::Questions::IntegerQuestion.new :q1, question_options
     end
 
-    before { view.stub(marukufix: "HOI") }
+    before { view.extend Quby::TextTransformation }
 
     subject(:render_partial) do
       render partial: "quby/v1/paged/item_question_number",

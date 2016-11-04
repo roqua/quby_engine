@@ -69,25 +69,24 @@ feature 'textvar replacement', js: true do
     expect(page).to have_selector("#answer_v_1[value='new_value']")
   end
 
-  # temporarily commented out while we fix markup
-  # scenario 'showing a textvar value as a slider label' do
-  #   questionnaire = inject_questionnaire("test", <<-END)
-  #     textvar key: 'thing', description: 'Name of the thing'
-  #     panel do
-  #
-  #       question :v_1, type: :float, as: :slider, title: 'What do you like?' do
-  #         label "{{thing}} not"
-  #         label "{{thing}} a lot"
-  #       end
-  #     end
-  #   END
-  #
-  #   answer = create_new_answer_for(questionnaire, {}, textvars: {test_thing: 'car'})
-  #   visit_new_answer_for(questionnaire, 'paged', answer)
-  #   # sets the variable in the any markdown enabled text.
-  #   page.should have_content 'car not'
-  #   page.should have_content 'car a lot'
-  # end
+  scenario 'showing a textvar value as a slider label', js: true do
+    questionnaire = inject_questionnaire("test", <<-END)
+      textvar key: 'thing', description: 'Name of the thing'
+      panel do
+
+        question :v_1, type: :float, as: :slider, title: 'What do you like?' do
+          label "{{thing}} not"
+          label "{{thing}} a lot"
+        end
+      end
+    END
+
+    answer = create_new_answer_for(questionnaire, {}, textvars: {test_thing: 'car'})
+    visit_new_answer_for(questionnaire, 'paged', answer)
+
+    page.should have_content 'car not'
+    page.should have_content 'car a lot'
+  end
 
   scenario 'showing default var value' do
     questionnaire = inject_questionnaire("test", <<-END)
