@@ -225,10 +225,14 @@ function doDivPrint(url){
 function modalFrame(url){
     $("#modalFrame").attr('src', url);
     //window.scrollTo(0,0);
-    $("#modalFrameDialog").dialog({ draggable : false, resizable : false, modal : true, width: '90%', height : 600,
-    buttons: {
-        "Terug": closeModalFrame
-    }
+    $("#modalFrameDialog").dialog({ draggable : false,
+                                    resizable : false,
+                                    modal : true,
+                                    width: '90%',
+                                    height : $(window).height() * .8,
+                                    buttons: {
+                                      "Terug": closeModalFrame
+                                    }
     });
     $('.ui-widget-overlay').on('click', closeModalFrame);
 }
