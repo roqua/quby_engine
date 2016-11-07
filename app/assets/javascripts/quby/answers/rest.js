@@ -229,7 +229,7 @@ function modalFrame(url){
                                     resizable : false,
                                     modal : true,
                                     width: '90%',
-                                    height : $(window).height() * .8,
+                                    height : $(window).height() * 0.8,
                                     buttons: {
                                       "Terug": closeModalFrame
                                     }
