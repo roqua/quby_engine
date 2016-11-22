@@ -4,6 +4,7 @@ begin
   Bundler.require
   # get the rails rake tasks to test things like assets:precompile.
   require 'combustion'
+  Combustion::Application.config.middleware.delete Sass::Plugin::Rack # https://github.com/rails/sass-rails/issues/136
   Combustion.initialize!
   Combustion::Application.load_tasks
 rescue LoadError
@@ -21,7 +22,7 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'Quby'
   rdoc.options << '--line-numbers'
-  rdoc.rdoc_files.include('README.rdoc')
+  rdoc.rdoc_files.include('README.markdown')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
