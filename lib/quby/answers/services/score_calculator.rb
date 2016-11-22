@@ -56,11 +56,30 @@ module Quby
         # usually they are either Integers of Floats, but remember that no such
         # restriction is placed. And for open questions the value will probably
         # be a String.
+        #
+        # Raises MissingAnswerValues when a key doesn't have a value.
         def values(*keys)
           keys = keys.map(&:to_s)
 
           ensure_answer_values_for(keys)
           values_with_nils(*keys)
+        end
+
+        # Public: Get values for given question keys
+        #
+        # *keys - A list of keys for which to return values
+        #
+        # Returns an Array of values. Values are whatever they may be defined as,
+        # usually they are either Integers of Floats, but remember that no such
+        # restriction is placed. And for open questions the value will probably
+        # be a String.
+        #
+        # Raises MissingAnswerValues when more than minimum_present keys don't have a value.
+        def values_without_nils(*keys, minimum_present: 0)
+          keys = keys.map(&:to_s)
+
+          ensure_answer_values_for(keys, minimum_present: minimum_present)
+          values_with_nils(*keys).compact
         end
 
         # Public: Get value for given question key
@@ -228,11 +247,11 @@ module Quby
           fail ArgumentError, 'Key requested more than once' if keys.uniq!
         end
 
-        def ensure_answer_values_for(keys)
+        def ensure_answer_values_for(keys, minimum_present: keys.size)
           # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
           unanswered_keys = keys.select { |key| @values[key].blank? }
 
-          if unanswered_keys.present?
+          if unanswered_keys.size > keys.size - minimum_present
             fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
                                       values: @values,
                                       missing: unanswered_keys
