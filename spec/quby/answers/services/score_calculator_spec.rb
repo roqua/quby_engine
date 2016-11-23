@@ -96,8 +96,8 @@ module Quby::Answers::Services
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
 
-      it 'returns the values hash without nils if no args given' do
-        calculator.values_without_missings.should eq values.slice('v_1', 'v_2')
+      it 'fails when called with no keys given' do
+        expect { calculator.values_without_missings }.to raise_error(ArgumentError)
       end
 
       it 'returns the requested values that are not nil' do
@@ -115,11 +115,6 @@ module Quby::Answers::Services
       it 'annotates that the key for a value is referenced in this calculation' do
         calculator.values_without_missings(:v_1, :v_2)
         expect(calculator.referenced_values).to eq(%w(v_1 v_2))
-      end
-
-      it 'annotates usage of keys when fetching all values' do
-        calculator.values_without_missings
-        expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3 v_4))
       end
 
       it 'raises if too many requested values do not exist' do
