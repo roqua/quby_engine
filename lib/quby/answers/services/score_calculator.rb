@@ -68,7 +68,7 @@ module Quby
 
         # Public: Get values for given question keys removing any missing keys.
         #
-        # *keys - A list of keys for which to return values
+        # *keys - A list of keys for which to return values - required.
         # *minimum_present - see Raises.
         # *missing_values - extra values to consider missing.
         #
@@ -76,15 +76,15 @@ module Quby
         # usually they are either Integers of Floats, but remember that no such
         # restriction is placed. And for open questions the value will probably
         # be a String.
-        # Returns hash if no keys are given.
         #
         # Raises MissingAnswerValues when more than minimum_present keys don't have a value.
         def values_without_missings(*keys, minimum_present: 0, missing_values: [])
+          fail ArgumentError, 'keys empty' unless keys.present?
           keys = keys.map(&:to_s)
 
           ensure_answer_values_for(keys, minimum_present: minimum_present)
-          values_with_nils(*keys).compact.reject do |v, hv|
-            missing_value?(hv || v, missing_values: missing_values)
+          values_with_nils(*keys).reject do |v|
+            missing_value?(v, missing_values: missing_values)
           end
         end
 
