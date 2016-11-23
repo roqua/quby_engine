@@ -91,46 +91,46 @@ module Quby::Answers::Services
       end
     end
 
-    describe '#values_without_nils' do
+    describe '#values_without_missings' do
       let(:values) { {'v_1' => 1, 'v_2' => 2, 'v_3' => nil, 'v_4' => nil} }
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
 
       it 'returns the values hash without nils if no args given' do
-        calculator.values_without_nils.should eq values.slice('v_1', 'v_2')
+        calculator.values_without_missings.should eq values.slice('v_1', 'v_2')
       end
 
       it 'returns the requested values that are not nil' do
-        calculator.values_without_nils(:v_1, :v_3).should eq [values['v_1']]
+        calculator.values_without_missings(:v_1, :v_3).should eq [values['v_1']]
       end
 
       it 'returns an array of values if args given' do
-        calculator.values_without_nils(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
+        calculator.values_without_missings(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
       end
 
       it 'finds values by string' do
-        calculator.values_without_nils('v_1').should eq [values['v_1']]
+        calculator.values_without_missings('v_1').should eq [values['v_1']]
       end
 
       it 'annotates that the key for a value is referenced in this calculation' do
-        calculator.values_without_nils(:v_1, :v_2)
+        calculator.values_without_missings(:v_1, :v_2)
         expect(calculator.referenced_values).to eq(%w(v_1 v_2))
       end
 
       it 'annotates usage of keys when fetching all values' do
-        calculator.values_without_nils
+        calculator.values_without_missings
         expect(calculator.referenced_values).to eq(%w(v_1 v_2 v_3 v_4))
       end
 
       it 'raises if too many requested values do not exist' do
         expect do
-          calculator.values_without_nils(:unknown_key, minimum_present: 1)
+          calculator.values_without_missings(:unknown_key, minimum_present: 1)
         end.to raise_error(ScoreCalculator::MissingAnswerValues)
       end
 
       it 'treats nil values the same as values of which the key does not exist' do
         expect do
-          calculator.values_without_nils(:v_3, minimum_present: 1)
+          calculator.values_without_missings(:v_3, minimum_present: 1)
         end.to raise_error(ScoreCalculator::MissingAnswerValues)
       end
     end
