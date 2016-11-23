@@ -56,6 +56,7 @@ module Quby
         # usually they are either Integers of Floats, but remember that no such
         # restriction is placed. And for open questions the value will probably
         # be a String.
+        # Returns hash of all values if no keys are given.
         #
         # Raises MissingAnswerValues when a key doesn't have a value.
         def values(*keys)
@@ -65,14 +66,17 @@ module Quby
           values_with_nils(*keys)
         end
 
-        # Public: Get values for given question keys
+        # Public: Get values for given question keys removing any missing keys.
         #
         # *keys - A list of keys for which to return values
+        # *minimum_present - see Raises.
+        # *missing_values - extra values to consider missing.
         #
         # Returns an Array of values. Values are whatever they may be defined as,
         # usually they are either Integers of Floats, but remember that no such
         # restriction is placed. And for open questions the value will probably
         # be a String.
+        # Returns hash if no keys are given.
         #
         # Raises MissingAnswerValues when more than minimum_present keys don't have a value.
         def values_without_missings(*keys, minimum_present: 0, missing_values: [])
