@@ -21,6 +21,14 @@ module Quby::Answers::Services
         Quby.answers.reload(answer).attributes["random_key"].should_not == "value"
       end
 
+      context 'subquestion key clash' do
+        let(:answer) { Quby.answers.create!('subquestion_key_clash') }
+        it 'does not remove filtered values from raw_params' do
+          updates_answers.update('v_0' => 'a1', 'v_0_a1' => "value")
+          expect(Quby.answers.reload(answer).raw_params["v_0_a1"]).to eq("value")
+        end
+      end
+
       it 'validates the answer' do
         answer.should_receive :validate_answers
         updates_answers.update

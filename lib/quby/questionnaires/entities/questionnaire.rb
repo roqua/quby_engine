@@ -323,15 +323,6 @@ module Quby
                 # question.type == :integer
                 # question.type == :float
 
-                if [:radio, :scale, :select].include? question.type # getters for individual question options
-                  question.options.each do |opt|
-                    define_method("#{question.key}_#{opt.key}") do
-                      self.value ||= Hash.new
-                      self.value[question.key.to_s] == opt.key.to_s
-                    end
-                  end
-                end
-
                 define_method(question.key) do
                   self.value ||= Hash.new
                   self.value[question.key.to_s]
