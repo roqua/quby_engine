@@ -33,6 +33,7 @@ spec/dummy/tmp/
 spec/internal/db/*.sqlite3
 spec/internal/log/*.log
 spec/internal/tmp/
+spec/internal/screenshot*
 .ruby-version
 .ruby-gemset
 .byebug-history
