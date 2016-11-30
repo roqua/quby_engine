@@ -91,6 +91,45 @@ module Quby::Answers::Services
       end
     end
 
+    describe '#values_without_missings' do
+      let(:values) { {'v_1' => 1, 'v_2' => 2, 'v_3' => nil, 'v_4' => nil} }
+      let(:scores) { {'score1' => 22} }
+      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+
+      it 'fails when called with no keys given' do
+        expect { calculator.values_without_missings }.to raise_error(ArgumentError)
+      end
+
+      it 'returns the requested values that are not nil' do
+        calculator.values_without_missings(:v_1, :v_3).should eq [values['v_1']]
+      end
+
+      it 'returns an array of values if args given' do
+        calculator.values_without_missings(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
+      end
+
+      it 'finds values by string' do
+        calculator.values_without_missings('v_1').should eq [values['v_1']]
+      end
+
+      it 'annotates that the key for a value is referenced in this calculation' do
+        calculator.values_without_missings(:v_1, :v_2)
+        expect(calculator.referenced_values).to eq(%w(v_1 v_2))
+      end
+
+      it 'raises if too many requested values do not exist' do
+        expect do
+          calculator.values_without_missings(:unknown_key, minimum_present: 1)
+        end.to raise_error(ScoreCalculator::MissingAnswerValues)
+      end
+
+      it 'treats nil values the same as values of which the key does not exist' do
+        expect do
+          calculator.values_without_missings(:v_3, minimum_present: 1)
+        end.to raise_error(ScoreCalculator::MissingAnswerValues)
+      end
+    end
+
     describe '#value' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
       let(:scores) { {'score1' => 22} }

@@ -56,11 +56,36 @@ module Quby
         # usually they are either Integers of Floats, but remember that no such
         # restriction is placed. And for open questions the value will probably
         # be a String.
+        # Returns hash of all values if no keys are given.
+        #
+        # Raises MissingAnswerValues when a key doesn't have a value.
         def values(*keys)
           keys = keys.map(&:to_s)
 
           ensure_answer_values_for(keys)
           values_with_nils(*keys)
+        end
+
+        # Public: Get values for given question keys removing any missing keys.
+        #
+        # *keys - A list of keys for which to return values - required.
+        # *minimum_present - see Raises.
+        # *missing_values - extra values to consider missing.
+        #
+        # Returns an Array of values. Values are whatever they may be defined as,
+        # usually they are either Integers of Floats, but remember that no such
+        # restriction is placed. And for open questions the value will probably
+        # be a String.
+        #
+        # Raises MissingAnswerValues when more than minimum_present keys don't have a value.
+        def values_without_missings(*keys, minimum_present: 0, missing_values: [])
+          fail ArgumentError, 'keys empty' unless keys.present?
+          keys = keys.map(&:to_s)
+
+          ensure_answer_values_for(keys, minimum_present: minimum_present)
+          values_with_nils(*keys).reject do |v|
+            missing_value?(v, missing_values: missing_values)
+          end
         end
 
         # Public: Get value for given question key
@@ -228,11 +253,15 @@ module Quby
           fail ArgumentError, 'Key requested more than once' if keys.uniq!
         end
 
-        def ensure_answer_values_for(keys)
-          # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
-          unanswered_keys = keys.select { |key| @values[key].blank? }
+        def missing_value?(value, missing_values: [])
+          value.blank? || missing_values.include?(value)
+        end
 
-          if unanswered_keys.present?
+        def ensure_answer_values_for(keys, minimum_present: keys.size, missing_values: [])
+          # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
+          unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
+
+          if unanswered_keys.size > keys.size - minimum_present
             fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
                                       values: @values,
                                       missing: unanswered_keys
