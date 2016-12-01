@@ -78,11 +78,11 @@ module Quby
         # be a String.
         #
         # Raises MissingAnswerValues when more than minimum_present keys don't have a value.
-        def values_without_missings(*keys, minimum_present: 0, missing_values: [])
+        def values_without_missings(*keys, minimum_present: 1, missing_values: [])
           fail ArgumentError, 'keys empty' unless keys.present?
           keys = keys.map(&:to_s)
 
-          ensure_answer_values_for(keys, minimum_present: minimum_present)
+          ensure_answer_values_for(keys, minimum_present: minimum_present, missing_values: missing_values)
           values_with_nils(*keys).reject do |v|
             missing_value?(v, missing_values: missing_values)
           end

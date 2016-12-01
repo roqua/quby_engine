@@ -128,6 +128,12 @@ module Quby::Answers::Services
           calculator.values_without_missings(:v_3, minimum_present: 1)
         end.to raise_error(ScoreCalculator::MissingAnswerValues)
       end
+
+      it 'treats missing_values the same as nil values' do
+        expect do
+          calculator.values_without_missings(:v_2, minimum_present: 1, missing_values: [2])
+        end.to raise_error(ScoreCalculator::MissingAnswerValues)
+      end
     end
 
     describe '#value' do
