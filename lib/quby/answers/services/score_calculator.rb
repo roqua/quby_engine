@@ -77,12 +77,13 @@ module Quby
         # restriction is placed. And for open questions the value will probably
         # be a String.
         #
-        # Raises MissingAnswerValues when more than minimum_present keys don't have a value.
+        # Raises MissingAnswerValues when less than minimum_present keys have
+        # a value that isn't treated as a missing value.
         def values_without_missings(*keys, minimum_present: 0, missing_values: [])
           fail ArgumentError, 'keys empty' unless keys.present?
           keys = keys.map(&:to_s)
 
-          ensure_answer_values_for(keys, minimum_present: minimum_present)
+          ensure_answer_values_for(keys, minimum_present: minimum_present, missing_values: missing_values)
           values_with_nils(*keys).reject do |v|
             missing_value?(v, missing_values: missing_values)
           end

@@ -123,6 +123,12 @@ module Quby::Answers::Services
         end.to raise_error(ScoreCalculator::MissingAnswerValues)
       end
 
+      it 'raises if too many requested values do not exist because they are treated as missing_values' do
+        expect do
+          calculator.values_without_missings(:v_2, minimum_present: 1, missing_values: [2])
+        end.to raise_error(ScoreCalculator::MissingAnswerValues)
+      end
+
       it 'treats nil values the same as values of which the key does not exist' do
         expect do
           calculator.values_without_missings(:v_3, minimum_present: 1)
