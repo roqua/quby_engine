@@ -13,6 +13,7 @@ module Quby
 
         def update(new_attributes = {})
           answer.raw_params = new_attributes
+          backup_answer = answer.clone
 
           attribute_filter   = FiltersAnswerValue.new(answer.questionnaire)
           attribute_filter.filter(new_attributes).each do |name, value|
@@ -30,13 +31,18 @@ module Quby
               started_at = nil
             end
 
-            answer.mark_completed(started_at)
             answer.outcome = OutcomeCalculation.new(answer).calculate
+            answer.mark_completed(started_at)
             Quby.answers.update!(answer)
             succeed!
           else
             fail!
           end
+        rescue
+          # we dont save answer since it probably has a weird state now, instead we save the a clone of answer
+          # that just has the raw_params set on it, so we can do error recovery with the raw_params
+          Quby.answers.update!(backup_answer)
+          raise
         end
 
         def on_success(&block)
