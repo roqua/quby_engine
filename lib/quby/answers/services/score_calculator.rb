@@ -77,7 +77,7 @@ module Quby
         # restriction is placed. And for open questions the value will probably
         # be a String.
         #
-        # Raises MissingAnswerValues when more than minimum_present keys don't have a value.
+        # Raises MissingAnswerValues when less than minimum_present keys have a value.
         def values_without_missings(*keys, minimum_present: 1, missing_values: [])
           fail ArgumentError, 'keys empty' unless keys.present?
           keys = keys.map(&:to_s)
