@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.required_ruby_version = '>= 2.0'
-  s.add_dependency "rails", ">= 4.1", '< 5.0'
+  s.add_dependency "rails", ">= 4.1", '< 5.1'
 
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.9.0'
@@ -26,10 +26,10 @@ Gem::Specification.new do |s|
   # Views
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
-  s.add_dependency "sass-rails",    '~> 4.0.0'
+  s.add_dependency "sass-rails",    '>= 4.0.0'
   s.add_dependency "maruku",        '0.6.1'
-  s.add_dependency "compass",       '~> 0.12'
-  s.add_dependency "compass-rails"
+  # s.add_dependency "compass",       '~> 0.12'
+  # s.add_dependency "compass-rails"
   s.add_dependency "susy", "~> 1.0.rc"
 
   # Helpers
@@ -39,10 +39,10 @@ Gem::Specification.new do |s|
   s.add_dependency "virtus", ">= 1.0.3", "< 2.0"
   s.add_dependency "i18n", "~> 0.6"
 
-  s.add_dependency "jquery-rails", "~> 2.2.1"
+  # s.add_dependency "jquery-rails", "~> 2.2.1"
 
   s.add_development_dependency 'combustion',       '~> 0.5.1'
-  s.add_development_dependency 'rspec-rails',      '~> 2.14.0'
+  s.add_development_dependency 'rspec-rails',      '>= 2.14.0', '< 4.0'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'teaspoon'
   s.add_development_dependency 'teaspoon-jasmine'

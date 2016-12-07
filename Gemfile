@@ -25,10 +25,10 @@ platforms :ruby, :jruby do
 end
 
 group :test, :development do
-  gem 'guard-rspec',    '~> 4.2'
-  gem 'guard-teaspoon', '~> 0.8'
-  gem 'guard-spork',    '~> 2.1'
-  gem 'guard-rubocop',  '~> 1.0'
+  # gem 'guard-rspec',    '~> 4.2'
+  # gem 'guard-teaspoon', '~> 0.8'
+  # gem 'guard-spork',    '~> 2.1'
+  # gem 'guard-rubocop',  '~> 1.0'
 
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
   # gem 'guard-bundler',  '~> 2.1.0'

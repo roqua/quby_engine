@@ -8,3 +8,7 @@ appraise "rails42" do
   gem 'compass-rails', '2.0.0'
   gem 'eventmachine', '~> 1.2.0'
 end
+
+appraise "rails5" do
+  gem 'rails', '~> 5.0.0'
+end

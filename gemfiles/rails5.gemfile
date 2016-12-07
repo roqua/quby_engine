@@ -1,0 +1,24 @@
+source "http://rubygems.org"
+
+gem "appraisal", "2.1.0"
+gem "rails", "~> 5.0.0"
+gem "compass-rails", '3.0.2'
+
+group :test, :development do
+  gem "guard-rspec", git: 'git@github.com:guard/guard-rspec.git', branch: 'rails-5-support'
+  gem "guard-teaspoon"
+  gem "guard-spork"
+  gem "guard-rubocop"
+  gem 'rspec-rails', '3.5'
+  gem "test-unit"
+  # gem "rspec-prof", "~> 0.0"
+  gem "flamegraph", "~> 0.0"
+  gem "stackprof"
+  gem 'combustion'
+end
+
+platforms :ruby, :jruby do
+  gem "therubyracer"
+end
+
+gemspec :path => "../"
