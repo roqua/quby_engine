@@ -1,24 +1,35 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
-gem "appraisal", "2.1.0"
-gem "rails", "~> 5.0.0"
-gem "compass-rails", '3.0.2'
+gem 'appraisal', '2.1.0'
+gem 'rails', '~> 5.0.0'
+
+# Blueprint is no longer a part of compass
+gem 'compass-blueprint'
+
+gem 'jquery-rails'
+
+# Because jQuery UI is no longer bundled with jquery-rails
+gem 'jquery-ui-rails'
 
 group :test, :development do
-  gem "guard-rspec", git: 'git@github.com:guard/guard-rspec.git', branch: 'rails-5-support'
-  gem "guard-teaspoon"
-  gem "guard-spork"
-  gem "guard-rubocop"
+  gem 'guard-rspec', git: 'git@github.com:guard/guard-rspec.git', branch: 'rails-5-support'
+  gem 'guard-teaspoon'
+  gem 'guard-spork'
+  gem 'guard-rubocop'
   gem 'rspec-rails', '3.5'
-  gem "test-unit"
-  # gem "rspec-prof", "~> 0.0"
-  gem "flamegraph", "~> 0.0"
-  gem "stackprof"
+  gem 'test-unit'
+  # gem 'rspec-prof', '~> 0.0'
+  gem 'flamegraph', '~> 0.0'
+  gem 'stackprof'
   gem 'combustion'
+
+  gem 'compass-rails', '3.0.2'
+  gem 'susy', '~> 2.2'
+  # gem 'sass-rails', '>= 4.0.0'
 end
 
 platforms :ruby, :jruby do
-  gem "therubyracer"
+  gem 'therubyracer'
 end
 
-gemspec :path => "../"
+gemspec path: '../'

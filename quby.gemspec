@@ -26,11 +26,11 @@ Gem::Specification.new do |s|
   # Views
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
-  s.add_dependency "sass-rails",    '>= 4.0.0'
+  # s.add_dependency "sass-rails",    '>= 4.0.0'
   s.add_dependency "maruku",        '0.6.1'
   # s.add_dependency "compass",       '~> 0.12'
   # s.add_dependency "compass-rails"
-  s.add_dependency "susy", "~> 1.0.rc"
+  s.add_dependency "susy", ">= 1.0.rc"
 
   # Helpers
   s.add_dependency "ryansch-andand"
