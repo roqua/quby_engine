@@ -4,6 +4,8 @@ gem 'appraisal', '2.1.0'
 gem 'rails', '~> 5.0.0'
 gem 'roqua-support', git: 'git@github.com:roqua/roqua-support.git', branch: 'dd-rails-5'
 
+gem 'sprockets-rails', '2.3.3'
+
 # Blueprint is no longer a part of compass
 gem 'compass-blueprint'
 gem 'compass-rails', '3.0.2'
