@@ -21,7 +21,7 @@ module Quby
       it 'saves the answer' do
         honos  = Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string)")
         answer = create_answer(honos)
-        put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
+        put "/quby/questionnaires/honos/answers/#{answer.id}", params: { answer: {v_1: nil} }
 
         response.should render_template(:completed)
       end
@@ -29,7 +29,7 @@ module Quby
       it 'does not save invalid answers' do
         honos  = Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string, required: true)")
         answer = create_answer(honos)
-        put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
+        put "/quby/questionnaires/honos/answers/#{answer.id}", params: { answer: {v_1: nil} }
 
         response.should render_template('v1/paged')
         flash[:notice].should match(/nog niet volledig ingevuld/)
@@ -52,49 +52,57 @@ module Quby
         end
 
         it 'renders print view if printing' do
-          put "/quby/questionnaires/honos/answers/#{answer.id}/print", answer: {v_1: nil}
+          put "/quby/questionnaires/honos/answers/#{answer.id}/print", params: { answer: {v_1: nil} }
           response.should render_template('v1/print')
         end
 
         it 'renders completed view if no return url' do
-          put "/quby/questionnaires/honos/answers/#{answer.id}", answer: {v_1: nil}
+          put "/quby/questionnaires/honos/answers/#{answer.id}", params: { answer: {v_1: nil} }
           response.should render_template('v1/completed')
         end
 
         it 'redirects to roqua if return url is set' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
-              answer: {v_1: nil},
-              return_url: return_url,
-              return_token: return_token
+              params: {
+                answer: {v_1: nil},
+                return_url: return_url,
+                return_token: return_token
+              }
 
           response.should redirect_to(expected_return_url)
         end
 
         it 'respects existing query parameters in return url' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
-              answer: {v_1: nil},
-              return_url: return_url + "?a=b",
-              return_token: return_token
+              params: {
+                answer: {v_1: nil},
+                return_url: return_url + "?a=b",
+                return_token: return_token
+              }
 
           response.should redirect_to(expected_return_url(a: 'b'))
         end
 
         it 'redirects with go of "close" if abort button was clicked' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
-              answer: {v_1: nil},
-              return_url: return_url,
-              return_token: return_token,
-              abort: true
+              params: {
+                answer: {v_1: nil},
+                return_url: return_url,
+                return_token: return_token,
+                abort: true
+              }
 
           response.should redirect_to(expected_return_url(go: 'stop'))
         end
 
         it 'redirects with go of "back" when a user navigates back' do
           put "/quby/questionnaires/honos/answers/#{answer.id}",
-              answer: {v_1: nil},
-              return_url: return_url,
-              return_token: return_token,
-              previous_questionnaire: true
+              params: {
+                answer: {v_1: nil},
+                return_url: return_url,
+                return_token: return_token,
+                previous_questionnaire: true
+              }
 
           response.should redirect_to(expected_return_url(go: 'back'))
         end
