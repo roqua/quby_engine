@@ -5,21 +5,21 @@ module Quby
   class AnswersController < Quby::ApplicationController
     DISPLAY_MODES = %w(paged bulk single_page).freeze
 
-    before_filter :load_token_and_hmac_and_timestamp
-    before_filter :load_return_url_and_token
-    before_filter :load_custom_stylesheet
-    before_filter :load_display_mode
+    before_action :load_token_and_hmac_and_timestamp
+    before_action :load_return_url_and_token
+    before_action :load_custom_stylesheet
+    before_action :load_display_mode
 
-    before_filter :verify_answer_id_against_session
-    before_filter :verify_hmac, only: [:edit, :print]
+    before_action :verify_answer_id_against_session
+    before_action :verify_hmac, only: [:edit, :print]
 
-    before_filter :find_questionnaire
-    before_filter :check_questionnaire_valid
+    before_action :find_questionnaire
+    before_action :check_questionnaire_valid
 
-    before_filter :find_answer
-    before_filter :verify_token, only: [:show, :edit, :update, :print]
+    before_action :find_answer
+    before_action :verify_token, only: [:show, :edit, :update, :print]
 
-    before_filter :check_aborted, only: :update
+    before_action :check_aborted, only: :update
 
     rescue_from TokenValidationError,                                           with: :bad_authorization
     rescue_from TimestampValidationError,                                       with: :bad_authorization
