@@ -1,0 +1,1 @@
+Rails.application.config.assets.precompile = ['quby/*.jpg', 'quby/*.gif']

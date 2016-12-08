@@ -23,6 +23,8 @@ I18n.exception_handler = lambda do |exception, locale, key, options|
 end
 
 require 'rspec/rails'
+require 'rails-controller-testing'
+
 # require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'
@@ -53,6 +55,12 @@ Dir[Rails.root.join("../../spec/support/**/*.rb")].each { |f| require f }
 RSpec.configure do |config|
   config.mock_with :rspec
   config.include Capybara::DSL
+
+  [:controller, :view, :request].each do |type|
+    config.include ::Rails::Controller::Testing::TestProcess, :type => type
+    config.include ::Rails::Controller::Testing::TemplateAssertions, :type => type
+    config.include ::Rails::Controller::Testing::Integration, :type => type
+  end
 
   config.before(:each) do
     Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(Quby.fixtures_path)

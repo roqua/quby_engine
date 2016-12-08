@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "jquery-rails", ">= 2.2.1"
 
+  s.add_development_dependency 'rails-controller-testing'
   s.add_development_dependency 'combustion',       '~> 0.5.1'
   s.add_development_dependency 'rspec-rails',      '>= 2.14.0', '< 4.0'
   s.add_development_dependency 'capybara'

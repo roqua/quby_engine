@@ -2,7 +2,6 @@ source 'http://rubygems.org'
 
 gem 'appraisal', '2.1.0'
 gem 'rails', '~> 5.0.0'
-
 gem 'roqua-support', git: 'git@github.com:roqua/roqua-support.git', branch: 'dd-rails-5'
 
 # Blueprint is no longer a part of compass
@@ -17,17 +16,20 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
 group :test, :development do
-  gem 'guard-rspec', git: 'git@github.com:guard/guard-rspec.git', branch: 'rails-5-support'
-  gem 'guard-teaspoon'
-  gem 'guard-spork'
-  gem 'guard-rubocop'
-  gem 'rspec-rails', '3.5'
+  gem 'rspec', '2.14.1'
+  # gem 'guard-rspec', git: 'git@github.com:guard/guard-rspec.git', branch: 'rails-5-support'
+  # gem 'guard-teaspoon'
+  # gem 'guard-spork'
+  # gem 'guard-rubocop'
+  gem 'rspec-rails' #, '3.5'
   gem 'test-unit'
   # gem 'rspec-prof', '~> 0.0'
   gem 'flamegraph', '~> 0.0'
   gem 'stackprof'
   gem 'combustion'
   # gem 'sass-rails', '>= 4.0.0'
+
+  gem 'rails-controller-testing'
 end
 
 platforms :ruby, :jruby do
