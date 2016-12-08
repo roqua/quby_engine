@@ -4,7 +4,7 @@ if defined?(RSpec)
       it 'finds all questionnaires' do
         repo.create!("test1", "title 'foo'")
         repo.create!("test2", "title 'bar'")
-        repo.all.map(&:key).should eq %w(test1 test2)
+        expect(repo.all.map(&:key)).to match_array %w(test1 test2)
       end
     end
 
@@ -12,7 +12,7 @@ if defined?(RSpec)
       it 'returns the questionnaire keys' do
         repo.create!("test1", "title 'foo'")
         repo.create!("test2", "title 'bar'")
-        repo.keys.should eq %w(test1 test2)
+        expect(repo.keys).to match_array %w(test1 test2)
       end
     end
 
