@@ -3,8 +3,13 @@ source 'http://rubygems.org'
 gem 'appraisal', '2.1.0'
 gem 'rails', '~> 5.0.0'
 
+gem 'roqua-support', git: 'git@github.com:roqua/roqua-support.git', branch: 'dd-rails-5'
+
 # Blueprint is no longer a part of compass
 gem 'compass-blueprint'
+gem 'compass-rails', '3.0.2'
+
+gem 'susy', '2.2.12'
 
 gem 'jquery-rails'
 
@@ -22,9 +27,6 @@ group :test, :development do
   gem 'flamegraph', '~> 0.0'
   gem 'stackprof'
   gem 'combustion'
-
-  gem 'compass-rails', '3.0.2'
-  gem 'susy', '~> 2.2'
   # gem 'sass-rails', '>= 4.0.0'
 end
 

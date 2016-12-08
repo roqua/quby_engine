@@ -6,6 +6,10 @@ require 'haml'
 require 'sass-rails'
 require 'compass'
 require 'compass-rails'
+
+# Rails 5 only
+require 'compass-blueprint'
+
 require 'jquery-rails'
 require 'susy'
 require 'andand'

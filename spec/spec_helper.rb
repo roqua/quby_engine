@@ -23,7 +23,7 @@ I18n.exception_handler = lambda do |exception, locale, key, options|
 end
 
 require 'rspec/rails'
-require 'roqua/support/request_logger'
+# require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
