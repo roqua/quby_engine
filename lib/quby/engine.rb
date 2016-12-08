@@ -1,15 +1,18 @@
 # Engines are run as gems, not really using bundler
 # Therefore, we need to require stuff manually
-require 'rubygems'
-require 'coffee_script'
-require 'haml'
-require 'sass-rails'
-require 'compass'
-require 'compass-rails'
-require 'jquery-rails'
-require 'susy'
-require 'andand'
-require 'quby/lookup_table'
+# require 'rubygems'
+# require 'coffee_script'
+# require 'haml'
+
+# # require 'sass-rails'
+# require 'compass'
+# require 'compass-rails'
+# # require 'jquery-rails'
+
+# require 'compass-rails'
+# require 'susy'
+# require 'andand'
+# require 'quby/lookup_table'
 
 module Quby
   class Engine < Rails::Engine

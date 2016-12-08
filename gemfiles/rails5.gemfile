@@ -2,6 +2,11 @@ source 'http://rubygems.org'
 
 gem 'appraisal', '2.1.0'
 gem 'rails', '~> 5.0.0'
+# gem 'sass-rails', '~> 5.0.0'
+
+gem 'susy', '~> 2.2'
+
+gem 'compass-rails', '3.0.2'
 
 # Blueprint is no longer a part of compass
 gem 'compass-blueprint'
@@ -18,14 +23,9 @@ group :test, :development do
   gem 'guard-rubocop'
   gem 'rspec-rails', '3.5'
   gem 'test-unit'
-  # gem 'rspec-prof', '~> 0.0'
   gem 'flamegraph', '~> 0.0'
   gem 'stackprof'
   gem 'combustion'
-
-  gem 'compass-rails', '3.0.2'
-  gem 'susy', '~> 2.2'
-  # gem 'sass-rails', '>= 4.0.0'
 end
 
 platforms :ruby, :jruby do

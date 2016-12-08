@@ -7,7 +7,10 @@ gem "bson_ext"
 gem "roqua-support"
 gem "i18n"
 gem "rails", "~> 4.2.7"
+gem "compass", '~> 0.12'
 gem "compass-rails", "2.0.0"
+gem "jquery-rails", "~> 2.2.1"
+gem "sass-rails", '>= 4.0.0'
 gem "eventmachine", "~> 1.2.0"
 
 group :assets do
