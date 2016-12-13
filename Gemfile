@@ -32,6 +32,9 @@ group :test, :development do
 
   gem 'flamegraph'
   gem 'stackprof' # needed by flamegraph
-  gem 'rspec-prof',     '~> 0.0'
+  # gem 'rspec-prof',     '~> 0.0'
   gem 'test-unit'
+
+  gem 'jquery-rails'
+  gem 'jquery-ui-rails'
 end
