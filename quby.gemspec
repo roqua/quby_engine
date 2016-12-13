@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   s.add_dependency "virtus", ">= 1.0.3", "< 2.0"
   s.add_dependency "i18n", "~> 0.6"
 
-  s.add_dependency "jquery-rails", ">= 2.2.1"
+  # s.add_dependency "jquery-rails", ">= 2.2.1"
 
   s.add_development_dependency 'rails-controller-testing'
   s.add_development_dependency 'combustion',       '~> 0.5.1'
@@ -50,6 +50,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'teaspoon-jasmine'
   s.add_development_dependency 'rubocop',          '~> 0.42.0'
   s.add_development_dependency 'fakefs'
+  s.add_development_dependency 'guard'
+  s.add_development_dependency 'guard-rspec'
   s.add_development_dependency 'timecop'
   s.add_development_dependency 'fuubar'
   s.add_development_dependency "poltergeist"
