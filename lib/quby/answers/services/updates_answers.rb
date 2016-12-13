@@ -16,9 +16,7 @@ module Quby
           backup_answer = answer.clone
 
           attribute_filter   = FiltersAnswerValue.new(answer.questionnaire)
-          attribute_filter.filter(new_attributes).each do |name, value|
-            answer.send("#{name}=", value)
-          end
+          attribute_filter.filter(new_attributes).each { |name, value| answer.send("#{name}=", value) }
 
           answer.extend AnswerValidations
           answer.cleanup_input
@@ -30,7 +28,6 @@ module Quby
             else
               started_at = nil
             end
-
             answer.outcome = OutcomeCalculation.new(answer).calculate
             answer.mark_completed(started_at)
             Quby.answers.update!(answer)
@@ -40,7 +37,8 @@ module Quby
           end
         rescue
           # we dont save answer since it probably has a weird state now, instead we save the a clone of answer
-          # that just has the raw_params set on it, so we can do error recovery with the raw_params
+          # that just has the raw_params set on it, so we can do data recovery with the raw_params
+          backup_answer.raw_params['could_not_update_at'] = DateTime.now.to_i # to note this is was a failed update
           Quby.answers.update!(backup_answer)
           raise
         end

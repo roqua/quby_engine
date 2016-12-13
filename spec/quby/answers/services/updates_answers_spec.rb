@@ -55,9 +55,11 @@ module Quby::Answers::Services
     end
     describe 'always saving raw_params' do
       it 'saves raw_params if there is an exception during cleanup_input' do
-        expect(answer).to receive(:cleanup_input).and_raise(ArgumentError)
-        expect { updates_answers.update('v_0' => 'a1') }.to raise_exception(ArgumentError)
-        expect(answer.raw_params).to eq('v_0' => 'a1')
+        Timecop.freeze do
+          expect(answer).to receive(:cleanup_input).and_raise(ArgumentError)
+          expect { updates_answers.update('v_0' => 'a1') }.to raise_exception(ArgumentError)
+          expect(answer.raw_params).to eq('v_0' => 'a1', 'could_not_update_at' => Time.now.to_i)
+        end
       end
     end
   end
