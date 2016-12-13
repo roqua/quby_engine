@@ -1,3 +1,12 @@
+GIT
+  remote: git@github.com:roqua/roqua-support.git
+  revision: 012dbf8dd814e3691501717dc4997997cd144f8c
+  branch: dd-rails-5
+  specs:
+    roqua-support (0.1.22)
+      activesupport (>= 3.2, < 5.1)
+      naught (~> 1.0)
+
 PATH
   remote: .
   specs:
@@ -190,6 +199,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    naught (1.1.0)
     nenv (0.3.0)
     nio4r (1.2.1)
     nokogiri (1.6.8.1)
@@ -353,6 +363,7 @@ DEPENDENCIES
   pry
   quby!
   rails-controller-testing
+  roqua-support!
   rspec-rails (>= 2.14.0, < 4.0)
   rubocop (~> 0.42.0)
   simplecov (~> 0.9.0)

@@ -13,6 +13,7 @@ require 'rails'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'sprockets/railtie'
+require 'jquery/rails'
 require 'combustion'
 Combustion.path = 'spec/internal'
 Combustion.initialize! :action_controller, :action_view, :sprockets do
@@ -25,7 +26,7 @@ end
 require 'rspec/rails'
 require 'rails-controller-testing'
 
-# require 'roqua/support/request_logger'
+require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
