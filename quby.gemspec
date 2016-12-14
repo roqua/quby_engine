@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
   s.add_dependency "sprockets-rails", "2.3.3"
 
   s.add_dependency "jquery-rails", "~> 4.2.1"
+  s.add_dependency "jquery-ui-rails", "~> 6.0.1"
 
   s.add_development_dependency 'rails-controller-testing'
   s.add_development_dependency 'combustion',  '~> 0.5.1'
