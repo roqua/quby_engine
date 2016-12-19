@@ -26,12 +26,12 @@ Gem::Specification.new do |s|
   # Views
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml"
-  s.add_dependency "sass-rails" #,        '~> 5.0.6'
+  s.add_dependency "sass-rails",        '~> 4.0.5'
   s.add_dependency "maruku",            '0.6.1'
-  s.add_dependency "compass"#,           '~> 1.0.3'
-  s.add_dependency "compass-rails"#,     '~> 3.0.2'
-  s.add_dependency "compass-blueprint"#, '~> 1.0.0'
-  s.add_dependency "susy"#, "2.2.12"
+  s.add_dependency "compass",           '~> 0.12.7'
+  s.add_dependency "compass-rails",     '~> 2.0.0'
+  s.add_dependency "compass-blueprint", '~> 1.0.0'
+  s.add_dependency "susy",              '~> 1.0.9'
 
   # Helpers
   s.add_dependency "ryansch-andand"
