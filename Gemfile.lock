@@ -13,9 +13,9 @@ PATH
     quby (2.4.1)
       addressable
       coffee-rails
-      compass (~> 1.0.3)
-      compass-blueprint (~> 1.0.0)
-      compass-rails (~> 3.0.2)
+      compass
+      compass-blueprint
+      compass-rails
       haml
       i18n (~> 0.6)
       jquery-rails (~> 4.2.1)
@@ -23,11 +23,11 @@ PATH
       json
       maruku (= 0.6.1)
       opencpu (~> 0.9.0)
-      rails (>= 5.0, < 5.1)
+      rails (>= 4.2, < 5.1)
       ryansch-andand
-      sass-rails (~> 5.0.6)
+      sass-rails
       sprockets-rails (= 2.3.3)
-      susy (= 2.2.12)
+      susy
       virtus (>= 1.0.3, < 2.0)
 
 GEM
