@@ -27,6 +27,7 @@
 #
 # You can require javascript files here. A good place to start is by requiring your application.js.
 #= require jquery
+#= require jquery-ui
 #= require_tree ./support
 #= require quby/application
 #= require quby/answers

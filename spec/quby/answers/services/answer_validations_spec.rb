@@ -205,7 +205,7 @@ module Quby::Answers::Services
         end
 
         it 'skips validating questions that depend on unfilled questions' do
-          answer.errors.messages[:v_depends_on2].should be_nil
+          answer.errors.messages[:v_depends_on2].should be_empty
         end
 
         it 'adds an error if integers are formatted incorrectly' do
@@ -325,7 +325,7 @@ module Quby::Answers::Services
           end
 
           it 'does not add an error if enough answers are in a question group with a minimum' do
-            answer.errors.messages[:v_check_answer_group_over_minimum].should be_nil
+            answer.errors.messages[:v_check_answer_group_over_minimum].should be_empty
           end
 
           it 'adds an error if too many answers are in a question group with a maximum' do
@@ -334,7 +334,7 @@ module Quby::Answers::Services
           end
 
           it 'does not add an error if not too many answers are in a question group with a maximum' do
-            answer.errors.messages[:v_check_answer_group_under_maximum].should be_nil
+            answer.errors.messages[:v_check_answer_group_under_maximum].should be_empty
           end
 
           it 'adds an error on an empty required title question if a depended on checkbox option is checked' do
@@ -343,7 +343,7 @@ module Quby::Answers::Services
           end
 
           it 'does not add error on an empty required title question if a depended on checkbox option is unchecked' do
-            expect(answer.errors.messages[:v_depend2_title]).to eq(nil)
+            expect(answer.errors.messages[:v_depend2_title]).to be_empty
           end
         end
       end

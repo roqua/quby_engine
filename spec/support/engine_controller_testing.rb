@@ -28,8 +28,10 @@ module EngineControllerTesting
     parameters ||= {}
     if Rails::VERSION::MAJOR < 4
       process(action, parameters.merge!(use_route: :quby), session, flash, method)
-    else
+    elsif Rails::VERSION::MAJOR < 5
       process(action, method, parameters.merge!(use_route: :quby), session, flash)
+    else
+      process(action, method: method, params: parameters.merge!(use_route: :quby), session: session, flash: flash)
     end
   end
 end
