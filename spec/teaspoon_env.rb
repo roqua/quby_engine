@@ -8,7 +8,7 @@
 
 unless defined? Rails
   require 'rails'
-  require 'rails-controller-testing'
+  require 'rails-controller-testing' if Rails.version >= '5'
   require 'action_controller/railtie'
   require 'action_view/railtie'
   require 'sprockets/railtie'
