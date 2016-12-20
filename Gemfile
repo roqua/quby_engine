@@ -8,6 +8,10 @@ gemspec
 
 gem 'appraisal', '2.1.0'
 gem 'bson_ext'
+
+# Optional dependency on RoQua Support gem.
+gem 'roqua-support', git: 'git@github.com:roqua/roqua-support.git', branch: 'dd-rails-5'
+
 gem 'i18n'
 
 # Gems used only for assets and not required
@@ -32,11 +36,9 @@ group :test, :development do
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
   # gem 'guard-bundler',  '~> 2.1.0'
 
-  gem 'roqua-support', git: 'git@github.com:roqua/roqua-support.git', branch: 'dd-rails-5'
-
   gem 'flamegraph'
   gem 'stackprof' # needed by flamegraph
-  # gem 'rspec-prof',     '~> 0.0'
+  gem 'rspec-prof', '0.0.5'
   gem 'test-unit'
 
   gem 'jquery-rails'
