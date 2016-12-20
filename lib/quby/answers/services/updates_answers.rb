@@ -28,8 +28,8 @@ module Quby
             else
               started_at = nil
             end
-            answer.outcome = OutcomeCalculation.new(answer).calculate
             answer.mark_completed(started_at)
+            answer.outcome = OutcomeCalculation.new(answer).calculate
             Quby.answers.update!(answer)
             succeed!
           else
