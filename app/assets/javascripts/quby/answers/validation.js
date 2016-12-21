@@ -202,7 +202,7 @@
         var first_error = $('.error').not('.hidden')[0];
         if( first_error != undefined) {
           // Prevent horizontal scrolling (on mobile devices)
-          $('body').animate({scrollTop: first_error.offsetTop}, 0);
+          $('html, body').animate({scrollTop: first_error.offsetTop}, 0);
         }
     }
     return !failed;
