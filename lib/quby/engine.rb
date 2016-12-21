@@ -6,12 +6,12 @@ require 'haml'
 require 'sass-rails'
 require 'compass'
 require 'compass-rails'
+require 'jquery-rails'
+require 'jquery-ui-rails'
 
 # Rails 5 only
 require 'compass-blueprint'
 
-# require 'jquery-rails'
-# require 'jquery-ui-rails'
 require 'susy'
 require 'andand'
 require 'quby/lookup_table'
