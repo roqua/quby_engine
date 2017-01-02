@@ -15,6 +15,8 @@ gem 'roqua-support', git: 'git@github.com:roqua/roqua-support.git', branch: 'dd-
 gem 'i18n'
 
 gem 'jquery-ui-rails', '~> 3.0.1'
+gem 'susy', '~> 2.2.12'
+gem 'compass-rails', '~> 2.0.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
