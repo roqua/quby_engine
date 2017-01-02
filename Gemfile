@@ -36,6 +36,9 @@ group :test, :development do
   gem 'guard-rubocop',       '~> 1.0'
   gem 'capybara',            '>= 2.8.1'
   gem 'capybara-screenshot', '~> 0.3.14'
+  gem 'poltergeist'
+  gem 'timecop'
+  gem 'fakefs'
 
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
   # gem 'guard-bundler',  '~> 2.1.0'

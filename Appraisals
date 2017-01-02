@@ -1,7 +1,7 @@
 appraise "rails41" do
   gem 'rails',         '~> 4.1.4'
   gem 'compass-rails', '~> 2.0.0'
-  gem 'jquery-rails',  '~> 3.1.4'
+  gem 'jquery-rails',  '~> 2.2.2'
 end
 
 appraise "rails42" do

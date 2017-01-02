@@ -13,9 +13,7 @@ feature 'saving a question which key clashes with its parent option', js: true d
 
     answer = Quby.send(:answer_repo).send(:all_records, 'subquestion_key_clash').last
 
-    params = Rails.version >= '5' ? answer.raw_params.to_unsafe_h : answer.raw_params
-
-    expect(params).to include(
+    expect(answer.raw_params).to include(
       "aborted" => false,
       "v_0" => "a1",
       "v_0_a1" => "clashing"

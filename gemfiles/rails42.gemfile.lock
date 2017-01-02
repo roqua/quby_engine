@@ -18,7 +18,7 @@ PATH
       compass-rails (>= 1.1.7)
       haml
       i18n (~> 0.6)
-      jquery-rails (>= 3.0.1)
+      jquery-rails (>= 2.2.2)
       jquery-ui-rails (~> 3.0.1)
       json
       maruku (= 0.6.1)

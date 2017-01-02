@@ -41,7 +41,7 @@ Gem::Specification.new do |s|
   s.add_dependency "i18n", "~> 0.6"
   s.add_dependency "sprockets-rails", "2.3.3"
 
-  s.add_dependency "jquery-rails", ">= 3.0.1"
+  s.add_dependency "jquery-rails", ">= 2.2.2"
   s.add_dependency "jquery-ui-rails", "~> 3.0.1"
 
   # For Rails 5
