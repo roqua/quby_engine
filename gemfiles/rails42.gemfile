@@ -4,11 +4,13 @@ source "http://rubygems.org"
 
 gem "appraisal", "2.1.0"
 gem "bson_ext"
-gem "roqua-support"
+gem "roqua-support", :git => "git@github.com:roqua/roqua-support.git", :branch => "dd-rails-5"
 gem "i18n"
+gem "jquery-ui-rails", "~> 3.0.1"
 gem "rails", "~> 4.2.7"
 gem "compass-rails", "2.0.0"
 gem "eventmachine", "~> 1.2.0"
+gem "jquery-rails", "~> 4.2.2"
 
 group :assets do
   gem "coffee-rails"
@@ -16,15 +18,18 @@ group :assets do
 end
 
 group :test, :development do
-  gem "guard-rspec", "~> 4.2"
+  gem "guard-rspec", ">= 4.2"
   gem "guard-teaspoon", "~> 0.8"
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.0"
-  gem "flamegraph", "~> 0.0"
+  gem "capybara", ">= 2.8.1"
+  gem "capybara-screenshot", "~> 0.3.14"
+  gem "flamegraph"
   gem "stackprof"
-  gem "rspec-prof", "~> 0.0"
-  gem "byebug"
+  gem "rspec-prof", "0.0.5"
   gem "test-unit"
+  gem "rspec-rails", "~> 2.99.0"
+  gem "rspec-core", "~> 2.99.0"
 end
 
 platforms :ruby, :jruby do
