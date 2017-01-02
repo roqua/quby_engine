@@ -50,7 +50,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'combustion',  '~> 0.5.1'
   s.add_development_dependency 'rspec',       '>= 2.14.1'
   s.add_development_dependency 'rspec-core',  '>= 2.14.8'
-  s.add_development_dependency 'rspec-rails', '>= 2.14.2'
+  s.add_development_dependency 'rspec-rails', '>= 2.14.2', '< 3.0'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'teaspoon'
   s.add_development_dependency 'teaspoon-jasmine'
