@@ -39,7 +39,6 @@ module Quby
           record.patient              = answer.patient.stringify_keys
           record.active               = answer.active
           record.test                 = answer.test
-          record.raw_params           = answer.raw_params.stringify_keys
           record.import_notes         = answer.import_notes.stringify_keys
           record.value                = answer.value.stringify_keys
           record.started_at           = answer.started_at
@@ -50,6 +49,10 @@ module Quby
           record.completion           = answer.completion.stringify_keys
           record.flags                = answer.flags
           record.textvars             = answer.textvars
+
+          # Use the new to_unsafe_h method if available and fall back to to_hash
+          hash_conversion_method = record.raw_params.respond_to?(:to_unsafe_h) ? :to_unsafe_h : :to_hash
+          record.raw_params = answer.raw_params.send(hash_conversion_method).stringify_keys
         end
 
         def entities(records)
