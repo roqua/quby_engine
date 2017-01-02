@@ -59,7 +59,7 @@ RSpec.configure do |config|
   config.mock_with :rspec
   config.include Capybara::DSL
 
-  if Rails.version >= '5'
+  if Rails.version >= '5' && Gem.loaded_specs['rspec-rails'].version.version < '3.5'
     [:controller, :view, :request].each do |type|
       config.include ::Rails::Controller::Testing::TestProcess, type: type
       config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
