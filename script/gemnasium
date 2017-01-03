@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ "$CIRCLE_BRANCH" == "gemnasium" ] && [ "$CIRCLE_NODE_INDEX" == "0" ]]
+if [[ "$CIRCLE_BRANCH" == "gemnasium" && "$CIRCLE_NODE_INDEX" == "0" ]]
 then
   GEMNASIUM_TESTSUITE="script/run_all_specs" gemnasium --token $GEMNASIUM_TOKEN autoupdate run
 fi
