@@ -1,0 +1,5 @@
+#!/bin/bash
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails41 bundle exec rspec spec &&
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails41 bundle exec teaspoon &&
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails42 bundle exec rspec spec &&
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails42 bundle exec teaspoon
