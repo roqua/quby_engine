@@ -17,6 +17,54 @@ feature 'Displaying a input of type range', js: true do
   scenario 'A float slider without a (default) value set' do
     questionnaire = inject_questionnaire("test", <<-END)
       panel do
+        question :v1, type: :float, presentation: :horizontal, as: :slider do
+          title "Relatie/Contact"
+          validates_in_range 0..100
+          left_label "left"
+          right_label "right"
+        end;
+      end
+    END
+
+    Capybara.page.current_window.resize_to(320, 568)
+    visit_new_answer_for(questionnaire)
+
+    input.should_not be_visible
+    slider.should be
+
+    input.value.should eq ''
+    slider_value.should eq '50.00'
+
+    pos = page.evaluate_script("$('#answer_v1+.noUi-target .noUi-base').position()")
+    # page.driver.click(pos['left'], pos['top'])
+
+    page.evaluate_script("
+      var e = document.createEvent('touchEvent');
+      e.initUIEvent('touchstart', true, true);
+      e.targetTouches = { pageX: #{pos['left'].round + 1}, pageY: #{pos['top'].round + 1} };
+      document.dispatchEvent(e);
+    ")
+
+    sleep(0.2)
+
+    page.evaluate_script("
+      var e = document.createEvent('touchEvent');
+      e.initUIEvent('touchend', true, true);
+      e.targetTouches = { pageX: #{pos['left'].round + 1}, pageY: #{pos['top'].round + 1} };
+      document.dispatchEvent(e);
+    ")
+
+    # page.driver.browser.touch.down(pos.x, pos.y).perform
+    # sleep(0.8)
+    # page.driver.browser.touch.up(pos.x, pos.y).perform
+
+    slider_value.should eq '0.00'
+    input.value.should eq '0.00'
+  end
+
+  scenario 'A float slider without a (default) value set' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      panel do
       question :v1, type: :float, presentation: :horizontal, as: :slider do
         title "Relatie/Contact"
         validates_in_range 0..100
