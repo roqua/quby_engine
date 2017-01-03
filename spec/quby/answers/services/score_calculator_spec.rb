@@ -56,7 +56,7 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
 
       subject { calculator.ensure_answer_values_for(keys) }
-      let(:keys) { ['v_1', 'v_2'] }
+      let(:keys) { %w(v_1 v_2) }
 
       describe 'when the answer is nil' do
         let(:values) { {'v_1' => nil, 'v_2' => 4, 'v_3' => nil} }
