@@ -479,7 +479,7 @@
 			// Stop handling this call if the handle can't move past another.
 			// Return an array containing the hit limit, so the caller can
 			// provide feedback. ( block callback ).
-			if ( to === handle.data('pct') ) {
+			if ( handles.length > 1 && to === handle.data('pct') ) {
 				return [!lower ? false : lower, upper === 100 ? false : upper];
 			}
 
