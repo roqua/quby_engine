@@ -157,14 +157,7 @@ module Quby
         # Public: Sums values, extrapolating nils to be valued as the mean of the present values
         #
         # values - An Array of Numerics
-        # minimum_
-        
-        
-        
-        
-        
-        
-        - The minimum of values needed to be present, returns nil otherwise
+        # minimum_answered - The minimum of values needed to be present, returns nil otherwise
         #
         # Returns the sum of the given values, or nil if minimum_present is not met
         def sum_extrapolate(values, minimum_present)
