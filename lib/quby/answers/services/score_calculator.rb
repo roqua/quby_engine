@@ -230,10 +230,10 @@ module Quby
           table.lookup(parameters)
         end
 
-        # Public: Ensure certain questions have an answer
+        # Public: Ensure given question_keys have answers. Strings with nothing but whitespace are not considered answered.
         #
         # *keys - A list of keys to check if an answer is given
-        # *minimum_present - see Raises.
+        # *minimum_present - defaults to all
         # *missing_values - extra values to consider missing.
         def ensure_answer_values_for(keys, minimum_present: keys.size, missing_values: [])
           # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
