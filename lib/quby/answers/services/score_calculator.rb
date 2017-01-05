@@ -157,7 +157,14 @@ module Quby
         # Public: Sums values, extrapolating nils to be valued as the mean of the present values
         #
         # values - An Array of Numerics
-        # minimum_answered - The minimum of values needed to be present, returns nil otherwise
+        # minimum_
+        
+        
+        
+        
+        
+        
+        - The minimum of values needed to be present, returns nil otherwise
         #
         # Returns the sum of the given values, or nil if minimum_present is not met
         def sum_extrapolate(values, minimum_present)
@@ -230,7 +237,8 @@ module Quby
           table.lookup(parameters)
         end
 
-        # Public: Ensure given question_keys have answers. Strings with nothing but whitespace are not considered answered.
+        # Public: Ensure given question_keys have answers. Strings with nothing but whitespace are
+        # not considered answered.
         #
         # *keys - A list of keys to check if an answer is given
         # *minimum_present - defaults to all
