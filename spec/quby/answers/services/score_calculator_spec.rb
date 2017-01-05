@@ -51,7 +51,7 @@ module Quby::Answers::Services
       end
     end
 
-    describe '#ensure_answer_values_for', focus: true do
+    describe '#ensure_answer_values_for' do
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
 
