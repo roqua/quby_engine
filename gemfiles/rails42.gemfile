@@ -20,10 +20,9 @@ group :test, :development do
   gem "guard-teaspoon", "~> 0.8"
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.0"
-  gem "flamegraph", "~> 0.0"
+  gem "flamegraph"
   gem "stackprof"
   gem "rspec-prof", "~> 0.0"
-  gem "byebug"
   gem "test-unit"
 end
 
