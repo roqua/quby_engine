@@ -8,10 +8,12 @@
 
 unless defined? Rails
   require 'rails'
+  require 'rails-controller-testing'
   require 'action_controller/railtie'
   require 'action_view/railtie'
   require 'sprockets/railtie'
   require 'jquery/rails'
+  require 'jquery-ui-rails'
   require 'combustion'
   Combustion.path = 'spec/internal'
 

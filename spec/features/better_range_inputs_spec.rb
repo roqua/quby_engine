@@ -52,7 +52,7 @@ feature 'Displaying a input of type range', js: true do
     pos = page.evaluate_script("$('#answer_v1+.noUi-target .noUi-base').position()")
     page.driver.click(pos['left'] + 100, pos['top'] + 5)
     slider_value.to_i.should be < 40
-    slider_value.to_i.should be > 10
+    slider_value.to_i.should be >= 10
     input.value.should eq slider_value
 
     # the input should not be invalid after the user set a value

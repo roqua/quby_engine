@@ -7,10 +7,10 @@ module Quby
     helper :all # include all helpers, all the time
     protect_from_forgery
 
-    around_filter :log_session_hash
-    before_filter :prevent_browser_cache
-    before_filter :enable_internet_explorer_cookies_inside_iframe
-    before_filter :configure_x_frame_header
+    around_action :log_session_hash
+    before_action :prevent_browser_cache
+    before_action :enable_internet_explorer_cookies_inside_iframe
+    before_action :configure_x_frame_header
 
     protected
 
