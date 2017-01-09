@@ -230,6 +230,23 @@ module Quby
           table.lookup(parameters)
         end
 
+        # Public: Ensure given question_keys have answers. Strings with nothing but whitespace are
+        # not considered answered.
+        #
+        # *keys - A list of keys to check if an answer is given
+        # *minimum_present - defaults to all
+        # *missing_values - extra values to consider missing.
+        def ensure_answer_values_for(keys, minimum_present: keys.size, missing_values: [])
+          # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
+          unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
+
+          if unanswered_keys.size > keys.size - minimum_present
+            fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
+                                      values: @values,
+                                      missing: unanswered_keys
+          end
+        end
+
         private
 
         def table_hash
@@ -255,17 +272,6 @@ module Quby
 
         def missing_value?(value, missing_values: [])
           value.blank? || missing_values.include?(value)
-        end
-
-        def ensure_answer_values_for(keys, minimum_present: keys.size, missing_values: [])
-          # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
-          unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
-
-          if unanswered_keys.size > keys.size - minimum_present
-            fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
-                                      values: @values,
-                                      missing: unanswered_keys
-          end
         end
       end
     end
