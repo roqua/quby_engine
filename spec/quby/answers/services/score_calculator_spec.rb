@@ -51,6 +51,52 @@ module Quby::Answers::Services
       end
     end
 
+    describe '#ensure_answer_values_for' do
+      let(:scores) { {'score1' => 22} }
+      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+
+      subject { calculator.ensure_answer_values_for(keys) }
+      let(:keys) { %w(v_1 v_2) }
+
+      describe 'when the answer is nil' do
+        let(:values) { {'v_1' => nil, 'v_2' => 4, 'v_3' => nil} }
+        it { expect { subject }.to raise_error(Quby::Answers::Services::ScoreCalculator::MissingAnswerValues) }
+      end
+
+      describe 'when the answer is blank' do
+        let(:values) { {'v_1' => '', 'v_2' => 4, 'v_3' => nil} }
+        it { expect { subject }.to raise_error(Quby::Answers::Services::ScoreCalculator::MissingAnswerValues) }
+      end
+
+      describe 'when the answer is blank, but minimum_present is 0' do
+        let(:values) { {'v_1' => '', 'v_2' => 4, 'v_3' => nil} }
+        subject { calculator.ensure_answer_values_for(keys, minimum_present: 0) }
+        it { expect { subject }.to_not raise_error }
+      end
+
+      describe 'when the answer is a missing string value' do
+        let(:values) { {'v_1' => 'missing', 'v_2' => 4, 'v_3' => nil} }
+        subject { calculator.ensure_answer_values_for(keys, missing_values: ['missing']) }
+        it { expect { subject }.to raise_error(Quby::Answers::Services::ScoreCalculator::MissingAnswerValues) }
+      end
+
+      describe 'when the answer is a missing numeric value' do
+        let(:values) { {'v_1' => 123, 'v_2' => 4, 'v_3' => nil} }
+        subject { calculator.ensure_answer_values_for(keys, missing_values: [123]) }
+        it { expect { subject }.to raise_error(Quby::Answers::Services::ScoreCalculator::MissingAnswerValues) }
+      end
+
+      describe 'when the answer is filled in with a string' do
+        let(:values) { {'v_1' => 'abc', 'v_2' => 4, 'v_3' => nil} }
+        it { expect { subject }.to_not raise_error }
+      end
+
+      describe 'when the answer is filled in with a number' do
+        let(:values) { {'v_1' => 123, 'v_2' => 4, 'v_3' => nil} }
+        it { expect { subject }.to_not raise_error }
+      end
+    end
+
     describe '#values' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
       let(:scores) { {'score1' => 22} }

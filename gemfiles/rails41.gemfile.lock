@@ -206,7 +206,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.3.0)
-    nokogiri (1.7.0)
+    nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -226,7 +226,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    public_suffix (2.0.4)
+    public_suffix (2.0.5)
     rack (1.5.5)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -317,8 +317,8 @@ GEM
       teaspoon (>= 1.0.0)
     test-unit (3.2.3)
       power_assert
-    therubyracer (0.12.2)
-      libv8 (~> 3.16.14.0)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
       ref
     thor (0.19.4)
     thread_safe (0.3.5)

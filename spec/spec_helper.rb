@@ -17,6 +17,7 @@ require 'jquery-rails'
 require 'jquery-ui-rails'
 
 require 'combustion'
+require 'stackprof'
 Combustion.path = 'spec/internal'
 Combustion.initialize! :action_controller, :action_view, :sprockets do
   # config.action_view.raise_on_missing_translations = true # only works for rails > 4.1
