@@ -26,10 +26,12 @@ module EngineControllerTesting
 
   def process_action(action, parameters = nil, session = nil, flash = nil, method = "GET")
     parameters ||= {}
-    if Rails::VERSION::MAJOR < 4
-      process(action, parameters.merge!(use_route: :quby), session, flash, method)
-    else
+    if Rails::VERSION::MAJOR == 4
       process(action, method, parameters.merge!(use_route: :quby), session, flash)
+    elsif Rails::VERSION::MAJOR >= 5
+      process(action, method: method, params: parameters.merge!(use_route: :quby), session: session, flash: flash)
+    else
+      raise "Rails #{Rails::VERSION::MAJOR} is not supported"
     end
   end
 end

@@ -14,6 +14,9 @@
       @include container;
       @include tablemix($columns, $label-columns, $field-columns);
 
+      /* Overwrite width. New susy version seems to break this */
+      max-width: 49.5em;
+
       border: 4px solid #dddddd;
       margin-top: 6em;
       padding: 3em $grid-padding 1.5em;

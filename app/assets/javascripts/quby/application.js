@@ -16,7 +16,7 @@
 //= require ./backbone/quby
 
 //= require jquery.scrollTo
-//= require jquery-ui
+//= require jquery.ui.all
 //= require jquery_placeholder
 //= require jquery.watch.js
 //= require jquery.nouislider.with_roqua_modifications.js

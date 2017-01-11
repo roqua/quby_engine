@@ -8,7 +8,7 @@ GIT
       naught (~> 1.0)
 
 PATH
-  remote: .
+  remote: ../
   specs:
     quby (2.4.1)
       addressable
@@ -132,8 +132,10 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    compass-rails (2.0.1)
+    compass-rails (3.0.2)
       compass (~> 1.0.0)
+      sass-rails (< 5.1)
+      sprockets (< 4.0)
     concurrent-ruby (1.0.4)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -221,7 +223,7 @@ GEM
     naught (1.1.0)
     nenv (0.3.0)
     nio4r (1.2.1)
-    nokogiri (1.7.0)
+    nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -241,7 +243,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    public_suffix (2.0.4)
+    public_suffix (2.0.5)
     rack (2.0.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -257,6 +259,10 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.1)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.1)
+      actionpack (~> 5.x)
+      actionview (~> 5.x)
+      activesupport (~> 5.x)
     rails-dom-testing (2.0.2)
       activesupport (>= 4.2.0, < 6.0)
       nokogiri (~> 1.6)
@@ -338,8 +344,8 @@ GEM
       teaspoon (>= 1.0.0)
     test-unit (3.2.3)
       power_assert
-    therubyracer (0.12.2)
-      libv8 (~> 3.16.14.0)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
       ref
     thor (0.19.4)
     thread_safe (0.3.5)
@@ -383,18 +389,24 @@ DEPENDENCIES
   guard-spork (~> 2.1)
   guard-teaspoon (~> 0.8)
   i18n
+  jquery-rails (~> 4.2.2)
   jquery-ui-rails (~> 3.0.1)
   launchy
+  maruku (~> 0.6.1)
   poltergeist
   pry
   quby!
+  rails (~> 5.0.1)
+  rails-controller-testing
   roqua-support!
   rspec (>= 2.14.1)
   rspec-core (~> 2.99.0)
   rspec-prof (= 0.0.5)
   rspec-rails (~> 2.99.0)
   rubocop (~> 0.42.0)
+  sass-rails (~> 5.0.6)
   simplecov (~> 0.9.0)
+  sprockets-rails (~> 2.3.3)
   stackprof
   susy (~> 2.2.12)
   teaspoon

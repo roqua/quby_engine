@@ -1,6 +1,7 @@
 @import "compass/reset";
 @import "compass/css3";
-@import 'susy';
+@import "compass/css3/shared";
+@import "susyone";
 @import "blueprint/typography";
 @import "custom-inputs";
 @import "jquery.nouislider";

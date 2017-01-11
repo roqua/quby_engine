@@ -13,7 +13,9 @@ require 'rails'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'sprockets/railtie'
-require 'jquery/rails'
+require 'jquery-rails'
+require 'jquery-ui-rails'
+
 require 'combustion'
 require 'stackprof'
 Combustion.path = 'spec/internal'
@@ -25,6 +27,8 @@ I18n.exception_handler = lambda do |exception, locale, key, options|
 end
 
 require 'rspec/rails'
+require 'rails-controller-testing' if Rails.version >= '5'
+
 require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'
@@ -55,6 +59,14 @@ Dir[Rails.root.join("../../spec/support/**/*.rb")].each { |f| require f }
 RSpec.configure do |config|
   config.mock_with :rspec
   config.include Capybara::DSL
+
+  if Rails.version >= '5' && Gem.loaded_specs['rspec-rails'].version.version < '3.5'
+    [:controller, :view, :request].each do |type|
+      config.include ::Rails::Controller::Testing::TestProcess, type: type
+      config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
+      config.include ::Rails::Controller::Testing::Integration, type: type
+    end
+  end
 
   config.before(:each) do
     Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(Quby.fixtures_path)
