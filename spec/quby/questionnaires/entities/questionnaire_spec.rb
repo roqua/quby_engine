@@ -41,6 +41,13 @@ module Quby::Questionnaires::Entities
       end
     end
 
+    describe 'sbg attributes' do
+      it 'default to nil' do
+        expect(questionnaire.sbg_key).to be_nil
+        expect(questionnaire.sbg_domain).to be_nil
+      end
+    end
+
     describe '#scores' do
       it 'should have empty scores' do
         Questionnaire.new("test").scores.should eq([])

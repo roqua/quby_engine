@@ -4,12 +4,14 @@ module Quby
       class ScoreCalculation
         attr_accessor :key
         attr_accessor :label
+        attr_accessor :sbg_key
         attr_accessor :options
         attr_accessor :calculation
 
         def initialize(key, options, &block)
           @key = key
           @label = options[:label]
+          @sbg_key = options[:sbg_key]
           @options = options
           @calculation = block
         end

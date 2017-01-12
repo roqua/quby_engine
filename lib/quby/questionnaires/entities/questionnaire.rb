@@ -47,6 +47,8 @@ module Quby
         attr_accessor :description
         attr_accessor :outcome_description
         attr_accessor :short_description
+        attr_accessor :sbg_key # not required to be unique
+        attr_accessor :sbg_domain
         attr_accessor :abortable
         attr_accessor :enable_previous_questionnaire_button
         attr_accessor :panels

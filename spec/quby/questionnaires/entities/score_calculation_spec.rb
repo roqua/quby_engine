@@ -3,15 +3,17 @@ require 'spec_helper'
 module Quby::Questionnaires::Entities
   describe ScoreCalculation do
     let(:calculation) { proc { 1 } }
-    subject { ScoreCalculation.new(:tot, label: "Totaal", &calculation) }
+    subject { ScoreCalculation.new(:tot, label: "Totaal", sbg_key: 'TOT', &calculation) }
 
     it { subject.key.should == :tot }
     it { subject.label.should == "Totaal" }
+    it { subject.sbg_key.should == "TOT" }
     it { subject.calculation.should == calculation }
 
     context 'when not given any options' do
       subject { ScoreCalculation.new(:tot, {}, &calculation) }
       it { subject.label.should be_nil }
+      it { subject.sbg_key.should be_nil }
     end
 
     context 'when having a score option set to true' do
