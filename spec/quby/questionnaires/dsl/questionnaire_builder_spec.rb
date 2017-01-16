@@ -25,8 +25,13 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.sbg_key).to eq('foo')
     end
 
-    it 'set sbg_domains' do
+    it 'can set sbg_domains as an array' do
       dsl { sbg_domains %w(foo bar) }
+      expect(questionnaire.sbg_domains).to eq(%w(foo bar))
+    end
+
+    it 'can set sbg_domains with strings' do
+      dsl { sbg_domains 'foo', 'bar' }
       expect(questionnaire.sbg_domains).to eq(%w(foo bar))
     end
 
