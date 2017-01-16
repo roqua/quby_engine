@@ -50,8 +50,8 @@ module Quby
           @questionnaire.sbg_key = sbg_key
         end
 
-        def sbg_domain(sbg_domain)
-          @questionnaire.sbg_domain = sbg_domain
+        def sbg_domains(sbg_domains)
+          @questionnaire.sbg_domains = sbg_domains
         end
 
         def abortable

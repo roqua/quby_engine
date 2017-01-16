@@ -27,6 +27,7 @@ module Quby
 
         def initialize(key, last_update: Time.now)
           @key = key
+          @sbg_domains = []
           @last_update = Time.at(last_update.to_i)
           @score_calculations ||= {}
           @charts = Charting::Charts.new
@@ -48,7 +49,7 @@ module Quby
         attr_accessor :outcome_description
         attr_accessor :short_description
         attr_accessor :sbg_key # not required to be unique
-        attr_accessor :sbg_domain
+        attr_accessor :sbg_domains
         attr_accessor :abortable
         attr_accessor :enable_previous_questionnaire_button
         attr_accessor :panels

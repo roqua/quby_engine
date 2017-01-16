@@ -25,9 +25,9 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.sbg_key).to eq('foo')
     end
 
-    it 'set sbg_domain' do
-      dsl { sbg_domain 'bar' }
-      expect(questionnaire.sbg_domain).to eq('bar')
+    it 'set sbg_domains' do
+      dsl { sbg_domains %w(foo bar) }
+      expect(questionnaire.sbg_domains).to eq(%w(foo bar))
     end
 
     it 'can be abortable' do
