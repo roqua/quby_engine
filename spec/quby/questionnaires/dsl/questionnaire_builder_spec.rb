@@ -20,6 +20,21 @@ module Quby::Questionnaires::DSL
       questionnaire.outcome_description.should == 'Outcome description'
     end
 
+    it 'set sbg_key' do
+      dsl { sbg_key 'foo' }
+      expect(questionnaire.sbg_key).to eq('foo')
+    end
+
+    it 'can set sbg_domains as an array' do
+      dsl { sbg_domains %w(foo bar) }
+      expect(questionnaire.sbg_domains).to eq(%w(foo bar))
+    end
+
+    it 'can set sbg_domains with strings' do
+      dsl { sbg_domains 'foo', 'bar' }
+      expect(questionnaire.sbg_domains).to eq(%w(foo bar))
+    end
+
     it 'can be abortable' do
       questionnaire.abortable.should be_false
       dsl { abortable }

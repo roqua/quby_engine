@@ -33,11 +33,21 @@ module Quby::Questionnaires::Entities
 
         question :int, type: :integer
 
-        question :date, type: :date
+        question :date, type: :date, sbg_key: 'foo'
       end
     end
 
     let(:valid_question_options) { {type: :string} }
+
+    describe 'sbg_key' do
+      it 'can be set by options hash' do
+        expect(questionnaire.question_hash[:date].sbg_key).to eq 'foo'
+      end
+
+      it 'returns nil when not set' do
+        expect(questionnaire.question_hash[:int].sbg_key).to be_nil
+      end
+    end
 
     describe '#context_free_title' do
       it 'can be set by method call' do

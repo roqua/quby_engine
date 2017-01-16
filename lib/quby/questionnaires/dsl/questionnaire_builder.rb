@@ -46,6 +46,14 @@ module Quby
           @questionnaire.short_description = description
         end
 
+        def sbg_key(sbg_key)
+          @questionnaire.sbg_key = sbg_key
+        end
+
+        def sbg_domains(*sbg_domains)
+          @questionnaire.sbg_domains = sbg_domains.flatten
+        end
+
         def abortable
           @questionnaire.abortable = true
         end

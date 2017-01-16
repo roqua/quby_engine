@@ -9,6 +9,7 @@ module Quby
 
         # Standard attributes
         attr_accessor :key
+        attr_accessor :sbg_key
         attr_accessor :questionnaire
         attr_accessor :title
         attr_accessor :context_free_title
@@ -121,6 +122,7 @@ module Quby
           @options = []
           @questionnaire = options[:questionnaire]
           @key = key
+          @sbg_key = options[:sbg_key]
           @type = options[:type]
           @as = options[:as]
           @title = options[:title]
