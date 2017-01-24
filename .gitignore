@@ -1,3 +1,6 @@
+# It is recommended to not commit the .lock files of appraisal gemfiles to the repository
+gemfiles/*.lock
+
 .rvmrc
 .bundle/
 vendor/bundle/
