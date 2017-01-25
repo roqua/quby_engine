@@ -53,5 +53,23 @@ module Quby::Answers::Services
         updates_answers.update
       end
     end
+    describe 'always saving raw_params' do
+      it 'saves raw_params if there is an exception during cleanup_input' do
+        Timecop.freeze do
+          expect(answer).to receive(:cleanup_input).and_raise(ArgumentError)
+          expect { updates_answers.update('v_1' => 'a1') }.to raise_exception(ArgumentError)
+          expect(answer.raw_params).to eq('v_1' => 'a1', 'could_not_update_at' => Time.now.to_i)
+        end
+      end
+    end
+
+    describe 'using completed_at in calculations' do
+      # age calculation in scores requires completed_at to be set, so ensure completed_at is set before calculation
+      it 'sets completed_at before assigning OutcomeCalculation.new(answer).calculate' do
+        expect(answer).to receive(:mark_completed).ordered
+        expect(answer).to receive(:outcome=).ordered
+        updates_answers.update('v_1' => 'a1')
+      end
+    end
   end
 end
