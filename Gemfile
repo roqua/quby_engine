@@ -10,7 +10,7 @@ gem 'appraisal', '2.1.0'
 gem 'bson_ext'
 
 # Optional dependency on RoQua Support gem.
-gem 'roqua-support', git: 'git@github.com:roqua/roqua-support.git', branch: 'dd-rails-5'
+gem 'roqua-support'
 
 gem 'i18n'
 
