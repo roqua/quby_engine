@@ -201,7 +201,8 @@
     if(failed){
         var first_error = $('.error').not('.hidden')[0];
         if( first_error != undefined) {
-          $('body').scrollTo(first_error);
+          // Prevent horizontal scrolling (on mobile devices)
+          $('html, body').animate({scrollTop: first_error.offsetTop}, 0);
         }
     }
     return !failed;
@@ -212,7 +213,7 @@
     if(!dateValuesValid(values)) {
       throw "invalidDate";
     }
-    
+
     return new Date(values.year, values.month, values.day, values.hour, values.minute);
   }
 
