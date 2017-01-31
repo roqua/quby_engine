@@ -21,7 +21,7 @@ module Quby
             answer.validate_answers
 
             if answer.errors.empty?
-              if new_attributes["rendered_at"]
+              if new_attributes["rendered_at"].present?
                 started_at = Time.at(new_attributes["rendered_at"].to_i)
               else
                 started_at = nil
@@ -46,7 +46,7 @@ module Quby
 
         protected
 
-        def save_raw_params_on_error(new_attributes, &_block)
+        def save_raw_params_on_error(new_attributes)
           answer.raw_params = new_attributes
           backup_answer = answer.clone
 
