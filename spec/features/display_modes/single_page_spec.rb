@@ -94,7 +94,7 @@ module Quby
 
     # Test hotkey availability
     it 'shows the hotkey dialog link' do
-      visit visit_new_answer_for(questionnaire, 'single_page')
+      visit_new_answer_for(questionnaire, 'single_page')
 
       page.should have_content("Sneltoetsen Help")
     end
