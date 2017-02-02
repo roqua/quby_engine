@@ -92,7 +92,7 @@ module Quby
       page.should have_content("Uw antwoorden zijn opgeslagen")
     end
 
-    # Test hotkey availability
+    # Test hotkey availability when enabled
     it 'shows the hotkey dialog link' do
       visit_new_answer_for(questionnaire, 'single_page')
 
