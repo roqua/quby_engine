@@ -3,6 +3,8 @@ require 'spec_helper'
 module Quby
   describe "quby/answers/single_page/panel" do
     let(:questionnaire) { inject_questionnaire("test", <<-END) }
+      allow_hotkeys :single_page
+
       panel do
         question :v1, type: :radio, required: true do
           title "Verbergt vraag 2"
@@ -88,6 +90,13 @@ module Quby
       # But allow to skip validation and save
       click_on('Toch opslaan')
       page.should have_content("Uw antwoorden zijn opgeslagen")
+    end
+
+    # Test hotkey availability when enabled
+    it 'shows the hotkey dialog link' do
+      visit_new_answer_for(questionnaire, 'single_page')
+
+      page.should have_content("Sneltoetsen Help")
     end
   end
 end
