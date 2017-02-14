@@ -8,6 +8,13 @@ module Quby
           super(key, description, default)
         end
         # rubocop:enable ParameterLists
+
+        def to_codebook(_options = {})
+          output = []
+          output << "#{key} Text variabele"
+          output << description
+          output.join("\n")
+        end
       end
     end
   end

@@ -183,6 +183,16 @@ module Quby
             output << ""
           end
 
+          flags.each do |_flag_key, flag|
+            output << flag.to_codebook(options)
+            output << ""
+          end
+
+          textvars.each do |_textvar_key, textvar|
+            output << textvar.to_codebook(options)
+            output << ""
+          end
+
           output = output.join("\n")
           strip_tags(output.gsub(/\<([ 1-9])/, '&lt;\1')).gsub("&lt;", "<")
         end

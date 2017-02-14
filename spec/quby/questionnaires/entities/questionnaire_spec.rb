@@ -201,6 +201,46 @@ module Quby::Questionnaires::Entities
         questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1_a1 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a1_1 string \n\ttest_1_a1_2 string \n\ntest_1_a2 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a2_1 string \n")
         # rubocop:enable LineLength
       end
+
+      describe 'with flags' do
+        it 'contains flags' do
+          questionnaire = Quby::Questionnaires::DSL.build("test") do
+            title 'My Test'
+
+            flag key: :depr,
+                 description_true: 'Er is sprake van depressieklachten',
+                 description_false: 'Er is geen sprake van depressieklachten',
+                 trigger_on: false,
+                 hides_questions: [:v_1]
+
+            question :v_1, type: :string do
+              title 'gehide door depr false'
+            end
+          end
+
+          # rubocop:disable LineLength
+          questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"gehide door depr false\"\n\ntest_depr flag\n 'true' - Er is sprake van depressieklachten\n 'false' - Er is geen sprake van depressieklachten\n '' (leeg) - Vlag niet ingesteld, informatie onbekend\n\n")
+          # rubocop:enable LineLength
+        end
+      end
+
+      describe 'with textvars' do
+        it 'contains textvars' do
+          questionnaire = Quby::Questionnaires::DSL.build("test") do
+            title 'My Test'
+
+            textvar key: 'probleem_1', description: 'probleem 1', default: ''
+
+            question :v_1, type: :string do
+              title 'vraag'
+            end
+          end
+
+          # rubocop:disable LineLength
+          questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"vraag\"\n\ntest_probleem_1 Text variabele\nprobleem 1\n")
+          # rubocop:enable LineLength
+        end
+      end
     end
 
     describe '#add_chart' do
