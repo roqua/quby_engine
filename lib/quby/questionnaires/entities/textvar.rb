@@ -11,7 +11,7 @@ module Quby
 
         def to_codebook(_options = {})
           output = []
-          output << "#{key} Text variabele"
+          output << "#{key} Textvariabele"
           output << description
           output.join("\n")
         end
