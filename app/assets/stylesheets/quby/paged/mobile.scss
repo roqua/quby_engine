@@ -10,6 +10,21 @@
     padding-top: $grid-padding;
   }
 
+  // Reduce table width of scale questions on small screens
+  @media (max-width: 420px) {
+    .horizontal.item.scale {
+      table {
+        table-layout: fixed;
+        td.last p {
+          position: absolute;
+          right: 20px;
+          max-width: 5rem;
+          text-align: right;
+        }
+      }
+    }
+  }
+
   tr {
     border: 1px solid #aaa;
   }
