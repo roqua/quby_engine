@@ -31,7 +31,7 @@ module Quby
           @last_update = Time.at(last_update.to_i)
           @score_calculations ||= {}
           @charts = Charting::Charts.new
-          @fields = Fields.new
+          @fields = Fields.new(self)
           @license = :unknown
           @renderer_version = :v1
           @extra_css = ""
@@ -41,6 +41,7 @@ module Quby
           @language = :nl
           @respondent_types = []
           @tags = OpenStruct.new
+          @check_key_clashes = true
         end
 
         attr_accessor :key
@@ -64,6 +65,7 @@ module Quby
         attr_accessor :language
         attr_accessor :respondent_types
         attr_reader :tags # tags= is manually defined below
+        attr_accessor :check_key_clashes
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never

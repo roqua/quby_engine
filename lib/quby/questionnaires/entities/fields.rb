@@ -21,30 +21,31 @@ module Quby
         # targeted by :depends_on relations.
         attr_reader :input_keys
 
-        def initialize
+        def initialize(questionnaire)
           @question_hash = HashWithIndifferentAccess.new
           @option_hash   = HashWithIndifferentAccess.new
           @answer_keys   = Set.new
           @input_keys    = Set.new
+          @questionnaire = questionnaire
         end
 
         def add(question)
           new_answer_keys = Set.new(question.answer_keys)
           new_input_keys  = Set.new(question.input_keys)
 
-          # TODO: Fix collision in questionnaire subquestion keys.
-          #
           # This is probably the best place to ensure that keys don't collide. However,our current set of questionnaires
           # does have a few collisions between +v_1+ option +a9+ and its subquestion +v_1_a9+. For the time being,
           # this check is therefor left commented out. The old check which exists in the DSL is left in place.
           #
-          # if @answer_keys.intersect?(new_answer_keys)
-          #   fail "Duplicate answer keys: #{@answer_keys.intersection(new_answer_keys).inspect}"
-          # end
-          #
-          # if @input_keys.intersect?(new_input_keys)
-          #   fail "Duplicate input keys: #{@input_keys.intersection(new_input_keys).inspect}"
-          # end
+          if @questionnaire.check_key_clashes
+            if @answer_keys.intersect?(new_answer_keys)
+              fail "Duplicate answer keys: #{@answer_keys.intersection(new_answer_keys).inspect}"
+            end
+
+            if @input_keys.intersect?(new_input_keys)
+              fail "Duplicate input keys: #{@input_keys.intersection(new_input_keys).inspect}"
+            end
+          end
 
           @question_hash[question.key] = question
           @input_keys.merge(new_input_keys)

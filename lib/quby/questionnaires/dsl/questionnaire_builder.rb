@@ -30,6 +30,10 @@ module Quby
           # no-op, key is now passed in to Questionnaire constructor
         end
 
+        def do_not_check_key_clashes
+          @questionnaire.check_key_clashes = false
+        end
+
         def title(title)
           @questionnaire.title = title
         end
