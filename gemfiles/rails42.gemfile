@@ -4,7 +4,7 @@ source "http://rubygems.org"
 
 gem "appraisal", "2.1.0"
 gem "bson_ext"
-gem "roqua-support", :git => "git@github.com:roqua/roqua-support.git", :branch => "dd-rails-5"
+gem "roqua-support"
 gem "i18n"
 gem "jquery-ui-rails", "~> 3.0.1"
 gem "susy", "~> 2.2.12"

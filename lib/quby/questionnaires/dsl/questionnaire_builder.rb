@@ -50,10 +50,6 @@ module Quby
           @questionnaire.sbg_key = sbg_key
         end
 
-        def sbg_domains(*sbg_domains)
-          @questionnaire.sbg_domains = sbg_domains.flatten
-        end
-
         def abortable
           @questionnaire.abortable = true
         end
