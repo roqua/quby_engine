@@ -48,11 +48,11 @@ module Quby
 
         def check_key_clashes(new_answer_keys, new_input_keys)
           if @answer_keys.intersect?(new_answer_keys)
-            fail "Duplicate answer keys: #{@answer_keys.intersection(new_answer_keys)}"
+            fail "Duplicate answer keys: #{@answer_keys.intersection(new_answer_keys).inspect}"
           end
 
           if @input_keys.intersect?(new_input_keys)
-            fail "Duplicate input keys: #{@input_keys.intersection(new_input_keys)}"
+            fail "Duplicate input keys: #{@input_keys.intersection(new_input_keys).inspect}"
           end
         end
 
