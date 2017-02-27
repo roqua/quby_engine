@@ -42,5 +42,41 @@ module Quby::Questionnaires::Entities
         expect(questionnaire.fields.answer_keys).to eq Set.new(%I( v_1_a1 v_1_a1_1 v_2 ))
       end
     end
+
+    describe '#add' do
+      describe 'if a subquestion clashes with its parent option key' do
+        let(:definition) do
+          %q~
+        question :v_1, type: :radio, title: 'select a few' do
+          option :a1, description: 'select me' do
+            question :v_1_a1, type: :textarea, title: 'why did you do that?'
+          end
+          option :a2, description: 'select me not'
+        end
+      ~
+        end
+        it 'raises' do
+          expected_exception = 'Duplicate input keys: #<Set: {:v_1_a1}>'
+          expect { questionnaire }.to raise_exception(expected_exception)
+        end
+
+        describe 'if questionnaire.check_key_clashes is false' do
+          let(:definition) do
+            %q~
+            do_not_check_key_clashes
+            question :v_1, type: :radio, title: 'select a few' do
+              option :a1, description: 'select me' do
+                question :v_1_a1, type: :textarea, title: 'why did you do that?'
+              end
+              option :a2, description: 'select me not'
+            end
+            ~
+          end
+          it 'does not raise' do
+            expect { questionnaire }.to_not raise_exception
+          end
+        end
+      end
+    end
   end
 end
