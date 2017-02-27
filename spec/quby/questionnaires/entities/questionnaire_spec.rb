@@ -237,7 +237,7 @@ module Quby::Questionnaires::Entities
           end
 
           # rubocop:disable LineLength
-          questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"vraag\"\n\ntest_probleem_1 Text variabele\nprobleem 1\n")
+          questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"vraag\"\n\ntest_probleem_1 Textvariabele\nprobleem 1\n")
           # rubocop:enable LineLength
         end
       end
