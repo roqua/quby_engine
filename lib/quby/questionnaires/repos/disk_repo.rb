@@ -31,13 +31,14 @@ module Quby
         end
 
         def timestamp(key)
-          Time.at(File.ctime(questionnaire_path(key)).to_i)
+          Time.at(File.mtime(questionnaire_path(key)).to_i)
         end
 
         private
 
         def store!(key, definition)
           File.open(questionnaire_path(key), 'w') { |f| f.write definition }
+          FileUtils.touch questionnaire_path(key), mtime: Time.now
         end
 
         def questionnaire_path(key)
