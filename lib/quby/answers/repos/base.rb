@@ -49,10 +49,17 @@ module Quby
           record.completion           = answer.completion.stringify_keys
           record.flags                = answer.flags
           record.textvars             = answer.textvars
+          record.raw_params           = convert_raw_params_to_hash(answer.raw_params).stringify_keys
+        end
 
-          # Use the new to_unsafe_h method if available and fall back to to_hash
-          hash_conversion_method = record.raw_params.respond_to?(:to_unsafe_h) ? :to_unsafe_h : :to_hash
-          record.raw_params = answer.raw_params.send(hash_conversion_method).stringify_keys
+        def convert_raw_params_to_hash(raw_params)
+          if raw_params.is_a? Hash
+            raw_params
+          elsif raw_params.respond_to?(:to_unsafe_h)
+            raw_params.to_unsafe_h
+          else
+            raw_params.to_hash
+          end
         end
 
         def entities(records)
