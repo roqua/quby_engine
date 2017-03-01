@@ -29,7 +29,7 @@ module Quby::Questionnaires::Entities
 
       it 'stores a global flag' do
         score = Plottable.new(:tot, global: true)
-        score.global.should be_true
+        score.global.should be_truthy
       end
     end
   end

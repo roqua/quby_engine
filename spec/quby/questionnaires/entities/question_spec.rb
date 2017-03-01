@@ -99,10 +99,10 @@ module Quby::Questionnaires::Entities
 
     describe '#subquestion?' do
       it 'returns true for subquestions' do
-        expect(questionnaire.question_hash[:subquestion].subquestion?).to be_true
+        expect(questionnaire.question_hash[:subquestion].subquestion?).to be_truthy
       end
       it 'returns false for non-subquestions' do
-        expect(questionnaire.question_hash[:check].subquestion?).to be_false
+        expect(questionnaire.question_hash[:check].subquestion?).to be_falsey
       end
     end
 

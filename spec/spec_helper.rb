@@ -61,6 +61,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   config.infer_spec_type_from_file_location!
+  config.raise_errors_for_deprecations!
 
   if Rails.version >= '5' && Gem.loaded_specs['rspec-rails'].version.version < '3.5'
     [:controller, :view, :request].each do |type|

@@ -35,11 +35,11 @@ if defined?(RSpec)
     describe '#exists?' do
       it 'returns true if questionnaire was added' do
         repo.create!("test", "")
-        repo.exists?("test").should be_true
+        repo.exists?("test").should be_truthy
       end
 
       it 'returns false if questionnaire was not added' do
-        repo.exists?("unknown").should be_false
+        repo.exists?("unknown").should be_falsey
       end
     end
 

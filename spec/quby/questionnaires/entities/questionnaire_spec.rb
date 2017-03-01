@@ -147,13 +147,13 @@ module Quby::Questionnaires::Entities
       end
 
       it "should check if key is used by a question" do
-        questionnaire.key_in_use?(:v_1).should be_true
+        questionnaire.key_in_use?(:v_1).should be_truthy
       end
       it "should check if key is used by a score" do
-        questionnaire.key_in_use?(:score_1).should be_true
+        questionnaire.key_in_use?(:score_1).should be_truthy
       end
       it "should check if key is used by a variable" do
-        questionnaire.key_in_use?(:var_1).should be_true
+        questionnaire.key_in_use?(:var_1).should be_truthy
       end
     end
 
