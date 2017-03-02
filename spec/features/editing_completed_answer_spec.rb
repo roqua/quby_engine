@@ -20,11 +20,11 @@ feature 'Editing a completed answer' do
 
     answer = create_new_answer_for(questionnaire, 'v_1' => 'a2')
     visit_new_answer_for(questionnaire, 'paged', answer)
-    find('#answer_v_1_a2')[:checked].should be_true
+    find('#answer_v_1_a2')[:checked].should be_truthy
 
     # make sure subquestions of selected answers are enabled
-    find('#answer_v_1_a2_val')[:disabled].should be_false
-    find('#answer_v_1_a1_val')[:disabled].should be_true
+    find('#answer_v_1_a2_val')[:disabled].should be_falsey
+    find('#answer_v_1_a1_val')[:disabled].should be_truthy
 
   end
 end

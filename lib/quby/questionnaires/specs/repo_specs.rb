@@ -35,11 +35,11 @@ if defined?(RSpec)
     describe '#exists?' do
       it 'returns true if questionnaire was added' do
         repo.create!("test", "")
-        repo.exists?("test").should be_true
+        repo.exists?("test").should be_truthy
       end
 
       it 'returns false if questionnaire was not added' do
-        repo.exists?("unknown").should be_false
+        repo.exists?("unknown").should be_falsey
       end
     end
 
@@ -62,11 +62,11 @@ if defined?(RSpec)
     end
 
     describe '#timestamp' do
-      let(:time) { Time.at(Time.now.to_i) }# disregard milliseconds
+      let(:time) { Time.at(Time.now - 12.hours) }
 
       it 'returns the time a definition was stored' do
         Timecop.freeze(time) { repo.create! 'test', '' }
-        expect(repo.timestamp('test')).to eq(time)
+        expect(repo.timestamp('test')).to be_within(1.second).of(time)
       end
     end
   end

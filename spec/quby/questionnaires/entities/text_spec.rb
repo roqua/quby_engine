@@ -20,7 +20,7 @@ module Quby::Questionnaires::Entities
 
     it "should be valid for any hash" do
       text = Quby::Questionnaires::Entities::Text.new(@some_string)
-      text.validate_answer({}).should be_true
+      text.validate_answer({}).should be_truthy
     end
   end
 end

@@ -5,8 +5,8 @@ if defined?(RSpec)
     end
 
     it 'supports checking whether a questionnaire exists' do
-      expect(Quby.questionnaires.exists? 'simple').to be_true
-      expect(Quby.questionnaires.exists? 'inexistant_questionnaire').to be_false
+      expect(Quby.questionnaires.exists? 'simple').to be_truthy
+      expect(Quby.questionnaires.exists? 'inexistant_questionnaire').to be_falsey
     end
 
     it 'supports finding all questionnaires' do

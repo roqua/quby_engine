@@ -39,11 +39,11 @@ module Quby::Questionnaires::Repos
       describe '#exists?' do
         it 'returns true if file exists' do
           FileUtils.touch("/tmp/test.rb")
-          repo.exists?("test").should be_true
+          repo.exists?("test").should be_truthy
         end
 
         it 'returns false if file does not exist' do
-          repo.exists?("test").should be_false
+          repo.exists?("test").should be_falsey
         end
       end
 

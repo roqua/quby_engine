@@ -14,13 +14,13 @@ module Quby::Questionnaires::Repos
         repo = MemoryRepo.new("test1" => "title 'Foo'",
                               "test2" => "title 'Bar'")
 
-        expect(repo.exists?('test1')).to be_true
+        expect(repo.exists?('test1')).to be_truthy
         expect(repo.find('test1').sourcecode).to eq("title 'Foo'")
 
-        expect(repo.exists?('test2')).to be_true
+        expect(repo.exists?('test2')).to be_truthy
         expect(repo.find('test2').sourcecode).to eq("title 'Bar'")
 
-        expect(repo.exists?('test3')).to be_false
+        expect(repo.exists?('test3')).to be_falsey
       end
     end
   end

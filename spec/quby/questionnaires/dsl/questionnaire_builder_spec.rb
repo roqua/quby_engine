@@ -32,9 +32,9 @@ module Quby::Questionnaires::DSL
     end
 
     it 'can be abortable' do
-      questionnaire.abortable.should be_false
+      questionnaire.abortable.should be_falsey
       dsl { abortable }
-      questionnaire.abortable.should be_true
+      questionnaire.abortable.should be_truthy
     end
 
     it 'can allow hotkeys' do
@@ -70,8 +70,8 @@ module Quby::Questionnaires::DSL
 
     it 'can set tags' do
       dsl { tags :diary }
-      expect(questionnaire.tags.diary).to be_true
-      expect(questionnaire.tags.another_tag).to be_false
+      expect(questionnaire.tags.diary).to be_truthy
+      expect(questionnaire.tags.another_tag).to be_falsey
     end
 
     it 'builds panels' do
@@ -104,7 +104,7 @@ module Quby::Questionnaires::DSL
     end
 
     it 'checks for subquestion clashing with parent question' do
-      pending
+      skip
       expect do
         dsl do
           question :v_1, type: :radio do

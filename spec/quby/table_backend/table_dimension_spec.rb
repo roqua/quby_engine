@@ -40,7 +40,7 @@ describe Quby::TableBackend::TableDimension do
       expect(simple_tree.lookup gender: 'm', age: 5, score_tscore_klin: 6).to eq(20)
     end
 
-    pending 'raises exception explaining which parameter is outside of a range if applicable' do
+    skip 'raises exception explaining which parameter is outside of a range if applicable' do
       expect { simple_tree.lookup gender: 'm', age: 55, score: 6 }.to raise_exception('Parameter age is outside range')
     end
 
