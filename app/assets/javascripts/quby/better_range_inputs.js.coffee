@@ -1,6 +1,6 @@
 
 all_to_slider = ->
-  $("input.float.slider").each ->
+  $("input.slider").each ->
     new BetterSlider(this)
 
 $ -> all_to_slider()
