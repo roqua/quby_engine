@@ -1,6 +1,6 @@
 
 all_to_slider = ->
-  $("input[type='range']").each ->
+  $("input.slider").each ->
     new BetterSlider(this)
 
 $ -> all_to_slider()
