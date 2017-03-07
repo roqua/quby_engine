@@ -21,6 +21,14 @@ describe "ajax error callbacks", ->
       expect($('.flash .error-details')).toBeVisible()
       expect($('.flash .error-details')).toHaveText('error')
 
+  describe '.ajax:error with non-human-readable error details', ->
+    it 'only shows a general error but no error details', ->
+      expect($('.flash')).not.toBeVisible()
+      $('#rails_ajax_form').trigger('submit')
+      @requests[0].respond(500, { "Content-Type": "application/json" }, '<b class="error">error</b>')
+      expect($('.flash')).toBeVisible()
+      expect($('.flash .error-details')).not.toBeVisible()
+
   describe ".ajax:error with server timeout", ->
     it 'shows the flash block with an iframe', ->
       expect($('.flash')).not.toBeVisible()
