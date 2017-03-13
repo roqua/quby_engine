@@ -18,6 +18,16 @@ module Quby
         def if_triggered_by(answer_flags)
           yield if answer_flags[key] == trigger_on
         end
+
+        def to_codebook(_options = {})
+          output = []
+          output << "#{key} flag"
+          output << " 'true' - #{description_true}"
+          output << " 'false' - #{description_false}"
+          output << " '' (leeg) - Vlag niet ingesteld, informatie onbekend"
+          output << ""
+          output.join("\n")
+        end
       end
     end
   end

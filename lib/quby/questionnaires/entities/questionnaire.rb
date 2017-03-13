@@ -74,10 +74,7 @@ module Quby
         attr_accessor :flags
         attr_accessor :textvars
 
-        delegate :question_hash,     to: :fields
-        delegate :input_keys,        to: :fields
-        delegate :answer_keys,       to: :fields
-        delegate :expand_input_keys, to: :fields
+        delegate :question_hash, :input_keys, :answer_keys, :expand_input_keys, to: :fields
 
         def tags=(tags)
           tags.each do |tag|
@@ -162,6 +159,7 @@ module Quby
           }
         end
 
+        # rubocop:disable Metrics/MethodLength
         def to_codebook(options = {})
           output = []
           output << title
@@ -183,9 +181,20 @@ module Quby
             output << ""
           end
 
+          flags.each do |_flag_key, flag|
+            output << flag.to_codebook(options)
+            output << ""
+          end
+
+          textvars.each do |_textvar_key, textvar|
+            output << textvar.to_codebook(options)
+            output << ""
+          end
+
           output = output.join("\n")
           strip_tags(output.gsub(/\<([ 1-9])/, '&lt;\1')).gsub("&lt;", "<")
         end
+        # rubocop:enable Metrics/MethodLength
 
         def key_in_use?(key)
           fields.key_in_use?(key) || score_calculations.key?(key)
