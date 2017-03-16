@@ -35,6 +35,10 @@ module Quby
           @chart.y_categories = y_categories
         end
 
+        def y_range_categories(y_range_categories)
+          @chart.y_range_categories = y_range_categories
+        end
+
         def plot(key, options = {})
           unless plottable = @questionnaire.find_plottable(key)
             fail "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"

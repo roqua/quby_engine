@@ -10,9 +10,20 @@ module Quby
           attribute :key,                        Symbol
           attribute :title,                      String
           attribute :plottables,                 Array
-          # if categories are defined, plottable values should correspond to values from this array
-          # and the graph will  be plotted with matching y axis categories
+          # if y_categories are defined, plottable values should correspond to values from this array
+          # and the graph will be plotted with corresponding y axis categories
+          # example (icl_r): ["Zeer laag", "Laag", "Gemiddeld", "Hoog", "Zeer Hoog"] (caution, capitalization oddity)
+          # NB: only implemented for bar charts on the roqua side
           attribute :y_categories,               Array
+          # if y_range_categories are defined, plottable values should fall in the ranges that compose the keys of this
+          # hash. The chart will label these ranges of y_values with the corresponding value in the hash on the y axis.
+          # example:
+          # {(0..30) => "Zeer laag", (30..40) => "Laag", (40..60) => "Gemiddeld",
+          # (60..70) => "Hoog", (70..100) => "Zeer hoog"}
+          # NB: .. is inclusive the last value in the range, ... is exclusive. Ordering will be important due to the
+          # overlap. The overlap is necessary to keep code sane that searches ranges and deals with floats.
+          # Only implemented for line charts on the roqua side.
+          attribute :y_range_categories,         Hash, coerce: false, default: nil
           attribute :chart_type,                 Symbol
           attribute :y_range,                    Range, default: :default_y_range, lazy: true
           attribute :tick_interval,              Float

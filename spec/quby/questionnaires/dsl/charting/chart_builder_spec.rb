@@ -56,6 +56,15 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#y_range_categories' do
+      it 'assigns y_range_categories' do
+        categories = {(0..30) => "Zeer laag", (30..40) => "Laag", (40..60) => "Gemiddeld",
+                      (60..70) => "Hoog", (70..100) => "Zeer hoog"}
+        chart_builder.y_range_categories categories
+        expect(chart_builder.build { }.y_range_categories).to eq(categories)
+      end
+    end
+
     describe '#range' do
       it 'assigns y_range' do
         chart_builder.range 0..5

@@ -23,4 +23,8 @@ shared_examples_for Quby::Questionnaires::Entities::Charting::Chart do
       end
     end
   end
+
+  it 'defaults y_range_categories to nil' do
+    expect(described_class.new('test').y_range_categories).to eq(nil)
+  end
 end
