@@ -12,12 +12,12 @@ module Quby
 
         # An +answer_key+ is a key that will exist in the values hash of an answer. This means that answer keys for
         # radio's will be just the question key, and answer keys for checkboxes will be the keys of all the options.
-        # These are the POST parameters when submitting the form, an so they must be globally unique or we won't know
+        # These are the POST parameters when submitting the form, and so they must be globally unique or we won't know
         # which question the received data belongs to.
         attr_reader :answer_keys
 
-        # An +input_key+ is a key that uniquely identifies a single <input> tag. For radio's, every radio option will
-        # have it's own input key. This is needed because option keys must be globally unique so that they can be
+        # An +input_key+ is a key that uniquely identifies a single <input> tag. For radios, every radio option will
+        # have its own input key. This is needed because option keys must be globally unique so that they can be
         # targeted by :depends_on relations.
         attr_reader :input_keys
 
