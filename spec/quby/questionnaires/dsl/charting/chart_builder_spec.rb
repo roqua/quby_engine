@@ -58,10 +58,27 @@ module Quby::Questionnaires::DSL
 
     describe '#y_range_categories' do
       it 'assigns y_range_categories' do
-        categories = {(0..30) => "Zeer laag", (30..40) => "Laag", (40..60) => "Gemiddeld",
-                      (60..70) => "Hoog", (70..100) => "Zeer hoog"}
-        chart_builder.y_range_categories categories
-        expect(chart_builder.build { }.y_range_categories).to eq(categories)
+        expected_categories = {(0.0...30.0) => "Zeer laag", (30.0...40.0) => "Laag", (40.0...60.0) => "Gemiddeld",
+                               (60.0...70.0) => "Hoog", (70.0..100.0) => "Zeer hoog"}
+        chart_builder.y_range_categories 0, 'Zeer laag',
+                                         30, 'Laag',
+                                         40, 'Gemiddeld',
+                                         60, 'Hoog',
+                                         70, 'Zeer hoog', 100
+        expect(chart_builder.build { }.y_range_categories).to eq(expected_categories)
+      end
+
+      it 'works for a single range' do
+        expected_categories = {(0.0..100.0) => "Zeer hoog"}
+        chart_builder.y_range_categories 0, 'Zeer hoog', 100
+
+        expect(chart_builder.build { }.y_range_categories).to eq(expected_categories)
+      end
+
+      it 'rejects single values and even numbers of parameters' do
+        expected = "chart_key y_range_categories should be of the form (0, 'label 0-10', 10, 'label 10-20', 20)"
+        expect { chart_builder.y_range_categories 0 }.to raise_exception(expected)
+        expect { chart_builder.y_range_categories 0, 'label', 10, 'lobel' }.to raise_exception(expected)
       end
     end
 

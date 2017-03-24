@@ -18,10 +18,10 @@ module Quby
           # if y_range_categories are defined, plottable values should fall in the ranges that compose the keys of this
           # hash. The chart will label these ranges of y_values with the corresponding value in the hash on the y axis.
           # example:
-          # {(0..30) => "Zeer laag", (30..40) => "Laag", (40..60) => "Gemiddeld",
-          # (60..70) => "Hoog", (70..100) => "Zeer hoog"}
-          # NB: .. is inclusive the last value in the range, ... is exclusive. Ordering will be important due to the
-          # overlap. The overlap is necessary to keep code sane that searches ranges and deals with floats.
+          # {(0.0...30.0) => "Zeer laag", (30.0...40.0) => "Laag", (40.0...60.0) => "Gemiddeld",
+          #  (60.0...70.0) => "Hoog", (70.0..100.0) => "Zeer hoog"}
+          # NB: .. is inclusive the last value in the range, ... is exclusive.
+          # chart_builder#y_range_categories massages its parameters into this format
           # Only implemented for line charts on the roqua side.
           attribute :y_range_categories,         Hash, coerce: false, default: nil
           attribute :chart_type,                 Symbol
