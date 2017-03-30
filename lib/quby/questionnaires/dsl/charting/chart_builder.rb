@@ -36,27 +36,7 @@ module Quby
         end
 
         def y_range_categories(*y_range_categories)
-          if y_range_categories.length.even? || y_range_categories.length < 3
-            fail "#{@chart.key} y_range_categories should be of the form (0, 'label 0-10', 10, 'label 10-20', 20)"
-          end
-
-          # converts [0, 'label 0-10', 10, 'label 10-20', 20] into [0, 'label 0-10', 10, 10, 'label 10-20', 20]
-          expanded_categories =
-            y_range_categories[0..1] +
-            y_range_categories[2...-1].each_slice(2).flat_map { |(start_at, label)| [start_at, start_at, label] } +
-            y_range_categories[-1..-1]
-
-          # converts [0, 'label 0-10', 10, 10, 'label 10-20', 20] into
-          # {(0.0...10.0) => 'label 0-10', (10.0..20.0) => 'label 10-20'}
-          range_hash = {}
-          expanded_categories.each_slice(3).each_with_index.map do |(start_point, label, end_point), index|
-            if index < expanded_categories.length / 3 - 1
-              range_hash[start_point.to_f...end_point.to_f] = label
-            else # last range should be inclusive its end point
-              range_hash[start_point.to_f..end_point.to_f] = label
-            end
-          end
-          @chart.y_range_categories = range_hash
+          @chart.y_range_categories = RangeCategories.new(*y_range_categories).as_range_hash
         end
 
         def plot(key, options = {})
