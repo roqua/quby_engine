@@ -40,17 +40,21 @@ module Quby::Questionnaires::DSL
       )
     end
 
-    it 'sets multiple sbg_domains' do
+    it 'sets multiple sbg_domains with optional attributes' do
       dsl do
         sbg_domain '02', begin: '2000-01-01', end: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true
-        sbg_domain '03', begin: '2000-01-01', end: '2099-12-31', outcome: '03', key: 'OQ45-sd', primary: true
+        sbg_domain '03', begin: '2000-01-01', end: '2099-12-31', outcome: '03'
       end
       expect(questionnaire.sbg_domains).to eq(
         [
           {name: '02', begin: '2000-01-01', end: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true},
-          {name: '03', begin: '2000-01-01', end: '2099-12-31', outcome: '03', key: 'OQ45-sd', primary: true}
+          {name: '03', begin: '2000-01-01', end: '2099-12-31', outcome: '03', key: '', primary: false}
         ]
       )
+    end
+
+    it 'does not accept invalid sbg_domains options' do
+      expect { dsl { sbg_domain '02', foo: 'bar' } }.to raise_exception
     end
 
     it 'can be abortable' do
