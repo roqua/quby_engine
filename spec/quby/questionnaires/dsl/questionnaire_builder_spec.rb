@@ -31,6 +31,28 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.sbg_key).to eq('foo')
     end
 
+    it 'sets sbg_domain' do
+      dsl { sbg_domain '02', begin: '2000-01-01', end: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true }
+      expect(questionnaire.sbg_domains).to eq(
+        [
+          {name: '02', begin: '2000-01-01', end: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true}
+        ]
+      )
+    end
+
+    it 'sets multiple sbg_domains' do
+      dsl do
+        sbg_domain '02', begin: '2000-01-01', end: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true
+        sbg_domain '03', begin: '2000-01-01', end: '2099-12-31', outcome: '03', key: 'OQ45-sd', primary: true
+      end
+      expect(questionnaire.sbg_domains).to eq(
+        [
+          {name: '02', begin: '2000-01-01', end: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true},
+          {name: '03', begin: '2000-01-01', end: '2099-12-31', outcome: '03', key: 'OQ45-sd', primary: true}
+        ]
+      )
+    end
+
     it 'can be abortable' do
       questionnaire.abortable.should be_falsey
       dsl { abortable }

@@ -54,6 +54,10 @@ module Quby
           @questionnaire.sbg_key = sbg_key
         end
 
+        def sbg_domain(sbg_key, options = {})
+          @questionnaire.sbg_domains << options.merge({name: sbg_key})
+        end
+
         def abortable
           @questionnaire.abortable = true
         end
