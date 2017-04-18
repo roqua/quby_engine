@@ -22,6 +22,7 @@ test:
           RACK_ENV: test
           TEASPOON_RAILS_ENV: settings_this_prevents_teaspoon_from_loading_rails_too_soon
     - bundle exec rubocop
+    - bundle exec codeclimate-test-reporter
 deployment:
   release:
     branch: /rel_.*/
