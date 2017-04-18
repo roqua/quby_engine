@@ -585,7 +585,7 @@
 
 				// Don't perform placement if no handles are to be changed.
 				// Check if the lowest value is set to zero.
-				if ( l2 < 0 && !l1 && !handles[0].data('pct') ) {
+				if ( l2 < 0 && l1 === 0 && handles[0].data('pct') === 0 ) {
 					return;
 				}
 				// The highest value is limited to 100%.
