@@ -54,10 +54,15 @@ module Quby
           @questionnaire.sbg_key = sbg_key
         end
 
-        def sbg_domain(sbg_key, options = {})
-          domain = default_sbg_domain_options.merge(options.assert_valid_keys(:begin, :end, :outcome, :key, :primary))
-                                             .merge(name: sbg_key)
-          @questionnaire.sbg_domains << domain
+        def sbg_domain(sbg_key, from: nil, till: nil, outcome: nil, key: nil, primary: false)
+          @questionnaire.sbg_domains << {
+            name: sbg_key,
+            from: from,
+            till: till,
+            outcome: outcome,
+            key: key,
+            primary: primary
+          }
         end
 
         def abortable
@@ -192,10 +197,6 @@ module Quby
         def default_panel_options
           {questionnaire: @questionnaire, default_question_options: @default_question_options,
            custom_methods: @custom_methods}
-        end
-
-        def default_sbg_domain_options
-          {begin: '', end: '', outcome: '', key: '', primary: false}
         end
       end
     end
