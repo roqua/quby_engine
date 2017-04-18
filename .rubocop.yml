@@ -45,6 +45,9 @@ Lint/AmbiguousRegexpLiteral:
 CyclomaticComplexity:
   Max: 15 # should be set to 6, too many for now
 
+ParameterLists:
+  Max: 6
+
 ################################################################## DISABLED COPS
 # These cops are disabled because we think they are a Bad Idea. If you add one
 # here, make sure to add a comment describing what the cop does, and why this
