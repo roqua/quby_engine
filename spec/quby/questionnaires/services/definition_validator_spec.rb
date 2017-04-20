@@ -8,9 +8,20 @@ module Quby::Questionnaires::Services
       Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: definition)
     end
 
+    describe "questionnaire needs a title" do
+      it "throws an error if the questionnaire does not have a title" do
+        invalid_definition = make_definition(<<-END)
+        END
+        invalid_definition.valid?
+        expect(invalid_definition.errors[:sourcecode].first[:message])
+          .to include("Questionnaire title is missing.")
+      end
+    end
+
     describe 'questions with activemodel validation errors' do
       it "throws an error if the question to be hidden does not exist" do
         invalid_definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :string, show_values: :error do
             title "Testvraag"
           end
@@ -24,6 +35,7 @@ module Quby::Questionnaires::Services
     describe ":hides_questions" do
       it "throws an error if the question to be hidden does not exist" do
         invalid_definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, hides_questions: [:v_2]
@@ -36,6 +48,7 @@ module Quby::Questionnaires::Services
 
       it "throws an error if the question to be hidden is a subquestion" do
         invalid_definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, hides_questions: [:v_1_a1_sq] do
@@ -50,6 +63,7 @@ module Quby::Questionnaires::Services
 
       it 'does not throw an error when the question to be hidden exists' do
         definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, hides_questions: [:v_2]
@@ -66,6 +80,7 @@ module Quby::Questionnaires::Services
     describe ":shows_questions" do
       it "throws an error if the question to be shown does not exist" do
         invalid_definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, shows_questions: [:v_2]
@@ -78,6 +93,7 @@ module Quby::Questionnaires::Services
 
       it "throws an error if the question to be shown is a subquestion" do
         invalid_definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, shows_questions: [:v_1_a1_sq] do
@@ -92,6 +108,7 @@ module Quby::Questionnaires::Services
 
       it 'does not throw an error when the question to be shown exists' do
         definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1, shows_questions: [:v_2]
@@ -108,6 +125,7 @@ module Quby::Questionnaires::Services
     describe ":default_invisible" do
       it 'throws an error if a subquestion has default_invisible set' do
         invalid_definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
             option :a1
@@ -123,6 +141,7 @@ module Quby::Questionnaires::Services
 
       it 'does not throw an error if a non-subquestion has default_invisible set' do
         valid_definition = make_definition(<<-END)
+          title "Test"
           question :v_1, type: :string default_invisible: true
         END
         valid_definition.valid?
@@ -133,12 +152,14 @@ module Quby::Questionnaires::Services
     describe ":validates_question_key_format" do
       it "validates length of the question keys" do
         long_key = make_definition(<<-END)
+          title "Test"
           question :questionthree, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description'
           end
         END
         valid_key = make_definition(<<-END)
+          title "Test"
           question :v_12345678901, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description'
@@ -150,12 +171,14 @@ module Quby::Questionnaires::Services
 
       it "validates that question key starts with a `v_`" do
         invalid_key = make_definition(<<-END)
+          title "Test"
           question :one, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description', hides_questions: [:two]
           end
         END
         valid_key = make_definition(<<-END)
+          title "Test"
           question :v_2, type: :radio do
             title "Testvraag"
             option :a1, description: 'some_description'
@@ -167,12 +190,14 @@ module Quby::Questionnaires::Services
 
       it "validates check_box question options start with `v_`" do
         invalid_keys = make_definition(<<-END)
+          title "Test"
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :q1, description: 'some_description'
           end
         END
         valid_keys = make_definition(<<-END)
+          title "Test"
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :v_q1, description: 'some_description'
@@ -186,12 +211,14 @@ module Quby::Questionnaires::Services
 
       it "validates check_box question options length" do
         invalid_keys = make_definition(<<-END)
+          title "Test"
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :v_q1_has_a_very_long_key, description: 'some_description'
           end
         END
         valid_keys = make_definition(<<-END)
+          title "Test"
           question :v_4, type: :check_box do
             title "Testvraag met een check_box"
             option :v_q1, description: 'some_description'
@@ -203,11 +230,13 @@ module Quby::Questionnaires::Services
 
       it "validates question date keys" do
         invalid_keys = make_definition(<<-END)
+          title "Test"
           question :v_6, type: :date, year_key: :invalid_key, month_key: :v_62, day_key: :v_63 do
             title "Testvraag met een datum"
           end
         END
         valid_keys = make_definition(<<-END)
+          title "Test"
           question :v_6, type: :date, year_key: :v_61, month_key: :v_62, day_key: :v_63 do
             title "Testvraag met een datum"
           end
@@ -220,6 +249,7 @@ module Quby::Questionnaires::Services
     describe 'subquestion validation' do
       it 'does not accept subquestions in question of type select' do
         select_type_without_subquestions = make_definition(<<-END)
+          title "Test"
           question :v_7, type: :select do
             title "Vraag met hidden options"
             option :a1, :value => 1, :description => "Keuze1"
@@ -227,6 +257,7 @@ module Quby::Questionnaires::Services
           end
         END
         select_type_with_subquestions = make_definition(<<-END)
+          title "Test"
           question :v_8, type: :select do
             title "Vraag met hidden options"
             option :a3, :value => 1, :description => "Keuze1"
@@ -247,6 +278,7 @@ module Quby::Questionnaires::Services
     describe 'score key validation' do
       it 'accepts score keys that are the correct length' do
         valid_definition = make_definition(<<-END)
+          title "Test"
           score 'ok_key_length', label: 'some_label' do
             { wait_what_this_key_is_very_long: 42 }
           end
@@ -256,6 +288,7 @@ module Quby::Questionnaires::Services
 
       it 'reject score keys that are too long', label: 'some_label' do
         invalid_definition = make_definition(<<-END)
+          title "Test"
           score 'score_whose_key_is_longer_than_max' do
             { t_score: 42 }
           end
@@ -265,6 +298,7 @@ module Quby::Questionnaires::Services
 
       it 'reject score key if already defined', label: 'some_label' do
         definition = make_definition(<<-END)
+          title "Test"
           question :v_6, type: :radio, title: 'foo'
           score 'foo_score' do
             { t_score: 42 }
@@ -280,6 +314,7 @@ module Quby::Questionnaires::Services
     describe 'score label validation' do
       it 'accepts the label option' do
         score_definition = make_definition(<<-END)
+          title "Test"
           score 'score_key', label: 'score_label' do
             {}
           end
@@ -289,6 +324,7 @@ module Quby::Questionnaires::Services
 
       it 'rejects score definitions without the label option' do
         score_definition = make_definition(<<-END)
+          title "Test"
           score 'score_key' do
             {}
           end
@@ -301,6 +337,7 @@ module Quby::Questionnaires::Services
       context ':title and :context_free_title do not exist' do
         it 'fails' do
           definition = make_definition(<<-END)
+            title "Test"
             question :v_6, type: :radio
           END
           expect(definition.valid?).to be false
@@ -308,6 +345,7 @@ module Quby::Questionnaires::Services
 
         it 'does not fail with :allow_blank_titles option' do
           definition = make_definition(<<-END)
+            title "Test"
             question :v_6, type: :radio, allow_blank_titles: true do
             end
           END
@@ -316,6 +354,7 @@ module Quby::Questionnaires::Services
 
         it 'does not fail on table question' do
           definition = make_definition(<<-END)
+            title "Test"
             table columns: 4 do
             end
           END
@@ -326,6 +365,7 @@ module Quby::Questionnaires::Services
       context ':title or :context_free_title exist' do
         it 'does not fail when :title exists' do
           definition = make_definition(<<-END)
+            title "Test"
             question :v_6, type: :radio do
               title 'foo'
             end
@@ -335,6 +375,7 @@ module Quby::Questionnaires::Services
 
         it 'does not fail when :context_free_title exists' do
           definition = make_definition(<<-END)
+            title "Test"
             question :v_6, type: :radio do
               context_free_title 'bar'
             end
@@ -346,6 +387,7 @@ module Quby::Questionnaires::Services
       context 'default question options' do
         it 'is valid when no title exist and default question options set to true' do
           definition = make_definition(<<-END)
+            title "Test"
             default_question_options allow_blank_titles: true
             question :v_6, type: :radio do
               context_free_title 'bar'
@@ -358,6 +400,7 @@ module Quby::Questionnaires::Services
       context 'subquestions' do
         it 'acts the same on subquestions' do
           definition = make_definition(<<-END)
+            title "Test"
             default_question_options allow_blank_titles: true
             question :v_22a, :type => :check_box do
               option :v_22_a01, :description => "Niet genoeg informatie"
@@ -368,6 +411,7 @@ module Quby::Questionnaires::Services
 
         it 'acts the same on title_question' do
           definition = make_definition(<<-END)
+            title "Test"
             default_question_options allow_blank_titles: true
             question :v_100a, :type => :radio, :presentation => :horizontal, :required => false do
               title "  100a."
@@ -385,6 +429,7 @@ module Quby::Questionnaires::Services
     describe 'subquestions inside a table' do
       it 'accepts title_questions' do
         make_definition(<<-END).valid?.should be_truthy
+          title "Test"
           panel do
             table do
               question :v_1, type: :radio do
@@ -400,6 +445,7 @@ module Quby::Questionnaires::Services
 
       it 'does not accept subquestions in questions inside a table' do
         make_definition(<<-END).valid?.should be_falsey
+          title "Test"
           panel do
             table do
               question :v_1, type: :radio do
@@ -418,18 +464,21 @@ module Quby::Questionnaires::Services
     describe 'flags' do
       it 'does not accept shows_questions arrays with unknown keys' do
         make_definition(<<-END).valid?.should be_falsey
+          title "Test"
           flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
         END
       end
 
       it 'does not accept hides_questions arrays with unknown keys' do
         make_definition(<<-END).valid?.should be_falsey
+          title "Test"
           flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
         END
       end
 
       it 'accepts shows_questions arrays with known keys' do
         make_definition(<<-END).valid?.should be_truthy
+          title "Test"
           flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
           question :v_22, type: :string do
             title 'Question'
@@ -439,6 +488,7 @@ module Quby::Questionnaires::Services
 
       it 'accepts hides_questions arrays with known keys' do
         make_definition(<<-END).valid?.should be_truthy
+          title "Test"
           flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
           question :v_22, type: :string do
             title 'Question'
@@ -450,17 +500,20 @@ module Quby::Questionnaires::Services
     describe 'respondent_types' do
       it 'is optional' do
         make_definition(<<-END).valid?.should be_truthy
+          title "Test"
         END
       end
 
       it 'accepts valid respondent_types' do
         make_definition(<<-END).valid?.should be_truthy
+          title "Test"
           respondent_types :patient, :parent
         END
       end
 
       it 'does not accept invalid respondent_types' do
         make_definition(<<-END).valid?.should be_falsey
+          title "Test"
           respondent_types :santa_claus
         END
       end

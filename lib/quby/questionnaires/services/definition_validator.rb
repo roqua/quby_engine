@@ -13,6 +13,7 @@ module Quby
 
         def validate(definition)
           questionnaire = DSL.build_from_definition(definition)
+          validate_title(questionnaire)
           validate_questions(questionnaire)
           validate_scores(questionnaire)
           validate_table_edgecases(questionnaire)
@@ -23,6 +24,12 @@ module Quby
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
                                                        "#{exception.message}",
                                               backtrace: exception.backtrace[0..5].join("<br/>")})
+        end
+
+        def validate_title(questionnaire)
+          if questionnaire.title.blank?
+            fail "Questionnaire title is missing."
+          end
         end
 
         def validate_questions(questionnaire)
