@@ -80,7 +80,9 @@ Metrics/LineLength:
 # Offense count: 8
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
-  Max: 476
+  Max: 483
+  Exclude:
+    - 'spec/quby/questionnaires/services/definition_validator_spec.rb'
 
 # Offense count: 13
 Metrics/PerceivedComplexity:
