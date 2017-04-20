@@ -10,7 +10,15 @@ module Quby::Questionnaires::Services
 
     describe "questionnaire needs a title" do
       it "throws an error if the questionnaire does not have a title" do
+        invalid_definition = make_definition("")
+        invalid_definition.valid?
+        expect(invalid_definition.errors[:sourcecode].first[:message])
+          .to include("Questionnaire title is missing.")
+      end
+
+      it "throws an error if the title is empty" do
         invalid_definition = make_definition(<<-END)
+          title ""
         END
         invalid_definition.valid?
         expect(invalid_definition.errors[:sourcecode].first[:message])
