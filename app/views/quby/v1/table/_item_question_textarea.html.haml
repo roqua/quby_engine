@@ -4,5 +4,5 @@
 - itemkey = "item_#{question.key}"
 %td.item{:id => itemkey, :class => classes, :style => "width:#{available_width/(table.columns)}%", :rowspan => question.row_span, :colspan => question.col_span, :data => question.extra_data}
   .fields{:class => question.type, :id => question.html_id}
-    = text_area :answer, question.key, :rows => question.lines, :cols => question.cols, :autocomplete => question.autocomplete, :class => question.type, :data => {'field-key' => question.key}
+    = text_area :answer, question.key, :rows => question.lines, :cols => question.cols, :autocomplete => question.autocomplete, :class => question.type, :data => {'field-key' => question.key}, :maxlength => 2000
     = validations
