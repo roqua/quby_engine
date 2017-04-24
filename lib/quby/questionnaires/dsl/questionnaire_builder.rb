@@ -54,13 +54,13 @@ module Quby
           @questionnaire.sbg_key = sbg_key
         end
 
-        def sbg_domain(sbg_key, from: nil, till: nil, outcome: nil, key: nil, primary: false)
+        def sbg_domain(sbg_code, from: nil, till: nil, outcome: nil, sbg_key: nil, primary: false)
           @questionnaire.sbg_domains << {
-            name: sbg_key,
+            sbg_code: sbg_code,
             from: from,
             till: till,
             outcome: outcome,
-            key: key,
+            sbg_key: sbg_key,
             primary: primary
           }
         end

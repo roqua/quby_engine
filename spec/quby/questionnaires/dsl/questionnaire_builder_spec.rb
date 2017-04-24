@@ -32,23 +32,23 @@ module Quby::Questionnaires::DSL
     end
 
     it 'sets sbg_domain' do
-      dsl { sbg_domain '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true }
+      dsl { sbg_domain '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true }
       expect(questionnaire.sbg_domains).to eq(
         [
-          {name: '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', key: 'OQ45-sd', primary: true}
+          {sbg_code: '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true}
         ]
       )
     end
 
     it 'sets multiple sbg_domains with optional attributes' do
       dsl do
-        sbg_domain '02', outcome: '01', key: 'OQ45-sd', primary: false
+        sbg_domain '02', outcome: '01', sbg_key: 'OQ45-sd', primary: false
         sbg_domain '03', from: '2000-01-01', till: '2099-12-31'
       end
       expect(questionnaire.sbg_domains).to eq(
         [
-          {name: '02', from: nil, till: nil, outcome: '01', key: 'OQ45-sd', primary: false},
-          {name: '03', from: '2000-01-01', till: '2099-12-31', outcome: nil, key: nil, primary: false}
+          {sbg_code: '02', from: nil, till: nil, outcome: '01', sbg_key: 'OQ45-sd', primary: false},
+          {sbg_code: '03', from: '2000-01-01', till: '2099-12-31', outcome: nil, sbg_key: nil, primary: false}
         ]
       )
     end
