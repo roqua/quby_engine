@@ -5,7 +5,6 @@
   // for showing validations of raw content
   window.extra_failed_validations = #{@answer.extra_failed_validations};
 
-- content_for(:page_title, @questionnaire.title)
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
 = form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off" do
