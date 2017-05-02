@@ -31,26 +31,40 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.sbg_key).to eq('foo')
     end
 
-    it 'sets sbg_domain' do
-      dsl { sbg_domain '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true }
-      expect(questionnaire.sbg_domains).to eq(
-        [
-          {sbg_code: '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true}
-        ]
-      )
-    end
-
-    it 'sets multiple sbg_domains with optional attributes' do
-      dsl do
-        sbg_domain '02', outcome: '01', sbg_key: 'OQ45-sd', primary: false
-        sbg_domain '03', from: '2000-01-01', till: '2099-12-31'
+    describe 'sbg_domain' do
+      it 'sets sbg_domain' do
+        dsl { sbg_domain '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true }
+        expect(questionnaire.sbg_domains).to eq(
+          [
+            {sbg_code: '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true}
+          ]
+        )
       end
-      expect(questionnaire.sbg_domains).to eq(
-        [
-          {sbg_code: '02', from: nil, till: nil, outcome: '01', sbg_key: 'OQ45-sd', primary: false},
-          {sbg_code: '03', from: '2000-01-01', till: '2099-12-31', outcome: nil, sbg_key: nil, primary: false}
-        ]
-      )
+
+      it 'sets multiple sbg_domains with optional attributes' do
+        dsl do
+          sbg_domain '02', outcome: '01', sbg_key: 'OQ45-sd', primary: false
+          sbg_domain '03', from: '2000-01-01', till: '2099-12-31'
+        end
+        expect(questionnaire.sbg_domains).to eq(
+          [
+            {sbg_code: '02', from: nil, till: nil, outcome: '01', sbg_key: 'OQ45-sd', primary: false},
+            {sbg_code: '03', from: '2000-01-01', till: '2099-12-31', outcome: nil, sbg_key: nil, primary: false}
+          ]
+        )
+      end
+
+      it 'defaults the sbg_key to the sbg_key of the questionnaire' do
+        dsl do
+          sbg_key 'example'
+          sbg_domain '03', from: '2000-01-01', till: '2099-12-31'
+        end
+        expect(questionnaire.sbg_domains).to eq(
+          [
+            {sbg_code: '03', from: '2000-01-01', till: '2099-12-31', outcome: nil, sbg_key: 'example', primary: false}
+          ]
+        )
+      end
     end
 
     it 'does not accept invalid sbg_domains options' do

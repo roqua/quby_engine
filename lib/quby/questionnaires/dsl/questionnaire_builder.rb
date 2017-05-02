@@ -60,7 +60,7 @@ module Quby
             from: from,
             till: till,
             outcome: outcome,
-            sbg_key: sbg_key,
+            sbg_key: sbg_key || @questionnaire.sbg_key,
             primary: primary
           }
         end
