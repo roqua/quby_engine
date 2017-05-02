@@ -53,12 +53,12 @@ module Quby
 
         it 'renders print view if printing' do
           put "/quby/questionnaires/honos/answers/#{answer.id}/print", params: {answer: {v_1: nil}}
-          response.should render_template('v1/print')
+          expect(response).to render_template('v1/print')
         end
 
         it 'renders completed view if no return url' do
           put "/quby/questionnaires/honos/answers/#{answer.id}", params: {answer: {v_1: nil}}
-          response.should render_template('v1/completed')
+          expect(response).to render_template('v1/completed')
         end
 
         it 'redirects to roqua if return url is set' do
@@ -68,7 +68,7 @@ module Quby
             return_token: return_token
           }
 
-          response.should redirect_to(expected_return_url)
+          expect(response).to redirect_to(expected_return_url)
         end
 
         it 'respects existing query parameters in return url' do
@@ -78,7 +78,7 @@ module Quby
             return_token: return_token
           }
 
-          response.should redirect_to(expected_return_url(a: 'b'))
+          expect(response).to redirect_to(expected_return_url(a: 'b'))
         end
 
         it 'redirects with go of "close" if abort button was clicked' do
@@ -89,7 +89,7 @@ module Quby
             abort: true
           }
 
-          response.should redirect_to(expected_return_url(go: 'stop'))
+          expect(response).to redirect_to(expected_return_url(go: 'stop'))
         end
 
         it 'redirects with go of "back" when a user navigates back' do
@@ -100,7 +100,7 @@ module Quby
             previous_questionnaire: true
           }
 
-          response.should redirect_to(expected_return_url(go: 'back'))
+          expect(response).to redirect_to(expected_return_url(go: 'back'))
         end
       end
     end
