@@ -46,8 +46,7 @@ CyclomaticComplexity:
   Max: 15 # should be set to 6, too many for now
 
 ParameterLists:
-  Exclude:
-    - 'lib/quby/questionnaires/dsl/**/*'
+  CountKeywordArgs: false
 
 ################################################################## DISABLED COPS
 # These cops are disabled because we think they are a Bad Idea. If you add one
