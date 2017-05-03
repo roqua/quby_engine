@@ -33,7 +33,9 @@ module Quby::Questionnaires::DSL
 
     describe 'sbg_domain' do
       it 'sets sbg_domain' do
-        dsl { sbg_domain '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true }
+        dsl do
+          sbg_domain '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true
+        end
         expect(questionnaire.sbg_domains).to eq(
           [
             {sbg_code: '02', from: '2000-01-01', till: '2099-12-31', outcome: '01', sbg_key: 'OQ45-sd', primary: true}
