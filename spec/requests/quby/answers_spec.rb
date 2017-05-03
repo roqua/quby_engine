@@ -67,7 +67,6 @@ module Quby
             return_url: return_url,
             return_token: return_token
           }
-
           expect(response).to redirect_to(expected_return_url)
         end
 
