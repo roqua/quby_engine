@@ -18,7 +18,7 @@ module ClientSideValidationHelpers
 
   def deselect_radio_option(question_key, option_key)
     within '#panel0.current' do
-      find(:input, "#answer_#{question_key}_#{option_key}").click
+      find(:css, "#answer_#{question_key}_#{option_key}").click
       page.should have_no_checked_field("answer_#{question_key}_#{option_key}")
     end
   end

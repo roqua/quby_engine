@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
 
   # Views
   s.add_dependency 'coffee-rails'
-  s.add_dependency "haml"
+  s.add_dependency "haml",              '~> 4.0.5'
   s.add_dependency "sass-rails",        '>= 4.0.5'
   s.add_dependency "maruku",            '0.6.1'
   s.add_dependency "compass",           '>= 0.12.7'

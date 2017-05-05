@@ -56,6 +56,25 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#y_range_categories' do
+      it 'sets RangeCategories.new(*parameters).as_range_hash to the chart y_range_categories' do
+        expect(RangeCategories).to receive(:new).with(0, 'Zeer laag', 30).and_return(double(as_range_hash: 'foo'))
+        chart_builder.y_range_categories 0, 'Zeer laag', 30
+        expect(chart_builder.build { }.y_range_categories).to eq('foo')
+      end
+
+      it 'converts the parameters to a range hash' do
+        expected_categories = {(0.0...30.0) => "Zeer laag", (30.0...40.0) => "Laag", (40.0...60.0) => "Gemiddeld",
+                               (60.0...70.0) => "Hoog", (70.0..100.0) => "Zeer hoog"}
+        chart_builder.y_range_categories 0, 'Zeer laag',
+                                         30, 'Laag',
+                                         40, 'Gemiddeld',
+                                         60, 'Hoog',
+                                         70, 'Zeer hoog', 100
+        expect(chart_builder.build { }.y_range_categories).to eq(expected_categories)
+      end
+    end
+
     describe '#range' do
       it 'assigns y_range' do
         chart_builder.range 0..5

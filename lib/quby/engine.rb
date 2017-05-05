@@ -15,6 +15,7 @@ require 'compass-blueprint'
 require 'susy'
 require 'andand'
 require 'quby/lookup_table'
+require 'quby/range_categories'
 
 module Quby
   class Engine < Rails::Engine
