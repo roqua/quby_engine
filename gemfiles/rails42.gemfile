@@ -12,6 +12,7 @@ gem "compass-rails", "~> 2.0.0"
 gem "rails", "~> 4.2.7"
 gem "eventmachine", "~> 1.2.0"
 gem "jquery-rails", "~> 4.2.2"
+gem "haml", "~> 4.0.5"
 
 group :assets do
   gem "coffee-rails"

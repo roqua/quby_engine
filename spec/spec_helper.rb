@@ -48,6 +48,9 @@ Capybara.register_driver :poltergeist do |app|
 end
 Capybara.javascript_driver = :poltergeist
 
+# Haml 5.0 escapes interpolated code in filters, not good.
+Haml::Template.options[:escape_html] = false
+
 # This needs to happen once before the :each block so that spec/features/display_modes_spec.rb
 # can iterate over all fixtures and add specs for each of them.
 Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(Quby.fixtures_path)

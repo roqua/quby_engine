@@ -15,6 +15,7 @@ gem "maruku", "~> 0.6.1"
 gem "sprockets-rails", "~> 2.3.3"
 gem "jquery-rails", "~> 4.2.2"
 gem "rails-controller-testing"
+gem "haml", "~> 5.0.1"
 
 group :assets do
   gem "coffee-rails"
@@ -26,7 +27,7 @@ group :test, :development do
   gem "guard-teaspoon", "~> 0.8"
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.0"
-  gem "capybara", ">= 2.8.1"
+  gem "capybara", ">= 2.14.0"
   gem "capybara-screenshot", "~> 0.3.14"
   gem "poltergeist"
   gem "timecop"
