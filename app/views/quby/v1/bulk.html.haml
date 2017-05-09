@@ -1,9 +1,9 @@
 :javascript
   window.panel_validations = {};
   // for setting values of raw_content
-  window.extra_question_values = #{@answer.extra_question_values};
+  window.extra_question_values = #{raw @answer.extra_question_values};
   // for showing validations of raw content
-  window.extra_failed_validations = #{@answer.extra_failed_validations};
+  window.extra_failed_validations = #{raw @answer.extra_failed_validations};
 
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
@@ -23,7 +23,7 @@
     - panel_id = "panel#{panel_counter}"
     %fieldset{:id => panel_id, :class => "panel"}
       :javascript
-        panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
+        panel_validations["panel#{panel_counter}"] = #{raw get_validation_json(panel.validations)};
       = render :partial => 'quby/v1/shared/backbone_panel', :locals => {:panel => panel, |
                                                                  :panel_id => panel_id, |
                                                                  :answer => @answer} |
