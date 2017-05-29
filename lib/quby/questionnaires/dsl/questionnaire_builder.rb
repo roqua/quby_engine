@@ -54,6 +54,17 @@ module Quby
           @questionnaire.sbg_key = sbg_key
         end
 
+        def sbg_domain(sbg_code, outcome:, from: nil, till: nil, sbg_key: nil, primary: false)
+          @questionnaire.sbg_domains << {
+            sbg_code: sbg_code,
+            from: from,
+            till: till,
+            outcome: outcome,
+            sbg_key: sbg_key || @questionnaire.sbg_key,
+            primary: primary
+          }
+        end
+
         def abortable
           @questionnaire.abortable = true
         end

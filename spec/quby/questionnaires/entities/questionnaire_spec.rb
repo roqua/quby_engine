@@ -41,9 +41,15 @@ module Quby::Questionnaires::Entities
       end
     end
 
-    describe 'sbg attributes' do
+    describe 'sbg key' do
       it 'defaults to nil/empty array' do
         expect(questionnaire.sbg_key).to be_nil
+      end
+    end
+
+    describe 'sbg_domains' do
+      it 'defaults to an empty array' do
+        expect(questionnaire.sbg_domains).to eq([])
       end
     end
 
