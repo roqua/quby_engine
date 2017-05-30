@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quby (2.4.2)
+    quby (2.5.0)
       addressable
       coffee-rails
       compass (>= 0.12.7)
@@ -12,7 +12,7 @@ PATH
       jquery-rails (>= 2.2.2)
       jquery-ui-rails (~> 3.0.1)
       json
-      maruku (= 0.6.1)
+      maruku (>= 0.6.1)
       opencpu (~> 0.9.0)
       rails (>= 4.1, < 5.1)
       ryansch-andand
@@ -174,7 +174,7 @@ GEM
       httparty (>= 0.7.3)
       mimemagic
       multipart-post
-    httparty (0.14.0)
+    httparty (0.15.5)
       multi_xml (>= 0.5.2)
     i18n (0.8.1)
     ice_nine (0.11.2)
@@ -185,7 +185,7 @@ GEM
     jquery-ui-rails (3.0.1)
       jquery-rails
       railties (>= 3.1.0)
-    json (2.0.4)
+    json (2.1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.17)
@@ -198,8 +198,7 @@ GEM
     lumberjack (1.0.10)
     mail (2.6.5)
       mime-types (>= 1.16, < 4)
-    maruku (0.6.1)
-      syntax (>= 1.0.0)
+    maruku (0.7.3)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -212,8 +211,8 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.3.0)
-    nio4r (1.2.1)
-    nokogiri (1.7.1)
+    nio4r (2.1.0)
+    nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -327,7 +326,6 @@ GEM
     stackprof (0.2.10)
     susy (2.2.12)
       sass (>= 3.3.0, < 3.5)
-    syntax (1.2.1)
     teaspoon (1.1.5)
       railties (>= 3.2.5, < 6)
     teaspoon-jasmine (2.3.4)
@@ -381,7 +379,7 @@ DEPENDENCIES
   i18n
   jquery-ui-rails (~> 3.0.1)
   launchy
-  nokogiri (>= 1.7.1)
+  nokogiri (>= 1.7.2)
   poltergeist
   pry
   quby!
@@ -402,4 +400,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.14.6
+   1.15.0
