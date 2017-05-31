@@ -1,5 +1,6 @@
 require 'quby/questionnaires/entities/item'
 require 'quby/extensions/maruku_extensions'
+require 'kramdown'
 
 module Quby
   module Questionnaires
@@ -19,7 +20,7 @@ module Quby
           end
           super(options)
           @str = str
-          @text = Maruku.new(str).to_html
+          @text = Kramdown::Document.new(str).to_html
           @display_in = options[:display_in] || [:paged]
           @col_span = options[:col_span] || 1
           @row_span = options[:row_span] || 1

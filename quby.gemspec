@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency "haml",              '~> 4.0.5'
   s.add_dependency "sass-rails",        '>= 4.0.5'
   s.add_dependency "maruku",            '>= 0.6.1'
+  s.add_dependency "kramdown"
   s.add_dependency "compass",           '>= 0.12.7'
   s.add_dependency "compass-rails",     '>= 1.1.7'
   s.add_dependency "compass-blueprint", '~> 1.0.0'

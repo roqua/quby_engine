@@ -15,6 +15,7 @@ require 'action_view/railtie'
 require 'sprockets/railtie'
 require 'jquery-rails'
 require 'jquery-ui-rails'
+require 'kramdown'
 
 require 'combustion'
 require 'stackprof'
