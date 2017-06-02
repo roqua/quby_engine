@@ -1,0 +1,56 @@
+# This file is a template, and might need editing before it works on your project.
+# Official language image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/ruby/tags/
+image: "daandavidsz/roqua-rails"
+ 
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-service
+services:
+  - "daandavidsz/percona-ci"
+
+variables:
+  DATABASE_URL: "mysql2://root:secret@daandavidsz-percona-ci:3306/roqua_test?pool=5"
+  MYSQL_ROOT_PASSWORD: "secret"
+  SIMPLECOV: "true"
+  RAILS_ENV: 'test'
+  TEASPOON_RAILS_ENV: 'settings_this_prevents_teaspoon_from_loading_rails_too_soon'
+
+# This is a basic example for a gem or script which doesn't use
+# services such as redis or postgres
+before_script:
+  - ruby -v # Print out ruby version for debugging
+  - eval $(ssh-agent -s)
+
+  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+
+  - bundle install --retry=3 --path /cache/gems/`ruby -e 'puts "#{RUBY_VERSION}-#{RUBY_PATCHLEVEL}"'`
+  - bundle install --path=/cache/gems/`ruby -e 'puts "#{RUBY_VERSION}-#{RUBY_PATCHLEVEL}"'` --gemfile="$BUNDLE_GEMFILE"
+  - bundle exec rspec spec
+  - bundle exec teaspoon  
+
+
+rails_41:
+  tags:
+    - hetzner
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails41.gemfile'
+  script:
+    - echo 'Done!'
+
+rails_42:
+  tags:
+    - hetzner
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails42.gemfile'
+  script:
+    - echo 'Done!'
+
+rails_5:
+  tags:
+    - hetzner
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
+  script:
+    - echo 'Done!'    

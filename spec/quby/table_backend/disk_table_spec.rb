@@ -42,7 +42,7 @@ describe Quby::TableBackend::DiskTable do
   describe '#dimensions_from_directories' do
     it 'transforms directories into dimensions' do
       table_dimension_class = Quby::TableBackend::TableDimension
-      dir_children = fixture_root.join('test_table', 'age_11_infinity').children
+      dir_children = fixture_root.join('test_table', 'age_11_infinity').children.sort
       f_score_dimension = table_dimension_class.new('score_tscore',
                                                     {(10.0...12.0) => 33.0,
                                                      (12.0...Float::INFINITY) => 35.0})
@@ -59,7 +59,7 @@ describe Quby::TableBackend::DiskTable do
 
   describe '#dimensions_from_files' do
     it 'returns [TableDimensions] with data from the given csv files' do
-      fixture_files = fixture_root.join('test_table', 'age_0_10', 'gender_').children
+      fixture_files = fixture_root.join('test_table', 'age_0_10', 'gender_').children.sort
       dims = table.dimensions_from_files(fixture_files)
       expect(dims.length).to eq(2)
       expect(dims.first.name).to eq('score_tscore')
@@ -73,7 +73,7 @@ describe Quby::TableBackend::DiskTable do
     end
 
     it 'raises a helpful message if there are blank entries in a csv file' do
-      fixture_files = fixture_root.join('failure_table').children
+      fixture_files = fixture_root.join('failure_table').children.sort
       expected_exception = /blank entry in .*failure_table\/score_with_blanks.csv row 2/
       expect { table.dimensions_from_files(fixture_files) }.to raise_exception(expected_exception)
     end
