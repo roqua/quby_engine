@@ -9,7 +9,7 @@ module Quby
     end
 
     def to_html
-      html = Kramdown::Document.new(@source, entity_output: :numeric).to_html.chomp
+      html = ::Kramdown::Document.new(@source, entity_output: :numeric).to_html.chomp
       transform_special_text(html)
     end
   end
