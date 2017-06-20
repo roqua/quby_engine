@@ -23,24 +23,18 @@ before_script:
   - bundle exec teaspoon  
 
 rails_41:
-  tags:
-    - hetzner
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails41.gemfile'
   script:
     - echo 'Done!'
 
 rails_42:
-  tags:
-    - hetzner
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails42.gemfile'
   script:
     - echo 'Done!'
 
 rails_5:
-  tags:
-    - hetzner
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
   script:
