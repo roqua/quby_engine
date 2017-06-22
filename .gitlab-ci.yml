@@ -1,5 +1,5 @@
 services:
-  - "daandavidsz/percona-ci"
+  - "roqua/roqua-build-images:percona-5.7-ci-optimized"
 
 variables:
   DATABASE_URL: "mysql2://root:secret@daandavidsz-percona-ci:3306/roqua_test?pool=5"
