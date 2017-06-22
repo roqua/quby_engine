@@ -1,7 +1,5 @@
-image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
-
 services:
-  - "daandavidsz/percona-ci"
+  - "roqua/roqua-build-images:percona-5.7-ci-optimized"
 
 variables:
   DATABASE_URL: "mysql2://root:secret@daandavidsz-percona-ci:3306/roqua_test?pool=5"
@@ -22,20 +20,30 @@ before_script:
   - bundle exec rspec spec
   - bundle exec teaspoon  
 
-rails_41:
-  variables:
-    BUNDLE_GEMFILE: 'gemfiles/rails41.gemfile'
-  script:
-    - echo 'Done!'
-
-rails_42:
+rails_42_ruby_23:
+  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails42.gemfile'
   script:
     - echo 'Done!'
 
-rails_5:
+rails_42_ruby_24:
+  image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
   variables:
-    BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
+    BUNDLE_GEMFILE: 'gemfiles/rails42.gemfile'
   script:
-    - echo 'Done!'    
+    - echo 'Done!'
+
+rails_50_ruby_23:
+  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails50.gemfile'
+  script:
+    - echo 'Done!'
+
+rails_50_ruby_24:
+  image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails50.gemfile'
+  script:
+    - echo 'Done!'
