@@ -1,11 +1,12 @@
 require 'quby/answers/services/text_transformation'
+require 'kramdown'
 
 module Quby
   class MarkdownParser
     include Quby::TextTransformation
 
     def initialize(source)
-      @source = source
+      @source = source || ""
     end
 
     def to_html

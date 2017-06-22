@@ -39,7 +39,6 @@
         .labelwrapper
           %label{for: opt.view_id}
             %span
-              :markdown
-                #{raw opt.description}
+              = raw Quby::MarkdownParser.new(opt.description).to_html
         - unless opt.questions.empty?
           .subquestions= render :partial => "quby/v1/bulk/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}

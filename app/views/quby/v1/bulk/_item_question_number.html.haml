@@ -3,8 +3,7 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      :markdown
-        #{raw question.description}
+      = raw Quby::MarkdownParser.new(question.description).to_html
   .fields{:id => question.html_id}
     - cls = [question.type]
     - cls << "subinput"  if subquestion

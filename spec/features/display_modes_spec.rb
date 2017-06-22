@@ -62,7 +62,19 @@ require 'spec_helper'
 
         scenario "screenshots #{questionnaire.key} in single_page view", js: true do
           visit "/quby/questionnaires/#{questionnaire.key}/answers/#{answer.id}/edit?display_mode=single_page"
+
+          script = <<-END
+            (function() {
+              $(function() {
+                $(".panel").show();
+              });
+            }).call(this);
+          END
+
+          page.driver.execute_script(script)
+
           screenshot "#{questionnaire.key}_single_page"
+          save_page "#{questionnaire.key}_single_page_source"
         end
       end
     end
