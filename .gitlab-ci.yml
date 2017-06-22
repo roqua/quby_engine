@@ -1,5 +1,3 @@
-image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
-
 services:
   - "daandavidsz/percona-ci"
 
@@ -23,18 +21,42 @@ before_script:
   - bundle exec teaspoon  
 
 rails_41:
+  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails41.gemfile'
   script:
     - echo 'Done!'
 
 rails_42:
+  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails42.gemfile'
   script:
     - echo 'Done!'
 
 rails_5:
+  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
+  script:
+    - echo 'Done!'    
+
+rails_41:
+  image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails41.gemfile'
+  script:
+    - echo 'Done!'
+
+rails_42:
+  image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails42.gemfile'
+  script:
+    - echo 'Done!'
+
+rails_5:
+  image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
   script:
