@@ -20,31 +20,10 @@ before_script:
   - bundle exec rspec spec
   - bundle exec teaspoon  
 
-rails_41_ruby_23:
-  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
-  variables:
-    BUNDLE_GEMFILE: 'gemfiles/rails41.gemfile'
-  script:
-    - echo 'Done!'
-
 rails_42_ruby_23:
   image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails42.gemfile'
-  script:
-    - echo 'Done!'
-
-rails_5_ruby_23:
-  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
-  variables:
-    BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
-  script:
-    - echo 'Done!'    
-
-rails_41_ruby_24:
-  image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
-  variables:
-    BUNDLE_GEMFILE: 'gemfiles/rails41.gemfile'
   script:
     - echo 'Done!'
 
@@ -55,9 +34,16 @@ rails_42_ruby_24:
   script:
     - echo 'Done!'
 
+rails_5_ruby_23:
+  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
+  variables:
+    BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
+  script:
+    - echo 'Done!'
+
 rails_5_ruby_24:
   image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
   variables:
     BUNDLE_GEMFILE: 'gemfiles/rails5.gemfile'
   script:
-    - echo 'Done!'    
+    - echo 'Done!'
