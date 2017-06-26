@@ -44,6 +44,7 @@ module Quby
 
             validate_question_options(questionnaire, question)
             validate_presence_of_titles question
+            validate_no_spaces_before_question_nr_in_title question
           end
         end
 
@@ -133,6 +134,12 @@ module Quby
         def subquestions_cant_have_default_invisible(question)
           if question.subquestion? && question.default_invisible
             fail "Question #{question.key} is a subquestion with default_invisible."
+          end
+        end
+
+        def validate_no_spaces_before_question_nr_in_title(question)
+          if question.title && question.title.match(/^\s{2,}\d+\\\./)
+            fail "Question with number does not need leading spaces."
           end
         end
 
