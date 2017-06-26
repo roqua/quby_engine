@@ -2,14 +2,15 @@ require 'spec_helper'
 
 # module Quby
   feature 'preview questionnaires in all modes', screenshots: true do
+    REPO_PATH = "/Users/arnold/src/questionnaires/definitions"
+
     before(:all) do
       Rails.application.config.action_dispatch.show_exceptions = true
-      Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new("/Users/arnold/src/questionnaires/definitions")
+      Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(REPO_PATH)
     end
 
     before do
-      # Quby.questionnaires_path = Rails.root.join("../../db/questionnaires")
-      Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new("/Users/arnold/src/questionnaires/definitions")
+      Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(REPO_PATH)
 
       # Don't verify HMACs or tokens
       Quby::AnswersController.any_instance.stub(verify_hmac: true)
@@ -34,7 +35,7 @@ require 'spec_helper'
     #   result
     # end
 
-    Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new("/Users/arnold/src/questionnaires/definitions")
+    Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(REPO_PATH)
     Quby.questionnaires.all.each do |questionnaire|
       context "#{questionnaire.key}" do
         let(:answer) { Quby.answers.create!(questionnaire.key, token: "abcd") }
