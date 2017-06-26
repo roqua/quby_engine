@@ -8,7 +8,7 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      = raw Quby::MarkdownParser.new(question.description).to_html
+      = Quby::MarkdownParser.new(question.description).to_safe_html
   - cls = []
   - cls << "options#{question.options.size}" unless question.presentation == :horizontal
   .fields{:id => question.html_id, :class =>cls}
@@ -33,4 +33,4 @@
               %br/
               %label{for: opt.view_id}
                 %span
-                  = raw Quby::MarkdownParser.new(opt.description).to_html
+                  = Quby::MarkdownParser.new(opt.description).to_safe_html

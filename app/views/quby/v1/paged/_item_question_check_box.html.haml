@@ -8,12 +8,12 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      = raw Quby::MarkdownParser.new(question.description).to_html
+      = Quby::MarkdownParser.new(question.description).to_safe_html
   .fields{:id => question.html_id}
     - question.options.each do |opt|
       - if opt.inner_title
         .inner-title
-          = raw Quby::MarkdownParser.new(opt.description).to_html
+          = Quby::MarkdownParser.new(opt.description).to_safe_html
       - else
         - checked = @answer.send(opt.key) == 1
         - next if( opt.hidden and not checked)
@@ -42,6 +42,6 @@
           .labelwrapper
             %label{for: opt.view_id}
               %span
-                = raw Quby::MarkdownParser.new(opt.description).to_html
+                = Quby::MarkdownParser.new(opt.description).to_safe_html
           - unless opt.questions.empty?
             .subquestions= render :partial => "quby/v1/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}

@@ -22,7 +22,7 @@
           %span
             - if table.columns >= 10
               %br
-            = raw Quby::MarkdownParser.new(opt.description).to_html
+            = Quby::MarkdownParser.new(opt.description).to_safe_html
     - subq = opt.questions.first
     - if subq and (subq.presentation != :next_to_title and subq.type == :string)
       %br

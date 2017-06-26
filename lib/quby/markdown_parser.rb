@@ -13,5 +13,9 @@ module Quby
       html = ::Kramdown::Document.new(@source, entity_output: :numeric).to_html.chomp
       transform_special_text(html)
     end
+
+    def to_safe_html
+      to_html.html_safe
+    end
   end
 end
