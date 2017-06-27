@@ -2,7 +2,7 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      = Quby::MarkdownParser.new(question.description).to_safe_html
+      = Quby::MarkdownParser.new(question.description).html_safe
   .fields{:id => question.html_id}
     - cls = [question.type]
     - cls << "subinput"  if subquestion

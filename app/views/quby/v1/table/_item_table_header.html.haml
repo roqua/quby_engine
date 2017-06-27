@@ -16,5 +16,5 @@
         - when :value
           = option.value
         - when :description
-          = Quby::MarkdownParser.new(option.description).to_safe_html
+          = Quby::MarkdownParser.new(option.description).html_safe
 

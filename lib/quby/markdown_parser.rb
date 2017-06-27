@@ -14,7 +14,7 @@ module Quby
       transform_special_text(html)
     end
 
-    def to_safe_html
+    def html_safe
       to_html.html_safe
     end
   end
