@@ -14,7 +14,7 @@ PATH
       json
       kramdown (~> 1.13.2)
       opencpu (~> 0.9.0)
-      rails (>= 4.1, < 5.1)
+      rails (>= 4.2, < 5.1)
       ryansch-andand
       sass-rails (>= 4.0.5)
       susy (~> 2.2.12)
@@ -197,7 +197,7 @@ GEM
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.10)
-    mail (2.6.5)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
     mime-types (3.1)
@@ -400,4 +400,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.14.6
+   1.15.1
