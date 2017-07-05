@@ -137,13 +137,14 @@ module Quby
           end
         end
 
+        private
+
+        # Don't write question numbers as "  1. Title", but as "1\\. Title".
         def validate_no_spaces_before_question_nr_in_title(question)
           if question.title && question.title.match(/^\s{2,}\d+\\\./)
             fail "Question with number does not need leading spaces."
           end
         end
-
-        private
 
         def validate_question_key_exists?(questionnaire, key, msg_base:)
           unless questionnaire.question_hash[key]
