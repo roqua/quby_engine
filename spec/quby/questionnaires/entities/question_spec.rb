@@ -38,6 +38,7 @@ module Quby::Questionnaires::Entities
     end
 
     let(:valid_question_options) { {type: :string} }
+    subject(:question) { Question.new('v_1', valid_question_options) }
 
     describe 'sbg_key' do
       it 'can be set by options hash' do
@@ -151,7 +152,6 @@ module Quby::Questionnaires::Entities
     end
 
     describe '#show_values' do
-      subject(:question) { Question.new('v_1', valid_question_options) }
       it 'defaults to :bulk' do
         expect(question.show_values).to eq :bulk
       end
@@ -168,6 +168,26 @@ module Quby::Questionnaires::Entities
         expect(question).to be_invalid
         expect(question.errors[:show_values][0])
           .to eq "option invalid: error. Valid options: :all, :none, :paged, :bulk)"
+      end
+    end
+
+    describe '#deselectable' do
+      it 'is true by default' do
+        expect(question.deselectable).to eq(true)
+      end
+
+      describe 'when deselectable is set to be false through options' do
+        let(:valid_question_options) { {type: :string, deselectable: false} }
+        it 'is false' do
+          expect(question.deselectable).to eq(false)
+        end
+      end
+
+      describe 'when deselectable is set to be true through options' do
+        let(:valid_question_options) { {type: :string, deselectable: true} }
+        it 'is true' do
+          expect(question.deselectable).to eq(true)
+        end
       end
     end
   end

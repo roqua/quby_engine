@@ -138,7 +138,7 @@ module Quby
           @parent_option_key = options[:parent_option_key]
           @autocomplete = options[:autocomplete] || "off"
           @show_values = options[:show_values] || :bulk
-          @deselectable = options[:deselectable] || false
+          @deselectable = (options[:deselectable].nil? || options[:deselectable])
           @disallow_bulk = options[:disallow_bulk]
           @score_header = options[:score_header] || :none
           @sets_textvar = "#{questionnaire.key}_#{options[:sets_textvar]}" if options[:sets_textvar]
