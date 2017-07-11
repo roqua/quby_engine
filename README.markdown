@@ -45,8 +45,8 @@ ENV['OPENCPU_TIMEOUT']      = '30' # request timeout in seconds.
 When testing with guard or teaspoon, choose the Rails version you want to use and set the teaspoon environment:
 
 ```ruby
-bundle exec appraisal rails5 bundle # install dependencies for Rails 5
-TEASPOON_RAILS_ENV=test bundle exec appraisal rails5 guard
+bundle exec appraisal rails50 bundle # install dependencies for Rails 5
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails50 guard
 ```
 
 ## Contributing to Quby
