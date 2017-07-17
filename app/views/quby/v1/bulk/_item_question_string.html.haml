@@ -3,7 +3,6 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      :markdown
-        #{raw question.description}
+      = Quby::MarkdownParser.new(question.description).html_safe
   .fields{:id => question.html_id}
     = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => subquestion ? "subinput" : "", :disabled => disabled ? "" : nil, :size => question.size, data: {"field-key" => question.key}

@@ -1,5 +1,4 @@
 require 'virtus'
-require 'quby/extensions/maruku_extensions'
 require 'quby/settings'
 require 'quby/questionnaires'
 require 'quby/questionnaires/repos/disk_repo'

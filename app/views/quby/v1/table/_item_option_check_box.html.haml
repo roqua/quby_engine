@@ -1,6 +1,6 @@
 - available_width = question.presentation == :horizontal ? 100 : 66
 - if opt.inner_title
-  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= opt.description
+  %td.option{ :style => "width:#{available_width/(table.columns)}%"}= Quby::MarkdownParser.new(opt.description).html_safe
 - else
   - checked = @answer.send(opt.key) == 1
   - return if( opt.hidden and not checked)
@@ -25,8 +25,7 @@
           %span
             - if table.columns >= 10
               %br
-            :markdown
-              #{raw opt.description}
+            = Quby::MarkdownParser.new(opt.description).html_safe
     - subq = opt.questions.first
     - if subq and (subq.presentation != :next_to_title and subq.type == :string)
       %br

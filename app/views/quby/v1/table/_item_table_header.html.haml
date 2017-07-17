@@ -9,13 +9,12 @@
         #{raw question.description}
   - else
     - question.options.each do |option|
-      - next if (option.inner_title or option.hidden)  
+      - next if (option.inner_title or option.hidden)
       %th.option{title: raw(option.description), class: cls, data: {for: question.key}}
-        -#= raw cycle("<br/>", "", :name => "headbr" ) 
-        - case question.score_header 
+        -#= raw cycle("<br/>", "", :name => "headbr" )
+        - case question.score_header
         - when :value
           = option.value
         - when :description
-          :markdown
-            #{raw option.description}
-          
+          = Quby::MarkdownParser.new(option.description).html_safe
+

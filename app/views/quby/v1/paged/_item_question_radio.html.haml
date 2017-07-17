@@ -8,16 +8,14 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      :markdown
-        #{raw question.description}
+      = Quby::MarkdownParser.new(question.description).html_safe
   .fields{:id => question.html_id}
     - question.options.each do |opt|
       - checked = @answer.send(question.key) == opt.key.to_s
       - next if (opt.hidden and not checked)
       - if opt.inner_title
         .inner-title
-          :markdown
-            #{raw opt.description}
+          = Quby::MarkdownParser.new(opt.description).html_safe
       - else
         .option{:class =>"#{show_values ? 'show_values' : nil}", :for => question.key}
           .radiocheckwrapper
@@ -30,7 +28,6 @@
           .labelwrapper
             %label{for: opt.view_id}
               %span
-                :markdown
-                  #{raw opt.description}
+                = Quby::MarkdownParser.new(opt.description).html_safe
           - unless opt.questions.empty?
             .subquestions= render :partial => "quby/v1/paged/item", :collection => opt.questions,  :locals => {:subquestion => true, :disabled => !checked}

@@ -2,7 +2,7 @@
 - label_for = "answer_#{question.key}"
 - if title_text
   %td.main(rowspan= rowspan){:data => {:for => question.key}}
-    %label{for: label_for}= raw Maruku.new(title_text).to_html
+    %label{for: label_for}= Quby::MarkdownParser.new(title_text).html_safe
     - if (title_insert rescue nil)
       =title_insert
 - else
