@@ -2,7 +2,6 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      :markdown
-        #{raw question.description}
+      = Quby::MarkdownParser.new(question.description).html_safe
   .fields{:id => question.html_id}
     = render 'quby/v1/shared/date_inputs', :question => question, :subquestion => subquestion, :disabled => disabled

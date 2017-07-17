@@ -432,6 +432,28 @@ module Quby::Questionnaires::Services
           expect(definition).to be_valid
         end
       end
+
+      context 'spaces before question number' do
+        it 'is valid when title starts with 0 or 1 spaces before question number' do
+          definition = make_definition(<<-END)
+            title "Test"
+            question :v_1, type: :string do
+              title "1\\\\. Title"
+            end
+          END
+          expect(definition).to be_valid
+        end
+
+        it 'is invalid when title starts with more than 1 space before question number' do
+          definition = make_definition(<<-END)
+            title "Test"
+            question :v_1, type: :string do
+              title "  1\\\\. Title"
+            end
+          END
+          expect(definition).to be_invalid
+        end
+      end
     end
 
     describe 'subquestions inside a table' do
