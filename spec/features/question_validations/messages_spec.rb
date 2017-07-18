@@ -13,7 +13,7 @@ feature 'Validation messages' do
       requires_answer: 'Deze vraag moet beantwoord worden.',
       regexp: 'Uw antwoord moet voldoen aan de vorm (?-mix:a).',
       valid_integer: 'Uw antwoord moet een afgerond getal zijn.',
-      valid_float: 'Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen).',
+      valid_float: 'Uw antwoord moet een getal zijn (gebruik een punt voor decimale getallen, geen komma).',
       valid_date: 'Vul een geldige datum in met formaat DD-MM-JJJJ, bijvoorbeeld 13-08-2015',
       too_many_checked: 'U heeft te veel opties gekozen.',
       not_all_checked: 'U heeft te weinig opties gekozen.',
