@@ -17,7 +17,7 @@ nl:
     requires_answer: "Deze vraag moet beantwoord worden."
     regexp: "Uw antwoord moet voldoen aan de vorm %{matcher}."
     valid_integer: "Uw antwoord moet een afgerond getal zijn."
-    valid_float: "Uw antwoord moet een getal zijn (gebruik een decimale punt voor kommagetallen)."
+    valid_float: "Uw antwoord moet een getal zijn (gebruik een punt voor decimale getallen, geen komma)."
     valid_date:
       valid_date_day_month_year: "Vul een geldige datum in met formaat DD-MM-JJJJ, bijvoorbeeld 13-08-2015"
       valid_date_month_year: "Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015"
