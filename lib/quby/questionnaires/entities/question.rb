@@ -117,6 +117,8 @@ module Quby
         # rubocop:disable CyclomaticComplexity, Metrics/MethodLength
         def initialize(key, options = {})
           super(options)
+
+          require_symbol_key(key)
           @extra_data ||= {}
           @options = []
           @questionnaire = options[:questionnaire]
@@ -329,6 +331,12 @@ module Quby
             "(#{[range_min, "value", range_max].compact.join(" &lt;= ")})"
           else
             ""
+          end
+        end
+
+        def require_symbol_key(key)
+          unless key.is_a?(Symbol)
+            raise "Question #{key.inspect} has a non-symbol as a question key, please use symbols (:v_key)"
           end
         end
       end

@@ -3,8 +3,6 @@ short_description ""
 description ""
 outcome_description ""
 
-default_question_options deselectable: true
-
 flag key: :hides_flag,
      hides_questions: [:v_7],
      description_true: 'Hides v_7',
