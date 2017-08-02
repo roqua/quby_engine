@@ -118,11 +118,10 @@ module Quby
         def initialize(key, options = {})
           super(options)
 
-          require_symbol_key(key)
           @extra_data ||= {}
           @options = []
           @questionnaire = options[:questionnaire]
-          @key = key
+          @key = require_symbol_key(key)
           @sbg_key = options[:sbg_key]
           @type = options[:type]
           @as = options[:as]
@@ -335,8 +334,10 @@ module Quby
         end
 
         def require_symbol_key(key)
-          unless key.is_a?(Symbol)
-            raise "Question #{key.inspect} has a non-symbol as a question key, please use symbols (:v_key)"
+          if key.respond_to? :to_sym
+            key.to_sym
+          else
+            raise "Question has an irregular question key (#{key.inspect}), please use symbols or strings"
           end
         end
       end
