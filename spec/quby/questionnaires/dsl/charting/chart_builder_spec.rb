@@ -3,7 +3,7 @@ require 'spec_helper'
 module Quby::Questionnaires::DSL
   describe ChartBuilder do
 
-    let(:plottable_key) { 'some_key' }
+    let(:plottable_key) { :some_key }
     let(:plottable) { Quby::Questionnaires::Entities::ScoreCalculation.new plottable_key, {} }
     let(:questionnaire) do
       double(key: 'questionnaire_key').tap do |questionnaire|
