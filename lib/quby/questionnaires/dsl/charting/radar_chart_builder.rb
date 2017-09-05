@@ -6,6 +6,10 @@ module Quby
     module DSL
       class RadarChartBuilder < ChartBuilder
         set_chart_class(Entities::Charting::RadarChart)
+
+        def plotline(value, color)
+          @chart.plotlines << {value: value, color: color, width: 2}
+        end
       end
     end
   end
