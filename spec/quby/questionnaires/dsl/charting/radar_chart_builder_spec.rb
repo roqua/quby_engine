@@ -23,8 +23,8 @@ module Quby::Questionnaires::DSL
         plotline 40, :orange
         plotline 60, :red
       }.plotlines.should == [
-        {value: 40, color: :orange, width: 2},
-        {value: 60, color: :red, width: 2}
+        {value: 40, color: :orange, width: 2, zIndex: 3},
+        {value: 60, color: :red, width: 2, zIndex: 3}
       ]
     end
 

@@ -8,7 +8,7 @@ module Quby
         set_chart_class(Entities::Charting::RadarChart)
 
         def plotline(value, color)
-          @chart.plotlines << {value: value, color: color, width: 2}
+          @chart.plotlines << {value: value, color: color, width: 2, zIndex: 3}
         end
       end
     end
