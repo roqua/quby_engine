@@ -18,6 +18,16 @@ module Quby::Questionnaires::DSL
       dsl { tick_interval 1 }.tick_interval.should == 1
     end
 
+    it 'sets plotlines' do
+      dsl {
+        plotline 40, :orange
+        plotline 60, :red
+      }.plotlines.should == [
+        {value: 40, color: :orange, width: 1, zIndex: 3},
+        {value: 60, color: :red, width: 1, zIndex: 3}
+      ]
+    end
+
     def dsl(key = :test, options = {}, &block)
       builder = RadarChartBuilder.new(questionnaire, key, options)
       builder.build(&block)
