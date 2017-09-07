@@ -20,11 +20,11 @@ module Quby::Questionnaires::DSL
 
     it 'sets plotlines' do
       dsl {
-        plotline 40, :orange, 'some text'
+        plotline 40, :orange
         plotline 60, :red
       }.plotlines.should == [
-        {value: 40, color: :orange, width: 1, zIndex: 3, label: {text: 'some text', y: 10, style: {color: :orange}}},
-        {value: 60, color: :red, width: 1, zIndex: 3, label: {}}
+        {value: 40, color: :orange, width: 1, zIndex: 3},
+        {value: 60, color: :red, width: 1, zIndex: 3}
       ]
     end
 
