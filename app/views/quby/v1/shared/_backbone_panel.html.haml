@@ -11,7 +11,7 @@
 :javascript
   $(function() {
     Quby.currentPanelQuestions = new Quby.Collections.Questions;
-    var questions = #{questions.as_json.to_json};
+    var questions = #{raw questions.as_json.to_json};
     var initializer = new Quby.Logic.InitQuestions(questions);
     Quby.currentPanelQuestions = initializer.initializeQuestions();
     Quby.questions.addQuestions(Quby.currentPanelQuestions);

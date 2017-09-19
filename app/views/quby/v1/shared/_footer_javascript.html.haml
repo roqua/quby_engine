@@ -1,11 +1,11 @@
 :javascript
   $(function() {
     Quby.init({
-      questionnaire_key: #{@questionnaire.key.to_json},
-      answer_value: #{@answer.value.to_json},
-      flag_definitions: #{answer.questionnaire.flags.to_json},
-      flag_values: #{answer.flags.to_json},
-      textvars: #{@answer.textvars.to_json}
+      questionnaire_key: #{raw @questionnaire.key.to_json},
+      answer_value: #{raw @answer.value.to_json},
+      flag_definitions: #{raw answer.questionnaire.flags.to_json},
+      flag_values: #{raw answer.flags.to_json},
+      textvars: #{raw @answer.textvars.to_json}
     });
 
     // Initialize all panels in bulk, activate first panel otherwise

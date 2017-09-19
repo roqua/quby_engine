@@ -22,7 +22,7 @@
     - panel_id = "panel#{panel_counter}"
     %fieldset{:id => panel_id, :class => "panel"}
       :javascript
-        panel_validations["panel#{panel_counter}"] = #{get_validation_json(panel.validations)};
+        panel_validations["panel#{panel_counter}"] = #{raw get_validation_json(panel.validations)};
       = render :partial => 'quby/v1/shared/backbone_panel', :locals => {:panel => panel, |
                                                                  :panel_id => panel_id, |
                                                                  :answer => @answer} |
