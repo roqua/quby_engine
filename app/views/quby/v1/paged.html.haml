@@ -1,9 +1,9 @@
 :javascript
   window.panel_validations = {};
   // for setting values of raw_content
-  window.extra_question_values = #{@answer.extra_question_values};
+  window.extra_question_values = #{raw @answer.extra_question_values};
   // for showing validations of raw content
-  window.extra_failed_validations = #{@answer.extra_failed_validations};
+  window.extra_failed_validations = #{raw @answer.extra_failed_validations};
 
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
