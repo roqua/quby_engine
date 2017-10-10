@@ -38,7 +38,7 @@
           %caption
             %div.main{:class => "horizontal"}
               :markdown
-                #{table.title}
+                #{table.title.html_safe}
         - if table.description
           %tr.row
             %td.description{:class => "horizontal", :colspan => table.columns+1}
