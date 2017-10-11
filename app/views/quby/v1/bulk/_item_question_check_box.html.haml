@@ -7,7 +7,7 @@
   .description
     - unless question.description.blank?
       :markdown
-        #{raw question.description}
+        #{question.description.html_safe}
   .fields{:id => question.html_id, :class => "options#{question.options.size}"}
     - question.options.each do |opt|
       - next if opt.inner_title
