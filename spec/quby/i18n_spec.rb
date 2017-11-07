@@ -18,7 +18,11 @@ describe I18n do
     errors = []
     (I18n.config.available_locales - [:nl]).each do |locale|
       keys_in_nl_locale.each do |deep_key|
-        result = (I18n.t('.', locale: locale).dig(*deep_key) rescue nil)
+        result = begin
+          I18n.t('.', locale: locale).dig(*deep_key)
+        rescue
+          nil
+        end
         errors << "#{deep_key.inspect} is missing from locale :#{locale}" if result.blank?
       end
     end
