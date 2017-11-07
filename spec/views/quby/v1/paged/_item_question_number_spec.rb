@@ -5,12 +5,13 @@ module Quby
                                title: "Titel!",
                                description: "",
                                as: :slider,
-                               minimum: 1,
-                               maximum: 20,
                                show_values: :bulk}
     end
     let(:question) do
-      Questionnaires::Entities::Questions::IntegerQuestion.new :q1, question_options
+      question = Questionnaires::Entities::Questions::IntegerQuestion.new :q1, question_options
+      question.validations << {type: :minimum, value: 1, subtype: :number}
+      question.validations << {type: :maximum, value: 20, subtype: :number}
+      question
     end
 
     before { view.extend Quby::TextTransformation }

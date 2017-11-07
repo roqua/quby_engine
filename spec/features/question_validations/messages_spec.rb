@@ -8,8 +8,10 @@ feature 'Validation messages' do
     end
 
     expected_errors = {
-      maximum: 'Uw antwoord moet een getal kleiner dan of gelijk aan 10 zijn.',
-      minimum: 'Uw antwoord moet een getal groter dan of gelijk aan 10 zijn.',
+      "maximum.number" => 'Uw antwoord moet een getal kleiner dan of gelijk aan 10 zijn.',
+      "minimum.number" => 'Uw antwoord moet een getal groter dan of gelijk aan 10 zijn.',
+      "minimum.date" => 'De datum moet op of na de dag 02-01-2017 liggen.',
+      "maximum.date" => 'De datum moet op of voor de dag 04-03-2017 liggen.',
       requires_answer: 'Deze vraag moet beantwoord worden.',
       regexp: 'Uw antwoord moet voldoen aan de vorm (?-mix:a).',
       valid_integer: 'Uw antwoord moet een afgerond getal zijn.',

@@ -214,7 +214,7 @@
       throw "invalidDate";
     }
 
-    return new Date(values.year, values.month, values.day, values.hour, values.minute);
+    return new Date(Date.UTC(values.year, values.month - 1, values.day, values.hour, values.minute));
   }
 
   function dateValuesValid(values) {

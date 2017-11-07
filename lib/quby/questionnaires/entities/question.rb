@@ -171,10 +171,10 @@ module Quby
           end
 
           if options[:minimum] and (@type == :integer || @type == :float)
-            @validations << {type: :minimum, value: options[:minimum], explanation: options[:error_explanation]}
+            fail "deprecated" # pretty sure this is not used anywhere
           end
           if options[:maximum] and (@type == :integer || @type == :float)
-            @validations << {type: :maximum, value: options[:maximum], explanation: options[:error_explanation]}
+            fail "deprecated" # pretty sure this is not used anywhere
           end
           @default_position = options[:default_position]
 
