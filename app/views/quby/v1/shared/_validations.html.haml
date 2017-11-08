@@ -8,7 +8,7 @@
     - {}
   - when :maximum, :minimum, :answer_group_minimum, :answer_group_maximum
     - if validation[:subtype] == :date
-      - {value: validation[:value], friendly_date: validation[:value].strftime('%d-%m-%Y')}
+      - {value: validation[:value], friendly_date: I18n.l(validation[:value], format: :friendly_date)}
     - else
       - {value: validation[:value]}
   - when :regexp

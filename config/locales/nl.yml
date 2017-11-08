@@ -1,4 +1,7 @@
 nl:
+  date:
+    formats:
+      friendly_date: '%-d %B %Y (%-d-%-m-%Y)'
   step_i_of_n: "Stap %{i} van %{n}"
   previous: Terug
   next: Verder

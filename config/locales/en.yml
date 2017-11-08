@@ -1,4 +1,7 @@
 en:
+  date:
+    formats:
+      friendly_date: '%-d %B %Y (%-d-%-m-%Y)'
   step_i_of_n: "Step %{i} of %{n}"
   previous: Previous
   next: Next

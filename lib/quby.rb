@@ -1,4 +1,5 @@
 require 'virtus'
+require 'rails-i18n'
 require 'quby/settings'
 require 'quby/questionnaires'
 require 'quby/questionnaires/repos/disk_repo'

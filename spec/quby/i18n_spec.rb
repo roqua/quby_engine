@@ -9,7 +9,7 @@ describe I18n do
         rescue
           nil
         end
-        errors << "#{key_path.inspect} is missing from locale :#{locale}" if result.blank?
+        errors << "#{key_path.inspect} is missing from locale :#{locale}" if result.nil?
       end
     end
 
