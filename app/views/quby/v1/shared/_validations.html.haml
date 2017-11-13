@@ -1,5 +1,5 @@
 - question.validations.each do |validation|
-  - exp_classes = ["error", validation[:type]]
+  - exp_classes = ["error", validation[:type], validation[:subtype]].compact
   - valtypes = answer.errors[question.key].collect{|e| e[:valtype]}
   - unless valtypes.include?(validation[:type])
     - exp_classes << "hidden"
@@ -7,7 +7,10 @@
   - when :requires_answer, :valid_integer, :valid_float, :valid_date, :too_many_checked, :not_all_checked
     - {}
   - when :maximum, :minimum, :answer_group_minimum, :answer_group_maximum
-    - {value: validation[:value]}
+    - if validation[:subtype] == :date
+      - {value: validation[:value], friendly_date: I18n.l(validation[:value], format: :friendly_date)}
+    - else
+      - {value: validation[:value]}
   - when :regexp
     - {matcher: validation[:matcher]}
   - when :maximum_checked_allowed

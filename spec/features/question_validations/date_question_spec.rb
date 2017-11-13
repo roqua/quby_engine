@@ -116,18 +116,18 @@ shared_examples 'validations on date questions' do
       inject_questionnaire "test", <<-END
         question :v_date, type: :date, year_key: :v_date_year, month_key: :v_date_month, day_key: :v_date_day do
           title "Enter a date"
-          validates_in_range Date.new(2013, 1, 1)..Date.new(2013, 12, 31)
+          validates_in_range Date.new(2013, 1, 2)..Date.new(2013, 12, 31)
         end; end_panel
       END
     end
 
     scenario 'saving a valid date' do
       fill_in_question('v_date_year',  '2013')
-      fill_in_question('v_date_month', '12')
-      fill_in_question('v_date_day',   '10')
+      fill_in_question('v_date_month', '1')
+      fill_in_question('v_date_day',   '2')
       run_validations
       expect_no_errors
-      expect_saved_value 'v_date', '10-12-2013'
+      expect_saved_value 'v_date', '2-1-2013'
     end
 
     scenario 'saving an empty date' do

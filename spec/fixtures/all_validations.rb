@@ -87,10 +87,30 @@ panel do
   end
   question :v_required, type: :string, required: true
   question :v_valid_required, type: :string, required: true
-  question :v_under_minimum, type: :integer, minimum: 10
-  question :v_over_minimum, type: :integer, minimum: 10
-  question :v_under_maximum, type: :integer, maximum: 10
-  question :v_over_maximum, type: :integer, maximum: 10
+  question :v_date_range_on_minimum, type: :date do
+    validates_in_range Date.new(2017, 1, 2)..Date.new(2017, 3, 4)
+  end
+  question :v_date_range_under_minimum, type: :date do
+    validates_in_range Date.new(2017, 1, 2)..Date.new(2017, 3, 4)
+  end
+  question :v_date_range_on_maximum, type: :date do
+    validates_in_range Date.new(2017, 1, 2)..Date.new(2017, 3, 4)
+  end
+  question :v_date_range_over_maximum, type: :date do
+    validates_in_range Date.new(2017, 1, 2)..Date.new(2017, 3, 4)
+  end
+  question :v_under_minimum, type: :integer do
+    validates_minimum 10
+  end
+  question :v_over_minimum, type: :integer do
+    validates_minimum 10
+  end
+  question :v_under_maximum, type: :integer do
+    validates_maximum 10
+  end
+  question :v_over_maximum, type: :integer do
+    validates_maximum 10
+  end
   question :v_too_many_checked, type: :check_box, uncheck_all_option: :v_too_many_checked_a0 do
     option :v_too_many_checked_a0
     option :v_too_many_checked_a1
