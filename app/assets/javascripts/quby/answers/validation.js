@@ -213,8 +213,8 @@
     if(!dateValuesValid(values)) {
       throw "invalidDate";
     }
-
-    return new Date(values.year, values.month, values.day, values.hour, values.minute);
+    // NB: month is already substracted by 1 by dateValuesWithDefaults to account for js date months starting on 0
+    return new Date(Date.UTC(values.year, values.month, values.day, values.hour, values.minute));
   }
 
   function dateValuesValid(values) {

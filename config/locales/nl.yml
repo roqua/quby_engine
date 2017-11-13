@@ -1,4 +1,7 @@
 nl:
+  date:
+    formats:
+      friendly_date: '%-d %B %Y (%-d-%-m-%Y)'
   step_i_of_n: "Stap %{i} van %{n}"
   previous: Terug
   next: Verder
@@ -12,8 +15,12 @@ nl:
     save_anyway: Toch opslaan
   thanks_for_filling_out: Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.
   validations:
-    maximum: "Uw antwoord moet een getal kleiner dan of gelijk aan %{value} zijn."
-    minimum: "Uw antwoord moet een getal groter dan of gelijk aan %{value} zijn."
+    maximum:
+      date: "De datum moet op of voor de dag %{friendly_date} liggen."
+      number: "Uw antwoord moet een getal kleiner dan of gelijk aan %{value} zijn."
+    minimum:
+      date: "De datum moet op of na de dag %{friendly_date} liggen."
+      number: "Uw antwoord moet een getal groter dan of gelijk aan %{value} zijn."
     requires_answer: "Deze vraag moet beantwoord worden."
     regexp: "Uw antwoord moet voldoen aan de vorm %{matcher}."
     valid_integer: "Uw antwoord moet een afgerond getal zijn."

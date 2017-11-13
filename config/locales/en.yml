@@ -1,4 +1,7 @@
 en:
+  date:
+    formats:
+      friendly_date: '%-d %B %Y (%-d-%-m-%Y)'
   step_i_of_n: "Step %{i} of %{n}"
   previous: Previous
   next: Next
@@ -12,8 +15,12 @@ en:
     save_anyway: Save anyway
   thanks_for_filling_out: Thank you for filling out the questionnaire.
   validations:
-    maximum: "Enter a number of at most %{value}."
-    minimum: "Enter a number of at least %{value}."
+    maximum:
+      date: "Entered date must be on or before %{friendly_date}."
+      number: "Enter a number of at most %{value}."
+    minimum:
+      date: "Entered date must be on or after %{friendly_date}."
+      number: "Enter a number of at least %{value}."
     requires_answer: "Please fill out this question."
     regexp: "Please enter an answer in the format  %{matcher}."
     valid_integer: "Enter a valid integer number"

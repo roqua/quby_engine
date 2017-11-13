@@ -59,19 +59,22 @@ module Quby
 
         module MinMaxValidations
           def validates_minimum(value, options = {})
+            subtype = @question.type == :date ? :date : :number
             @question.validations ||= []
-            @question.validations << {type: :minimum, value: value}.reverse_merge(options)
+            @question.validations << {type: :minimum, value: value, subtype: subtype}.reverse_merge(options)
           end
 
           def validates_maximum(value, options = {})
+            subtype = @question.type == :date ? :date : :number
             @question.validations ||= []
-            @question.validations << {type: :maximum, value: value}.reverse_merge(options)
+            @question.validations << {type: :maximum, value: value, subtype: subtype}.reverse_merge(options)
           end
 
           def validates_in_range(range, options = {})
+            subtype = @question.type == :date ? :date : :number
             @question.validations ||= []
-            @question.validations << {type: :minimum, value: range.first}.reverse_merge(options)
-            @question.validations << {type: :maximum, value: range.last}.reverse_merge(options)
+            @question.validations << {type: :minimum, value: range.first, subtype: subtype}.reverse_merge(options)
+            @question.validations << {type: :maximum, value: range.last, subtype: subtype}.reverse_merge(options)
           end
         end
 

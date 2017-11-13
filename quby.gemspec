@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.0'
   s.add_dependency "rails", ">= 4.2", '< 5.1'
+  s.add_dependency 'rails-i18n'
 
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.9.0'
@@ -57,8 +58,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'guard'
   s.add_development_dependency 'guard-rspec', '~> 4.3.1'
-  s.add_development_dependency 'timecop'
-  s.add_development_dependency "poltergeist"
   s.add_development_dependency "launchy"
   s.add_development_dependency "pry"
   s.add_development_dependency 'capybara-screenshot', '= 0.3.14'

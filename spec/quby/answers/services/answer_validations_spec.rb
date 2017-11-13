@@ -38,6 +38,18 @@ module Quby::Answers::Services
         "v_valid_float" => "0.2",
         "v_valid_regexp" => "a",
         "v_valid_required" => "a",
+        "v_date_range_under_minimum_yyyy" => '2017',
+        "v_date_range_under_minimum_mm" => '1',
+        "v_date_range_under_minimum_dd" => '1',
+        "v_date_range_on_minimum_yyyy" => '2017',
+        "v_date_range_on_minimum_mm" => '1',
+        "v_date_range_on_minimum_dd" => '2',
+        "v_date_range_over_maximum_yyyy" => '2017',
+        "v_date_range_over_maximum_mm" => '3',
+        "v_date_range_over_maximum_dd" => '5',
+        "v_date_range_on_maximum_yyyy" => '2017',
+        "v_date_range_on_maximum_mm" => '3',
+        "v_date_range_on_maximum_dd" => '4',
         "v_under_minimum" => "5",
         "v_over_minimum" => "10",
         "v_under_maximum" => "5",
@@ -276,6 +288,26 @@ module Quby::Answers::Services
         it 'does not add an error if a value is under a given maximum' do
           answer.errors.messages[:v_under_maximum].should_not ==
               [{message: "Exceeds maximum", valtype: :maximum}]
+        end
+
+        it 'adds an error if a date exceeds given maximum' do
+          answer.errors.messages[:v_date_range_over_maximum].should ==
+            [{message: "Exceeds maximum", valtype: :maximum}]
+        end
+
+        it 'does not add an error if a date is on a given maximum' do
+          answer.errors.messages[:v_date_range_on_maximum].should_not ==
+            [{message: "Exceeds maximum", valtype: :maximum}]
+        end
+
+        it 'adds an error if a date is under a given minimum' do
+          answer.errors.messages[:v_date_range_under_minimum].should ==
+            [{message: "Smaller than minimum", valtype: :minimum}]
+        end
+
+        it 'does not add an error if a date is on a given minimum' do
+          answer.errors.messages[:v_date_range_on_minimum].should_not ==
+            [{message: "Smaller than minimum", valtype: :minimum}]
         end
 
         it 'adds an error if too many checkbox options are checked' do
