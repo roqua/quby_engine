@@ -23,6 +23,7 @@ LineLength:
   Max: 120
   Exclude:
     - 'quby.gemspec'
+    - 'spec/**/*'
 
 # Avoid methods longer than 10 lines of code
 MethodLength:

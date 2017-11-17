@@ -54,7 +54,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'teaspoon'
   s.add_development_dependency 'teaspoon-jasmine'
-  s.add_development_dependency 'rubocop', '~> 0.42.0'
+  s.add_development_dependency 'rubocop', '~> 0.50.0'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'guard'
   s.add_development_dependency 'guard-rspec', '~> 4.3.1'

@@ -31,7 +31,6 @@ module Quby
         expected_text = "<span class='textvar' textvar='test'>{{test}}</span>"
         expect(described_instance.transform_special_text('{{test}}')).to eq(expected_text)
       end
-      # rubocop:disable LineLength
       it 'transforms double textvars' do
         expected_text = "<span class='textvar' textvar='test'>{{test}}</span><span class='textvar' textvar='test2'>{{test2}}</span>"
         expect(described_instance.transform_special_text('{{test}}{{test2}}')).to eq(expected_text)

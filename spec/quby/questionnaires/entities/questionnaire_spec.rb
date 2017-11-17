@@ -203,9 +203,7 @@ module Quby::Questionnaires::Entities
           end
         end
 
-        # rubocop:disable LineLength
         questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1_a1 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a1_1 string \n\ttest_1_a1_2 string \n\ntest_1_a2 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a2_1 string \n")
-        # rubocop:enable LineLength
       end
 
       describe 'with flags' do
@@ -224,9 +222,7 @@ module Quby::Questionnaires::Entities
             end
           end
 
-          # rubocop:disable LineLength
           questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"gehide door depr false\"\n\ntest_depr flag\n 'true' - Er is sprake van depressieklachten\n 'false' - Er is geen sprake van depressieklachten\n '' (leeg) - Vlag niet ingesteld, informatie onbekend\n\n")
-          # rubocop:enable LineLength
         end
       end
 
@@ -242,9 +238,7 @@ module Quby::Questionnaires::Entities
             end
           end
 
-          # rubocop:disable LineLength
           questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"vraag\"\n\ntest_probleem_1 Textvariabele\nprobleem 1\n")
-          # rubocop:enable LineLength
         end
       end
     end

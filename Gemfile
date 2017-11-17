@@ -18,7 +18,7 @@ gem 'jquery-ui-rails', '~> 3.0.1'
 gem 'susy', '~> 2.2.12'
 gem 'compass-rails'
 
-gem 'nokogiri', '>= 1.7.1'
+gem 'nokogiri', '>= 1.8.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
