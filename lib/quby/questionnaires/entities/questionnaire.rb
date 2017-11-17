@@ -110,13 +110,13 @@ module Quby
         end
 
         def callback_after_dsl_enhance_on_questions
-          question_hash.values.each do |q|
+          question_hash.each_value do |q|
             q.run_callbacks :after_dsl_enhance
           end
         end
 
         def validate_questions
-          question_hash.values.each do |q|
+          question_hash.each_value do |q|
             unless q.valid?
               q.errors.each { |attr, err| errors.add(attr, err) }
             end
@@ -183,12 +183,12 @@ module Quby
             output << ""
           end
 
-          flags.each do |_flag_key, flag|
+          flags.each_value do |flag|
             output << flag.to_codebook(options)
             output << ""
           end
 
-          textvars.each do |_textvar_key, textvar|
+          textvars.each_value do |textvar|
             output << textvar.to_codebook(options)
             output << ""
           end

@@ -303,15 +303,6 @@ Metrics/PerceivedComplexity:
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect.
-Performance/HashEachMethods:
-  Exclude:
-    - 'lib/quby/answers/services/attribute_calculator.rb'
-    - 'lib/quby/questionnaires/entities/questionnaire.rb'
-    - 'lib/quby/questionnaires/services/definition_validator.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Performance/RedundantBlockCall:

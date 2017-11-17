@@ -22,7 +22,7 @@ module Quby
         end
 
         def init_flag_result
-          questionnaire.flags.each do |_flag_key, flag|
+          questionnaire.flags.each_value do |flag|
             flag.if_triggered_by answer.flags do
               flag.hides_questions.each do |question_key|
                 @hidden.push question_key unless @shown.include?(question_key)

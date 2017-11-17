@@ -37,7 +37,7 @@ module Quby
             validate_key_format(key)
           end
 
-          questionnaire.question_hash.each do |_key, question|
+          questionnaire.question_hash.each_value do |question|
             validate_question(question)
             subquestions_cant_have_default_invisible question
             validate_subquestion_absence_in_select question
@@ -87,7 +87,7 @@ module Quby
         end
 
         def validate_flags(questionnaire)
-          questionnaire.flags.each do |_flag_key, flag|
+          questionnaire.flags.each_value do |flag|
             shows_questions = flag.shows_questions
             hides_questions = flag.hides_questions
             unknown_shows_questions = shows_questions.select { |key| !questionnaire.key_in_use?(key) }
