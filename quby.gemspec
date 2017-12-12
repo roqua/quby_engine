@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails-i18n'
 
   # External (web-)services
-  s.add_dependency "opencpu",       '~> 0.9.0'
+  s.add_dependency "opencpu",       '~> 0.12.0'
 
   # Views
   s.add_dependency 'coffee-rails'
