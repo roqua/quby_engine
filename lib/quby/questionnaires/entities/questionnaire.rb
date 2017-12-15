@@ -113,6 +113,7 @@ module Quby
           question_hash.each_value do |q|
             q.run_callbacks :after_dsl_enhance
           end
+          validate_flag_depends_on
         end
 
         def validate_questions
@@ -227,6 +228,14 @@ module Quby
 
         def add_chart(chart)
           charts.add chart
+        end
+
+        def validate_flag_depends_on
+          flags.each_value do |flag|
+            if flag.depends_on.present? && !flags.has_key?(flag.depends_on)
+              fail ArgumentError, "Flag #{flag.key} depends_on nonexistent flag '#{flag.depends_on}'"
+            end
+          end
         end
 
         def add_flag(flag_options)

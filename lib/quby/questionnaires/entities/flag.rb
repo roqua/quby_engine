@@ -2,7 +2,7 @@ module Quby
   module Questionnaires
     module Entities
       class Flag < Struct.new(:key, :description_true, :description_false, :internal, :trigger_on,
-                              :shows_questions, :hides_questions)
+                              :shows_questions, :hides_questions, :depends_on, :default_in_interface)
         # rubocop:disable ParameterLists
         def initialize(key:,
                        description_true:,
@@ -10,8 +10,11 @@ module Quby
                        internal: false,
                        trigger_on: true,
                        shows_questions: [],
-                       hides_questions: [])
-          super(key, description_true, description_false, internal, trigger_on, shows_questions, hides_questions)
+                       hides_questions: [],
+                       depends_on: nil,
+                       default_in_interface: nil)
+          super(key, description_true, description_false, internal, trigger_on, shows_questions, hides_questions,
+                depends_on, default_in_interface)
         end
         # rubocop:enable ParameterLists
 

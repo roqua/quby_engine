@@ -329,6 +329,20 @@ module Quby::Questionnaires::Entities
       end
     end
 
+    describe '#validate_flag_depends_on' do
+      let(:definition) do
+        "
+        flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit'
+        flag key: :test2, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', depends_on: :test_test
+        flag key: :test3, description_true: 'Test flag', description_false: 'Test flag uit', depends_on: :non_existent
+        "
+      end
+      it 'fails if a flag references a non existing flag key' do
+        expect { questionnaire }.to raise_error(ArgumentError,
+                                                'Flag test_test3 depends_on nonexistent flag \'non_existent\'')
+      end
+    end
+
     describe "#filter_flags" do
       it 'filters out flags that are not defined on the questionnaire' do
         questionnaire.add_flag key: :a, description_true: 'a', description_false: 'not a'
