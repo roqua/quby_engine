@@ -333,8 +333,8 @@ module Quby::Questionnaires::Entities
       let(:definition) do
         "
         flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit'
-        flag key: :test2, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', depends_on: :test_test
-        flag key: :test3, description_true: 'Test flag', description_false: 'Test flag uit', depends_on: :non_existent
+        flag key: :test3, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', depends_on: :test_test
+        flag key: :test2, description_true: 'Test flag', description_false: 'Test flag uit', depends_on: :non_existent
         "
       end
       it 'fails if a flag references a non existing flag key' do
