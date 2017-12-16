@@ -232,7 +232,7 @@ module Quby
 
         def validate_flag_depends_on
           flags.each_value do |flag|
-            if flag.depends_on.present? && !flags.has_key?(flag.depends_on)
+            if flag.depends_on.present?
               fail ArgumentError, "Flag #{flag.key} depends_on nonexistent flag '#{flag.depends_on}'"
             end
           end
