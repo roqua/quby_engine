@@ -11,8 +11,9 @@ module Quby
                        trigger_on: true,
                        shows_questions: [],
                        hides_questions: [],
-                       depends_on: nil,
-                       default_in_interface: nil)
+                       depends_on: nil, # used in interface to hide this flag unless the depended on flag is set to true
+                       default_in_interface: nil) # used in interface to set a default for the flag state,
+                                                  # does not have an effect outside of the interface
           super(key, description_true, description_false, internal, trigger_on, shows_questions, hides_questions,
                 depends_on, default_in_interface)
         end

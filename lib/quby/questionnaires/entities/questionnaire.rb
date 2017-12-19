@@ -231,11 +231,13 @@ module Quby
         end
 
         def validate_flag_depends_on
-          flags.each_value do |flag|
-            if flag.depends_on.present? && !flags.has_key?(flag.depends_on)
-              fail ArgumentError, "Flag #{flag.key} depends_on nonexistent flag '#{flag.depends_on}'"
+          failing_flags = flags.each_with_object([]) do |(_flag_key, flag), memo|
+            if flag.depends_on.present? && !flags.key?(flag.depends_on)
+              memo << "Flag #{flag.key} depends_on nonexistent flag '#{flag.depends_on}'"
             end
           end
+
+          fail(ArgumentError, failing_flags.join("\n")) if failing_flags.present?
         end
 
         def add_flag(flag_options)

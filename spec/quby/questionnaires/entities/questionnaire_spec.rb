@@ -334,12 +334,28 @@ module Quby::Questionnaires::Entities
         "
         flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit'
         flag key: :test2, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', depends_on: :test_test
-        flag key: :test3, description_true: 'Test flag', description_false: 'Test flag uit', depends_on: :non_existent
+        flag key: :test3, description_true: 'Test flag 3', description_false: 'Test flag 3 uit', depends_on: :nonexistent
+        flag key: :test4, description_true: 'Test flag 4', description_false: 'Test flag 4 uit', depends_on: :nonexistent2
         "
       end
       it 'fails if a flag references a non existing flag key' do
-        expect { questionnaire }.to raise_error(ArgumentError,
-                                                'Flag test_test3 depends_on nonexistent flag \'non_existent\'')
+        errors = <<~ERRORS.strip
+          Flag test_test3 depends_on nonexistent flag 'nonexistent'
+          Flag test_test4 depends_on nonexistent flag 'nonexistent2'
+        ERRORS
+        expect { questionnaire }.to raise_error(ArgumentError, errors)
+      end
+
+      describe 'if depends_on keys are correct' do
+        let(:definition) do
+          "
+          flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit'
+          flag key: :test2, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', depends_on: :test_test
+          "
+        end
+        it 'succeeds' do
+          expect { questionnaire }.to_not raise_error
+        end
       end
     end
 
