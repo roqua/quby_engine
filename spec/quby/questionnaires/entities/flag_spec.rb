@@ -4,7 +4,7 @@ module Quby::Questionnaires::Entities
   describe Flag do
     describe '#to_codebook' do
       let(:flag) do
-        # the flag key is prefixed in lib/quby/questionnaires/entities/questionnaire.rb:232 ,unless internal
+        # the flag key is prefixed in lib/quby/questionnaires/entities/questionnaire.rb:232, unless internal
         described_class.new(key: :questkey_flagkey,
                             internal: false,
                             description_true: 'flag is true',
