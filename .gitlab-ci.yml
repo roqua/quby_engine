@@ -11,6 +11,7 @@ before_script:
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
 
   - bundle-cache
+  - bundle install --gemfile="$BUNDLE_GEMFILE"
   - bundle exec rspec spec
   - bundle exec teaspoon  
 
