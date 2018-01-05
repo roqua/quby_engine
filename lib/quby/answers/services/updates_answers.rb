@@ -5,6 +5,8 @@ module Quby
   module Answers
     module Services
       class UpdatesAnswers
+        class ValidationError < StandardError; end
+
         attr_reader :answer
 
         def initialize(answer)
@@ -31,6 +33,7 @@ module Quby
               Quby.answers.update!(answer)
               succeed!
             else
+              Roqua::Support::Errors.report(ValidationError.new(answer.errors.inspect))
               fail!
             end
           end
