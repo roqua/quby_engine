@@ -11,8 +11,9 @@ before_script:
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
 
   - bundle-cache
-  - bundle exec rspec spec
-  - bundle exec teaspoon  
+  - bundle exec appraisal install
+  - bundle exec appraisal rails50 bundle exec rspec spec
+  - bundle exec appraisal rails50 bundle exec teaspoon  
 
 rails_50_ruby_23:
   image: "roqua/roqua-build-images:ruby-2.3-rails-base-test"
