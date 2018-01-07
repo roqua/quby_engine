@@ -31,6 +31,10 @@ platforms :ruby, :jruby do
   gem 'therubyracer'
 end
 
+group :test do
+  gem 'rails-controller-testing'
+end
+
 group :test, :development do
   gem 'guard-rspec',         '>= 4.2'
   gem 'guard-teaspoon',      '~> 0.8'
@@ -41,7 +45,6 @@ group :test, :development do
   gem 'poltergeist'
   gem 'timecop'
   gem 'fakefs', '0.9.1', require: false
-  gem 'rails-controller-testing'
 
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
   # gem 'guard-bundler',  '~> 2.1.0'
