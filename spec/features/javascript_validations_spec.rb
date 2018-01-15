@@ -100,7 +100,8 @@ feature 'Trying to fill out an invalid answer', js: true do
       click_on 'Klaar'
     end
 
-    find('#item_v1 .error.valid_date').should be_visible
+    expect(find('#item_v1 .error.valid_date').text)
+      .to eql('Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015')
   end
 
   def filling_in(options = {})
