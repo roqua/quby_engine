@@ -88,7 +88,7 @@ feature 'Trying to fill out an invalid answer', js: true do
   scenario 'filling in an invalid date' do
     questionnaire = inject_questionnaire("test", <<-END)
       panel do
-      question :v1, type: :date, required: true, year_key: :v_date_year, month_key: :v_date_month, components: [:month, :year] do
+      question :v1, type: :date, year_key: :v_date_year, month_key: :v_date_month, components: [:month, :year] do
         title "Moet beantwoord worden"
       end; end
     END
