@@ -41,22 +41,39 @@ module Quby::Answers::Services
     end
 
     describe '#initialize' do
+      let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => 1}, timestamp, {gender: :male}, {score1: 2}) }
       it 'stores values passed' do
-        calculator = ScoreCalculator.new(questionnaire, {v_1: 1}, timestamp, {gender: :male}, {score1: 2})
-        calculator.instance_variable_get("@values").should eq({v_1: 1})
+        calculator.instance_variable_get("@values").should eq 'v_1' => 1
         calculator.instance_variable_get('@timestamp').should eq(timestamp)
         calculator.instance_variable_get("@patient").instance_variables
                   .should eq Quby::Answers::Entities::Patient.new(gender: :male).instance_variables
         calculator.instance_variable_get("@scores").should eq({score1: 2}.with_indifferent_access)
+      end
+
+      it 'makes the values hash indifferent' do
+        expect(calculator.instance_variable_get("@values")).to be_a ActiveSupport::HashWithIndifferentAccess
       end
     end
 
     describe '#ensure_answer_values_for' do
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+      let(:values) { {'v_1' => '', 'v_2' => 4, 'v_3' => nil} }
 
       subject { calculator.ensure_answer_values_for(keys) }
       let(:keys) { %w(v_1 v_2) }
+
+      it 'allows access via list of key symbols' do
+        expect { calculator.ensure_answer_values_for(:v_2) }.to_not raise_error
+      end
+
+      it 'allows a access via array of keys' do
+        expect { calculator.ensure_answer_values_for([:v_2]) }.to_not raise_error
+      end
+
+      it 'allow access through key in strings' do
+        expect { calculator.ensure_answer_values_for('v_2') }.to_not raise_error
+      end
 
       describe 'when the answer is nil' do
         let(:values) { {'v_1' => nil, 'v_2' => 4, 'v_3' => nil} }
@@ -110,8 +127,12 @@ module Quby::Answers::Services
         calculator.values(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
       end
 
-      it 'finds values by string' do
-        calculator.values('v_1').should eq [values['v_1']]
+      it 'finds values by strings or symbols' do
+        calculator.values('v_1', :v_2).should eq [values['v_1'], values['v_2']]
+      end
+
+      it 'finds values by array of strings or symbols' do
+        calculator.values([:v_1, 'v_2']).should eq [values['v_1'], values['v_2']]
       end
 
       it 'annotates that the key for a value is referenced in this calculation' do
@@ -154,8 +175,12 @@ module Quby::Answers::Services
         calculator.values_without_missings(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
       end
 
-      it 'finds values by string' do
-        calculator.values_without_missings('v_1').should eq [values['v_1']]
+      it 'finds values by string or symbols' do
+        calculator.values_without_missings('v_1', :v_2).should eq [values['v_1'], values['v_2']]
+      end
+
+      it 'finds values by array of strings or symbols' do
+        calculator.values_without_missings([:v_1, 'v_2']).should eq [values['v_1'], values['v_2']]
       end
 
       it 'annotates that the key for a value is referenced in this calculation' do
@@ -187,8 +212,9 @@ module Quby::Answers::Services
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
 
-      it 'returns the value for the provided argument key' do
+      it 'returns the value by string or symbol' do
         expect(calculator.value(:v_1)).to eq 1
+        expect(calculator.value('v_1')).to eq 1
       end
 
       it 'raises if a value is requested which does not exist' do
@@ -211,8 +237,12 @@ module Quby::Answers::Services
         calculator.values_with_nils(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
       end
 
-      it 'finds values by string' do
-        calculator.values_with_nils('v_1').should eq [values['v_1']]
+      it 'finds values by string or symbol' do
+        calculator.values_with_nils('v_1', :v_2).should eq [values['v_1'], values['v_2']]
+      end
+
+      it 'finds values by array of strings or symbols' do
+        calculator.values_with_nils(['v_1']).should eq [values['v_1']]
       end
 
       it 'annotates that the key for a value is referenced in this calculation' do
@@ -231,7 +261,7 @@ module Quby::Answers::Services
 
       it 'raises if a value is requested more than once' do
         expect do
-          calculator.values_with_nils(:v_1, 'v_1')
+          calculator.values_with_nils('v_1', 'v_1')
         end.to raise_error(/requested more than once/)
       end
 
