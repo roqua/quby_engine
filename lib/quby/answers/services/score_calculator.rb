@@ -235,7 +235,7 @@ module Quby
         # *minimum_present - defaults to all
         # *missing_values - extra values to consider missing.
         def ensure_answer_values_for(*keys, minimum_present: keys.flatten.size, missing_values: [])
-          keys = keys.flatten
+          keys = keys.flatten.map(&:to_s)
           # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
           unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
 

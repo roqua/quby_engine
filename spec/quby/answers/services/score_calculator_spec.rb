@@ -58,10 +58,10 @@ module Quby::Answers::Services
     describe '#ensure_answer_values_for' do
       let(:scores) { {'score1' => 22} }
       let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+      let(:keys) { [:v_1, 'v_2'] }
       let(:values) { {'v_1' => '', 'v_2' => 4, 'v_3' => nil} }
 
       subject { calculator.ensure_answer_values_for(keys) }
-      let(:keys) { %w(v_1 v_2) }
 
       it 'allows access via list of key symbols' do
         expect { calculator.ensure_answer_values_for(:v_2) }.to_not raise_error
@@ -77,7 +77,13 @@ module Quby::Answers::Services
 
       describe 'when the answer is nil' do
         let(:values) { {'v_1' => nil, 'v_2' => 4, 'v_3' => nil} }
-        it { expect { subject }.to raise_error(Quby::Answers::Services::ScoreCalculator::MissingAnswerValues) }
+        it do
+          expect { subject }.to(raise_error(Quby::Answers::Services::ScoreCalculator::MissingAnswerValues) do |error|
+            expect(error.missing).to eq ['v_1'] # should always be strings.
+            expect(error.values).to eq values
+            expect(error.questionnaire_key).to eq 'test'
+          end)
+        end
       end
 
       describe 'when the answer is blank' do
