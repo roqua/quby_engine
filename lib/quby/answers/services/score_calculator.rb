@@ -60,7 +60,7 @@ module Quby
         #
         # Raises MissingAnswerValues if one or more keys doesn't have a value.
         def values(*keys)
-          keys = keys.flatten
+          keys = keys.flatten(1)
           ensure_answer_values_for(keys)
           values_with_nils(keys)
         end
@@ -78,7 +78,7 @@ module Quby
         #
         # Raises MissingAnswerValues when less than minimum_present keys have a value.
         def values_without_missings(*keys, minimum_present: 1, missing_values: [])
-          keys = keys.flatten
+          keys = keys.flatten(1)
           fail ArgumentError, 'keys empty' unless keys.present?
 
           ensure_answer_values_for(keys, minimum_present: minimum_present, missing_values: missing_values)
@@ -108,7 +108,7 @@ module Quby
         # be a String. If the question is not filled in or the question key is
         # unknown, nil will be returned for that question.
         def values_with_nils(*keys)
-          keys = keys.flatten
+          keys = keys.flatten(1)
           ensure_defined_question_keys(keys)
           ensure_no_duplicate_keys(keys)
 
@@ -234,8 +234,8 @@ module Quby
         # *keys - A list of keys to check if an answer is given
         # *minimum_present - defaults to all
         # *missing_values - extra values to consider missing.
-        def ensure_answer_values_for(*keys, minimum_present: keys.flatten.size, missing_values: [])
-          keys = keys.flatten.map(&:to_s)
+        def ensure_answer_values_for(*keys, minimum_present: keys.flatten(1).size, missing_values: [])
+          keys = keys.flatten(1).map(&:to_s)
           # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
           unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
 
