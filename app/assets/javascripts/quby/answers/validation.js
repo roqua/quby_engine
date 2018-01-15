@@ -226,30 +226,29 @@
   }
 
   function dateValuesWithDefaults(inputs) {
-    var valueWithDefault = function(default_date_key, default_value) {
+    var value = function(default_date_key) {
       var val = $.trim(inputs.filter("[data-default-date-key='" + default_date_key + "']").first().val());
-      if (val === undefined || val == "") {
-        return default_value;
+      if(val === undefined || val == "") {
+        return null;
       }
 
-      if (!/^\d+$/.test(val)) {
+      if(!/^\d+$/.test(val)){
         throw "invalidDate";
       }
 
-      var intVal = parseInt(val, 10);
-      if (!intVal && intVal !== 0) {
+      var intVal = parseInt(val);
+      if(!intVal && intVal !== 0) {
         throw "invalidDate";
       }
-
       return intVal;
     };
 
     return {
-      year:   valueWithDefault('yyyy', 2000),
-      month:  valueWithDefault('mm', 1) - 1, // JS months range from 0-11 instead of 1-12
-      day:    valueWithDefault('dd', 1),
-      hour:   valueWithDefault('hh', 0),
-      minute: valueWithDefault('ii', 0)
+      year:   value('yyyy') || 2000,
+      month:  value('mm')   ? value('mm') - 1 : 0,    // JS months range from 0-11 instead of 1-12
+      day:    value('dd')   || 1,
+      hour:   value('hh')   || 0,
+      minute: value('ii')   || 0
     }
   }
 
