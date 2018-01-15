@@ -85,6 +85,24 @@ feature 'Trying to fill out an invalid answer', js: true do
     end
   end
 
+  scenario 'filling in an invalid date' do
+    questionnaire = inject_questionnaire("test", <<-END)
+      panel do
+      question :v1, type: :date, required: true, year_key: :v_date_year, month_key: :v_date_month, components: [:month, :year] do
+        title "Moet beantwoord worden"
+      end; end
+    END
+
+    visit_new_answer_for(questionnaire)
+    within '.panel.current' do
+      fill_in 'answer_v_date_year', with: '0000'
+      fill_in 'answer_v_date_month', with: '00'
+      click_on 'Klaar'
+    end
+
+    find('#item_v1 .error.valid_date').should be_visible
+  end
+
   def filling_in(options = {})
     within ".panel.current" do
       find(options[:within] + " " + options[:should_show], visible: false).should_not be_visible

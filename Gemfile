@@ -31,6 +31,10 @@ platforms :ruby, :jruby do
   gem 'therubyracer'
 end
 
+group :test do
+  gem 'rails-controller-testing'
+end
+
 group :test, :development do
   gem 'guard-rspec',         '>= 4.2'
   gem 'guard-teaspoon',      '~> 0.8'
