@@ -49,10 +49,6 @@ module Quby::Answers::Services
                   .should eq Quby::Answers::Entities::Patient.new(gender: :male).instance_variables
         calculator.instance_variable_get("@scores").should eq({score1: 2}.with_indifferent_access)
       end
-
-      it 'makes the values hash indifferent' do
-        expect(calculator.instance_variable_get("@values")).to be_a ActiveSupport::HashWithIndifferentAccess
-      end
     end
 
     describe '#ensure_answer_values_for' do
@@ -267,7 +263,7 @@ module Quby::Answers::Services
 
       it 'raises if a value is requested more than once' do
         expect do
-          calculator.values_with_nils('v_1', 'v_1')
+          calculator.values_with_nils(:v_1, 'v_1')
         end.to raise_error(/requested more than once/)
       end
 

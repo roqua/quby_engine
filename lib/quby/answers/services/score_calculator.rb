@@ -40,7 +40,7 @@ module Quby
         #          that these scores can be accessed from the current calculation.
         def initialize(questionnaire, values, timestamp, patient_attrs = {}, scores = {})
           @questionnaire = questionnaire
-          @values = values.with_indifferent_access
+          @values = values
           @timestamp = timestamp
           @patient = Entities::Patient.new(patient_attrs)
           @scores = scores.with_indifferent_access
@@ -60,7 +60,7 @@ module Quby
         #
         # Raises MissingAnswerValues if one or more keys doesn't have a value.
         def values(*keys)
-          keys = keys.flatten(1)
+          keys = keys.flatten(1).map(&:to_s)
           ensure_answer_values_for(keys)
           values_with_nils(keys)
         end
@@ -78,7 +78,7 @@ module Quby
         #
         # Raises MissingAnswerValues when less than minimum_present keys have a value.
         def values_without_missings(*keys, minimum_present: 1, missing_values: [])
-          keys = keys.flatten(1)
+          keys = keys.flatten(1).map(&:to_s)
           fail ArgumentError, 'keys empty' unless keys.present?
 
           ensure_answer_values_for(keys, minimum_present: minimum_present, missing_values: missing_values)
@@ -108,7 +108,7 @@ module Quby
         # be a String. If the question is not filled in or the question key is
         # unknown, nil will be returned for that question.
         def values_with_nils(*keys)
-          keys = keys.flatten(1)
+          keys = keys.flatten(1).map(&:to_s)
           ensure_defined_question_keys(keys)
           ensure_no_duplicate_keys(keys)
 
@@ -253,7 +253,7 @@ module Quby
         end
 
         def remember_usage_of_value_keys(keys)
-          @referenced_values += keys.map(&:to_s)
+          @referenced_values += keys
         end
 
         def ensure_defined_question_keys(keys)
