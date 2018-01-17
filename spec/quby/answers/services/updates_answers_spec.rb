@@ -36,7 +36,7 @@ module Quby::Answers::Services
 
         it 'reports the error' do
           expect(Roqua::Support::Errors).to receive(:report).with(
-            Quby::Answers::Services::UpdatesAnswers::ValidationError.new('["an error"]')
+            Quby::ValidationError.new('["an error"]')
           )
           updates_answers.update('v_0' => 'value')
         end
