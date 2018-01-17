@@ -1,10 +1,5 @@
-services:
-  - "roqua/roqua-build-images:percona-5.7-ci-optimized"
-
 variables:
-  DATABASE_URL: "mysql2://root:secret@daandavidsz-percona-ci:3306/roqua_test?pool=5"
-  MYSQL_ROOT_PASSWORD: "secret"
-  SIMPLECOV: "true"
+  SIMPLECOV: 'true'
   RAILS_ENV: 'test'
   TEASPOON_RAILS_ENV: 'settings_this_prevents_teaspoon_from_loading_rails_too_soon'
 
@@ -16,20 +11,16 @@ before_script:
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
 
   - bundle-cache
-  - bundle install --gemfile="$BUNDLE_GEMFILE"
-  - bundle exec rspec spec
-  - bundle exec teaspoon  
+  - bundle exec appraisal install
+  - bundle exec appraisal rails50 bundle exec rspec spec
+  - bundle exec appraisal rails50 bundle exec teaspoon  
 
 rails_50_ruby_23:
-  image: "roqua/roqua-build-images:ruby-2.3.3-phantomjs-2.1.1-bundler-gemnasium"
-  variables:
-    BUNDLE_GEMFILE: 'gemfiles/rails50.gemfile'
+  image: "roqua/roqua-build-images:ruby-2.3-rails-base-test"
   script:
     - echo 'Done!'
 
 rails_50_ruby_24:
-  image: "roqua/roqua-build-images:ruby-2.4.1-phantomjs-2.1.1-bundler-gemnasium"
-  variables:
-    BUNDLE_GEMFILE: 'gemfiles/rails50.gemfile'
+  image: "roqua/roqua-build-images:ruby-2.4-rails-base-test"
   script:
     - echo 'Done!'
