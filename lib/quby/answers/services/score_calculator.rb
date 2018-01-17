@@ -50,7 +50,7 @@ module Quby
 
         # Public: Get values for given question keys
         #
-        # *keys - A list of keys for which to return values
+        # *keys - A list or array of keys for which to return values
         #
         # Returns an Array of values. Values are whatever they may be defined as,
         # usually they are either Integers of Floats, but remember that no such
@@ -58,17 +58,16 @@ module Quby
         # be a String.
         # Returns hash of all values if no keys are given.
         #
-        # Raises MissingAnswerValues when a key doesn't have a value.
+        # Raises MissingAnswerValues if one or more keys doesn't have a value.
         def values(*keys)
-          keys = keys.map(&:to_s)
-
+          keys = keys.flatten(1).map(&:to_s)
           ensure_answer_values_for(keys)
-          values_with_nils(*keys)
+          values_with_nils(keys)
         end
 
         # Public: Get values for given question keys removing any missing keys.
         #
-        # *keys - A list of keys for which to return values - required.
+        # *keys - A list or array of keys for which to return values - required.
         # *minimum_present - see Raises.
         # *missing_values - extra values to consider missing.
         #
@@ -79,11 +78,11 @@ module Quby
         #
         # Raises MissingAnswerValues when less than minimum_present keys have a value.
         def values_without_missings(*keys, minimum_present: 1, missing_values: [])
+          keys = keys.flatten(1).map(&:to_s)
           fail ArgumentError, 'keys empty' unless keys.present?
-          keys = keys.map(&:to_s)
 
           ensure_answer_values_for(keys, minimum_present: minimum_present, missing_values: missing_values)
-          values_with_nils(*keys).reject do |v|
+          values_with_nils(keys).reject do |v|
             missing_value?(v, missing_values: missing_values)
           end
         end
@@ -92,11 +91,11 @@ module Quby
         #
         # key - A key for which to return a value
         #
-        # Returns a value.
+        # Returns the value.
+        #
+        # Raises MissingAnswerValues if the keys doesn't have a value.
         def value(key)
-          key = key.to_s
-          ensure_answer_values_for([key])
-          values_with_nils(key).first
+          values(key).first
         end
 
         # Public: Get values for given question keys, or nil if the question is not filled in
@@ -109,8 +108,7 @@ module Quby
         # be a String. If the question is not filled in or the question key is
         # unknown, nil will be returned for that question.
         def values_with_nils(*keys)
-          keys = keys.map(&:to_s)
-
+          keys = keys.flatten(1).map(&:to_s)
           ensure_defined_question_keys(keys)
           ensure_no_duplicate_keys(keys)
 
@@ -129,7 +127,7 @@ module Quby
         # ignoring - An array of values to remove before taking the mean.
         # minimum_present - return nil if less values than this are left after filtering
         #
-        # Returns the mean of the given values
+        # Returns the mean of the given values or nil if minimum_present is not met.
         def mean(values, ignoring: [], minimum_present: 1)
           compacted_values = values.reject { |v| ignoring.include? v }
           return nil if compacted_values.blank? || compacted_values.length < minimum_present
@@ -187,7 +185,7 @@ module Quby
 
         # Public: Max of values
         #
-        # values - an Array of Numerics
+        # values - an Array or list of Numerics
         #
         # Returns the highest value of the given values
         def max(*values)
@@ -236,7 +234,8 @@ module Quby
         # *keys - A list of keys to check if an answer is given
         # *minimum_present - defaults to all
         # *missing_values - extra values to consider missing.
-        def ensure_answer_values_for(keys, minimum_present: keys.size, missing_values: [])
+        def ensure_answer_values_for(*keys, minimum_present: keys.flatten(1).size, missing_values: [])
+          keys = keys.flatten(1).map(&:to_s)
           # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
           unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
 
