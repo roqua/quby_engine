@@ -44,9 +44,6 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-rails", ">= 2.2.2"
   s.add_dependency "jquery-ui-rails", "~> 3.0.1"
 
-  # For Rails 5
-  # s.add_development_dependency 'rails-controller-testing'
-
   s.add_development_dependency 'combustion',  '~> 0.5.1'
   s.add_development_dependency 'rspec',       '>= 2.14.1'
   s.add_development_dependency 'rspec-core',  '>= 2.14.8'

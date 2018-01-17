@@ -27,7 +27,7 @@ I18n.exception_handler = lambda do |exception, locale, key, options|
 end
 
 require 'rspec/rails'
-require 'rails-controller-testing' if Rails.version >= '5'
+require 'rails-controller-testing'
 
 require 'roqua/support/request_logger'
 require 'capybara/rspec'

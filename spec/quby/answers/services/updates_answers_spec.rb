@@ -29,6 +29,19 @@ module Quby::Answers::Services
         end
       end
 
+      context 'if the answer cannot be updated correctly' do
+        before do
+          expect(answer).to receive(:errors).at_least(:once).and_return(['an error'])
+        end
+
+        it 'reports the error' do
+          expect(Roqua::Support::Errors).to receive(:report).with(
+            Quby::ValidationError.new('["an error"]')
+          )
+          updates_answers.update('v_0' => 'value')
+        end
+      end
+
       it 'validates the answer' do
         answer.should_receive :validate_answers
         updates_answers.update
