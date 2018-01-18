@@ -31,13 +31,14 @@ module Quby::Answers::Services
 
       context 'if the answer cannot be updated correctly' do
         before do
-          expect(answer).to receive(:errors).at_least(:once).and_return(['an error'])
+          answer.send :add_error, double(key: :v_0), :valid_integer, "Oh no, ERROR!"
         end
 
         it 'reports the error' do
-          expect(Roqua::Support::Errors).to receive(:report).with(
-            Quby::ValidationError.new('["an error"]')
-          )
+          expect(Roqua::Support::Errors).to receive(:report) do |error|
+            expect(error).to be_a(Quby::ValidationError)
+            expect(error.message).to eq('["V 0 {:message=>\"Oh no, ERROR!\", :valtype=>:valid_integer}"]')
+          end
           updates_answers.update('v_0' => 'value')
         end
       end

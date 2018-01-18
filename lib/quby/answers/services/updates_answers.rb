@@ -31,7 +31,7 @@ module Quby
               Quby.answers.update!(answer)
               succeed!
             else
-              Roqua::Support::Errors.report(Quby::ValidationError.new(answer.errors.inspect))
+              Roqua::Support::Errors.report(Quby::ValidationError.new(answer.errors.full_messages))
               fail!
             end
           end

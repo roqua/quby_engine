@@ -8,6 +8,7 @@ module Quby
     module Entities
       class Answer
         extend ActiveModel::Naming
+        extend ActiveModel::Translation
         include Virtus.model
 
         attribute :_id, String
