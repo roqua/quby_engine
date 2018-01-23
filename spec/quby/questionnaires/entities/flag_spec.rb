@@ -7,6 +7,7 @@ module Quby::Questionnaires::Entities
         # the flag key is prefixed in lib/quby/questionnaires/entities/questionnaire.rb:232, unless internal
         described_class.new(key: :questkey_flagkey,
                             internal: false,
+                            description: 'test flag',
                             description_true: 'flag is true',
                             description_false: 'flag is false',
                             trigger_on: true,
@@ -16,8 +17,12 @@ module Quby::Questionnaires::Entities
                             default_in_interface: false)
       end
 
+
       it 'exports the flag key' do
         expect(flag.to_codebook).to include('questkey_flagkey')
+      end
+      it 'exports the description' do
+        expect(flag.to_codebook).to include('test flag')
       end
       it 'contains the true_description' do
         expect(flag.to_codebook).to include('flag is true')
