@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 shared_examples 'validations on string questions' do
+  before do
+    allow_server_side_validation_error
+  end
   let(:questionnaire) do
     inject_questionnaire "test", <<-END
       question :v_string, type: :string, required: true do

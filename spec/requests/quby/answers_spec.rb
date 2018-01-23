@@ -29,6 +29,7 @@ module Quby
       it 'does not save invalid answers' do
         honos  = Quby::Questionnaires::DSL.build("honos", "question(:v1, type: :string, required: true)")
         answer = create_answer(honos)
+        allow_server_side_validation_error(always: true)
         put "/quby/questionnaires/honos/answers/#{answer.id}", params: {answer: {v_1: nil}}
 
         response.should render_template('v1/paged')

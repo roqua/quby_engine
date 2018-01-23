@@ -2,6 +2,8 @@ require 'quby/answers/services/filters_answer_value'
 require 'quby/answers/services/outcome_calculation'
 
 module Quby
+  class NoServerSideValidationInTestError < ArgumentError
+  end
   module Answers
     module Services
       class UpdatesAnswers
@@ -31,7 +33,12 @@ module Quby
               Quby.answers.update!(answer)
               succeed!
             else
-              Roqua::Support::Errors.report(Quby::ValidationError.new(answer.errors.full_messages))
+              if Rails.env.test?
+                raise NoServerSideValidationInTestError, "There should be no server side validation failures in test"
+              end
+              if defined? ::Roqua::Support
+                ::Roqua::Support::Errors.report(Quby::ValidationError.new(answer.errors.full_messages))
+              end
               fail!
             end
           end

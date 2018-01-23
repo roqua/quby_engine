@@ -1,12 +1,8 @@
 require 'spec_helper'
 
 feature 'Validation messages' do
+  # NB only tests content of the validation messages, not the actual functioning of the validation
   describe 'validation message rendering' do
-    before do
-      visit_new_answer_for(Quby.questionnaires.find('all_validations'))
-      click_on "Klaar"
-    end
-
     expected_errors = {
       "maximum.number" => 'Uw antwoord moet een getal kleiner dan of gelijk aan 10 zijn.',
       "minimum.number" => 'Uw antwoord moet een getal groter dan of gelijk aan 10 zijn.',
@@ -26,8 +22,9 @@ feature 'Validation messages' do
     }
 
     expected_errors.each do |validation_key, expected_message|
-      scenario validation_key do
-        expect(first(".error.#{validation_key}")).to have_content expected_message
+      scenario validation_key, js: true do
+        visit_new_answer_for(Quby.questionnaires.find('all_validations'))
+        expect(page).to have_css ".error.#{validation_key}", visible: :hidden, text: expected_message
       end
     end
   end

@@ -37,6 +37,9 @@ shared_examples 'group_minmax_answered_tests' do
 end
 
 shared_examples 'group_minmax_answered' do
+  before do
+    allow_server_side_validation_error
+  end
   context 'normal' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END

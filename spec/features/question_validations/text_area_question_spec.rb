@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 shared_examples 'validations on textarea questions' do
+  before do
+    allow_server_side_validation_error
+  end
   let(:questionnaire) do
     inject_questionnaire "test", <<-END
       question :v_textarea, type: :textarea, required: true do

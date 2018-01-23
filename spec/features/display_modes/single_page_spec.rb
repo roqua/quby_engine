@@ -80,7 +80,7 @@ module Quby
       page.should have_css('#item_v6 #answer_v6[disabled=disabled]')
     end
 
-    it 'can skip validation' do
+    it 'can skip validation', js: true do
       visit_new_answer_for(questionnaire, "single_page")
 
       # Show warning first

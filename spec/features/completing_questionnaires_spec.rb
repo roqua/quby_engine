@@ -71,6 +71,7 @@ feature 'Completing a questionnaire' do
     page.should have_selector('#panel0.current')
     click_on "nextButton0"
     page.should have_selector('#panel1.current')
+    allow_server_side_validation_error(always: true)
     click_on "Klaar"
 
     # the validation error is displayed on the page
