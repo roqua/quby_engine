@@ -126,11 +126,11 @@ feature 'Trying to fill out an invalid answer', js: true do
       page.evaluate_script('window.request_canary = true')
 
       click_on "Klaar"
+
+      expect(find("#item_v1 .error.requires_answer")).to be_visible
       # to check if the validations ran clientside, we expect the Klaar button not to have done a request
       # a request would have changed the page and thus undefined the request_canary variable
       expect(page.evaluate_script('window.request_canary')).to eq(true)
-
-      expect(find("#item_v1 .error.requires_answer")).to be_visible
     end
 
     describe 'in paged mode' do
