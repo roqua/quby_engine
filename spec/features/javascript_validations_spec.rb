@@ -110,7 +110,7 @@ feature 'Trying to fill out an invalid answer', js: true do
 
   describe 'clientside validations' do
     let(:questionnaire) do
-      questionnaire = inject_questionnaire("test", <<-END)
+      inject_questionnaire("test", <<-END)
       question :v1, type: :scale, required: true do
         title "Moet beantwoord worden"
         option :a1, value: 1, description: "Ja"

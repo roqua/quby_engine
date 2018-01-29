@@ -1,0 +1,4 @@
+#force-submit.noprint{style: show_force_submit ? 'display: none;' : ''}
+  %h1= translate('questionnaire_not_completed.heading')
+  %p= translate('questionnaire_not_completed.explanation')
+  = submit_tag translate('questionnaire_not_completed.save_anyway'), name: 'save_anyway'
