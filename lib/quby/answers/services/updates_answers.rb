@@ -2,8 +2,6 @@ require 'quby/answers/services/filters_answer_value'
 require 'quby/answers/services/outcome_calculation'
 
 module Quby
-  class NoServerSideValidationInTestError < ArgumentError
-  end
   module Answers
     module Services
       class UpdatesAnswers

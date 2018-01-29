@@ -16,6 +16,7 @@ module Quby
   class TimestampExpiredError < BaseError; end
   class InvalidQuestionnaireDefinitionError < BaseError; end
   class ValidationError < BaseError; end
+  class NoServerSideValidationInTestError < ArgumentError; end
 
   class << self
     # ==================================================================================================================
