@@ -16,3 +16,10 @@ def wait_for(wait_max: 3, step: 0.001, &block)
 
   fail "Timeout of #{wait_max} seconds exceeded!" unless @time < stop_at
 end
+
+def allow_server_side_validation_error(always: false)
+  if always || validation_run_location == :server_side
+    allow_any_instance_of(Quby::Answers::Services::UpdatesAnswers).to \
+      receive(:raise).with(Quby::NoServerSideValidationInTestError, anything)
+  end
+end
