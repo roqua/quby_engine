@@ -288,6 +288,9 @@ shared_examples 'group_maximum_answered_tests' do
 end
 
 shared_examples 'group_maximum_answered' do
+  before do
+    allow_server_side_validation_error
+  end
   context 'maximum number of given answers in a group' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END

@@ -157,6 +157,10 @@ shared_examples 'group_minimum_answered_tests' do
 end
 
 shared_examples 'group_minimum_answered' do
+  before do
+    allow_server_side_validation_error
+  end
+
   context 'minimum number of given answers in a group' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END

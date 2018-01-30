@@ -32,6 +32,7 @@ module Quby::Answers::Services
       context 'if the answer cannot be updated correctly' do
         before do
           answer.send :add_error, double(key: :v_0), :valid_integer, "Oh no, ERROR!"
+          allow_server_side_validation_error(always: true)
         end
 
         it 'reports the error' do

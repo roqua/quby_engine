@@ -8,14 +8,9 @@
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
 = form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "single-page"].join(" "), :autocomplete => "off" do
-  = render :partial => "quby/v1/session_params"
-  - unless @answer.errors.empty?
-    .force-submit.noprint
-      %h1= translate('questionnaire_not_completed.heading')
-      %p= translate('questionnaire_not_completed.explanation')
-      = submit_tag translate('questionnaire_not_completed.save_anyway'), name: 'save_anyway'
-
-  = render :partial => "quby/v1/hotkey_dialog"
+  = render partial: "quby/v1/session_params"
+  = render partial: "quby/v1/shared/force_submit", locals: {show_force_submit: @answer.errors.empty?}
+  = render partial: "quby/v1/hotkey_dialog"
   - previous_item = nil
 
   - @questionnaire.panels.each_with_index do |panel, panel_counter|

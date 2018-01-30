@@ -31,7 +31,12 @@ module Quby
               Quby.answers.update!(answer)
               succeed!
             else
-              Roqua::Support::Errors.report(Quby::ValidationError.new(answer.errors.full_messages))
+              if Rails.env.test?
+                raise NoServerSideValidationInTestError, "There should be no server side validation failures in test"
+              end
+              if defined? ::Roqua::Support
+                ::Roqua::Support::Errors.report(Quby::ValidationError.new(answer.errors.full_messages))
+              end
               fail!
             end
           end

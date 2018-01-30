@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 shared_examples 'validations on date questions' do
+  before do
+    allow_server_side_validation_error
+  end
   context 'requires_answer validation' do
     let(:questionnaire) do
       inject_questionnaire "test", <<-END

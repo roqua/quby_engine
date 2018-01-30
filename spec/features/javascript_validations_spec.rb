@@ -108,6 +108,51 @@ feature 'Trying to fill out an invalid answer', js: true do
       .to eql('Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015')
   end
 
+  describe 'clientside validations' do
+    let(:questionnaire) do
+      inject_questionnaire("test", <<-END)
+      question :v1, type: :scale, required: true do
+        title "Moet beantwoord worden"
+        option :a1, value: 1, description: "Ja"
+        option :a2, value: 2, description: "Nee"
+      end
+      END
+    end
+
+    subject do
+      visit_new_answer_for(questionnaire, mode)
+      expect(find("#item_v1 .error.requires_answer", visible: false)).to_not be_visible
+
+      page.evaluate_script('window.request_canary = true')
+
+      click_on "Klaar"
+
+      expect(find("#item_v1 .error.requires_answer")).to be_visible
+      # to check if the validations ran clientside, we expect the Klaar button not to have done a request
+      # a request would have changed the page and thus undefined the request_canary variable
+      expect(page.evaluate_script('window.request_canary')).to eq(true)
+    end
+
+    describe 'in paged mode' do
+      let(:mode) { 'paged' }
+      scenario 'runs clientside on the last panel', js: true do
+        subject
+      end
+    end
+    describe 'in single_page mode' do
+      let(:mode) { 'single_page' }
+      scenario 'runs clientside on the last panel', js: true do
+        subject
+      end
+    end
+    describe 'in bulk mode' do
+      let(:mode) { 'bulk' }
+      scenario 'runs clientside on the last panel', js: true do
+        subject
+      end
+    end
+  end
+
   def filling_in(options = {})
     within ".panel.current" do
       find(options[:within] + " " + options[:should_show], visible: false).should_not be_visible
@@ -116,7 +161,6 @@ feature 'Trying to fill out an invalid answer', js: true do
       find(options[:within] + " " + options[:should_show]).should be_visible
     end
   end
-
 end
 
 feature 'question with a depends_on', js: true do
