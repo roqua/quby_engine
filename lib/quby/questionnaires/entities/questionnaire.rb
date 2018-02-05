@@ -44,6 +44,7 @@ module Quby
           @respondent_types = []
           @tags = OpenStruct.new
           @check_key_clashes = true
+          @score_schemas = {}.with_indifferent_access
         end
 
         attr_accessor :key
@@ -77,6 +78,8 @@ module Quby
 
         attr_accessor :flags
         attr_accessor :textvars
+
+        attr_accessor :score_schemas
 
         delegate :question_hash, :input_keys, :answer_keys, :expand_input_keys, to: :fields
 

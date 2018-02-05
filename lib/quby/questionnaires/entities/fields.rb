@@ -76,6 +76,32 @@ module Quby
             end
           end
         end
+
+        def description_for_variable(key)
+          # for questionnaires where we do not check_key_clashes we cannot reliably retrace the variable keys,
+          # since they contain conflicts between option keys and question keys
+          # in order to be safe we return a string explaining the issue
+          option = option_hash[key]
+          question = question_hash[key]
+          return "No description due to question/option key clash" if option.present? && question.present?
+
+          variable_descriptions[key]
+        end
+
+        private
+
+        # warning, will contain a result even if option/answer key clashes exist for a given key
+        def variable_descriptions
+          @variable_descriptions ||= @questionnaire.questions
+                                                   .map(&:variable_descriptions)
+                                                   .reduce(&:merge)
+                                                   .with_indifferent_access
+
+          # merged_score_labels = @questionnaire.scores.reduce({}) do |score_labels, score|
+          #   score_labels.merge score.short_key_labels
+          # end
+          # @variable_descriptions.merge merged_score_labels
+        end
       end
     end
   end

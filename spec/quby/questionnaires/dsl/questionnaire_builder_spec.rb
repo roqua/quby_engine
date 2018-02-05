@@ -368,6 +368,26 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#score_schema' do
+      let(:subschema_options) { {key: :value, export_key: :tot, label: 'Score'} }
+      let(:schema_options) { {key: :totaal, label: 'Totaal', sub_score_schemas: [subschema_options]} }
+      let(:set_dsl) do
+        options = schema_options
+        dsl do
+          score :totaal do
+            {value: 100}
+          end
+
+          score_schema options
+        end
+      end
+
+      it 'sets a score schema for a specific score' do
+        set_dsl
+        expect(questionnaire.score_schemas[:totaal]).to be_valid
+      end
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end

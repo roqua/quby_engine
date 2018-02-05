@@ -159,6 +159,14 @@ module Quby
           variable(key, options.reverse_merge(score: true), &block)
         end
 
+        def score_schema(options)
+          schema = Entities::ScoreSchema.new(options)
+          schema.valid?
+          @questionnaire.errors.add(:score_schemas, schema.errors)
+          # raise ArgumentError, schema.errors.full_messages.inspect unless schema.valid?
+          @questionnaire.score_schemas[options[:key]] = schema
+        end
+
         def attention(options = {}, &block)
           variable(:attention, options.reverse_merge(action: true), &block)
         end
