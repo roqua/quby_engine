@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'active_model_modules/validates_attribute'
 require 'virtus'
 require 'rails-i18n'
 require 'quby/settings'
