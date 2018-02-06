@@ -43,7 +43,7 @@ module Quby::Questionnaires::Entities
       it 'sets helpful error messages' do
         subject.validate
         expect(subject.errors.full_messages).to \
-          eq(["Sub score schemas Label moet opgegeven zijn, Export key moet opgegeven zijn"])
+          eq(["Sub score schemas element #0 Label moet opgegeven zijn, Export key moet opgegeven zijn"])
       end
     end
   end
