@@ -53,12 +53,10 @@ module Quby
         end
 
         def convert_raw_params_to_hash(raw_params)
-          if raw_params.is_a? Hash
-            raw_params
-          elsif raw_params.respond_to?(:to_unsafe_h)
+          if raw_params.respond_to?(:to_unsafe_h)
             raw_params.to_unsafe_h
           else
-            raw_params.to_hash
+            raw_params
           end
         end
 

@@ -53,7 +53,12 @@ module Quby
         protected
 
         def save_raw_params_on_error(new_attributes)
-          answer.raw_params = new_attributes
+          if new_attributes.respond_to?(:to_unsafe_h)
+            answer.raw_params = new_attributes.to_unsafe_h
+          else
+            answer.raw_params = new_attributes
+          end
+
           backup_answer = answer.clone
 
           yield
