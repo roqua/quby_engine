@@ -12,7 +12,7 @@ module Quby::TableBackend
 
     def self.disk_table_root
       fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
-      Quby.lookup_table_path
+      Pathname.new(Quby.lookup_table_path)
     end
 
     def self.validate_jailed_path(path)

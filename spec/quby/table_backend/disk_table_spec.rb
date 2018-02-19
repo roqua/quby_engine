@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Quby::TableBackend::DiskTable do
   let(:table) { described_class.new('test_table') }
-  let(:fixture_root) { Rails.root.join('..', 'fixtures', 'lookup_tables') }
+  let(:fixture_root) { Rails.root.join('..', 'fixtures', 'lookup_tables').to_s }
   before do
-    allow(described_class).to receive(:disk_table_root).and_return(fixture_root)
+    allow(Quby).to receive(:lookup_table_path).and_return(fixture_root)
   end
 
   describe '#initialize' do
-    let(:expected_path) { Pathname.new fixture_root.join('test_table') }
+    let(:expected_path) { Pathname.new(fixture_root).join('test_table') }
 
     it 'calls dimensions_from_children on the given key\'s directory path inside disk_table_root' do
       expect_any_instance_of(described_class).to receive(:dimensions_from_children).with(expected_path)
@@ -23,17 +23,17 @@ describe Quby::TableBackend::DiskTable do
 
   describe '#dimensions_from_children' do
     it 'transforms files into dimensions' do
-      leaf_dir_path = fixture_root.join('test_table', 'age_0_10', 'gender_')
+      leaf_dir_path = Pathname.new(fixture_root).join('test_table', 'age_0_10', 'gender_')
       dimensions = table.dimensions_from_children(leaf_dir_path)
       expect(dimensions.length).to eq(2)
     end
     it 'transforms directories into dimensions' do
-      dir_path = fixture_root.join('test_table')
+      dir_path = Pathname.new(fixture_root).join('test_table')
       dimensions = table.dimensions_from_children(dir_path)
       expect(dimensions.length).to eq(1)
     end
     it 'raises if the path contains both directories and files' do
-      dir_path = fixture_root.join('mix_file_directory')
+      dir_path = Pathname.new(fixture_root).join('mix_file_directory')
       expected_message = 'disk_table path contains directories and files mixed together'
       expect { table.dimensions_from_children(dir_path) }.to raise_exception(expected_message)
     end
@@ -42,7 +42,7 @@ describe Quby::TableBackend::DiskTable do
   describe '#dimensions_from_directories' do
     it 'transforms directories into dimensions' do
       table_dimension_class = Quby::TableBackend::TableDimension
-      dir_children = fixture_root.join('test_table', 'age_11_infinity').children.sort
+      dir_children = Pathname.new(fixture_root).join('test_table', 'age_11_infinity').children.sort
       f_score_dimension = table_dimension_class.new('score_tscore',
                                                     {(10.0...12.0) => 33.0,
                                                      (12.0...Float::INFINITY) => 35.0})
@@ -59,7 +59,7 @@ describe Quby::TableBackend::DiskTable do
 
   describe '#dimensions_from_files' do
     it 'returns [TableDimensions] with data from the given csv files' do
-      fixture_files = fixture_root.join('test_table', 'age_0_10', 'gender_').children.sort
+      fixture_files = Pathname.new(fixture_root).join('test_table', 'age_0_10', 'gender_').children.sort
       dims = table.dimensions_from_files(fixture_files)
       expect(dims.length).to eq(2)
       expect(dims.first.name).to eq('score_tscore')
@@ -73,7 +73,7 @@ describe Quby::TableBackend::DiskTable do
     end
 
     it 'raises a helpful message if there are blank entries in a csv file' do
-      fixture_files = fixture_root.join('failure_table').children.sort
+      fixture_files = Pathname.new(fixture_root).join('failure_table').children.sort
       expected_exception = /blank entry in .*failure_table\/score_with_blanks.csv row 2/
       expect { table.dimensions_from_files(fixture_files) }.to raise_exception(expected_exception)
     end
@@ -92,9 +92,9 @@ describe Quby::TableBackend::DiskTable do
       RSpec::Mocks.proxy_for(described_class).reset # remove the allow to_receive(:disk_table_root) just for this test
     end
 
-    it 'calls Quby.lookup_table_path' do
+    it 'calls Quby.lookup_table_path and transforms it to a pathname' do
       expect(Quby).to receive(:lookup_table_path).at_least(:once).and_return 'toot'
-      expect(described_class.disk_table_root).to eq('toot')
+      expect(described_class.disk_table_root).to eq(Pathname.new('toot'))
     end
 
     it 'raises if Quby.lookup_table_path is blank' do
