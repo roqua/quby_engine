@@ -386,6 +386,16 @@ module Quby::Questionnaires::DSL
         set_dsl
         expect(questionnaire.score_schemas[:totaal]).to be_valid
       end
+
+      describe 'when the score schema has errors' do
+        let(:subschema_options) { {} } # misses attributes
+        it 'passes on errors from the score schema onto the questionnaire' do
+          set_dsl
+          expected = ["Score schema 'totaal' sub_score_schemas element #0 Key moet opgegeven zijn, \
+Label moet opgegeven zijn, Export key moet opgegeven zijn"]
+          expect(questionnaire.errors.full_messages).to eq(expected)
+        end
+      end
     end
 
     def dsl(&block)

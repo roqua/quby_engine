@@ -162,8 +162,9 @@ module Quby
         def score_schema(options)
           schema = Entities::ScoreSchema.new(options)
           schema.valid?
-          @questionnaire.errors.add(:score_schemas, schema.errors)
-          # raise ArgumentError, schema.errors.full_messages.inspect unless schema.valid?
+          schema.errors.each do |attribute, message|
+            @questionnaire.errors.add("Score schema '#{options[:key]}'", "#{attribute} #{message}")
+          end
           @questionnaire.score_schemas[options[:key]] = schema
         end
 
