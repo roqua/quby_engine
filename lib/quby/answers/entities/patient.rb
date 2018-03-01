@@ -12,6 +12,9 @@ module Quby
           @birthyear = attributes[:birthyear]
         end
 
+        # returns the age at the given timestamp, as an integer
+        # NB: if you make this a float, this breaks various questionnaire score calculations that do the following:
+        # `if (8..12).cover?(age) ... elsif (13..15).cover?(age)` etc.
         def age_at(timestamp)
           return nil unless @birthyear and timestamp
           ((timestamp - Time.gm(@birthyear, 1, 1)) / 1.year).floor
