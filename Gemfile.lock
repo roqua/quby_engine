@@ -75,9 +75,6 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
-    bson (1.12.5)
-    bson_ext (1.12.5)
-      bson (~> 1.12.5)
     builder (3.2.3)
     capybara (2.11.0)
       addressable
@@ -376,7 +373,6 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal (= 2.1.0)
-  bson_ext
   capybara (>= 2.8.1)
   capybara-screenshot (~> 0.3.14)
   codeclimate-test-reporter (= 0.6.0)

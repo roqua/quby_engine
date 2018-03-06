@@ -7,7 +7,6 @@ source 'http://rubygems.org'
 gemspec
 
 gem 'appraisal', '2.1.0'
-gem 'bson_ext'
 
 # Optional dependency on RoQua Support gem.
 gem 'roqua-support'
