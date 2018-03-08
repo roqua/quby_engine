@@ -495,21 +495,21 @@ module Quby::Questionnaires::Services
       it 'does not accept shows_questions arrays with unknown keys' do
         make_definition(<<-END).valid?.should be_falsey
           title "Test"
-          flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
+          flag key: 'a', description: 'a flag', shows_questions: [:v_22]
         END
       end
 
       it 'does not accept hides_questions arrays with unknown keys' do
         make_definition(<<-END).valid?.should be_falsey
           title "Test"
-          flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
+          flag key: 'a', description: 'a flag', hides_questions: [:v_22]
         END
       end
 
       it 'accepts shows_questions arrays with known keys' do
         make_definition(<<-END).valid?.should be_truthy
           title "Test"
-          flag key: 'a', description_true: '', description_false: '', shows_questions: [:v_22]
+          flag key: 'a', description: 'a flag', shows_questions: [:v_22]
           question :v_22, type: :string do
             title 'Question'
           end
@@ -519,7 +519,7 @@ module Quby::Questionnaires::Services
       it 'accepts hides_questions arrays with known keys' do
         make_definition(<<-END).valid?.should be_truthy
           title "Test"
-          flag key: 'a', description_true: '', description_false: '', hides_questions: [:v_22]
+          flag key: 'a', description: 'a flag', hides_questions: [:v_22]
           question :v_22, type: :string do
             title 'Question'
           end

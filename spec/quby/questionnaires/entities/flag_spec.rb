@@ -17,7 +17,6 @@ module Quby::Questionnaires::Entities
                             default_in_interface: false)
       end
 
-
       it 'exports the flag key' do
         expect(flag.to_codebook).to include('questkey_flagkey')
       end
@@ -32,6 +31,13 @@ module Quby::Questionnaires::Entities
       end
       it 'contains the general blank description' do
         expect(flag.to_codebook).to include('\'\' (leeg) - Vlag niet ingesteld, informatie onbekend')
+      end
+      it 'requires either both description_true and false or a description' do
+        error = "Flag 'test' Requires at least either both description_true and description_false or a description"
+        expect { described_class.new(key: :test) }.to raise_exception(error)
+        expect { described_class.new(key: :test, description_true: 'test true') }.to raise_exception(error)
+        expect { described_class.new(key: :test, description_false: 'test false') }.to raise_exception(error)
+        expect { described_class.new(key: :test, description: 'test') }.to_not raise_exception
       end
     end
   end

@@ -5,8 +5,8 @@ module Quby
                               :shows_questions, :hides_questions, :depends_on, :default_in_interface)
         # rubocop:disable ParameterLists
         def initialize(key:,
-                       description_true:,
-                       description_false:,
+                       description_true: nil,
+                       description_false: nil,
                        description: nil,
                        internal: false,
                        trigger_on: true,
@@ -17,6 +17,7 @@ module Quby
                                                   # does not have an effect outside of the interface
           super(key, description_true, description_false, description, internal, trigger_on, shows_questions,
                 hides_questions, depends_on, default_in_interface)
+          ensure_valid_descriptions
         end
         # rubocop:enable ParameterLists
 
@@ -33,6 +34,14 @@ module Quby
           output << " '' (leeg) - Vlag niet ingesteld, informatie onbekend"
           output << ""
           output.join("\n")
+        end
+
+        private
+
+        def ensure_valid_descriptions
+          unless (description_false.present? && description_true.present?) || description.present?
+            raise "Flag '#{key}' Requires at least either both description_true and description_false or a description"
+          end
         end
       end
     end
