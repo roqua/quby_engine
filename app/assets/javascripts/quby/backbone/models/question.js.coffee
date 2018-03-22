@@ -32,8 +32,12 @@ class Quby.Models.Question extends Backbone.Model
         views.push new Quby.Views.QuestionView(model: questionModel, el: element)
 
   isVisible: ->
-    _.every @get("views"), (view) ->
-      view.isVisible()
+    visibleViews = _.map(@get("views"), (view) -> view.isVisible())
+
+    every = _.every(visibleViews, (visible) -> visible)
+    some = _.some(visibleViews, (visible) -> visible)
+
+    every && some
 
   #we cant do this purely with event handlers on the options because we also need to call unhide on
   #the last clicked option and there is no js event for unchecking radio/select options
