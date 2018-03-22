@@ -370,15 +370,14 @@ module Quby::Questionnaires::DSL
 
     describe '#score_schema' do
       let(:subschema_options) { {key: :value, export_key: :tot, label: 'Score'} }
-      let(:schema_options) { {key: :totaal, label: 'Totaal', sub_score_schemas: [subschema_options]} }
       let(:set_dsl) do
-        options = schema_options
+        options = [subschema_options]
         dsl do
           score :totaal do
             {value: 100}
           end
 
-          score_schema options
+          score_schema :totaal, 'Totaal', options
         end
       end
 

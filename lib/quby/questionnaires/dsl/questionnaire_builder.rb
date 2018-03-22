@@ -159,13 +159,13 @@ module Quby
           variable(key, options.reverse_merge(score: true), &block)
         end
 
-        def score_schema(options)
-          schema = Entities::ScoreSchema.new(options)
+        def score_schema(key, label, options)
+          schema = Entities::ScoreSchema.new(key: key, label: label, sub_score_schemas: options)
           schema.valid?
           schema.errors.each do |attribute, message|
-            @questionnaire.errors.add("Score schema '#{options[:key]}'", "#{attribute} #{message}")
+            @questionnaire.errors.add("Score schema '#{key}'", "#{attribute} #{message}")
           end
-          @questionnaire.score_schemas[options[:key]] = schema
+          @questionnaire.score_schemas[key] = schema
         end
 
         def attention(options = {}, &block)

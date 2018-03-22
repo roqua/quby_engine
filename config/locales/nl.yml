@@ -45,3 +45,8 @@ nl:
   YYYY: JJJJ
   hh: uu
   mm: mm
+  day: dag
+  month: maand
+  year: jaar
+  hour: uur
+  minute: minuut
