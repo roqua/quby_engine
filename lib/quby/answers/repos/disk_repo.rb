@@ -38,7 +38,7 @@ module Quby
         def load_file(filename)
           File.open(filename, 'r') do |file|
             record = YAML.load(file.read)
-            record.created_at = File.ctime(filename)
+            record.created_at = File.birthtime(filename)
             record
           end
         end
