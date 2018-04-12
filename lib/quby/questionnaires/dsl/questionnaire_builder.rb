@@ -156,6 +156,7 @@ module Quby
         end
 
         def score(key, options = {}, &block)
+          @questionnaire.errors.add "Score #{key}", 'misses label in score call' if options[:label].blank?
           schema = options.delete(:schema)
           @questionnaire.add_score_schema(key, options[:label], schema) if schema.present?
           variable(key, options.reverse_merge(score: true), &block)

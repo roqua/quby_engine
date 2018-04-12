@@ -368,12 +368,24 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#score' do
+      it 'requires scores to have a label' do
+        dsl do
+          score :totaal do
+            {value: 100}
+          end
+        end
+
+        expect(questionnaire.errors.full_messages).to eq(["Score totaal misses label in score call"])
+      end
+    end
+
     describe '#score_schema' do
       let(:subschema_options) { [{key: :value, export_key: :tot, label: 'Score'}] }
       let(:set_dsl) do
         options = subschema_options
         dsl do
-          score :totaal do
+          score :totaal, label: 'totaal' do
             {value: 100}
           end
 

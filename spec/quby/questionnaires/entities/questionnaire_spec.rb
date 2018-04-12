@@ -443,9 +443,9 @@ Label moet opgegeven zijn, Export key moet opgegeven zijn"]
         Quby::Questionnaires::DSL.build("test") do
           question :v_1, type: :date, title: 'vraag'
 
-          score(:key) { {value: 'oh no'} }
+          score(:key, label: 'score') { {value: 'oh no'} }
           score(:key2, label: 'score2', schema: [{key: :value, label: 'Score', export_key: :key2}]) { {value: 'oh'} }
-          score(:key3) { {value: 'oh no'} }
+          score(:key3, label: 'score3') { {value: 'oh no'} }
         end
       end
 
