@@ -11,7 +11,8 @@ module Quby
                       # the shortened key that will used as the field/column name for csv and oru exports,
                       # excludes the questionnaire key part
                       :export_key,
-                      # whether this score will only be exported through oru/api/data exports, but not shown in interfaces
+                      # whether this score will only be exported through oru/api/data exports,
+                      # but not shown in interfaces
                       :only_for_export
         validates :key, :label, :export_key, presence: true
       end

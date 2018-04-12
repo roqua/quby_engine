@@ -369,9 +369,9 @@ module Quby::Questionnaires::DSL
     end
 
     describe '#score_schema' do
-      let(:subschema_options) { {key: :value, export_key: :tot, label: 'Score'} }
+      let(:subschema_options) { [{key: :value, export_key: :tot, label: 'Score'}] }
       let(:set_dsl) do
-        options = [subschema_options]
+        options = subschema_options
         dsl do
           score :totaal do
             {value: 100}
@@ -381,19 +381,9 @@ module Quby::Questionnaires::DSL
         end
       end
 
-      it 'sets a score schema for a specific score' do
+      it 'calls #add_score_schema with the given arguments' do
+        expect(questionnaire).to receive(:add_score_schema).with :totaal, 'Totaal', subschema_options
         set_dsl
-        expect(questionnaire.score_schemas[:totaal]).to be_valid
-      end
-
-      describe 'when the score schema has errors' do
-        let(:subschema_options) { {} } # misses attributes
-        it 'passes on errors from the score schema onto the questionnaire' do
-          set_dsl
-          expected = ["Score schema 'totaal' sub_score_schemas element #0 Key moet opgegeven zijn, \
-Label moet opgegeven zijn, Export key moet opgegeven zijn"]
-          expect(questionnaire.errors.full_messages).to eq(expected)
-        end
       end
     end
 

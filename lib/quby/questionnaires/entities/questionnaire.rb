@@ -119,6 +119,14 @@ module Quby
             q.run_callbacks :after_dsl_enhance
           end
           validate_flag_depends_on
+          ensure_scores_have_schemas
+        end
+
+        def ensure_scores_have_schemas
+          missing_schemas = scores.map(&:key).map(&:to_s) - score_schemas.keys
+          missing_schemas.each do |key|
+            errors.add "Score #{key}", 'is missing a score schema'
+          end
         end
 
         def validate_questions
@@ -213,6 +221,15 @@ module Quby
             fail InputKeyAlreadyDefined, "Score key `#{builder.key}` already defined."
           end
           score_calculations[builder.key] = builder
+        end
+
+        def add_score_schema(key, label, options)
+          schema = Entities::ScoreSchema.new(key: key, label: label, sub_score_schemas: options)
+          schema.valid?
+          schema.errors.each do |attribute, message|
+            errors.add("Score schema '#{key}'", "#{attribute} #{message}")
+          end
+          score_schemas[key] = schema
         end
 
         def scores
