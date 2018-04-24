@@ -33,7 +33,7 @@ module Quby
           @charts = Charting::Charts.new
           @fields = Fields.new(self)
           @license = :unknown
-          @renderer_version = :v1
+          @renderer_version = :v2
           @extra_css = ""
           @panels = []
           @flags = {}.with_indifferent_access
