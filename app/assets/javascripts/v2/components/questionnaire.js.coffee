@@ -3,11 +3,14 @@ class @Questionnaire extends React.Component
 
   constructor: (props) ->
     super props
-
-    @handleAnswerChange = @handleAnswerChange.bind(@)
-
     @state =
       answers: @initialAnswerHash()
+      activePanelIdx: 0
+
+    @handleAnswerChange = @handleAnswerChange.bind(@)
+    @handleNextPanel = @handleNextPanel.bind(@)
+    @handlePrevPanel = @handlePrevPanel.bind(@)
+
 
   initialAnswerHash: ->
     _.chain(@props.questionnaire.panels)
@@ -21,24 +24,94 @@ class @Questionnaire extends React.Component
 
   handleAnswerChange: (ev) ->
     answers = @state.answers
-    answers[ev.target.name] = parseInt(ev.target.value)
+    answerValue = parseInt(ev.target.value)
+
+    if answers[ev.target.name] == answerValue then answerValue = null
+    answers[ev.target.name] = answerValue
+
     @setState
       answers: answers
 
+  handleNextPanel: (ev) ->
+    @setState
+      activePanelIdx: @state.activePanelIdx + 1
+
+  handlePrevPanel: (ev) ->
+    @setState
+      activePanelIdx: @state.activePanelIdx - 1
+
   render: ->
-    panels = _.map @props.questionnaire.panels, (panel, panelIdx) =>
-      React.createElement "fieldset", key: "panel#{panelIdx}", className: "panel",
-        React.createElement "h1", {}, panel.title
-        _.map panel.items, (item, itemIdx) =>
-          switch item.class
-            when "Quby::Questionnaires::Entities::Text" then @renderText item, panelIdx, itemIdx
-            when "Quby::Questionnaires::Entities::Questions::RadioQuestion" then @renderRadioQuestion item, panelIdx, itemIdx
-            else @renderText item, panelIdx, itemIdx
-
-
-    React.createElement "form",
+    React.createElement "div",
       className: @props.display_mode,
-      panels
+      _.map @props.questionnaire.panels, (panel, panelIdx) =>
+          @renderPanel panel, panelIdx
+
+  renderPanel: (panel, panelIdx) ->
+    panelClasses = ["panel"]
+    if panelIdx == 0 then panelClasses.push "first"
+    if panelIdx == @props.questionnaire.panels.length - 1 then panelClasses.push "last-panel"
+    if panelIdx != @state.activePanelIdx then panelClasses.push "hidden"
+
+    React.createElement "fieldset",
+      key: "panel#{panelIdx}",
+      className: panelClasses.join(" "),
+      id: "panel#{panelIdx}",
+      React.createElement "h1", {}, panel.title
+      _.map panel.items, (item, itemIdx) =>
+        switch item.class
+          when "Quby::Questionnaires::Entities::Text" then @renderText item, panelIdx, itemIdx
+          when "Quby::Questionnaires::Entities::Questions::RadioQuestion" then @renderRadioQuestion item, panelIdx, itemIdx
+          else @renderText item, panelIdx, itemIdx
+      @renderProgressBar panelIdx, @props.questionnaire.panels.length
+      @renderProgressButtons panelIdx, @props.questionnaire.panels.length
+
+  renderProgressBar: (panelIdx, panelCount) ->
+    sliderClasses = ["progress-slider"]
+    if panelCount > 25 then sliderClasses.push "long-list"
+
+    React.createElement "div",
+      className: "progress-bar",
+      React.createElement "div",
+        className: "progress-wrapper",
+        React.createElement "div",
+          className: sliderClasses.join(" "),
+          @renderProgressSteps panelIdx, panelCount
+        React.createElement "div",
+          className: "progress-details",
+          "Stap #{panelIdx + 1} van #{panelCount}"
+
+  renderProgressSteps: (panelIdx, panelCount) ->
+    _.map _.range(1, panelCount + 1), (idx) =>
+      stepClasses = ["progress-stop", "step-#{idx}"]
+      if idx <= panelIdx + 1 then stepClasses.push "active"
+      if idx == 1 then stepClasses.push "first-child"
+      if idx == panelCount then stepClasses.push "last-child"
+      if idx == panelIdx + 1 then stepClasses.push "current"
+
+      React.createElement "span",
+        key: idx,
+        className: stepClasses.join(" "),
+        idx
+
+  renderProgressButtons: (panelIdx, panelCount) ->
+    React.createElement "div",
+      className: "buttons",
+      if panelIdx == 0
+        if false # @props.questionnaire.enable_previous_questionnaire_button
+          React.createElement "div", className: "back",
+            React.createElement "button", {}, "← Vorige vragenlijst"
+      else
+        React.createElement "div", className: "prev",
+          React.createElement "button", onClick: @handlePrevPanel, "← Terug"
+      React.createElement "div", className: "abort",
+        if @props.questionnaire.abortable
+          React.createElement "button", {}, "Stoppen"
+      if panelIdx < panelCount - 1
+        React.createElement "div", className: "next",
+          React.createElement "button", onClick: @handleNextPanel, "Verder →"
+      else
+        React.createElement "div", className: "save",
+          React.createElement "button", {}, "Klaar"
 
   renderText: (item, panelIdx, itemIdx) ->
     React.createElement "div",
@@ -96,7 +169,7 @@ class @Questionnaire extends React.Component
                     id: option.view_id,
                     className: "scale #{deselectableClass}",
                     checked: answerGiven == option.value,
-                    onChange: @handleAnswerChange
+                    onClick: @handleAnswerChange
                   React.createElement "label",
                     htmlFor: option.view_id,
                     React.createElement "span", {},
@@ -122,7 +195,7 @@ class @Questionnaire extends React.Component
               id: option.view_id,
               className: "radio #{deselectableClass}",
               checked: answerGiven == option.value,
-              onChange: @handleAnswerChange
+              onClick: @handleAnswerChange
           React.createElement "div",
             className: "labelwrapper",
             React.createElement "label",
