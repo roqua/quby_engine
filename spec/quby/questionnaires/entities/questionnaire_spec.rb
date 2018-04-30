@@ -272,7 +272,8 @@ module Quby::Questionnaires::Entities
                 title 'vraag'
               end
             end
-          end.to raise_exception(ArgumentError, 'Flag \'nonexistent\' is not defined')
+          end.to raise_exception(ArgumentError,
+                                 'Textvar \'test_probleem_1\' depends on nonexistent flag \'nonexistent\'')
         end
       end
     end
