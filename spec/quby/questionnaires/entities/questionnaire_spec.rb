@@ -231,7 +231,7 @@ module Quby::Questionnaires::Entities
           questionnaire = Quby::Questionnaires::DSL.build("test") do
             title 'My Test'
 
-            textvar key: 'probleem_1', description: 'probleem 1', default: ''
+            textvar key: :probleem_1, description: 'probleem 1', default: ''
 
             question :v_1, type: :string do
               title 'vraag'
@@ -239,6 +239,41 @@ module Quby::Questionnaires::Entities
           end
 
           questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"vraag\"\n\ntest_probleem_1 Textvariabele\nprobleem 1\n")
+        end
+      end
+
+      describe 'with textvar that depends on a flag' do
+        it 'will have a depends_on_flag attribute', focus: true do
+          questionnaire = Quby::Questionnaires::DSL.build("test") do
+            title 'My Test'
+
+            flag key: :testflag, description_true: 'Test', description_false: 'Test uit', shows_questions: [:v_1]
+            textvar key: :probleem_1, description: 'probleem 1', default: '', depends_on_flag: :test_testflag
+
+            question :v_1, type: :string do
+              title 'vraag'
+            end
+          end
+
+          expect(questionnaire.textvars[:test_probleem_1].depends_on_flag).to eq(:test_testflag)
+        end
+      end
+
+      describe 'with textvar that depends on a nonexistent flag' do
+        it 'will raise on creation' do
+          expect do
+            Quby::Questionnaires::DSL.build("test") do
+              title 'My Test'
+
+              flag key: :testflag, description_true: 'Test', description_false: 'Test uit', shows_questions: [:v_1]
+              textvar key: :probleem_1, description: 'probleem 1', default: '', depends_on_flag: :nonexistent
+
+              question :v_1, type: :string do
+                title 'vraag'
+              end
+            end
+          end.to raise_exception(ArgumentError,
+                                 'Textvar \'test_probleem_1\' depends on nonexistent flag \'nonexistent\'')
         end
       end
     end

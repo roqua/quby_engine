@@ -260,7 +260,8 @@ module Quby
         def add_textvar(textvar_options)
           textvar_key = "#{key}_#{textvar_options.fetch(:key)}".to_sym
           textvar_options[:key] = textvar_key
-          fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
+          validate_textvar_keys_unique(textvar_key)
+          validate_depends_on_flag(textvar_key, textvar_options)
           textvars[textvar_key] = Textvar.new(textvar_options)
         end
 
@@ -360,6 +361,19 @@ module Quby
               end rescue nil
             end
           end
+        end
+
+        private
+
+        def validate_depends_on_flag(textvar_key, textvar_options)
+          if textvar_options[:depends_on_flag].present? && !flags.key?(textvar_options[:depends_on_flag])
+            fail(ArgumentError,
+                 "Textvar '#{textvar_key}' depends on nonexistent flag '#{textvar_options[:depends_on_flag]}'")
+          end
+        end
+
+        def validate_textvar_keys_unique(textvar_key)
+          fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
         end
       end
     end

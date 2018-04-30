@@ -1,11 +1,11 @@
 module Quby
   module Questionnaires
     module Entities
-      class Textvar < Struct.new(:key, :description, :default)
+      class Textvar < Struct.new(:key, :description, :default, :depends_on_flag)
         # rubocop:disable ParameterLists
-        def initialize(key:, description:, default: nil)
+        def initialize(key:, description:, default: nil, depends_on_flag: nil)
           default = "{{#{key}}}" unless default
-          super(key, description, default)
+          super(key, description, default, depends_on_flag)
         end
         # rubocop:enable ParameterLists
 
