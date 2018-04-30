@@ -261,6 +261,9 @@ module Quby
           textvar_key = "#{key}_#{textvar_options.fetch(:key)}".to_sym
           textvar_options[:key] = textvar_key
           fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
+          if textvar_options[:depends_on_flag].present? && !flags.key?(textvar_options[:depends_on_flag])
+            fail(ArgumentError, "Flag '#{textvar_options[:depends_on_flag]}' is not defined")
+          end
           textvars[textvar_key] = Textvar.new(textvar_options)
         end
 
