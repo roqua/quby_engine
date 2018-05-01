@@ -1,5 +1,7 @@
 question_entity_classes = [
-  "Quby::Questionnaires::Entities::Questions::RadioQuestion"
+  "Quby::Questionnaires::Entities::Questions::RadioQuestion",
+  "Quby::Questionnaires::Entities::Questions::FloatQuestion",
+  "Quby::Questionnaires::Entities::Questions::IntegerQuestion"
 ]
 
 class @Questionnaire extends React.Component
@@ -14,6 +16,7 @@ class @Questionnaire extends React.Component
     @handleAnswerChange = @handleAnswerChange.bind(@)
     @handleNextPanel = @handleNextPanel.bind(@)
     @handlePrevPanel = @handlePrevPanel.bind(@)
+    @handleFinish = @handleFinish.bind(@)
 
 
   initialAnswerHash: ->
@@ -23,7 +26,7 @@ class @Questionnaire extends React.Component
      .map (item) -> item.key ? null
      .compact()
      .map (key) -> [key, {value: null, error: false, errorMessages: {}}]
-     .object()
+     .fromPairs()
      .value()
 
   handleAnswerChange: (ev) ->
@@ -37,8 +40,8 @@ class @Questionnaire extends React.Component
       answers: answers
 
   handleNextPanel: (ev) ->
-    @validatePanel(@state.activePanelIdx)
-    return
+    errors = @validatePanel(@state.activePanelIdx)
+    return if errors
     @setState
       activePanelIdx: @state.activePanelIdx + 1
 
@@ -46,10 +49,14 @@ class @Questionnaire extends React.Component
     @setState
       activePanelIdx: @state.activePanelIdx - 1
 
+  handleFinish: (ev) ->
+    # TODO Validate all panels and save results
+
   validatePanel: (panelIdx) ->
     questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.class in question_entity_classes
     answers = _.map questions, (question) => [question.key, @validateAnswer(question)]
-    @setState answers: _.object(answers)
+    @setState answers: _.merge(@state.answers, _.fromPairs(answers))
+    _.some _.fromPairs(answers), (answer, key) => answer.error
 
   validateAnswer: (question) ->
     answer = @state.answers[question.key]
@@ -79,6 +86,8 @@ class @Questionnaire extends React.Component
         switch item.class
           when "Quby::Questionnaires::Entities::Text" then @renderText item, panelIdx, itemIdx
           when "Quby::Questionnaires::Entities::Questions::RadioQuestion" then @renderRadioQuestion item, panelIdx, itemIdx
+          when "Quby::Questionnaires::Entities::Questions::FloatQuestion" then @renderFloatQuestion item, panelIdx, itemIdx
+          when "Quby::Questionnaires::Entities::Questions::IntegerQuestion" then @renderIntegerQuestion item, panelIdx, itemIdx
           else @renderText item, panelIdx, itemIdx
       @renderProgressBar panelIdx, @props.questionnaire.panels.length
       @renderProgressButtons panelIdx, @props.questionnaire.panels.length
@@ -129,7 +138,7 @@ class @Questionnaire extends React.Component
           React.createElement "button", onClick: @handleNextPanel, "Verder →"
       else
         React.createElement "div", className: "save",
-          React.createElement "button", {}, "Klaar"
+          React.createElement "button", onClick: @handleFinish, "Klaar"
 
   renderText: (item, panelIdx, itemIdx) ->
     React.createElement "div",
@@ -241,3 +250,99 @@ class @Questionnaire extends React.Component
               htmlFor: option.view_id,
               React.createElement "span", {},
                 React.createElement "p", {}, option.description
+
+  renderFloatQuestion: (item, panelIdx, itemIdx) ->
+    answer = @state.answers[item.key]
+    console.log "renderFloatQuestion", item, answer
+    errorDiv = if answer.error
+      errorClass =
+        _.chain(answer.errorMessages)
+         .keys()
+         .join " "
+         .value()
+      errorMessages =
+        _.chain(answer.errorMessages)
+         .values()
+         .join " "
+         .value()
+      React.createElement "div",
+        className: "error #{errorClass}",
+        errorMessages
+    else
+      React.createElement "div", className: "hidden", ""
+
+    errorClass = if answer.error then "errors" else ""
+    React.createElement "div",
+      key: "item#{panelIdx}-#{itemIdx}",
+      className: "item #{item.type} vertical #{errorClass}",
+      errorDiv,
+      React.createElement "div",
+        className: "main",
+        React.createElement "label",
+          dangerouslySetInnerHTML:
+            __html: item.title
+      React.createElement "div",
+        className: "description-and-fields",
+        React.createElement "div",
+          className: "description",
+          item.description
+        React.createElement "div",
+          className: "fields",
+          React.createElement "input",
+            className: "float",
+            size: 3,
+            autoComplete: "off",
+            type: "text",
+            name: item.key,
+            value: answer.value or ""
+          React.createElement "span",
+            className: "unit",
+            item.unit
+
+  renderIntegerQuestion: (item, panelIdx, itemIdx) ->
+    answer = @state.answers[item.key]
+    console.log "renderIntegerQuestion", item, answer
+    errorDiv = if answer.error
+      errorClass =
+        _.chain(answer.errorMessages)
+         .keys()
+         .join " "
+         .value()
+      errorMessages =
+        _.chain(answer.errorMessages)
+         .values()
+         .join " "
+         .value()
+      React.createElement "div",
+        className: "error #{errorClass}",
+        errorMessages
+    else
+      React.createElement "div", className: "hidden", ""
+
+    errorClass = if answer.error then "errors" else ""
+    React.createElement "div",
+      key: "item#{panelIdx}-#{itemIdx}",
+      className: "item #{item.type} vertical #{errorClass}",
+      errorDiv,
+      React.createElement "div",
+        className: "main",
+        React.createElement "label",
+          dangerouslySetInnerHTML:
+            __html: item.title
+      React.createElement "div",
+        className: "description-and-fields",
+        React.createElement "div",
+          className: "description",
+          item.description
+        React.createElement "div",
+          className: "fields",
+          React.createElement "input",
+            className: "integer",
+            size: 3,
+            autoComplete: "off",
+            type: "text",
+            name: item.key,
+            value: answer.value or ""
+          React.createElement "span",
+            className: "unit",
+            item.unit

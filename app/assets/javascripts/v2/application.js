@@ -1,7 +1,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require underscore
+//= require lodash.min
 
 //= require react.development
 //= require react-dom.development
