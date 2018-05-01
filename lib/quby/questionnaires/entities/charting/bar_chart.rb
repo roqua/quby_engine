@@ -5,6 +5,7 @@ module Quby
     module Entities
       module Charting
         class BarChart < Chart
+          attribute :plotlines,                 Array
         end
       end
     end
