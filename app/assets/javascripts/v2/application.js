@@ -6,6 +6,7 @@
 //= require react.development
 //= require react-dom.development
 
+// =require_tree ./validations
 // =require_tree ./components
 //
 //= require_self

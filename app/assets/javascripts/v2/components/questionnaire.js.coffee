@@ -1,3 +1,7 @@
+question_entity_classes = [
+  "Quby::Questionnaires::Entities::Questions::RadioQuestion"
+]
+
 class @Questionnaire extends React.Component
   displayName: "Questionnaire"
 
@@ -18,7 +22,7 @@ class @Questionnaire extends React.Component
      .flatten()
      .map (item) -> item.key ? null
      .compact()
-     .map (key) -> [key, null]
+     .map (key) -> [key, {value: null, error: false, errorMessages: {}}]
      .object()
      .value()
 
@@ -26,19 +30,33 @@ class @Questionnaire extends React.Component
     answers = @state.answers
     answerValue = parseInt(ev.target.value)
 
-    if answers[ev.target.name] == answerValue then answerValue = null
-    answers[ev.target.name] = answerValue
+    if answers[ev.target.name].value == answerValue then answerValue = null
+    answers[ev.target.name] = {value: answerValue, error: false, errorMessages: {}}
 
     @setState
       answers: answers
 
   handleNextPanel: (ev) ->
+    @validatePanel(@state.activePanelIdx)
+    return
     @setState
       activePanelIdx: @state.activePanelIdx + 1
 
   handlePrevPanel: (ev) ->
     @setState
       activePanelIdx: @state.activePanelIdx - 1
+
+  validatePanel: (panelIdx) ->
+    questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.class in question_entity_classes
+    answers = _.map questions, (question) => [question.key, @validateAnswer(question)]
+    @setState answers: _.object(answers)
+
+  validateAnswer: (question) ->
+    answer = @state.answers[question.key]
+    _.each question.validations, (validation) =>
+      answer = Validator.get(validation.type).validate(answer)
+      console.log question.key, answer
+    answer
 
   render: ->
     React.createElement "div",
@@ -128,9 +146,30 @@ class @Questionnaire extends React.Component
       when "radio" then @renderRadioRadioQuestion.bind(@)
       else @renderRadioRadioQuestion.bind(@)
 
+    answer = @state.answers[item.key]
+    console.log "renderRadioQuestion", answer
+    errorDiv = if answer.error
+      errorClass =
+        _.chain(answer.errorMessages)
+         .keys()
+         .join " "
+         .value()
+      errorMessages =
+        _.chain(answer.errorMessages)
+         .values()
+         .join " "
+         .value()
+      React.createElement "div",
+        className: "error #{errorClass}",
+        errorMessages
+    else
+      React.createElement "div", className: "hidden", ""
+
+    errorClass = if answer.error then "errors" else ""
     React.createElement "div",
       key: "item#{panelIdx}-#{itemIdx}",
-      className: "item #{item.type} horizontal",
+      className: "item #{item.type} horizontal #{errorClass}",
+      errorDiv,
       React.createElement "div",
         className: "main",
         React.createElement "label",
@@ -147,7 +186,7 @@ class @Questionnaire extends React.Component
   renderRadioScaleQuestion: (item) ->
     optionWidth = "optionwidth#{item.options.length}"
     deselectableClass = if item.deselectable then "deselectable" else ""
-    answerGiven = @state.answers[item.key]
+    answerGiven = @state.answers[item.key].value
 
     React.createElement "div",
       className: "fields",
@@ -177,7 +216,7 @@ class @Questionnaire extends React.Component
 
   renderRadioRadioQuestion: (item) ->
     deselectableClass = if item.deselectable then "deselectable" else ""
-    answerGiven = @state.answers[item.key]
+    answerGiven = @state.answers[item.key].value
 
     React.createElement "div",
       className: "fields",
