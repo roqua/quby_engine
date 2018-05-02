@@ -23,9 +23,9 @@ class @Questionnaire extends React.Component
     _.chain(@props.questionnaire.panels)
      .map (panel) -> panel.items
      .flatten()
-     .map (item) -> item.key ? null
+     .map (item) -> [item.key, not item.default_invisible] ? null
      .compact()
-     .map (key) -> [key, {value: null, error: false, errorMessages: {}}]
+     .map ([key, visible]) -> [key, {value: null, visible: visible, error: false, errorMessages: {}}]
      .fromPairs()
      .value()
 
@@ -34,7 +34,7 @@ class @Questionnaire extends React.Component
     answerValue = parseInt(ev.target.value)
 
     if answers[ev.target.name].value == answerValue then answerValue = null
-    answers[ev.target.name] = {value: answerValue, error: false, errorMessages: {}}
+    answers[ev.target.name] = {value: answerValue, visible: true, error: false, errorMessages: {}}
 
     @setState
       answers: answers
@@ -44,6 +44,7 @@ class @Questionnaire extends React.Component
     return if errors
     @setState
       activePanelIdx: @state.activePanelIdx + 1
+      () -> window.scrollTo(0, 0)
 
   handlePrevPanel: (ev) ->
     @setState
@@ -61,7 +62,7 @@ class @Questionnaire extends React.Component
   validateAnswer: (question) ->
     answer = @state.answers[question.key]
     _.each question.validations, (validation) =>
-      answer = Validator.get(validation.type).validate(answer)
+      answer = Validator.get(validation).validate(answer)
       console.log question.key, answer
     answer
 
@@ -175,9 +176,11 @@ class @Questionnaire extends React.Component
       React.createElement "div", className: "hidden", ""
 
     errorClass = if answer.error then "errors" else ""
+    hiddenClass = if not answer.visible then "hidden" else ""
+
     React.createElement "div",
       key: "item#{panelIdx}-#{itemIdx}",
-      className: "item #{item.type} horizontal #{errorClass}",
+      className: "item #{item.type} horizontal #{errorClass} #{hiddenClass}",
       errorDiv,
       React.createElement "div",
         className: "main",
@@ -205,10 +208,17 @@ class @Questionnaire extends React.Component
         React.createElement "tbody", {},
           React.createElement "tr", {},
             _.map item.options, (option, optionIdx) =>
+              valueSpan = if item.showValues in ["all", @props.display_mode]
+                [
+                  React.createElement "span", className: "value", option.value
+                  React.createElement "br", {}
+                ]
+
               React.createElement "td",
                 key: option.view_id,
                 className: "option #{optionWidth}",
                 htmlFor: item.key,
+                valueSpan,
                 React.createElement "span", {},
                   React.createElement "input",
                     type: "radio",
@@ -272,9 +282,11 @@ class @Questionnaire extends React.Component
       React.createElement "div", className: "hidden", ""
 
     errorClass = if answer.error then "errors" else ""
+    hiddenClass = if not answer.visible then "hidden" else ""
+
     React.createElement "div",
       key: "item#{panelIdx}-#{itemIdx}",
-      className: "item #{item.type} vertical #{errorClass}",
+      className: "item #{item.type} vertical #{errorClass} #{hiddenClass}",
       errorDiv,
       React.createElement "div",
         className: "main",
@@ -294,7 +306,8 @@ class @Questionnaire extends React.Component
             autoComplete: "off",
             type: "text",
             name: item.key,
-            value: answer.value or ""
+            value: answer.value or "",
+            onCange: @handleAnswerChange
           React.createElement "span",
             className: "unit",
             item.unit
@@ -320,9 +333,11 @@ class @Questionnaire extends React.Component
       React.createElement "div", className: "hidden", ""
 
     errorClass = if answer.error then "errors" else ""
+    hiddenClass = if not answer.visible then "hidden" else ""
+
     React.createElement "div",
       key: "item#{panelIdx}-#{itemIdx}",
-      className: "item #{item.type} vertical #{errorClass}",
+      className: "item #{item.type} vertical #{errorClass} #{hiddenClass}",
       errorDiv,
       React.createElement "div",
         className: "main",
@@ -342,7 +357,8 @@ class @Questionnaire extends React.Component
             autoComplete: "off",
             type: "text",
             name: item.key,
-            value: answer.value or ""
+            value: answer.value or "",
+            onChange: @handleAnswerChange
           React.createElement "span",
             className: "unit",
             item.unit
