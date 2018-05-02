@@ -23,21 +23,74 @@ class @Questionnaire extends React.Component
     _.chain(@props.questionnaire.panels)
      .map (panel) -> panel.items
      .flatten()
+     .filter (item) -> item.key # Only questions have a key?
      .map (item) -> [item.key, not item.default_invisible] ? null
      .compact()
      .map ([key, visible]) -> [key, {value: null, visible: visible, error: false, errorMessages: {}}]
      .fromPairs()
      .value()
 
+  question: (key) ->
+    _.chain(@props.questionnaire.panels)
+     .map (panel) -> panel.items
+     .flatten()
+     .find (item) -> item.key == key
+     .value()
+
   handleAnswerChange: (ev) ->
-    answers = @state.answers
+    console.log(ev.target)
+    key = ev.target.name
+    answers = _.clone @state.answers
+    previousAnswer = @state.answers*
+    question = @question(key)
+
+    # TODO: what about strings? :)
     answerValue = parseInt(ev.target.value)
 
-    if answers[ev.target.name].value == answerValue then answerValue = null
-    answers[ev.target.name] = {value: answerValue, visible: true, error: false, errorMessages: {}}
+    console.log "handleAnswerChange", key, answerValue, question
+
+    # deselectable
+    if question.deselectable and answers[key].value == answerValue then answerValue = null
+
+    # hide and show
+    if question.options
+      hideKeys = @dependentQuestionKeys(question)
+      console.log(hideKeys)
+      _.map hideKeys, (questionKey) -> answers[questionKey].visible = false
+
+      if answerValue != null
+        _.chain(question.options)
+         .find (option) -> option.value == answerValue
+         .get "shows_questions"
+         .tap console.log
+         .map (questionKey) ->
+            answers[questionKey].visible = true
+            questionKey
+         # .map (questionKey) =>
+         #    if answers[questionKey].value
+         #      q = @question(questionKey)
+         .value()
+
+
+
+    answers[key].value = answerValue
 
     @setState
       answers: answers
+
+  dependentQuestionKeys: (question, result = []) ->
+    if question.options
+      _.chain(question.options)
+       .map (option) -> option.shows_questions
+       .flatten()
+       .uniq()
+       .reduce (acc, questionKey) =>
+          q = @question(questionKey)
+          @dependentQuestionKeys(q, _.concat(acc, questionKey))
+       , result
+       .value()
+    else
+      _.uniq(result)
 
   handleNextPanel: (ev) ->
     errors = @validatePanel(@state.activePanelIdx)
@@ -54,7 +107,8 @@ class @Questionnaire extends React.Component
     # TODO Validate all panels and save results
 
   validatePanel: (panelIdx) ->
-    questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.class in question_entity_classes
+    # questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.class in question_entity_classes
+    questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.key
     answers = _.map questions, (question) => [question.key, @validateAnswer(question)]
     @setState answers: _.merge(@state.answers, _.fromPairs(answers))
     _.some _.fromPairs(answers), (answer, key) => answer.error
@@ -63,7 +117,7 @@ class @Questionnaire extends React.Component
     answer = @state.answers[question.key]
     _.each question.validations, (validation) =>
       answer = Validator.get(validation).validate(answer)
-      console.log question.key, answer
+      # console.log question.key, answer
     answer
 
   render: ->
@@ -89,9 +143,14 @@ class @Questionnaire extends React.Component
           when "Quby::Questionnaires::Entities::Questions::RadioQuestion" then @renderRadioQuestion item, panelIdx, itemIdx
           when "Quby::Questionnaires::Entities::Questions::FloatQuestion" then @renderFloatQuestion item, panelIdx, itemIdx
           when "Quby::Questionnaires::Entities::Questions::IntegerQuestion" then @renderIntegerQuestion item, panelIdx, itemIdx
-          else @renderText item, panelIdx, itemIdx
+          else @renderNotImplemented item, panelIdx, itemIdx
       @renderProgressBar panelIdx, @props.questionnaire.panels.length
       @renderProgressButtons panelIdx, @props.questionnaire.panels.length
+
+  renderNotImplemented: (item, panelIdx, itemIdx) ->
+    React.createElement "div",
+      className: "item text",
+      "Not yet implemented: #{item.class}"
 
   renderProgressBar: (panelIdx, panelCount) ->
     sliderClasses = ["progress-slider"]
@@ -157,7 +216,7 @@ class @Questionnaire extends React.Component
       else @renderRadioRadioQuestion.bind(@)
 
     answer = @state.answers[item.key]
-    console.log "renderRadioQuestion", answer
+    # console.log "renderRadioQuestion", answer
     errorDiv = if answer.error
       errorClass =
         _.chain(answer.errorMessages)
@@ -263,7 +322,7 @@ class @Questionnaire extends React.Component
 
   renderFloatQuestion: (item, panelIdx, itemIdx) ->
     answer = @state.answers[item.key]
-    console.log "renderFloatQuestion", item, answer
+    # console.log "renderFloatQuestion", item, answer
     errorDiv = if answer.error
       errorClass =
         _.chain(answer.errorMessages)
@@ -314,7 +373,7 @@ class @Questionnaire extends React.Component
 
   renderIntegerQuestion: (item, panelIdx, itemIdx) ->
     answer = @state.answers[item.key]
-    console.log "renderIntegerQuestion", item, answer
+    # console.log "renderIntegerQuestion", item, answer
     errorDiv = if answer.error
       errorClass =
         _.chain(answer.errorMessages)
