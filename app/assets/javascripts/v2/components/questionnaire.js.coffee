@@ -41,7 +41,6 @@ class @Questionnaire extends React.Component
     console.log(ev.target)
     key = ev.target.name
     answers = _.clone @state.answers
-    previousAnswer = @state.answers*
     question = @question(key)
 
     # TODO: what about strings? :)
@@ -54,29 +53,46 @@ class @Questionnaire extends React.Component
 
     # hide and show
     if question.options
-      hideKeys = @dependentQuestionKeys(question)
-      console.log(hideKeys)
+      hideKeys = @dependentQuestionKeys question
+      console.log hideKeys
       _.map hideKeys, (questionKey) -> answers[questionKey].visible = false
 
       if answerValue != null
         _.chain(question.options)
          .find (option) -> option.value == answerValue
          .get "shows_questions"
-         .tap console.log
          .map (questionKey) ->
             answers[questionKey].visible = true
             questionKey
-         # .map (questionKey) =>
-         #    if answers[questionKey].value
-         #      q = @question(questionKey)
+         .map (questionKey) =>
+            q = @question(questionKey)
+            @questionsToShow(q)
+         .flattenDeep()
+         .map (questionKey) =>
+            answers[questionKey].visible = true
          .value()
 
-
-
+    # update current answer
     answers[key].value = answerValue
+    answers[key].error = false
+    answers[key].errorMessages = {}
 
     @setState
       answers: answers
+
+  questionsToShow: (question, result = []) ->
+    answer = @state.answers[question.key]
+    if answer.value != null
+      _.chain(question.options)
+       .find (option) -> option.value == answer.value
+       .get "shows_questions"
+       .reduce (acc, questionKey) =>
+          q = @question(questionKey)
+          @questionsToShow(q, _.concat(acc, questionKey))
+       , result
+       .value()
+    else
+      _.uniq(result)
 
   dependentQuestionKeys: (question, result = []) ->
     if question.options
@@ -107,7 +123,6 @@ class @Questionnaire extends React.Component
     # TODO Validate all panels and save results
 
   validatePanel: (panelIdx) ->
-    # questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.class in question_entity_classes
     questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.key
     answers = _.map questions, (question) => [question.key, @validateAnswer(question)]
     @setState answers: _.merge(@state.answers, _.fromPairs(answers))
@@ -115,9 +130,9 @@ class @Questionnaire extends React.Component
 
   validateAnswer: (question) ->
     answer = @state.answers[question.key]
-    _.each question.validations, (validation) =>
-      answer = Validator.get(validation).validate(answer)
-      # console.log question.key, answer
+    if answer.visible # only validate visible answers
+      _.each question.validations, (validation) =>
+        answer = Validator.get(validation).validate(answer)
     answer
 
   render: ->
@@ -366,7 +381,7 @@ class @Questionnaire extends React.Component
             type: "text",
             name: item.key,
             value: answer.value or "",
-            onCange: @handleAnswerChange
+            onChange: @handleAnswerChange
           React.createElement "span",
             className: "unit",
             item.unit
