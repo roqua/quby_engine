@@ -1,3 +1,4 @@
+# ScoreSchema instances describe score definitions.
 module Quby
   module Questionnaires
     module Entities
@@ -5,7 +6,13 @@ module Quby
         include ActiveModel::Model
         include ValidatesAttribute
 
-        attr_accessor :key, :label, :sub_score_schemas
+        # The key of the corresponding score
+        attr_accessor :key
+        # A label describing the general purpose of the score
+        attr_accessor :label
+        # An array of SubScoreSchemas describing each key that can be returned in the result hash of a score
+        attr_accessor :sub_score_schemas
+
         validates :key, :label, :sub_score_schemas, presence: true
         validates_array_attribute :sub_score_schemas
 
