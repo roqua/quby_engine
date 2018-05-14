@@ -2,48 +2,45 @@ module ValidatesAttribute
   extend ActiveSupport::Concern
 
   included do
-    @attribute_names = nil
-    @array_attribute_names = nil
+    mattr_accessor :validates_attribute_scalars, :validates_attribute_arrays do
+      []
+    end
 
-    validate :attribute_validations
+    validate :validate_attributes_validator
   end
 
   class_methods do
-    attr_reader :attribute_names, :array_attribute_names
-
-    def validates_attribute(*attribute_names)
-      @attribute_names = attribute_names
+    def validates_attribute(*names)
+      self.validates_attribute_scalars += names
     end
 
-    def validates_array_attribute(*attribute_names)
-      @array_attribute_names = attribute_names
-    end
-  end
-
-  def attribute_validations
-    self.class.attribute_names&.each do |attribute_name|
-      add_errors_for(send(attribute_name), attribute_name)
-    end
-
-    self.class.array_attribute_names&.each do |attribute_name|
-      attribute = send(attribute_name)
-      if attribute.present?
-        attribute.each.with_index do |element, index|
-          add_errors_for(element, "#{attribute_name} element ##{index}")
-        end
-      end
+    def validates_array_attribute(*names)
+      self.validates_attribute_arrays += names
     end
   end
 
   private
 
-  def add_errors_for(object, attribute_name)
-    if object.present?
-      if object.respond_to?(:valid?)
-        errors.add(attribute_name, object.errors.full_messages.join(', ')) unless object.valid?
-      else
-        errors.add(attribute_name, 'does not respond_to valid?')
+  def validate_attributes_validator
+    validates_attribute_scalars.each do |attribute_name|
+      add_validates_attribute_errors_for(send(attribute_name), attribute_name)
+    end
+
+    validates_attribute_arrays.each do |attribute_name|
+      attribute = send(attribute_name)
+      next if attribute.blank?
+      attribute.each.with_index do |element, index|
+        add_validates_attribute_errors_for(element, "#{attribute_name} element ##{index}")
       end
+    end
+  end
+
+  def add_validates_attribute_errors_for(object, attribute_name)
+    return if object.blank?
+    if object.respond_to?(:valid?)
+      errors.add(attribute_name, object.errors.full_messages.join(', ')) unless object.valid?
+    else
+      errors.add(attribute_name, 'does not respond_to valid?')
     end
   end
 end

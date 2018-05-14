@@ -10,14 +10,15 @@ describe ValidatesAttribute do
   let(:invalid_model) { Invalid.new }
 
   describe '#validates_attribute' do
-    let(:test_class) do
-      class TestValidatesAttributeClass
-        include ActiveModel::Model
-        include ValidatesAttribute
+    class TestValidatesAttributeClass
+      include ActiveModel::Model
+      include ValidatesAttribute
 
-        attr_accessor :test1, :test2
-        validates_attribute :test1, :test2
-      end
+      attr_accessor :test1, :test2
+      validates_attribute :test1, :test2
+    end
+
+    let(:test_class) do
       TestValidatesAttributeClass
     end
 
@@ -45,14 +46,15 @@ describe ValidatesAttribute do
   end
 
   describe '#validates_array_attribute' do
-    let(:test_class) do
-      class TestValidatesAttributeArrayClass
-        include ActiveModel::Model
-        include ValidatesAttribute
+    class TestValidatesAttributeArrayClass
+      include ActiveModel::Model
+      include ValidatesAttribute
 
-        attr_accessor :test1
-        validates_array_attribute :test1
-      end
+      attr_accessor :test1
+      validates_array_attribute :test1
+    end
+
+    let(:test_class) do
       TestValidatesAttributeArrayClass
     end
 
