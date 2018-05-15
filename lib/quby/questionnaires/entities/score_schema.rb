@@ -1,10 +1,12 @@
 # ScoreSchema instances describe score definitions.
+
+require 'active_model_modules/array_attribute_valid_validator'
+
 module Quby
   module Questionnaires
     module Entities
       class ScoreSchema
         include ActiveModel::Model
-        include ValidatesAttribute
 
         # The key of the corresponding score
         attr_accessor :key
@@ -14,7 +16,7 @@ module Quby
         attr_accessor :sub_score_schemas
 
         validates :key, :label, :sub_score_schemas, presence: true
-        validates_array_attribute :sub_score_schemas
+        validates :sub_score_schemas, array_attribute_valid: true
 
         def initialize(attributes)
           super(attributes)

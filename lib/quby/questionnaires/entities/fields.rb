@@ -94,7 +94,7 @@ module Quby
           @variable_descriptions = @questionnaire.questions
                                                  .map(&:variable_descriptions)
                                                  .reduce(&:merge)
-                                                 .with_indifferent_access
+                                                 &.with_indifferent_access || {}
 
           @variable_descriptions.merge! score_descriptions
           @variable_descriptions.merge! flag_descriptions
