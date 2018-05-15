@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-require 'active_model_modules/attribute_valid_validator'
-
 describe AttributeValidValidator do
   class self::Invalid
     include ActiveModel::Model

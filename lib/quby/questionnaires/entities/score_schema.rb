@@ -1,7 +1,5 @@
 # ScoreSchema instances describe score definitions.
 
-require 'active_model_modules/array_attribute_valid_validator'
-
 module Quby
   module Questionnaires
     module Entities
