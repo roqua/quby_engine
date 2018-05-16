@@ -2,6 +2,7 @@
 
 :javascript
   var component = React.createFactory(Questionnaire)
+  var answerUrl = "#{questionnaire_answer_path(@questionnaire, @answer)}"
 
   ReactDOM.render(
     React.createElement(component, #{assigns.to_json.html_safe}),

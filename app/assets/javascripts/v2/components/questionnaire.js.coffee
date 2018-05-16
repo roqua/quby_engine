@@ -4,6 +4,13 @@ question_entity_classes = [
   "Quby::Questionnaires::Entities::Questions::IntegerQuestion"
 ]
 
+castAnswerValue = (question, answerValue) ->
+  value = switch question.type
+    when "radio", "scale", "integer" then parseInt(answerValue)
+    when "float" then parseFloat(answerValue)
+    else answerValue.trim()
+  if value is NaN then null else value
+
 class @Questionnaire extends React.Component
   displayName: "Questionnaire"
 
@@ -43,9 +50,7 @@ class @Questionnaire extends React.Component
     answers = _.clone @state.answers
     question = @question(key)
 
-    # TODO: what about strings? :)
-    answerValue = parseInt(ev.target.value)
-
+    answerValue = castAnswerValue(question, ev.target.value)
     console.log "handleAnswerChange", key, answerValue, question
 
     # deselectable
@@ -284,8 +289,8 @@ class @Questionnaire extends React.Component
             _.map item.options, (option, optionIdx) =>
               valueSpan = if item.showValues in ["all", @props.display_mode]
                 [
-                  React.createElement "span", className: "value", option.value
-                  React.createElement "br", {}
+                  React.createElement "span", key: "value", className: "value", option.value
+                  React.createElement "br", key: "br"
                 ]
 
               React.createElement "td",
@@ -305,7 +310,9 @@ class @Questionnaire extends React.Component
                   React.createElement "label",
                     htmlFor: option.view_id,
                     React.createElement "span", {},
-                      React.createElement "p", {}, option.description
+                      React.createElement "p",
+                        dangerouslySetInnerHTML:
+                          __html: option.description
 
   renderRadioRadioQuestion: (item) ->
     deselectableClass = if item.deselectable then "deselectable" else ""
@@ -333,7 +340,9 @@ class @Questionnaire extends React.Component
             React.createElement "label",
               htmlFor: option.view_id,
               React.createElement "span", {},
-                React.createElement "p", {}, option.description
+                React.createElement "p",
+                  dangerouslySetInnerHTML:
+                    __html: option.description
 
   renderFloatQuestion: (item, panelIdx, itemIdx) ->
     answer = @state.answers[item.key]
