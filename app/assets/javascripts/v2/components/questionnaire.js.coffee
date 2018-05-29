@@ -6,7 +6,7 @@ question_entity_classes = [
 
 castAnswerValue = (question, answerValue) ->
   value = switch question.type
-    when "radio", "scale", "integer" then parseInt(answerValue)
+    when "integer" then parseInt(answerValue)
     when "float" then parseFloat(answerValue)
     else answerValue.trim()
   if value is NaN then null else value
@@ -125,7 +125,26 @@ class @Questionnaire extends React.Component
       activePanelIdx: @state.activePanelIdx - 1
 
   handleFinish: (ev) ->
-    # TODO Validate all panels and save results
+    # TODO Validate all panels
+    answers = _.map @state.answers, (answer, key) -> [key, answer.value]
+    data =
+      answer: _.fromPairs(answers)
+      authenticity_token: @props.form_authenticity_token
+      token: @props.answer_token
+      hmac: @props.hmac
+      timestamp: @props.timestamp
+      return_url: @props.return_url
+      return_token: @props.return_token
+      display_mode: @props.display_mode
+      rendered_at: null
+
+    console.log data
+    $.ajax
+      url: @props.answer_url
+      type: 'PUT'
+      data: data
+      success: (response) =>
+        console.log "succes!", response
 
   validatePanel: (panelIdx) ->
     questions = _.filter @props.questionnaire.panels[panelIdx].items, (item) => item.key
@@ -301,11 +320,11 @@ class @Questionnaire extends React.Component
                 React.createElement "span", {},
                   React.createElement "input",
                     type: "radio",
-                    value: option.value,
+                    value: option.key,
                     name: item.key,
                     id: option.view_id,
                     className: "scale #{deselectableClass}",
-                    checked: answerGiven == option.value,
+                    checked: answerGiven == option.key,
                     onClick: @handleAnswerChange
                   React.createElement "label",
                     htmlFor: option.view_id,
@@ -329,11 +348,11 @@ class @Questionnaire extends React.Component
             className: "radiocheckwrapper",
             React.createElement "input",
               type: "radio",
-              value: option.value,
+              value: option.key,
               name: item.key,
               id: option.view_id,
               className: "radio #{deselectableClass}",
-              checked: answerGiven == option.value,
+              checked: answerGiven == option.key,
               onClick: @handleAnswerChange
           React.createElement "div",
             className: "labelwrapper",

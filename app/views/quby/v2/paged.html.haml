@@ -2,9 +2,10 @@
 
 :javascript
   var component = React.createFactory(Questionnaire)
-  var answerUrl = "#{questionnaire_answer_path(@questionnaire, @answer)}"
+  var answerUrl = "#{questionnaire_answer_url(@questionnaire, @answer)}"
+  var form_authenticity_token = "#{form_authenticity_token}"
 
   ReactDOM.render(
-    React.createElement(component, #{assigns.to_json.html_safe}),
+    React.createElement(component, {...#{assigns.to_json.html_safe}, answer_url: answerUrl, form_authenticity_token: form_authenticity_token}),
     document.getElementById('root')
   );
