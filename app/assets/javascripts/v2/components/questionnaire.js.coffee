@@ -1,7 +1,8 @@
 question_entity_classes = [
   "Quby::Questionnaires::Entities::Questions::RadioQuestion",
   "Quby::Questionnaires::Entities::Questions::FloatQuestion",
-  "Quby::Questionnaires::Entities::Questions::IntegerQuestion"
+  "Quby::Questionnaires::Entities::Questions::IntegerQuestion",
+  "Quby::Questionnaires::Entities::Questions::CheckboxQuestion"
 ]
 
 castAnswerValue = (question, answerValue) ->
@@ -9,7 +10,13 @@ castAnswerValue = (question, answerValue) ->
     when "integer" then parseInt(answerValue)
     when "float" then parseFloat(answerValue)
     else answerValue.trim()
-  if value is NaN then null else value
+  value
+  # if value is NaN then null else value
+
+initialValue = (question) ->
+  switch question.type
+    when "checkbox" then []
+    else null
 
 class @Questionnaire extends React.Component
   displayName: "Questionnaire"
@@ -25,15 +32,17 @@ class @Questionnaire extends React.Component
     @handlePrevPanel = @handlePrevPanel.bind(@)
     @handleFinish = @handleFinish.bind(@)
 
+    console.log @props.questionnaire.panels[0].items[2]
+
 
   initialAnswerHash: ->
     _.chain(@props.questionnaire.panels)
      .map (panel) -> panel.items
      .flatten()
      .filter (item) -> item.key # Only questions have a key?
-     .map (item) -> [item.key, not item.default_invisible] ? null
+     .map (item) -> [item.type, item.key, not item.default_invisible] ? null
      .compact()
-     .map ([key, visible]) -> [key, {value: null, visible: visible, error: false, errorMessages: {}}]
+     .map ([type, key, visible]) -> [key, {initialValue: initialValue(type), value: initialValue(type), visible: visible, error: false, errorMessages: {}}]
      .fromPairs()
      .value()
 
@@ -46,7 +55,7 @@ class @Questionnaire extends React.Component
 
   handleAnswerChange: (ev) ->
     console.log(ev.target)
-    key = ev.target.name
+    key = ev.target.dataset.questionKey
     answers = _.clone @state.answers
     question = @question(key)
 
@@ -57,10 +66,12 @@ class @Questionnaire extends React.Component
     if question.deselectable and answers[key].value == answerValue then answerValue = null
 
     # hide and show
+    # Wanneer zijn hides_questions en shows_questions eigenlijk bruikbaar?..
     if question.options
-      hideKeys = @dependentQuestionKeys question
-      console.log hideKeys
-      _.map hideKeys, (questionKey) -> answers[questionKey].visible = false
+      hideKeys = @dependentHideQuestionKeys question
+      showKeys = @dependentShowQuestionKeys question
+      console.log hideKeys, showKeys
+      # _.map hideKeys, (questionKey) -> answers[questionKey].visible = false
 
       if answerValue != null
         _.chain(question.options)
@@ -78,7 +89,10 @@ class @Questionnaire extends React.Component
          .value()
 
     # update current answer
-    answers[key].value = answerValue
+    if question.type == "checkbox"
+      answers[key].value.push answerValue
+    else
+      answers[key].value = answerValue
     answers[key].error = false
     answers[key].errorMessages = {}
 
@@ -99,7 +113,21 @@ class @Questionnaire extends React.Component
     else
       _.uniq(result)
 
-  dependentQuestionKeys: (question, result = []) ->
+  dependentHideQuestionKeys: (question, result = []) ->
+    if question.options
+      _.chain(question.options)
+       .map (option) -> option.hides_questions
+       .flatten()
+       .uniq()
+       .reduce (acc, questionKey) =>
+          q = @question(questionKey)
+          @dependentHideQuestionKeys(q, _.concat(acc, questionKey))
+       , result
+       .value()
+    else
+      _.uniq(result)
+
+  dependentShowQuestionKeys: (question, result = []) ->
     if question.options
       _.chain(question.options)
        .map (option) -> option.shows_questions
@@ -107,7 +135,7 @@ class @Questionnaire extends React.Component
        .uniq()
        .reduce (acc, questionKey) =>
           q = @question(questionKey)
-          @dependentQuestionKeys(q, _.concat(acc, questionKey))
+          @dependentShowQuestionKeys(q, _.concat(acc, questionKey))
        , result
        .value()
     else
@@ -182,6 +210,7 @@ class @Questionnaire extends React.Component
           when "Quby::Questionnaires::Entities::Questions::RadioQuestion" then @renderRadioQuestion item, panelIdx, itemIdx
           when "Quby::Questionnaires::Entities::Questions::FloatQuestion" then @renderFloatQuestion item, panelIdx, itemIdx
           when "Quby::Questionnaires::Entities::Questions::IntegerQuestion" then @renderIntegerQuestion item, panelIdx, itemIdx
+          when "Quby::Questionnaires::Entities::Questions::CheckboxQuestion" then @renderCheckboxQuestion item, panelIdx, itemIdx
           else @renderNotImplemented item, panelIdx, itemIdx
       @renderProgressBar panelIdx, @props.questionnaire.panels.length
       @renderProgressButtons panelIdx, @props.questionnaire.panels.length
@@ -322,6 +351,7 @@ class @Questionnaire extends React.Component
                     type: "radio",
                     value: option.key,
                     name: item.key,
+                    "data-question-key": item.key,
                     id: option.view_id,
                     className: "scale #{deselectableClass}",
                     checked: answerGiven == option.key,
@@ -350,6 +380,7 @@ class @Questionnaire extends React.Component
               type: "radio",
               value: option.key,
               name: item.key,
+              "data-question-key": item.key,
               id: option.view_id,
               className: "radio #{deselectableClass}",
               checked: answerGiven == option.key,
@@ -408,6 +439,7 @@ class @Questionnaire extends React.Component
             autoComplete: "off",
             type: "text",
             name: item.key,
+            "data-question-key": item.key,
             value: answer.value or "",
             onChange: @handleAnswerChange
           React.createElement "span",
@@ -459,8 +491,75 @@ class @Questionnaire extends React.Component
             autoComplete: "off",
             type: "text",
             name: item.key,
+            "data-question-key": item.key,
             value: answer.value or "",
             onChange: @handleAnswerChange
           React.createElement "span",
             className: "unit",
             item.unit
+
+  renderCheckboxQuestion: (item, panelIdx, itemIdx) ->
+    answer = @state.answers[item.key]
+    # console.log "renderCheckboxQuestion", item, answer
+
+    errorDiv = if answer.error
+      errorClass =
+        _.chain(answer.errorMessages)
+         .keys()
+         .join " "
+         .value()
+      errorMessages =
+        _.chain(answer.errorMessages)
+         .values()
+         .join " "
+         .value()
+      React.createElement "div",
+        className: "error #{errorClass}",
+        errorMessages
+    else
+      React.createElement "div", className: "hidden", ""
+
+    errorClass = if answer.error then "errors" else ""
+    hiddenClass = if not answer.visible then "hidden" else ""
+
+    answerOptions = _.map item.options, (option, optionIdx) =>
+      React.createElement "div",
+        className: "option",
+        React.createElement "div",
+          className: "radiocheckwrapper",
+          React.createElement "input",
+            name: "answer[#{option.key}]",
+            type: "hidden",
+            value: "0"
+          React.createElement "input",
+            className: "checkbox",
+            name: "answer[#{option.key}]",
+            type: "checkbox",
+            id: option.view_id,
+            value: "1",
+            "data-question-key": item.key,
+            onChange: @handleAnswerChange
+        React.createElement "div",
+          className: "labelwrapper",
+          React.createElement "label",
+            htmlFor: option.view_id,
+            dangerouslySetInnerHTML:
+              __html: option.description
+
+    React.createElement "div",
+      key: "item#{panelIdx}-#{itemIdx}",
+      className: "item #{item.type} horizontal #{errorClass} #{hiddenClass}",
+      errorDiv,
+      React.createElement "div",
+        className: "main",
+          React.createElement "label",
+            dangerouslySetInnerHTML:
+              __html: item.title
+      React.createElement "div",
+        className: "description-and-fields",
+        React.createElement "div",
+          className: "description",
+          item.description
+        React.createElement "div",
+          className: "fields",
+          answerOptions
