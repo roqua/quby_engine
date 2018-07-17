@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml",              '~> 5.0.3'
   s.add_dependency "sass-rails",        '>= 4.0.5'
+  s.add_dependency "sprockets",         '>= 3.7.2'
   s.add_dependency "kramdown",          '~> 1.13.2'
   s.add_dependency "compass",           '>= 0.12.7'
   s.add_dependency "compass-rails",     '>= 1.1.7'
