@@ -12,11 +12,17 @@
   display: none;
 }
 
-sup {
-    vertical-align: baseline !important;
+sup, sub {
     font-size: 0.8em !important;
     position: relative;
-    top: -0.4em;
+}
+
+sup {
+  top: -0.4em;
+}
+
+sub {
+  bottom: -0.25em;
 }
 
 html {
