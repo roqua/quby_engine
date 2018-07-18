@@ -3,24 +3,34 @@ variables:
   RAILS_ENV: 'test'
   TEASPOON_RAILS_ENV: 'settings_this_prevents_teaspoon_from_loading_rails_too_soon'
 
-before_script:
-  - ruby -v
-  - eval $(ssh-agent -s)
+.rails_script: &rails_script
+  script:
+    - ruby -v
+    - eval $(ssh-agent -s)
 
-  # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
 
-  - bundle-cache
-  - bundle exec appraisal install
-  - bundle exec appraisal rails50 bundle exec rspec spec
-  - bundle exec appraisal rails50 bundle exec teaspoon  
+    - bundle-cache
+    - bundle exec appraisal install
+    - bundle exec appraisal rails50 bundle exec rspec spec
+    - bundle exec appraisal rails50 bundle exec teaspoon  
 
 rails_50_ruby_23:
+  <<: *rails_script
   image: "roqua/roqua-build-images:ruby-2.3-rails-base-test"
-  script:
-    - echo 'Done!'
 
 rails_50_ruby_24:
+  <<: *rails_script
   image: "roqua/roqua-build-images:ruby-2.4-rails-base-test"
+
+dependency_scanning:
+  image: registry.roqua.nl/roqua/dependency_scanning
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:stable-dind
   script:
-    - echo 'Done!'
+    - scan_dependencies.sh
+  artifacts:
+    paths: [gl-dependency-scanning-report.json]
