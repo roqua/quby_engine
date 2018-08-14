@@ -245,7 +245,7 @@ module Quby::Questionnaires::Entities
       end
 
       describe 'with textvar that depends on a flag' do
-        it 'will have a depends_on_flag attribute', focus: true do
+        it 'will have a depends_on_flag attribute' do
           questionnaire = Quby::Questionnaires::DSL.build("test") do
             title 'My Test'
 
@@ -449,9 +449,16 @@ Label moet opgegeven zijn, Export key moet opgegeven zijn"]
         end
       end
 
-      it 'validates every score has a score schema' do
-        expect(score_missing_schema_quest.errors.full_messages).to eq(["Score key is missing a score schema",
-                                                                       "Score key3 is missing a score schema"])
+      it 'does not validate presense of score schemas by default' do
+        expect(score_missing_schema_quest.errors.full_messages).to be_blank
+      end
+
+      describe 'if quby settings require_score_schemas is true' do
+        before { Quby::Settings.require_score_schemas = true }
+        it 'validates every score has a score schema' do
+          expect(score_missing_schema_quest.errors.full_messages).to eq(["Score key is missing a score schema",
+                                                                         "Score key3 is missing a score schema"])
+        end
       end
     end
   end

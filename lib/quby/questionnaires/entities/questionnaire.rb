@@ -119,7 +119,7 @@ module Quby
             q.run_callbacks :after_dsl_enhance
           end
           validate_flag_depends_on
-          ensure_scores_have_schemas
+          ensure_scores_have_schemas if Quby::Settings.require_score_schemas
         end
 
         def ensure_scores_have_schemas
