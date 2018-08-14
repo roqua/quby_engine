@@ -223,8 +223,8 @@ module Quby
           score_calculations[builder.key] = builder
         end
 
-        def add_score_schema(key, label, options)
-          schema = Entities::ScoreSchema.new(key: key, label: label, sub_score_schemas: options)
+        def add_score_schema(key, label, sub_schema_options)
+          schema = Entities::ScoreSchema.new(key: key, label: label, sub_score_schemas: sub_schema_options)
           schema.valid?
           schema.errors.each do |attribute, message|
             errors.add("Score schema '#{key}'", "#{attribute} #{message}")
