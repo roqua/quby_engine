@@ -1,16 +1,21 @@
-# ScoreSchema instances describe score definitions.
-
 module Quby
   module Questionnaires
     module Entities
+      # ScoreSchema instances describe score definitions.
+      #
+      # Score definitions are blocks of ruby code that return a hash of score results based on a questionnaire
+      # response (answer). These schemas describe the purpose and form of the scores. Each key-value pair of the result
+      # hash is called a subscore.
+      # The :value subscore is treated as the main score result. Subscores are usually identified by their 'export_key'.
+      # The score value's export_key is usually set to a shortened version of the main score key.
       class ScoreSchema
         include ActiveModel::Model
 
-        # The key of the corresponding score
+        # The key of the corresponding score in the questionnaire definition
         attr_accessor :key
         # A label describing the general purpose of the score
         attr_accessor :label
-        # An array of SubScoreSchemas describing each key that can be returned in the result hash of a score
+        # An array of SubScoreSchemas describing each key that can be returned in the result hash of a score.
         attr_accessor :sub_score_schemas
 
         validates :key, :label, :sub_score_schemas, presence: true
