@@ -13,12 +13,13 @@ module Quby
             attr_accessor "#{component}_key".to_sym
           end
 
-          attr_accessor :components
+          attr_accessor :components, :required_components
 
           def initialize(key, options = {})
             super
 
             @components = options[:components] || DEFAULT_COMPONENTS
+            @required_components = options[:required_components] || @components
 
             components.each do |component|
               instance_variable_set("@#{component}_key", options[:"#{component}_key"])
@@ -29,7 +30,7 @@ module Quby
 
           def add_date_validation(explanation)
             @validations << {type: :valid_date,
-                             subtype: :"valid_date_#{components.sort.join('_')}",
+                             subtype: :"valid_date_#{required_components.sort.join('_')}",
                              explanation: explanation}
           end
 
