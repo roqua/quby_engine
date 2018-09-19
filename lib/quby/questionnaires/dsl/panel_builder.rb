@@ -43,7 +43,7 @@ module Quby
         def question(key, options = {}, &block)
           options = @default_question_options.merge(options).merge(questionnaire: @panel.questionnaire)
 
-          check_question_keys_uniqueness key, options, @questionnaire
+          check_question_keys_uniqueness key, options, @questionnaire unless @questionnaire.skip_validations
 
           question = QuestionBuilder.build(key, options, &block)
 

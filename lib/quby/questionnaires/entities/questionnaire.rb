@@ -44,6 +44,7 @@ module Quby
           @respondent_types = []
           @tags = OpenStruct.new
           @check_key_clashes = true
+          @skip_validations = false
         end
 
         attr_accessor :key
@@ -68,6 +69,9 @@ module Quby
         attr_accessor :respondent_types
         attr_reader :tags # tags= is manually defined below
         attr_accessor :check_key_clashes
+        # While building, don't check used keys etc.
+        # set to true in production.
+        attr_accessor :skip_validations
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never
@@ -116,14 +120,6 @@ module Quby
             q.run_callbacks :after_dsl_enhance
           end
           validate_flag_depends_on
-        end
-
-        def validate_questions
-          question_hash.each_value do |q|
-            unless q.valid?
-              q.errors.each { |attr, err| errors.add(attr, err) }
-            end
-          end
         end
 
         def questions_tree
@@ -206,7 +202,7 @@ module Quby
         end
 
         def add_score_calculation(builder)
-          if score_calculations.key?(builder.key)
+          if !skip_validations && score_calculations.key?(builder.key)
             fail InputKeyAlreadyDefined, "Score key `#{builder.key}` already defined."
           end
           score_calculations[builder.key] = builder
@@ -233,6 +229,8 @@ module Quby
         end
 
         def validate_flag_depends_on
+          return if skip_validations
+
           failing_flags = flags.each_with_object([]) do |(_flag_key, flag), memo|
             if flag.depends_on.present? && !flags.key?(flag.depends_on)
               memo << "Flag #{flag.key} depends_on nonexistent flag '#{flag.depends_on}'"
@@ -368,6 +366,8 @@ module Quby
         private
 
         def validate_depends_on_flag(textvar_key, textvar_options)
+          return if skip_validations
+
           if textvar_options[:depends_on_flag].present? && !flags.key?(textvar_options[:depends_on_flag])
             fail(ArgumentError,
                  "Textvar '#{textvar_key}' depends on nonexistent flag '#{textvar_options[:depends_on_flag]}'")
@@ -375,6 +375,8 @@ module Quby
         end
 
         def validate_textvar_keys_unique(textvar_key)
+          return if skip_validations
+
           fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
         end
       end

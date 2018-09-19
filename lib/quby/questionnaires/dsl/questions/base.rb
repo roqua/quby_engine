@@ -99,7 +99,7 @@ module Quby
         module MultipleChoice
           def option(key, options = {}, &block)
             question_option = Entities::QuestionOption.new(key, @question, options)
-            if @questionnaire.key_in_use?(question_option.input_key) || @question.key_in_use?(question_option.input_key)
+            if !@questionnaire.skip_validations && @questionnaire.key_in_use?(question_option.input_key) || @question.key_in_use?(question_option.input_key)
               fail "#{questionnaire.key}:#{@question.key}:#{question_option.key}: " \
                     "A question or option with input key #{question_option.input_key} is already defined."
             end

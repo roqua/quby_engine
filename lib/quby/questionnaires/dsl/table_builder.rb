@@ -31,16 +31,20 @@ module Quby
         def question(key, options = {}, &block)
           options = @default_question_options.merge(options)
                                              .merge(table: @table,
-                                                    questionnaire: @panel.questionnaire)
+                                                    questionnaire: questionnaire)
 
-          check_question_keys_uniqueness key, options, @panel.questionnaire
+          check_question_keys_uniqueness key, options, questionnaire unless questionnaire.skip_validations
           fail "You can't create a slider in a table at the moment" if options[:as] == :slider
 
           question = QuestionBuilder.build(key, options, &block)
 
-          @panel.questionnaire.register_question(question)
+          questionnaire.register_question(question)
           @table.items << question
           @panel.items << question
+        end
+
+        def questionnaire
+          @panel.questionnaire
         end
       end
     end

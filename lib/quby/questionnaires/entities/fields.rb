@@ -38,7 +38,9 @@ module Quby
           # This is probably the best place to ensure that keys don't collide. However,our current set of questionnaires
           # does have a few collisions between +v_1+ option +a9+ and its subquestion +v_1_a9+, so we have excluded
           # those questionnaires from this check through @questionnaire.check_key_clashes.
-          check_key_clashes(new_answer_keys, new_input_keys) if @questionnaire.check_key_clashes
+          if @questionnaire.check_key_clashes && !@questionnaire.skip_validations
+            check_key_clashes(new_answer_keys, new_input_keys)
+          end
 
           @question_hash[question.key] = question
           @input_keys.merge(new_input_keys)
