@@ -169,7 +169,7 @@ module Quby
           output << "Date unknown"
           output << ""
 
-          options[:extra_vars].andand.each do |var|
+          options[:extra_vars]&.each do |var|
             output << "#{var[:key]} #{var[:type]}"
             output << "\"#{var[:description]}\""
             output << ""
@@ -283,7 +283,7 @@ module Quby
 
           @answer_dsl_cache ||= Module.new do
             questions_in_var.each do |question|
-              next if question.andand.key.blank?
+              next if question&.key.blank?
               case question.type
               when :date
 
@@ -296,7 +296,7 @@ module Quby
 
                   define_method("#{key}=") do |v|
                     self.value ||= Hash.new
-                    self.value[key] = v.andand.strip
+                    self.value[key] = v&.strip
                   end
                 end
 
@@ -324,7 +324,7 @@ module Quby
                 end
 
                 question.options.each do |opt|
-                  next if opt.andand.key.blank?
+                  next if opt&.key.blank?
                   define_method("#{opt.key}") do
                     self.value ||= Hash.new
                     self.value[question.key.to_s] ||= Hash.new

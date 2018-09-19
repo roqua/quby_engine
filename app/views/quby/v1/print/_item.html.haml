@@ -28,7 +28,7 @@
 
   - case item
   - when Quby::Questionnaires::Entities::Text
-    - if item.display_in.andand.include?(:print)
+    - if item.display_in&.include?(:print)
       .item{:class => itemclasses}
         .text
           = raw item.text

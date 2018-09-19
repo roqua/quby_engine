@@ -41,7 +41,7 @@ module Quby::TableBackend
         relevant_parameter = parameters[name]
         relevant_parameter = relevant_parameter.to_s if relevant_parameter.is_a?(Symbol)
         range.include? relevant_parameter
-      end.andand.last
+      end&.last
     end
   end
 end
