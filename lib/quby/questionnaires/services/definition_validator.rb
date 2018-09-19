@@ -13,6 +13,7 @@ module Quby
 
         def validate(definition)
           questionnaire = DSL.build_from_definition(definition)
+          validate_fields(questionnaire)
           validate_title(questionnaire)
           validate_questions(questionnaire)
           validate_scores(questionnaire)
@@ -24,6 +25,15 @@ module Quby
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
                                                        "#{exception.message}",
                                               backtrace: exception.backtrace[0..5].join("<br/>")})
+        end
+
+        def validate_fields(questionnaire)
+          questionnaire.fields.input_keys
+                              .find { |k| !k.is_a?(Symbol) }
+                             &.tap { |k| fail "Input key #{k} is not a symbol" }
+          questionnaire.fields.answer_keys
+                              .find { |k| !k.is_a?(Symbol) }
+                             &.tap { |k| fail "Answer key #{k} is not a symbol" }
         end
 
         def validate_title(questionnaire)
