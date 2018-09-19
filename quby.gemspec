@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">= 4.2", '< 5.1'
   s.add_dependency 'rails-i18n'
 
-  s.add_dependency 'nokogiri', '>= 1.8.2'
+  s.add_dependency 'nokogiri', '>= 1.8.3'
 
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.12.0'
