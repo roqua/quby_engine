@@ -6,7 +6,6 @@ module Quby
     module Entities
       class Text < Item
         attr_reader :str
-        attr_accessor :text
         attr_accessor :display_in
 
         # In case of being displayed inside a table, amount of columns/rows to span
@@ -19,7 +18,6 @@ module Quby
           end
           super(options)
           @str = str
-          @text = Quby::MarkdownParser.new(str).to_html
           @display_in = options[:display_in] || [:paged]
           @col_span = options[:col_span] || 1
           @row_span = options[:row_span] || 1
@@ -27,6 +25,10 @@ module Quby
 
         def as_json(options = {})
           super().merge(text: text)
+        end
+
+        def text
+          @text ||= Quby::MarkdownParser.new(str).to_html
         end
 
         def key
@@ -44,16 +46,16 @@ module Quby
         def ==(other)
           case other.class
           when String
-            @text == other
+            text == other
           when self.class
-            @text == other.text
+            text == other.text
           else
             false
           end
         end
 
         def to_s
-          @text
+          text
         end
       end
     end
