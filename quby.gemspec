@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
   s.add_dependency "susy",              '~> 2.2.12'
 
   # Helpers
-  s.add_dependency "ryansch-andand"
   s.add_dependency "json"
   s.add_dependency "addressable"
   s.add_dependency "virtus", ">= 1.0.3", "< 2.0"

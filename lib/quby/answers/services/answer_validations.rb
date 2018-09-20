@@ -53,7 +53,7 @@ module Quby
           when :radio
             value[question.parent.key.to_s] != question.parent_option_key.to_s
           when :check_box
-            value[question.parent.key.to_s].andand[question.parent_option_key.to_s] != 1
+            value[question.parent.key.to_s]&.fetch(question.parent_option_key.to_s, nil) != 1
           else
             false
           end
@@ -67,13 +67,13 @@ module Quby
           return true if question.is_a?(Questionnaires::Entities::Questions::IntegerQuestion) && answer == ""
           return true if question.is_a?(Questionnaires::Entities::Questions::FloatQuestion)   && answer == ""
           return true if parent_option_is_not_selected(question)
-          return true if hidden_questions.andand.include?(question.key)
+          return true if hidden_questions&.include?(question.key)
           false
         end
 
         def skip_validation?(answer, question)
           return true if parent_option_is_not_selected(question)
-          return true if hidden_questions.andand.include?(question.key)
+          return true if hidden_questions&.include?(question.key)
           false
         end
 

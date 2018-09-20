@@ -3,13 +3,11 @@
 source "http://rubygems.org"
 
 gem "appraisal", "2.1.0"
-gem "bson_ext"
 gem "roqua-support"
 gem "i18n"
 gem "jquery-ui-rails", "~> 3.0.1"
 gem "susy", "~> 2.2.12"
 gem "compass-rails"
-gem "nokogiri", ">= 1.8.1"
 gem "rails", "~> 5.0.6"
 gem "sass-rails", "~> 5.0.6"
 gem "kramdown", "~> 1.13.2"

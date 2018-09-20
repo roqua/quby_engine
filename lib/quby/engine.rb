@@ -13,7 +13,6 @@ require 'jquery-ui-rails'
 require 'compass-blueprint'
 
 require 'susy'
-require 'andand'
 require 'quby/lookup_table'
 require 'quby/range_categories'
 

@@ -23,7 +23,7 @@ module Quby
               result = ScoreCalculator.calculate(answer.questionnaire,
                                                  value_by_regular_values,
                                                  completed_at,
-                                                 patient.andand.slice("birthyear", "gender"),
+                                                 patient&.slice("birthyear", "gender"),
                                                  results,
                                                  &calculation.calculation)
 

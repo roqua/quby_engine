@@ -4,7 +4,7 @@
   %label.main(for="answer_#{question.key}")
     = render :partial => "quby/v1/shared/main_label", :locals => {:question => question}
     - subq = question.options.last.questions.first
-    - if subq.andand.presentation == :next_to_title and subq.type == :string
+    - if subq&.presentation == :next_to_title and subq.type == :string
       = render :partial => "quby/v1/shared/inline_text_field", :locals => {:answer => @answer, :question => subq}
   .description-and-fields
     .fields{:id => question.html_id, :class => "options#{question.options.size}"}
