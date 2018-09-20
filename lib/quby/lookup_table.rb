@@ -1,4 +1,5 @@
 require 'quby/table_backend/disk_table'
+require 'quby/tree_backend/disk_tree'
 
 module Quby
   class LookupTable
