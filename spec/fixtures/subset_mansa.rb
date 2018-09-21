@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title "Subset of MANSA"
 short_description "Kwaliteit van Leven"
 description "Bevat de eerste paar panels van de echte MANSA"

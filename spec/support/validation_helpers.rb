@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ClientSideValidationHelpers
   def self.included(base)
     base.let(:validation_run_location) { :client_side }

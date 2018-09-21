@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'virtus'
 require 'rails-i18n'
 require 'quby/settings'

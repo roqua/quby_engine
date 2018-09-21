@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title 'SimpleQuestionnaireWithOutcome'
 
 panel do

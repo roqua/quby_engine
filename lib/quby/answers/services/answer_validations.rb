@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/questionnaires/entities'
 require 'quby/answers/services/attribute_calculator'
 require 'quby/answers/services/answer_validator'

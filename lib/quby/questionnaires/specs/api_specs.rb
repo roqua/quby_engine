@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined?(RSpec)
   RSpec.shared_examples 'a valid backend for the questionnaires api' do
     it 'supports finding a questionnaire' do

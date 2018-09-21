@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 require 'quby/answers/services/score_calculator'
 require 'quby/answers/entities/outcome'

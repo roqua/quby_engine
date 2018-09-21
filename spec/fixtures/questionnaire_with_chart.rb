@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 panel do
   title 'Questionnaire With Chart'
 

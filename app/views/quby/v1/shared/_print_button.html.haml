@@ -1,3 +1,4 @@
+-# frozen_string_literal: true
 .print
   %a.print_button{:onclick => raw("doDivPrint(\"#{print_questionnaire_answer_path(@questionnaire, @answer)}\"); return false;")}
     = image_tag "quby/print.gif"

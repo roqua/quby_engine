@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined?(RSpec)
   RSpec.shared_examples "a questionnaire repository" do
     describe '#all' do

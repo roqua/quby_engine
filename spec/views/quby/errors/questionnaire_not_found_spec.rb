@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 describe "quby/errors/questionnaire_not_found" do
 

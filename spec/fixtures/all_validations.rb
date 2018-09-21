@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title "All validations"
 
 default_question_options deselectable: true

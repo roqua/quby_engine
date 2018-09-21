@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 module Quby
   describe "quby/v1/paged/_item_question_number" do

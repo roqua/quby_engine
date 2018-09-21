@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Quby
   module AnswersHelper
     def get_validation_json(validations)
