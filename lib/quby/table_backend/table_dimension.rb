@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Quby::TableBackend
 # TableDimension acts like nodes of a tree, every level consists of an array of table dimensions that each
 # have multiple ranges that point to either an array of TableDimensions for the next dimension or

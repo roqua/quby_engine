@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/answers/services/filters_answer_value'
 require 'quby/answers/services/outcome_calculation'
 

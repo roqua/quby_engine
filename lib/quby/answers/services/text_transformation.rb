@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Quby
   module TextTransformation
     # Modal pop up window link: ~~url~~link_body~~

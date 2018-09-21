@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/table_backend/table_dimension'
 module Quby::TableBackend
   class DiskTable

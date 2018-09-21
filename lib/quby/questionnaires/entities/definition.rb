@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_model'
 require 'quby/questionnaires/services/definition_validator'
 

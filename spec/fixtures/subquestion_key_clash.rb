@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title 'Subquestion key clash questionnaire'
 do_not_check_key_clashes
 panel do

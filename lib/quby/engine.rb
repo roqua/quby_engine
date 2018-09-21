@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Engines are run as gems, not really using bundler
 # Therefore, we need to require stuff manually
 require 'rubygems'

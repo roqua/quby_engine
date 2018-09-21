@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def create_new_answer_for(questionnaire, answer_value = {}, flags: {}, textvars: {})
   Quby::AnswersController.any_instance.stub(verify_hmac: true)
   Quby::AnswersController.any_instance.stub(verify_token: true)

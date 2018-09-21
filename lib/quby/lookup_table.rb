@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/table_backend/disk_table'
 
 module Quby

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/answers/api'
 require 'quby/answers/dsl'
 

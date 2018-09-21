@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title "QuestHiding"
 short_description ""
 description ""
