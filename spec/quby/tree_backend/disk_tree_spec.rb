@@ -8,7 +8,7 @@ describe Quby::TreeBackend::DiskTree do
   end
 
   describe '#initialize' do
-    let (:expected_path) { Pathname.new(fixture_root).join('test_tree') }
+    let(:expected_path) { Pathname.new(fixture_root).join('test_tree') }
 
     it 'reads the csv file' do
       expect(CSV).to receive(:read).and_call_original
