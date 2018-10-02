@@ -276,7 +276,7 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     ref (2.0.0)
-    roqua-support (0.1.32)
+    roqua-support (0.1.33)
       active_interaction (~> 3.0)
       activesupport (>= 3.2, < 6)
       naught (~> 1.0)
@@ -313,7 +313,7 @@ GEM
     ruby-prof (0.17.0)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
-    sass (3.4.23)
+    sass (3.4.25)
     sass-rails (5.0.7)
       railties (>= 4.0.0, < 6)
       sass (~> 3.1)
@@ -364,8 +364,10 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
-    xpath (2.0.0)
-      nokogiri (~> 1.3)
+    with_advisory_lock (3.2.0)
+      activerecord (>= 3.2)
+    xpath (3.1.0)
+      nokogiri (~> 1.8)
     yajl-ruby (1.4.1)
 
 PLATFORMS
@@ -411,4 +413,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.16.3
+   1.16.5
