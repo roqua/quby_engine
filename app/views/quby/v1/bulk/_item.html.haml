@@ -1,3 +1,4 @@
+-# frozen_string_literal: true
 / Begin _item.html.haml
 - previous_item ||= nil
 - subquestion ||= false
@@ -13,7 +14,7 @@
   - itemclasses << "errors" unless @answer.errors[item.key].empty?
   - itemclasses << item.question_group if item.question_group
   - itemclasses << 'subitem' if subquestion
-  - not_bulk = (item.disallow_bulk or (not item.subquestions.blank? and item.subquestions.last.andand.presentation != :next_to_title))
+  - not_bulk = (item.disallow_bulk or (not item.subquestions.blank? and item.subquestions.last&.presentation != :next_to_title))
   - if not_bulk
     - itemclasses << "notbulkitem"
   - else
@@ -32,7 +33,7 @@
   .item{:class => itemclasses, :data => extra_data, :id => itemkey}
     - case item
     - when Quby::Questionnaires::Entities::Text
-      - if item.display_in.andand.include?(:bulk)
+      - if item.display_in&.include?(:bulk)
         .text
           = raw item.text
     - when Quby::Questionnaires::Entities::Questions::StringQuestion

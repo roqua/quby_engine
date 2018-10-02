@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined?(RSpec)
   RSpec.shared_examples "an answer repository" do
     let(:repo) { described_class.new }

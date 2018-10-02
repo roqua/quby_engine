@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rubocop:disable LineLength
 
 module Quby
@@ -197,11 +199,11 @@ module Quby
           when :integer
             Integer(value)
           when :date
-            day = value[:day].andand.strip || 1
-            month = value[:month].andand.strip || 1
-            year = value[:year].andand.strip || 2000
-            hour = value[:hour].andand.strip || '00'
-            minute = value[:minute].andand.strip || '00'
+            day = value[:day]&.strip || 1
+            month = value[:month]&.strip || 1
+            year = value[:year]&.strip || 2000
+            hour = value[:hour]&.strip || '00'
+            minute = value[:minute]&.strip || '00'
 
             DateTime.strptime("#{day}-#{month}-#{year} #{hour}:#{minute}", "%d-%m-%Y %H:%M")
           else

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/questionnaires/entities/definition'
 require 'quby/questionnaires/entities/questionnaire'
 require 'quby/questionnaires/entities/question_option'

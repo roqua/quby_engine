@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fakefs/spec_helpers'
 require 'spec_helper'
 

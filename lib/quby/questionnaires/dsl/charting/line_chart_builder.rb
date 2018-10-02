@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/questionnaires/entities/charting/line_chart'
 require_relative 'chart_builder'
 

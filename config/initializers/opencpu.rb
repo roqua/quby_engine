@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'opencpu'
 OpenCPU.configure do |config|
   # only change if set, so apps can configure it outside of quby as well.

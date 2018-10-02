@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/questionnaires/dsl/base'
 require 'quby/questionnaires/dsl/helpers'
 require 'quby/questionnaires/dsl/questionnaire_builder'

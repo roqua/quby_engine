@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Quby
   class Settings
     def self.api_allowed_ip_ranges

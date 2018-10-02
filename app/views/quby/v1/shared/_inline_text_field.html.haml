@@ -1,3 +1,4 @@
+-# frozen_string_literal: true
 .item.text.specifier{:data => question.extra_data, :class => answer.errors[question.key].empty? ? nil : 'errors'}
   = render :partial => 'quby/v1/shared/validations', :locals => {:question => question, :answer => answer}
   .fields{:id => question.html_id}

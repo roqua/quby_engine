@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe I18n do
   it 'has a translation in every other locale for every key in the nl locale' do

@@ -1,3 +1,4 @@
+-# frozen_string_literal: true
 - question = nil
 - reset_cycle "opt_set_hcycle"
 - reset_cycle "opt_set_rcycle"
@@ -20,19 +21,19 @@
 
       - question = get_question(table, rowi, 0)
       - same_question = (rowi != 0 and question and question == get_question(table, rowi-1, 0))
-      - if question.andand.presentation == :horizontal and not same_question
+      - if question&.presentation == :horizontal and not same_question
         - if rowi == 0
           %caption
             %div.main(class = "horizontal"){:data => {:for => question.key}}
               %label(for="answer_#{question.key}")
                 :markdown
-                  #{raw question.title.andand.gsub(/\A\d+.?\./, '  \\0')}
+                  #{raw question.title&.gsub(/\A\d+.?\./, '  \\0')}
         - else
           %tr.row
             %td.main{:class => "horizontal", :colspan => table.columns, :data => {:for => question.key}}
               %label(for="answer_#{question.key}")
                 :markdown
-                  #{raw question.title.andand.gsub(/\A\d+.?\./, '  \\0')}
+                  #{raw question.title&.gsub(/\A\d+.?\./, '  \\0')}
       -if rowi == 0
         - if table.title
           %caption
@@ -46,7 +47,7 @@
                 #{raw table.description}
       - unless all_blank
         %tr.option_sets.row
-          - unless (question.andand.presentation == :horizontal or question.andand.title.blank?)
+          - unless (question&.presentation == :horizontal or question&.title.blank?)
             %th.main
           = raw header
 
@@ -67,19 +68,19 @@
             - rowspan = [(question.options.length.to_f/table.columns).ceil, 1].max
             - rowspan = 1 if question.type == :select
             - title_insert = nil
-            - subq = question.options.last.andand.questions.andand.first
+            - subq = question.options.last&.questions&.first
             - if subq and (subq.presentation == :next_to_title and subq.type == :string)
               - title_insert = render :partial => "quby/v1/shared/inline_text_field", :locals => {:title => subq.title, :answer => @answer, :question => subq}
             = render :partial => "quby/v1/table/main_label", :locals => {:question => question, :rowspan => rowspan, :title_insert => title_insert}
 
         - opt_sets.each_with_index do |opt_set, j|
           - item = get_item(table, rowi, j)
-          - if item.andand.switch_cycle
+          - if item&.switch_cycle
             - cyclei += 1
 
           - cos_cycle = light_dark_for(cyclei, same_question)
           - cyclei += 1
-          - filled_columns += item.andand.col_span || 1
+          - filled_columns += item&.col_span || 1
           - next unless item
           - opt_set.each_with_index do |opt, i|
 

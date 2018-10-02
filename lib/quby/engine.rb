@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Engines are run as gems, not really using bundler
 # Therefore, we need to require stuff manually
 require 'rubygems'
@@ -13,7 +15,6 @@ require 'jquery-ui-rails'
 require 'compass-blueprint'
 
 require 'susy'
-require 'andand'
 require 'quby/lookup_table'
 require 'quby/range_categories'
 

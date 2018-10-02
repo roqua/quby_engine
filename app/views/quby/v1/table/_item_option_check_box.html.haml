@@ -1,3 +1,4 @@
+-# frozen_string_literal: true
 - available_width = question.presentation == :horizontal ? 100 : 66
 - if opt.inner_title
   %td.option{ :style => "width:#{available_width/(table.columns)}%"}= Quby::MarkdownParser.new(opt.description).html_safe

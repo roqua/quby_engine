@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../repos'
 require 'ostruct'
 require 'pathname'

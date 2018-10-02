@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 title "Patient age can be used in scores"
 
 panel do

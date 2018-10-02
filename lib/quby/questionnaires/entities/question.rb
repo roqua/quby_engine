@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'quby/questionnaires/entities/item'
 
 module Quby
@@ -161,7 +163,7 @@ module Quby
           @input_data[:value_tooltip] = true if options[:value_tooltip]
 
           # Require subquestions of required questions by default
-          options[:required] = true if @parent.andand.validations.andand.first.andand[:type] == :requires_answer
+          options[:required] = true if @parent&.validations&.first&.fetch(:type, nil) == :requires_answer
           @validations << {type: :requires_answer, explanation: options[:error_explanation]} if options[:required]
 
           if @type == :float
@@ -228,7 +230,7 @@ module Quby
             display_modes: display_modes,
             default_invisible: default_invisible,
             viewSelector: view_selector,
-            parentKey: parent.andand.key,
+            parentKey: parent&.key,
             parentOptionKey: parent_option_key,
             deselectable: deselectable
           )
@@ -323,8 +325,8 @@ module Quby
         end
 
         def codebook_output_range
-          range_min = validations.find { |i| i[:type] == :minimum }.andand[:value]
-          range_max = validations.find { |i| i[:type] == :maximum }.andand[:value]
+          range_min = validations.find { |i| i[:type] == :minimum }&.fetch(:value, nil)
+          range_max = validations.find { |i| i[:type] == :maximum }&.fetch(:value, nil)
 
           if range_min || range_max
             "(#{[range_min, "value", range_max].compact.join(" &lt;= ")})"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 require 'quby/answers/services/score_calculator'
 require 'quby/answers/entities/outcome'
@@ -23,7 +25,7 @@ module Quby
               result = ScoreCalculator.calculate(answer.questionnaire,
                                                  value_by_regular_values,
                                                  completed_at,
-                                                 patient.andand.slice("birthyear", "gender"),
+                                                 patient&.slice("birthyear", "gender"),
                                                  results,
                                                  &calculation.calculation)
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def wait_until_focussed(selector)
   wait_for do
     test = "$(document.activeElement).is('#{selector}')"
