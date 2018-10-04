@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# require 'quby/table_backend/disk_table'
 require 'quby/table_backend/disk_tree'
 
 module Quby
@@ -8,7 +7,6 @@ module Quby
     attr_accessor :key
 
     def self.backend_class
-      # Quby::TableBackend::DiskTable
       Quby::TableBackend::DiskTree
     end
 
