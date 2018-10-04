@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-require 'quby/table_backend/disk_table'
-require 'quby/tree_backend/disk_tree'
+# require 'quby/table_backend/disk_table'
+require 'quby/table_backend/disk_tree'
 
 module Quby
   class LookupTable
     attr_accessor :key
 
     def self.backend_class
-      Quby::TableBackend::DiskTable
+      # Quby::TableBackend::DiskTable
+      Quby::TableBackend::DiskTree
     end
 
     def initialize(key)

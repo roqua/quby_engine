@@ -1,7 +1,7 @@
 require 'pathname'
 require 'csv'
 
-module Quby::TreeBackend
+module Quby::TableBackend
   class DiskTree
     attr_reader :data, :headers, :compare
 
