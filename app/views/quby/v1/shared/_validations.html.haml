@@ -1,3 +1,4 @@
+-# frozen_string_literal: true
 - question.validations.each do |validation|
   - exp_classes = ["error", validation[:type], validation[:subtype]].compact
   - valtypes = answer.errors[question.key].collect{|e| e[:valtype]}

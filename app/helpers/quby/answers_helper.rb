@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Quby
   module AnswersHelper
     def get_validation_json(validations)
@@ -19,7 +21,7 @@ module Quby
     end
 
     def different_header(item, previous_item)
-      return true unless item.score_header == previous_item.andand.score_header && previous_item.respond_to?(:options)
+      return true unless item.score_header == previous_item&.score_header && previous_item.respond_to?(:options)
       case item.score_header
       when :question_description
         return item.description != previous_item.description

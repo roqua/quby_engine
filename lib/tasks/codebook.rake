@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :codebook do
 
   desc "Export all questionnaire codebooks to tmp/codebooks/$key.txt"

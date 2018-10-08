@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">= 4.2", '< 5.1'
   s.add_dependency 'rails-i18n'
 
-  s.add_dependency 'nokogiri', '>= 1.8.2'
+  s.add_dependency 'nokogiri', '>= 1.8.3'
 
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.12.0'
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml",              '~> 5.0.3'
   s.add_dependency "sass-rails",        '>= 4.0.5'
+  s.add_dependency "sprockets",         '>= 3.7.2'
   s.add_dependency "kramdown",          '~> 1.13.2'
   s.add_dependency "compass",           '>= 0.12.7'
   s.add_dependency "compass-rails",     '>= 1.1.7'
@@ -37,7 +38,6 @@ Gem::Specification.new do |s|
   s.add_dependency "susy",              '~> 2.2.12'
 
   # Helpers
-  s.add_dependency "ryansch-andand"
   s.add_dependency "json"
   s.add_dependency "addressable"
   s.add_dependency "virtus", ">= 1.0.3", "< 2.0"

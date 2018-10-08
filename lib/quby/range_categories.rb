@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RangeCategories
   def initialize(*range_categories)
     if range_categories.length.even? || range_categories.length < 3

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EngineControllerTesting
   # Rails Engines are not really well-supported by RSpec-Rails,
   # they need a use_route: 'quby' in order to find the right route from

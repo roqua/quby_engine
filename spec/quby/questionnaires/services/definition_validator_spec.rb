@@ -1,11 +1,43 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 module Quby::Questionnaires::Services
   describe DefinitionValidator do
-    let(:questionnaire) { Quby::Questionnaires::Entities::Questionnaire.new('test') }
+    let(:questionnaire) { Quby::Questionnaires::DSL.build('test', 'title "Test"') }
 
-    def make_definition(definition)
+    def make_definition(definition = 'title "Test"')
       Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: definition)
+    end
+
+    describe "fields#answer_keys and fields#input_keys need to be symbols" do
+      before do
+        allow(Quby::Questionnaires::DSL).to receive(:build_from_definition).and_return(questionnaire)
+      end
+
+      it 'passes when answer_keys and input_keys are symbols' do
+        valid_definition = make_definition
+        questionnaire.fields.answer_keys << :v_foo
+        questionnaire.fields.input_keys << :v_foo_a1
+        valid_definition.valid?
+        expect(valid_definition.errors).to be_empty
+      end
+
+      it 'fails when an answer_keys is not a symbol' do
+        invalid_definition = make_definition
+        questionnaire.fields.answer_keys << 'v_foo'
+        invalid_definition.valid?
+        expect(invalid_definition.errors[:sourcecode].first[:message])
+          .to include("Answer key v_foo is not a symbol")
+      end
+
+      it 'fails when an input_keys is not a symbol' do
+        invalid_definition = make_definition
+        questionnaire.fields.input_keys << 'v_foo_a1'
+        invalid_definition.valid?
+        expect(invalid_definition.errors[:sourcecode].first[:message])
+          .to include("Input key v_foo_a1 is not a symbol")
+      end
     end
 
     describe "questionnaire needs a title" do

@@ -1,3 +1,7 @@
+# 2.5.2
+
+* 6x Faster loading of questionnaires.
+
 # 2.3.0
 
 * Added `flags` and `textvars` fields. AnswerRepos need to implement these fields.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples "numerical validations" do |numerical_type|
   let(:questionnaire) do
     inject_questionnaire("test", "question :v1, type: :#{numerical_type} do

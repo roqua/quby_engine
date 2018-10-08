@@ -1,3 +1,4 @@
+-# frozen_string_literal: true
 / Begin _item.html.haml
 - subquestion ||= false
 - disabled ||= false
@@ -24,7 +25,7 @@
   .item{:class => itemclasses, :data => extra_data, :id => itemkey}
     - case item
     - when Quby::Questionnaires::Entities::Text
-      -if item.display_in.andand.include?(:paged)
+      -if item.display_in&.include?(:paged)
         .text
           :markdown
             #{raw(item)}

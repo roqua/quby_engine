@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'virtus'
 require 'active_model'
 require 'quby/answers/entities/outcome'
@@ -121,7 +123,7 @@ module Quby
           if value
             result = value.dup
             value.each_key do |key|
-              question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
+              question = questionnaire.questions.find { |q| q&.key.to_s == key.to_s }
               if question and (question.type == :radio || question.type == :scale || question.type == :select)
                 option = question.options.find { |o| o.key.to_s == value[key].to_s }
                 if option
@@ -145,7 +147,7 @@ module Quby
           if value
             result = value.dup
             value.each do |key, answer|
-              question = questionnaire.questions.find { |q| q.andand.key.to_s == key.to_s }
+              question = questionnaire.questions.find { |q| q&.key.to_s == key.to_s }
               next unless question
               if question.type == :radio || question.type == :scale || question.type == :select
                 option = question.options.find { |o| o.key.to_s == value[key].to_s }
