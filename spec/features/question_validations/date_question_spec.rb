@@ -115,7 +115,7 @@ shared_examples 'validations on date questions', screenshots: true do
       end
     end
 
-    context 'when "required_components [:year]" is provided' do
+    context 'when only the year is required' do
       let(:questionnaire) do
         inject_questionnaire "test_with_components", <<-END
           question :v_date, type: :date, required: true,
@@ -139,17 +139,17 @@ shared_examples 'validations on date questions', screenshots: true do
         fill_in_question('v_date_year', '2018')
         run_validations
         expect_no_errors
-        expect_saved_value 'v_date', '2018'
+        expect_saved_value 'v_date', '-2018'
       end
 
       scenario 'saving an empty date' do
         run_validations
-        expect_error_on 'v_date', 'valid_date'
+        expect_error_on 'v_date', 'requires_answer'
       end
 
       scenario 'saving with missing year' do
+        fill_in_question('v_date_year', '')
         fill_in_question('v_date_month', '10')
-        fill_in_question('v_date_day', '5')
         run_validations
         expect_error_on 'v_date', 'valid_date'
       end

@@ -204,11 +204,12 @@ module Quby
           when :integer
             Integer(value)
           when :date
-            day = value[:day]&.strip || 1
-            month = value[:month]&.strip || 1
-            year = value[:year]&.strip || 2000
-            hour = value[:hour]&.strip || '00'
-            minute = value[:minute]&.strip || '00'
+            non_empty_values = value.reject { |k, v| v&.strip.blank? }
+            day    = non_empty_values[:day]&.strip || 1
+            month  = non_empty_values[:month]&.strip || 1
+            year   = non_empty_values[:year]&.strip || 2000
+            hour   = non_empty_values[:hour]&.strip || '00'
+            minute = non_empty_values[:minute]&.strip || '00'
             DateTime.strptime("#{day}-#{month}-#{year} #{hour}:#{minute}", "%d-%m-%Y %H:%M")
           else
             value
