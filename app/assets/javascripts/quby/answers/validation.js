@@ -255,7 +255,7 @@
 
   function numberOfEmptyDateFields(inputs) {
     return inputs.toArray().reduce(function(fieldsEmpty, field) {
-      if($(field).val() == '') {
+      if($(field).val() == '' && $(field).data('required') == true) {
         return ++fieldsEmpty;
       }
       return fieldsEmpty;

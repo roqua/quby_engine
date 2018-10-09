@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-shared_examples 'validations on date questions' do
+shared_examples 'validations on date questions', screenshots: true do
   before do
     allow_server_side_validation_error
   end
@@ -110,6 +110,46 @@ shared_examples 'validations on date questions' do
       scenario 'saving with invalid hour and minute values' do
         fill_in_question('v_date_hour',  '24')
         fill_in_question('v_date_minute', '60')
+        run_validations
+        expect_error_on 'v_date', 'valid_date'
+      end
+    end
+
+    context 'when "required_components [:year]" is provided' do
+      let(:questionnaire) do
+        inject_questionnaire "test_with_components", <<-END
+          question :v_date, type: :date, required: true,
+                            year_key: :v_date_year, month_key: :v_date_month, day_key: :v_date_day,
+                            components: [:year, :month],
+                            required_components: [:year] do
+            title "Enter a date"
+          end; end_panel
+        END
+      end
+
+      scenario 'saving with valid month and year' do
+        fill_in_question('v_date_year', '2018')
+        fill_in_question('v_date_month', '10')
+        run_validations
+        expect_no_errors
+        expect_saved_value 'v_date', '10-2018'
+      end
+
+      scenario 'saving with valid year only' do
+        fill_in_question('v_date_year', '2018')
+        run_validations
+        expect_no_errors
+        expect_saved_value 'v_date', '2018'
+      end
+
+      scenario 'saving an empty date' do
+        run_validations
+        expect_error_on 'v_date', 'valid_date'
+      end
+
+      scenario 'saving with missing year' do
+        fill_in_question('v_date_month', '10')
+        fill_in_question('v_date_day', '5')
         run_validations
         expect_error_on 'v_date', 'valid_date'
       end

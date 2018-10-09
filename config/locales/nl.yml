@@ -28,6 +28,7 @@ nl:
     valid_date:
       valid_date_day_month_year: "Vul een geldige datum in met formaat DD-MM-JJJJ, bijvoorbeeld 13-08-2015"
       valid_date_month_year: "Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015"
+      valid_date_year: "Vul een jaartal en eventueel een maand in"
       valid_date_hour_minute: "Vul een geldige tijd in met formaat uu:mm, bijvoorbeeld 13:05"
     too_many_checked: "U heeft te veel opties gekozen."
     not_all_checked: "U heeft te weinig opties gekozen."

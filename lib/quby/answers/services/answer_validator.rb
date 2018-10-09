@@ -81,7 +81,10 @@ module Quby
         def validate_required(question, validation, value)
           valid = case question.type
                   when :date
-                    value.values.all?(&:present?)
+                    required_keys = question.required_components.map do |key|
+                      (question.key.to_s + "_" + key.to_s).to_sym
+                    end
+                    value.values_at(*required_keys).all?(&:present?)
                   when :check_box
                     value.values.reduce(:+) > 0
                   else
@@ -108,7 +111,9 @@ module Quby
           # Skip this validation if all date parts are empty
           return if value.values.all?(&:blank?)
 
-          send_date_error(question, validation) if value.values.any?(&:blank?)
+          # Check if there are required date parts are missing
+          required_values = value.fetch_values(*question.required_components)
+          send_date_error(question, validation) if required_values.any?(&:blank?)
 
           begin
             convert_answer_value(question, value)
@@ -204,7 +209,6 @@ module Quby
             year = value[:year]&.strip || 2000
             hour = value[:hour]&.strip || '00'
             minute = value[:minute]&.strip || '00'
-
             DateTime.strptime("#{day}-#{month}-#{year} #{hour}:#{minute}", "%d-%m-%Y %H:%M")
           else
             value
