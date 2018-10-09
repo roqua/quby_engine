@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-shared_examples 'validations on date questions', screenshots: true do
+shared_examples 'validations on date questions' do
   before do
     allow_server_side_validation_error
   end
