@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Quby::TableBackend::DiskTree do
-  let(:tree) { described_class.new('test_tree/test.csv') }
+  let(:tree) { described_class.new('test_tree/test') }
   let(:fixture_root) { Rails.root.join('..', 'fixtures', 'lookup_tables').to_s }
   before do
     allow(Quby).to receive(:lookup_table_path).and_return(fixture_root)

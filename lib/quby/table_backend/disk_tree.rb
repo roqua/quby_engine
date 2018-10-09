@@ -8,7 +8,7 @@ module Quby::TableBackend
     attr_reader :data, :headers, :compare
 
     def initialize(key)
-      path = Pathname.new self.class.disk_table_root.join(key)
+      path = Pathname.new self.class.disk_table_root.join(key + '.csv')
 
       @data = CSV.read(path, col_sep: ',', headers: :first_row,
                              skip_blanks: true, converters: [:integer])
