@@ -8,40 +8,40 @@ module Quby::TableBackend
     attr_reader :data, :headers, :compare
 
     def initialize(key)
-      path = Pathname.new self.class.disk_table_root.join(key + '.csv')
+      path = self.class.disk_table_root.join(key + '.csv')
 
-      @data = CSV.read(path, col_sep: ',', headers: :first_row,
-                             skip_blanks: true, converters: [:integer])
-      @headers = @data.headers
-      @compare = Hash[@data.delete(0)]
+      @data = CSV.read(path, col_sep: ',', skip_blanks: true)
+      @headers = @data.shift
+      @compare = @data.shift
     end
 
     def lookup(parameters)
       (@headers - ['norm']).reduce(tree) do |acc, header|
-        case @compare[header]
+        idx = @headers.find_index(header)
+        case @compare[idx]
         when 'exact'
-          acc.select { |k, _v| k == parameters[header.to_sym] }.values.first
+          acc[parameters[header.to_sym]]
         when 'range'
-          acc.select { |k, _v| k.cover?(parameters[header.to_sym]) }.values.first
+          acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_i) }.values.first
         end
-      end.values.first
+      end.values.first.to_i
     rescue StandardError
       'Not found'
     end
 
     def tree
-      @tree ||= @data.by_row.each_with_object({}) do |row, current_node|
-        row.each do |k, v|
+      @tree ||= @data.each_with_object({}) do |row, current_node|
+        row.each_with_index do |v, idx|
           key =
-            case @compare[k.to_s]
+            case @compare[idx]
             when 'exact' then v
             when 'range' then create_range(v)
             end
 
-          if k.to_s == 'norm'
+          if @headers[idx] == 'norm'
             current_node[key] = v
           else
-            current_node[key] = {} unless current_node[key]
+            current_node[key] ||= {}
           end
           current_node = current_node[key]
         end
