@@ -20,17 +20,30 @@ describe Quby::TableBackend::DiskTree do
     it 'ignores parameter ordering' do
       params = {age: 11, raw: 61, scale: 'Initiatief nemen', gender: 'f'}
       params2 = {gender: 'f', scale: 'Initiatief nemen', raw: 61, age: 11}
+      expect(tree.lookup(params)).to_not be_nil
       expect(tree.lookup(params)).to eq(tree.lookup(params2))
     end
 
-    it 'returns Not found when a param is not mached' do
+    it 'returns nil when a parameter value is not mached' do
       params = {age: 42, raw: 61, scale: 'Initiatief nemen', gender: 'f'}
-      expect(tree.lookup(params)).to eq('Not found')
+      expect(tree.lookup(params)).to eq(nil)
     end
 
     it 'can handle infinity in csv data' do
       params = {age: 10, raw: 94, scale: 'Metacognitie index', gender: 'm'}
       expect(tree.lookup(params)).to eq(132)
+    end
+
+    describe 'parameter validation' do
+      it 'raises when parameter keys do not match header keys' do
+        params = {foo: :bar}
+        expect { tree.lookup(params) }.to raise_error(RuntimeError, 'Incompatible score parameters found')
+      end
+
+      it 'raises when a key is missing' do
+        params = {age: 11, scale: 'Initiatief nemen', gender: 'f'}
+        expect { tree.lookup(params) }.to raise_error(RuntimeError, 'Incompatible score parameters found')
+      end
     end
   end
 end

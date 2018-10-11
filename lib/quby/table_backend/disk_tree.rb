@@ -16,17 +16,8 @@ module Quby::TableBackend
     end
 
     def lookup(parameters)
-      (@headers - ['norm']).reduce(tree) do |acc, header|
-        idx = @headers.find_index(header)
-        case @compare[idx]
-        when 'exact'
-          acc[parameters[header.to_sym]]
-        when 'range'
-          acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_i) }.values.first
-        end
-      end.values.first.to_i
-    rescue StandardError
-      'Not found'
+      validate_parameters(parameters)
+      lookup_score(parameters)
     end
 
     def tree
@@ -54,6 +45,29 @@ module Quby::TableBackend
     end
 
     private
+
+    def validate_parameters(parameters)
+      if (@headers - ['norm']).sort != parameters.keys.map(&:to_s).sort
+        fail 'Incompatible score parameters found'
+      end
+    end
+
+    def lookup_score(parameters)
+      (@headers - ['norm']).reduce(tree) do |acc, header|
+        idx = @headers.find_index(header)
+        case @compare[idx]
+        when 'exact'
+          acc[parameters[header.to_sym]]
+        when 'range'
+          acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_i) }.values.first
+        end
+      end.values.first.to_i
+    rescue StandardError => exception
+      if defined? Roqua::Support::Errors
+        Roqua::Support::Errors.report(exception, parameters: parameters)
+      end
+      nil
+    end
 
     def create_range(value)
       min, max = value.split(':').map { |val| parse_value(val) }
