@@ -422,6 +422,23 @@ module Quby::Answers::Services
       end
     end
 
+    describe '#respondent_type' do
+      it 'returns the respondent_type' do
+        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {respondent_type: :parent})
+        calculator.respondent_type.should eq :parent
+      end
+
+      it 'returns the respondent_type when passed a string key' do
+        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {"respondent_type" => :parent})
+        calculator.respondent_type.should eq :parent
+      end
+
+      it 'returns nil when respondent_type is not given' do
+        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {})
+        calculator.respondent_type.should eq nil
+      end
+    end
+
     describe '#score' do
       let(:questionnaire) do
         inject_questionnaire "test", <<-END

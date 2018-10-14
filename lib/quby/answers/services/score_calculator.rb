@@ -43,6 +43,7 @@ module Quby
           @values = values
           @timestamp = timestamp
           @patient = Entities::Patient.new(patient_attrs)
+          @respondent = Entities::Respondent.new(patient_attrs) # TO DISCUSS: VERY DIRTY!
           @score = {}
           @referenced_values = []
         end
@@ -201,6 +202,11 @@ module Quby
         # The symbol :unknown is returned when gender is not known.
         def gender
           @patient.gender
+        end
+
+        # Public: Returns the type of the respondent
+        def respondent_type
+          @respondent.type
         end
 
         # Public: Runs another score calculation or variable and returns its result
