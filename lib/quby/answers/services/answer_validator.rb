@@ -204,7 +204,7 @@ module Quby
           when :integer
             Integer(value)
           when :date
-            non_empty_values = value.reject { |k, v| v&.strip.blank? }
+            non_empty_values = value.reject { |_k, v| v&.strip.blank? }
             day    = non_empty_values[:day]&.strip || 1
             month  = non_empty_values[:month]&.strip || 1
             year   = non_empty_values[:year]&.strip || 2000

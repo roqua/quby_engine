@@ -139,7 +139,7 @@ shared_examples 'validations on date questions' do
         fill_in_question('v_date_year', '2018')
         run_validations
         expect_no_errors
-        expect_saved_value 'v_date', '-2018'
+        expect_saved_value 'v_date', '2018'
       end
 
       scenario 'saving an empty date' do
