@@ -311,6 +311,7 @@ module Quby
                     v.all?(&:blank?) ? '' : v.join('-')
                   when [:month, :year]
                     v = [:month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
+                                       .reject(&:blank?)
                     v.all?(&:blank?) ? '' : v.join('-')
                   when [:hour, :minute]
                     v = [:hour, :minute].map { |component| self.value[question.send("#{component}_key").to_s] }
