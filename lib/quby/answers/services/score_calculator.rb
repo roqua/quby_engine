@@ -43,7 +43,7 @@ module Quby
           @values = values
           @timestamp = timestamp
           @patient = Entities::Patient.new(patient_attrs)
-          @respondent = Entities::Respondent.new(patient_attrs) # TO DISCUSS: VERY DIRTY!
+          @respondent = Entities::Respondent.new(patient_attrs)
           @score = {}
           @referenced_values = []
         end
