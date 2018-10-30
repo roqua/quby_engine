@@ -3,13 +3,15 @@ variables:
   RAILS_ENV: 'test'
   TEASPOON_RAILS_ENV: 'settings_this_prevents_teaspoon_from_loading_rails_too_soon'
 
-before_script:
-  - export BUNDLE_PATH=$CI_PROJECT_DIR/.gems
-  - bundle --jobs 2 --retry 3
-  - bundle exec appraisal
-  - bundle --jobs 2 --retry 3
+.ruby_before_script: &ruby_before_script
+  before_script:
+    - export BUNDLE_PATH=$CI_PROJECT_DIR/.gems
+    - bundle --jobs 2 --retry 3
+    - bundle exec appraisal
+    - bundle --jobs 2 --retry 3
 
 .ruby_23: &ruby_23
+  <<: *ruby_before_script
   image: registry.roqua.nl/roqua/roqua-build-images:ruby-2.3-rails-base-test
   cache:
     key: ruby_23
@@ -17,6 +19,7 @@ before_script:
       - .gems
 
 .ruby_24: &ruby_24
+  <<: *ruby_before_script
   image: registry.roqua.nl/roqua/roqua-build-images:ruby-2.4-rails-base-test
   cache:
     key: ruby_24
