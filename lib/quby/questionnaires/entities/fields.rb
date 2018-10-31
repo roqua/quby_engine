@@ -83,42 +83,30 @@ module Quby
           # in order to be safe we return a string explaining the issue
           return "No description due to question/option key clash" if option_hash.key?(key) && question_hash.key?(key)
 
-          variable_descriptions[key]
+          variable_description(key)
         end
 
         private
 
         # warning, will contain a result even if option/answer key clashes exist for a given key
-        def variable_descriptions
-          return @variable_descriptions if @variable_descriptions.present?
-          @variable_descriptions = @questionnaire.questions
-                                                 .map(&:variable_descriptions)
-                                                 .reduce(&:merge)
-                                                 &.with_indifferent_access || {}
-
-          @variable_descriptions.merge! score_descriptions
-          @variable_descriptions.merge! flag_descriptions
-          @variable_descriptions.merge! textvar_descriptions
+        def variable_description(key)
+          @question_variable_descriptions ||= @questionnaire.questions
+                                                            .map(&:variable_descriptions)
+                                                            .reduce(&:merge)
+                                                            &.with_indifferent_access || {}
+          @question_variable_descriptions[key] ||
+            score_descriptions[key] ||
+            @questionnaire.flags[key]&.variable_description ||
+            @questionnaire.textvars[key]&.description
         end
 
         def score_descriptions
-          @questionnaire.score_schemas.values.map do |score_schema|
-            score_schema.sub_score_schemas.map do |subschema|
-              [subschema.export_key, "#{score_schema.label} #{subschema.label}"]
-            end
-          end.flatten(1).to_h.with_indifferent_access
-        end
-
-        def flag_descriptions
-          @questionnaire.flags.each_value.map do |flag|
-            [flag.key, "#{flag.description} (true - '#{flag.description_true}', false - '#{flag.description_false}')"]
-          end.to_h.with_indifferent_access
-        end
-
-        def textvar_descriptions
-          @questionnaire.textvars.each_value.map do |textvar|
-            [textvar.key, textvar.description]
-          end.to_h.with_indifferent_access
+          @score_variable_descriptions ||=
+            @questionnaire.score_schemas.values.map do |score_schema|
+              score_schema.sub_score_schemas.map do |subschema|
+                [subschema.export_key, "#{score_schema.label} #{subschema.label}"]
+              end
+            end.flatten(1).to_h.with_indifferent_access
         end
       end
     end
