@@ -55,7 +55,7 @@ module Quby
             components.each_with_object(key => context_free_title) do |component, hash|
               key = send("#{component}_key").to_sym
               hash[key] = "#{context_free_title} (#{I18n.t component})"
-            end
+            end.with_indifferent_access
           end
 
           def as_json(options = {})
