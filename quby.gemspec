@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.required_ruby_version = '>= 2.0'
-  s.add_dependency "rails", ">= 4.2", '< 5.1'
+  s.add_dependency "rails", ">= 4.2", '< 5.2'
   s.add_dependency 'rails-i18n'
 
   s.add_dependency 'nokogiri', '>= 1.8.3'
