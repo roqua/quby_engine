@@ -10,7 +10,7 @@ module Quby
 
         def initialize(attributes = {})
           attributes = attributes.with_indifferent_access
-          @type    = attributes[:respondent_type]
+          @type = attributes[:respondent_type]
         end
       end
     end
