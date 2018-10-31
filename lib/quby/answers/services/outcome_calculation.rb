@@ -22,10 +22,11 @@ module Quby
 
           questionnaire.score_calculations.each do |key, calculation|
             begin
-              result = ScoreCalculator.calculate(answer.questionnaire,
-                                                 value_by_regular_values,
-                                                 completed_at,
-                                                 patient&.slice("birthyear", "gender"),
+              result = ScoreCalculator.calculate(questionnaire: answer.questionnaire,
+                                                 values: value_by_regular_values,
+                                                 timestamp: completed_at,
+                                                 patient_attrs: patient&.slice("birthyear", "gender"),
+                                                 respondent_attrs: patient&.slice("respondent_type"),
                                                  &calculation.calculation)
 
               if calculation.completion
