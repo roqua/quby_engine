@@ -26,6 +26,7 @@ en:
     valid_integer: "Enter a valid integer number"
     valid_float: "Enter a number. Use a period (.) for decimals."
     valid_date:
+      valid_date_year: "Enter a valid year in the format JJJJ, for example 2015"
       valid_date_day_month_year: "Enter a valid date in the format DD-MM-YYYY, for example 12-08-2015"
       valid_date_month_year: "Enter a valid date in the format DD-MM-YYYY, for example 08-2015"
       valid_date_hour_minute: "Enter a valid time in the format hh:mm, for example 13:05"

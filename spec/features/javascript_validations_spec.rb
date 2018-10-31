@@ -90,9 +90,20 @@ feature 'Trying to fill out an invalid answer', js: true do
   scenario 'filling in an invalid date with zeroes and a next panel is present triggers a validation error when clicking next' do
     questionnaire = inject_questionnaire("test", <<-END)
       panel do
-        question :v1, type: :date, year_key: :v_date_year, month_key: :v_date_month, components: [:month, :year] do
-          title "Moet beantwoord worden"
-        end
+        question :v1, type: :date,
+                      year_key: :v1_date_year,
+                      month_key: :v1_date_month,
+                      components: [:month, :year],
+                      title: "gaan we goed invullen"
+        question :v2, type: :date,
+                      year_key: :v2_date_year,
+                      month_key: :v2_date_month,
+                      components: [:month, :year],
+                      title: "gaan we fout invoeren"
+
+        question :v3, type: :date,
+                      components: [:year],
+                      title: "gaan we fout invoeren"
       end
 
       panel do
@@ -101,13 +112,24 @@ feature 'Trying to fill out an invalid answer', js: true do
 
     visit_new_answer_for(questionnaire)
     within '.panel.current' do
-      fill_in 'answer_v_date_year', with: '0000'
-      fill_in 'answer_v_date_month', with: '00'
+      fill_in 'answer_v1_date_year', with: '2018'
+      fill_in 'answer_v1_date_month', with: '01'
+
+      fill_in 'answer_v2_date_year', with: '0000'
+      fill_in 'answer_v2_date_month', with: '00'
+
+      fill_in 'answer_v3_yyyy', with: '0000'
+
       click_on 'Verder'
     end
 
-    expect(find('#item_v1 .error.valid_date').text)
+    expect(page).not_to have_selector('#item_v1 .error.valid_date')
+
+    expect(find('#item_v2 .error.valid_date').text)
       .to eql('Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015')
+
+    expect(find('#item_v3 .error.valid_date').text)
+      .to eql('Vul en geldig jaar in met formaat JJJJ, bijvoorbeeld 2015')
   end
 
   describe 'clientside validations' do
