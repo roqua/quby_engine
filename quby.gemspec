@@ -47,20 +47,19 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-ui-rails", "~> 3.0.1"
 
   s.add_development_dependency 'combustion',  '~> 0.5.1'
-  s.add_development_dependency 'rspec',       '>= 2.14.1'
-  s.add_development_dependency 'rspec-core',  '>= 2.14.8'
-  s.add_development_dependency 'rspec-rails', '>= 2.14.2', '< 3.0'
+  s.add_development_dependency 'rspec',       '>= 3'
+  s.add_development_dependency 'rspec-core',  '>= 3'
+  s.add_development_dependency 'rspec-rails', '>= 3'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'teaspoon'
   s.add_development_dependency 'teaspoon-jasmine'
   s.add_development_dependency 'rubocop', '~> 0.50.0'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'guard'
-  s.add_development_dependency 'guard-rspec', '~> 4.3.1'
+  s.add_development_dependency 'guard-rspec'
   s.add_development_dependency "launchy"
   s.add_development_dependency "pry"
   s.add_development_dependency 'capybara-screenshot', '= 0.3.14'
   s.add_development_dependency "codeclimate-test-reporter", '0.6.0'
-  s.add_development_dependency 'fuubar', '~> 1.3.3'
   s.add_development_dependency 'simplecov', '~> 0.9.0'
 end

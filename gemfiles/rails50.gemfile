@@ -36,10 +36,9 @@ group :test, :development do
   gem "fakefs", "0.9.1", :require => false
   gem "flamegraph"
   gem "stackprof"
-  gem "rspec-prof", "0.0.5"
   gem "test-unit"
-  gem "rspec-rails", "~> 2.99.0"
-  gem "rspec-core", "~> 2.99.0"
+  gem "rspec-rails"
+  gem "rspec-core"
 end
 
 platforms :ruby, :jruby do
