@@ -48,7 +48,6 @@ group :test, :development do
 
   gem 'flamegraph'
   gem 'stackprof' # needed by flamegraph
-  # gem 'rspec-prof', '0.0.5'
   gem 'test-unit'
 
   gem 'rspec-rails'
