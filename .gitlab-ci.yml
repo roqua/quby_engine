@@ -10,14 +10,6 @@ variables:
     - bundle exec appraisal
     - bundle --jobs 2 --retry 3
 
-.ruby_23: &ruby_23
-  <<: *ruby_before_script
-  image: registry.roqua.nl/roqua/roqua-build-images:ruby-2.3-rails-base-test
-  cache:
-    key: ruby_23
-    paths:
-      - .gems
-
 .ruby_24: &ruby_24
   <<: *ruby_before_script
   image: registry.roqua.nl/roqua/roqua-build-images:ruby-2.4-rails-base-test
@@ -26,29 +18,23 @@ variables:
     paths:
       - .gems
 
-rails_50_ruby_23:
-  <<: *ruby_23
-  script:
-    - bundle exec appraisal rails50 bundle exec rspec
-    - bundle exec appraisal rails50 bundle exec teaspoon  
-
 rails_50_ruby_24:
   <<: *ruby_24
   script:
     - bundle exec appraisal rails50 bundle exec rspec
     - bundle exec appraisal rails50 bundle exec teaspoon
 
-rails_51_ruby_23:
-  <<: *ruby_23
-  script:
-    - bundle exec appraisal rails51 bundle exec rspec
-    - bundle exec appraisal rails51 bundle exec teaspoon
-
 rails_51_ruby_24:
   <<: *ruby_24
   script:
     - bundle exec appraisal rails51 bundle exec rspec
     - bundle exec appraisal rails51 bundle exec teaspoon
+
+rails_52_ruby_24:
+  <<: *ruby_24
+  script:
+    - bundle exec appraisal rails52 bundle exec rspec
+    - bundle exec appraisal rails52 bundle exec teaspoon
 
 dependency_scanning:
   image: registry.roqua.nl/roqua/dependency_scanning
