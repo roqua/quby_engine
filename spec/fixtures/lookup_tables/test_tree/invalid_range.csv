@@ -1,6 +1,6 @@
 scale,gender,age,raw,norm
 exact,exact,range,range,exact
-Inhibitie,male,10:11,minfinity:10,39
-Inhibitie,male,10:11,10:20,42
+Inhibitie,male,10:11,10:10,39
+Inhibitie,male,10:11,11:20,42
 Inhibitie,male,10:11,20:30,71
 Inhibitie,male,10:11,30:infinity,75

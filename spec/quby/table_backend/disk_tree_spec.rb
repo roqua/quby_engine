@@ -14,24 +14,51 @@ describe Quby::TableBackend::DiskTree do
       expect(CSV).to receive(:read).and_call_original
       tree
     end
+
+    context 'invalid csv data' do
+      let(:tree) { described_class.new('test_tree/invalid_range')}
+      it 'fails for a range between two equal values' do
+        expect { tree.tree }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
+      end
+    end
   end
 
   describe 'lookup' do
     it 'ignores parameter ordering' do
-      params = {age: 11, raw: 61, scale: 'Initiatief nemen', gender: 'f'}
-      params2 = {gender: 'f', scale: 'Initiatief nemen', raw: 61, age: 11}
+      params = {age: 10, raw: 15, scale: 'Inhibitie', gender: 'male'}
+      params2 = {gender: 'male', scale: 'Inhibitie', raw: 15, age: 10}
       expect(tree.lookup(params)).to_not be_nil
       expect(tree.lookup(params)).to eq(tree.lookup(params2))
     end
 
     it 'returns nil when a parameter value is not mached' do
-      params = {age: 42, raw: 61, scale: 'Initiatief nemen', gender: 'f'}
+      params = {age: 9, raw: 25, scale: 'Inhibitie', gender: 'male'}
+      expect(tree.lookup(params)).to eq(nil)
+
+      params = {age: 11, raw: 25, scale: 'Inhibitie', gender: 'male'}
+      expect(tree.lookup(params)).to eq(nil)
+
+      params = {age: 10, raw: 25, scale: 'Niet gevonden', gender: 'male'}
+      expect(tree.lookup(params)).to eq(nil)
+
+      params = {age: 10, raw: 25, scale: 'Inhibitie', gender: '?'}
       expect(tree.lookup(params)).to eq(nil)
     end
 
-    it 'can handle infinity in csv data' do
-      params = {age: 10, raw: 94, scale: 'Metacognitie index', gender: 'm'}
-      expect(tree.lookup(params)).to eq(132)
+    it 'notifies AppSignal when lookup fails' do
+      expect(Roqua::Support::Errors).to receive(:report)
+      params = {age: 10, raw: 25, scale: 'Inhibitie', gender: '?'}
+      tree.lookup(params)
+    end
+
+    it 'handles minfinity' do
+      params = {age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'}
+      expect(tree.lookup(params)).to eq(39)
+    end
+
+    it 'handles infinity' do
+      params = {age: 10, raw: 96, scale: 'Inhibitie', gender: 'male'}
+      expect(tree.lookup(params)).to eq(75)
     end
 
     describe 'parameter validation' do
@@ -41,7 +68,12 @@ describe Quby::TableBackend::DiskTree do
       end
 
       it 'raises when a key is missing' do
-        params = {age: 11, scale: 'Initiatief nemen', gender: 'f'}
+        params = {age: 10, scale: 'Inhibitie', gender: 'male'}
+        expect { tree.lookup(params) }.to raise_error(RuntimeError, 'Incompatible score parameters found')
+      end
+
+      it 'raises when extra keys are given' do
+        params = {age: 10, scale: 'Inhibitie', gender: 'male', raw: 25, foo: :bar}
         expect { tree.lookup(params) }.to raise_error(RuntimeError, 'Incompatible score parameters found')
       end
     end

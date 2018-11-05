@@ -3,6 +3,15 @@
 require 'pathname'
 require 'csv'
 
+# Create a lookup tree from a csv file that converts raw scores
+# to normalized scores.
+# The csv file should have two header rows, one with the column
+# names and one with the lookup types (exact or range).
+# String types should always use the `exact` match type.
+# Numerical types can use the `range` type where the range is between
+# the low value (inclusive) and the high value (exclusive).
+# The low and high values of a range cannot be equal.
+# Use minfinity or infinity to create infinite ranges.
 module Quby::TableBackend
   class DiskTree
     attr_reader :data, :headers, :compare
@@ -25,7 +34,7 @@ module Quby::TableBackend
         row.each_with_index do |v, idx|
           key =
             case @compare[idx]
-            when 'exact' then v
+            when 'exact' then parse_value(v)
             when 'range' then create_range(v)
             end
 
@@ -71,15 +80,19 @@ module Quby::TableBackend
 
     def create_range(value)
       min, max = value.split(':').map { |val| parse_value(val) }
-      max > min ? (min...max) : (min..max)
+      fail 'Cannot create range between two equal values' if min == max
+      (min...max)
     end
 
     def parse_value(value)
       case value
       when 'infinity'  then Float::INFINITY
       when 'minfinity' then -Float::INFINITY
-      else value.to_i
+      else Integer(value)
       end
+    rescue ArgumentError
+      # Not an integer
+      value
     end
   end
 end
