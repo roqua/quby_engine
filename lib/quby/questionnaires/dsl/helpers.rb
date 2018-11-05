@@ -5,12 +5,10 @@ module Quby
     module DSL
       module Helpers
         def image_tag(*args)
-          source = args.dup
-          options = source.extract_options!
-          ActionController::Base.helpers.image_tag(
-            source,
-            options.reverse_merge(alt: ActionController::Base.helpers.image_alt(source))
-          )
+          source = args.first
+          options = args.dup.extract_options!.reverse_merge(alt: ActionController::Base.helpers.image_alt(source))
+
+          ActionController::Base.helpers.image_tag(source, options)
         end
 
         def check_question_keys_uniqueness(key, options, questionnaire)
