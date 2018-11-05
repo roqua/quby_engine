@@ -5,9 +5,10 @@ module Quby
     module DSL
       module Helpers
         def image_tag(*args)
-          options = args.dup.extract_options!
+          source = args.dup
+          options = source.extract_options!
           ActionController::Base.helpers.image_tag(
-            *args,
+            source,
             options.reverse_merge(alt: ActionController::Base.helpers.image_alt(source))
           )
         end
