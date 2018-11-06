@@ -23,7 +23,8 @@ module Quby
             @components = options[:components] || DEFAULT_COMPONENTS
 
             components.each do |component|
-              instance_variable_set("@#{component}_key", options[:"#{component}_key"])
+              component_key = options[:"#{component}_key"] || "#{key}_#{COMPONENT_KEYS[component]}"
+              instance_variable_set("@#{component}_key", component_key.to_sym )
             end
 
             add_date_validation(options[:error_explanation])
@@ -33,12 +34,6 @@ module Quby
             @validations << {type: :valid_date,
                              subtype: :"valid_date_#{components.sort.join('_')}",
                              explanation: explanation}
-          end
-
-          COMPONENT_KEYS.each do |component, name|
-            define_method("#{component}_key") do
-              (instance_variable_get("@#{component}_key") || "#{key}_#{name}").to_s
-            end
           end
 
           def claimed_keys
@@ -53,7 +48,7 @@ module Quby
 
           def variable_descriptions
             components.each_with_object(key => context_free_title) do |component, hash|
-              key = send("#{component}_key").to_sym
+              key = send("#{component}_key")
               hash[key] = "#{context_free_title} (#{I18n.t component})"
             end.with_indifferent_access
           end

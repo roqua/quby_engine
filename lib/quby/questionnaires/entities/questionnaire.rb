@@ -308,9 +308,9 @@ module Quby
               next if question&.key.blank?
               case question.type
               when :date
-
                 question.components.each do |component|
-                  key = question.send("#{component}_key")
+                  # assignment to 'value' hash must be done under string keys
+                  key = question.send("#{component}_key").to_s
                   define_method(key) do
                     self.value ||= Hash.new
                     self.value[key]
@@ -325,16 +325,16 @@ module Quby
                 define_method(question.key) do
                   self.value ||= Hash.new
 
-                  case question.components.sort
-                  when [:day, :month, :year]
-                    v = [:day, :month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
-                    v.all?(&:blank?) ? '' : v.join('-')
-                  when [:month, :year]
-                    v = [:month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
-                    v.all?(&:blank?) ? '' : v.join('-')
+                  components = question.components.sort
+                  component_values = components.map do |component|
+                    value_key = question.send("#{component}_key").to_s
+                    self.value[value_key]
+                  end
+                  case components
+                  when [:day, :month, :year], [:month, :year]
+                    component_values.all?(&:blank?) ? '' : component_values.join('-')
                   when [:hour, :minute]
-                    v = [:hour, :minute].map { |component| self.value[question.send("#{component}_key").to_s] }
-                    v.all?(&:blank?) ? '' : v.join(':')
+                    component_values.all?(&:blank?) ? '' : component_values.join(':')
                   end
                 end
 
