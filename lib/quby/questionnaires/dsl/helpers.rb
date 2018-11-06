@@ -12,8 +12,8 @@ module Quby
           )
         end
 
-        # Copied from ActionController::Base.helpers.image_alt, because it will be removed from Rails 6.0, but want to
-        # keep using this functionality
+        # Copied from ActionController::Base.helpers.image_alt, because it will be removed from Rails 6.0, but we want
+        # to keep using this functionality
         def image_alt(source)
           File.basename(source, ".*").sub(/-[[:xdigit:]]{32,64}\z/, "").tr("-_", " ").capitalize
         end
