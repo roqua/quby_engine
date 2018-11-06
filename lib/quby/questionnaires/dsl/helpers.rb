@@ -5,10 +5,17 @@ module Quby
     module DSL
       module Helpers
         def image_tag(*args)
-          source = args.first
-          options = args.dup.extract_options!.reverse_merge(alt: ActionController::Base.helpers.image_alt(source))
+          options = args.extract_options!
 
-          ActionController::Base.helpers.image_tag(source, options)
+          ActionController::Base.helpers.image_tag(
+            *args, options.reverse_merge(alt: image_alt(args.first))
+          )
+        end
+
+        # Copied from ActionController::Base.helpers.image_alt, because it will be removed from Rails 6.0, but want to
+        # keep using this functionality
+        def image_alt(source)
+          File.basename(source, ".*").sub(/-[[:xdigit:]]{32,64}\z/, "").tr("-_", " ").capitalize
         end
 
         def check_question_keys_uniqueness(key, options, questionnaire)
