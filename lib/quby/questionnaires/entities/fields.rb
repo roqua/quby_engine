@@ -77,6 +77,8 @@ module Quby
           end
         end
 
+        # returns a human readable string description given a key of a question,
+        # question component (date components, checkbox options), score, flag or textvar
         def description_for_variable(key)
           # for questionnaires where we do not check_key_clashes we cannot reliably retrace the variable keys,
           # since they contain conflicts between option keys and question keys
