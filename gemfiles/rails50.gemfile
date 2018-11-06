@@ -9,11 +9,8 @@ gem "jquery-ui-rails", "~> 3.0.1"
 gem "susy", "~> 2.2.12"
 gem "compass-rails"
 gem "rails", "~> 5.0.6"
-gem "sass-rails", "~> 5.0.6"
-gem "kramdown", "~> 1.13.2"
 gem "sprockets-rails", "~> 2.3.3"
 gem "jquery-rails", "~> 4.2.2"
-gem "rails-controller-testing"
 
 group :assets do
   gem "coffee-rails"
@@ -36,10 +33,9 @@ group :test, :development do
   gem "fakefs", "0.9.1", :require => false
   gem "flamegraph"
   gem "stackprof"
-  gem "rspec-prof", "0.0.5"
   gem "test-unit"
-  gem "rspec-rails", "~> 2.99.0"
-  gem "rspec-core", "~> 2.99.0"
+  gem "rspec-rails"
+  gem "rspec-core"
 end
 
 platforms :ruby, :jruby do

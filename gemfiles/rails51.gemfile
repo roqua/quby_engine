@@ -3,19 +3,22 @@
 source "http://rubygems.org"
 
 gem "appraisal", "2.1.0"
-gem "bson_ext"
 gem "roqua-support"
 gem "i18n"
 gem "jquery-ui-rails", "~> 3.0.1"
 gem "susy", "~> 2.2.12"
-gem "compass-rails", "~> 2.0.0"
-gem "nokogiri", ">= 1.7.1"
-gem "rails", "~> 4.1.4"
-gem "jquery-rails", "~> 2.2.2"
+gem "compass-rails"
+gem "rails", "~> 5.1.0"
+gem "sprockets-rails", "~> 2.3.3"
+gem "jquery-rails", "~> 4.2.2"
 
 group :assets do
   gem "coffee-rails"
   gem "uglifier"
+end
+
+group :test do
+  gem "rails-controller-testing"
 end
 
 group :test, :development do
@@ -30,10 +33,9 @@ group :test, :development do
   gem "fakefs", "0.9.1", :require => false
   gem "flamegraph"
   gem "stackprof"
-  gem "rspec-prof", "0.0.5"
   gem "test-unit"
-  gem "rspec-rails", "~> 2.99.0"
-  gem "rspec-core", "~> 2.99.0"
+  gem "rspec-rails"
+  gem "rspec-core"
 end
 
 platforms :ruby, :jruby do
