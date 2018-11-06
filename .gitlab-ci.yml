@@ -1,28 +1,42 @@
 variables:
   SIMPLECOV: 'true'
   RAILS_ENV: 'test'
-  TEASPOON_RAILS_ENV: 'settings_this_prevents_teaspoon_from_loading_rails_too_soon'
+  TEASPOON_RAILS_ENV: 'setting_this_prevents_teaspoon_from_loading_rails_too_soon'
 
-.rails_script: &rails_script
-  script:
-    - ruby -v
-    - eval $(ssh-agent -s)
-
-    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-
-    - bundle-cache
+.ruby_before_script: &ruby_before_script
+  before_script:
+    - export BUNDLE_PATH=$CI_PROJECT_DIR/.gems
+    - bundle --jobs 2 --retry 3
     - bundle exec appraisal install
-    - bundle exec appraisal rails50 bundle exec rspec spec
-    - bundle exec appraisal rails50 bundle exec teaspoon  
 
-rails_50_ruby_23:
-  <<: *rails_script
-  image: "roqua/roqua-build-images:ruby-2.3-rails-base-test"
+.ruby_24: &ruby_24
+  <<: *ruby_before_script
+  image: registry.roqua.nl/roqua/roqua-build-images:ruby-2.4-rails-base-test
+  cache:
+    key: ruby_24
+    paths:
+      - .gems
 
 rails_50_ruby_24:
-  <<: *rails_script
-  image: "roqua/roqua-build-images:ruby-2.4-rails-base-test"
+  <<: *ruby_24
+  script:
+    - cat gemfiles/rails50.gemfile.lock
+    - bundle exec appraisal rails50 rspec
+    - bundle exec appraisal rails50 teaspoon
+
+rails_51_ruby_24:
+  <<: *ruby_24
+  script:
+    - cat gemfiles/rails51.gemfile.lock
+    - bundle exec appraisal rails51 rspec
+    - bundle exec appraisal rails51 teaspoon
+
+rails_52_ruby_24:
+  <<: *ruby_24
+  script:
+    - cat gemfiles/rails52.gemfile.lock
+    - bundle exec appraisal rails52 rspec
+    - bundle exec appraisal rails52 teaspoon
 
 dependency_scanning:
   image: registry.roqua.nl/roqua/dependency_scanning
@@ -53,4 +67,3 @@ code_quality:
         "registry.gitlab.com/gitlab-org/security-products/codequality:$SP_VERSION" /code
   artifacts:
     paths: [gl-code-quality-report.json]
-
