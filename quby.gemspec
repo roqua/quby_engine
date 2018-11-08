@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.required_ruby_version = '>= 2.0'
-  s.add_dependency "rails", ">= 4.2", '< 5.1'
+  s.add_dependency "rails", ">= 4.2", '< 5.3'
   s.add_dependency 'rails-i18n'
 
   s.add_dependency 'nokogiri', '>= 1.8.3'
@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   # Views
   s.add_dependency 'coffee-rails'
   s.add_dependency "haml",              '~> 5.0.3'
-  s.add_dependency "sass-rails",        '>= 4.0.5'
+  s.add_dependency "sass-rails",        '>= 5.0.6'
   s.add_dependency "sprockets",         '>= 3.7.2'
   s.add_dependency "kramdown",          '~> 1.13.2'
   s.add_dependency "compass",           '>= 0.12.7'
@@ -46,21 +46,20 @@ Gem::Specification.new do |s|
   s.add_dependency "jquery-rails", ">= 2.2.2"
   s.add_dependency "jquery-ui-rails", "~> 3.0.1"
 
-  s.add_development_dependency 'combustion',  '~> 0.5.1'
-  s.add_development_dependency 'rspec',       '>= 2.14.1'
-  s.add_development_dependency 'rspec-core',  '>= 2.14.8'
-  s.add_development_dependency 'rspec-rails', '>= 2.14.2', '< 3.0'
+  s.add_development_dependency 'combustion',  '~> 1.0'
+  s.add_development_dependency 'rspec',       '>= 3'
+  s.add_development_dependency 'rspec-core',  '>= 3'
+  s.add_development_dependency 'rspec-rails', '>= 3'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'teaspoon'
   s.add_development_dependency 'teaspoon-jasmine'
   s.add_development_dependency 'rubocop', '~> 0.50.0'
   s.add_development_dependency 'fakefs'
   s.add_development_dependency 'guard'
-  s.add_development_dependency 'guard-rspec', '~> 4.3.1'
+  s.add_development_dependency 'guard-rspec'
   s.add_development_dependency "launchy"
   s.add_development_dependency "pry"
   s.add_development_dependency 'capybara-screenshot', '= 0.3.14'
   s.add_development_dependency "codeclimate-test-reporter", '0.6.0'
-  s.add_development_dependency 'fuubar', '~> 1.3.3'
   s.add_development_dependency 'simplecov', '~> 0.9.0'
 end
