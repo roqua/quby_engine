@@ -22,7 +22,7 @@ group :test do
 end
 
 group :test, :development do
-  gem "guard-rspec", ">= 4.2"
+  gem "guard-rspec", "~> 4.7"
   gem "guard-teaspoon", "~> 0.8"
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.0"
