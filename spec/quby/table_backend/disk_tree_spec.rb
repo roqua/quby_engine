@@ -23,7 +23,13 @@ describe Quby::TableBackend::DiskTree do
     end
   end
 
-  describe 'lookup' do
+  describe '#tree' do
+    it 'returns a hash' do
+      expect(tree.tree).to be_a(Hash)
+    end
+  end
+
+  describe '#lookup' do
     it 'ignores parameter ordering' do
       params = {age: 10, raw: 15, scale: 'Inhibitie', gender: 'male'}
       params2 = {gender: 'male', scale: 'Inhibitie', raw: 15, age: 10}
@@ -32,15 +38,19 @@ describe Quby::TableBackend::DiskTree do
     end
 
     it 'returns nil when a parameter value is not mached' do
+      # Age too low
       params = {age: 9, raw: 25, scale: 'Inhibitie', gender: 'male'}
       expect(tree.lookup(params)).to eq(nil)
 
+      # Age too high
       params = {age: 11, raw: 25, scale: 'Inhibitie', gender: 'male'}
       expect(tree.lookup(params)).to eq(nil)
 
+      # Unknown scale
       params = {age: 10, raw: 25, scale: 'Niet gevonden', gender: 'male'}
       expect(tree.lookup(params)).to eq(nil)
 
+      # Unknown gender
       params = {age: 10, raw: 25, scale: 'Inhibitie', gender: '?'}
       expect(tree.lookup(params)).to eq(nil)
     end
@@ -59,6 +69,11 @@ describe Quby::TableBackend::DiskTree do
     it 'handles infinity' do
       params = {age: 10, raw: 96, scale: 'Inhibitie', gender: 'male'}
       expect(tree.lookup(params)).to eq(75)
+    end
+
+    it 'handles normal ranges' do
+      params = {age: 10, raw: 15, scale: 'Inhibitie', gender: 'male'}
+      expect(tree.lookup(params)).to eq(42)
     end
 
     describe 'parameter validation' do
