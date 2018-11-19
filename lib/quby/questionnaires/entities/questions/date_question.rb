@@ -8,7 +8,7 @@ module Quby
           POSSIBLE_COMPONENTS = %i( day month year hour minute )
           COMPONENT_KEYS = Hash[POSSIBLE_COMPONENTS.zip %w( dd mm yyyy hh ii)]
           COMPONENT_PLACEHOLDERS = Hash[POSSIBLE_COMPONENTS.zip %w( DD MM YYYY hh mm)]
-          DEFAULT_COMPONENTS  = %i( day month year )
+          DEFAULT_COMPONENTS = %i( day month year )
 
           # For optionally giving year, month and day fields of dates their own keys
           POSSIBLE_COMPONENTS.each do |component|
@@ -24,7 +24,7 @@ module Quby
 
             components.each do |component|
               component_key = options[:"#{component}_key"] || "#{key}_#{COMPONENT_KEYS[component]}"
-              instance_variable_set("@#{component}_key", component_key.to_sym )
+              instance_variable_set("@#{component}_key", component_key.to_sym)
             end
 
             add_date_validation(options[:error_explanation])
