@@ -94,7 +94,7 @@ module Quby
         def variable_description(key)
           @question_variable_descriptions ||= @questionnaire.questions
                                                             .map(&:variable_descriptions)
-                                                            .reduce(&:merge) || {}
+                                                            .reduce({}, &:merge!)
           @question_variable_descriptions[key] ||
             score_descriptions[key] ||
             @questionnaire.flags[key]&.variable_description ||
