@@ -17,6 +17,16 @@ module Quby
         attr_accessor :only_for_export
 
         validates :key, :label, :export_key, presence: true
+        validate :key_is_symbol
+        validate :export_key_is_symbol
+
+        def key_is_symbol
+          errors.add(:key, 'is not a symbol') unless key.is_a?(Symbol)
+        end
+
+        def export_key_is_symbol
+          errors.add(:export_key, 'is not a symbol') unless export_key.is_a?(Symbol)
+        end
       end
     end
   end
