@@ -431,8 +431,8 @@ module Quby::Questionnaires::Entities
         let(:options) { [{}] } # misses attributes
         it 'passes on errors from the score schema onto the questionnaire' do
           questionnaire.add_score_schema :totaal, 'Totaal', options
-          expected = ["Score schema 'totaal' sub_score_schemas element #0 Key moet opgegeven zijn, \
-Label moet opgegeven zijn, Export key moet opgegeven zijn"]
+          expected = ["Score schema 'totaal' sub_score_schemas element #0 Key moet opgegeven zijn, Key is not a symbol,\
+Label moet opgegeven zijn, Export key moet opgegeven zijn, Export key is not a symbol"]
           expect(questionnaire.errors.full_messages).to eq(expected)
         end
       end
