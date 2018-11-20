@@ -63,6 +63,9 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   config.infer_spec_type_from_file_location!
+  config.filter_run focus: true
+  config.run_all_when_everything_filtered = true
+  # config.full_backtrace = true
 
   # Disabled for now. Will do a cleanup in a different pull request.
   # config.raise_errors_for_deprecations!

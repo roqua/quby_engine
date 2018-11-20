@@ -8,7 +8,7 @@ module Quby
           POSSIBLE_COMPONENTS = %i( day month year hour minute )
           COMPONENT_KEYS = Hash[POSSIBLE_COMPONENTS.zip %w( dd mm yyyy hh ii)]
           COMPONENT_PLACEHOLDERS = Hash[POSSIBLE_COMPONENTS.zip %w( DD MM YYYY hh mm)]
-          DEFAULT_COMPONENTS  = %i( day month year )
+          DEFAULT_COMPONENTS = %i( day month year )
 
           # For optionally giving year, month and day fields of dates their own keys
           POSSIBLE_COMPONENTS.each do |component|
@@ -23,7 +23,8 @@ module Quby
             @components = options[:components] || DEFAULT_COMPONENTS
 
             components.each do |component|
-              instance_variable_set("@#{component}_key", options[:"#{component}_key"])
+              component_key = options[:"#{component}_key"] || "#{key}_#{COMPONENT_KEYS[component]}"
+              instance_variable_set("@#{component}_key", component_key.to_sym)
             end
 
             add_date_validation(options[:error_explanation])
@@ -35,12 +36,6 @@ module Quby
                              explanation: explanation}
           end
 
-          COMPONENT_KEYS.each do |component, name|
-            define_method("#{component}_key") do
-              (instance_variable_get("@#{component}_key") || "#{key}_#{name}").to_s
-            end
-          end
-
           def claimed_keys
             [key] + answer_keys
           end
@@ -49,6 +44,13 @@ module Quby
             components.map do |component|
               send("#{component}_key").to_sym
             end
+          end
+
+          def variable_descriptions
+            components.each_with_object(key => context_free_title) do |component, hash|
+              key = send("#{component}_key")
+              hash[key] = "#{context_free_title} (#{I18n.t component})"
+            end.with_indifferent_access
           end
 
           def as_json(options = {})

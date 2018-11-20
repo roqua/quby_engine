@@ -4,11 +4,7 @@ module Quby
   module Questionnaires
     module Entities
       class ScoreCalculation
-        attr_accessor :key
-        attr_accessor :label
-        attr_accessor :sbg_key
-        attr_accessor :options
-        attr_accessor :calculation
+        attr_accessor :key, :label, :sbg_key, :options, :calculation
 
         def initialize(key, options, &block)
           @key = key

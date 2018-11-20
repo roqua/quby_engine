@@ -126,7 +126,10 @@ end
 
 end_panel
 
-score :somscore, :label => "Score" do
+score :somscore, label: "Score",
+      schema: [{key: :value, export_key: :som, label: 'Score'},
+               {key: :mean, export_key: :som_m, label: 'Gemiddelde'},
+               {key: :interpretation, export_key: :som_i, label: 'Interpretatie'}] do
   somvars = values_with_nils('v_1','v_6','v_7','v_8','v_9','v_10','v_12','v_16','v_17','v_18','v_19','v_20').select{|v| v and v.to_f > 0}
   if somvars.size >= 8
     somscore = ((somvars.map(&:to_i).reduce(&:+) / somvars.size.to_f) * 12).round

@@ -76,6 +76,39 @@ module Quby
             end
           end
         end
+
+        # returns a human readable string description given a key of a question,
+        # question component (date components, checkbox options), score, flag or textvar
+        def description_for_variable(key)
+          # for questionnaires where we do not check_key_clashes we cannot reliably retrace the variable keys,
+          # since they contain conflicts between option keys and question keys
+          # in order to be safe we return a string explaining the issue
+          return "No description due to question/option key clash" if option_hash.key?(key) && question_hash.key?(key)
+
+          variable_description(key)
+        end
+
+        private
+
+        # warning, will contain a result even if option/answer key clashes exist for a given key
+        def variable_description(key)
+          @question_variable_descriptions ||= @questionnaire.questions
+                                                            .map(&:variable_descriptions)
+                                                            .reduce({}, &:merge!)
+          @question_variable_descriptions[key] ||
+            score_descriptions[key] ||
+            @questionnaire.flags[key]&.variable_description ||
+            @questionnaire.textvars[key]&.description
+        end
+
+        def score_descriptions
+          @score_variable_descriptions ||=
+            @questionnaire.score_schemas.values.map do |score_schema|
+              score_schema.sub_score_schemas.map do |subschema|
+                [subschema.export_key, "#{score_schema.label} #{subschema.label}"]
+              end
+            end.flatten(1).to_h.with_indifferent_access
+        end
       end
     end
   end

@@ -4,21 +4,21 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Entities
   describe Flag do
-    describe '#to_codebook' do
-      let(:flag) do
-        # the flag key is prefixed in lib/quby/questionnaires/entities/questionnaire.rb:232, unless internal
-        described_class.new(key: :questkey_flagkey,
-                            internal: false,
-                            description: 'test flag',
-                            description_true: 'flag is true',
-                            description_false: 'flag is false',
-                            trigger_on: true,
-                            shows_questions: [],
-                            hides_questions: [],
-                            depends_on: :other_flag,
-                            default_in_interface: false)
-      end
+    let(:flag) do
+      # the flag key is prefixed in lib/quby/questionnaires/entities/questionnaire.rb:232, unless internal
+      described_class.new(key: :questkey_flagkey,
+                          internal: false,
+                          description: 'test flag',
+                          description_true: 'flag is true',
+                          description_false: 'flag is false',
+                          trigger_on: true,
+                          shows_questions: [],
+                          hides_questions: [],
+                          depends_on: :other_flag,
+                          default_in_interface: false)
+    end
 
+    describe '#to_codebook' do
       it 'exports the flag key' do
         expect(flag.to_codebook).to include('questkey_flagkey')
       end
@@ -40,6 +40,11 @@ module Quby::Questionnaires::Entities
         expect { described_class.new(key: :test, description_true: 'test true') }.to raise_exception(error)
         expect { described_class.new(key: :test, description_false: 'test false') }.to raise_exception(error)
         expect { described_class.new(key: :test, description: 'test') }.to_not raise_exception
+      end
+    end
+    describe '#variable_description' do
+      it 'returns a single line description of the flag' do
+        expect(flag.variable_description).to eq("test flag (true - 'flag is true', false - 'flag is false')")
       end
     end
   end
