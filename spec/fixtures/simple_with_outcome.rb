@@ -16,7 +16,7 @@ panel do
   end
 end
 
-score :simple_score, label: 'SimpleScore' do
+score :simple_score, label: 'SimpleScore', schema: [{key: :value, label: 'Score', export_key: :simple}] do
   {
     value: values('v_1').sum
   }

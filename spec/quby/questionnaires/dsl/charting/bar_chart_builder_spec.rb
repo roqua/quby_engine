@@ -26,10 +26,10 @@ module Quby::Questionnaires::DSL
     end
 
     it 'sets plotlines' do
-      dsl {
+      dsl do
         plotline 40, :orange
         plotline 60, :red
-      }.plotlines.should == [
+      end.plotlines.should == [
         {value: 40, color: :orange, width: 1, zIndex: 3},
         {value: 60, color: :red, width: 1, zIndex: 3}
       ]

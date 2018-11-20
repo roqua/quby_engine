@@ -50,6 +50,13 @@ module Quby
             end
           end
 
+          def variable_descriptions
+            options.each_with_object(key => context_free_title) do |option, hash|
+              next if option.input_key.blank?
+              hash[option.input_key] = "#{context_free_title} - #{option.description}"
+            end.with_indifferent_access
+          end
+
           def claimed_keys
             [key]
           end
