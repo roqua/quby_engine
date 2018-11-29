@@ -2,6 +2,14 @@
 
 module Quby
   class Settings
+    def self.require_score_schemas
+      @require_score_schemas
+    end
+
+    def self.require_score_schemas=(value)
+      @require_score_schemas = value
+    end
+
     def self.api_allowed_ip_ranges
       @api_allowed_ip_ranges || ["10.0.0.0/8"]
     end

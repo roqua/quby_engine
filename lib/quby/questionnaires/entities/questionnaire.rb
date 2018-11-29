@@ -44,6 +44,7 @@ module Quby
           @respondent_types = []
           @tags = OpenStruct.new
           @check_key_clashes = true
+          @score_schemas = {}.with_indifferent_access
         end
 
         attr_accessor :key
@@ -77,6 +78,8 @@ module Quby
 
         attr_accessor :flags
         attr_accessor :textvars
+
+        attr_accessor :score_schemas
 
         delegate :question_hash, :input_keys, :answer_keys, :expand_input_keys, to: :fields
 
@@ -116,6 +119,14 @@ module Quby
             q.run_callbacks :after_dsl_enhance
           end
           validate_flag_depends_on
+          ensure_scores_have_schemas if Quby::Settings.require_score_schemas
+        end
+
+        def ensure_scores_have_schemas
+          missing_schemas = scores.map(&:key).map(&:to_s) - score_schemas.keys
+          missing_schemas.each do |key|
+            errors.add "Score #{key}", 'is missing a score schema'
+          end
         end
 
         def validate_questions
@@ -212,6 +223,15 @@ module Quby
           score_calculations[builder.key] = builder
         end
 
+        def add_score_schema(key, label, sub_schema_options)
+          schema = Entities::ScoreSchema.new(key: key, label: label, sub_score_schemas: sub_schema_options)
+          schema.valid?
+          schema.errors.each do |attribute, message|
+            errors.add("Score schema '#{key}'", "#{attribute} #{message}")
+          end
+          score_schemas[key] = schema
+        end
+
         def scores
           score_calculations.values.select(&:score)
         end
@@ -288,9 +308,9 @@ module Quby
               next if question&.key.blank?
               case question.type
               when :date
-
                 question.components.each do |component|
-                  key = question.send("#{component}_key")
+                  # assignment to 'value' hash must be done under string keys
+                  key = question.send("#{component}_key").to_s
                   define_method(key) do
                     self.value ||= Hash.new
                     self.value[key]
@@ -305,17 +325,24 @@ module Quby
                 define_method(question.key) do
                   self.value ||= Hash.new
 
-                  case question.components.sort
-                  when [:day, :month, :year]
-                    v = [:day, :month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
-                    v.all?(&:blank?) ? '' : v.join('-')
-                  when [:month, :year]
-                    v = [:month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
-                                       .reject(&:blank?)
-                    v.all?(&:blank?) ? '' : v.join('-')
+                  # case question.components.sort
+                  # when [:day, :month, :year]
+                  #   v = [:day, :month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
+                  #   v.all?(&:blank?) ? '' : v.join('-')
+                  # when [:month, :year]
+                  #   v = [:month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
+                  #                      .reject(&:blank?)
+                  #   v.all?(&:blank?) ? '' : v.join('-')
+                  components = question.components.sort
+                  component_values = components.map do |component|
+                    value_key = question.send("#{component}_key").to_s
+                    self.value[value_key]
+                  end
+                  case components
+                  when [:day, :month, :year], [:month, :year]
+                    component_values.all?(&:blank?) ? '' : component_values.join('-')
                   when [:hour, :minute]
-                    v = [:hour, :minute].map { |component| self.value[question.send("#{component}_key").to_s] }
-                    v.all?(&:blank?) ? '' : v.join(':')
+                    component_values.all?(&:blank?) ? '' : component_values.join(':')
                   end
                 end
 

@@ -22,7 +22,7 @@ require 'combustion'
 require 'stackprof'
 Combustion.path = 'spec/internal'
 Combustion.initialize! :action_controller, :action_view, :sprockets do
-  # config.action_view.raise_on_missing_translations = true # only works for rails > 4.1
+  config.action_view.raise_on_missing_translations = true
 end
 I18n.exception_handler = lambda do |exception, locale, key, options|
   fail "translation error: #{exception}, #{options}"
@@ -63,7 +63,12 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   config.infer_spec_type_from_file_location!
-  config.raise_errors_for_deprecations!
+  config.filter_run focus: true
+  config.run_all_when_everything_filtered = true
+  # config.full_backtrace = true
+
+  # Disabled for now. Will do a cleanup in a different pull request.
+  # config.raise_errors_for_deprecations!
 
   if Rails.version >= '5' && Gem.loaded_specs['rspec-rails'].version.version < '3.5'
     [:controller, :view, :request].each do |type|

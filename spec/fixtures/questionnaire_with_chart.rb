@@ -16,7 +16,7 @@ panel do
   end
 end
 
-score :total, :label => 'Total' do
+score :total, :label => 'Total', schema: [{key: :value, export_key: :tot, label: 'Score'}] do
   {value: sum(values('v_1', 'v_2', 'v_3')) / 3.0}
 end
 
