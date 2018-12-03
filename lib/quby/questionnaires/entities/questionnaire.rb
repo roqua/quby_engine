@@ -325,22 +325,16 @@ module Quby
                 define_method(question.key) do
                   self.value ||= Hash.new
 
-                  # case question.components.sort
-                  # when [:day, :month, :year]
-                  #   v = [:day, :month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
-                  #   v.all?(&:blank?) ? '' : v.join('-')
-                  # when [:month, :year]
-                  #   v = [:month, :year].map { |component| self.value[question.send("#{component}_key").to_s] }
-                  #                      .reject(&:blank?)
-                  #   v.all?(&:blank?) ? '' : v.join('-')
                   components = question.components.sort
                   component_values = components.map do |component|
                     value_key = question.send("#{component}_key").to_s
                     self.value[value_key]
                   end
                   case components
-                  when [:day, :month, :year], [:month, :year]
+                  when [:day, :month, :year]
                     component_values.all?(&:blank?) ? '' : component_values.join('-')
+                  when [:month, :year]
+                    component_values.reject(&:blank?).join('-')
                   when [:hour, :minute]
                     component_values.all?(&:blank?) ? '' : component_values.join(':')
                   end

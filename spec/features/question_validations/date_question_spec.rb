@@ -148,7 +148,6 @@ shared_examples 'validations on date questions' do
       end
 
       scenario 'saving with missing year' do
-        fill_in_question('v_date_year', '')
         fill_in_question('v_date_month', '10')
         run_validations
         expect_error_on 'v_date', 'valid_date'

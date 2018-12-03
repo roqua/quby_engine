@@ -111,7 +111,7 @@ module Quby
           # Skip this validation if all date parts are empty
           return if value.values.all?(&:blank?)
 
-          # Check if there are required date parts are missing
+          # Check if there are required date parts missing
           required_values = value.fetch_values(*question.required_components)
           send_date_error(question, validation) if required_values.any?(&:blank?)
 
