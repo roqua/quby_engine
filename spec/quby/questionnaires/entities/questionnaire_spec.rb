@@ -417,6 +417,30 @@ module Quby::Questionnaires::Entities
           fake_answer.v_1_yyyy = '2002 '
           expect(fake_answer.v_1_yyyy).to eq('2002')
         end
+
+        it 'presents a nice formatted date' do
+          fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
+          fake_answer.v_1_yyyy = '2002'
+          fake_answer.v_1_mm = '03'
+          fake_answer.v_1_dd = '14'
+          expect(fake_answer.v_1).to eq('14-03-2002')
+        end
+
+        it 'shows only year when month is missing' do
+          fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
+          fake_answer.v_1_yyyy = '2002'
+          fake_answer.v_1_mm = ''
+          fake_answer.v_1_dd = '14'
+          expect(fake_answer.v_1).to eq('2002')
+        end
+
+        it 'shows only year and month when day is missing' do
+          fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
+          fake_answer.v_1_yyyy = '2002'
+          fake_answer.v_1_mm = '10'
+          fake_answer.v_1_dd = ''
+          expect(fake_answer.v_1).to eq('10-2002')
+        end
       end
     end
 

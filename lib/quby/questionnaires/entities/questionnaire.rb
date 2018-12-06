@@ -332,7 +332,7 @@ module Quby
                   end
                   case components
                   when [:day, :month, :year]
-                    component_values.all?(&:blank?) ? '' : component_values.join('-')
+                    component_values.reverse.take_while { |p| p.present? }.reverse.join('-')
                   when [:month, :year]
                     component_values.reject(&:blank?).join('-')
                   when [:hour, :minute]
