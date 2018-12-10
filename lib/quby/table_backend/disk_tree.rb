@@ -19,7 +19,7 @@ module Quby::TableBackend
     def initialize(key)
       path = self.class.disk_table_root.join(key + '.csv')
 
-      @data = CSV.read(path, col_sep: ',', skip_blanks: true)
+      @data = CSV.read(path, col_sep: ';', skip_blanks: true)
       @headers = @data.shift
       @compare = @data.shift
     end
