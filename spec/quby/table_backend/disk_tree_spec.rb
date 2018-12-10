@@ -41,13 +41,15 @@ describe Quby::TableBackend::DiskTree do
       expect(tree.lookup(params)).to eq(tree.lookup(params2))
     end
 
-    it 'returns nil when a parameter value is not mached' do
+    it 'returns nil and notifies AppSignal when a lookup fails' do
+      expect(Roqua::Support::Errors).to receive(:report).exactly(4).times
+
       # Age too low
       params = {age: 9, raw: 25, scale: 'Inhibitie', gender: 'male'}
       expect(tree.lookup(params)).to eq(nil)
 
       # Age too high
-      params = {age: 11, raw: 25, scale: 'Inhibitie', gender: 'male'}
+      params = {age: 35, raw: 25, scale: 'Inhibitie', gender: 'male'}
       expect(tree.lookup(params)).to eq(nil)
 
       # Unknown scale
@@ -57,12 +59,6 @@ describe Quby::TableBackend::DiskTree do
       # Unknown gender
       params = {age: 10, raw: 25, scale: 'Inhibitie', gender: '?'}
       expect(tree.lookup(params)).to eq(nil)
-    end
-
-    it 'notifies AppSignal when lookup fails' do
-      expect(Roqua::Support::Errors).to receive(:report)
-      params = {age: 10, raw: 25, scale: 'Inhibitie', gender: '?'}
-      tree.lookup(params)
     end
 
     it 'handles minfinity' do
