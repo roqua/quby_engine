@@ -9,6 +9,7 @@ castAnswerValue = (question, answerValue) ->
   value = switch question.type
     when "integer" then parseInt(answerValue)
     when "float" then parseFloat(answerValue)
+    # when "radio" then _.find(question.options, (option) -> option.key == answerValue).value
     else answerValue.trim()
   value
   # if value is NaN then null else value
@@ -71,21 +72,21 @@ class @Questionnaire extends React.Component
       hideKeys = @dependentHideQuestionKeys question
       showKeys = @dependentShowQuestionKeys question
       console.log hideKeys, showKeys
-      # _.map hideKeys, (questionKey) -> answers[questionKey].visible = false
+      _.map hideKeys, (questionKey) -> answers[questionKey].visible = true
 
       if answerValue != null
         _.chain(question.options)
-         .find (option) -> option.value == answerValue
-         .get "shows_questions"
+         .find (option) -> option.key == answerValue
+         .get "hides_questions"
          .map (questionKey) ->
-            answers[questionKey].visible = true
+            answers[questionKey].visible = false
             questionKey
          .map (questionKey) =>
             q = @question(questionKey)
-            @questionsToShow(q)
+            @questionsToHide(q)
          .flattenDeep()
          .map (questionKey) =>
-            answers[questionKey].visible = true
+            answers[questionKey].visible = false
          .value()
 
     # update current answer
@@ -108,6 +109,20 @@ class @Questionnaire extends React.Component
        .reduce (acc, questionKey) =>
           q = @question(questionKey)
           @questionsToShow(q, _.concat(acc, questionKey))
+       , result
+       .value()
+    else
+      _.uniq(result)
+
+  questionsToHide: (question, result = []) ->
+    answer = @state.answers[question.key]
+    if answer.value != null
+      _.chain(question.options)
+       .find (option) -> option.value == answer.value
+       .get "hides_questions"
+       .reduce (acc, questionKey) =>
+          q = @question(questionKey)
+          @questionsToHide(q, _.concat(acc, questionKey))
        , result
        .value()
     else
