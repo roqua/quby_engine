@@ -5,9 +5,9 @@ require 'csv'
 
 # Create a lookup tree from a csv file that converts raw scores
 # to normalized scores.
-# The csv file should have two header rows, one with the column
+# The csv file must have two header rows, one with the column
 # names and one with the lookup types (exact or range).
-# String types should always use the `exact` match type.
+# String types must always use the `exact` match type.
 # Numerical types can use the `range` type where the range is between
 # the low value (inclusive) and the high value (exclusive).
 # The low and high values of a range cannot be equal.
@@ -24,11 +24,33 @@ module Quby::TableBackend
       @compare = @data.shift
     end
 
+    # Given a parameters hash that contains a value or range for every 
+    # header, find and return the normscore.
+    # ie. `lookup({age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'})` => 39
     def lookup(parameters)
       validate_parameters(parameters)
       lookup_score(parameters)
     end
 
+    # Build a lookup tree (hash) from the csv input data.
+    # Starting with the first column, it returns a hash with entries
+    # for every value in the column. The value for such an entry
+    # is a hash with all entries for the next column, etc. Example:
+    # Inhibitie:
+    #   male:
+    #     10...11:
+    #       -Infinity...10:
+    #         39: 39
+    #       10...20:
+    #         42: 42
+    #     11...12:
+    #       -Infinity...10:
+    #         40: 40
+    #       10...20:
+    #         43: 43
+    #   female:
+    #     10...11:
+    #       etc. etc. etc.
     def tree
       @tree ||= @data.each_with_object({}) do |row, current_node|
         row.each_with_index do |v, idx|
@@ -39,7 +61,7 @@ module Quby::TableBackend
             end
 
           if @headers[idx] == 'norm'
-            current_node[key] = v
+            current_node[key] = key
           else
             current_node[key] ||= {}
           end
@@ -55,23 +77,27 @@ module Quby::TableBackend
 
     private
 
+    # All parameters must be present to do a lookup but the order does not matter.
     def validate_parameters(parameters)
       if (@headers - ['norm']).sort != parameters.keys.map(&:to_s).sort
         fail 'Incompatible score parameters found'
       end
     end
 
+    # Reduce the tree (a hash) to a normscore by looking up the correct values/ranges
+    # for each column in @headers.
+    # After reducing all that remains is a hash with a single normscore %{42 => 42}
     def lookup_score(parameters)
-      (@headers - ['norm']).reduce(tree) do |acc, header|
-        idx = @headers.find_index(header)
+      (@headers - ['norm']).each_with_index.reduce(tree) do |acc, (header, idx)|
         case @compare[idx]
         when 'exact'
           acc[parameters[header.to_sym]]
         when 'range'
           acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_i) }.values.first
         end
-      end.values.first.to_i
+      end.values.first
     rescue StandardError => exception
+      # Normscore could not be found from the given parameters.
       if defined? Roqua::Support::Errors
         Roqua::Support::Errors.report(exception, parameters: parameters)
       end
