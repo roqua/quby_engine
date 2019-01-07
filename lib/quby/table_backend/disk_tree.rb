@@ -7,9 +7,12 @@ require 'csv'
 # to normalized scores.
 # The csv file must have two header rows, one with the column
 # names and one with the lookup types (exact or range).
+# The last column of the first header row must be called 'norm' and
+# must have the 'exact' type (in the second header row).
 # String types must always use the `exact` match type.
 # Numerical types can use the `range` type where the range is between
-# the low value (inclusive) and the high value (exclusive).
+# the low value (inclusive) and the high value (exclusive), both
+# integers and written as 4:5 (low:high).
 # The low and high values of a range cannot be equal.
 # Use minfinity or infinity to create infinite ranges.
 module Quby::TableBackend
@@ -24,7 +27,7 @@ module Quby::TableBackend
       @compare = @data.shift
     end
 
-    # Given a parameters hash that contains a value or range for every 
+    # Given a parameters hash that contains a value or range for every
     # header, find and return the normscore.
     # ie. `lookup({age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'})` => 39
     def lookup(parameters)
@@ -86,7 +89,8 @@ module Quby::TableBackend
 
     # Reduce the tree (a hash) to a normscore by looking up the correct values/ranges
     # for each column in @headers.
-    # After reducing all that remains is a hash with a single normscore %{42 => 42}
+    # Returns a single normscore when found.
+    # Returns nil and reports to AppSignal when normscore could not be found.
     def lookup_score(parameters)
       (@headers - ['norm']).each_with_index.reduce(tree) do |acc, (header, idx)|
         case @compare[idx]
@@ -95,9 +99,9 @@ module Quby::TableBackend
         when 'range'
           acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_i) }.values.first
         end
-      end.values.first
+      end.values.first # normscore is a hash with a single element, get the value.
     rescue StandardError => exception
-      # Normscore could not be found from the given parameters.
+      # Normscore could not be found for the given parameters.
       if defined? Roqua::Support::Errors
         Roqua::Support::Errors.report(exception, parameters: parameters)
       end
