@@ -76,6 +76,23 @@ describe Quby::TableBackend::DiskTree do
       expect(tree.lookup(params)).to eq(42)
     end
 
+    it 'handles float values in query parameters' do
+      params = {age: 10.2, raw: 96.9, scale: 'Inhibitie', gender: 'male'}
+      expect(tree.lookup(params)).to eq(75)
+    end
+
+    describe 'definition containing range with float values' do
+      let(:tree) { described_class.new('test_tree/float_test') }
+
+      it 'returns the correct scores' do
+        params = {age: 10, raw: 15.8, scale: 'Inhibitie', gender: 'male'}
+        expect(tree.lookup(params)).to eq(42)
+
+        params = {age: 10.2, raw: 96.9, scale: 'Inhibitie', gender: 'male'}
+        expect(tree.lookup(params)).to eq(75)
+      end
+    end
+
     describe 'parameter validation' do
       it 'raises when parameter keys do not match header keys' do
         params = {foo: :bar}

@@ -11,10 +11,11 @@ require 'csv'
 # must have the 'exact' type (in the second header row).
 # String types must always use the `exact` match type.
 # Numerical types can use the `range` type where the range is between
-# the low value (inclusive) and the high value (exclusive), both
-# integers and written as 4:5 (low:high).
+# the low value (inclusive) and the high value (exclusive),
+# written as 4:5 (low:high). These boundaries can be floats or integers.
 # The low and high values of a range cannot be equal.
 # Use minfinity or infinity to create infinite ranges.
+# Internally, the range is created using floats.
 module Quby::TableBackend
   class DiskTree
     attr_reader :data, :headers, :compare
@@ -97,7 +98,7 @@ module Quby::TableBackend
         when 'exact'
           acc[parameters[header.to_sym]]
         when 'range'
-          acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_i) }.values.first
+          acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_f) }.values.first
         end
       end.values.first # normscore is a hash with a single element, get the value.
     rescue StandardError => exception
@@ -118,10 +119,10 @@ module Quby::TableBackend
       case value
       when 'infinity'  then Float::INFINITY
       when 'minfinity' then -Float::INFINITY
-      else Integer(value)
+      else Float(value)
       end
     rescue ArgumentError
-      # Not an integer
+      # Not a number
       value
     end
   end
