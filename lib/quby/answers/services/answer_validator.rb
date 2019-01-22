@@ -44,6 +44,12 @@ module Quby
                     hash[component] = answer.send(key)
                   end
                   validate_date(question, validation, value)
+                when :date_in_past
+                  value = question.components.each_with_object({}) do |component, hash|
+                    key = question.send("#{component}_key")
+                    hash[component] = answer.send(key)
+                  end
+                  validate_date_in_past(question, validation, value)
                 when :regexp
                   validate_regexp(question, validation, value)
                 when :requires_answer
@@ -124,6 +130,13 @@ module Quby
 
         def send_date_error(question, validation)
           answer.send(:add_error, question, :valid_date, validation[:message] || "Does not match expected pattern.")
+        end
+
+        def validate_date_in_past(question, validation, value)
+          converted_answer_value = convert_answer_value(question, value)
+          if converted_answer_value >= Date.today
+            answer.send(:add_error, question, validation[:type], validation[:message] || "Not in the past")
+          end
         end
 
         def validate_regexp(question, validation, value)

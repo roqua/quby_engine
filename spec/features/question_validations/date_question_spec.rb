@@ -155,6 +155,35 @@ shared_examples 'validations on date questions' do
     end
   end
 
+  context 'validate_in_past' do
+    let(:questionnaire) do
+      inject_questionnaire "test_in_the_past", <<-END
+        question :v_date, type: :date, required: true,
+                          year_key: :v_date_year, month_key: :v_date_month, day_key: :v_date_day,
+                          validate_in_past: true do
+          title "Enter a date in the past"
+        end; end_panel
+      END
+    end
+
+    scenario 'saving a date in the past' do
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '1')
+      fill_in_question('v_date_day',   '2')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_date', '2-1-2013'
+    end
+
+    scenario 'saving a date in the future' do
+      fill_in_question('v_date_year',  Date.current.next_year.year.to_s)
+      fill_in_question('v_date_month', '1')
+      fill_in_question('v_date_day',   '2')
+      run_validations
+      expect_error_on 'v_date', 'date_in_past'
+    end
+  end
+
   context 'in_range validation' do
     let(:questionnaire) do
       inject_questionnaire "test", <<-END

@@ -155,6 +155,18 @@
                   pushFailVal(validation.type);
                 }
                 break;
+              case "date_in_past":
+                  try {
+                    var date = parsePartialDate(inputs);
+                    var now = new Date();
+                    if (date.getTime() >= now.getTime()) {
+                      pushFailVal(validation.type)
+                    }
+                  }
+                  catch(e) {
+                    pushFailVal(validation.type);
+                  }
+                  break;
               case "answer_group_minimum":
                   var count = calculateAnswerGroup(validation.group, panel);
                   if(count.visible > 0 && count.answered < validation.value){

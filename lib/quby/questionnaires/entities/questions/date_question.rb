@@ -34,12 +34,17 @@ module Quby
             end
 
             add_date_validation(options[:error_explanation])
+            add_date_in_past_validation if options[:validate_in_past]
           end
 
           def add_date_validation(explanation)
             @validations << {type: :valid_date,
                              subtype: :"valid_date_#{components.sort.join('_')}",
                              explanation: explanation}
+          end
+
+          def add_date_in_past_validation
+            @validations << {type: :date_in_past}
           end
 
           def claimed_keys
