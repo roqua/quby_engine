@@ -18,8 +18,6 @@ require 'csv'
 # Internally, the range is created using floats.
 module Quby::TableBackend
   class DiskTree
-    attr_reader :data, :headers, :compare
-
     def initialize(key)
       path = self.class.disk_table_root.join(key + '.csv')
 
@@ -35,6 +33,13 @@ module Quby::TableBackend
       validate_parameters(parameters)
       lookup_score(parameters)
     end
+
+    def self.disk_table_root
+      fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
+      Pathname.new(Quby.lookup_table_path)
+    end
+
+    private
 
     # Build a lookup tree (hash) from the csv input data.
     # Starting with the first column, it returns a hash with entries
@@ -73,13 +78,6 @@ module Quby::TableBackend
         end
       end
     end
-
-    def self.disk_table_root
-      fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
-      Pathname.new(Quby.lookup_table_path)
-    end
-
-    private
 
     # All parameters must be present to do a lookup but the order does not matter.
     def validate_parameters(parameters)

@@ -22,13 +22,13 @@ describe Quby::TableBackend::DiskTree do
 
   describe '#tree' do
     it 'returns a hash' do
-      expect(tree.tree).to be_a(Hash)
+      expect(tree.send(:tree)).to be_a(Hash)
     end
 
     context 'invalid csv data' do
       let(:tree) { described_class.new('test_tree/invalid_range')}
       it 'fails when csv data contains a range between two equal values' do
-        expect { tree.tree }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
+        expect { tree.send(:tree) }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
       end
     end
   end
