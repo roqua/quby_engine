@@ -94,7 +94,9 @@ module Quby::TableBackend
     def lookup_score(parameters)
       (@headers - ['norm']).each_with_index.reduce(tree) do |acc, (header, idx)|
         case @compare[idx]
-        when 'string', 'float'
+        when 'string'
+          acc[parameters[header.to_sym].to_s]
+        when 'float'
           acc[parameters[header.to_sym]]
         when 'range'
           acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_f) }.values.first

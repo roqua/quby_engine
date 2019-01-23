@@ -81,6 +81,11 @@ describe Quby::TableBackend::DiskTree do
       expect(tree.lookup(params)).to eq(75)
     end
 
+    it 'treats symbols as strings in query parameters' do
+      params = {age: 10.2, raw: 96.9, scale: 'Inhibitie', gender: :male}
+      expect(tree.lookup(params)).to eq(75)
+    end
+
     describe 'definition containing range with float values' do
       let(:tree) { described_class.new('test_tree/float_test') }
 
