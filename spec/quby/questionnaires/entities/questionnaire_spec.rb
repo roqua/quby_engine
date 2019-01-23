@@ -149,7 +149,7 @@ module Quby::Questionnaires::Entities
         Quby::Questionnaires::DSL.build("test") do
           title 'My Test'
           question :v_1, type: :string
-          score :score_1
+          score :score_1, label: 'score 1', schema: [{key: :value, label: 'Score', export_key: :sc1}] { {value: 42} }
           variable :var_1
         end
       end
@@ -245,7 +245,7 @@ module Quby::Questionnaires::Entities
       end
 
       describe 'with textvar that depends on a flag' do
-        it 'will have a depends_on_flag attribute', focus: true do
+        it 'will have a depends_on_flag attribute' do
           questionnaire = Quby::Questionnaires::DSL.build("test") do
             title 'My Test'
 
@@ -354,13 +354,12 @@ module Quby::Questionnaires::Entities
       end
 
       it 'uses the flag key if the flag is internal' do
-        questionnaire.stub(key: 'test')
         questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a', internal: true)
         expect(questionnaire.flags.keys).to eq(['a'])
       end
 
       it 'prepends the questionnaire key if the flag is not internal' do
-        questionnaire.stub(key: 'test')
+        expect(questionnaire).to receive(:key).and_return('test')
         questionnaire.add_flag(key: :a, description_true: 'a', description_false: 'not a')
         expect(questionnaire.flags.keys).to eq(['test_a'])
       end
@@ -417,6 +416,48 @@ module Quby::Questionnaires::Entities
           fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
           fake_answer.v_1_yyyy = '2002 '
           expect(fake_answer.v_1_yyyy).to eq('2002')
+        end
+      end
+    end
+
+    describe '#add_score_schema' do
+      let(:options) { [{key: :value, export_key: :tot, label: 'Score'}] }
+      it 'sets a score schema for a specific score' do
+        questionnaire.add_score_schema :totaal, 'Totaal', options
+        expect(questionnaire.score_schemas[:totaal]).to be_valid
+      end
+
+      describe 'when the score schema has errors' do
+        let(:options) { [{}] } # misses attributes
+        it 'passes on errors from the score schema onto the questionnaire' do
+          questionnaire.add_score_schema :totaal, 'Totaal', options
+          expected = ["Score schema 'totaal' sub_score_schemas element #0 Key moet opgegeven zijn, Key is not a symbol\
+, Label moet opgegeven zijn, Export key moet opgegeven zijn, Export key is not a symbol"]
+          expect(questionnaire.errors.full_messages).to eq(expected)
+        end
+      end
+    end
+
+    describe '#ensure_scores_have_schemas' do
+      let(:score_missing_schema_quest) do
+        Quby::Questionnaires::DSL.build("test") do
+          question :v_1, type: :date, title: 'vraag'
+
+          score(:key, label: 'score') { {value: 'oh no'} }
+          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score', export_key: :key2}]) { {value: 'oh'} }
+          score(:key3, label: 'score3') { {value: 'oh no'} }
+        end
+      end
+
+      it 'does not validate presense of score schemas by default' do
+        expect(score_missing_schema_quest.errors.full_messages).to be_blank
+      end
+
+      describe 'if quby settings require_score_schemas is true' do
+        before { Quby::Settings.require_score_schemas = true }
+        it 'validates every score has a score schema' do
+          expect(score_missing_schema_quest.errors.full_messages).to eq(["Score key is missing a score schema",
+                                                                         "Score key3 is missing a score schema"])
         end
       end
     end

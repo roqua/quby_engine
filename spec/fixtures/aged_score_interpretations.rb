@@ -5,7 +5,9 @@ title "Patient age can be used in scores"
 panel do
 end
 
-score :tot, :label => "Totaalscore" do
+score :tot, label: "Totaalscore",
+      schema: [{key: :value, export_key: :tot, label: 'Score'},
+               {key: :interpretation, export_key: :tot_i, label: 'Interpretatie'}] do
   tot = 10
   if gender != :unknown && age
     if gender == :male
@@ -56,8 +58,7 @@ score :tot, :label => "Totaalscore" do
   end
 
   {
-      :label => "Totaalscore",
-      :value => tot,
-      :interpretation => tot_interpretation
+      value: tot,
+      interpretation: tot_interpretation
   }
 end

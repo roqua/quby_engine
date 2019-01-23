@@ -27,6 +27,10 @@ module Quby
           yield if answer_flags[key] == trigger_on
         end
 
+        def variable_description
+          "#{description} (true - '#{description_true}', false - '#{description_false}')"
+        end
+
         def to_codebook(_options = {})
           output = []
           output << "#{key} flag"

@@ -1,5 +1,5 @@
-# frozen_string_literal: true
-
+autoload :ArrayAttributeValidValidator, 'active_model_modules/array_attribute_valid_validator'
+autoload :AttributeValidValidator, 'active_model_modules/attribute_valid_validator'
 require 'virtus'
 require 'rails-i18n'
 require 'quby/settings'

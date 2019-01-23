@@ -45,3 +45,8 @@ en:
   YYYY: YYYY
   hh: hh
   mm: mm
+  day: day
+  month: month
+  year: year
+  hour: hour
+  minute: minute

@@ -342,6 +342,10 @@ module Quby
             raise "Question has an irregular question key (#{key.inspect}), please use symbols or strings"
           end
         end
+
+        def variable_descriptions
+          {key => context_free_title}.with_indifferent_access
+        end
       end
     end
   end
