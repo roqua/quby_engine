@@ -6,16 +6,16 @@ require 'csv'
 # Create a lookup tree from a csv file that converts raw scores
 # to normalized scores.
 # The csv file must have two header rows, one with the column
-# names and one with the lookup types (exact or range).
+# names and one with the lookup types (string, float or range).
 # The last column of the first header row must be called 'norm' and
-# must have the 'exact' type (in the second header row).
-# String types must always use the `exact` match type.
-# Numerical types can use the `range` type where the range is between
+# must have the 'float' type (in the second header row).
+# String and float types are used to make an exact match.
+# A range is always a range between two floats where the range is between
 # the low value (inclusive) and the high value (exclusive),
-# written as 4:5 (low:high). These boundaries can be floats or integers.
+# written as 4:5 (low:high). These boundaries can be given as floats or
+# integers, but internally they are always treated as a floats.
 # The low and high values of a range cannot be equal.
 # Use minfinity or infinity to create infinite ranges.
-# Internally, the range is created using floats.
 module Quby::TableBackend
   class DiskTree
     def initialize(key)
@@ -65,7 +65,8 @@ module Quby::TableBackend
         row.each_with_index do |v, idx|
           key =
             case @compare[idx]
-            when 'exact' then parse_value(v)
+            when 'string' then v.to_s
+            when 'float' then parse_float(v)
             when 'range' then create_range(v)
             end
 
@@ -93,7 +94,7 @@ module Quby::TableBackend
     def lookup_score(parameters)
       (@headers - ['norm']).each_with_index.reduce(tree) do |acc, (header, idx)|
         case @compare[idx]
-        when 'exact'
+        when 'string', 'float'
           acc[parameters[header.to_sym]]
         when 'range'
           acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_f) }.values.first
@@ -108,20 +109,17 @@ module Quby::TableBackend
     end
 
     def create_range(value)
-      min, max = value.split(':').map { |val| parse_value(val) }
+      min, max = value.split(':').map { |val| parse_float(val) }
       fail 'Cannot create range between two equal values' if min == max
       (min...max)
     end
 
-    def parse_value(value)
+    def parse_float(value)
       case value
       when 'infinity'  then Float::INFINITY
       when 'minfinity' then -Float::INFINITY
       else Float(value)
       end
-    rescue ArgumentError
-      # Not a number
-      value
     end
   end
 end
