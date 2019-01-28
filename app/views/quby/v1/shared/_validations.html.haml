@@ -5,7 +5,7 @@
   - unless valtypes.include?(validation[:type])
     - exp_classes << "hidden"
   - translate_options = case validation[:type]
-  - when :requires_answer, :valid_integer, :valid_float, :valid_date, :too_many_checked, :not_all_checked, :date_in_past
+  - when :requires_answer, :valid_integer, :valid_float, :valid_date, :too_many_checked, :not_all_checked, :date_in_past, :date_in_future
     - {}
   - when :maximum, :minimum, :answer_group_minimum, :answer_group_maximum
     - if validation[:subtype] == :date

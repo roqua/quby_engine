@@ -35,6 +35,7 @@ module Quby
 
             add_date_validation(options[:error_explanation])
             add_date_in_past_validation if options[:validate_in_past]
+            add_date_in_future_validation if options[:validate_in_future]
           end
 
           def add_date_validation(explanation)
@@ -45,6 +46,10 @@ module Quby
 
           def add_date_in_past_validation
             @validations << {type: :date_in_past}
+          end
+
+          def add_date_in_future_validation
+            @validations << {type: :date_in_future}
           end
 
           def claimed_keys

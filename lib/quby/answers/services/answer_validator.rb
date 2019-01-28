@@ -39,17 +39,14 @@ module Quby
                 when :valid_float
                   validate_float(question, validation, value)
                 when :valid_date
-                  value = question.components.each_with_object({}) do |component, hash|
-                    key = question.send("#{component}_key")
-                    hash[component] = answer.send(key)
-                  end
+                  value = date_components(question)
                   validate_date(question, validation, value)
                 when :date_in_past
-                  value = question.components.each_with_object({}) do |component, hash|
-                    key = question.send("#{component}_key")
-                    hash[component] = answer.send(key)
-                  end
+                  value = date_components(question)
                   validate_date_in_past(question, validation, value)
+                when :date_in_future
+                  value = date_components(question)
+                  validate_date_in_future(question, validation, value)
                 when :regexp
                   validate_regexp(question, validation, value)
                 when :requires_answer
@@ -134,8 +131,15 @@ module Quby
 
         def validate_date_in_past(question, validation, value)
           converted_answer_value = convert_answer_value(question, value)
-          if converted_answer_value >= Date.today
+          if converted_answer_value > Date.today
             answer.send(:add_error, question, validation[:type], validation[:message] || "Not in the past")
+          end
+        end
+
+        def validate_date_in_future(question, validation, value)
+          converted_answer_value = convert_answer_value(question, value)
+          if converted_answer_value < Date.today
+            answer.send(:add_error, question, validation[:type], validation[:message] || "Not in the future")
           end
         end
 
@@ -209,6 +213,13 @@ module Quby
         end
 
         private
+
+        def date_components(question)
+          question.components.each_with_object({}) do |component, hash|
+            key = question.send("#{component}_key")
+            hash[component] = answer.send(key)
+          end
+        end
 
         def convert_answer_value(question, value)
           case question.type

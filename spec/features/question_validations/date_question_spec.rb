@@ -6,6 +6,10 @@ shared_examples 'validations on date questions' do
   before do
     allow_server_side_validation_error
   end
+
+  let(:today) { Date.today }
+  let(:today_string) { today.strftime("%-d-%-m-%Y") }
+
   context 'requires_answer validation' do
     let(:questionnaire) do
       inject_questionnaire "test", <<-END
@@ -175,12 +179,59 @@ shared_examples 'validations on date questions' do
       expect_saved_value 'v_date', '2-1-2013'
     end
 
+    scenario 'saving todays date' do
+      fill_in_question('v_date_year',  today.year.to_s)
+      fill_in_question('v_date_month', today.month.to_s)
+      fill_in_question('v_date_day',   today.day.to_s)
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_date', today_string
+    end
+
     scenario 'saving a date in the future' do
       fill_in_question('v_date_year',  Date.current.next_year.year.to_s)
       fill_in_question('v_date_month', '1')
       fill_in_question('v_date_day',   '2')
       run_validations
       expect_error_on 'v_date', 'date_in_past'
+    end
+  end
+
+  context 'validate_in_future' do
+    let(:questionnaire) do
+      inject_questionnaire "test_in_the_past", <<-END
+        question :v_date, type: :date, required: true,
+                          year_key: :v_date_year, month_key: :v_date_month, day_key: :v_date_day,
+                          validate_in_future: true do
+          title "Enter a date in the future"
+        end; end_panel
+      END
+    end
+
+    scenario 'saving a date in the future' do
+      fill_in_question('v_date_year',  Date.current.next_year.year.to_s)
+      fill_in_question('v_date_month', '1')
+      fill_in_question('v_date_day',   '2')
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_date', "2-1-#{Date.current.next_year.year}"
+    end
+
+    scenario 'saving todays date' do
+      fill_in_question('v_date_year',  today.year.to_s)
+      fill_in_question('v_date_month', today.month.to_s)
+      fill_in_question('v_date_day',   today.day.to_s)
+      run_validations
+      expect_no_errors
+      expect_saved_value 'v_date', today_string
+    end
+
+    scenario 'saving a date in the past' do
+      fill_in_question('v_date_year',  '2013')
+      fill_in_question('v_date_month', '1')
+      fill_in_question('v_date_day',   '2')
+      run_validations
+      expect_error_on 'v_date', 'date_in_future'
     end
   end
 

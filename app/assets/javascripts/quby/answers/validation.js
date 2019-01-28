@@ -159,7 +159,21 @@
                   try {
                     var date = parsePartialDate(inputs);
                     var now = new Date();
-                    if (date.getTime() >= now.getTime()) {
+                    now.setHours(23, 59, 59, 999);
+                    if (date.getTime() > now.getTime()) {
+                      pushFailVal(validation.type)
+                    }
+                  }
+                  catch(e) {
+                    pushFailVal(validation.type);
+                  }
+                  break;
+              case "date_in_future":
+                  try {
+                    var date = parsePartialDate(inputs);
+                    var now = new Date();
+                    now.setHours(0,0,0,0);
+                    if (date.getTime() < now.getTime()) {
                       pushFailVal(validation.type)
                     }
                   }
