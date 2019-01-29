@@ -82,7 +82,7 @@ module Quby
           valid = case question.type
                   when :date
                     required_keys = question.required_components.map do |key|
-                      (question.key.to_s + "_" + key.to_s).to_sym
+                      question.send(key.to_s + "_key")
                     end
                     value.values_at(*required_keys).all?(&:present?)
                   when :check_box
