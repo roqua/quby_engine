@@ -9,7 +9,7 @@ module Quby
         validate :references_existing_score_keys
 
         def references_existing_score_keys
-          return unless questionnaire.score_schemas.present?
+          return if questionnaire.score_schemas.blank?
           (score_keys - questionnaire.score_schemas.values.map(&:key)).each do |missing_key|
             errors.add :score_keys, "#{missing_key.inspect} not found in score schemas"
           end

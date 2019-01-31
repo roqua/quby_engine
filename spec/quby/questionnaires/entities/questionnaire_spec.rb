@@ -461,5 +461,31 @@ module Quby::Questionnaires::Entities
         end
       end
     end
+
+    describe '#add_outcome_table' do
+      let(:questionnaire) do
+        Quby::Questionnaires::DSL.build("test") do
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
+        end
+      end
+
+      it 'adds an outcome table model to the questionnaire\'s outcome_tables' do
+        outcome_table_options = {score_keys: [:key], subscore_keys: [:value]}
+        questionnaire.add_outcome_table outcome_table_options
+        table = questionnaire.outcome_tables.first
+        expect(table.score_keys).to eq([:key])
+        expect(table.subscore_keys).to eq([:value])
+        expect(table.questionnaire).to eq(questionnaire)
+      end
+
+      it 'adds errors to the questionnaire if the outcome table is not valid and does not add an outcome_table' do
+        outcome_table_options = {score_keys: [:unknown_key], subscore_keys: [:unknown_value]}
+        questionnaire.add_outcome_table outcome_table_options
+        expect(questionnaire.outcome_tables).to be_empty
+        expect(questionnaire.errors.full_messages).to \
+          eq(["Outcome table score keys :unknown_key not found in score schemas",
+              "Outcome table subscore keys :unknown_value not found in subscore schemas"])
+      end
+    end
   end
 end

@@ -45,6 +45,7 @@ module Quby
           @tags = OpenStruct.new
           @check_key_clashes = true
           @score_schemas = {}.with_indifferent_access
+          @outcome_tables = []
         end
 
         attr_accessor :key
@@ -79,6 +80,7 @@ module Quby
         attr_accessor :flags
         attr_accessor :textvars
 
+        attr_accessor :outcome_tables
         attr_accessor :score_schemas
 
         delegate :question_hash, :input_keys, :answer_keys, :expand_input_keys, to: :fields
@@ -382,6 +384,15 @@ module Quby
                 end
               end rescue nil
             end
+          end
+        end
+
+        def add_outcome_table(outcome_table_options)
+          table = OutcomeTable.new(**outcome_table_options, questionnaire: self)
+          if table.valid?
+            outcome_tables << table
+          else
+            table.errors.each { |attr, err| errors.add("Outcome table #{attr}", err) }
           end
         end
 
