@@ -4,8 +4,6 @@ module Quby::Questionnaires::Entities
   describe OutcomeTable do
     let(:questionnaire) do
       Quby::Questionnaires::DSL.build("test") do
-        question :v_1, type: :date, title: 'vraag'
-
         score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
         score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
       end

@@ -388,12 +388,7 @@ module Quby
         end
 
         def add_outcome_table(outcome_table_options)
-          table = OutcomeTable.new(**outcome_table_options, questionnaire: self)
-          if table.valid?
-            outcome_tables << table
-          else
-            table.errors.each { |attr, err| errors.add("Outcome table #{attr}", err) }
-          end
+          outcome_tables << OutcomeTable.new(**outcome_table_options, questionnaire: self)
         end
 
         private

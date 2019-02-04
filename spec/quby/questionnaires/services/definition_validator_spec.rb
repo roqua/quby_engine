@@ -582,5 +582,29 @@ module Quby::Questionnaires::Services
         END
       end
     end
+
+    describe 'outcome_tables' do
+      it 'checks if outcome tables are valid' do
+        make_definition(<<-END).valid?.should be_truthy
+          title "Test"
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
+          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
+
+          outcome_table score_keys: %i[key key2],
+                        subscore_keys: [:value]
+        END
+      end
+
+      it 'fails if there is an error in outcome tables' do
+        make_definition(<<-END).valid?.should be_falsey
+          title "Test"
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
+          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
+
+          outcome_table score_keys: %i[key unknown_key_1 unknown_key_2],
+                        subscore_keys: [:value]
+        END
+      end
+    end
   end
 end
