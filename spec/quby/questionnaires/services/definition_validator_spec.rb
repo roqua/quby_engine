@@ -590,7 +590,8 @@ module Quby::Questionnaires::Services
           score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
           score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
 
-          outcome_table score_keys: %i[key key2],
+          outcome_table key: :test_outcome_table,
+                        score_keys: %i[key key2],
                         subscore_keys: [:value]
         END
       end
@@ -601,7 +602,8 @@ module Quby::Questionnaires::Services
           score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
           score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
 
-          outcome_table score_keys: %i[key unknown_key_1 unknown_key_2],
+          outcome_table key: :test_outcome_table,
+                        score_keys: %i[key unknown_key_1 unknown_key_2],
                         subscore_keys: [:value]
         END
       end

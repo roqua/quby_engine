@@ -10,7 +10,8 @@ module Quby::Questionnaires::Entities
     end
     describe '#references_existing_score_keys' do
       it 'adds errors if score_keys references scores not found in the questionnaire score schema' do
-        table = described_class.new(score_keys: %i[key unknown_key_1 unknown_key_2],
+        table = described_class.new(key: :test_outcome_table,
+                                    score_keys: %i[key unknown_key_1 unknown_key_2],
                                     subscore_keys: [:value],
                                     questionnaire: questionnaire)
         table.valid?
@@ -19,7 +20,8 @@ module Quby::Questionnaires::Entities
       end
 
       it 'adds errors if subscore_keys references subscores not found in the questionnaire score schema' do
-        table = described_class.new(score_keys: [:key],
+        table = described_class.new(key: :test_outcome_table,
+                                    score_keys: [:key],
                                     subscore_keys: %i[unknown_key_1 unknown_key_2],
                                     questionnaire: questionnaire)
         table.valid?
