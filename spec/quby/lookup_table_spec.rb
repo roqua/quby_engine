@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module Quby
   describe LookupTable do
-    let(:table) { described_class.new('test_table') }
+    let(:table) { described_class.new('test_tree') }
     let(:expected_backing) { double.as_null_object }
 
     before do
