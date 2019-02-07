@@ -128,9 +128,8 @@ module Quby
 
         def validate_outcome_tables(questionnaire)
           questionnaire.outcome_tables.each do |table|
-            table.valid?
-            attr, err = table.errors.first
-            fail "Outcome table #{attr} #{err}" if err
+            next if table.valid?
+            fail "Outcome table #{table.errors.full_messages}"
           end
         end
 
