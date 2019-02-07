@@ -4,10 +4,10 @@ module Quby
       # OutcomeTable describes how scores are formatted in a table in outcome views
       # @param key [Symbol] key to reference this outcome table by
       # @param score_keys [Array<Symbol>] which scores are selected for the rows of the table
-      # @param subscore_keys [Array<Symbol>] which subscores (:value, :interpretation etc.) are selected for the columns of the table
+      # @param subscore_keys [Array<Symbol>] which subscores (:value, :interpretation etc.) make up the table columns
       # @param name [String] a title that will be shown above the table
       # @param default_collapsed [Boolean] if true, collapses the table to only show the name by default
-      # @param questionnaire [Questionnaire] used to validate the score keys and subscore keys according to its score_schema
+      # @param questionnaire [Questionnaire] for validating score keys and subscore keys according to its score_schema
       class OutcomeTable
         include ActiveModel::Model
         attr_accessor :score_keys, :subscore_keys, :name, :default_collapsed, :questionnaire, :key
