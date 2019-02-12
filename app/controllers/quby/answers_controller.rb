@@ -73,6 +73,26 @@ module Quby
       update true
     end
 
+    def pdf
+      updater = Answers::Services::UpdatesAnswers.new(@answer)
+
+      updater.on_success do
+        template_string = render_versioned_template_to_string "print", layout: "pdf"
+        Rails.logger.info template_string
+        pdf_binary = PdfRenderer.render_pdf(template_string)
+        Rails.logger.info pdf_binary
+        send_data pdf_binary, filename: "#{@questionnaire.title} #{@answer.created_at.to_s(:db)}.pdf",
+                           type: 'application/pdf', disposition: :attachment
+      end
+
+      updater.on_failure do
+        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode == "paged"
+        render_versioned_template @display_mode, layout: request.xhr? ? "content_only" : 'application'
+      end
+
+      updater.update((params[:answer] || {}).merge("rendered_at" => params[:rendered_at]))
+    end
+
     def bad_authorization(exception)
       if @return_url
         redirect_to return_url(status: 'error', error: exception.class.to_s)
@@ -203,6 +223,11 @@ module Quby
     def render_versioned_template(template_name, options = {})
       render template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
              layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
+    end
+
+    def render_versioned_template_to_string(template_name, options = {})
+      render_to_string template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
+                       layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
     end
 
     def form_action

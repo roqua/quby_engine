@@ -1,0 +1,7 @@
+-# frozen_string_literal: true
+.print
+  / = link_to pdf_questionnaire_answer_path(@questionnaire, @answer), method: :put do
+  / = form_tag pdf_questionnaire_answer_path(@questionnaire, @answer), method: :put do
+  %a.print_button{:onclick => raw("downloadPdf(\"#{pdf_questionnaire_answer_path(@questionnaire, @answer)}\"); return false;"), :download => "download"}
+    = image_tag "quby/pdf.gif"
+    = translate('download_answers_pdf')

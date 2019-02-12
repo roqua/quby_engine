@@ -37,7 +37,7 @@
       .prev &nbsp;
       .save
         = submit_tag translate('done'), id: 'done-button', name: 'done'
-      = render :partial => 'quby/v1/shared/print_button'
+      = render :partial => 'quby/v1/shared/pdf_button'
 
 = render :partial => "quby/v1/shared/footer_javascript", locals: {answer: @answer}
 = render :partial => "quby/v1/modal_iframe"

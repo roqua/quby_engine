@@ -9,6 +9,7 @@ nl:
   previous_questionnaire: Vorige vragenlijst
   done: Klaar
   print_answers: Print antwoorden
+  download_answers_pdf: Download als PDF
   questionnaire_not_completed:
     heading: Deze vragenlijst is nog niet volledig ingevuld!
     explanation: Als u de vragenlijst toch opslaat, kan het zijn dat er geen schaalscores berekend worden omdat hiervoor onvoldoende informatie voorhanden is. U kunt uw antwoorden hieronder alsnog aanvullen. Vragen die nog niet volledig zijn beantwoord, worden rood gemarkeerd.
