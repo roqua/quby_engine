@@ -223,43 +223,29 @@ function doDivPrint(url){
 
 function downloadPdf(url) {
   $.ajax({
-    // dataType: 'blob', // 'blob', 'arraybuffer'
-    // processData: false,
-    responseType: 'blob'
-  })
-  var result = $(document.createElement("div"));
-  result.load(url, $('form').serializeArray(), function(response, status, xhr){
-    console.log(response)
-    var contentDispo = xhr.getResponseHeader('Content-Disposition');
-    // https://stackoverflow.com/a/23054920/
-    var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1].replace(/\"/gi, "");
-    var blob = new Blob([response], {type: "application/pdf"})
-    saveBlob(blob, fileName);
-  })
+    type: "PUT",
+    url: url,
+    data: $('form').serializeArray(),
+    dataType: "native",
+    xhrFields: {
+      responseType: 'blob' // 'text'
+    },
+    success: function(blob, status, xhr) {
+      var contentDispo = xhr.getResponseHeader('Content-Disposition');
+      // // https://stackoverflow.com/a/23054920/
+      var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1].replace(/\"/gi, "");
+      saveBlob(blob, fileName)
+    }
+  }).fail(function(xhr, status, error) {
+    console.log(error)
+  });
 }
-
-// function downloadPdf(url) {
-//   var csrfToken = $('meta[name="csrf-token"]').attr("content")
-//   var postData = $('form').serializeArray()
-//   var formData =
-//   var xhr = new XMLHttpRequest()
-//   xhr.open('PUT', url, true)
-//   xhr.setRequestHeader('X-CSRFToken', csrfToken);
-//   xhr.responseType = 'blob';
-//   xhr.onload = function(result, event) {
-//     var blob = result.target.response
-//     var contentDispo = result.getResponseHeader('Content-Disposition');
-//     // https://stackoverflow.com/a/23054920/
-//     var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1];
-//     saveBlob(blob, fileName)
-//   }
-//   xhr.send(postData)
-// }
 
 function saveBlob(blob, fileName) {
     var a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);
     a.download = fileName;
+    document.body.appendChild(a)
     a.dispatchEvent(new MouseEvent('click'));
 }
 

@@ -20,6 +20,7 @@
 //= require jquery_placeholder
 //= require jquery.watch.js
 //= require jquery.nouislider.with_roqua_modifications.js
+//= require jquery-ajax-native.js
 
 //= require ./better_range_inputs.js
 //= require jquery.deselectableRadio.1.0.3.js
