@@ -222,6 +222,7 @@ function doDivPrint(url){
 }
 
 function downloadPdf(url) {
+  $('#content').css('cursor', 'wait');
   $.ajax({
     type: "PUT",
     url: url,
@@ -243,6 +244,8 @@ function downloadPdf(url) {
     }
   }).fail(function(xhr, status, error) {
     console.log(error)
+  }).always(function() {
+    $('#content').css('cursor', 'default');
   });
 }
 

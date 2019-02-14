@@ -1,5 +1,3 @@
-# require 'fileutils'
-# require 'open3'
 require 'rest-client'
 
 module Quby
