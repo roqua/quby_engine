@@ -270,6 +270,7 @@ function offerAsDownload(blob, fileName) {
   a.download = fileName;
   document.body.appendChild(a)
   a.dispatchEvent(new MouseEvent('click'));
+  window.URL.revokeObjectURL(a.href)
 }
 
 function modalFrame(url){
