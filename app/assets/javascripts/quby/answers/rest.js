@@ -265,8 +265,8 @@ function reloadPageContent(blob) {
 }
 
 function offerAsDownload(blob, fileName) {
-  if (navigator.msSaveOrOpenBlob) {
-    navigator.msSaveOrOpenBlob(blob, fileName);
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveOrOpenBlob(blob, fileName);
   } else {
     var a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);
@@ -274,7 +274,9 @@ function offerAsDownload(blob, fileName) {
     document.body.appendChild(a)
     var event = new MouseEvent('click')
     a.dispatchEvent(event);
-    window.URL.revokeObjectURL(a.href)
+    setTimeout(function() {
+      window.URL.revokeObjectURL(a.href)
+    }, 100)
   }
 }
 
