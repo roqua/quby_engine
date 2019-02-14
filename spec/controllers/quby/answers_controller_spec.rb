@@ -33,6 +33,37 @@ module Quby
 
     end
 
+    describe '#pdf' do
+      let(:questionnaire) { inject_questionnaire("test", <<-END) }
+        question :v_1, type: :radio, required: true do
+          title "Choose"
+          option :a1, value: 1, description: "Ja"
+          option :a2, value: 2, description: "Nee"
+        end
+      END
+
+      let(:answer) { create_new_answer_for(questionnaire) }
+
+      before do
+        allow(Quby::PdfRenderer).to receive(:render_pdf).and_return("Very nice PDF")
+      end
+
+      context 'with fully answered questionnaire' do
+        it 'renders and sends a pdf file' do
+          put :pdf, questionnaire_id: questionnaire.key, id: answer.id, answer: {'v_1' => 'a2'}
+          expect(response.header['Content-Type']).to eq('application/pdf')
+        end
+      end
+
+      context 'with missing required answers' do
+        it 'renders the questionnaire again' do
+          pending 'Cannot be tested due to services/update_answers:37'
+          put :pdf, questionnaire_id: questionnaire.key, id: answer.id, answer: {}
+          expect(response.header['Content-Type']).to eq('text/html')
+        end
+      end
+    end
+
     describe '#bad_questionnaire' do
       before do
         controller.stub(:find_questionnaire).and_raise(Quby::Questionnaires::Repos::QuestionnaireNotFound,

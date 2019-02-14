@@ -228,25 +228,45 @@ function downloadPdf(url) {
     data: $('form').serializeArray(),
     dataType: "native",
     xhrFields: {
-      responseType: 'blob' // 'text'
+      responseType: 'blob'
     },
     success: function(blob, status, xhr) {
-      var contentDispo = xhr.getResponseHeader('Content-Disposition');
-      // // https://stackoverflow.com/a/23054920/
-      var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1].replace(/\"/gi, "");
-      saveBlob(blob, fileName)
+      if (blob.type === 'text/html') {
+        // There was an error saving the answer
+        reloadPageContent(blob)
+      } else {
+        var contentDispo = xhr.getResponseHeader('Content-Disposition');
+        // https://stackoverflow.com/a/23054920/
+        var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1].replace(/\"/gi, "");
+        offerAsDownload(blob, fileName)
+      }
     }
   }).fail(function(xhr, status, error) {
     console.log(error)
   });
 }
 
-function saveBlob(blob, fileName) {
-    var a = document.createElement('a');
-    a.href = window.URL.createObjectURL(blob);
-    a.download = fileName;
-    document.body.appendChild(a)
-    a.dispatchEvent(new MouseEvent('click'));
+function reloadPageContent(blob) {
+  new Promise(
+    function(resolve, reject) {
+      resolve(new Response(blob).text())
+    }
+  ).then(function(response) {
+    $("body > #content").replaceWith(response);
+    if (isBulkOrSinglePage){
+      prepareBulk();
+    } else {
+      preparePaged();
+    }
+  })
+}
+
+function offerAsDownload(blob, fileName) {
+  var a = document.createElement('a');
+  a.href = window.URL.createObjectURL(blob);
+  a.download = fileName;
+  document.body.appendChild(a)
+  a.dispatchEvent(new MouseEvent('click'));
 }
 
 function modalFrame(url){

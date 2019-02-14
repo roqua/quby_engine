@@ -78,9 +78,7 @@ module Quby
 
       updater.on_success do
         template_string = render_versioned_template_to_string "print", layout: "pdf"
-        Rails.logger.info template_string
-        pdf_binary = PdfRenderer.render_pdf(template_string)
-        Rails.logger.info pdf_binary
+        pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
         send_data pdf_binary, filename: "#{@questionnaire.title} #{@answer.created_at.to_s(:db)}.pdf",
                            type: 'application/pdf', disposition: :attachment
       end
