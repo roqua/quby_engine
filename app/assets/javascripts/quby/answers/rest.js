@@ -265,12 +265,17 @@ function reloadPageContent(blob) {
 }
 
 function offerAsDownload(blob, fileName) {
-  var a = document.createElement('a');
-  a.href = window.URL.createObjectURL(blob);
-  a.download = fileName;
-  document.body.appendChild(a)
-  a.dispatchEvent(new MouseEvent('click'));
-  window.URL.revokeObjectURL(a.href)
+  if (navigator.msSaveOrOpenBlob) {
+    navigator.msSaveOrOpenBlob(blob, fileName);
+  } else {
+    var a = document.createElement('a');
+    a.href = window.URL.createObjectURL(blob);
+    a.download = fileName;
+    document.body.appendChild(a)
+    var event = new MouseEvent('click')
+    a.dispatchEvent(event);
+    window.URL.revokeObjectURL(a.href)
+  }
 }
 
 function modalFrame(url){
