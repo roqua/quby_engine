@@ -80,7 +80,7 @@ module Quby
         template_string = render_versioned_template_to_string "print", layout: "pdf"
         pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
         send_data pdf_binary, filename: "#{@questionnaire.title} #{@answer.created_at.to_s(:db)}.pdf",
-                           type: 'application/pdf', disposition: :attachment
+                              type: 'application/pdf', disposition: :attachment
       end
 
       updater.on_failure do
@@ -224,8 +224,9 @@ module Quby
     end
 
     def render_versioned_template_to_string(template_name, options = {})
-      render_to_string template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
-                       layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
+      render_to_string \
+        template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
+        layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
     end
 
     def form_action
