@@ -221,62 +221,21 @@ function doDivPrint(url){
     });
 }
 
+var pdf_button_semaphore = true;
 function downloadPdf(url) {
-  $('#content').css('cursor', 'wait');
-  $.ajax({
-    type: "PUT",
-    url: url,
-    data: $('form').serializeArray(),
-    dataType: "native",
-    xhrFields: {
-      responseType: 'blob'
-    },
-    success: function(blob, status, xhr) {
-      if (blob.type === 'text/html') {
-        // There was an error saving the answer
-        reloadPageContent(blob)
-      } else {
-        var contentDispo = xhr.getResponseHeader('Content-Disposition');
-        // https://stackoverflow.com/a/23054920/
-        var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1].replace(/\"/gi, "");
-        offerAsDownload(blob, fileName)
-      }
-    }
-  }).fail(function(xhr, status, error) {
-    console.log(error)
-  }).always(function() {
-    $('#content').css('cursor', 'default');
-  });
-}
-
-function reloadPageContent(blob) {
-  new Promise(
-    function(resolve, reject) {
-      resolve(new Response(blob).text())
-    }
-  ).then(function(response) {
-    $("body > #content").replaceWith(response);
-    if (isBulkOrSinglePage){
-      prepareBulk();
-    } else {
-      preparePaged();
-    }
-  })
-}
-
-function offerAsDownload(blob, fileName) {
-  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(blob, fileName);
-  } else {
-    var a = document.createElement('a');
-    a.href = window.URL.createObjectURL(blob);
-    a.download = fileName;
-    document.body.appendChild(a)
-    var event = new MouseEvent('click')
-    a.dispatchEvent(event);
-    setTimeout(function() {
-      window.URL.revokeObjectURL(a.href)
-    }, 100)
+  if (pdf_button_semaphore && activePanelsValid()) {
+    $("#content").css("cursor", "wait");
+    pdf_button_semaphore = false;
+    setTimeout(function() { pdf_button_semaphore = true; }, 3000);
+    var old_unload = window.onbeforeunload;
+    window.onbeforeunload = null;
+    var form = $("#questionnaire-form")[0];
+    var old_action = form.action;
+    form.action = url;
+    form.submit();
+    form.action = old_action;
+    window.onbeforeunload = old_unload;
+    $("#content").css("cursor", "default");
   }
 }
 

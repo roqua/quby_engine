@@ -8,7 +8,7 @@
 
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
-= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "single-page"].join(" "), :autocomplete => "off" do
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "single-page"].join(" "), :autocomplete => "off", id: 'questionnaire-form' do
   = render partial: "quby/v1/session_params"
   = render partial: "quby/v1/shared/force_submit", locals: {show_force_submit: @answer.errors.empty?}
   = render partial: "quby/v1/hotkey_dialog"

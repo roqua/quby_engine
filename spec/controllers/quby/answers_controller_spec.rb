@@ -57,9 +57,9 @@ module Quby
 
       context 'with missing required answers' do
         it 'renders the questionnaire again' do
-          pending 'Cannot be tested due to services/update_answers:37'
+          allow_server_side_validation_error(always: true)
           put :pdf, questionnaire_id: questionnaire.key, id: answer.id, answer: {}
-          expect(response.header['Content-Type']).to eq('text/html')
+          expect(response.header['Content-Type']).to eq('text/html; charset=utf-8')
         end
       end
     end

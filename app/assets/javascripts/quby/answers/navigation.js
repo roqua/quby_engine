@@ -16,14 +16,18 @@
     done_button_semaphore = true;
   });
 
-  // #done-button:click: validate all panels for bulk/single page mode, or current panel in case of paged mode
-  $(document).on("click", "#done-button", function(event) {
+  window.activePanelsValid = function() {
     var panelsToValidate = $(".current.panel");
     if (panelsToValidate.length == 0) {
       panelsToValidate = $(".panel");
     }
-    var validPanels = _.map(panelsToValidate, function(panel) { return validatePanel($(panel)) });
-    if (_.all(validPanels)) {
+    var validPanels = _.map(panelsToValidate, function(panel) { return validatePanel($(panel)); });
+    return _.all(validPanels);
+  };
+
+  // #done-button:click: validate all panels for bulk/single page mode, or current panel in case of paged mode
+  $(document).on("click", "#done-button", function(event) {
+    if (activePanelsValid()) {
       return true;
     } else {
       // on display modes that allow it, show the force submit dialog and scroll to it
