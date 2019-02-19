@@ -17,4 +17,3 @@
       = render :partial => "quby/v1/print/item", :object => item, :locals => { :item_counter => idx, :items => panel.items, :previous_item => previous_item}
       - previous_item = item if item.is_a? Quby::Questionnaires::Entities::Question
 
--#= button_to_function 'Print', "window.print();", :class => "print_button"

@@ -41,13 +41,9 @@ module Quby
       render_versioned_template @display_mode
     end
 
-    def update(printing = false)
-      updater = Answers::Services::UpdatesAnswers.new(@answer)
-
-      updater.on_success do
-        if printing
-          render_versioned_template "print", layout: "content_only"
-        elsif @return_url.blank?
+    def update
+      update_or_fail do
+        if @return_url.blank?
           render_versioned_template "completed", layout: request.xhr? ? "content_only" : 'application'
         else
           redirect_url = return_url(status: 'updated', go: form_action)
@@ -56,39 +52,15 @@ module Quby
             redirect_to(redirect_url)
         end
       end
-
-      updater.on_failure do
-        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode == "paged"
-        if printing
-          render_versioned_template @display_mode, layout: "content_only"
-        else
-          render_versioned_template @display_mode, layout: request.xhr? ? "content_only" : 'application'
-        end
-      end
-
-      updater.update((params[:answer] || {}).merge("rendered_at" => params[:rendered_at]))
-    end
-
-    def print
-      update true
     end
 
     def pdf
-      updater = Answers::Services::UpdatesAnswers.new(@answer)
-
-      updater.on_success do
+      update_or_fail do
         template_string = render_versioned_template_to_string "print", layout: "pdf"
         pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
         send_data pdf_binary, filename: "#{@questionnaire.title} #{@answer.created_at.to_s(:db)}.pdf",
                               type: 'application/pdf', disposition: :attachment
       end
-
-      updater.on_failure do
-        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode == "paged"
-        render_versioned_template @display_mode, layout: request.xhr? ? "content_only" : 'application'
-      end
-
-      updater.update((params[:answer] || {}).merge("rendered_at" => params[:rendered_at]))
     end
 
     def bad_authorization(exception)
@@ -124,6 +96,21 @@ module Quby
     end
 
     protected
+
+    def update_or_fail
+      updater = Answers::Services::UpdatesAnswers.new(@answer)
+
+      updater.on_success do
+        yield
+      end
+
+      updater.on_failure do
+        flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode == "paged"
+        render_versioned_template @display_mode, layout: request.xhr? ? "content_only" : 'application'
+      end
+
+      updater.update((params[:answer] || {}).merge("rendered_at" => params[:rendered_at]))
+    end
 
     def find_questionnaire
       if params[:questionnaire_id]

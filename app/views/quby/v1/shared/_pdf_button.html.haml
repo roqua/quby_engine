@@ -1,6 +1,6 @@
 -# frozen_string_literal: true
 .print
-  %a.print-button{:onclick => raw("downloadPdf(\"#{pdf_questionnaire_answer_path(@questionnaire, @answer)}\"); return false;")}
+  %a.print_button{:onclick => raw("downloadPdf(\"#{pdf_questionnaire_answer_path(@questionnaire, @answer)}\"); return false;")}
     = image_tag "quby/pdf.gif"
     = translate('download_answers_pdf')
 

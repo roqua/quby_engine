@@ -24,15 +24,6 @@ module Quby
       Quby::Settings.stub(authorize_with_id_from_session: false)
     end
 
-    describe '#print' do
-
-      it 'allows print requests with an empty answer-hash' do
-        put :print, questionnaire_id: questionnaire.key, id: answer.id
-        expect(response).to render_template('v1/print')
-      end
-
-    end
-
     describe '#pdf' do
       let(:questionnaire) { inject_questionnaire("test", <<-END) }
         question :v_1, type: :radio, required: true do

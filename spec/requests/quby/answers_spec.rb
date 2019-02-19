@@ -54,11 +54,6 @@ module Quby
           end.to_s
         end
 
-        it 'renders print view if printing' do
-          put "/quby/questionnaires/honos/answers/#{answer.id}/print", params: {answer: {v_1: nil}}
-          response.should render_template('v1/print')
-        end
-
         it 'renders completed view if no return url' do
           put "/quby/questionnaires/honos/answers/#{answer.id}", params: {answer: {v_1: nil}}
           response.should render_template('v1/completed')
