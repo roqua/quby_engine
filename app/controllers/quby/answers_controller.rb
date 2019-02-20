@@ -58,7 +58,7 @@ module Quby
       update_or_fail do
         template_string = render_versioned_template_to_string "print", layout: "pdf"
         pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
-        send_data pdf_binary, filename: "#{@questionnaire.title} #{@answer.created_at.to_s(:db)}.pdf",
+        send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
                               type: 'application/pdf', disposition: :attachment
       end
     end
