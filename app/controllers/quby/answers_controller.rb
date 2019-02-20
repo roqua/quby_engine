@@ -13,13 +13,13 @@ module Quby
     before_action :load_display_mode
 
     before_action :verify_answer_id_against_session
-    before_action :verify_hmac, only: [:edit, :print]
+    before_action :verify_hmac, only: :edit
 
     before_action :find_questionnaire
     before_action :check_questionnaire_valid
 
     before_action :find_answer
-    before_action :verify_token, only: [:show, :edit, :update, :print]
+    before_action :verify_token, only: [:show, :edit, :update]
 
     before_action :check_aborted, only: :update
 
@@ -38,13 +38,13 @@ module Quby
 
     def edit
       default_to_textvar_values(@answer)
-      render_versioned_template @display_mode
+      render versioned_template_options(@display_mode)
     end
 
     def update
       update_or_fail do
         if @return_url.blank?
-          render_versioned_template "completed", layout: request.xhr? ? "content_only" : 'application'
+          render versioned_template_options("completed", layout: request.xhr? ? "content_only" : 'application')
         else
           redirect_url = return_url(status: 'updated', go: form_action)
           request.xhr? ?
@@ -56,7 +56,7 @@ module Quby
 
     def pdf
       update_or_fail do
-        template_string = render_versioned_template_to_string "print", layout: "pdf"
+        template_string = render_to_string versioned_template_options("print", layout: "pdf")
         pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
         send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
                               type: 'application/pdf', disposition: :attachment
@@ -106,7 +106,7 @@ module Quby
 
       updater.on_failure do
         flash.now[:notice] = "De vragenlijst is nog niet volledig ingevuld." if @display_mode == "paged"
-        render_versioned_template @display_mode, layout: request.xhr? ? "content_only" : 'application'
+        render versioned_template_options(@display_mode, layout: request.xhr? ? "content_only" : 'application')
       end
 
       updater.update((params[:answer] || {}).merge("rendered_at" => params[:rendered_at]))
@@ -205,15 +205,9 @@ module Quby
       @custom_stylesheet = params[:stylesheet]
     end
 
-    def render_versioned_template(template_name, options = {})
-      render template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
-             layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
-    end
-
-    def render_versioned_template_to_string(template_name, options = {})
-      render_to_string \
-        template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
-        layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"
+    def versioned_template_options(template_name, options = {})
+      {template: "quby/#{@questionnaire.renderer_version}/#{template_name}",
+       layout: "quby/#{@questionnaire.renderer_version}/layouts/#{options.fetch(:layout, "application")}"}
     end
 
     def form_action
