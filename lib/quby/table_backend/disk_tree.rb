@@ -97,7 +97,7 @@ module Quby::TableBackend
         when 'string'
           acc[parameters[header.to_sym].to_s]
         when 'float'
-          acc[parameters[header.to_sym]]
+          acc[parameters[header.to_sym].to_f]
         when 'range'
           acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_f) }.values.first
         end

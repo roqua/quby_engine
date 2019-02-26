@@ -98,6 +98,20 @@ describe Quby::TableBackend::DiskTree do
       end
     end
 
+    describe 'definition containing float values' do
+      let(:tree) { described_class.new('test_tree/test2') }
+
+      it 'returns the correct scores when using integers in lookup path' do
+        params = {scale: 'Inhibitie', raw: 17}
+        expect(tree.lookup(params)).to eq(71)
+      end
+
+      it 'returns the correct scores when using floats in lookup path' do
+        params = {scale: 'Inhibitie', raw: 17.0}
+        expect(tree.lookup(params)).to eq(71)
+      end
+    end
+
     describe 'parameter validation' do
       it 'raises when parameter keys do not match header keys' do
         params = {foo: :bar}
