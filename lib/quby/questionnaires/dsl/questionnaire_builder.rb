@@ -201,6 +201,10 @@ module Quby
           @questionnaire.add_textvar textvar_options
         end
 
+        def outcome_table(table_options)
+          @questionnaire.add_outcome_table table_options
+        end
+
         private
 
         def default_panel_options

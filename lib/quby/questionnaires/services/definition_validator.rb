@@ -22,6 +22,7 @@ module Quby
           validate_table_edgecases(questionnaire)
           validate_flags(questionnaire)
           validate_respondent_types(questionnaire)
+          validate_outcome_tables(questionnaire)
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception # rubocop:disable Lint/RescueException
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
@@ -122,6 +123,13 @@ module Quby
           if invalid_types.present?
             fail "Invalid respondent types: :#{invalid_types.join(', :')}\n"\
                  "Choose one or more from: :#{valid_respondent_types.join(', :')}"
+          end
+        end
+
+        def validate_outcome_tables(questionnaire)
+          questionnaire.outcome_tables.each do |table|
+            next if table.valid?
+            fail "Outcome table #{table.errors.full_messages}"
           end
         end
 

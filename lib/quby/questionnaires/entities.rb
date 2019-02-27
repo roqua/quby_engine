@@ -22,6 +22,8 @@ require 'quby/questionnaires/entities/panel'
 require 'quby/questionnaires/entities/text'
 require 'quby/questionnaires/entities/table'
 
+require 'quby/questionnaires/entities/outcome_table'
+
 require 'quby/questionnaires/entities/question'
 require 'quby/questionnaires/entities/questions/checkbox_question'
 require 'quby/questionnaires/entities/questions/date_question'
