@@ -399,6 +399,15 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#outcome_table' do
+      it 'calls questionnaire.add_outcome_table with the given arguments' do
+        expect(questionnaire).to receive(:add_outcome_table).with(score_keys: [:a], subscore_keys: [:b])
+        dsl do
+          outcome_table score_keys: [:a], subscore_keys: [:b]
+        end
+      end
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end
