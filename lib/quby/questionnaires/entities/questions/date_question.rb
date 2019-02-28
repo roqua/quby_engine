@@ -15,12 +15,18 @@ module Quby
             attr_accessor "#{component}_key".to_sym
           end
 
-          attr_accessor :components
+          # @!attribute [r] components
+          #   @return [Array<Symbol>] date parts to show
+          # @!attribute [r] required_components
+          #   @return [Array<Symbol>] date parts that are required if the question is required or partly filled out.
+          attr_accessor :components, :required_components, :optional_components
 
           def initialize(key, options = {})
             super
 
             @components = options[:components] || DEFAULT_COMPONENTS
+            @required_components = options[:required_components] || @components
+            @optional_components = @components - @required_components
 
             components.each do |component|
               component_key = options[:"#{component}_key"] || "#{key}_#{COMPONENT_KEYS[component]}"
