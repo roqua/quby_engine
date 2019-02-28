@@ -114,6 +114,44 @@ shared_examples 'validations on date questions' do
         expect_error_on 'v_date', 'valid_date'
       end
     end
+
+    context 'when only the year is required' do
+      let(:questionnaire) do
+        inject_questionnaire "test_with_components", <<-END
+          question :v_date, type: :date, required: true,
+                            components: [:year, :month],
+                            required_components: [:year] do
+            title "Enter a date"
+          end; end_panel
+        END
+      end
+
+      scenario 'saving with valid month and year' do
+        fill_in_question('v_date_yyyy', '2018')
+        fill_in_question('v_date_mm', '10')
+        run_validations
+        expect_no_errors
+        expect_saved_value 'v_date', '10-2018'
+      end
+
+      scenario 'saving with valid year only' do
+        fill_in_question('v_date_yyyy', '2018')
+        run_validations
+        expect_no_errors
+        expect_saved_value 'v_date', '2018'
+      end
+
+      scenario 'saving an empty date' do
+        run_validations
+        expect_error_on 'v_date', 'requires_answer'
+      end
+
+      scenario 'saving with missing year' do
+        fill_in_question('v_date_mm', '10')
+        run_validations
+        expect_error_on 'v_date', 'valid_date'
+      end
+    end
   end
 
   context 'in_range validation' do

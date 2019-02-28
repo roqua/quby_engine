@@ -68,6 +68,13 @@ module ClientSideValidationHelpers
     end
   end
 
+  def error_messages_on(question_key)
+    within '#panel0.current' do
+      query = "#item_#{question_key} .error, [data-for='#{question_key}'] .error"
+      all(query).map(&:text)
+    end
+  end
+
   def expect_saved_value(question_key, expected_value)
     unless @have_clicked_save
       click_on "Klaar"
@@ -129,5 +136,9 @@ module ServerSideValidationHelpers
 
   def expect_no_error_on(question_key)
     answer.errors[question_key].map { |error| error[:valtype] }.should be_empty
+  end
+
+  def error_messages_on(question_key)
+    answer.errors.full_messages_for(question_key)
   end
 end
