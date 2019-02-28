@@ -31,7 +31,7 @@ module Quby
           @key = key
           @sbg_domains = []
           @last_update = Time.at(last_update.to_i)
-          @score_calculations ||= {}
+          @score_calculations = {}.with_indifferent_access
           @charts = Charting::Charts.new
           @fields = Fields.new(self)
           @license = :unknown
