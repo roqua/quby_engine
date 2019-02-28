@@ -1,0 +1,6 @@
+scale;gender;age;raw;norm
+string;string;range;range;float
+Inhibitie;male;10:11;10:10;39
+Inhibitie;male;10:11;11:20;42
+Inhibitie;male;10:11;20:30;71
+Inhibitie;male;10:11;30:infinity;75

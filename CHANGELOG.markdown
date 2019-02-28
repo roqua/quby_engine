@@ -1,3 +1,7 @@
+# 2.6.0
+
+* Changed normscore lookup to use a tree that is built from a single csv file.
+
 # 2.5.2
 
 * 6x Faster loading of questionnaires.
