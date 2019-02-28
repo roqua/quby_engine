@@ -38,8 +38,6 @@ module Quby
         #                        score calculation (optional)
         #           :gender - The Symbol gender of the patient, must be one of:
         #                     :male, :female or :unknown (optional)
-        # scores - The Hash containing other scores calculated for the answer, so
-        #          that these scores can be accessed from the current calculation.
         def initialize(questionnaire, values, timestamp, patient_attrs = {})
           @questionnaire = questionnaire
           @values = values
