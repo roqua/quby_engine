@@ -425,17 +425,21 @@ module Quby::Answers::Services
     describe '#score' do
       let(:questionnaire) do
         inject_questionnaire "test", <<-END
+          question :v_1, type: :string
+
           variable :testvariable do
             "just a string"
           end
           score :test do
-            {value: 1}
+            {value: value(:v_1)}
           end
         END
       end
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => '1'}, timestamp, {}) }
       it 'returns the value of another score' do
-        calculator.score(:test).should eq(referenced_values: [], value: 1)
+        calculator.score(:test).should eq(referenced_values: ['v_1'], value: '1')
+        # and it also saves the referenced values of the called score to this calculator
+        expect(calculator.referenced_values).to eq(['v_1'])
       end
 
       it 'raises an exception when score is not known' do
