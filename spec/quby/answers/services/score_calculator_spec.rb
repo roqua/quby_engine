@@ -43,19 +43,17 @@ module Quby::Answers::Services
     end
 
     describe '#initialize' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => 1}, timestamp, {gender: :male}, {score1: 2}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => 1}, timestamp, {gender: :male}) }
       it 'stores values passed' do
         calculator.instance_variable_get("@values").should eq 'v_1' => 1
         calculator.instance_variable_get('@timestamp').should eq(timestamp)
         calculator.instance_variable_get("@patient").instance_variables
                   .should eq Quby::Answers::Entities::Patient.new(gender: :male).instance_variables
-        calculator.instance_variable_get("@scores").should eq({score1: 2}.with_indifferent_access)
       end
     end
 
     describe '#ensure_answer_values_for' do
-      let(:scores) { {'score1' => 22} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
       let(:keys) { [:v_1, 'v_2'] }
       let(:values) { {'v_1' => '', 'v_2' => 4, 'v_3' => nil} }
 
@@ -120,8 +118,7 @@ module Quby::Answers::Services
 
     describe '#values' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:scores) { {'score1' => 22} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
 
       it 'returns the values hash if no args given' do
         calculator.values_with_nils.should eq values
@@ -164,8 +161,7 @@ module Quby::Answers::Services
 
     describe '#values_without_missings' do
       let(:values) { {'v_1' => 1, 'v_2' => 2, 'v_3' => nil, 'v_4' => nil} }
-      let(:scores) { {'score1' => 22} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
 
       it 'fails when called with no keys given' do
         expect { calculator.values_without_missings }.to raise_error(ArgumentError)
@@ -213,8 +209,7 @@ module Quby::Answers::Services
 
     describe '#value' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:scores) { {'score1' => 22} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
 
       it 'returns the value by string or symbol' do
         expect(calculator.value(:v_1)).to eq 1
@@ -230,8 +225,7 @@ module Quby::Answers::Services
 
     describe '#values_with_nils' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil, 'v_6_a2' => 1} }
-      let(:scores) { {'score1' => 22} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}, scores) }
+      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
 
       it 'returns the values hash if no args given' do
         calculator.values_with_nils.should eq values
@@ -429,14 +423,42 @@ module Quby::Answers::Services
     end
 
     describe '#score' do
+      let(:questionnaire) do
+        inject_questionnaire "test", <<-END
+          question :v_1, type: :string
+
+          variable :testvariable do
+            "just a string"
+          end
+
+          score :test do
+            {value: value(:v_1),
+             other: gender}
+          end
+
+          score :test2 do
+            gender = :fabulous
+            {value: score(:test)[:other]}
+          end
+        END
+      end
+      let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => '1'}, timestamp, {}) }
       it 'returns the value of another score' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {}, {other: 1})
-        calculator.score(:other).should eq 1
+        calculator.score(:test).should eq(value: '1', other: :unknown)
+        # and it also saves the referenced values of the called score to this calculator
+        expect(calculator.referenced_values).to eq(['v_1'])
+      end
+
+      it 'does not transfer local variables into the score call' do
+        calculator.score(:test2).should eq(value: :unknown)
       end
 
       it 'raises an exception when score is not known' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {}, {other: 1})
-        expect { calculator.score(:missing) }.to raise_error(/does not exist or is not calculated/)
+        expect { calculator.score(:missing) }.to raise_error(/does not exist/)
+      end
+
+      it 'also returns variables' do
+        calculator.score(:testvariable).should eq 'just a string'
       end
     end
 
@@ -497,7 +519,7 @@ module Quby::Answers::Services
       end
 
       def calculate(score, values = {})
-        ScoreCalculator.calculate(questionnaire, values.stringify_keys, Time.now, {}, {}, &score.calculation)
+        ScoreCalculator.calculate(questionnaire, values.stringify_keys, Time.now, {}, &score.calculation)
       end
     end
   end
