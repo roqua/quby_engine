@@ -430,16 +430,27 @@ module Quby::Answers::Services
           variable :testvariable do
             "just a string"
           end
+
           score :test do
-            {value: value(:v_1)}
+            {value: value(:v_1),
+             other: gender}
+          end
+
+          score :test2 do
+            gender = :fabulous
+            {value: score(:test)[:other]}
           end
         END
       end
       let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => '1'}, timestamp, {}) }
       it 'returns the value of another score' do
-        calculator.score(:test).should eq(referenced_values: ['v_1'], value: '1')
+        calculator.score(:test).should eq(value: '1', other: :unknown)
         # and it also saves the referenced values of the called score to this calculator
         expect(calculator.referenced_values).to eq(['v_1'])
+      end
+
+      it 'does not transfer local variables into the score call' do
+        calculator.score(:test2).should eq(value: :unknown)
       end
 
       it 'raises an exception when score is not known' do

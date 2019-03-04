@@ -210,15 +210,7 @@ module Quby
           fail "Score #{key.inspect} does not exist." unless @questionnaire.score_calculations.key? key
 
           calculation = @questionnaire.score_calculations.fetch(key)
-          result = ScoreCalculator.calculate(@questionnaire,
-                                             @values,
-                                             @timestamp,
-                                             {birthyear: @patient&.birthyear, gender: @patient&.gender},
-                                             &calculation.calculation)
-          if result.is_a?(Hash) && result[:referenced_values].is_a?(Array)
-            remember_usage_of_value_keys result[:referenced_values]
-          end
-          result
+          instance_eval(&calculation.calculation)
         end
 
         def referenced_values
