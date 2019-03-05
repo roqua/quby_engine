@@ -1,4 +1,4 @@
-en:
+de:
   date:
     formats:
       friendly_date: '%-d %B %Y (%-d-%-m-%Y)'
