@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
 require 'active_model'
+require 'active_model_attributes'
 require 'quby/questionnaires/services/definition_validator'
 
 module Quby
   module Questionnaires
     module Entities
       class Definition
-        include Virtus.value_object
-        extend  ActiveModel::Naming
-        include ActiveModel::Validations
+        include ActiveModel::Model
+        include ActiveModelAttributes
 
-        values do
-          attribute :key, String
-          attribute :sourcecode, String
-          attribute :timestamp, Time
-        end
+        attribute :key, :string
+        attribute :sourcecode, :string
+        attribute :timestamp, :time
 
         validates_with Services::DefinitionValidator
       end

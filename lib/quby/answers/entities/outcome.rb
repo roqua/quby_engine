@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
-require 'virtus'
+require 'active_model'
+require 'active_model_attributes'
 
 module Quby
   module Answers
     module Entities
       class Outcome
-        include Virtus.model
+        include ActiveModel::Model
+        include ActiveModelAttributes
 
-        attribute :scores,               Hash,    default: {}
-        attribute :actions,              Hash,    default: {}
-        attribute :completion,           Hash,    default: {}
-        attribute :generated_at,         Time
+        attribute :scores,               :hash,    default: {}
+        attribute :actions,              :hash,    default: {}
+        attribute :completion,           :hash,    default: {}
+        attribute :generated_at,         :time
 
         def scores
           super.with_indifferent_access
