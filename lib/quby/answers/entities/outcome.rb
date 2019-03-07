@@ -1,24 +1,27 @@
 # frozen_string_literal: true
 
-require 'virtus'
+require 'dry-types'
+require 'dry-struct'
 
 module Quby
   module Answers
     module Entities
-      class Outcome
-        include Virtus.model
+      class Outcome < Dry::Struct
+        module Types
+          include Dry::Types.module
+        end
 
-        attribute :scores,               Hash,    default: {}
-        attribute :actions,              Hash,    default: {}
-        attribute :completion,           Hash,    default: {}
-        attribute :generated_at,         Time
+        attribute :scores,               Types::Hash.default({})
+        attribute :actions,              Types::Hash.default({})
+        attribute :completion,           Types::Hash.default({})
+        attribute :generated_at,         Types::Time.meta(omittable: true)
 
         def scores
-          super.with_indifferent_access
+          self[:scores].with_indifferent_access
         end
 
         def actions
-          super.with_indifferent_access
+          self[:actions].with_indifferent_access
         end
 
         def action

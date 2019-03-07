@@ -1,22 +1,25 @@
 # frozen_string_literal: true
 
-require 'virtus'
+require 'dry-types'
+require 'dry-struct'
 
 module Quby
   module Questionnaires
     module Entities
       module Charting
-        class Chart
-          include Virtus.model
+        class Chart < Dry::Struct
+          module Types
+            include Dry::Types.module
+          end
 
-          attribute :key,                        Symbol
-          attribute :title,                      String
-          attribute :plottables,                 Array
+          attribute :key,                        Types::Symbol
+          attribute :title,                      Types::String
+          attribute :plottables,                 Types::Array
           # if y_categories are defined, plottable values should correspond to values from this array
           # and the graph will be plotted with corresponding y axis categories
           # example (icl_r): ["Zeer laag", "Laag", "Gemiddeld", "Hoog", "Zeer Hoog"] (caution, capitalization oddity)
           # NB: only implemented for bar charts on the roqua side
-          attribute :y_categories,               Array
+          attribute :y_categories,               Types::Array
           # if y_range_categories are defined, plottable values should fall in the ranges that compose the keys of this
           # hash. The chart will label these ranges of y_values with the corresponding value in the hash on the y axis.
           # example:
@@ -25,10 +28,10 @@ module Quby
           # NB: .. is inclusive the last value in the range, ... is exclusive.
           # chart_builder#y_range_categories massages its parameters into this format
           # Only implemented for line charts on the roqua side.
-          attribute :y_range_categories,         Hash, coerce: false, default: nil
-          attribute :chart_type,                 Symbol
-          attribute :y_range,                    Range, default: :default_y_range, lazy: true
-          attribute :tick_interval,              Float
+          attribute :y_range_categories,         Types::Hash.optional
+          attribute :chart_type,                 Types::Symbol
+          attribute :y_range,                    Types::Range.default { default_y_range }
+          attribute :tick_interval,              Types::Float
 
           def initialize(key, options = {})
             self.key = key

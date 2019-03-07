@@ -7,10 +7,10 @@ module Quby
     module Entities
       module Charting
         class LineChart < Chart
-          attribute :y_label,                    String
-          attribute :tonality,                   Symbol, default: :lower_is_better
-          attribute :baseline,                   Proc
-          attribute :clinically_relevant_change, Float
+          attribute :y_label,                    Types::String
+          attribute :tonality,                   Types::Symbol.default(:lower_is_better)
+          attribute :baseline,                   Types::Object # Proc
+          attribute :clinically_relevant_change, Types::Float
 
           def tonality=(value)
             fail "Invalid tonality: #{value}" unless [:higher_is_better, :lower_is_better].include?(value)
