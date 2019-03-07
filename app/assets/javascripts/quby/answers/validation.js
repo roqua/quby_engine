@@ -143,18 +143,21 @@
                   }
                   break;
               case "valid_date":
-                try {
-                  fieldsEmpty = numberOfEmptyDateFields(inputs);
-                  if(fieldsEmpty > 0 && fieldsEmpty < $(inputs).size()) {
-                    throw "invalidDate";
+                  if (allDateFieldsEmpty(inputs)) {
+                    break;
                   }
+                  try {
+                    fieldsEmpty = numberOfEmptyDateFields(inputs);
+                    if(fieldsEmpty > 0 && fieldsEmpty < $(inputs).size()) {
+                      throw "invalidDate";
+                    }
 
-                  var date = parsePartialDate(inputs);
-                }
-                catch(e) {
-                  pushFailVal(validation.type);
-                }
-                break;
+                    var date = parsePartialDate(inputs);
+                  }
+                  catch(e) {
+                    pushFailVal(validation.type);
+                  }
+                  break;
               case "answer_group_minimum":
                   var count = calculateAnswerGroup(validation.group, panel);
                   if(count.visible > 0 && count.answered < validation.value){
@@ -256,10 +259,17 @@
   function numberOfEmptyDateFields(inputs) {
     return inputs.toArray().reduce(function(fieldsEmpty, field) {
       if($(field).val() == '' && $(field).data('required') == true) {
+      // if($(field).val() == '') {
         return ++fieldsEmpty;
       }
       return fieldsEmpty;
     }, 0);
+  }
+
+  function allDateFieldsEmpty(inputs) {
+    return inputs.toArray().every(function(field) {
+      return $(field).val() == ''
+    })
   }
 
   function allDateFieldsFilledIn(inputs) {
