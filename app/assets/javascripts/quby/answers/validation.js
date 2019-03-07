@@ -143,12 +143,12 @@
                   }
                   break;
               case "valid_date":
-                  if (allDateFieldsEmpty(inputs)) {
+                  if (allFieldsEmpty(inputs)) {
                     break;
                   }
                   try {
-                    fieldsEmpty = numberOfEmptyDateFields(inputs);
-                    if(fieldsEmpty > 0 && fieldsEmpty < $(inputs).size()) {
+                    fieldsEmpty = numberOfEmptyRequiredDateFields(inputs);
+                    if(fieldsEmpty > 0 && fieldsEmpty < inputs.length) {
                       throw "invalidDate";
                     }
 
@@ -256,24 +256,23 @@
     }
   }
 
-  function numberOfEmptyDateFields(inputs) {
+  function numberOfEmptyRequiredDateFields(inputs) {
     return inputs.toArray().reduce(function(fieldsEmpty, field) {
       if($(field).val() == '' && $(field).data('required') == true) {
-      // if($(field).val() == '') {
         return ++fieldsEmpty;
       }
       return fieldsEmpty;
     }, 0);
   }
 
-  function allDateFieldsEmpty(inputs) {
+  function allFieldsEmpty(inputs) {
     return inputs.toArray().every(function(field) {
       return $(field).val() == ''
     })
   }
 
   function allDateFieldsFilledIn(inputs) {
-    return numberOfEmptyDateFields(inputs) == 0;
+    return numberOfEmptyRequiredDateFields(inputs) == 0;
   }
 
   function pushFailVal(val){
