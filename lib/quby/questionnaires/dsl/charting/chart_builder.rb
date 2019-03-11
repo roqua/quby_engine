@@ -17,7 +17,8 @@ module Quby
         end
 
         def initialize(questionnaire, key, options = {})
-          @chart = self.class.chart_class.new(key, options)
+          options[:key] = key
+          @chart = self.class.chart_class.new(options)
           @questionnaire = questionnaire
         end
 

@@ -13,13 +13,13 @@ module Quby
           end
 
           attribute :key,                        Types::Symbol
-          attribute :title,                      Types::String
-          attribute :plottables,                 Types::Array
+          attribute :title,                      Types::String.meta(omittable: true)
+          attribute :plottables,                 Types::Array.meta(omittable: true)
           # if y_categories are defined, plottable values should correspond to values from this array
           # and the graph will be plotted with corresponding y axis categories
           # example (icl_r): ["Zeer laag", "Laag", "Gemiddeld", "Hoog", "Zeer Hoog"] (caution, capitalization oddity)
           # NB: only implemented for bar charts on the roqua side
-          attribute :y_categories,               Types::Array
+          attribute :y_categories,               Types::Array.meta(omittable: true)
           # if y_range_categories are defined, plottable values should fall in the ranges that compose the keys of this
           # hash. The chart will label these ranges of y_values with the corresponding value in the hash on the y axis.
           # example:
@@ -28,8 +28,8 @@ module Quby
           # NB: .. is inclusive the last value in the range, ... is exclusive.
           # chart_builder#y_range_categories massages its parameters into this format
           # Only implemented for line charts on the roqua side.
-          attribute :y_range_categories,         Types::Hash.optional
-          attribute :chart_type,                 Types::Symbol
+          attribute :y_range_categories,         Types::Hash.meta(omittable: true)
+          attribute :chart_type,                 Types::Symbol.meta(omittable: true)
           attribute :y_range,                    Types::Range.default { default_y_range }
           attribute :tick_interval,              Types::Float
 

@@ -1,41 +1,45 @@
 # frozen_string_literal: true
 
-require 'virtus'
 require 'active_model'
+require 'dry-types'
+require 'dry-struct'
 require 'quby/answers/entities/outcome'
 require 'quby/answers/dsl'
 
 module Quby
   module Answers
     module Entities
-      class Answer
+      class Answer < Dry::Struct::Value
         extend ActiveModel::Naming
         extend ActiveModel::Translation
-        include Virtus.model
 
-        attribute :_id, String
-        attribute :questionnaire_id,     Integer
-        attribute :questionnaire_key,    String
-        attribute :raw_params,           Hash                      # The raw form data (for recovery purposes)
-        attribute :value,                Hash                      # The filtered and transformed form data
-        attribute :patient_id,           String
-        attribute :patient,              Hash,    default: {}
-        attribute :token,                String
-        attribute :active,               Boolean, default: true
-        attribute :test,                 Boolean, default: false
-        attribute :created_at,           Time
-        attribute :updated_at,           Time
-        attribute :started_at,           Time
-        attribute :completed_at,         Time
-        attribute :outcome,              Outcome
-        attribute :outcome_generated_at, Time
-        attribute :scores,               Hash,    default: {}
-        attribute :actions,              Hash,    default: {}
-        attribute :completion,           Hash,    default: {}
-        attribute :dsl_last_update
-        attribute :import_notes,         Hash                      # For answers that are imported from external sources
-        attribute :flags,                Hash[Symbol => Boolean]
-        attribute :textvars,             Hash[Symbol => String]
+        module Types
+          include Dry::Types.module
+        end
+
+        attribute :_id,                  Types::String.meta(omittable: true)
+        attribute :questionnaire_id,     Types::Integer.meta(omittable: true)
+        attribute :questionnaire_key,    Types::String.meta(omittable: true)
+        attribute :raw_params,           Types::Hash.meta(omittable: true) # The raw form data (for recovery purposes)
+        attribute :value,                Types::Hash.default({}) # The filtered and transformed form data
+        attribute :patient_id,           Types::String.meta(omittable: true)
+        attribute :patient,              Types::Hash.default({})
+        attribute :token,                Types::String.meta(omittable: true)
+        attribute :active,               Types::Bool.default(true)
+        attribute :test,                 Types::Bool.default(false)
+        attribute :created_at,           Types::Time.meta(omittable: true)
+        attribute :updated_at,           Types::Time.meta(omittable: true)
+        attribute :started_at,           Types::Time.meta(omittable: true)
+        attribute :completed_at,         Types::Time.meta(omittable: true)
+        attribute :outcome,              Outcome.meta(omittable: true)
+        attribute :outcome_generated_at, Types::Time.meta(omittable: true)
+        attribute :scores,               Types::Hash.default({})
+        attribute :actions,              Types::Hash.default({})
+        attribute :completion,           Types::Hash.default({})
+        attribute :dsl_last_update,      Types::Time.meta(omittable: true)
+        attribute :import_notes,         Types::Hash.meta(omittable: true) # For answers that are imported from external sources
+        attribute :flags,                Types::Hash.meta(omittable: true) #[Symbol => Boolean]
+        attribute :textvars,             Types::Hash.meta(omittable: true) #[Symbol => String]
 
         attr_accessor :aborted
 
@@ -48,11 +52,11 @@ module Quby
 
           # Initialize Hash attributes to empty hash even when explicitly given nil.
           # This differs from Virtus' default behaviour which would set them to nil.
-          self.class.attribute_set.each do |attribute|
-            if attribute.type.is_a? Virtus::Attribute::Hash::Type
-              public_send(:"#{attribute.name}=", public_send(attribute.name) || {})
-            end
-          end
+          # self.class.attribute_set.each do |attribute|
+          #   if attribute.type.is_a? Virtus::Attribute::Hash::Type
+          #     public_send(:"#{attribute.name}=", public_send(attribute.name) || {})
+          #   end
+          # end
         end
 
         def id
