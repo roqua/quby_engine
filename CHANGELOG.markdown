@@ -1,6 +1,7 @@
-# 2.6.0
+# 3.0.0
 
 * Changed normscore lookup to use a tree that is built from a single csv file.
+* Add `required_components` attribute for date questions.
 
 # 2.5.2
 
