@@ -37,7 +37,7 @@ de:
       other: "Sie können maximal %{maximum_checked_value} Möglichkeiten auswählen."
     minimum_checked_required:
       one: “Sie müssen mindestens %{minimum_checked_value} Möglichkeit auswählen."
-      other: "Sie müssen mindestenss %{minimum_checked_value} Möglichkeiten auswählen."
+      other: "Sie müssen mindestens %{minimum_checked_value} Möglichkeiten auswählen."
     answer_group_minimum: “Beantworten Sie mindestens %{value} von diesen Fragen“
     answer_group_maximum: “Beantworten Sie höchstens %{value} von diesen Fragen"
   DD: TT
