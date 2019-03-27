@@ -1,0 +1,52 @@
+de:
+  date:
+    formats:
+      friendly_date: '%-d %B %Y (%-d-%-m-%Y)'
+  step_i_of_n: “Schritt %{i} von %{n}"
+  previous: Zurück
+  next: Weiter
+  abort: Später zu Ende ausfüllen
+  previous_questionnaire: Vorheriger Fragebogen
+  done: Fertig
+  print_answers: Antworten drucken
+  questionnaire_not_completed:
+    heading: Dieser Fragebogen ist noch nicht vollständig ausgefüllt!
+    explanation: Wenn Sie diesen Fragebogen dennoch speichern, können unter Umständen Dimensionen des Fragebogens nicht berechnet werden, weil zu wenig Informationen dafür zur Verfügung stehen. Sie können Ihre Antworten unten weiterhin ausfüllen. Fragen die noch unvollständig ausgefüllt sind, erscheinen rot markiert.
+    save_anyway: Trotzdem speichern
+  thanks_for_filling_out: Vielen Dank für das Ausfüllen dieses Fragebogens. Ihre Antworten sind gespeichert.
+  validations:
+    maximum:
+      date: “Das Datum muss an oder vor dem %{friendly_date} liegen."
+      number: “Ihre Antwort muss kleiner oder gleich %{value} sein.”
+    minimum:
+      date: "Das Datum muss an oder nach dem %{friendly_date} liegen."
+      number: "Ihre Antwort muss größer oder gleich %{value} sein."
+    requires_answer: “Diese Frage muss beantwortet werden.”
+    regexp: “Ihre Antwort muss dem Format %{matcher} entsprechen.”
+    valid_integer: “Ihre Antwort muss eine runde (oder auch ganze) Zahl sein.”
+    valid_float: “Ihre Antwort muss eine Zahl sein (benutzen Sie bitte einen Punkt für Dezimalzahlen, kein Komma)."
+    valid_date:
+      valid_date_year: “Geben Sie ein gültiges Jahr nach dem Format JJJJ an, zum Beispiel 2015."
+      valid_date_month_year: "Geben Sie ein gültiges Datum nach dem Format MM-JJJJ an, zum Beispiel 08-2015."
+      valid_date_day_month_year: "Geben Sie ein gültiges Datum nach dem Format TT-MM-JJJJ an, zum Beispiel 13-08-2015."
+      valid_date_hour_minute: "Geben Sie eine gültige Tageszeit nach dem Format ss:mm an, zum Beispiel 13:05"
+    too_many_checked: “Sie haben zu viele Möglichkeiten ausgewählt.”
+    not_all_checked: "Sie haben zu wenige Möglichkeiten ausgewählt."
+    maximum_checked_allowed:
+      one: “Sie können maximal %{maximum_checked_value} Möglichkeit auswählen.”
+      other: "Sie können maximal %{maximum_checked_value} Möglichkeiten auswählen."
+    minimum_checked_required:
+      one: “Sie müssen mindestens %{minimum_checked_value} Möglichkeit auswählen."
+      other: "Sie müssen mindestens %{minimum_checked_value} Möglichkeiten auswählen."
+    answer_group_minimum: “Beantworten Sie mindestens %{value} von diesen Fragen“
+    answer_group_maximum: “Beantworten Sie höchstens %{value} von diesen Fragen"
+  DD: TT
+  MM: MM
+  YYYY: JJJJ
+  hh: ss
+  mm: mm
+  day: Tag
+  month: Monat
+  year: Jahr
+  hour: Stunde
+  minute: Minute
