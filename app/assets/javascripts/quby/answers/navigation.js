@@ -56,4 +56,24 @@
       activatePanel($panel.next(), true);
     }
   });
+
+  var pdf_button_semaphore = true;
+  $(document).on("click", ".print .print_button", function(event) {
+    event.preventDefault();
+    url = $(this).data("url");
+    if (pdf_button_semaphore && window.activePanelsValid()) {
+      $("#content").css("cursor", "wait");
+      pdf_button_semaphore = false;
+      setTimeout(function() { pdf_button_semaphore = true; }, 3000);
+      var old_unload = window.onbeforeunload;
+      window.onbeforeunload = null;
+      var form = $("#questionnaire-form")[0];
+      var old_action = form.action;
+      form.action = url;
+      form.submit();
+      form.action = old_action;
+      window.onbeforeunload = old_unload;
+      $("#content").css("cursor", "default");
+    }
+  });
 })();

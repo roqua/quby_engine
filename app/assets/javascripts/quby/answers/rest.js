@@ -221,24 +221,6 @@ function doDivPrint(url){
     });
 }
 
-var pdf_button_semaphore = true;
-function downloadPdf(url) {
-  if (pdf_button_semaphore && activePanelsValid()) {
-    $("#content").css("cursor", "wait");
-    pdf_button_semaphore = false;
-    setTimeout(function() { pdf_button_semaphore = true; }, 3000);
-    var old_unload = window.onbeforeunload;
-    window.onbeforeunload = null;
-    var form = $("#questionnaire-form")[0];
-    var old_action = form.action;
-    form.action = url;
-    form.submit();
-    form.action = old_action;
-    window.onbeforeunload = old_unload;
-    $("#content").css("cursor", "default");
-  }
-}
-
 function modalFrame(url){
     $("#modalFrame").attr('src', url);
     //window.scrollTo(0,0);
