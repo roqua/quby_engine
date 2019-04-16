@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quby (3.0.0)
+    quby (3.1.0)
       addressable
       coffee-rails
       compass (>= 0.12.7)
@@ -196,7 +196,7 @@ GEM
     jquery-ui-rails (3.0.1)
       jquery-rails
       railties (>= 3.1.0)
-    json (2.1.0)
+    json (2.2.0)
     kramdown (1.13.2)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -216,7 +216,7 @@ GEM
     method_source (0.9.2)
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2018.0812)
+    mime-types-data (3.2019.0331)
     mimemagic (0.3.3)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
@@ -357,7 +357,7 @@ GEM
       railties (>= 3.2.5, < 6)
     teaspoon-jasmine (2.3.4)
       teaspoon (>= 1.0.0)
-    temple (0.8.0)
+    temple (0.8.1)
     test-unit (3.2.8)
       power_assert
     therubyracer (0.12.3)
@@ -430,4 +430,4 @@ DEPENDENCIES
   uglifier
 
 BUNDLED WITH
-   1.17.1
+   1.17.3
