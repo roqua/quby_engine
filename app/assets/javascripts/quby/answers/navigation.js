@@ -1,11 +1,11 @@
 (function() {
   // 3s timeout on anything that submits the form
-  var done_button_semaphore = true;
+  var form_submit_semaphore = true;
   $(document).on("click", ".save input#done-button, .back input, .abort input", function(event) {
     window.onbeforeunload = null;
-    if (done_button_semaphore) {
-      done_button_semaphore = false;
-      setTimeout(function() { done_button_semaphore = true }, 3000);
+    if (form_submit_semaphore) {
+      form_submit_semaphore = false;
+      setTimeout(function() { form_submit_semaphore = true }, 3000);
       return true;
     } else {
       return false;
@@ -13,7 +13,7 @@
   });
 
   $(document).on("ajax:success ajax:error", "form", function() {
-    done_button_semaphore = true;
+    form_submit_semaphore = true;
   });
 
   window.activePanelsValid = function() {
@@ -57,14 +57,13 @@
     }
   });
 
-  var pdf_button_semaphore = true;
   $(document).on("click", ".print .print_button", function(event) {
     event.preventDefault();
     url = $(this).data("url");
-    if (pdf_button_semaphore && window.activePanelsValid()) {
+    if (form_submit_semaphore && window.activePanelsValid()) {
       $("#content").css("cursor", "wait");
-      pdf_button_semaphore = false;
-      setTimeout(function() { pdf_button_semaphore = true; }, 3000);
+      form_submit_semaphore = false;
+      setTimeout(function() { form_submit_semaphore = true; }, 3000);
       var old_unload = window.onbeforeunload;
       window.onbeforeunload = null;
       var form = $("#questionnaire-form")[0];
