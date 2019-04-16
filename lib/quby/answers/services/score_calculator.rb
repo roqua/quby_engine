@@ -38,14 +38,11 @@ module Quby
         #                        score calculation (optional)
         #           :gender - The Symbol gender of the patient, must be one of:
         #                     :male, :female or :unknown (optional)
-        # scores - The Hash containing other scores calculated for the answer, so
-        #          that these scores can be accessed from the current calculation.
-        def initialize(questionnaire, values, timestamp, patient_attrs = {}, scores = {})
+        def initialize(questionnaire, values, timestamp, patient_attrs = {})
           @questionnaire = questionnaire
           @values = values
           @timestamp = timestamp
           @patient = Entities::Patient.new(patient_attrs)
-          @scores = scores.with_indifferent_access
           @score = {}
           @referenced_values = []
         end
@@ -206,12 +203,14 @@ module Quby
           @patient.gender
         end
 
-        # Public: Returns the Hash emitted by another score calculation
+        # Public: Runs another score calculation or variable and returns its result
         #
         # key - The Symbol of another score.
         def score(key)
-          fail "Score #{key.inspect} does not exist or is not calculated yet." unless @scores.key? key
-          @scores.fetch(key)
+          fail "Score #{key.inspect} does not exist." unless @questionnaire.score_calculations.key? key
+
+          calculation = @questionnaire.score_calculations.fetch(key)
+          instance_eval(&calculation.calculation)
         end
 
         def referenced_values

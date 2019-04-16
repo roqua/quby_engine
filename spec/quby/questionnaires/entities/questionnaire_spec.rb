@@ -417,6 +417,30 @@ module Quby::Questionnaires::Entities
           fake_answer.v_1_yyyy = '2002 '
           expect(fake_answer.v_1_yyyy).to eq('2002')
         end
+
+        it 'presents a nice formatted date' do
+          fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
+          fake_answer.v_1_yyyy = '2002'
+          fake_answer.v_1_mm = '03'
+          fake_answer.v_1_dd = '14'
+          expect(fake_answer.v_1).to eq('14-03-2002')
+        end
+
+        it 'shows only year when month is missing' do
+          fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
+          fake_answer.v_1_yyyy = '2002'
+          fake_answer.v_1_mm = ''
+          fake_answer.v_1_dd = '14'
+          expect(fake_answer.v_1).to eq('2002')
+        end
+
+        it 'shows only year and month when day is missing' do
+          fake_answer = double(value: {}).extend questionnaire.answer_dsl_module
+          fake_answer.v_1_yyyy = '2002'
+          fake_answer.v_1_mm = '10'
+          fake_answer.v_1_dd = ''
+          expect(fake_answer.v_1).to eq('10-2002')
+        end
       end
     end
 
@@ -459,6 +483,23 @@ module Quby::Questionnaires::Entities
           expect(score_missing_schema_quest.errors.full_messages).to eq(["Score key is missing a score schema",
                                                                          "Score key3 is missing a score schema"])
         end
+      end
+    end
+
+    describe '#add_outcome_table' do
+      let(:questionnaire) do
+        Quby::Questionnaires::DSL.build("test") do
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
+        end
+      end
+
+      it 'adds an outcome table model to the questionnaire\'s outcome_tables' do
+        outcome_table_options = {key: :test_outcome_table, score_keys: [:key], subscore_keys: [:value]}
+        questionnaire.add_outcome_table outcome_table_options
+        table = questionnaire.outcome_tables.first
+        expect(table.score_keys).to eq([:key])
+        expect(table.subscore_keys).to eq([:value])
+        expect(table.questionnaire).to eq(questionnaire)
       end
     end
   end

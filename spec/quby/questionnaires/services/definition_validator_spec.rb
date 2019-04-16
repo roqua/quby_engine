@@ -205,8 +205,8 @@ module Quby::Questionnaires::Services
             option :a1, description: 'some_description'
           end
         END
-        long_key.valid?.should be_falsey
-        valid_key.valid?.should be_truthy
+        expect(long_key.valid?).to be_falsey
+        expect(valid_key.valid?).to be_truthy
       end
 
       it "validates that question key starts with a `v_`" do
@@ -224,8 +224,8 @@ module Quby::Questionnaires::Services
             option :a1, description: 'some_description'
           end
         END
-        invalid_key.valid?.should be_falsey
-        valid_key.valid?.should be_truthy
+        expect(invalid_key.valid?).to be_falsey
+        expect(valid_key.valid?).to be_truthy
       end
 
       it "validates check_box question options start with `v_`" do
@@ -245,8 +245,8 @@ module Quby::Questionnaires::Services
             option :v_q2, description: 'more_description'
           end
         END
-        invalid_keys.valid?.should be_falsey
-        valid_keys.valid?.should be_truthy
+        expect(invalid_keys.valid?).to be_falsey
+        expect(valid_keys.valid?).to be_truthy
       end
 
       it "validates check_box question options length" do
@@ -264,8 +264,8 @@ module Quby::Questionnaires::Services
             option :v_q1, description: 'some_description'
           end
         END
-        invalid_keys.valid?.should be_falsey
-        valid_keys.valid?.should be_truthy
+        expect(invalid_keys.valid?).to be_falsey
+        expect(valid_keys.valid?).to be_truthy
       end
 
       it "validates question date keys" do
@@ -281,8 +281,8 @@ module Quby::Questionnaires::Services
             title "Testvraag met een datum"
           end
         END
-        invalid_keys.valid?.should be_falsey
-        valid_keys.valid?.should be_truthy
+        expect(invalid_keys.valid?).to be_falsey
+        expect(valid_keys.valid?).to be_truthy
       end
     end
 
@@ -310,8 +310,8 @@ module Quby::Questionnaires::Services
           end
         END
 
-        select_type_with_subquestions.valid?.should be_falsey
-        select_type_without_subquestions.valid?.should be_truthy
+        expect(select_type_with_subquestions.valid?).to be_falsey
+        expect(select_type_without_subquestions.valid?).to be_truthy
       end
     end
 
@@ -492,7 +492,7 @@ module Quby::Questionnaires::Services
 
     describe 'subquestions inside a table' do
       it 'accepts title_questions' do
-        make_definition(<<-END).valid?.should be_truthy
+        expect(make_definition(<<-END).valid?).to be_truthy
           title "Test"
           panel do
             table do
@@ -508,7 +508,7 @@ module Quby::Questionnaires::Services
       end
 
       it 'does not accept subquestions in questions inside a table' do
-        make_definition(<<-END).valid?.should be_falsey
+        expect(make_definition(<<-END).valid?).to be_falsey
           title "Test"
           panel do
             table do
@@ -527,21 +527,21 @@ module Quby::Questionnaires::Services
 
     describe 'flags' do
       it 'does not accept shows_questions arrays with unknown keys' do
-        make_definition(<<-END).valid?.should be_falsey
+        expect(make_definition(<<-END).valid?).to be_falsey
           title "Test"
           flag key: 'a', description: 'a flag', shows_questions: [:v_22]
         END
       end
 
       it 'does not accept hides_questions arrays with unknown keys' do
-        make_definition(<<-END).valid?.should be_falsey
+        expect(make_definition(<<-END).valid?).to be_falsey
           title "Test"
           flag key: 'a', description: 'a flag', hides_questions: [:v_22]
         END
       end
 
       it 'accepts shows_questions arrays with known keys' do
-        make_definition(<<-END).valid?.should be_truthy
+        expect(make_definition(<<-END).valid?).to be_truthy
           title "Test"
           flag key: 'a', description: 'a flag', shows_questions: [:v_22]
           question :v_22, type: :string do
@@ -551,7 +551,7 @@ module Quby::Questionnaires::Services
       end
 
       it 'accepts hides_questions arrays with known keys' do
-        make_definition(<<-END).valid?.should be_truthy
+        expect(make_definition(<<-END).valid?).to be_truthy
           title "Test"
           flag key: 'a', description: 'a flag', hides_questions: [:v_22]
           question :v_22, type: :string do
@@ -563,23 +563,51 @@ module Quby::Questionnaires::Services
 
     describe 'respondent_types' do
       it 'is optional' do
-        make_definition(<<-END).valid?.should be_truthy
+        expect(make_definition(<<-END).valid?).to be_truthy
           title "Test"
         END
       end
 
       it 'accepts valid respondent_types' do
-        make_definition(<<-END).valid?.should be_truthy
+        expect(make_definition(<<-END).valid?).to be_truthy
           title "Test"
           respondent_types :patient, :parent
         END
       end
 
       it 'does not accept invalid respondent_types' do
-        make_definition(<<-END).valid?.should be_falsey
+        expect(make_definition(<<-END).valid?).to be_falsey
           title "Test"
           respondent_types :santa_claus
         END
+      end
+    end
+
+    describe 'outcome_tables' do
+      it 'checks if outcome tables are valid' do
+        expect(make_definition(<<-END).valid?).to be_truthy
+          title "Test"
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
+          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
+
+          outcome_table key: :test_outcome_table,
+                        score_keys: %i[key key2],
+                        subscore_keys: [:value]
+        END
+      end
+
+      it 'fails if there is an error in outcome tables' do
+        definition = make_definition(<<-END)
+          title "Test"
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
+          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
+
+          outcome_table key: :test_outcome_table,
+                        score_keys: %i[key unknown_key_1 unknown_key_2],
+                        subscore_keys: [:value]
+        END
+        expect(definition.valid?).to be_falsey
+        expect(definition.errors.full_messages.first).to include('Score keys :unknown_key_1 not found in score schemas')
       end
     end
   end

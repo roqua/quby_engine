@@ -31,7 +31,7 @@ module Quby
           @key = key
           @sbg_domains = []
           @last_update = Time.at(last_update.to_i)
-          @score_calculations ||= {}
+          @score_calculations = {}.with_indifferent_access
           @charts = Charting::Charts.new
           @fields = Fields.new(self)
           @license = :unknown
@@ -45,6 +45,7 @@ module Quby
           @tags = OpenStruct.new
           @check_key_clashes = true
           @score_schemas = {}.with_indifferent_access
+          @outcome_tables = []
         end
 
         attr_accessor :key
@@ -79,6 +80,7 @@ module Quby
         attr_accessor :flags
         attr_accessor :textvars
 
+        attr_accessor :outcome_tables
         attr_accessor :score_schemas
 
         delegate :question_hash, :input_keys, :answer_keys, :expand_input_keys, to: :fields
@@ -331,8 +333,10 @@ module Quby
                     self.value[value_key]
                   end
                   case components
-                  when [:day, :month, :year], [:month, :year]
-                    component_values.all?(&:blank?) ? '' : component_values.join('-')
+                  when [:day, :month, :year]
+                    component_values.reverse.take_while { |p| p.present? }.reverse.join('-')
+                  when [:month, :year]
+                    component_values.reject(&:blank?).join('-')
                   when [:hour, :minute]
                     component_values.all?(&:blank?) ? '' : component_values.join(':')
                   end
@@ -383,6 +387,10 @@ module Quby
               end rescue nil
             end
           end
+        end
+
+        def add_outcome_table(outcome_table_options)
+          outcome_tables << OutcomeTable.new(**outcome_table_options, questionnaire: self)
         end
 
         private

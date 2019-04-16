@@ -126,10 +126,10 @@ feature 'Trying to fill out an invalid answer', js: true do
     expect(page).not_to have_selector('#item_v1 .error.valid_date')
 
     expect(find('#item_v2 .error.valid_date').text)
-      .to eql('Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015')
+      .to eql('Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015.')
 
     expect(find('#item_v3 .error.valid_date').text)
-      .to eql('Vul en geldig jaar in met formaat JJJJ, bijvoorbeeld 2015')
+      .to eql('Vul een geldig jaar in met formaat JJJJ, bijvoorbeeld 2015.')
   end
 
   describe 'clientside validations' do

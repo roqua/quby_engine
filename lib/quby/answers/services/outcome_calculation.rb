@@ -26,7 +26,6 @@ module Quby
                                                  value_by_regular_values,
                                                  completed_at,
                                                  patient&.slice("birthyear", "gender"),
-                                                 results,
                                                  &calculation.calculation)
 
               if calculation.completion
