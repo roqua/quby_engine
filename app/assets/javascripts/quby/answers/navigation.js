@@ -16,7 +16,7 @@
     form_submit_semaphore = true;
   });
 
-  window.activePanelsValid = function() {
+  var activePanelsValid = function() {
     var panelsToValidate = $(".current.panel");
     if (panelsToValidate.length == 0) {
       panelsToValidate = $(".panel");
@@ -59,8 +59,8 @@
 
   $(document).on("click", ".print .print_button", function(event) {
     event.preventDefault();
-    url = $(this).data("url");
-    if (form_submit_semaphore && window.activePanelsValid()) {
+    var url = $(this).data("url");
+    if (form_submit_semaphore && activePanelsValid()) {
       $("#content").css("cursor", "wait");
       form_submit_semaphore = false;
       setTimeout(function() { form_submit_semaphore = true; }, 3000);
