@@ -9,6 +9,7 @@ de:
   previous_questionnaire: Vorheriger Fragebogen
   done: Fertig
   print_answers: Antworten drucken
+  download_answers_pdf: Als PDF herunterladen
   questionnaire_not_completed:
     heading: Dieser Fragebogen ist noch nicht vollständig ausgefüllt!
     explanation: Wenn Sie diesen Fragebogen dennoch speichern, können unter Umständen Dimensionen des Fragebogens nicht berechnet werden, weil zu wenig Informationen dafür zur Verfügung stehen. Sie können Ihre Antworten unten weiterhin ausfüllen. Fragen die noch unvollständig ausgefüllt sind, erscheinen rot markiert.
