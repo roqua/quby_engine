@@ -1,20 +1,48 @@
 (function() {
-  // 3s timeout on anything that submits the form
   var form_submit_semaphore = true;
+  var revertSemaphore = function(clickedElement, revertTocursorStyle) {
+    form_submit_semaphore = true;
+    $("#content").css("cursor", "auto");
+    clickedElement.css("cursor", revertTocursorStyle);
+  };
+
+  var setSemaphore = function(clickedElement) {
+    form_submit_semaphore = false;
+    $("#content").css("cursor", "wait");
+    // firefox does not inherit changed cursor styles, so we also need to change the style on the clicked element
+    var initialCursorStyle = clickedElement.css("cursor");
+    clickedElement.css("cursor", "wait");
+    setTimeout(function() { revertSemaphore(clickedElement, initialCursorStyle); }, 3000);
+  };
+
+  // 3s timeout on anything that submits the form
   $(document).on("click", ".save input#done-button, .back input, .abort input", function(event) {
     window.onbeforeunload = null;
     if (form_submit_semaphore) {
-      form_submit_semaphore = false;
-      setTimeout(function() { form_submit_semaphore = true; }, 3000);
+      setSemaphore($(this));
       return true;
     } else {
       return false;
     }
   });
 
-  $(document).on("ajax:success ajax:error", "form", function() {
-    form_submit_semaphore = true;
+  $(document).on("click", ".print .print_button", function(event) {
+    event.preventDefault();
+    var url = $(this).data("url");
+    if (form_submit_semaphore && activePanelsValid()) {
+      setSemaphore($(".print_button"));
+      var old_unload = window.onbeforeunload;
+      window.onbeforeunload = null;
+      var form = $("#questionnaire-form")[0];
+      var old_action = form.action;
+      form.action = url;
+      form.submit();
+      form.action = old_action;
+      window.onbeforeunload = old_unload;
+    }
   });
+
+  $(document).on("ajax:success ajax:error", "form", revertSemaphore);
 
   var activePanelsValid = function() {
     var panelsToValidate = $(".current.panel");
@@ -54,32 +82,6 @@
     var $panel = $(this).parents(".panel").first();
     if (validatePanel($panel)) {
       activatePanel($panel.next(), true);
-    }
-  });
-
-  var revertSemaphore = function() {
-    form_submit_semaphore = true;
-    $("#content").css("cursor", "auto");
-    $(".print_button").css("cursor", "auto");
-  };
-
-  $(document).on("click", ".print .print_button", function(event) {
-    event.preventDefault();
-    var url = $(this).data("url");
-    if (form_submit_semaphore && activePanelsValid()) {
-      $("#content").css("cursor", "wait");
-      // firefox does not inherit changed cursor styles for links, so we also need to change the style on the link
-      $(".print_button").css("cursor", "wait");
-      form_submit_semaphore = false;
-      setTimeout(revertSemaphore, 3000);
-      var old_unload = window.onbeforeunload;
-      window.onbeforeunload = null;
-      var form = $("#questionnaire-form")[0];
-      var old_action = form.action;
-      form.action = url;
-      form.submit();
-      form.action = old_action;
-      window.onbeforeunload = old_unload;
     }
   });
 })();
