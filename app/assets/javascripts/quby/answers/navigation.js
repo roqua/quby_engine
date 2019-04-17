@@ -1,18 +1,21 @@
 (function() {
   var form_submit_semaphore = true;
-  var revertSemaphore = function(clickedElement, revertTocursorStyle) {
+  var revertSemaphore = function(clickedElement) {
     form_submit_semaphore = true;
     $("#content").css("cursor", "auto");
-    clickedElement.css("cursor", revertTocursorStyle);
+    if(clickedElement instanceof jQuery){
+      clickedElement.css("cursor", "pointer");
+    }
   };
 
   var setSemaphore = function(clickedElement) {
     form_submit_semaphore = false;
     $("#content").css("cursor", "wait");
     // firefox does not inherit changed cursor styles, so we also need to change the style on the clicked element
-    var initialCursorStyle = clickedElement.css("cursor");
-    clickedElement.css("cursor", "wait");
-    setTimeout(function() { revertSemaphore(clickedElement, initialCursorStyle); }, 3000);
+    if(clickedElement instanceof jQuery){
+      clickedElement.css("cursor", "wait");
+    }
+    setTimeout(function() { revertSemaphore(clickedElement); }, 3000);
   };
 
   // 3s timeout on anything that submits the form
