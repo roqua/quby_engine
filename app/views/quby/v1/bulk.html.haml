@@ -8,7 +8,7 @@
 
 - content_for(:extra_css, raw(@questionnaire.extra_css))
 
-= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off" do
+= form_tag questionnaire_answer_path(@questionnaire, @answer), :method => :put, :class => [@questionnaire.key, "bulk"].join(" "), :autocomplete => "off", id: 'questionnaire-form' do
   = render partial: "quby/v1/session_params"
   = render partial: "quby/v1/shared/force_submit", locals: {show_force_submit: @answer.errors.empty?}
   = render partial: "quby/v1/hotkey_dialog"
@@ -36,7 +36,7 @@
     .prev &nbsp;
     .save
       = submit_tag translate('done'), id: 'done-button', name: 'done'
-    = render :partial => 'quby/v1/shared/print_button'
+    = render :partial => 'quby/v1/shared/pdf_button'
 
 = render :partial => "quby/v1/shared/footer_javascript", locals: {answer: @answer}
 = render :partial => "quby/v1/modal_iframe"

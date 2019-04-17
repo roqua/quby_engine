@@ -1,29 +1,64 @@
 (function() {
+  var form_submit_semaphore = true;
+  var revertSemaphore = function(clickedElement) {
+    form_submit_semaphore = true;
+    $("#content").css("cursor", "auto");
+    if(clickedElement instanceof jQuery){
+      clickedElement.css("cursor", "pointer");
+    }
+  };
+
+  var setSemaphore = function(clickedElement) {
+    form_submit_semaphore = false;
+    $("#content").css("cursor", "wait");
+    // firefox does not inherit changed cursor styles, so we also need to change the style on the clicked element
+    if(clickedElement instanceof jQuery){
+      clickedElement.css("cursor", "wait");
+    }
+    setTimeout(function() { revertSemaphore(clickedElement); }, 3000);
+  };
+
   // 3s timeout on anything that submits the form
-  var done_button_semaphore = true;
   $(document).on("click", ".save input#done-button, .back input, .abort input", function(event) {
     window.onbeforeunload = null;
-    if (done_button_semaphore) {
-      done_button_semaphore = false;
-      setTimeout(function() { done_button_semaphore = true }, 3000);
+    if (form_submit_semaphore) {
+      setSemaphore($(this));
       return true;
     } else {
       return false;
     }
   });
 
-  $(document).on("ajax:success ajax:error", "form", function() {
-    done_button_semaphore = true;
+  $(document).on("click", ".print .print_button", function(event) {
+    event.preventDefault();
+    var url = $(this).data("url");
+    if (form_submit_semaphore && activePanelsValid()) {
+      setSemaphore($(".print_button"));
+      var old_unload = window.onbeforeunload;
+      window.onbeforeunload = null;
+      var form = $("#questionnaire-form")[0];
+      var old_action = form.action;
+      form.action = url;
+      form.submit();
+      form.action = old_action;
+      window.onbeforeunload = old_unload;
+    }
   });
 
-  // #done-button:click: validate all panels for bulk/single page mode, or current panel in case of paged mode
-  $(document).on("click", "#done-button", function(event) {
+  $(document).on("ajax:success ajax:error", "form", revertSemaphore);
+
+  var activePanelsValid = function() {
     var panelsToValidate = $(".current.panel");
     if (panelsToValidate.length == 0) {
       panelsToValidate = $(".panel");
     }
-    var validPanels = _.map(panelsToValidate, function(panel) { return validatePanel($(panel)) });
-    if (_.all(validPanels)) {
+    var validPanels = _.map(panelsToValidate, function(panel) { return validatePanel($(panel)); });
+    return _.all(validPanels);
+  };
+
+  // #done-button:click: validate all panels for bulk/single page mode, or current panel in case of paged mode
+  $(document).on("click", "#done-button", function(event) {
+    if (activePanelsValid()) {
       return true;
     } else {
       // on display modes that allow it, show the force submit dialog and scroll to it

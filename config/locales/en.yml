@@ -9,6 +9,7 @@ en:
   previous_questionnaire: Previous questionnaire
   done: Done
   print_answers: Print answers
+  download_answers_pdf: Download as PDF
   questionnaire_not_completed:
     heading: "This questionnaire hasn't been filled out completely!"
     explanation: "If you decide to save the questionnaire anyway, it could be that scale scores can't be calculated because we don't have all the required answers. You may complete the questionnaire below."

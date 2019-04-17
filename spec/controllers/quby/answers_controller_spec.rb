@@ -24,13 +24,35 @@ module Quby
       Quby::Settings.stub(authorize_with_id_from_session: false)
     end
 
-    describe '#print' do
+    describe '#pdf' do
+      let(:questionnaire) { inject_questionnaire("test", <<-END) }
+        question :v_1, type: :radio, required: true do
+          title "Choose"
+          option :a1, value: 1, description: "Ja"
+          option :a2, value: 2, description: "Nee"
+        end
+      END
 
-      it 'allows print requests with an empty answer-hash' do
-        put :print, questionnaire_id: questionnaire.key, id: answer.id
-        expect(response).to render_template('v1/print')
+      let(:answer) { create_new_answer_for(questionnaire) }
+
+      before do
+        allow(Quby::PdfRenderer).to receive(:render_pdf).and_return("Very nice PDF")
       end
 
+      context 'with fully answered questionnaire' do
+        it 'renders and sends a pdf file' do
+          put :pdf, questionnaire_id: questionnaire.key, id: answer.id, answer: {'v_1' => 'a2'}
+          expect(response.header['Content-Type']).to eq('application/pdf')
+        end
+      end
+
+      context 'with missing required answers' do
+        it 'renders the questionnaire again' do
+          allow_server_side_validation_error(always: true)
+          put :pdf, questionnaire_id: questionnaire.key, id: answer.id, answer: {}
+          expect(response.header['Content-Type']).to eq('text/html; charset=utf-8')
+        end
+      end
     end
 
     describe '#bad_questionnaire' do

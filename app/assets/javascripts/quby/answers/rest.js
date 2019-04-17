@@ -221,7 +221,6 @@ function doDivPrint(url){
     });
 }
 
-
 function modalFrame(url){
     $("#modalFrame").attr('src', url);
     //window.scrollTo(0,0);

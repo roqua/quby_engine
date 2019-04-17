@@ -40,6 +40,12 @@ ENV['OPENCPU_PASSWORD']     = 'optional_basicauth_password'
 ENV['OPENCPU_TIMEOUT']      = '30' # request timeout in seconds.
 ```
 
+To generate PDF files, the html_to_pdf docker container must be running and an environment variable with the address of this container should be configured.
+
+```ruby
+ENV['HTML_TO_PDF_URL']      = 'http://127.0.0.1:7768'
+```
+
 ## Testing
 
 When testing with guard or teaspoon, choose the Rails version you want to use and set the teaspoon environment:
