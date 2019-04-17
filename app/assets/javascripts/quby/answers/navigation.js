@@ -5,7 +5,7 @@
     window.onbeforeunload = null;
     if (form_submit_semaphore) {
       form_submit_semaphore = false;
-      setTimeout(function() { form_submit_semaphore = true }, 3000);
+      setTimeout(function() { form_submit_semaphore = true; }, 3000);
       return true;
     } else {
       return false;
@@ -57,13 +57,21 @@
     }
   });
 
+  var revertSemaphore = function() {
+    form_submit_semaphore = true;
+    $("#content").css("cursor", "auto");
+    $(".print_button").css("cursor", "auto");
+  };
+
   $(document).on("click", ".print .print_button", function(event) {
     event.preventDefault();
     var url = $(this).data("url");
     if (form_submit_semaphore && activePanelsValid()) {
       $("#content").css("cursor", "wait");
+      // firefox does not inherit changed cursor styles for links, so we also need to change the style on the link
+      $(".print_button").css("cursor", "wait");
       form_submit_semaphore = false;
-      setTimeout(function() { form_submit_semaphore = true; }, 3000);
+      setTimeout(revertSemaphore, 3000);
       var old_unload = window.onbeforeunload;
       window.onbeforeunload = null;
       var form = $("#questionnaire-form")[0];
@@ -72,7 +80,6 @@
       form.submit();
       form.action = old_action;
       window.onbeforeunload = old_unload;
-      $("#content").css("cursor", "default");
     }
   });
 })();
