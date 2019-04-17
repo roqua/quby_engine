@@ -13,7 +13,7 @@ module Quby
     before_action :load_display_mode
 
     before_action :verify_answer_id_against_session
-    before_action :verify_hmac, only: :edit
+    before_action :verify_hmac, only: [:edit, :pdf]
 
     before_action :find_questionnaire
     before_action :check_questionnaire_valid
