@@ -6,6 +6,7 @@ variables:
 .ruby_before_script: &ruby_before_script
   before_script:
     - export BUNDLE_PATH=$CI_PROJECT_DIR/.gems
+    - bundle --version
     - bundle --jobs 2 --retry 3
     - bundle exec appraisal install
 
