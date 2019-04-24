@@ -8,6 +8,7 @@ variables:
     - export BUNDLE_PATH=$CI_PROJECT_DIR/.gems
     - bundle --version
     - bundle --jobs 2 --retry 3
+    - rm gemfiles/*.lock
     - bundle exec appraisal install
 
 .ruby_24: &ruby_24
