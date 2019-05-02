@@ -8,7 +8,7 @@ gem "i18n"
 gem "jquery-ui-rails", "~> 3.0.1"
 gem "susy", "~> 2.2.12"
 gem "compass-rails"
-gem "rails", "~> 5.2.2"
+gem "rails", "~> 5.2.0"
 gem "sprockets-rails", "~> 2.3.3"
 gem "jquery-rails", "~> 4.2.2"
 
@@ -22,7 +22,7 @@ group :test do
 end
 
 group :test, :development do
-  gem "guard-rspec", "~> 4.7"
+  gem "guard-rspec", ">= 4.2"
   gem "guard-teaspoon", "~> 0.8"
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.0"

@@ -11,7 +11,7 @@ variables:
 
 .ruby_24: &ruby_24
   <<: *ruby_before_script
-  image: registry.roqua.nl/roqua/roqua-build-images:ruby-2.4-rails-base-test
+  image: registry.roqua.nl/roqua/docker-base-images:ruby-2.4
   cache:
     key: ruby_24
     paths:
