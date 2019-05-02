@@ -26,7 +26,7 @@ module Quby::Answers::Services
 
     describe '.calculate' do
       let(:result) do
-        ScoreCalculator.calculate(questionnaire, {'v_1' => 37, 'v_2' => 20}, timestamp) do
+        ScoreCalculator.calculate(questionnaire: questionnaire, values: {'v_1' => 37, 'v_2' => 20}, timestamp: timestamp) do
           {
             value: sum(values(:v_2, :v_1))
           }
@@ -43,7 +43,8 @@ module Quby::Answers::Services
     end
 
     describe '#initialize' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => 1}, timestamp, {gender: :male}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {'v_1' => 1}, timestamp: timestamp, patient_attrs: {gender: :male}) }
+
       it 'stores values passed' do
         calculator.instance_variable_get("@values").should eq 'v_1' => 1
         calculator.instance_variable_get('@timestamp').should eq(timestamp)
@@ -53,7 +54,7 @@ module Quby::Answers::Services
     end
 
     describe '#ensure_answer_values_for' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: values, timestamp: timestamp) }
       let(:keys) { [:v_1, 'v_2'] }
       let(:values) { {'v_1' => '', 'v_2' => 4, 'v_3' => nil} }
 
@@ -118,7 +119,7 @@ module Quby::Answers::Services
 
     describe '#values' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: values, timestamp: timestamp) }
 
       it 'returns the values hash if no args given' do
         calculator.values_with_nils.should eq values
@@ -161,7 +162,7 @@ module Quby::Answers::Services
 
     describe '#values_without_missings' do
       let(:values) { {'v_1' => 1, 'v_2' => 2, 'v_3' => nil, 'v_4' => nil} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: values, timestamp: timestamp) }
 
       it 'fails when called with no keys given' do
         expect { calculator.values_without_missings }.to raise_error(ArgumentError)
@@ -209,7 +210,7 @@ module Quby::Answers::Services
 
     describe '#value' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: values, timestamp: timestamp) }
 
       it 'returns the value by string or symbol' do
         expect(calculator.value(:v_1)).to eq 1
@@ -225,7 +226,7 @@ module Quby::Answers::Services
 
     describe '#values_with_nils' do
       let(:values) { {'v_1' => 1, 'v_2' => 4, 'v_3' => nil, 'v_6_a2' => 1} }
-      let(:calculator) { ScoreCalculator.new(questionnaire, values, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: values, timestamp: timestamp) }
 
       it 'returns the values hash if no args given' do
         calculator.values_with_nils.should eq values
@@ -275,7 +276,7 @@ module Quby::Answers::Services
     end
 
     describe '#mean' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'returns mean of values given' do
         calculator.mean([1, 2, 3, 4, 5]).should eq 3
@@ -306,7 +307,7 @@ module Quby::Answers::Services
     end
 
     describe '#mean_ignoring_nils' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'returns mean of values given, not counting nils towards the amount of values' do
         calculator.mean_ignoring_nils([nil, 1, 2, 3, 4, 5, nil]).should eq 3
@@ -322,7 +323,7 @@ module Quby::Answers::Services
     end
 
     describe '#mean_ignoring_nils_80_pct' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'returns mean of values given, not counting nils towards the amount of values' do
         calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, 6]).should eq 3.5
@@ -342,7 +343,7 @@ module Quby::Answers::Services
     end
 
     describe '#sum_extrapolate' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'sums values given, taking nils to be the mean of the present values' do
         calculator.sum_extrapolate([1, 2, 3, 4, 5, nil], 5).should eq 18
@@ -354,7 +355,7 @@ module Quby::Answers::Services
     end
 
     describe '#sum_extrapolate_80_pct' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'sums values given, taking nils to be the mean of the present values' do
         calculator.sum_extrapolate_80_pct([1, 2, 3, 4, nil]).should eq 12.5
@@ -372,7 +373,7 @@ module Quby::Answers::Services
     end
 
     describe '#sum' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'sums values given' do
         calculator.sum([1, 2, 3, 4]).should eq 10
@@ -389,17 +390,17 @@ module Quby::Answers::Services
 
     describe '#age' do
       it 'returns the age' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {birthyear: 42.years.ago.year})
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {birthyear: 42.years.ago.year})
         calculator.age.should eq 42
       end
 
       it 'returns the age when passed a string key' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {"birthyear" => 42.years.ago.year})
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {"birthyear" => 42.years.ago.year})
         calculator.age.should eq 42
       end
 
       it 'calls the patient age accessor method with its timestamp' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {"birthyear" => 42.years.ago.year})
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {"birthyear" => 42.years.ago.year})
         calculator.instance_variable_get('@patient').should_receive(:age_at).with(timestamp)
         calculator.age
       end
@@ -407,18 +408,35 @@ module Quby::Answers::Services
 
     describe '#gender' do
       it 'returns the gender' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {gender: :male})
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {gender: :male})
         calculator.gender.should eq :male
       end
 
       it 'returns the gender when passed a string key' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {"gender" => :male})
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {"gender" => :male})
         calculator.gender.should eq :male
       end
 
       it 'returns :unknown when gender is not given' do
-        calculator = ScoreCalculator.new(questionnaire, {}, timestamp, {})
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {})
         calculator.gender.should eq :unknown
+      end
+    end
+
+    describe '#respondent_type' do
+      it 'returns the respondent_type' do
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, respondent_attrs: {respondent_type: :parent})
+        calculator.respondent_type.should eq :parent
+      end
+
+      it 'returns the respondent_type when passed a string key' do
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, respondent_attrs: {"respondent_type" => :parent})
+        calculator.respondent_type.should eq :parent
+      end
+
+      it 'returns nil when respondent_type is not given' do
+        calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, respondent_attrs: {})
+        calculator.respondent_type.should eq nil
       end
     end
 
@@ -442,7 +460,8 @@ module Quby::Answers::Services
           end
         END
       end
-      let(:calculator) { ScoreCalculator.new(questionnaire, {'v_1' => '1'}, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {'v_1' => '1'}, timestamp: timestamp) }
+
       it 'returns the value of another score' do
         calculator.score(:test).should eq(value: '1', other: :unknown)
         # and it also saves the referenced values of the called score to this calculator
@@ -463,7 +482,7 @@ module Quby::Answers::Services
     end
 
     describe '#table_lookup' do
-      let(:calculator) { ScoreCalculator.new(questionnaire, {}, timestamp, {}) }
+      let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       before do
         allow(Quby::LookupTable.backend_class).to receive(:new).and_return(double.as_null_object)
@@ -519,7 +538,7 @@ module Quby::Answers::Services
       end
 
       def calculate(score, values = {})
-        ScoreCalculator.calculate(questionnaire, values.stringify_keys, Time.now, {}, &score.calculation)
+        ScoreCalculator.calculate(questionnaire: questionnaire, values: values.stringify_keys, timestamp: Time.now, &score.calculation)
       end
     end
   end

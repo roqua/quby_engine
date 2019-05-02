@@ -53,10 +53,10 @@ module Quby::Answers::Services
         received_values, received_timestamp, received_patient_attrs = nil
 
         ScoreCalculator.should_receive(:calculate)
-                       .exactly(3).times do |questionnaire, values, timestamp, patient_attrs, scores|
-          received_values = values
-          received_timestamp = timestamp
-          received_patient_attrs = patient_attrs
+                       .exactly(3).times do |args|
+          received_values = args[:values]
+          received_timestamp = args[:timestamp]
+          received_patient_attrs = args[:patient_attrs]
         end
 
         OutcomeCalculation.new(answer).calculate

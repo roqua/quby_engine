@@ -33,16 +33,19 @@ module Quby
         # values - The Hash values describes the keys of questions and the values
         #          of the answer given to that question.
         # timestamp - The Time to be used to calculate the age of the patient.
-        # patient - A Hash describing extra patient information (default: {})
+        # patient_attrs - A Hash describing extra patient information (default: {})
         #           :birthyear - The Integer birthyear of the patient to be used in
         #                        score calculation (optional)
         #           :gender - The Symbol gender of the patient, must be one of:
         #                     :male, :female or :unknown (optional)
-        def initialize(questionnaire, values, timestamp, patient_attrs = {})
+        # respondent_attrs - A Hash describing respondent information (default: {})
+        #           :respondent_type - The Symbol or String type of respondent
+        def initialize(questionnaire:, values:, timestamp:, patient_attrs: {}, respondent_attrs: {})
           @questionnaire = questionnaire
           @values = values
           @timestamp = timestamp
           @patient = Entities::Patient.new(patient_attrs)
+          @respondent = Entities::Respondent.new(respondent_attrs)
           @score = {}
           @referenced_values = []
         end
@@ -201,6 +204,11 @@ module Quby
         # The symbol :unknown is returned when gender is not known.
         def gender
           @patient.gender
+        end
+
+        # Public: Returns the type of the respondent
+        def respondent_type
+          @respondent.type
         end
 
         # Public: Runs another score calculation or variable and returns its result
