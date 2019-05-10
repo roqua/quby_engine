@@ -1,6 +1,11 @@
 -# frozen_string_literal: true
 .print
-  %a.print_button{href: '#', data: {url: pdf_questionnaire_answer_path(@questionnaire, @answer)}}
+  %a.print_button{id: 'print-button', href: '#', data: {url: pdf_questionnaire_answer_path(@questionnaire, @answer)}}
     = image_tag "quby/pdf.gif"
     = translate('download_answers_pdf')
 
+:javascript
+  var iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
+  if(iOSDevice) {
+    $("#print-button").hide();
+  }
