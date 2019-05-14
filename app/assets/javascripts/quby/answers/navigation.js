@@ -30,6 +30,7 @@
   });
 
   $(document).on("click", ".print .print_button", function(event) {
+    var iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
     event.preventDefault();
     var url = $(this).data("url");
     if (form_submit_semaphore && activePanelsValid()) {
@@ -39,8 +40,14 @@
       var form = $("#questionnaire-form")[0];
       var old_action = form.action;
       form.action = url;
+      if(iOSDevice) {
+        form.target = "_blank";
+      }
       form.submit();
       form.action = old_action;
+      // if(iOSDevice) {
+      //   form.target = null;
+      // }
       window.onbeforeunload = old_unload;
     }
   });
