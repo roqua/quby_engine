@@ -13,13 +13,13 @@ module Quby
     before_action :load_display_mode
 
     before_action :verify_answer_id_against_session
-    before_action :verify_hmac, only: [:edit, :pdf]
+    before_action :verify_hmac, only: [:edit, :download_pdf]
 
     before_action :find_questionnaire
     before_action :check_questionnaire_valid
 
     before_action :find_answer
-    before_action :verify_token, only: [:show, :edit, :update]
+    before_action :verify_token, only: [:pdf, :show, :edit, :update]
 
     before_action :check_aborted, only: :update
 
@@ -54,13 +54,16 @@ module Quby
       end
     end
 
+    # updates answer and sends it back as a download
     def pdf
       update_or_fail do
-        template_string = render_to_string versioned_template_options("print", layout: "pdf")
-        pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
-        send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
-                              type: 'application/pdf', disposition: :attachment
+        download_as_pdf
       end
+    end
+
+    # only download the answer
+    def download_pdf
+      download_as_pdf
     end
 
     def bad_authorization(exception)
@@ -96,6 +99,13 @@ module Quby
     end
 
     protected
+
+    def download_as_pdf
+      template_string = render_to_string versioned_template_options("print", layout: "pdf")
+      pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
+      send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
+                            type: 'application/pdf', disposition: :attachment
+    end
 
     def update_or_fail
       updater = Answers::Services::UpdatesAnswers.new(@answer)
@@ -159,11 +169,12 @@ module Quby
         hmac      = (params['hmac']      || @hmac         || '').strip
         token     = (params['token']     || @answer_token || '').strip
         timestamp = (params['timestamp'] || @timestamp    || '').strip
+        base_path = "#{params[:action]}_questionnaire_answer_path"
 
-        current_hmac  = calculate_hmac(Quby::Settings.shared_secret, token, timestamp)
+        current_hmac  = calculate_hmac(Quby::Settings.shared_secret, token, timestamp, base_path)
 
         if Quby::Settings.previous_shared_secret.present?
-          previous_hmac = calculate_hmac(Quby::Settings.previous_shared_secret, token, timestamp)
+          previous_hmac = calculate_hmac(base_path, Quby::Settings.previous_shared_secret, token, timestamp, base_path)
         end
 
         unless timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ and time = Time.parse(timestamp)
@@ -177,7 +188,7 @@ module Quby
         end
 
         if current_hmac != hmac && (previous_hmac.blank? || previous_hmac != hmac)
-          logger.error "ERROR::Authentication error: Token does not validate"
+          logger.error "ERROR::Authentication error: Token does not validate #{params[:action]}"
           fail TokenValidationError, "HMAC"
         end
       end

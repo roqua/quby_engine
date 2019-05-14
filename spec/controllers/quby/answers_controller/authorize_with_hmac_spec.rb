@@ -17,11 +17,11 @@ module Quby
       Quby::Settings.stub(shared_secret: "something_long_and_random")
     end
 
-    describe 'HMAC check on show' do
+    describe 'HMAC check on edit' do
       let(:timestamp) { Time.now.strftime("%Y-%m-%dT%H:%M:%S 00:00") }
 
       def hmac(secret = Quby::Settings.shared_secret)
-        plain_hmac = [secret, answer.token, timestamp].join('|')
+        plain_hmac = [secret, answer.token, timestamp, 'edit_questionnaire_answer_path'].join('|')
         Digest::SHA1.hexdigest(plain_hmac)
       end
 
@@ -46,6 +46,13 @@ module Quby
       it 'raises when wrong hmac is given' do
         expect do
           get :edit, questionnaire_id: 'honos', id: answer.id, token: answer.token, timestamp: timestamp, hmac: 'wrong'
+        end.to raise_error(TokenValidationError)
+      end
+
+      it 'raises when the base path part of the hmac does not match' do
+        expect do
+          get :download_pdf, questionnaire_id: 'honos', id: answer.id, token: answer.token, hmac: hmac,
+                             timestamp: timestamp
         end.to raise_error(TokenValidationError)
       end
 

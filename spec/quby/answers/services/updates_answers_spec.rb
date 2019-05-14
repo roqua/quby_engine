@@ -20,7 +20,7 @@ module Quby::Answers::Services
 
       it 'disallows setting attributes that are not questions' do
         updates_answers.update("random_key" => "value")
-        Quby.answers.reload(answer).attributes["random_key"].should_not == "value"
+        expect(Quby.answers.reload(answer).attributes["random_key"]).to eq(nil)
       end
 
       context 'subquestion key clash' do
