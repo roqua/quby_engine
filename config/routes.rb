@@ -4,7 +4,7 @@ Quby::Engine.routes.draw do
   resources :questionnaires, only: [] do
     resources :answers  do
         put "pdf", :on => :member
-        put "download_pdf", :on => :member
+        get "download_pdf", :on => :member
     end
   end
 end
