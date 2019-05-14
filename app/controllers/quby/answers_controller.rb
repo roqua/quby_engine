@@ -174,7 +174,7 @@ module Quby
         current_hmac  = calculate_hmac(Quby::Settings.shared_secret, token, timestamp, base_path)
 
         if Quby::Settings.previous_shared_secret.present?
-          previous_hmac = calculate_hmac(base_path, Quby::Settings.previous_shared_secret, token, timestamp, base_path)
+          previous_hmac = calculate_hmac(Quby::Settings.previous_shared_secret, token, timestamp, base_path)
         end
 
         unless timestamp =~ /^\d\d\d\d-?\d\d-?\d\d[tT ]?\d?\d:?\d\d/ and time = Time.parse(timestamp)
