@@ -21,7 +21,7 @@ module ClientSideValidationHelpers
   def deselect_radio_option(question_key, option_key)
     within '#panel0.current' do
       find(:css, "#answer_#{question_key}_#{option_key}").click
-      page.should have_no_checked_field("answer_#{question_key}_#{option_key}")
+      expect(page).to have_no_checked_field("answer_#{question_key}_#{option_key}")
     end
   end
 
@@ -78,10 +78,10 @@ module ClientSideValidationHelpers
   def expect_saved_value(question_key, expected_value)
     unless @have_clicked_save
       click_on "Klaar"
-      page.should have_content("Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.")
+      expect(page).to have_content("Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.")
       @have_clicked_save = true
     end
-    Quby.answers.reload(@answer).send(question_key).should eq(expected_value)
+    expect(Quby.answers.reload(@answer).send(question_key)).to eq(expected_value)
   end
 end
 
@@ -123,19 +123,21 @@ module ServerSideValidationHelpers
   end
 
   def expect_no_errors
-    answer.errors.should be_empty
+    expect(answer.errors).to be_empty
   end
 
   def expect_saved_value(question_key, expected_value)
-    Quby.answers.reload(answer).send(question_key).should eq(expected_value)
+    expect(Quby.answers.reload(answer).send(question_key)).to eq(expected_value)
   end
 
   def expect_error_on(question_key, error_type)
-    answer.errors[question_key].map { |error| error[:valtype].to_s }.should include(error_type.to_s)
+    result = answer.errors[question_key].map { |error| error[:valtype].to_s }
+    expect(result).to include(error_type.to_s)
   end
 
   def expect_no_error_on(question_key)
-    answer.errors[question_key].map { |error| error[:valtype] }.should be_empty
+    result = answer.errors[question_key].map { |error| error[:valtype] }
+    expect(result).to be_empty
   end
 
   def error_messages_on(question_key)

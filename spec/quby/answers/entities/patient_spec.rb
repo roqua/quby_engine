@@ -7,19 +7,19 @@ module Quby::Answers::Entities
     describe '#age' do
       it 'calculates the age at the given timestamp' do
         patient = Patient.new(birthyear: 37.years.ago.year)
-        patient.age_at(10.years.ago).should == 27
+        expect(patient.age_at(10.years.ago)).to eq 27
       end
 
       it 'returns nil when the given timestamp is nil' do
         patient = Patient.new(birthyear: 37.years.ago.year)
-        patient.age_at(nil).should be_nil
+        expect(patient.age_at(nil)).to be_nil
       end
     end
 
     describe '#gender' do
       it 'returns the gender' do
         patient = Patient.new(gender: :male)
-        patient.gender.should == :male
+        expect(patient.gender).to eq :male
       end
     end
   end

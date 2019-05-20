@@ -23,8 +23,8 @@ if defined?(RSpec)
         repo.create!('test', 'title "Foo"')
 
         retrieved = repo.find('test')
-        retrieved.key.should eq('test')
-        retrieved.sourcecode.should eq 'title "Foo"'
+        expect(retrieved.key).to eq('test')
+        expect(retrieved.sourcecode).to eq 'title "Foo"'
       end
 
       it 'raises when record is not found' do
@@ -37,11 +37,11 @@ if defined?(RSpec)
     describe '#exists?' do
       it 'returns true if questionnaire was added' do
         repo.create!("test", "")
-        repo.exists?("test").should be_truthy
+        expect(repo.exists?("test")).to be_truthy
       end
 
       it 'returns false if questionnaire was not added' do
-        repo.exists?("unknown").should be_falsey
+        expect(repo.exists?("unknown")).to be_falsey
       end
     end
 
@@ -50,8 +50,8 @@ if defined?(RSpec)
         repo.create!('test', 'title "Foo"')
 
         retrieved = repo.find('test')
-        retrieved.key.should eq('test')
-        retrieved.sourcecode.should eq 'title "Foo"'
+        expect(retrieved.key).to eq('test')
+        expect(retrieved.sourcecode).to eq 'title "Foo"'
       end
 
       it 'raises when key is already used' do

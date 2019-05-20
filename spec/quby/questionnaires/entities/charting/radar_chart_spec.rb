@@ -8,7 +8,7 @@ module Quby::Questionnaires::Entities
       it_behaves_like Chart
 
       it 'has a type' do
-        RadarChart.new(:tot).type.should == 'radar_chart'
+        expect(RadarChart.new(:tot).type).to eq 'radar_chart'
       end
 
       it 'can set plotlines' do

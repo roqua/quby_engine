@@ -44,42 +44,42 @@ module Quby
     it 'shows all panels and questions' do
       visit_new_answer_for(questionnaire, "single_page")
 
-      page.should have_selector('.panel', count: 3)
-      page.should have_content('Verbergt vraag 2')
-      page.should have_content('Vul dit in')
-      page.should have_content('Verbergt vraag 4 op volgende panel')
-      page.should have_content('Vraag 4')
-      page.should have_content('Verbergt vraag 6')
-      page.should have_content('Vul dit ook in')
+      expect(page).to have_selector('.panel', count: 3)
+      expect(page).to have_content('Verbergt vraag 2')
+      expect(page).to have_content('Vul dit in')
+      expect(page).to have_content('Verbergt vraag 4 op volgende panel')
+      expect(page).to have_content('Vraag 4')
+      expect(page).to have_content('Verbergt vraag 6')
+      expect(page).to have_content('Vul dit ook in')
     end
 
     it 'does not hide questions in same panel' do
       visit_new_answer_for(questionnaire, "single_page")
 
       within("#item_v1") { choose "Ja" }
-      find("#item_v2").find('.main').should be_visible
+      expect(find("#item_v2").find('.main')).to be_visible
     end
 
     it 'does not hide questions in other panel' do
       visit_new_answer_for(questionnaire, "single_page")
 
       within("#item_v3") { choose "Ja" }
-      find("#item_v4").find('.main').should be_visible
+      expect(find("#item_v4").find('.main')).to be_visible
     end
 
     it 'does enable/disable subquestions', js: true do
       visit_new_answer_for(questionnaire, "single_page")
 
       # Subquestion disabled by default
-      page.should have_css('#item_v6 #answer_v6[disabled=disabled]')
+      expect(page).to have_css('#item_v6 #answer_v6[disabled=disabled]')
 
       # Checking parent should enable subquestion
       within("#item_v5") { check "Ja" }
-      page.should have_no_css('#item_v6 #answer_v6[disabled=disabled]')
+      expect(page).to have_no_css('#item_v6 #answer_v6[disabled=disabled]')
 
       # Unchecking parent should disable subquestion
       within("#item_v5") { uncheck "Ja" }
-      page.should have_css('#item_v6 #answer_v6[disabled=disabled]')
+      expect(page).to have_css('#item_v6 #answer_v6[disabled=disabled]')
     end
 
     it 'can skip validation', js: true do
@@ -87,18 +87,18 @@ module Quby
 
       # Show warning first
       click_on('Klaar')
-      page.should have_content("Deze vragenlijst is nog niet volledig ingevuld")
+      expect(page).to have_content("Deze vragenlijst is nog niet volledig ingevuld")
 
       # But allow to skip validation and save
       click_on('Toch opslaan')
-      page.should have_content("Uw antwoorden zijn opgeslagen")
+      expect(page).to have_content("Uw antwoorden zijn opgeslagen")
     end
 
     # Test hotkey availability when enabled
     it 'shows the hotkey dialog link' do
       visit_new_answer_for(questionnaire, 'single_page')
 
-      page.should have_content("Sneltoetsen Help")
+      expect(page).to have_content("Sneltoetsen Help")
     end
   end
 end

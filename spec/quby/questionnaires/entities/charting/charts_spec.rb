@@ -10,7 +10,7 @@ module Quby::Questionnaires::Entities
 
       it 'stores charts' do
         charts.add chart
-        charts.size.should == 1
+        expect(charts.size).to eq 1
       end
 
       it 'does not store charts with duplicate keys' do
@@ -20,14 +20,14 @@ module Quby::Questionnaires::Entities
 
       it 'finds charts' do
         charts.add chart
-        charts.find(chart.key).should == chart
+        expect(charts.find(chart.key)).to eq chart
       end
 
       it 'knows the number of charts' do
         charts.add double(key: 1)
         charts.add double(key: 2)
         charts.add double(key: 3)
-        charts.size.should == 3
+        expect(charts.size).to eq 3
       end
     end
   end

@@ -9,22 +9,25 @@ module Quby::Questionnaires::DSL
     let(:questionnaire) { double(key: 'questionnaire_key') }
 
     it 'makes a radar chart' do
-      dsl { }.should be_an_instance_of(::Quby::Questionnaires::Entities::Charting::RadarChart)
+      expect(dsl { }).to be_an_instance_of(::Quby::Questionnaires::Entities::Charting::RadarChart)
     end
 
     it 'sets y-axis range' do
-      dsl { range 0..40 }.y_range.should == (0..40)
+      expect(dsl { range 0..40 }.y_range).to eq (0..40)
     end
 
     it 'sets y-axis tick interval' do
-      dsl { tick_interval 1 }.tick_interval.should == 1
+      expect(dsl { tick_interval 1 }.tick_interval).to eq 1
     end
 
     it 'sets plotlines' do
-      dsl {
-        plotline 40, :orange
-        plotline 60, :red
-      }.plotlines.should == [
+      plotlines =
+        dsl {
+          plotline 40, :orange
+          plotline 60, :red
+        }.plotlines
+
+      expect(plotlines).to eq [
         {value: 40, color: :orange, width: 1, zIndex: 3},
         {value: 60, color: :red, width: 1, zIndex: 3}
       ]

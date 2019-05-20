@@ -14,7 +14,7 @@ describe Quby::Answers::Services::AttributeCalculator do
     END
 
     calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something"))
-    calculator.hidden.should == [:v_2]
+    expect(calculator.hidden).to eq [:v_2]
   end
 
   it 'marks questions shown by a checkbox option as shown' do
@@ -28,8 +28,8 @@ describe Quby::Answers::Services::AttributeCalculator do
     END
 
     calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something"))
-    calculator.shown.should  eq([:v_2])
-    calculator.hidden.should eq([])
+    expect(calculator.shown).to eq [:v_2]
+    expect(calculator.hidden).to eq []
   end
 
   it 'marks questions hidden by a flag as hidden' do
@@ -41,7 +41,7 @@ describe Quby::Answers::Services::AttributeCalculator do
 
     calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something",
                                                                 flags: {test_test1: true}))
-    calculator.hidden.should eq([:v_1])
+    expect(calculator.hidden).to eq [:v_1]
   end
 
   it 'marks questions hidden by a flag but shown by an answer as shown' do
@@ -55,8 +55,8 @@ describe Quby::Answers::Services::AttributeCalculator do
 
     calculator = described_class.new(questionnaire, make_answer("v_1" => 'a1', "v_2" => "something",
                                                                 flags: {test_test1: true}))
-    calculator.hidden.should eq([])
-    calculator.shown.should eq([:v_2])
+    expect(calculator.hidden).to eq []
+    expect(calculator.shown).to eq [:v_2]
   end
 
   it 'marks questions shown by a flag but hidden by an answer as shown' do
@@ -70,8 +70,8 @@ describe Quby::Answers::Services::AttributeCalculator do
 
     calculator = described_class.new(questionnaire, make_answer("v_1" => 'a1', "v_2" => "something",
                                                                 flags: {test_test1: true}))
-    calculator.hidden.should eq([])
-    calculator.shown.should eq([:v_2])
+    expect(calculator.hidden).to eq []
+    expect(calculator.shown).to eq [:v_2]
   end
 
   it 'marks questions shown by a flag as shown' do
@@ -83,8 +83,8 @@ describe Quby::Answers::Services::AttributeCalculator do
 
     calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something",
                                                                 flags: {test_test1: true}))
-    calculator.shown.should  eq([:v_1])
-    calculator.hidden.should eq([])
+    expect(calculator.shown).to eq [:v_1]
+    expect(calculator.hidden).to eq []
   end
 
   def make_answer(value = {}, flags: {})

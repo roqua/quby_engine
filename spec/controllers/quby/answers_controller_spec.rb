@@ -20,8 +20,8 @@ module Quby
     let(:answer) { create_new_answer_for(questionnaire, 'v_1' => 'a2') }
 
     before do
-      Quby::Settings.stub(authorize_with_hmac: false)
-      Quby::Settings.stub(authorize_with_id_from_session: false)
+      allow(Quby::Settings).to receive(:authorize_with_hmac).and_return(false)
+      allow(Quby::Settings).to receive(:authorize_with_id_from_session).and_return(false)
     end
 
     describe '#pdf' do
@@ -57,7 +57,7 @@ module Quby
 
     describe '#bad_questionnaire' do
       before do
-        controller.stub(:find_questionnaire).and_raise(Quby::Questionnaires::Repos::QuestionnaireNotFound,
+        allow(controller).to receive(:find_questionnaire).and_raise(Quby::Questionnaires::Repos::QuestionnaireNotFound,
                                                        questionnaire.key)
       end
 

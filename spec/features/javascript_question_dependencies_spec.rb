@@ -28,15 +28,15 @@ feature 'Dependencies between questions', js: true do
 
       # Choosing option that hides nothing should leave other question visible
       within("#item_v1") { choose "Nee" }
-      find("#item_v2").find('.main').should be_visible
+      expect(find("#item_v2").find('.main')).to be_visible
 
       # Choosing hiding option should hide question
       within("#item_v1") { choose "Ja" }
-      find("#item_v2").find('.main', visible: false).should_not be_visible
+      expect(find("#item_v2").find('.main', visible: false)).to_not be_visible
 
       # Choosing first option again should unhide question
       within("#item_v1") { choose "Nee" }
-      find("#item_v2").find('.main').should be_visible
+      expect(find("#item_v2").find('.main')).to be_visible
     end
 
     scenario 'subquestions are disabled unless parent option selected' do
@@ -60,23 +60,23 @@ feature 'Dependencies between questions', js: true do
       visit_new_answer_for(questionnaire)
 
       # Subquestions start out disabled
-      page.should have_css('#item_v2 #answer_v2[disabled=disabled]', visible: false)
+      expect(page).to have_css('#item_v2 #answer_v2[disabled=disabled]', visible: false)
 
       # Unhiding a parent question should keep the question disabled
       choose "Show v1"
-      page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
+      expect(page).to have_css('#item_v2 #answer_v2[disabled=disabled]')
 
       # Choosing other option should leave unrelated subquestions disabled
       choose "Ja"
-      page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
+      expect(page).to have_css('#item_v2 #answer_v2[disabled=disabled]')
 
       # Choosing parent option should enable subquestions
       choose "Overig"
-      page.should have_no_css('#item_v2 #answer_v2[disabled=disabled]')
+      expect(page).to have_no_css('#item_v2 #answer_v2[disabled=disabled]')
 
       # Switching back to other option should disable subquestions again
       choose "Ja"
-      page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
+      expect(page).to have_css('#item_v2 #answer_v2[disabled=disabled]')
     end
 
     scenario 'hiding all questions on another page skips the entire page' do
@@ -110,7 +110,7 @@ feature 'Dependencies between questions', js: true do
         click_on "Verder"
       end
 
-      page.should have_content("Bedankt")
+      expect(page).to have_content("Bedankt")
     end
   end
 
@@ -132,15 +132,15 @@ feature 'Dependencies between questions', js: true do
 
       # Other options should have no effect
       within("#item_v1") { check "Ja" }
-      page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
+      expect(page).to have_css('#item_v2 #answer_v2[disabled=disabled]')
 
       # Checking parent should enable subquestion
       within("#item_v1") { check "Overig" }
-      page.should have_no_css('#item_v2 #answer_v2[disabled=disabled]')
+      expect(page).to have_no_css('#item_v2 #answer_v2[disabled=disabled]')
 
       # Unchecking parent should disable subquestion
       within("#item_v1") { uncheck "Overig" }
-      page.should have_css('#item_v2 #answer_v2[disabled=disabled]')
+      expect(page).to have_css('#item_v2 #answer_v2[disabled=disabled]')
     end
 
     scenario 'options can force the unchecking of all other options' do
@@ -160,12 +160,12 @@ feature 'Dependencies between questions', js: true do
 
       # Checking the none-option unchecks other options
       check "None"
-      find('#answer_a1').should_not be_checked
-      find('#answer_a2').should_not be_checked
+      expect(find('#answer_a1')).to_not be_checked
+      expect(find('#answer_a2')).to_not be_checked
 
       # Checking another option after none was selected unchecks the none-option
       check "Two"
-      find('#answer_a3').should_not be_checked
+      expect(find('#answer_a3')).to_not be_checked
     end
 
     scenario 'options can force the checking of all other options' do
@@ -181,17 +181,17 @@ feature 'Dependencies between questions', js: true do
       visit_new_answer_for(questionnaire)
 
       # Sanity check
-      find('#answer_a1').should_not be_checked
-      find('#answer_a2').should_not be_checked
+      expect(find('#answer_a1')).to_not be_checked
+      expect(find('#answer_a2')).to_not be_checked
 
       # Checking the all-option should check the other options
       check "Both"
-      find('#answer_a1').should be_checked
-      find('#answer_a2').should be_checked
+      expect(find('#answer_a1')).to be_checked
+      expect(find('#answer_a2')).to be_checked
 
       # Unchecking one of the checks should uncheck the all-option
       uncheck "Two"
-      find('#answer_a3').should_not be_checked
+      expect(find('#answer_a3')).to_not be_checked
     end
 
     scenario 'force-checking all options does not check the none-option' do
@@ -206,8 +206,8 @@ feature 'Dependencies between questions', js: true do
 
       visit_new_answer_for(questionnaire)
       check "All"
-      find('#answer_a1').should be_checked
-      find('#answer_a3').should_not be_checked
+      expect(find('#answer_a1')).to be_checked
+      expect(find('#answer_a3')).to_not be_checked
     end
   end
 end

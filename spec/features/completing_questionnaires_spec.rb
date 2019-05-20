@@ -7,41 +7,41 @@ feature 'Completing a questionnaire' do
 
   scenario 'by filling out pages', js: true do
     visit_new_answer_for(questionnaire)
-    find("#panel0").should be_visible
+    expect(find("#panel0")).to be_visible
 
     click_on "nextButton0"
-    find("#panel1").should be_visible
+    expect(find("#panel1")).to be_visible
 
     within("#item_v_1") { choose "gemengd" }
     within("#item_v_6") { choose "zeer ontevreden" }
     within("#item_v_7") { choose "zeer tevreden" }
 
     click_on "nextButton1"
-    find("#panel2").should be_visible
+    expect(find("#panel2")).to be_visible
 
     click_on "prevButton2"
-    find("#panel1").should be_visible
-    find("#panel2", visible: false).should_not be_visible
+    expect(find("#panel1")).to be_visible
+    expect(find("#panel2", visible: false)).to_not be_visible
 
     click_on "nextButton1"
-    find("#panel2").should be_visible
+    expect(find("#panel2")).to be_visible
 
     within("#item_v_8") { choose "gemengd" }
     within("#item_v_9") { choose "zeer ontevreden" }
     within("#item_v_10") { choose "zeer tevreden" }
 
     click_on "nextButton2"
-    find("#panel3").should be_visible
+    expect(find("#panel3")).to be_visible
 
     within("#item_v_11") { choose "Ja" }
     within("#item_v_12") { choose "zeer ontevreden" }
     within("#item_v_13") { choose "Nee" }
 
     click_on "nextButton3"
-    find("#panel4").should be_visible
+    expect(find("#panel4")).to be_visible
 
     click_on "Klaar"
-    page.should have_content("Uw antwoorden zijn opgeslagen")
+    expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'when a return address has been specified', js: true do
@@ -50,14 +50,14 @@ feature 'Completing a questionnaire' do
     END
 
     visit_new_answer_for(questionnaire, 'paged', nil, return_url: '/after_answer_complete')
-    page.should have_selector('#panel0.current')
+    expect(page).to have_selector('#panel0.current')
     click_on "nextButton0"
 
-    page.should have_selector('#panel1.current')
+    expect(page).to have_selector('#panel1.current')
     click_on "Klaar"
 
-    page.should have_content 'answer_complete!'
-    page.current_path.should eq '/after_answer_complete'
+    expect(page).to have_content 'answer_complete!'
+    expect(page.current_path).to eq '/after_answer_complete'
   end
 
   scenario 'when the first questionnaire submit gives a serverside validation error', js: true do
@@ -70,25 +70,25 @@ feature 'Completing a questionnaire' do
     # make sure the faulty answer reaches the server.
     page.driver.execute_script "window.skipValidations = true;"
 
-    page.should have_selector('#panel0.current')
+    expect(page).to have_selector('#panel0.current')
     click_on "nextButton0"
-    page.should have_selector('#panel1.current')
+    expect(page).to have_selector('#panel1.current')
     allow_server_side_validation_error(always: true)
     click_on "Klaar"
 
     # the validation error is displayed on the page
-    page.should have_selector('.error.requires_answer')
+    expect(page).to have_selector('.error.requires_answer')
 
     page.driver.execute_script "window.skipValidations = false;"
 
     fill_in 'answer[v1]', with: '1'
 
     click_on "nextButton0"
-    page.should have_selector('#panel1.current')
+    expect(page).to have_selector('#panel1.current')
     click_on "Klaar"
 
     # and a second attempt can be made
-    page.should have_content("Uw antwoorden zijn opgeslagen")
+    expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
   # scenario 'when the first questionnaire submit fails', js: true do
@@ -128,7 +128,7 @@ feature 'Completing a questionnaire' do
     within("#item_v_13") { choose "answer_v_13_a1" }
 
     click_on "Klaar"
-    page.should have_content("Uw antwoorden zijn opgeslagen")
+    expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'by not filling in answers, but asking to save regardless', js: true do
@@ -136,6 +136,6 @@ feature 'Completing a questionnaire' do
 
     click_on "Klaar"
     click_on "Toch opslaan"
-    page.should have_content("Uw antwoorden zijn opgeslagen")
+    expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 end

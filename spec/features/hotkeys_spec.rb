@@ -29,37 +29,37 @@ feature 'Using hotkeys' do
     visit_new_answer_for(questionnaire)
 
     page.driver.execute_script(keypress_space)
-    page.should have_checked_field("answer_v1_a1")
+    expect(page).to have_checked_field("answer_v1_a1")
 
     page.driver.execute_script(keypress_up)
     wait_until_focussed("#answer_v1_a1")
 
     page.driver.execute_script(keypress_2)
-    page.should have_checked_field("answer_v1_a2")
+    expect(page).to have_checked_field("answer_v1_a2")
 
     page.driver.execute_script(keypress_up)
     wait_until_focussed("#answer_v1_a1")
 
     page.driver.execute_script(keypress_space)
-    page.should have_checked_field("answer_v1_a1")
+    expect(page).to have_checked_field("answer_v1_a1")
   end
 
   scenario 'can select options by pressing their number value', js: true do
     visit_new_answer_for(questionnaire)
 
     page.driver.execute_script(keypress_1)
-    page.should have_checked_field("answer_v1_a1")
+    expect(page).to have_checked_field("answer_v1_a1")
 
     page.driver.execute_script(keypress_up)
     wait_until_focussed("#answer_v1_a1")
 
     page.driver.execute_script(keypress_2)
-    page.should have_checked_field("answer_v1_a2")
+    expect(page).to have_checked_field("answer_v1_a2")
 
     page.driver.execute_script(keypress_up)
     wait_until_focussed("#answer_v1_a1")
 
     page.driver.execute_script(keypress_1)
-    page.should have_checked_field("answer_v1_a1")
+    expect(page).to have_checked_field("answer_v1_a1")
   end
 end

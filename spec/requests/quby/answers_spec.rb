@@ -6,18 +6,14 @@ require 'spec_helper'
 module Quby
   describe AnswersController do
     def create_answer(questionnaire)
-      Quby.questionnaires
-        .stub(:find)
-        .with(questionnaire.key)
-        .and_return(questionnaire)
-
+      allow(Quby.questionnaires).to receive(:find).with(questionnaire.key).and_return(questionnaire)
       Quby.answers.create!(questionnaire.key)
     end
 
     describe '#update' do
       before do
-        Quby::Settings.stub(authorize_with_id_from_session: false)
-        Quby::Settings.stub(authorize_with_hmac: false)
+        allow(Quby::Settings).to receive(:authorize_with_id_from_session).and_return(false)
+        allow(Quby::Settings).to receive(:authorize_with_hmac).and_return(false)
       end
 
       it 'saves the answer' do
@@ -25,7 +21,7 @@ module Quby
         answer = create_answer(honos)
         put "/quby/questionnaires/honos/answers/#{answer.id}", params: {answer: {v_1: nil}}
 
-        response.should render_template(:completed)
+        expect(response).to render_template(:completed)
       end
 
       it 'does not save invalid answers' do
@@ -34,8 +30,8 @@ module Quby
         allow_server_side_validation_error(always: true)
         put "/quby/questionnaires/honos/answers/#{answer.id}", params: {answer: {v_1: nil}}
 
-        response.should render_template('v1/paged')
-        flash[:notice].should match(/nog niet volledig ingevuld/)
+        expect(response).to render_template('v1/paged')
+        expect(flash[:notice]).to match(/nog niet volledig ingevuld/)
       end
 
       context 'upon successful save' do
@@ -56,7 +52,7 @@ module Quby
 
         it 'renders completed view if no return url' do
           put "/quby/questionnaires/honos/answers/#{answer.id}", params: {answer: {v_1: nil}}
-          response.should render_template('v1/completed')
+          expect(response).to render_template('v1/completed')
         end
 
         it 'redirects to roqua if return url is set' do
@@ -65,7 +61,7 @@ module Quby
              return_url: return_url,
              return_token: return_token}
 
-          response.should redirect_to(expected_return_url)
+          expect(response).to redirect_to(expected_return_url)
         end
 
         it 'respects existing query parameters in return url' do
@@ -74,7 +70,7 @@ module Quby
              return_url: return_url + "?a=b",
              return_token: return_token}
 
-          response.should redirect_to(expected_return_url(a: 'b'))
+          expect(response).to redirect_to(expected_return_url(a: 'b'))
         end
 
         it 'redirects with go of "close" if abort button was clicked' do
@@ -84,7 +80,7 @@ module Quby
              return_token: return_token,
              abort: true}
 
-          response.should redirect_to(expected_return_url(go: 'stop'))
+          expect(response).to redirect_to(expected_return_url(go: 'stop'))
         end
 
         it 'redirects with go of "back" when a user navigates back' do
@@ -94,7 +90,7 @@ module Quby
              return_token: return_token,
              previous_questionnaire: true}
 
-          response.should redirect_to(expected_return_url(go: 'back'))
+          expect(response).to redirect_to(expected_return_url(go: 'back'))
         end
       end
     end

@@ -18,33 +18,33 @@ module Quby::Answers::Entities
     end
 
     before do
-      Quby.questionnaires.stub(find: questionnaire)
+      allow(Quby.questionnaires).to receive(:find).and_return(questionnaire)
     end
 
     describe 'initialization of hashes ' do
       it 'initializes value as an empty hash when given nothing' do
-        Answer.new.value.should eq({})
+        expect(Answer.new.value).to eq({})
       end
 
       it 'initializes value as an empty hash when given explicit nils' do
-        Answer.new(value: nil).value.should eq({})
+        expect(Answer.new(value: nil).value).to eq({})
       end
 
       it 'initializes value as given' do
-        Answer.new(value: {a: 1, b: 2}).value.should eq({a: 1, b: 2})
+        expect(Answer.new(value: {a: 1, b: 2}).value).to eq({a: 1, b: 2})
       end
     end
 
     describe '#value_by_values' do
       it 'returns an empty hash when value is nil' do
-        Answer.new.value_by_values.should eq({})
+        expect(Answer.new.value_by_values).to eq({})
       end
     end
 
     describe '#value_by_regular_values' do
       describe 'for empty answer' do
         it 'returns an empty hash' do
-          Answer.new.value_by_regular_values.should eq({})
+          expect(Answer.new.value_by_regular_values).to eq({})
         end
       end
 
@@ -100,28 +100,28 @@ module Quby::Answers::Entities
       let(:answer) { Quby.answers.create!('foo') }
 
       it "should be initialized as an empty hash" do
-        answer.scores.should eq({})
+        expect(answer.scores).to eq({})
       end
 
       it 'can be accessed with indifferent access' do
         answer = Quby.answers.create!('foo', scores: {tot: {label: 'Totaal', value: 4}})
         answer = Quby.answers.reload(answer)
-        answer.scores[:tot][:label].should eq 'Totaal'
-        answer.scores["tot"]["value"].should eq 4
+        expect(answer.scores[:tot][:label]).to eq 'Totaal'
+        expect(answer.scores["tot"]["value"]).to eq 4
       end
     end
 
     describe '#actions' do
       it 'is initialized with empty hash' do
         answer = Quby.answers.create!('foo')
-        answer.actions.should == {}
+        expect(answer.actions).to eq({})
       end
 
       it 'can be accessed with indifferent access' do
         answer = Quby.answers.create!('foo', actions: {alarm: [:v1, :v2]})
         answer = Quby.answers.find('foo', answer.id)
-        answer.actions[:alarm].should eq [:v1, :v2]
-        answer.actions["alarm"].should eq [:v1, :v2]
+        expect(answer.actions[:alarm]).to eq [:v1, :v2]
+        expect(answer.actions["alarm"]).to eq [:v1, :v2]
       end
     end
 
@@ -130,12 +130,12 @@ module Quby::Answers::Entities
 
       it 'returns the patient[:id]' do
         answer[:patient][:id] = "123"
-        answer.patient_id.should == "123"
+        expect(answer.patient_id).to eq "123"
       end
 
       it 'returns the patient_id if set in attributes' do
         answer[:patient_id] = "123"
-        answer.patient_id.should == "123"
+        expect(answer.patient_id).to eq "123"
       end
     end
 
@@ -148,7 +148,7 @@ module Quby::Answers::Entities
           answer.q1 = "Foo"
           answer.mark_completed(Time.now)
         end
-        answer.completed_at.should == time
+        expect(answer.completed_at).to eq time
       end
 
       it "should record the time when answer is aborted" do
@@ -156,12 +156,12 @@ module Quby::Answers::Entities
           answer.aborted = true
           answer.mark_completed(Time.now)
         end
-        answer.completed_at.should == time
+        expect(answer.completed_at).to eq time
       end
 
       it "should not set completed_at for incomplete answers, even if it is called" do
         answer.mark_completed(Time.now)
-        answer.completed_at.should_not be
+        expect(answer.completed_at).to_not be
       end
 
       it "should not change when answer was previously completed" do
@@ -171,7 +171,7 @@ module Quby::Answers::Entities
         end
         answer.q1 = "Bar"
         answer.mark_completed(Time.now)
-        answer.completed_at.should == time
+        expect(answer.completed_at).to eq time
       end
     end
   end
