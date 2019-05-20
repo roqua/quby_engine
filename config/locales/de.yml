@@ -15,6 +15,7 @@ de:
     explanation: Wenn Sie diesen Fragebogen dennoch speichern, können unter Umständen Dimensionen des Fragebogens nicht berechnet werden, weil zu wenig Informationen dafür zur Verfügung stehen. Sie können Ihre Antworten unten weiterhin ausfüllen. Fragen die noch unvollständig ausgefüllt sind, erscheinen rot markiert.
     save_anyway: Trotzdem speichern
   thanks_for_filling_out: Vielen Dank für das Ausfüllen dieses Fragebogens. Ihre Antworten sind gespeichert.
+  ios_download_instruction: "Eine neue Registerkarte wird geöffnet, in der der Download gestartet wird.\n\nSpeichern Sie die Datei in iBooks oder, falls möglich, über "Mehr" -> "In Dateien speichern"\n\nSchließen Sie der Browser-Tab und klicken Sie auf "Fertig" um die Fragebogen zu speichern."
   validations:
     maximum:
       date: “Das Datum muss an oder vor dem %{friendly_date} liegen."

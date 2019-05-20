@@ -15,6 +15,7 @@ en:
     explanation: "If you decide to save the questionnaire anyway, it could be that scale scores can't be calculated because we don't have all the required answers. You may complete the questionnaire below."
     save_anyway: Save anyway
   thanks_for_filling_out: Thank you for filling out the questionnaire.
+  ios_download_instruction: "Your download will open in a new tab.\n\nSave the file in iBooks or through 'More' -> 'Save in Files' if available.\n\nAfter saving, close the tab and press 'Done' to complete your questionnaire."
   validations:
     maximum:
       date: "Entered date must be on or before %{friendly_date}."

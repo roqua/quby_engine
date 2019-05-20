@@ -3,3 +3,6 @@
   %a.print_button{id: 'print-button', href: '#', data: {url: pdf_questionnaire_answer_path(@questionnaire, @answer)}}
     = image_tag "quby/pdf.gif"
     = translate('download_answers_pdf')
+
+  #ios-download-instruction.hidden
+    = I18n.t('ios_download_instruction')

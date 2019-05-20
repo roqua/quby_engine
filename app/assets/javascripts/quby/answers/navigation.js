@@ -37,31 +37,40 @@
       setSemaphore($(".print_button"));
       var old_unload = window.onbeforeunload;
       window.onbeforeunload = null;
-      var form = $("#questionnaire-form")[0];
-      var old_action = form.action;
-      form.action = url;
       if(iOSDevice) {
-        form.target = "_blank";
+        alert($("#ios-download-instruction").text());
+        var popup = window.open('', 'downloadWindow');
+        popup.document.title = 'download';
       }
-      form.submit();
-      form.action = old_action;
-      // if(iOSDevice) {
-      //   form.target = null;
-      // }
+      formSubmitDownload(url, iOSDevice);
       window.onbeforeunload = old_unload;
     }
   });
 
   $(document).on("ajax:success ajax:error", "form", revertSemaphore);
 
-  var activePanelsValid = function() {
+  function formSubmitDownload(url, iOSDevice) {
+    var form = $("#questionnaire-form")[0];
+    var oldAction = form.action;
+    form.action = url;
+    if(iOSDevice) {
+      form.target = "downloadWindow";
+    }
+    form.submit();
+    if(iOSDevice) {
+      form.target = null;
+    }
+    form.action = oldAction;
+  }
+
+  function activePanelsValid() {
     var panelsToValidate = $(".current.panel");
     if (panelsToValidate.length == 0) {
       panelsToValidate = $(".panel");
     }
     var validPanels = _.map(panelsToValidate, function(panel) { return validatePanel($(panel)); });
     return _.all(validPanels);
-  };
+  }
 
   // #done-button:click: validate all panels for bulk/single page mode, or current panel in case of paged mode
   $(document).on("click", "#done-button", function(event) {
