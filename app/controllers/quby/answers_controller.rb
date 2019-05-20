@@ -57,9 +57,14 @@ module Quby
     def pdf
       update_or_fail do
         template_string = render_to_string versioned_template_options("print", layout: "pdf")
-        pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
-        send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
+        begin
+          pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
+          send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
                               type: 'application/pdf', disposition: :attachment
+        rescue RuntimeError
+          flash.now[:notice] = "Het aanmaken van de download is helaas mislukt."
+          render versioned_template_options(@display_mode, layout: request.xhr? ? "content_only" : 'application')
+        end
       end
     end
 
