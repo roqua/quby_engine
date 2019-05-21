@@ -30,32 +30,33 @@
   });
 
   $(document).on("click", ".print .print_button", function(event) {
-    var iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
+    var iOSSafari = !!navigator.platform.match(/iPhone|iPod|iPad/) &&
+                    !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
     event.preventDefault();
     var url = $(this).data("url");
     if (form_submit_semaphore && activePanelsValid()) {
       setSemaphore($(".print_button"));
       var old_unload = window.onbeforeunload;
       window.onbeforeunload = null;
-      if(iOSDevice) {
+      if(iOSSafari) {
         alert($("#ios-download-instruction").text());
       }
-      formSubmitDownload(url, iOSDevice);
+      formSubmitDownload(url, iOSSafari);
       window.onbeforeunload = old_unload;
     }
   });
 
   $(document).on("ajax:success ajax:error", "form", revertSemaphore);
 
-  function formSubmitDownload(url, iOSDevice) {
+  function formSubmitDownload(url, iOSSafari) {
     var form = $("#questionnaire-form")[0];
     var oldAction = form.action;
     form.action = url;
-    if(iOSDevice) {
+    if(iOSSafari) {
       form.target = "_blank";
     }
     form.submit();
-    if(iOSDevice) {
+    if(iOSSafari) {
       form.target = null;
     }
     form.action = oldAction;
