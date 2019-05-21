@@ -39,8 +39,6 @@
       window.onbeforeunload = null;
       if(iOSDevice) {
         alert($("#ios-download-instruction").text());
-        var popup = window.open('', 'downloadWindow');
-        popup.document.title = 'download';
       }
       formSubmitDownload(url, iOSDevice);
       window.onbeforeunload = old_unload;
@@ -54,7 +52,7 @@
     var oldAction = form.action;
     form.action = url;
     if(iOSDevice) {
-      form.target = "downloadWindow";
+      form.target = "_blank";
     }
     form.submit();
     if(iOSDevice) {
