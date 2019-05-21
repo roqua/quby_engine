@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
   Exclude:
     - 'config/**/*'
     - 'db/**/*'
@@ -31,6 +31,7 @@ MethodLength:
   Max: 25 # need to go lower.
   Exclude:
     - 'spec/features'
+    - 'lib/quby/answers/services/updates_answers.rb'
 
 BracesAroundHashParameters:
   Enabled: false
