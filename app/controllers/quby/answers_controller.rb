@@ -2,6 +2,7 @@
 
 # -*- coding: utf-8 -*-
 require 'addressable/uri'
+require 'browser'
 
 module Quby
   class AnswersController < Quby::ApplicationController
@@ -42,8 +43,8 @@ module Quby
     end
 
     def update
-      if session[:has_downloaded_pdf_for] == @answer.id && const_defined?(:Appsignal)
-        Appsignal.increment_counter("downloaded_pdf_and_pressed_done", 1)
+      if session[:has_downloaded_pdf_for] == @answer.id && defined?(Appsignal) && oniOSSafari?
+        Appsignal.increment_counter("ios_safari_downloaded_pdf_and_pressed_done", 1)
       end
 
       update_or_fail do
@@ -59,8 +60,10 @@ module Quby
     end
 
     def pdf
-      session[:has_downloaded_pdf_for] = @answer.id
-      Appsignal.increment_counter("downloaded_pdf", 1) if const_defined?(:Appsignal)
+      if defined?(Appsignal) && oniOSSafari?
+        session[:has_downloaded_pdf_for] = @answer.id
+        Appsignal.increment_counter("ios_safari_downloaded_pdf", 1)
+      end
 
       update_or_fail do
         template_string = render_to_string versioned_template_options("print", layout: "pdf")
@@ -268,5 +271,10 @@ module Quby
       I18n.t(key, options.merge(locale: @answer.questionnaire.language))
     end
     helper_method :translate
+
+    def oniOSSafari?
+      browser = Browser.new(request.user_agent)
+      browser.safari? && browser.platform.ios?
+    end
   end
 end

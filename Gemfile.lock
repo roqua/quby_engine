@@ -3,6 +3,7 @@ PATH
   specs:
     quby (3.1.0)
       addressable
+      browser
       coffee-rails
       compass (>= 0.12.7)
       compass-blueprint (~> 1.0.0)
@@ -81,6 +82,7 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    browser (2.5.1)
     builder (3.2.3)
     capybara (2.18.0)
       addressable
@@ -394,6 +396,7 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal (= 2.1.0)
+  browser
   capybara (>= 2.8.1)
   capybara-screenshot (~> 0.3.14)
   codeclimate-test-reporter (= 0.6.0)
