@@ -149,7 +149,7 @@ module Quby::Questionnaires::Entities
         Quby::Questionnaires::DSL.build("test") do
           title 'My Test'
           question :v_1, type: :string
-          score :score_1, label: 'score 1', schema: [{key: :value, label: 'Score', export_key: :sc1}] { {value: 42} }
+          score :score_1, label: 'score 1', schema: [{key: :value, label: 'Score', export_key: :sc1}] do {value: 42} end
           variable :var_1
         end
       end
