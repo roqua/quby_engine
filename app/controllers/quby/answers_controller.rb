@@ -42,6 +42,10 @@ module Quby
     end
 
     def update
+      if session[:has_downloaded_pdf_for] == @answer.id && const_defined?(:Appsignal)
+        Appsignal.increment_counter("downloaded_pdf_and_pressed_done", 1)
+      end
+
       update_or_fail do
         if @return_url.blank?
           render versioned_template_options("completed", layout: request.xhr? ? "content_only" : 'application')
@@ -55,6 +59,9 @@ module Quby
     end
 
     def pdf
+      session[:has_downloaded_pdf_for] = @answer.id
+      Appsignal.increment_counter("downloaded_pdf", 1) if const_defined?(:Appsignal)
+
       update_or_fail do
         template_string = render_to_string versioned_template_options("print", layout: "pdf")
         begin
