@@ -69,6 +69,7 @@ module Quby
         template_string = render_to_string versioned_template_options("print", layout: "pdf")
         begin
           pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
+          # type is not a application/pdf, to prevent previews on ios
           send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
                               type: 'application/octet-stream', disposition: :attachment
         rescue RuntimeError
