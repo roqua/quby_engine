@@ -331,7 +331,7 @@ module Quby::Questionnaires::Services
         invalid_definition = make_definition(<<-END)
           title "Test"
           score 'score_whose_key_is_longer_than_max', label: 'some_label',
-            schema: [{key: :t_score, label: 'Score', export_key: :wat}] do do
+            schema: [{key: :t_score, label: 'Score', export_key: :wat}] do
             { t_score: 42 }
           end
         END
@@ -347,7 +347,7 @@ module Quby::Questionnaires::Services
             { t_score: 42 }
           end
           score 'foo_score', label: 'some_label',
-            schema: [{key: :t_score, label: 'Score', export_key: :wat}] do do
+            schema: [{key: :t_score, label: 'Score', export_key: :wat}] do
             { t_score: 43 }
           end
         END
@@ -360,7 +360,7 @@ module Quby::Questionnaires::Services
         score_definition = make_definition(<<-END)
           title "Test"
           score 'score_key', label: 'score_label',
-            schema: [{key: :value, label: 'Score', export_key: :sc1}] { {value: 42} }
+            schema: [{key: :value, label: 'Score', export_key: :sc1}] do {value: 42} end
         END
         expect(score_definition).to be_valid
       end
@@ -369,7 +369,7 @@ module Quby::Questionnaires::Services
         score_definition = make_definition(<<-END)
           title "Test"
           score 'score_key',
-            schema: [{key: :value, label: 'Score', export_key: :sc1}] { {value: 42} }
+            schema: [{key: :value, label: 'Score', export_key: :sc1}] do {value: 42} end
         END
         expect(score_definition).not_to be_valid
       end
