@@ -43,7 +43,7 @@ module Quby
     end
 
     def update
-      if session[:has_downloaded_pdf_for] == @answer.id && defined?(Appsignal) && oniOSSafari?
+      if session[:has_downloaded_pdf_for] == @answer.id && defined?(Appsignal) && on_ios_safari?
         Appsignal.increment_counter("ios_safari_downloaded_pdf_and_pressed_done", 1)
       end
 
@@ -60,7 +60,7 @@ module Quby
     end
 
     def pdf
-      if defined?(Appsignal) && oniOSSafari?
+      if defined?(Appsignal) && on_ios_safari?
         session[:has_downloaded_pdf_for] = @answer.id
         Appsignal.increment_counter("ios_safari_downloaded_pdf", 1)
       end
@@ -73,7 +73,7 @@ module Quby
           send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
                               type: 'application/octet-stream', disposition: :attachment
         rescue RuntimeError
-          flash.now[:notice] = "Het aanmaken van de download is helaas mislukt."
+          flash.now[:notice] = I18n.t('pdf_download_failed_message')
           render versioned_template_options(@display_mode, layout: request.xhr? ? "content_only" : 'application')
         end
       end
@@ -273,7 +273,7 @@ module Quby
     end
     helper_method :translate
 
-    def oniOSSafari?
+    def on_ios_safari?
       browser = Browser.new(request.user_agent)
       browser.safari? && browser.platform.ios?
     end

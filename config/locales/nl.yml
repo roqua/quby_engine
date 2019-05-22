@@ -10,6 +10,7 @@ nl:
   done: Klaar
   print_answers: Print antwoorden
   download_answers_pdf: Download als PDF
+  pdf_download_failed_message: Het aanmaken van de download is helaas mislukt.
   questionnaire_not_completed:
     heading: Deze vragenlijst is nog niet volledig ingevuld!
     explanation: Als u de vragenlijst toch opslaat, kan het zijn dat er geen schaalscores berekend worden omdat hiervoor onvoldoende informatie voorhanden is. U kunt uw antwoorden hieronder alsnog aanvullen. Vragen die nog niet volledig zijn beantwoord, worden rood gemarkeerd.
