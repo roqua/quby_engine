@@ -72,7 +72,7 @@ module Quby
           # type is not a application/pdf, to prevent previews on ios
           send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
                               type: 'application/octet-stream', disposition: :attachment
-        rescue RuntimeError
+        rescue StandardError
           flash.now[:notice] = I18n.t('pdf_download_failed_message')
           render versioned_template_options(@display_mode, layout: request.xhr? ? "content_only" : 'application')
         end
