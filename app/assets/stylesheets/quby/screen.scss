@@ -132,8 +132,9 @@ em {
 
   .specifier{
       margin: 0 !important;
-      &.errors , input{
+      &.errors{
         width:auto !important;
+        float: left;
       }
   }
 
