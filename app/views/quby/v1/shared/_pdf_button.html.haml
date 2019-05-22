@@ -4,8 +4,5 @@
     = image_tag "quby/pdf.gif"
     = translate('download_answers_pdf')
 
-:javascript
-  var iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
-  if(iOSDevice) {
-    $("#print-button").hide();
-  }
+  #ios-download-instruction.hidden
+    = I18n.t('ios_download_instruction')

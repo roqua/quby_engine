@@ -2,6 +2,7 @@
 
 # -*- coding: utf-8 -*-
 require 'addressable/uri'
+require 'browser'
 
 module Quby
   class AnswersController < Quby::ApplicationController
@@ -42,6 +43,10 @@ module Quby
     end
 
     def update
+      if session[:has_downloaded_pdf_for] == @answer.id && defined?(Appsignal) && on_ios_safari?
+        Appsignal.increment_counter("ios_safari_downloaded_pdf_and_pressed_done", 1)
+      end
+
       update_or_fail do
         if @return_url.blank?
           render versioned_template_options("completed", layout: request.xhr? ? "content_only" : 'application')
@@ -55,11 +60,22 @@ module Quby
     end
 
     def pdf
+      if defined?(Appsignal) && on_ios_safari?
+        session[:has_downloaded_pdf_for] = @answer.id
+        Appsignal.increment_counter("ios_safari_downloaded_pdf", 1)
+      end
+
       update_or_fail do
         template_string = render_to_string versioned_template_options("print", layout: "pdf")
-        pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
-        send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
-                              type: 'application/pdf', disposition: :attachment
+        begin
+          pdf_binary = Quby::PdfRenderer.render_pdf(template_string)
+          # type is not a application/pdf, to prevent previews on ios
+          send_data pdf_binary, filename: "#{@questionnaire.title} #{Time.zone.now.to_s(:filename)}.pdf",
+                              type: 'application/octet-stream', disposition: :attachment
+        rescue StandardError
+          flash.now[:notice] = I18n.t('pdf_download_failed_message')
+          render versioned_template_options(@display_mode, layout: request.xhr? ? "content_only" : 'application')
+        end
       end
     end
 
@@ -256,5 +272,10 @@ module Quby
       I18n.t(key, options.merge(locale: @answer.questionnaire.language))
     end
     helper_method :translate
+
+    def on_ios_safari?
+      browser = Browser.new(request.user_agent)
+      browser.safari? && browser.platform.ios?
+    end
   end
 end
