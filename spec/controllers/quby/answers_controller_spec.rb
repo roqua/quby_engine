@@ -40,9 +40,9 @@ module Quby
       end
 
       context 'with fully answered questionnaire' do
-        it 'renders and sends a pdf file' do
+        it 'renders and sends an octet stream file (to prevent previews on ios, not a application/pdf)' do
           put :pdf, questionnaire_id: questionnaire.key, id: answer.id, answer: {'v_1' => 'a2'}
-          expect(response.header['Content-Type']).to eq('application/pdf')
+          expect(response.header['Content-Type']).to eq('application/octet-stream')
         end
       end
 

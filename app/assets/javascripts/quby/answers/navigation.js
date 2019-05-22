@@ -30,31 +30,46 @@
   });
 
   $(document).on("click", ".print .print_button", function(event) {
+    var iOSSafari = !!navigator.platform.match(/iPhone|iPod|iPad/) &&
+                    !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/);
     event.preventDefault();
     var url = $(this).data("url");
     if (form_submit_semaphore && activePanelsValid()) {
       setSemaphore($(".print_button"));
       var old_unload = window.onbeforeunload;
       window.onbeforeunload = null;
-      var form = $("#questionnaire-form")[0];
-      var old_action = form.action;
-      form.action = url;
-      form.submit();
-      form.action = old_action;
+      if(iOSSafari) {
+        alert($("#ios-download-instruction").text());
+      }
+      formSubmitDownload(url, iOSSafari);
       window.onbeforeunload = old_unload;
     }
   });
 
   $(document).on("ajax:success ajax:error", "form", revertSemaphore);
 
-  var activePanelsValid = function() {
+  function formSubmitDownload(url, iOSSafari) {
+    var form = $("#questionnaire-form")[0];
+    var oldAction = form.action;
+    form.action = url;
+    if(iOSSafari) {
+      form.target = "_blank";
+    }
+    form.submit();
+    if(iOSSafari) {
+      form.target = null;
+    }
+    form.action = oldAction;
+  }
+
+  function activePanelsValid() {
     var panelsToValidate = $(".current.panel");
     if (panelsToValidate.length == 0) {
       panelsToValidate = $(".panel");
     }
     var validPanels = _.map(panelsToValidate, function(panel) { return validatePanel($(panel)); });
     return _.all(validPanels);
-  };
+  }
 
   // #done-button:click: validate all panels for bulk/single page mode, or current panel in case of paged mode
   $(document).on("click", "#done-button", function(event) {
