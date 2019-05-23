@@ -18,9 +18,9 @@ feature 'Trying to fill out an invalid answer', js: true do
     END
 
     visit_new_answer_for(questionnaire)
-    find("#item_v1 .error.requires_answer", visible: false).should_not be_visible
+    expect(find("#item_v1 .error.requires_answer", visible: false)).to_not be_visible
     click_on "Verder"
-    find("#item_v1 .error.requires_answer").should be_visible
+    expect(find("#item_v1 .error.requires_answer")).to be_visible
   end
 
   scenario 'by leaving a required string field empty' do
@@ -50,7 +50,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     END
 
     visit_new_answer_for(questionnaire)
-    page.should have_selector('#content')
+    expect(page).to have_selector('#content')
     filling_in(within: "#item_v1", answering: "answer_v1", with: 'OHAI', should_show: '.error.valid_float')
   end
 
@@ -66,7 +66,7 @@ feature 'Trying to fill out an invalid answer', js: true do
 
     fill_in 'answer_v1', with: 'INVALID'
     click_on 'Later afmaken'
-    page.should have_content("Uw antwoorden zijn opgeslagen")
+    expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'clientside validations are run when submitting' do
@@ -82,7 +82,7 @@ feature 'Trying to fill out an invalid answer', js: true do
     within ".panel.current" do
       fill_in 'answer_v1', with: 'INVALID'
       click_on 'Klaar'
-      find('#item_v1 .error.valid_float').should be_visible
+      expect(find('#item_v1 .error.valid_float')).to be_visible
       expect(page.current_path).to match(/edit\Z/)
     end
   end
@@ -179,10 +179,10 @@ feature 'Trying to fill out an invalid answer', js: true do
 
   def filling_in(options = {})
     within ".panel.current" do
-      find(options[:within] + " " + options[:should_show], visible: false).should_not be_visible
+      expect(find(options[:within] + " " + options[:should_show], visible: false)).to_not be_visible
       fill_in options[:answering], with: options[:with]
       click_on "Verder"
-      find(options[:within] + " " + options[:should_show]).should be_visible
+      expect(find(options[:within] + " " + options[:should_show])).to be_visible
     end
   end
 end
@@ -208,11 +208,11 @@ feature 'question with a depends_on', js: true do
     within ".panel.current" do
       check 'vraag 2'
       click_on "Verder"
-      find('#item_v1 .error.requires_answer', visible: false).should be_visible
+      expect(find('#item_v1 .error.requires_answer', visible: false)).to be_visible
 
       uncheck 'vraag 2'
       click_on "Verder"
-      find('#item_v1 .error.requires_answer', visible: false).should_not be_visible
+      expect(find('#item_v1 .error.requires_answer', visible: false)).to_not be_visible
     end
   end
 end

@@ -28,12 +28,12 @@ module Quby::Questionnaires::Repos
         it 'finds one questionnaire' do
           File.open("/tmp/#{key}.rb", "w") { |f| f.write sourcecode }
           questionnaire = repo.find(key)
-          questionnaire.key.should eq(key)
-          questionnaire.sourcecode.should eq "title 'foo'"
+          expect(questionnaire.key).to eq(key)
+          expect(questionnaire.sourcecode).to eq "title 'foo'"
         end
 
         it 'raises QuestionnaireNotFound if it doesnt exist' do
-          repo.stub(:exists?).with(key).and_return(false)
+          allow(repo).to receive(:exists?).and_return(false)
           expect { repo.find(key) }.to raise_error(QuestionnaireNotFound)
         end
       end
@@ -41,11 +41,11 @@ module Quby::Questionnaires::Repos
       describe '#exists?' do
         it 'returns true if file exists' do
           FileUtils.touch("/tmp/test.rb")
-          repo.exists?("test").should be_truthy
+          expect(repo.exists?("test")).to be_truthy
         end
 
         it 'returns false if file does not exist' do
-          repo.exists?("test").should be_falsey
+          expect(repo.exists?("test")).to be_falsey
         end
       end
 
@@ -53,7 +53,7 @@ module Quby::Questionnaires::Repos
         it 'finds all questionnaires' do
           FileUtils.touch("/tmp/a.rb")
           FileUtils.touch("/tmp/b.rb")
-          repo.all.map(&:key).should eq %w(a b)
+          expect(repo.all.map(&:key)).to eq %w(a b)
         end
       end
     end

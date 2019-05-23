@@ -9,11 +9,11 @@ module Quby
                                      completed_at: Time.now)
 
       outcome = Quby.answers.generate_outcome(answer)
-      outcome.scores.should == {"tot" => {"label" => "Totaalscore",
+      expect(outcome.scores).to eq({"tot" => {"label" => "Totaalscore",
                                           "value" => 10,
                                           "interpretation" => "Laag",
                                           "score" => true,
-                                          "referenced_values" => []}}
+                                          "referenced_values" => []}})
     end
   end
 end

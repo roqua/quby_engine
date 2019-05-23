@@ -7,31 +7,31 @@ module Quby::Questionnaires::Entities
     describe Plottable do
       it 'stores the key' do
         score = Plottable.new(:tot)
-        score.key.should == :tot
+        expect(score.key).to eq :tot
       end
 
       it 'stores the questionnaire_key' do
         score = Plottable.new(:tot, questionnaire_key: 'qkey')
-        score.questionnaire_key.should == 'qkey'
+        expect(score.questionnaire_key).to eq 'qkey'
       end
 
       it 'stores the label' do
         score = Plottable.new(:tot, label: 'Label')
-        score.label.should == 'Label'
+        expect(score.label).to eq 'Label'
       end
 
       it 'has a default plotted key' do
-        Plottable.new(:tot).plotted_key.should == :value
+        expect(Plottable.new(:tot).plotted_key).to eq :value
       end
 
       it 'stores the plotted key' do
         score = Plottable.new(:tot, plotted_key: :tscore)
-        score.plotted_key.should == :tscore
+        expect(score.plotted_key).to eq :tscore
       end
 
       it 'stores a global flag' do
         score = Plottable.new(:tot, global: true)
-        score.global.should be_truthy
+        expect(score.global).to be_truthy
       end
     end
   end
