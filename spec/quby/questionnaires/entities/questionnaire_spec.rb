@@ -57,13 +57,13 @@ module Quby::Questionnaires::Entities
 
     describe '#scores' do
       it 'should have empty scores' do
-        Questionnaire.new("test").scores.should eq([])
+        expect(Questionnaire.new("test").scores).to eq([])
       end
     end
 
     describe '#score_calculations' do
       it 'has empty score_calculations' do
-        Questionnaire.new("test").score_calculations.should eq({})
+        expect(Questionnaire.new("test").score_calculations).to eq({})
       end
     end
 
@@ -73,14 +73,14 @@ module Quby::Questionnaires::Entities
       it 'adds the score builder to the list of score builders' do
         builder = double("Quby::Score", key: "c")
         questionnaire.add_score_calculation builder
-        questionnaire.score_calculations['c'].should eq builder
+        expect(questionnaire.score_calculations['c']).to eq builder
       end
 
       it 'preserves order of added score builders' do
         questionnaire.add_score_calculation double("Quby::Score", key: "c")
         questionnaire.add_score_calculation double("Quby::Score", key: "a")
         questionnaire.add_score_calculation double("Quby::Score", key: "d")
-        questionnaire.score_calculations.keys.should eq %w(c a d)
+        expect(questionnaire.score_calculations.keys).to eq %w(c a d)
       end
 
       it 'throws exception if there already is a score builder known for this key' do
@@ -97,13 +97,13 @@ module Quby::Questionnaires::Entities
       it 'finds score builders' do
         score = double(key: 'a')
         questionnaire.add_score_calculation score
-        questionnaire.find_plottable('a').should eq score
+        expect(questionnaire.find_plottable('a')).to eq score
       end
 
       it 'finds questions by key with indifferent access' do
         question = double(key: 'a')
         questionnaire.question_hash['a'] = question
-        questionnaire.find_plottable(:a).should eq question
+        expect(questionnaire.find_plottable(:a)).to eq question
       end
     end
 
@@ -155,13 +155,13 @@ module Quby::Questionnaires::Entities
       end
 
       it "should check if key is used by a question" do
-        questionnaire.key_in_use?(:v_1).should be_truthy
+        expect(questionnaire.key_in_use?(:v_1)).to be_truthy
       end
       it "should check if key is used by a score" do
-        questionnaire.key_in_use?(:score_1).should be_truthy
+        expect(questionnaire.key_in_use?(:score_1)).to be_truthy
       end
       it "should check if key is used by a variable" do
-        questionnaire.key_in_use?(:var_1).should be_truthy
+        expect(questionnaire.key_in_use?(:var_1)).to be_truthy
       end
     end
 
@@ -174,7 +174,7 @@ module Quby::Questionnaires::Entities
           end
         end
 
-        questionnaire.to_codebook.should be
+        expect(questionnaire.to_codebook).to be
       end
 
       it "should not break off a codebook when encountering <" do
@@ -187,7 +187,7 @@ module Quby::Questionnaires::Entities
           end
         end
 
-        questionnaire.to_codebook.should eq "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
+        expect(questionnaire.to_codebook).to eq "My Test\nDate unknown\n\ntest2_1 radio \n\" < 20\"\n0\t\"\"\n1\t\"\"\n"
       end
 
       it 'interleaves subquestions between checkbox options, to match quby_proxy behavior' do
@@ -205,7 +205,7 @@ module Quby::Questionnaires::Entities
           end
         end
 
-        questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1_a1 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a1_1 string \n\ttest_1_a1_2 string \n\ntest_1_a2 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a2_1 string \n")
+        expect(questionnaire.to_codebook).to eq("My Test\nDate unknown\n\ntest_1_a1 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a1_1 string \n\ttest_1_a1_2 string \n\ntest_1_a2 check_box\n1\tChecked\n0\tUnchecked\nempty\tUnchecked\n\ttest_1_a2_1 string \n")
       end
 
       describe 'with flags' do
@@ -224,7 +224,7 @@ module Quby::Questionnaires::Entities
             end
           end
 
-          questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"gehide door depr false\"\n\ntest_depr flag\n 'true' - Er is sprake van depressieklachten\n 'false' - Er is geen sprake van depressieklachten\n '' (leeg) - Vlag niet ingesteld, informatie onbekend\n\n")
+          expect(questionnaire.to_codebook).to eq("My Test\nDate unknown\n\ntest_1 string \n\"gehide door depr false\"\n\ntest_depr flag\n 'true' - Er is sprake van depressieklachten\n 'false' - Er is geen sprake van depressieklachten\n '' (leeg) - Vlag niet ingesteld, informatie onbekend\n\n")
         end
       end
 
@@ -240,7 +240,7 @@ module Quby::Questionnaires::Entities
             end
           end
 
-          questionnaire.to_codebook.should eq("My Test\nDate unknown\n\ntest_1 string \n\"vraag\"\n\ntest_probleem_1 Textvariabele\nprobleem 1\n")
+          expect(questionnaire.to_codebook).to eq("My Test\nDate unknown\n\ntest_1 string \n\"vraag\"\n\ntest_probleem_1 Textvariabele\nprobleem 1\n")
         end
       end
 
@@ -286,8 +286,8 @@ module Quby::Questionnaires::Entities
       let(:questionnaire) { Questionnaire.new('test') }
 
       it 'adds charts' do
-        questionnaire.stub(charts: charts)
-        charts.should_receive(:add).with(chart)
+        allow(questionnaire).to receive(:charts).and_return(charts)
+        expect(charts).to receive(:add).with(chart)
         questionnaire.add_chart(chart)
       end
     end
@@ -296,8 +296,8 @@ module Quby::Questionnaires::Entities
       let(:definition)    { "text 'text thing' \n question :v_1, type: :radio \n question :v_2, type: :string" }
       let(:questionnaire) { Quby::Questionnaires::DSL.build('questions_of_type_test', definition) }
       it 'returns questions of the given type' do
-        questionnaire.questions_of_type(:string).count.should eq 1
-        questionnaire.questions_of_type(:string).first.type.should eq :string
+        expect(questionnaire.questions_of_type(:string).count).to eq 1
+        expect(questionnaire.questions_of_type(:string).first.type).to eq :string
       end
     end
 
@@ -314,7 +314,7 @@ module Quby::Questionnaires::Entities
       end
 
       it 'returns nil if leave page alerts are disabled' do
-        Quby::Settings.stub(enable_leave_page_alert: false)
+        allow(Quby::Settings).to receive(:enable_leave_page_alert).and_return(false)
         questionnaire = Questionnaire.new 'test'
         expect(questionnaire.leave_page_alert).to be_nil
       end

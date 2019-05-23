@@ -46,10 +46,10 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {'v_1' => 1}, timestamp: timestamp, patient_attrs: {gender: :male}) }
 
       it 'stores values passed' do
-        calculator.instance_variable_get("@values").should eq 'v_1' => 1
-        calculator.instance_variable_get('@timestamp').should eq(timestamp)
-        calculator.instance_variable_get("@patient").instance_variables
-                  .should eq Quby::Answers::Entities::Patient.new(gender: :male).instance_variables
+        expect(calculator.instance_variable_get("@values")).to eq 'v_1' => 1
+        expect(calculator.instance_variable_get('@timestamp')).to eq(timestamp)
+        expect(calculator.instance_variable_get("@patient").instance_variables)
+          .to eq Quby::Answers::Entities::Patient.new(gender: :male).instance_variables
       end
     end
 
@@ -122,19 +122,19 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: values, timestamp: timestamp) }
 
       it 'returns the values hash if no args given' do
-        calculator.values_with_nils.should eq values
+        expect(calculator.values_with_nils).to eq values
       end
 
       it 'returns an array of values if args given' do
-        calculator.values(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values(:v_1, :v_2)).to eq [values['v_1'], values['v_2']]
       end
 
       it 'finds values by strings or symbols' do
-        calculator.values('v_1', :v_2).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values('v_1', :v_2)).to eq [values['v_1'], values['v_2']]
       end
 
       it 'finds values by array of strings or symbols' do
-        calculator.values([:v_1, 'v_2']).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values([:v_1, 'v_2'])).to eq [values['v_1'], values['v_2']]
       end
 
       it 'annotates that the key for a value is referenced in this calculation' do
@@ -169,19 +169,19 @@ module Quby::Answers::Services
       end
 
       it 'returns the requested values that are not nil' do
-        calculator.values_without_missings(:v_1, :v_3).should eq [values['v_1']]
+        expect(calculator.values_without_missings(:v_1, :v_3)).to eq [values['v_1']]
       end
 
       it 'returns an array of values if args given' do
-        calculator.values_without_missings(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values_without_missings(:v_1, :v_2)).to eq [values['v_1'], values['v_2']]
       end
 
       it 'finds values by string or symbols' do
-        calculator.values_without_missings('v_1', :v_2).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values_without_missings('v_1', :v_2)).to eq [values['v_1'], values['v_2']]
       end
 
       it 'finds values by array of strings or symbols' do
-        calculator.values_without_missings([:v_1, 'v_2']).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values_without_missings([:v_1, 'v_2'])).to eq [values['v_1'], values['v_2']]
       end
 
       it 'annotates that the key for a value is referenced in this calculation' do
@@ -229,19 +229,19 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: values, timestamp: timestamp) }
 
       it 'returns the values hash if no args given' do
-        calculator.values_with_nils.should eq values
+        expect(calculator.values_with_nils).to eq values
       end
 
       it 'returns an array of values if args given' do
-        calculator.values_with_nils(:v_1, :v_2).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values_with_nils(:v_1, :v_2)).to eq [values['v_1'], values['v_2']]
       end
 
       it 'finds values by string or symbol' do
-        calculator.values_with_nils('v_1', :v_2).should eq [values['v_1'], values['v_2']]
+        expect(calculator.values_with_nils('v_1', :v_2)).to eq [values['v_1'], values['v_2']]
       end
 
       it 'finds values by array of strings or symbols' do
-        calculator.values_with_nils(['v_1']).should eq [values['v_1']]
+        expect(calculator.values_with_nils(['v_1'])).to eq [values['v_1']]
       end
 
       it 'annotates that the key for a value is referenced in this calculation' do
@@ -255,7 +255,7 @@ module Quby::Answers::Services
       end
 
       it 'returns nil if a value is requested which is not available' do
-        calculator.values_with_nils(:v_3).should  eq [nil]
+        expect(calculator.values_with_nils(:v_3)).to eq [nil]
       end
 
       it 'raises if a value is requested more than once' do
@@ -279,15 +279,15 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'returns mean of values given' do
-        calculator.mean([1, 2, 3, 4, 5]).should eq 3
+        expect(calculator.mean([1, 2, 3, 4, 5])).to eq 3
       end
 
       it 'returns a float value' do
-        calculator.mean([2, 3]).should be_an_instance_of Float
+        expect(calculator.mean([2, 3])).to be_an_instance_of Float
       end
 
       it 'returns nil for empty array' do
-        calculator.mean([]).should be_nil
+        expect(calculator.mean([])).to be_nil
       end
 
       it 'raises for nil values' do
@@ -310,11 +310,11 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'returns mean of values given, not counting nils towards the amount of values' do
-        calculator.mean_ignoring_nils([nil, 1, 2, 3, 4, 5, nil]).should eq 3
+        expect(calculator.mean_ignoring_nils([nil, 1, 2, 3, 4, 5, nil])).to eq 3
       end
 
       it 'returns nil for empty array' do
-        calculator.mean_ignoring_nils([]).should be_nil
+        expect(calculator.mean_ignoring_nils([])).to be_nil
       end
 
       it 'does not raise for nil values' do
@@ -326,15 +326,15 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'returns mean of values given, not counting nils towards the amount of values' do
-        calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, 6]).should eq 3.5
+        expect(calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, 6])).to eq 3.5
       end
 
       it 'returns nil if the amount of nils > 20% of all values' do
-        calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, nil]).should be_nil
+        expect(calculator.mean_ignoring_nils_80_pct([nil, 1, 2, 3, 4, 5, nil])).to be_nil
       end
 
       it 'returns nil for empty array' do
-        calculator.mean_ignoring_nils_80_pct([]).should be_nil
+        expect(calculator.mean_ignoring_nils_80_pct([])).to be_nil
       end
 
       it 'does not raise for nil values' do
@@ -346,11 +346,11 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'sums values given, taking nils to be the mean of the present values' do
-        calculator.sum_extrapolate([1, 2, 3, 4, 5, nil], 5).should eq 18
+        expect(calculator.sum_extrapolate([1, 2, 3, 4, 5, nil], 5)).to eq 18
       end
 
       it 'returns nil if there are less values than minimum_present present (not nil)' do
-        calculator.sum_extrapolate([nil, 1, 2], 3).should be_nil
+        expect(calculator.sum_extrapolate([nil, 1, 2], 3)).to be_nil
       end
     end
 
@@ -358,17 +358,17 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'sums values given, taking nils to be the mean of the present values' do
-        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, nil]).should eq 12.5
+        expect(calculator.sum_extrapolate_80_pct([1, 2, 3, 4, nil])).to eq 12.5
       end
 
       it 'returns nil if there are less than 80% values present (not nil)' do
-        calculator.sum_extrapolate_80_pct([1, 2, 3, nil, nil]).should be_nil
+        expect(calculator.sum_extrapolate_80_pct([1, 2, 3, nil, nil])).to be_nil
       end
 
       it 'rounds upwards if the result of 0.8*values.length is not round' do
         # 0.8*8 = 6.4
-        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, nil, nil]).should be_nil
-        calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, 7, nil]).should eq 32
+        expect(calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, nil, nil])).to be_nil
+        expect(calculator.sum_extrapolate_80_pct([1, 2, 3, 4, 5, 6, 7, nil])).to eq 32
       end
     end
 
@@ -376,11 +376,11 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       it 'sums values given' do
-        calculator.sum([1, 2, 3, 4]).should eq 10
+        expect(calculator.sum([1, 2, 3, 4])).to eq 10
       end
 
       it 'sums no values' do
-        calculator.sum([]).should eq 0
+        expect(calculator.sum([])).to eq 0
       end
 
       it 'raises for nil values' do
@@ -391,17 +391,17 @@ module Quby::Answers::Services
     describe '#age' do
       it 'returns the age' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {birthyear: 42.years.ago.year})
-        calculator.age.should eq 42
+        expect(calculator.age).to eq 42
       end
 
       it 'returns the age when passed a string key' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {"birthyear" => 42.years.ago.year})
-        calculator.age.should eq 42
+        expect(calculator.age).to eq 42
       end
 
       it 'calls the patient age accessor method with its timestamp' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {"birthyear" => 42.years.ago.year})
-        calculator.instance_variable_get('@patient').should_receive(:age_at).with(timestamp)
+        expect(calculator.instance_variable_get('@patient')).to receive(:age_at).with(timestamp)
         calculator.age
       end
     end
@@ -409,34 +409,34 @@ module Quby::Answers::Services
     describe '#gender' do
       it 'returns the gender' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {gender: :male})
-        calculator.gender.should eq :male
+        expect(calculator.gender).to eq :male
       end
 
       it 'returns the gender when passed a string key' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {"gender" => :male})
-        calculator.gender.should eq :male
+        expect(calculator.gender).to eq :male
       end
 
       it 'returns :unknown when gender is not given' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, patient_attrs: {})
-        calculator.gender.should eq :unknown
+        expect(calculator.gender).to eq :unknown
       end
     end
 
     describe '#respondent_type' do
       it 'returns the respondent_type' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, respondent_attrs: {respondent_type: :parent})
-        calculator.respondent_type.should eq :parent
+        expect(calculator.respondent_type).to eq :parent
       end
 
       it 'returns the respondent_type when passed a string key' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, respondent_attrs: {"respondent_type" => :parent})
-        calculator.respondent_type.should eq :parent
+        expect(calculator.respondent_type).to eq :parent
       end
 
       it 'returns nil when respondent_type is not given' do
         calculator = ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp, respondent_attrs: {})
-        calculator.respondent_type.should eq nil
+        expect(calculator.respondent_type).to eq nil
       end
     end
 
@@ -463,13 +463,13 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {'v_1' => '1'}, timestamp: timestamp) }
 
       it 'returns the value of another score' do
-        calculator.score(:test).should eq(value: '1', other: :unknown)
+        expect(calculator.score(:test)).to eq(value: '1', other: :unknown)
         # and it also saves the referenced values of the called score to this calculator
         expect(calculator.referenced_values).to eq(['v_1'])
       end
 
       it 'does not transfer local variables into the score call' do
-        calculator.score(:test2).should eq(value: :unknown)
+        expect(calculator.score(:test2)).to eq(value: :unknown)
       end
 
       it 'raises an exception when score is not known' do
@@ -477,7 +477,7 @@ module Quby::Answers::Services
       end
 
       it 'also returns variables' do
-        calculator.score(:testvariable).should eq 'just a string'
+        expect(calculator.score(:testvariable)).to eq 'just a string'
       end
     end
 
@@ -512,7 +512,7 @@ module Quby::Answers::Services
         score = ScoreCalculation.new :som, label: "Somscore" do
           {value: sum(values(:v_1, :v_2, :v_3))}
         end
-        expect { calculate(score, v_1: 3, v_2: 3, v_3: nil) }.to raise_error
+        expect { calculate(score, v_1: 3, v_2: 3, v_3: nil) }.to raise_error(Quby::Answers::Services::ScoreCalculator::MissingAnswerValues)
       end
 
       it 'can be compacted' do

@@ -587,8 +587,8 @@ module Quby::Questionnaires::Services
       it 'checks if outcome tables are valid' do
         expect(make_definition(<<-END).valid?).to be_truthy
           title "Test"
-          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
-          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) do {value: 'oh1'} end
+          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) do {value: 'oh2'} end
 
           outcome_table key: :test_outcome_table,
                         score_keys: %i[key key2],
@@ -599,8 +599,8 @@ module Quby::Questionnaires::Services
       it 'fails if there is an error in outcome tables' do
         definition = make_definition(<<-END)
           title "Test"
-          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) { {value: 'oh1'} }
-          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) { {value: 'oh2'} }
+          score(:key, label: 'score', schema: [{key: :value, label: 'Score', export_key: :key}]) do {value: 'oh1'} end
+          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score 2', export_key: :key2}]) do {value: 'oh2'} end
 
           outcome_table key: :test_outcome_table,
                         score_keys: %i[key unknown_key_1 unknown_key_2],
