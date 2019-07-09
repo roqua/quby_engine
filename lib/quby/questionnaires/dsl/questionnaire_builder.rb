@@ -32,6 +32,10 @@ module Quby
           # no-op, key is now passed in to Questionnaire constructor
         end
 
+        def roqua_keys(*keys)
+          @questionnaire.roqua_keys = keys
+        end
+
         def do_not_check_key_clashes
           @questionnaire.check_key_clashes = false
         end
