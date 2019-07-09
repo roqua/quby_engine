@@ -42,6 +42,8 @@ dependency_scanning:
   image: registry.roqua.nl/roqua/dependency_scanning
   variables:
     DOCKER_DRIVER: overlay2
+    FF_USE_LEGACY_VOLUMES_MOUNTING_ORDER: "true"
+  allow_failure: true
   services:
     - docker:stable-dind
   script:

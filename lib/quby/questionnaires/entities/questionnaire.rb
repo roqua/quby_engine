@@ -53,6 +53,7 @@ module Quby
         attr_accessor :description
         attr_accessor :outcome_description
         attr_accessor :short_description
+        attr_accessor :roqua_keys
         attr_accessor :sbg_key # not required to be unique
         attr_accessor :sbg_domains
         attr_accessor :abortable
@@ -98,6 +99,10 @@ module Quby
 
         def allow_hotkeys
           (@allow_hotkeys || :bulk).to_s
+        end
+
+        def roqua_keys
+          @roqua_keys || [key]
         end
 
         def to_param
