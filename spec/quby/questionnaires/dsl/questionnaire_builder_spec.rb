@@ -33,6 +33,18 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.sbg_key).to eq('foo')
     end
 
+    describe 'roqua keys' do
+      it 'defaults to key' do
+        dsl {}
+        expect(questionnaire.roqua_keys).to eq(["example"])
+      end
+
+      it 'sets roqua keys' do
+        dsl { roqua_keys :alg_o, :alg_o2 }
+        expect(questionnaire.roqua_keys).to eq([:alg_o, :alg_o2])
+      end
+    end
+
     describe 'sbg_domain' do
       it 'sets sbg_domain' do
         dsl do
