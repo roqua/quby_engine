@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 def create_new_answer_for(questionnaire, answer_value = {}, flags: {}, textvars: {})

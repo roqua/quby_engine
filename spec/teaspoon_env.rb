@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 # This file allows you to override various Teaspoon configuration directives when running from the command line. It is

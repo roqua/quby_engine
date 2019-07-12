@@ -6,7 +6,9 @@ begin
   Bundler.require
   # get the rails rake tasks to test things like assets:precompile.
   require 'combustion'
-  Combustion::Application.config.middleware.delete Sass::Plugin::Rack # https://github.com/rails/sass-rails/issues/136
+  if defined?(Sass::Plugin::Rack)
+    Combustion::Application.config.middleware.delete Sass::Plugin::Rack # https://github.com/rails/sass-rails/issues/136
+  end
   Combustion.initialize!
   Combustion::Application.load_tasks
 rescue LoadError

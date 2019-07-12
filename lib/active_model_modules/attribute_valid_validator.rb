@@ -1,3 +1,4 @@
+# typed: true
 class AttributeValidValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?

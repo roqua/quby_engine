@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 module Quby
@@ -6,6 +7,8 @@ module Quby
       class ScoreCalculation
         attr_accessor :key, :label, :sbg_key, :options, :calculation
 
+        extend T::Sig
+        sig {params(key: Symbol, options: Hash, block: T.proc.returns(Hash)).void}
         def initialize(key, options, &block)
           @key = key
           @label = options[:label]

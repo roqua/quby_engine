@@ -1,3 +1,4 @@
+# typed: true
 class ArrayAttributeValidValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     value&.each&.with_index do |element, index|

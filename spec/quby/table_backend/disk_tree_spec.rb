@@ -1,3 +1,4 @@
+# typed: false
 require 'spec_helper'
 
 describe Quby::TableBackend::DiskTree do

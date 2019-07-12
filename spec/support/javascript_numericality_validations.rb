@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 shared_examples "numerical validations" do |numerical_type|

@@ -1,3 +1,4 @@
+# typed: true
 module Quby
   module Questionnaires
     module Entities

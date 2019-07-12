@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 Quby::Engine.routes.draw do

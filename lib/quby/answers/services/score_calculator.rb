@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 require 'opencpu'
@@ -7,6 +8,8 @@ module Quby
   module Answers
     module Services
       class ScoreCalculator
+        extend T::Sig
+
         class UnknownFieldsReferenced < StandardError; end
 
         class MissingAnswerValues < StandardError
@@ -19,10 +22,15 @@ module Quby
           end
         end
 
+        sig do
+          params(questionnaire: Quby::Questionnaires::Entities::Questionnaire, values: Hash, timestamp: Time,
+                      patient_attrs: Hash, respondent_attrs: Hash, block: T.proc.returns(Hash)).returns(Hash)
+        end
         # Evaluates block within the context of a new calculator
         # instance. All instance methods are accessible.
-        def self.calculate(*args, &block)
-          instance = new(*args)
+        def self.calculate(questionnaire:, values:, timestamp:, patient_attrs: {}, respondent_attrs: {}, &block)
+          instance = new(questionnaire: questionnaire, values: values, timestamp: timestamp,
+                         patient_attrs: patient_attrs, respondent_attrs: respondent_attrs)
           result = instance.instance_eval(&block)
           result = result.merge(referenced_values: instance.referenced_values) if result.respond_to?(:merge)
           result
@@ -40,6 +48,10 @@ module Quby
         #                     :male, :female or :unknown (optional)
         # respondent_attrs - A Hash describing respondent information (default: {})
         #           :respondent_type - The Symbol or String type of respondent
+        sig do
+          params(questionnaire: Quby::Questionnaires::Entities::Questionnaire, values: Hash, timestamp: Time,
+                 patient_attrs: Hash, respondent_attrs: Hash).void
+        end
         def initialize(questionnaire:, values:, timestamp:, patient_attrs: {}, respondent_attrs: {})
           @questionnaire = questionnaire
           @values = values
@@ -61,6 +73,7 @@ module Quby
         # Returns hash of all values if no keys are given.
         #
         # Raises MissingAnswerValues if one or more keys doesn't have a value.
+        sig {params(keys: T.untyped).returns(Array)}
         def values(*keys)
           keys = keys.flatten(1).map(&:to_s)
           ensure_answer_values_for(keys)
@@ -79,6 +92,7 @@ module Quby
         # be a String.
         #
         # Raises MissingAnswerValues when less than minimum_present keys have a value.
+        sig {params(keys: T.untyped, minimum_present: Integer, missing_values: Array).returns(Array)}
         def values_without_missings(*keys, minimum_present: 1, missing_values: [])
           keys = keys.flatten(1).map(&:to_s)
           fail ArgumentError, 'keys empty' unless keys.present?
@@ -96,6 +110,7 @@ module Quby
         # Returns the value.
         #
         # Raises MissingAnswerValues if the keys doesn't have a value.
+        sig {params(key: T::any(Symbol, String)).returns(T.untyped)}
         def value(key)
           values(key).first
         end
@@ -109,6 +124,7 @@ module Quby
         # restriction is placed. And for open questions the value will probably
         # be a String. If the question is not filled in or the question key is
         # unknown, nil will be returned for that question.
+        sig {params(keys: T.untyped).returns(Array)}
         def values_with_nils(*keys)
           keys = keys.flatten(1).map(&:to_s)
           ensure_defined_question_keys(keys)
@@ -130,6 +146,10 @@ module Quby
         # minimum_present - return nil if less values than this are left after filtering
         #
         # Returns the mean of the given values or nil if minimum_present is not met.
+        sig do
+          params(values: T::Array[T::any(Float, Integer)], ignoring: Array, minimum_present: Integer)
+            .returns(T.nilable(Float))
+        end
         def mean(values, ignoring: [], minimum_present: 1)
           compacted_values = values.reject { |v| ignoring.include? v }
           return nil if compacted_values.blank? || compacted_values.length < minimum_present
@@ -141,6 +161,7 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the mean of the given values
+        sig {params(values: T::Array[T::any(Float, Integer, NilClass)]).returns(T.nilable(Float))}
         def mean_ignoring_nils(values)
           mean(values, ignoring: [nil])
         end
@@ -150,6 +171,7 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the mean of the given values, or nil if less than 80% is present
+        sig {params(values: T::Array[T::any(Float, Integer, NilClass)]).returns(Float)}
         def mean_ignoring_nils_80_pct(values)
           mean(values, ignoring: [nil], minimum_present: values.length * 0.8)
         end
@@ -160,6 +182,10 @@ module Quby
         # minimum_answered - The minimum of values needed to be present, returns nil otherwise
         #
         # Returns the sum of the given values, or nil if minimum_present is not met
+        sig do
+          params(values: T::Array[T::any(Float, Integer, NilClass)], minimum_present: Integer)
+            .returns(T::any(Float, Integer))
+        end
         def sum_extrapolate(values, minimum_present)
           return nil if values.reject(&:blank?).length < minimum_present
           mean = mean_ignoring_nils(values)
@@ -172,6 +198,7 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the sum of the given values, or nil if less than 80% is present
+        sig {params(values: T::Array[T::any(Float, Integer, NilClass)]).returns(T::any(Float, Integer))}
         def sum_extrapolate_80_pct(values)
           sum_extrapolate(values, values.length * 0.8)
         end
@@ -181,6 +208,7 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the sum of the given values
+        sig {params(values: T::Array[T::any(Float, Integer)]).returns(T::any(Float, Integer))}
         def sum(values)
           values.reduce(0, &:+)
         end
@@ -190,11 +218,13 @@ module Quby
         # values - an Array or list of Numerics
         #
         # Returns the highest value of the given values
+        sig {params(values: T.untyped).returns(T::any(Float, Integer, NilClass))}
         def max(*values)
           values.flatten.compact.max
         end
 
         # Public: Returns the Integer age of the patient, or nil if it's not known.
+        sig {returns(T.nilable(Integer))}
         def age
           @patient.age_at @timestamp
         end
@@ -202,11 +232,13 @@ module Quby
         # Public: Returns the Symbol describing the gender of the patient.
         #
         # The symbol :unknown is returned when gender is not known.
+        sig {returns(Symbol)}
         def gender
           @patient.gender
         end
 
         # Public: Returns the type of the respondent
+        sig {returns(T.nilable(String))}
         def respondent_type
           @respondent.type
         end
@@ -214,6 +246,7 @@ module Quby
         # Public: Runs another score calculation or variable and returns its result
         #
         # key - The Symbol of another score.
+        sig {params(key: T::any(Symbol, String)).returns(Hash)}
         def score(key)
           fail "Score #{key.inspect} does not exist." unless @questionnaire.score_calculations.key? key
 
@@ -221,15 +254,18 @@ module Quby
           instance_eval(&calculation.calculation)
         end
 
+        sig {returns(Array)}
         def referenced_values
           @values.keys.select { |key| @referenced_values.include? key }
         end
 
+        sig {params(package: String, function: String, parameters: Hash).returns(Hash)}
         def opencpu(package, function, parameters = {})
           client = ::OpenCPU.client
           client.execute(package, function, parameters)
         end
 
+        sig {params(table_key: T::any(Symbol, String), parameters: Hash).returns(T.untyped)}
         def table_lookup(table_key, parameters)
           table_hash[table_key] ||= Quby::LookupTable.new table_key
           table = table_hash[table_key]
@@ -243,6 +279,7 @@ module Quby
         # *keys - A list of keys to check if an answer is given
         # *minimum_present - defaults to all
         # *missing_values - extra values to consider missing.
+        sig {params(keys: T.untyped, minimum_present: Integer, missing_values: Array).void}
         def ensure_answer_values_for(*keys, minimum_present: keys.flatten(1).size, missing_values: [])
           keys = keys.flatten(1).map(&:to_s)
           # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
@@ -257,27 +294,31 @@ module Quby
 
         private
 
+        sig {returns(Hash)}
         def table_hash
           @table_hash ||= {}.with_indifferent_access
         end
 
+        sig {params(keys: T::Array[String]).void}
         def remember_usage_of_value_keys(keys)
           @referenced_values += keys
         end
 
+        sig {params(keys: T::Array[String]).void}
         def ensure_defined_question_keys(keys)
           unknown_keys = keys.reject { |key| @questionnaire.fields.key_in_use?(key) }
 
           if unknown_keys.present?
-            fail UnknownFieldsReferenced, questionnaire_key: @questionnaire.key,
-                                          unknown: unknown_keys
+            fail UnknownFieldsReferenced, {questionnaire_key: @questionnaire.key, unknown: unknown_keys}.inspect
           end
         end
 
+        sig {params(keys: T::Array[String]).void}
         def ensure_no_duplicate_keys(keys)
           fail ArgumentError, 'Key requested more than once' if keys.uniq!
         end
 
+        sig {params(value: T.untyped, missing_values: Array).returns(T::Boolean)}
         def missing_value?(value, missing_values: [])
           value.blank? || missing_values.include?(value)
         end

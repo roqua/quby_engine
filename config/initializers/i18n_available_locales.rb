@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 I18n.available_locales = %i( nl en de )

@@ -1,4 +1,5 @@
 #!/bin/bash
+# typed: false
 # Merges commits on a release branch back to the next release branch or master
 next_release_branch() {
   YEAR=$(sed -E 's/rel_([0-9]{4})[0-9]{2}/\1/' <<< "$1")
