@@ -92,7 +92,7 @@ module Quby
         # be a String.
         #
         # Raises MissingAnswerValues when less than minimum_present keys have a value.
-        sig {params(keys: T.untyped, minimum_present: Integer, missing_values: Array).returns(Array)}
+        sig {params(keys: T.untyped, minimum_present: Numeric, missing_values: Array).returns(Array)}
         def values_without_missings(*keys, minimum_present: 1, missing_values: [])
           keys = keys.flatten(1).map(&:to_s)
           fail ArgumentError, 'keys empty' unless keys.present?
@@ -147,7 +147,7 @@ module Quby
         #
         # Returns the mean of the given values or nil if minimum_present is not met.
         sig do
-          params(values: T::Array[T::any(Float, Integer)], ignoring: Array, minimum_present: Integer)
+          params(values: T::Array[T.nilable(Numeric)], ignoring: Array, minimum_present: T.untyped)
             .returns(T.nilable(Float))
         end
         def mean(values, ignoring: [], minimum_present: 1)
@@ -161,7 +161,7 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the mean of the given values
-        sig {params(values: T::Array[T::any(Float, Integer, NilClass)]).returns(T.nilable(Float))}
+        sig {params(values: T::Array[T.nilable(Numeric)]).returns(T.nilable(Float))}
         def mean_ignoring_nils(values)
           mean(values, ignoring: [nil])
         end
@@ -171,7 +171,7 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the mean of the given values, or nil if less than 80% is present
-        sig {params(values: T::Array[T::any(Float, Integer, NilClass)]).returns(Float)}
+        sig {params(values: T::Array[T.nilable(Numeric)]).returns(T.nilable(Float))}
         def mean_ignoring_nils_80_pct(values)
           mean(values, ignoring: [nil], minimum_present: values.length * 0.8)
         end
@@ -183,8 +183,8 @@ module Quby
         #
         # Returns the sum of the given values, or nil if minimum_present is not met
         sig do
-          params(values: T::Array[T::any(Float, Integer, NilClass)], minimum_present: Integer)
-            .returns(T::any(Float, Integer))
+          params(values: T::Array[T.nilable(Numeric)], minimum_present: T.untyped)
+            .returns(T.nilable(Numeric))
         end
         def sum_extrapolate(values, minimum_present)
           return nil if values.reject(&:blank?).length < minimum_present
@@ -198,7 +198,7 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the sum of the given values, or nil if less than 80% is present
-        sig {params(values: T::Array[T::any(Float, Integer, NilClass)]).returns(T::any(Float, Integer))}
+        sig {params(values: T::Array[T.untyped]).returns(T.untyped)}
         def sum_extrapolate_80_pct(values)
           sum_extrapolate(values, values.length * 0.8)
         end
@@ -208,9 +208,9 @@ module Quby
         # values - An Array of Numerics
         #
         # Returns the sum of the given values
-        sig {params(values: T::Array[T::any(Float, Integer)]).returns(T::any(Float, Integer))}
+        sig {params(values: T::Array[T.untyped]).returns(T.untyped)}
         def sum(values)
-          values.reduce(0, &:+)
+          values.reduce(0){|a, b| a + b}
         end
 
         # Public: Max of values
@@ -279,16 +279,16 @@ module Quby
         # *keys - A list of keys to check if an answer is given
         # *minimum_present - defaults to all
         # *missing_values - extra values to consider missing.
-        sig {params(keys: T.untyped, minimum_present: Integer, missing_values: Array).void}
+        sig {params(keys: T.untyped, minimum_present: Numeric, missing_values: Array).void}
         def ensure_answer_values_for(*keys, minimum_present: keys.flatten(1).size, missing_values: [])
           keys = keys.flatten(1).map(&:to_s)
           # we also consider '' and whitespace to be not filled in, as well as nil values or missing keys
           unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
 
-          if unanswered_keys.size > keys.size - minimum_present
-            fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
-                                      values: @values,
-                                      missing: unanswered_keys
+          if unanswered_keys.size > keys.size - minimum_present.to_i
+            fail MissingAnswerValues, {questionnaire_key: @questionnaire.key,
+                                       values: @values,
+                                       missing: unanswered_keys}.inspect
           end
         end
 
