@@ -609,6 +609,46 @@ module Quby::Questionnaires::Services
         expect(definition.valid?).to be_falsey
         expect(definition.errors.full_messages.first).to include('Score keys :unknown_key_1 not found in score schemas')
       end
+
+      describe '#validate_values_unique' do
+        it 'fails on duplicate option values' do
+          definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :scale do
+            title 'Ah'
+            option :a1, value: 0
+            option :a2, value: 0
+          end
+          END
+          expect(definition.valid?).to be false
+          expect(definition.errors.full_messages.first).to \
+            include('v_1:a2: Another option with value 0 is already defined.')
+        end
+
+        it 'does not complain about checkbox questions' do
+          definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :check_box do
+            title "Testvraag met een check_box"
+            option :v_1a1, description: 'some_description'
+            option :v_1a2, description: 'more_description'
+          end
+          END
+          expect(definition.valid?).to be true
+        end
+
+        it 'skips validation if question was passed skip_values_unique_validation: true' do
+          definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :scale, skip_values_unique_validation: true do
+            title 'Ah'
+            option :a1, value: 0
+            option :a2, value: 0
+          end
+          END
+          expect(definition.valid?).to be true
+        end
+      end
     end
   end
 end

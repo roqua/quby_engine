@@ -54,6 +54,7 @@ module Quby
             validate_question(question)
             subquestions_cant_have_default_invisible question
             validate_subquestion_absence_in_select question
+            validate_values_unique question
 
             validate_question_options(questionnaire, question)
             validate_presence_of_titles question
@@ -203,6 +204,18 @@ module Quby
             unless option.questions.empty?
               fail "Question '#{question.key}' of type ':select' may not include other questions."
             end
+          end
+        end
+
+        def validate_values_unique(question)
+          question.options.reduce([]) do |seen_values, question_option|
+            if !question.skip_values_unique_validation &&
+               question.type != :check_box &&
+               seen_values.include?(question_option.value)
+              fail "#{question.key}:#{question_option.key}: " \
+                      "Another option with value #{question_option.value} is already defined."
+            end
+            seen_values << question_option.value
           end
         end
 
