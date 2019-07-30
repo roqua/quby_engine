@@ -648,6 +648,18 @@ module Quby::Questionnaires::Services
           END
           expect(definition.valid?).to be true
         end
+
+        it 'skips placeholder options' do
+          definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :select do
+            title 'Ah'
+            option :a1, value: 0, placeholder: true
+            option :a2, value: 0
+          end
+          END
+          expect(definition.valid?).to be true
+        end
       end
     end
   end

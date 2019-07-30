@@ -208,10 +208,10 @@ module Quby
         end
 
         def validate_values_unique(question)
-          question.options.reduce([]) do |seen_values, question_option|
-            if !question.skip_values_unique_validation &&
-               question.type != :check_box &&
-               seen_values.include?(question_option.value)
+          return if question.type == :check_box || question.skip_values_unique_validation
+          question.options.each_with_object([]) do |question_option, seen_values|
+            next if question_option.placeholder
+            if seen_values.include?(question_option.value)
               fail "#{question.key}:#{question_option.key}: " \
                       "Another option with value #{question_option.value} is already defined."
             end
