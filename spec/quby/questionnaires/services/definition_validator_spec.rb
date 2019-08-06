@@ -660,7 +660,24 @@ module Quby::Questionnaires::Services
           END
           expect(definition.valid?).to be true
         end
+
+        it 'skips inner titles' do
+          definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :radio do
+            title "Wat is de hoogst genoten opleiding die u hebt afgerond?"
+            option :a0,  value:  0, description: "Geen"
+            inner_title "Basisonderwijs:"
+            option :a1,  value:  1, description: "Basisonderwijs"
+            option :a2,  value:  2, description: "(SBO) Speciale School voor Basisonderwijs"
+            option :a3,  value:  3, description: "(SO) Speciaal Onderwijs"
+            inner_title "Voortgezet onderwijs:"
+          end
+          END
+          expect(definition.valid?).to be true
+        end
       end
     end
   end
 end
+
