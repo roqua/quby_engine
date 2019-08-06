@@ -208,7 +208,7 @@ module Quby
         end
 
         def validate_values_unique(question)
-          return if question.type == :check_box || question.skip_values_unique_validation
+          return if question.type == :check_box || question.allow_duplicate_option_values
 
           question.options.each_with_object([]) do |question_option, seen_values|
             next if question_option.placeholder || question_option.inner_title

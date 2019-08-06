@@ -28,7 +28,7 @@ module Quby
         attr_accessor :hidden
 
         # Whether to skip the uniqueness validation on radio and select option values
-        attr_reader :skip_values_unique_validation
+        attr_reader :allow_duplicate_option_values
 
         # In what modes do we display this question
         # NOTE We always display questions in print-view (if they have an answer)
@@ -125,7 +125,7 @@ module Quby
 
           @extra_data ||= {}
           @options = []
-          @skip_values_unique_validation = options[:skip_values_unique_validation]
+          @allow_duplicate_option_values = options[:allow_duplicate_option_values]
           @questionnaire = options[:questionnaire]
           @key = require_symbol_key(key)
           @sbg_key = options[:sbg_key]

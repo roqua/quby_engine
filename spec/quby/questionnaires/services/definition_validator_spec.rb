@@ -637,10 +637,10 @@ module Quby::Questionnaires::Services
           expect(definition.valid?).to be true
         end
 
-        it 'skips validation if question was passed skip_values_unique_validation: true' do
+        it 'skips validation if question was passed allow_duplicate_option_values: true' do
           definition = make_definition(<<-END)
           title "Test"
-          question :v_1, type: :scale, skip_values_unique_validation: true do
+          question :v_1, type: :scale, allow_duplicate_option_values: true do
             title 'Ah'
             option :a1, value: 0
             option :a2, value: 0
