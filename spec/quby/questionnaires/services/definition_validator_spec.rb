@@ -78,7 +78,7 @@ module Quby::Questionnaires::Services
           title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
-            option :a1, hides_questions: [:v_2]
+            option :a1, value: 0, hides_questions: [:v_2]
           end
         END
         invalid_definition.valid?
@@ -91,7 +91,7 @@ module Quby::Questionnaires::Services
           title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
-            option :a1, hides_questions: [:v_1_a1_sq] do
+            option :a1, value: 0, hides_questions: [:v_1_a1_sq] do
               question :v_1_a1_sq, type: :string
             end
           end
@@ -106,7 +106,7 @@ module Quby::Questionnaires::Services
           title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
-            option :a1, hides_questions: [:v_2]
+            option :a1, value: 0, hides_questions: [:v_2]
           end
 
           question :v_2, type: :textarea do
@@ -123,7 +123,7 @@ module Quby::Questionnaires::Services
           title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
-            option :a1, shows_questions: [:v_2]
+            option :a1, value: 0, shows_questions: [:v_2]
           end
         END
         invalid_definition.valid?
@@ -136,7 +136,7 @@ module Quby::Questionnaires::Services
           title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
-            option :a1, shows_questions: [:v_1_a1_sq] do
+            option :a1, value: 0, shows_questions: [:v_1_a1_sq] do
               question :v_1_a1_sq, type: :string
             end
           end
@@ -151,7 +151,7 @@ module Quby::Questionnaires::Services
           title "Test"
           question :v_1, type: :radio do
             title "Testvraag"
-            option :a1, shows_questions: [:v_2]
+            option :a1, value: 0, shows_questions: [:v_2]
           end
 
           question :v_2, type: :textarea do
@@ -195,14 +195,14 @@ module Quby::Questionnaires::Services
           title "Test"
           question :questionthree, type: :radio do
             title "Testvraag"
-            option :a1, description: 'some_description'
+            option :a1, value: 0, description: 'some_description'
           end
         END
         valid_key = make_definition(<<-END)
           title "Test"
           question :v_12345678901, type: :radio do
             title "Testvraag"
-            option :a1, description: 'some_description'
+            option :a1, value: 0, description: 'some_description'
           end
         END
         expect(long_key.valid?).to be_falsey
@@ -214,14 +214,14 @@ module Quby::Questionnaires::Services
           title "Test"
           question :one, type: :radio do
             title "Testvraag"
-            option :a1, description: 'some_description', hides_questions: [:two]
+            option :a1, value: 0, description: 'some_description', hides_questions: [:two]
           end
         END
         valid_key = make_definition(<<-END)
           title "Test"
           question :v_2, type: :radio do
             title "Testvraag"
-            option :a1, description: 'some_description'
+            option :a1, value: 0, description: 'some_description'
           end
         END
         expect(invalid_key.valid?).to be_falsey
@@ -676,8 +676,20 @@ module Quby::Questionnaires::Services
           END
           expect(definition.valid?).to be true
         end
+
+        it 'checks if all options have values' do
+          definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :scale do
+            title 'Ah'
+            option :a1
+          end
+          END
+          expect(definition.valid?).to be false
+          expect(definition.errors.full_messages.first).to \
+            include('v_1:a1: Has no option value defined.')
+        end
       end
     end
   end
 end
-

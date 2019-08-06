@@ -213,6 +213,7 @@ module Quby
             if question_option.placeholder || question_option.inner_title
               next
             end
+            fail "#{question.key}:#{question_option.key}: Has no option value defined." if question_option.value.blank?
             if seen_values.include?(question_option.value)
               fail "#{question.key}:#{question_option.key}: " \
                       "Another option with value #{question_option.value} is already defined."
