@@ -209,10 +209,10 @@ module Quby
 
         def validate_values_unique(question)
           return if question.type == :check_box || question.skip_values_unique_validation
+
           question.options.each_with_object([]) do |question_option, seen_values|
-            if question_option.placeholder || question_option.inner_title
-              next
-            end
+            next if question_option.placeholder || question_option.inner_title
+
             fail "#{question.key}:#{question_option.key}: Has no option value defined." if question_option.value.blank?
             if seen_values.include?(question_option.value)
               fail "#{question.key}:#{question_option.key}: " \
