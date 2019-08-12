@@ -13,4 +13,3 @@ describe Quby::PdfRenderer do
     end
   end
 end
-

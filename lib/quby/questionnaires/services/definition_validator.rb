@@ -211,6 +211,9 @@ module Quby
           return if question.type == :check_box || question.allow_duplicate_option_values
 
           question.options.each_with_object([]) do |question_option, seen_values|
+            if question_option.placeholder && question_option.value.present?
+              fail "#{question.key}:#{question_option.key}: Placeholder options should not have values defined."
+            end
             next if question_option.placeholder || question_option.inner_title
 
             fail "#{question.key}:#{question_option.key}: Has no option value defined." if question_option.value.blank?

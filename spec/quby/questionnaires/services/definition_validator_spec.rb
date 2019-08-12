@@ -654,8 +654,8 @@ module Quby::Questionnaires::Services
           title "Test"
           question :v_1, type: :select do
             title 'Ah'
-            option :a1, value: 0, placeholder: true
-            option :a2, value: 0
+            option :a1, placeholder: true
+            option :a2, placeholder: true
           end
           END
           expect(definition.valid?).to be true
@@ -688,6 +688,19 @@ module Quby::Questionnaires::Services
           expect(definition.valid?).to be false
           expect(definition.errors.full_messages.first).to \
             include('v_1:a1: Has no option value defined.')
+        end
+
+        it 'validates placeholder options do not have values' do
+          definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :select do
+            title 'Ah'
+            option :a1, placeholder: true, value: 32
+          end
+          END
+          expect(definition.valid?).to be false
+          expect(definition.errors.full_messages.first).to \
+            include('v_1:a1: Placeholder options should not have values defined.')
         end
       end
     end
