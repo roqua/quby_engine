@@ -609,60 +609,60 @@ module Quby::Questionnaires::Services
         expect(definition.valid?).to be_falsey
         expect(definition.errors.full_messages.first).to include('Score keys :unknown_key_1 not found in score schemas')
       end
-
-      describe '#validate_values_unique' do
-        it 'fails on duplicate option values' do
-          definition = make_definition(<<-END)
+    end
+    describe '#validate_values_unique' do
+      it 'fails on duplicate option values' do
+        definition = make_definition(<<-END)
           title "Test"
           question :v_1, type: :scale do
             title 'Ah'
             option :a1, value: 0
             option :a2, value: 0
           end
-          END
-          expect(definition.valid?).to be false
-          expect(definition.errors.full_messages.first).to \
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to \
             include('v_1:a2: Another option with value 0 is already defined.')
-        end
+      end
 
-        it 'does not complain about checkbox questions' do
-          definition = make_definition(<<-END)
+      it 'does not complain about checkbox questions' do
+        definition = make_definition(<<-END)
           title "Test"
           question :v_1, type: :check_box do
             title "Testvraag met een check_box"
             option :v_1a1, description: 'some_description'
             option :v_1a2, description: 'more_description'
           end
-          END
-          expect(definition.valid?).to be true
-        end
+        END
+        expect(definition.valid?).to be true
+      end
 
-        it 'skips validation if question was passed allow_duplicate_option_values: true' do
-          definition = make_definition(<<-END)
+      it 'skips validation if question was passed allow_duplicate_option_values: true' do
+        definition = make_definition(<<-END)
           title "Test"
           question :v_1, type: :scale, allow_duplicate_option_values: true do
             title 'Ah'
             option :a1, value: 0
             option :a2, value: 0
           end
-          END
-          expect(definition.valid?).to be true
-        end
+        END
+        expect(definition.valid?).to be true
+      end
 
-        it 'skips placeholder options' do
-          definition = make_definition(<<-END)
+      it 'skips placeholder options' do
+        definition = make_definition(<<-END)
           title "Test"
           question :v_1, type: :select do
             title 'Ah'
             option :a1, placeholder: true
             option :a2, placeholder: true
           end
-          END
-          expect(definition.valid?).to be true
-        end
+        END
+        expect(definition.valid?).to be true
+      end
 
-        it 'skips inner titles' do
-          definition = make_definition(<<-END)
+      it 'skips inner titles' do
+        definition = make_definition(<<-END)
           title "Test"
           question :v_1, type: :radio do
             title "Wat is de hoogst genoten opleiding die u hebt afgerond?"
@@ -673,35 +673,36 @@ module Quby::Questionnaires::Services
             option :a3,  value:  3, description: "(SO) Speciaal Onderwijs"
             inner_title "Voortgezet onderwijs:"
           end
-          END
-          expect(definition.valid?).to be true
-        end
+        END
+        expect(definition.valid?).to be true
+      end
 
-        it 'checks if all options have values' do
-          definition = make_definition(<<-END)
+      it 'checks if all options have values' do
+        definition = make_definition(<<-END)
           title "Test"
           question :v_1, type: :scale do
             title 'Ah'
             option :a1
           end
-          END
-          expect(definition.valid?).to be false
-          expect(definition.errors.full_messages.first).to \
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to \
             include('v_1:a1: Has no option value defined.')
-        end
+      end
+    end
 
-        it 'validates placeholder options do not have values' do
-          definition = make_definition(<<-END)
+    describe '#validate_placeholder_options_nil_values' do
+      it 'validates placeholder options do not have values' do
+        definition = make_definition(<<-END)
           title "Test"
           question :v_1, type: :select do
             title 'Ah'
             option :a1, placeholder: true, value: 32
           end
-          END
-          expect(definition.valid?).to be false
-          expect(definition.errors.full_messages.first).to \
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to \
             include('v_1:a1: Placeholder options should not have values defined.')
-        end
       end
     end
   end
