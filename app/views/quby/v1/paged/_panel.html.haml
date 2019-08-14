@@ -8,7 +8,11 @@
   - classes << 'last-panel'
 - panel_id = "panel#{panel_counter}"
 %fieldset{:id => panel_id, :class => classes}
-  = render :partial => "quby/v1/hotkey_dialog"
+  .panel-action-links
+    = render :partial => "quby/v1/hotkey_dialog"
+    - if panel_counter == 0 && @questionnaire.allow_switch_to_bulk
+      = render :partial => "quby/v1/switch_to_bulk"
+
 
   :javascript
     panel_validations["panel#{panel_counter}"] = #{raw get_validation_json(panel.validations)};
