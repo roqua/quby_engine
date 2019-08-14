@@ -37,6 +37,7 @@ module Quby
           @license = :unknown
           @renderer_version = :v1
           @extra_css = ""
+          @allow_switch_to_bulk = false
           @panels = []
           @flags = {}.with_indifferent_access
           @textvars = {}.with_indifferent_access
@@ -65,6 +66,7 @@ module Quby
         attr_accessor :leave_page_alert
         attr_reader   :fields
         attr_accessor :extra_css
+        attr_accessor :allow_switch_to_bulk
         attr_accessor :license
         attr_accessor :licensor
         attr_accessor :language

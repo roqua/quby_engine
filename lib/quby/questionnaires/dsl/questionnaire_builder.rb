@@ -108,6 +108,10 @@ module Quby
           @questionnaire.extra_css += value
         end
 
+        def allow_switch_to_bulk(value=true)
+          @questionnaire.allow_switch_to_bulk = value
+        end
+
         def default_answer_value(value)
           @questionnaire.default_answer_value = value
         end

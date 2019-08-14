@@ -40,9 +40,13 @@ body {
   position: relative;
 }
 
-.hotkeyDialogLink{
+.panel-action-links {
   text-align: right;
   margin-bottom: 1em;
+}
+
+.panel-action-link {
+  margin-left: 1em;
 }
 
 #mastfoot {
