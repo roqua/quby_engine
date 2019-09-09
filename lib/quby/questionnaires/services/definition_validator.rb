@@ -54,6 +54,8 @@ module Quby
             validate_question(question)
             subquestions_cant_have_default_invisible question
             validate_subquestion_absence_in_select question
+            validate_placeholder_options_nil_values question
+            validate_values_unique question
 
             validate_question_options(questionnaire, question)
             validate_presence_of_titles question
@@ -203,6 +205,29 @@ module Quby
             unless option.questions.empty?
               fail "Question '#{question.key}' of type ':select' may not include other questions."
             end
+          end
+        end
+
+        def validate_placeholder_options_nil_values(question)
+          question.options.each do |question_option|
+            if question_option.placeholder && question_option.value.present?
+              fail "#{question.key}:#{question_option.key}: Placeholder options should not have values defined."
+            end
+          end
+        end
+
+        def validate_values_unique(question)
+          return if question.type == :check_box || question.allow_duplicate_option_values
+
+          question.options.each_with_object([]) do |question_option, seen_values|
+            next if question_option.placeholder || question_option.inner_title
+
+            fail "#{question.key}:#{question_option.key}: Has no option value defined." if question_option.value.blank?
+            if seen_values.include?(question_option.value)
+              fail "#{question.key}:#{question_option.key}: " \
+                      "Another option with value #{question_option.value} is already defined."
+            end
+            seen_values << question_option.value
           end
         end
 
