@@ -27,6 +27,9 @@ module Quby
         # To hide old questions
         attr_accessor :hidden
 
+        # Whether to skip the uniqueness validation on radio and select option values
+        attr_reader :allow_duplicate_option_values
+
         # In what modes do we display this question
         # NOTE We always display questions in print-view (if they have an answer)
         attr_accessor :display_modes
@@ -122,6 +125,7 @@ module Quby
 
           @extra_data ||= {}
           @options = []
+          @allow_duplicate_option_values = options[:allow_duplicate_option_values]
           @questionnaire = options[:questionnaire]
           @key = require_symbol_key(key)
           @sbg_key = options[:sbg_key]
