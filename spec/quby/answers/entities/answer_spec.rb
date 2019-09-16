@@ -129,12 +129,12 @@ module Quby::Answers::Entities
       let(:answer) { Quby.answers.create!('foo') }
 
       it 'returns the patient[:id]' do
-        answer[:patient][:id] = "123"
+        answer.patient = {id: '123'}
         expect(answer.patient_id).to eq "123"
       end
 
       it 'returns the patient_id if set in attributes' do
-        answer[:patient_id] = "123"
+        answer.patient_id = "123"
         expect(answer.patient_id).to eq "123"
       end
     end

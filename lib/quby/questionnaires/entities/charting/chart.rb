@@ -1,22 +1,20 @@
 # frozen_string_literal: true
 
-require 'virtus'
-
 module Quby
   module Questionnaires
     module Entities
       module Charting
         class Chart
-          include Virtus.model
+          attr_accessor :key, :title, :plottables, :y_categories, :y_range_categories, :chart_type, :y_range, :tick_interval
 
-          attribute :key,                        Symbol
-          attribute :title,                      String
-          attribute :plottables,                 Array
+          #attribute :key,                        :symbol
+          #attribute :title,                      :string
+          #attribute :plottables,                 :array
           # if y_categories are defined, plottable values should correspond to values from this array
           # and the graph will be plotted with corresponding y axis categories
           # example (icl_r): ["Zeer laag", "Laag", "Gemiddeld", "Hoog", "Zeer Hoog"] (caution, capitalization oddity)
           # NB: only implemented for bar charts on the roqua side
-          attribute :y_categories,               Array
+          #attribute :y_categories,               Array
           # if y_range_categories are defined, plottable values should fall in the ranges that compose the keys of this
           # hash. The chart will label these ranges of y_values with the corresponding value in the hash on the y axis.
           # example:
@@ -25,18 +23,28 @@ module Quby
           # NB: .. is inclusive the last value in the range, ... is exclusive.
           # chart_builder#y_range_categories massages its parameters into this format
           # Only implemented for line charts on the roqua side.
-          attribute :y_range_categories,         Hash, coerce: false, default: nil
-          attribute :chart_type,                 Symbol
-          attribute :y_range,                    Range, default: :default_y_range, lazy: true
-          attribute :tick_interval,              Float
+          #attribute :y_range_categories,         Hash, coerce: false, default: nil
+          #attribute :chart_type,                 Symbol
+          #attribute :y_range,                    Range, default: :default_y_range, lazy: true
+          #attribute :tick_interval,              Float
 
-          def initialize(key, options = {})
-            self.key = key
-            super(options)
+          def initialize(key, title: nil, plottables: nil, y_categories: nil, y_range_categories: nil, chart_type: nil, y_range: nil, tick_interval: nil)
+            self.key = key.to_sym
+            self.title = title
+            self.plottables = plottables || []
+            self.y_categories = y_categories
+            self.y_range_categories = y_range_categories
+            self.chart_type = chart_type
+            self.y_range = y_range
+            self.tick_interval = tick_interval
           end
 
           def type
             self.class.name.to_s.demodulize.underscore
+          end
+
+          def y_range
+            @y_range || @y_range = default_y_range
           end
 
           def default_y_range

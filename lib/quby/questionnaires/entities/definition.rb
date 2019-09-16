@@ -7,14 +7,15 @@ module Quby
   module Questionnaires
     module Entities
       class Definition
-        include Virtus.value_object
         extend  ActiveModel::Naming
         include ActiveModel::Validations
 
-        values do
-          attribute :key, String
-          attribute :sourcecode, String
-          attribute :timestamp, Time
+        attr_accessor :key, :sourcecode, :timestamp
+
+        def initialize(key:, sourcecode: "", timestamp: nil)
+          @key = key
+          @sourcecode = sourcecode
+          @timestamp = timestamp
         end
 
         validates_with Services::DefinitionValidator
