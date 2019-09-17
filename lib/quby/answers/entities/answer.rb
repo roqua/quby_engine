@@ -7,7 +7,6 @@ require 'quby/answers/dsl'
 module Quby
   module Answers
     module Entities
-      # @!attribute 
       class Answer
         extend ActiveModel::Naming
         extend ActiveModel::Translation
