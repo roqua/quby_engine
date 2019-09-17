@@ -76,6 +76,10 @@ module Quby
             @y_range || @y_range = default_y_range
           end
 
+          def chart_type=(value)
+            @chart_type = value.to_sym if value
+          end
+
           def default_y_range
             # when there are y_categories, the y_range should match the
             # number of categories (validated in chart_builder#validate!)

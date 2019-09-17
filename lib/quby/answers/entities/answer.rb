@@ -117,6 +117,10 @@ module Quby
           _id
         end
 
+        def _id=(value)
+          @_id = value.to_s
+        end
+
         def to_param
           id
         end
