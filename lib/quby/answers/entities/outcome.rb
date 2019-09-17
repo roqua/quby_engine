@@ -4,7 +4,17 @@ module Quby
   module Answers
     module Entities
       class Outcome
-        attr_accessor :scores, :actions, :completion, :generated_at
+        # @return [Hash]
+        attr_accessor :scores
+
+        # @return [Hash]
+        attr_accessor :actions
+
+        # @return [Hash]
+        attr_accessor :completion
+
+        # @return [Time]
+        attr_accessor :generated_at
 
         def initialize(scores: {}, actions: {}, completion: {}, generated_at: nil)
           self.scores = scores
