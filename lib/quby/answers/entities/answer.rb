@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'virtus'
 require 'active_model'
 require 'quby/answers/entities/outcome'
 require 'quby/answers/dsl'
@@ -11,31 +10,71 @@ module Quby
       class Answer
         extend ActiveModel::Naming
         extend ActiveModel::Translation
-        include Virtus.model
 
-        attribute :_id, String
-        attribute :questionnaire_id,     Integer
-        attribute :questionnaire_key,    String
-        attribute :raw_params,           Hash                      # The raw form data (for recovery purposes)
-        attribute :value,                Hash                      # The filtered and transformed form data
-        attribute :patient_id,           String
-        attribute :patient,              Hash,    default: {}
-        attribute :token,                String
-        attribute :active,               Boolean, default: true
-        attribute :test,                 Boolean, default: false
-        attribute :created_at,           Time
-        attribute :updated_at,           Time
-        attribute :started_at,           Time
-        attribute :completed_at,         Time
-        attribute :outcome,              Outcome
-        attribute :outcome_generated_at, Time
-        attribute :scores,               Hash,    default: {}
-        attribute :actions,              Hash,    default: {}
-        attribute :completion,           Hash,    default: {}
-        attribute :dsl_last_update
-        attribute :import_notes,         Hash                      # For answers that are imported from external sources
-        attribute :flags,                Hash[Symbol => Boolean]
-        attribute :textvars,             Hash[Symbol => String]
+        # @return [String]
+        attr_accessor :_id
+
+        # @return [String]
+        attr_accessor :questionnaire_id
+
+        # @return [String]
+        attr_accessor :questionnaire_key
+
+        # The raw form data (for recovery purposes)
+        # @return [Hash]
+        attr_accessor :raw_params
+
+        # The filtered and transformed form data
+        # @return [Hash]
+        attr_accessor :value
+
+        # @return [String]
+        attr_accessor :patient_id
+
+        # @return [Hash]
+        attr_accessor :patient
+
+        # @return [String]
+        attr_accessor :token
+
+        # @return [Boolean]
+        attr_accessor :active
+
+        # @return [Boolean]
+        attr_accessor :test
+
+        # @return [Time]
+        attr_accessor :created_at
+
+        # @return [Time]
+        attr_accessor :updated_at
+
+        # @return [Time]
+        attr_accessor :started_at
+
+        # @return [Time]
+        attr_accessor :completed_at
+
+        # @return [Outcome]
+        attr_accessor :outcome
+
+        # @return [Time]
+        attr_accessor :dsl_last_update
+
+        # For answers that are imported from external sources
+        # @return [Hash]
+        attr_accessor :import_notes
+
+        # @return [Hash<String, Boolean>]
+        attr_accessor :flags
+
+        # @return [Hash<String, String>]
+        attr_accessor :textvars
+
+        attr_accessor :outcome_generated_at
+        attr_writer :scores
+        attr_writer :actions
+        attr_writer :completion
 
         attr_accessor :aborted
 
@@ -43,20 +82,43 @@ module Quby
         attr_accessor :extra_question_values
         attr_accessor :extra_failed_validations
 
-        def initialize(attributes = {})
-          super
+        def initialize(_id: nil, questionnaire_id: nil, questionnaire_key: nil,
+          raw_params: nil, value: nil, patient_id: nil, patient: nil,
+          token: nil, active: true, test: false, created_at: nil, updated_at: nil,
+          started_at: nil, completed_at: nil, outcome: nil, outcome_generated_at: nil,
+          scores: nil, actions: nil, completion: nil, dsl_last_update: nil, import_notes: nil,
+          flags: nil, textvars: nil)
 
-          # Initialize Hash attributes to empty hash even when explicitly given nil.
-          # This differs from Virtus' default behaviour which would set them to nil.
-          self.class.attribute_set.each do |attribute|
-            if attribute.type.is_a? Virtus::Attribute::Hash::Type
-              public_send(:"#{attribute.name}=", public_send(attribute.name) || {})
-            end
-          end
+          self._id = _id
+          self.questionnaire_id = questionnaire_id
+          self.questionnaire_key = questionnaire_key
+          self.raw_params = raw_params || {}
+          self.value = value || {}
+          self.patient_id = patient_id
+          self.patient = patient || {}
+          self.token = token
+          self.active = active
+          self.test = test
+          self.created_at = created_at
+          self.updated_at = updated_at
+          self.started_at = started_at
+          self.completed_at = completed_at
+          self.outcome_generated_at = outcome_generated_at
+          self.scores = scores || {}
+          self.actions = actions || {}
+          self.completion = completion || {}
+          self.dsl_last_update = dsl_last_update
+          self.import_notes = import_notes || {}
+          self.flags = flags
+          self.textvars = textvars
         end
 
         def id
           _id
+        end
+
+        def _id=(value)
+          @_id = value.to_s
         end
 
         def to_param
@@ -64,7 +126,30 @@ module Quby
         end
 
         def attributes
-          super.with_indifferent_access
+          HashWithIndifferentAccess.new({
+            _id: _id,
+            questionnaire_id: questionnaire_id,
+            questionnaire_key: questionnaire_key,
+            raw_params: raw_params,
+            value: value,
+            patient_id: patient_id,
+            patient: patient,
+            token: token,
+            active: active,
+            test: test,
+            created_at: created_at,
+            updated_at: updated_at,
+            started_at: started_at,
+            completed_at: completed_at,
+            outcome_generated_at: outcome_generated_at,
+            scores: scores,
+            actions: actions,
+            completion: completion,
+            dsl_last_update: dsl_last_update,
+            import_notes: import_notes,
+            flags: flags,
+            textvars: textvars
+          })
         end
 
         def errors
@@ -92,7 +177,7 @@ module Quby
         end
 
         def patient_id
-          patient[:id] || super
+          patient[:id] || @patient_id
         end
 
         def extra_question_values
@@ -188,8 +273,22 @@ module Quby
           outcome.actions
         end
 
+        def completion
+          outcome.completion
+        end
+
         def action
           outcome.action
+        end
+
+        def flags=(value)
+          return unless value
+          @flags = value.symbolize_keys
+        end
+
+        def textvars=(value)
+          return unless value
+          @textvars = value.symbolize_keys
         end
 
         def as_json(options = {})

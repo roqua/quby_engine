@@ -17,20 +17,6 @@ variables:
     paths:
       - .gems
 
-rails_50_ruby_25:
-  <<: *ruby_25
-  script:
-    - cat gemfiles/rails50.gemfile.lock
-    - bundle exec appraisal rails50 rspec
-    - bundle exec appraisal rails50 teaspoon
-
-rails_51_ruby_25:
-  <<: *ruby_25
-  script:
-    - cat gemfiles/rails51.gemfile.lock
-    - bundle exec appraisal rails51 rspec
-    - bundle exec appraisal rails51 teaspoon
-
 rails_52_ruby_25:
   <<: *ruby_25
   script:
