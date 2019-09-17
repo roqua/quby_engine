@@ -77,7 +77,7 @@ module Quby
           end
 
           def chart_type=(value)
-            @chart_type = value.to_sym if value
+            @chart_type = value&.to_sym
           end
 
           def default_y_range
