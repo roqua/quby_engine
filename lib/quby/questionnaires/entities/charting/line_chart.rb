@@ -7,7 +7,17 @@ module Quby
     module Entities
       module Charting
         class LineChart < Chart
-          attr_accessor :y_label, :tonality, :baseline, :clinically_relevant_change
+          # @return [String]
+          attr_accessor :y_label
+
+          # @return [Symbol]
+          attr_accessor :tonality
+
+          # @return [Proc]
+          attr_accessor :baseline
+
+          # @return [Float]
+          attr_accessor :clinically_relevant_change
 
           def initialize(key, y_label: nil, tonality: :lower_is_better, baseline: nil, clinically_relevant_change: nil, **kwargs)
             super(key, **kwargs)
@@ -16,11 +26,6 @@ module Quby
             self.baseline = baseline
             self.clinically_relevant_change = clinically_relevant_change
           end
-
-          #attribute :y_label,                    String
-          #attribute :tonality,                   Symbol, default: :lower_is_better
-          #attribute :baseline,                   Proc
-          #attribute :clinically_relevant_change, Float
 
           def tonality=(value)
             fail "Invalid tonality: #{value}" unless [:higher_is_better, :lower_is_better].include?(value)

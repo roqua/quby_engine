@@ -5,10 +5,6 @@ module Quby
     module Entities
       class Outcome
         attr_accessor :scores, :actions, :completion, :generated_at
-        #attribute :scores,               Hash,    default: {}
-        #attribute :actions,              Hash,    default: {}
-        #attribute :completion,           Hash,    default: {}
-        #attribute :generated_at,         Time
 
         def initialize(scores: {}, actions: {}, completion: {}, generated_at: nil)
           self.scores = scores

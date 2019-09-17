@@ -7,38 +7,75 @@ require 'quby/answers/dsl'
 module Quby
   module Answers
     module Entities
+      # @!attribute 
       class Answer
         extend ActiveModel::Naming
         extend ActiveModel::Translation
 
-        attr_accessor :_id, :questionnaire_id, :questionnaire_key, :raw_params, :value, :patient_id,
-          :patient, :token, :active, :test, :created_at, :updated_at, :started_at, :completed_at,
-          :outcome, :dsl_last_update, :import_notes, :flags, :textvars, :outcome_generated_at
-        attr_writer :scores, :actions, :completion
+        # @return [String]
+        attr_accessor :_id
 
-        #attribute :_id, :string
-        #attribute :questionnaire_id,     Integer
-        #attribute :questionnaire_key,    String
-        #attribute :raw_params,           Hash                      # The raw form data (for recovery purposes)
-        #attribute :value,                Hash                      # The filtered and transformed form data
-        #attribute :patient_id,           String
-        #attribute :patient,              Hash,    default: {}
-        #attribute :token,                String
-        #attribute :active,               Boolean, default: true
-        #attribute :test,                 Boolean, default: false
-        #attribute :created_at,           Time
-        #attribute :updated_at,           Time
-        #attribute :started_at,           Time
-        #attribute :completed_at,         Time
-        #attribute :outcome,              Outcome
-        #attribute :outcome_generated_at, Time
-        #attribute :scores,               Hash,    default: {}
-        #attribute :actions,              Hash,    default: {}
-        #attribute :completion,           Hash,    default: {}
-        #attribute :dsl_last_update
-        #attribute :import_notes,         Hash                      # For answers that are imported from external sources
-        #attribute :flags,                Hash[Symbol => Boolean]
-        #attribute :textvars,             Hash[Symbol => String]
+        # @return [String]
+        attr_accessor :questionnaire_id
+
+        # @return [String]
+        attr_accessor :questionnaire_key
+
+        # The raw form data (for recovery purposes)
+        # @return [Hash]
+        attr_accessor :raw_params
+
+        # The filtered and transformed form data
+        # @return [Hash]
+        attr_accessor :value
+
+        # @return [String]
+        attr_accessor :patient_id
+
+        # @return [Hash]
+        attr_accessor :patient
+
+        # @return [String]
+        attr_accessor :token
+
+        # @return [Boolean]
+        attr_accessor :active
+
+        # @return [Boolean]
+        attr_accessor :test
+
+        # @return [Time]
+        attr_accessor :created_at
+
+        # @return [Time]
+        attr_accessor :updated_at
+
+        # @return [Time]
+        attr_accessor :started_at
+
+        # @return [Time]
+        attr_accessor :completed_at
+
+        # @return [Outcome]
+        attr_accessor :outcome
+
+        # @return [Time]
+        attr_accessor :dsl_last_update
+
+        # For answers that are imported from external sources
+        # @return [Hash]
+        attr_accessor :import_notes
+
+        # @return [Hash<String, Boolean>]
+        attr_accessor :flags
+
+        # @return [Hash<String, String>]
+        attr_accessor :textvars
+
+        attr_accessor :outcome_generated_at
+        attr_writer :scores
+        attr_writer :actions
+        attr_writer :completion
 
         attr_accessor :aborted
 
