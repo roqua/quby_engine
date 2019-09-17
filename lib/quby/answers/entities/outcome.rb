@@ -1,24 +1,34 @@
 # frozen_string_literal: true
 
-require 'virtus'
-
 module Quby
   module Answers
     module Entities
       class Outcome
-        include Virtus.model
+        # @return [Hash]
+        attr_accessor :scores
 
-        attribute :scores,               Hash,    default: {}
-        attribute :actions,              Hash,    default: {}
-        attribute :completion,           Hash,    default: {}
-        attribute :generated_at,         Time
+        # @return [Hash]
+        attr_accessor :actions
+
+        # @return [Hash]
+        attr_accessor :completion
+
+        # @return [Time]
+        attr_accessor :generated_at
+
+        def initialize(scores: {}, actions: {}, completion: {}, generated_at: nil)
+          self.scores = scores
+          self.actions = actions
+          self.completion = completion
+          self.generated_at = generated_at
+        end
 
         def scores
-          super.with_indifferent_access
+          @scores.with_indifferent_access
         end
 
         def actions
-          super.with_indifferent_access
+          @actions.with_indifferent_access
         end
 
         def action

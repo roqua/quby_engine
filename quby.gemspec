@@ -41,7 +41,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'browser'
   s.add_dependency "json"
   s.add_dependency "addressable"
-  s.add_dependency "virtus", ">= 1.0.3", "< 2.0"
   s.add_dependency "i18n", "~> 0.6"
   s.add_dependency "rest-client", "~> 2.0.2"
 
