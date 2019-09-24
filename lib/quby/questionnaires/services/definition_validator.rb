@@ -103,18 +103,30 @@ module Quby
 
         def validate_flags(questionnaire)
           questionnaire.flags.each_value do |flag|
-            shows_questions = flag.shows_questions
-            hides_questions = flag.hides_questions
-            unknown_shows_questions = shows_questions.select { |key| !questionnaire.key_in_use?(key) }
-            unknown_hides_questions = hides_questions.select { |key| !questionnaire.key_in_use?(key) }
-
-            if unknown_shows_questions.present?
-              fail(ArgumentError, "Flag '#{key}' has unknown shows_questions keys #{unknown_shows_questions}")
-            end
-            if unknown_hides_questions.present?
-              fail(ArgumentError, "Flag '#{key}' has unknown hides_questions keys #{unknown_hides_questions}")
-            end
+            validate_flag_shows(questionnaire, flag)
+            validate_flag_hides(questionnaire, flag)
+            validate_flag_depends_on(questionnaire, flag)
           end
+        end
+
+        def validate_flag_shows(questionnaire, flag)
+          unknown_questions = flag.shows_questions.select { |key| !questionnaire.key_in_use?(key) }
+          return if unknown_questions.blank?
+
+          fail ArgumentError, "Flag '#{key}' has unknown shows_questions keys #{unknown_questions}"
+        end
+
+        def validate_flag_hides(questionnaire, flag)
+          unknown_questions = flag.hides_questions.select { |key| !questionnaire.key_in_use?(key) }
+          return if unknown_questions.blank?
+
+          fail ArgumentError, "Flag '#{key}' has unknown hides_questions keys #{unknown_questions}"
+        end
+
+        def validate_flag_depends_on(questionnaire, flag)
+          return if flag.depends_on.blank? || questionnaire.flags.key?(flag.depends_on)
+
+          fail ArgumentError, "Flag #{flag.key} depends_on nonexistent flag '#{flag.depends_on}'"
         end
 
         def validate_respondent_types(questionnaire)
