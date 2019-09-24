@@ -559,6 +559,25 @@ module Quby::Questionnaires::Services
           end
         END
       end
+
+      it 'accepts depends_on with known flags' do
+        definition = make_definition <<-END
+          title 'Test'
+          flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit'
+          flag key: :test2, description_true: 'Test flag 2', description_false: 'Test flag 2 uit', depends_on: :test_test
+        END
+        definition.valid?
+        expect(definition.errors.full_messages).to be_blank
+      end
+
+      it 'does not accept a flag depending on a non existing flag key' do
+        definition = make_definition <<-END
+          title 'Test'
+          flag key: :test, description_true: 'Test flag', description_false: 'Test flag uit', depends_on: :nonexistent
+        END
+        definition.valid?
+        expect(definition.errors[:sourcecode].first[:message]).to include "Flag test_test depends_on nonexistent flag 'nonexistent'"
+      end
     end
 
     describe 'respondent_types' do
