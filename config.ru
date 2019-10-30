@@ -1,7 +1,5 @@
-require 'rubygems'
-require 'bundler'
+# This file is used by Rack-based servers to start the application.
 
-Bundler.require :default, :development
+require_relative 'config/environment'
 
-Combustion.initialize!
-run Combustion::Application
+run Rails.application

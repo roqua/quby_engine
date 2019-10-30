@@ -4,5 +4,10 @@
 module Quby
   module ApplicationHelper
     include Quby::TextTransformation
+    include ::Webpacker::Helper
+
+    def current_webpacker_instance
+      Quby.webpacker
+    end
   end
 end

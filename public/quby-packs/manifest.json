@@ -1,0 +1,14 @@
+{
+  "entrypoints": {
+    "quby/application": {
+      "js": [
+        "/quby-packs/js/quby/application-ffca800c2b87a916729f.js"
+      ],
+      "js.map": [
+        "/quby-packs/js/quby/application-ffca800c2b87a916729f.js.map"
+      ]
+    }
+  },
+  "quby/application.js": "/quby-packs/js/quby/application-ffca800c2b87a916729f.js",
+  "quby/application.js.map": "/quby-packs/js/quby/application-ffca800c2b87a916729f.js.map"
+}

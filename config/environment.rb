@@ -1,3 +1,5 @@
-# frozen_string_literal: true
+# Load the Rails application.
+require_relative 'application'
 
-# this file is here so Code Climate activates Rails Secuity Monitoring.
+# Initialize the Rails application.
+Rails.application.initialize!

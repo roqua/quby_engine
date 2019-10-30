@@ -20,6 +20,7 @@
   - unless Rails.env.development?
     = javascript_include_tag "quby/disable_keys.js"
   = javascript_include_tag "quby/" + controller.controller_name
+  = javascript_pack_tag "quby/application"
   :css
     #{yield(:extra_css)}
   :javascript

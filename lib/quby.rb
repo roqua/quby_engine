@@ -9,6 +9,8 @@ require 'quby/answers/repos/memory_repo'
 require "quby/engine"
 
 module Quby
+  ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
+
   class BaseError < StandardError; end
   class InvalidAuthorizationError < BaseError; end
   class MissingAuthorizationError < BaseError; end
@@ -20,6 +22,12 @@ module Quby
   class NoServerSideValidationInTestError < ArgumentError; end
 
   class << self
+    def webpacker
+      @webpacker ||= ::Webpacker::Instance.new(
+        root_path: ROOT_PATH,
+        config_path: ROOT_PATH.join("config/webpacker.yml")
+      )
+    end
     # ==================================================================================================================
     #                     Quby configuration
     # ==================================================================================================================
