@@ -7,9 +7,12 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@types/jquery": "^3.3.31",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
     "awesome-typescript-loader": "^5.2.1",
+    "backbone": "^1.4.0",
+    "jquery": "^3.4.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "typescript": "^3.6.4",
