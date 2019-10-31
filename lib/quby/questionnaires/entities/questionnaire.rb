@@ -4,6 +4,7 @@ require 'active_model'
 require 'quby/settings'
 require 'quby/questionnaires/entities/flag'
 require 'quby/questionnaires/entities/textvar'
+require 'quby/questionnaires/entities/validation'
 
 require 'action_view'
 include ActionView::Helpers::SanitizeHelper
@@ -181,8 +182,11 @@ module Quby
             outcome_description: outcome_description,
             short_description: short_description,
             panels: panels,
+            fields: fields,
             flags: flags,
-            textvars: textvars
+            textvars: textvars,
+            validations: validations,
+            visibility_rules: visibility_rules
           }
         end
 
@@ -403,6 +407,58 @@ module Quby
 
         def validate_textvar_keys_unique(textvar_key)
           fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
+        end
+
+        def validations
+          questions = fields.question_hash.values
+
+          questions.flat_map do |question|
+            question.validations.map do |validation|
+              case validation[:type]
+              when :answer_group_minimum, :answer_group_maximum
+                Validation.new(validation.merge(field_keys: questions.select {|q| q.question_group == validation[:group]}.map(&:key)))
+              else
+                Validation.new(validation.merge(field_key: question.key))
+              end
+            end
+          end.uniq
+        end
+      
+        def visibility_rules
+          questions = fields.question_hash.values
+
+          questions.flat_map do |question|
+            case question.type
+            when :radio, :scale, :select
+              question.options.flat_map do |option|
+                option.shows_questions.map do |shows_question|
+                  {
+                    if: {type: :equal, fieldKey: question.key, value: option.key},
+                    then: {type: :show_question, fieldKey: shows_question}
+                  }
+                end + option.hides_questions.map do |hides_question|
+                  {
+                    if: {type: :equal, fieldKey: question.key, value: option.key},
+                    then: {type: :hide_question, fieldKey: hides_question}
+                  }
+                end
+              end
+            when :checkbox
+              question.options.flat_map do |option|
+                option.shows_questions.map do |shows_question|
+                  {
+                    if: {type: :includes, fieldKey: question.key, value: option.key},
+                    then: {type: :show_question, fieldKey: shows_question}
+                  }
+                end + option.hides_questions.map do |hides_question|
+                  {
+                    if: {type: :equal, fieldKey: question.key, value: option.key},
+                    then: {type: :hide_question, fieldKey: hides_question}
+                  }
+                end
+              end
+            end
+          end.select(&:present?)
         end
       end
     end

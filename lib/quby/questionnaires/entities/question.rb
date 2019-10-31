@@ -230,7 +230,6 @@ module Quby
             title: title,
             description: description,
             type: type,
-            validations: validations,
             unit: unit,
             hidden: hidden?,
             display_modes: display_modes,
@@ -238,7 +237,10 @@ module Quby
             viewSelector: view_selector,
             parentKey: parent&.key,
             parentOptionKey: parent_option_key,
-            deselectable: deselectable
+            deselectable: deselectable,
+            presentation: presentation,
+            as: as,
+            question_group: question_group
           )
         end
 

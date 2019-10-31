@@ -63,7 +63,7 @@ module Quby
             component_keys = components.each_with_object({}) do |component, hash|
               hash["#{component}_key"] = send("#{component}_key")
             end
-            super.merge(component_keys)
+            super.merge(components: components).merge(component_keys)
           end
 
           def to_codebook(questionnaire, opts = {})
