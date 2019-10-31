@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": ["es6", "es2016", "dom"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+        "*": ["node_modules/*", "app/javascript/*"]
+    },
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react"
+  },
+  "include": ["./frontend/**/*"],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "spec/javascript/setupTests.ts",
+    "node_modules",
+    "vendor",
+    "public"
+  ],
+  "compileOnSave": false
+}

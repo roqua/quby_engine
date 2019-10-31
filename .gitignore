@@ -4,6 +4,7 @@ gemfiles/*.lock
 .rvmrc
 .bundle/
 vendor/bundle/
+node_modules/
 .sass-cache
 doc/*.log
 doc/**/*.log
