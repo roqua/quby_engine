@@ -9,4 +9,3 @@
 //= require ./answers/dont_submit_on_enter.js
 //= require ./answers/navigation.js
 //= require ./answers/rest.js
-//= require ./frontend/bundle.js
