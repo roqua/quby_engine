@@ -2,6 +2,7 @@
 
 import { IFlag, IPanel, IQuestion, IQuestionOption, QuestionKey } from "./lib/models";
 import { InitQuestions } from "./lib/init_questions";
+import { Textvar } from "components/Textvar";
 
 declare module Backbone {
   interface ModelFetchOptions {
@@ -13,21 +14,22 @@ declare module Backbone {
     (...args: any[]): void;
   }
 
-  class Model<T> {
+  class Events {
+    on(event: string, callback: EventHandler, context?: any);
+    off(event: string, callback: EventHandler, context?: any);
+  }
+
+  class Model<T> extends Events {
     get<K extends keyof T>(attributeName: K): T[K];
     set(attributes: Partial<T>): void;
     fetch(options?: ModelFetchOptions): JQueryXHR;
-    on(event: string, callback: EventHandler, context?: any): Model<T>;
-    off(event: string, callback: EventHandler, context?: any): Model<T>;
   }
 
-  class Collection<T> {
+  class Collection<T> extends Events {
     models: T[];
     length: number;
     add(models: T | T[]): void;
     fetch(): void;
-    on(event: string, callback: EventHandler, context?: any): T;
-    off(event: string, callback: EventHandler, context?: any): T;
     findWhere(attributes: object): T | undefined;
   }
 }
@@ -101,7 +103,7 @@ declare global {
         addQuestions: (questions: any) => void;
       }
 
-      class Textvars {
+      class Textvars extends Backbone.Events {
         constructor(initial: TextvarValues);
 
         get(key: string): string;
@@ -190,14 +192,19 @@ declare global {
     InitQuestions: typeof InitQuestions;
   }
 
+  interface QubyGlobalComponents {
+    Textvar: typeof Textvar;
+  }
+
   interface QubyGlobal {
     Models: any;
     Collections: QubyGlobalCollections;
     Views: any;
     Logic: QubyGlobalLogic;
+    Components: QubyGlobalComponents;
 
     init: (options: QubyNS.InitOptions) => void;
-    initTextVars: (textvars: QubyNS.Textvar[]) => void;
+    initTextvars: (textvars: QubyNS.Textvar[]) => void;
     initShowsHides: () => void;
     initFieldListeners: () => void;
 
@@ -206,7 +213,7 @@ declare global {
     questions: QubyNS.Collections.Questions;
     panels: QubyNS.Collections.Panels;
     answer: QubyNS.Models.Answer;
-    textVars: QubyNS.Collections.Textvars;
+    textvars: QubyNS.Collections.Textvars;
 
     currentPanelQuestions: QubyNS.Collections.Questions;
   }
