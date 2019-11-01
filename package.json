@@ -18,5 +18,11 @@
     "typescript": "^3.6.4",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
+  },
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  },
+  "prettier": {
+    "printWidth": 180
   }
 }
