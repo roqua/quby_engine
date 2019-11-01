@@ -51,8 +51,8 @@ ENV['HTML_TO_PDF_URL']      = 'http://127.0.0.1:7768'
 When testing with guard or teaspoon, choose the Rails version you want to use and set the teaspoon environment:
 
 ```ruby
-bundle exec appraisal rails51 bundle # install dependencies for Rails 5.1
-TEASPOON_RAILS_ENV=test bundle exec appraisal rails51 guard
+bundle exec appraisal rails52 bundle
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails52 guard
 ```
 
 ## Contributing to Quby

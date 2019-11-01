@@ -9,7 +9,7 @@ module Quby::Questionnaires::DSL
 
     # this helper has some extra tests to check that helpers are included everywhere
     describe '.image_tag' do
-      let(:expected_html) { "<p><img alt=\"Happy face\" src=\"/assets/quby/happy-face.png\" /></p>" }
+      let(:expected_html) { "<p>\n  <img alt=\"Happy face\" src=\"/assets/quby/happy-face.png\" />\n</p>" }
 
       it 'builds image tags outside of panels' do
         dsl { text image_tag('quby/happy-face.png') }

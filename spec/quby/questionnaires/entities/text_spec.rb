@@ -6,7 +6,7 @@ module Quby::Questionnaires::Entities
   describe Text do
     before(:all) do
       @some_string = "I'm a string"
-      @markdown_result = "<p>I&#8217;m a string</p>"
+      @markdown_result = "<p>I’m a string</p>"
     end
 
     it "should be creatable from a string" do

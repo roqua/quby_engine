@@ -21,21 +21,21 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">= 4.2", '< 5.3'
   s.add_dependency 'rails-i18n'
 
-  s.add_dependency 'nokogiri', '>= 1.8.3'
+  s.add_dependency 'nokogiri', '>= 1.8'
 
   # External (web-)services
   s.add_dependency "opencpu",       '~> 0.12.0'
 
   # Views
   s.add_dependency 'coffee-rails'
-  s.add_dependency "haml",              '~> 5.0.3'
-  s.add_dependency "sass-rails",        '>= 5.0.6'
+  s.add_dependency "haml",              '~> 5.0'
+  s.add_dependency "sass-rails",        '~> 5.0'
   s.add_dependency "sprockets",         '>= 3.7.2'
-  s.add_dependency "kramdown",          '~> 1.13.2'
-  s.add_dependency "compass",           '>= 0.12.7'
-  s.add_dependency "compass-rails",     '>= 1.1.7'
-  s.add_dependency "compass-blueprint", '~> 1.0.0'
-  s.add_dependency "susy",              '~> 2.2.12'
+  s.add_dependency "redcarpet",         '~> 3.5'
+  s.add_dependency "compass",           '>= 1.0'
+  s.add_dependency "compass-rails",     '~> 3.1'
+  s.add_dependency "compass-blueprint", '~> 1.0'
+  s.add_dependency "susy",              '~> 2.2'
 
   # Helpers
   s.add_dependency 'browser'
@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rest-client", "~> 2.0.2"
 
   s.add_dependency "jquery-rails", ">= 2.2.2"
-  s.add_dependency "jquery-ui-rails", "~> 3.0.1"
+  s.add_dependency "jquery-ui-rails", "~> 3.0"
 
   s.add_development_dependency 'combustion',  '~> 1.0'
   s.add_development_dependency 'rspec',       '>= 3'
