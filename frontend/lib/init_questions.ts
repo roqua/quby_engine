@@ -11,12 +11,30 @@ export class InitQuestions {
 
   initializeQuestions(): QubyNS.Collections.Questions {
     this.questionAttributes.forEach((attributes) => {
-      const options = this.initializeOptions(attributes.options);
-      const question = this.initializeQuestion(attributes, options);
-      this.questions.add(question);
+      this.questions.add(this.initializeQuestion(attributes));
     });
 
     return this.questions;
+  }
+
+  private initializeQuestion(attributes: QubyNS.Logic.QuestionAttributes) {
+    const parentQuestion = this.questions.findWhere({key: attributes.parentKey});
+    let parentOption: QubyNS.Models.QuestionOption | undefined;
+
+    if (parentQuestion) {
+      parentOption = parentQuestion.get("options").findWhere({key: attributes.parentOptionKey});
+    }
+
+    return new Quby.Models.Question({
+      key: attributes.key,
+      viewSelector: attributes.viewSelector,
+      options: this.initializeOptions(attributes.options),
+      type: attributes.type,
+      defaultInvisible: attributes.default_invisible,
+      parentQuestion: parentQuestion,
+      parentOption: parentOption,
+      deselectable: attributes.deselectable
+    })
   }
 
   private initializeOptions(optionAttributes: QubyNS.Logic.OptionAttributes[]): QubyNS.Collections.QuestionOptions {
@@ -40,24 +58,4 @@ export class InitQuestions {
     return $("#" + viewId)[0];
   }
 
-  private initializeQuestion(attributes: QubyNS.Logic.QuestionAttributes, options: QubyNS.Collections.QuestionOptions) {
-    const parentQuestion = this.questions.findWhere({key: attributes.parentKey});
-    let parentOption: QubyNS.Models.QuestionOption | undefined;
-
-    if (parentQuestion) {
-      parentOption = parentQuestion.get("options").findWhere({key: attributes.parentOptionKey});
-    }
-
-    return new Quby.Models.Question({
-      key: attributes.key,
-      viewSelector: attributes.viewSelector,
-      options: options,
-      type: attributes.type,
-      defaultInvisible: attributes.default_invisible,
-      parentQuestion: parentQuestion,
-      parentOption: parentOption,
-      deselectable: attributes.deselectable
-    })
-
-  }
 }
