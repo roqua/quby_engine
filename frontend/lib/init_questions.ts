@@ -22,7 +22,7 @@ export class InitQuestions {
   private initializeOptions(optionAttributes: QubyNS.Logic.OptionAttributes[]): QubyNS.Collections.QuestionOptions {
     const options = new Quby.Collections.QuestionOptions();
 
-    optionAttributes.forEach((attrs) => {
+    optionAttributes && optionAttributes.forEach((attrs) => {
       const option = new Quby.Models.QuestionOption({
         key: attrs.key,
         showsQuestionsKeys: attrs.shows_questions,
