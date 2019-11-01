@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-        "*": ["node_modules/*", "app/javascript/*"]
+        "*": ["node_modules/*", "frontend/*"]
     },
     "resolveJsonModule": true,
     "strictNullChecks": true,
