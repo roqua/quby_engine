@@ -3,7 +3,6 @@
 #= require_tree ./collections
 #= require_tree ./views
 #= require_tree ./components
-#= require_tree ./logic
 
 # Backbone bare models/collections without a marionette application
 @Quby = {}
