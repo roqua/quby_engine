@@ -45,6 +45,7 @@ module Quby
           @respondent_types = []
           @tags = OpenStruct.new
           @check_key_clashes = true
+          @check_markdown_validity = true
           @score_schemas = {}.with_indifferent_access
           @outcome_tables = []
         end
@@ -73,6 +74,8 @@ module Quby
         attr_accessor :respondent_types
         attr_reader :tags # tags= is manually defined below
         attr_accessor :check_key_clashes
+        # TMP: if false, we don't check markdown fields on save and therefor fix incorrect html in MarkdownParser.
+        attr_accessor :check_markdown_validity
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never
