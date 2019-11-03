@@ -31,8 +31,7 @@
   - when Quby::Questionnaires::Entities::Text
     - if item.display_in&.include?(:print)
       .item{:class => itemclasses}
-        .text
-          = raw item.text
+        .text= item.text.html_safe
   - when Quby::Questionnaires::Entities::Question
     .item{:class => itemclasses}
       - return if @answer.send(item.key).blank?

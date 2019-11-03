@@ -6,8 +6,7 @@
   - cls = ['scaleheader']
   - if question.score_header == :question_description
     %th.option{title: raw(question.description), class: cls, colspan: colspan, data: {for: question.key}}
-      :markdown
-        #{raw question.description}
+      = Quby::MarkdownParser.new(question.description).html_safe
   - else
     - question.options.each do |option|
       - next if (option.inner_title or option.hidden)

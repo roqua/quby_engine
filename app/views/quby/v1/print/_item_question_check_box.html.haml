@@ -14,8 +14,7 @@
           %label{for: opt.view_id}
             %span
               -unless opt.description.blank?
-                :markdown
-                  #{raw opt.description}
+                = Quby::MarkdownParser.new(opt.description).html_safe
               - else
                 Aangevinkt
         - unless opt.questions.empty?
