@@ -42,6 +42,7 @@ group :test, :development do
   gem 'poltergeist'
   gem 'timecop'
   gem 'fakefs', '0.9.1', require: false
+  gem 'pry-coolline'
 
   # TODO: enable again after upgrading guard and guard-teaspoon to a compatible version
   # gem 'guard-bundler',  '~> 2.1.0'
