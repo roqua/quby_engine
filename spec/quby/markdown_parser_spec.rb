@@ -35,8 +35,8 @@ module Quby
     end
 
     it 'changes quotes to smartquotes' do
-      source = "some 'imortant' word"
-      output = "<p>some &lsquo;imortant&rsquo; word</p>"
+      source = "some 'quoted' word"
+      output = "<p>some &lsquo;quoted&rsquo; word</p>"
       expect_markdown_transformation(source, output)
     end
 
