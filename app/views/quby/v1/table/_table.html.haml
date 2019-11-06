@@ -26,25 +26,21 @@
           %caption
             %div.main(class = "horizontal"){:data => {:for => question.key}}
               %label(for="answer_#{question.key}")
-                :markdown
-                  #{raw question.title&.gsub(/\A\d+.?\./, '  \\0')}
+                = Quby::MarkdownParser.new(question.title&.gsub(/\A\d+.?\./, '  \\0')).html_safe
         - else
           %tr.row
             %td.main{:class => "horizontal", :colspan => table.columns, :data => {:for => question.key}}
               %label(for="answer_#{question.key}")
-                :markdown
-                  #{raw question.title&.gsub(/\A\d+.?\./, '  \\0')}
+                = Quby::MarkdownParser.new(question.title&.gsub(/\A\d+.?\./, '  \\0')).html_safe
       -if rowi == 0
         - if table.title
           %caption
             %div.main{:class => "horizontal"}
-              :markdown
-                #{table.title.html_safe}
+              = Quby::MarkdownParser.new(table.title).html_safe
         - if table.description
           %tr.row
             %td.description{:class => "horizontal", :colspan => table.columns+1}
-              :markdown
-                #{raw table.description}
+              = Quby::MarkdownParser.new(table.description).html_safe
       - unless all_blank
         %tr.option_sets.row
           - unless (question&.presentation == :horizontal or question&.title.blank?)

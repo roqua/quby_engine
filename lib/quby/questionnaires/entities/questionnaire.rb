@@ -45,6 +45,7 @@ module Quby
           @respondent_types = []
           @tags = OpenStruct.new
           @check_key_clashes = true
+          @validate_html = true
           @score_schemas = {}.with_indifferent_access
           @outcome_tables = []
         end
@@ -73,6 +74,8 @@ module Quby
         attr_accessor :respondent_types
         attr_reader :tags # tags= is manually defined below
         attr_accessor :check_key_clashes
+        # If false, we don't check html for validity (for mate1 and mate1_pre)
+        attr_accessor :validate_html
 
         attr_accessor :last_author
         attr_accessor :allow_hotkeys # allow hotkeys for :all views, just :bulk views (default), or :none for never

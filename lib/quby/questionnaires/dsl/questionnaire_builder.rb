@@ -40,6 +40,10 @@ module Quby
           @questionnaire.check_key_clashes = false
         end
 
+        def do_not_validate_html
+          @questionnaire.validate_html = false
+        end
+
         def title(title)
           @questionnaire.title = title
         end

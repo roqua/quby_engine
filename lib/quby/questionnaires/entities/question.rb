@@ -6,6 +6,8 @@ module Quby
   module Questionnaires
     module Entities
       class Question < Item
+        MARKDOWN_ATTRIBUTES = %w(description title).freeze
+
         set_callback :after_dsl_enhance, :expand_depends_on_input_keys
 
         # Standard attributes

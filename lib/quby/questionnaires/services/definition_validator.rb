@@ -23,6 +23,8 @@ module Quby
           validate_flags(questionnaire)
           validate_respondent_types(questionnaire)
           validate_outcome_tables(questionnaire)
+          validate_markdown_fields(questionnaire) if questionnaire.validate_html
+          validate_raw_content_items(questionnaire) if questionnaire.validate_html
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception # rubocop:disable Lint/RescueException
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
@@ -250,6 +252,45 @@ module Quby
                     "which is not allowed."
             end
           end
+        end
+
+        def validate_markdown_fields(questionnaire)
+          questionnaire.panels.each do |panel|
+            panel.items.select { |item| item.is_a?(Entities::Text) }.each do |text_item|
+              validate_markdown(text_item.str, text_item.str)
+            end
+          end
+          questionnaire.questions.each do |question|
+            Entities::Question::MARKDOWN_ATTRIBUTES.each do |attr|
+              validate_markdown(question.send(attr), "#{question.key}.#{attr}")
+              question.options.each do |option|
+                Entities::QuestionOption::MARKDOWN_ATTRIBUTES.each do |option_attr|
+                  validate_markdown(option.send(option_attr), "#{question.key}:#{option.key}.#{option_attr}")
+                end
+              end
+            end
+          end
+        end
+
+        def validate_raw_content_items(questionnaire)
+          questionnaire.panels.each do |panel|
+            panel.items.each do |item|
+              next if item.raw_content.blank?
+
+              validate_html(item.raw_content)
+            end
+          end
+        end
+
+        def validate_markdown(markdown, key)
+          validate_html(MarkdownParser.new(markdown).to_html, key)
+        end
+
+        def validate_html(html, key = nil)
+          fragment = Nokogiri::HTML.fragment(html)
+          return unless fragment.errors.present?
+
+          fail "#{key || html} contains invalid html: #{fragment.errors.map(&:to_s).join(', ')}."
         end
       end
     end

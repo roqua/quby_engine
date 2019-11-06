@@ -724,5 +724,60 @@ module Quby::Questionnaires::Services
             include('v_1:a1: Placeholder options should not have values defined.')
       end
     end
+
+    describe '#validate_markdown' do
+      it 'validates question titles' do
+        definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :string, title: 'a <b> tag'
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+      end
+
+      it 'validates question description' do
+        definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :string, title: 'fine', description: 'a <b> tag'
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+      end
+
+      it 'validates option description' do
+        definition = make_definition(<<-END)
+          title "Test"
+          question :v_1, type: :select, title: 'fine' do
+            option :a1, value: 32, description: 'a <b> tag'
+          end
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+      end
+    end
+
+    describe '#validate_raw_content_items' do
+      it 'validates html fields' do
+        definition = make_definition(<<-END)
+          title "Test"
+          panel do
+            html "A <b> tag"
+          end
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+      end
+
+      it 'validates items with raw_content' do
+        definition = make_definition(<<-END)
+          title "Test"
+          panel do
+            question :v_1, type: :float, title: 'q', raw_content: "<p>a <b> tag</p>"
+          end
+        END
+        expect(definition.valid?).to be false
+        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+      end
+    end
   end
 end
