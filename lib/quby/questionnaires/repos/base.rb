@@ -40,8 +40,8 @@ module Quby
           fail NotImplementedError
         end
 
-        def entity(key, sourcecode, timestamp)
-          Entities::Definition.new(key: key, sourcecode: sourcecode, timestamp: timestamp)
+        def entity(key, sourcecode, timestamp, path)
+          Entities::Definition.new(key: key, sourcecode: sourcecode, timestamp: timestamp, path: path)
         end
       end
     end
