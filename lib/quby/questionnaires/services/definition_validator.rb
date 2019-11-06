@@ -23,8 +23,8 @@ module Quby
           validate_flags(questionnaire)
           validate_respondent_types(questionnaire)
           validate_outcome_tables(questionnaire)
-          validate_markdown_fields(questionnaire) if questionnaire.check_markdown_validity
-          validate_raw_content_items(questionnaire)
+          validate_markdown_fields(questionnaire) if questionnaire.validate_html
+          validate_raw_content_items(questionnaire) if questionnaire.validate_html
         # Some compilation errors are Exceptions (pure syntax errors) and some StandardErrors (NameErrors)
         rescue Exception => exception # rubocop:disable Lint/RescueException
           definition.errors.add(:sourcecode, {message: "Questionnaire error: #{definition.key}\n" \
@@ -290,7 +290,7 @@ module Quby
         end
 
         def validate_markdown(markdown, key)
-          fragment = MarkdownParser.new(markdown).nokogiri_fragment
+          fragment = Nokogiri::HTML.fragment(MarkdownParser.new(markdown).to_html)
           return unless fragment.errors.present?
 
           fail "#{key} contains invalid html: #{fragment.errors.map(&:to_s).join(', ')}."

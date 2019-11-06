@@ -18,7 +18,7 @@ module Quby
 
     it 'handles inline attributes' do
       source = "<span style=\"color:#FF0000\">LET OP:</span>"
-      output = "<p>\n  <span style=\"color:#FF0000\">LET OP:</span>\n</p>"
+      output = "<p><span style=\"color:#FF0000\">LET OP:</span></p>"
       expect_markdown_transformation(source, output)
     end
 
@@ -34,15 +34,15 @@ module Quby
       expect_markdown_transformation(source, output)
     end
 
-    it 'will autoclose open tags' do
-      source = "some <em> open tag"
-      output = "<p>some <em> open tag</em></p>"
+    it 'changes quotes to smartquotes' do
+      source = "some 'imortant' word"
+      output = "<p>some &lsquo;imortant&rsquo; word</p>"
       expect_markdown_transformation(source, output)
     end
 
-    it 'changes quotes to smartquotes' do
-      source = "some 'imortant' word"
-      output = "<p>some ‘imortant’ word</p>"
+    it 'allows html-blocks and parses in between, but not inside.' do
+      source = "<p class='foo'>*bar*</p>\n\n# title\n\n<ul><li>hi</li></ul>"
+      output = "<p class='foo'>*bar*</p>\n\n<h1>title</h1>\n\n<ul><li>hi</li></ul>"
       expect_markdown_transformation(source, output)
     end
 
@@ -55,12 +55,12 @@ module Quby
 * **90º flexie met volledige supinatie**<br><br>
   *<span style=\"color:#FF0000\">LET OP:<br> Bij twijfel of revalidant elevatie en retractie uit kan voeren mag je dit afzonderlijk meten. Revalidant moet hiervoor wel een deel van de beweging kunnen maken.</span>*"
 
-      output = "<p><em>Uitvoering</em><br />\n  " \
+      output = "<p><em>Uitvoering</em><br>\n  " \
                "<strong>Instrueer de revalidant om de paretische arm naast het hoofd te brengen in de flexiesynergie dat wil zeggen:</strong></p>\n\n" \
                "<ul>\n<li><strong>90º abductie</strong></li>\n" \
                "<li><strong>volledige exorotatie van de schouder</strong></li>\n" \
-               "<li><strong>90º flexie met volledige supinatie</strong><br /><br />\n" \
-               "<em><span style=\"color:#FF0000\">LET OP:<br /> Bij twijfel of revalidant elevatie en retractie uit kan voeren mag je dit afzonderlijk meten. Revalidant moet hiervoor wel een deel van de beweging kunnen maken.</span></em></li>\n" \
+               "<li><strong>90º flexie met volledige supinatie</strong><br><br>\n" \
+               "<em><span style=\"color:#FF0000\">LET OP:<br> Bij twijfel of revalidant elevatie en retractie uit kan voeren mag je dit afzonderlijk meten. Revalidant moet hiervoor wel een deel van de beweging kunnen maken.</span></em></li>\n" \
                "</ul>"
 
       expect_markdown_transformation(source, output)
