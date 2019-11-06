@@ -282,18 +282,15 @@ module Quby
           end
         end
 
-        def validate_html(html)
+        def validate_markdown(markdown, key)
+          validate_html(MarkdownParser.new(markdown).to_html, key)
+        end
+
+        def validate_html(html, key = nil)
           fragment = Nokogiri::HTML.fragment(html)
           return unless fragment.errors.present?
 
-          fail "#{html} contains invalid html: #{fragment.errors.map(&:to_s).join(', ')}."
-        end
-
-        def validate_markdown(markdown, key)
-          fragment = Nokogiri::HTML.fragment(MarkdownParser.new(markdown).to_html)
-          return unless fragment.errors.present?
-
-          fail "#{key} contains invalid html: #{fragment.errors.map(&:to_s).join(', ')}."
+          fail "#{key || html} contains invalid html: #{fragment.errors.map(&:to_s).join(', ')}."
         end
       end
     end
