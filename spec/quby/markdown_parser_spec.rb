@@ -6,13 +6,13 @@ module Quby
   describe MarkdownParser do
     it 'handles list elements' do
       source = "* one\n* two"
-      output = "<ul>\n  <li>one</li>\n  <li>two</li>\n</ul>"
+      output = "<ul>\n<li>one</li>\n<li>two</li>\n</ul>"
       expect_markdown_transformation(source, output)
     end
 
     it 'it handles strong list elements' do
       source = "* **one**\n* two"
-      output = "<ul>\n  <li><strong>one</strong></li>\n  <li>two</li>\n</ul>"
+      output = "<ul>\n<li><strong>one</strong></li>\n<li>two</li>\n</ul>"
       expect_markdown_transformation(source, output)
     end
 
@@ -24,13 +24,25 @@ module Quby
 
     it 'handles numbered lists' do
       source = "1. Item 1\n2. Item 2"
-      output = "<ol>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ol>"
+      output = "<ol>\n<li>Item 1</li>\n<li>Item 2</li>\n</ol>"
       expect_markdown_transformation(source, output)
     end
 
     it 'can escape somerhing that looks like a numbered list' do
       source = "1\\. Item 1\n2\\. Item 2"
       output = "<p>1. Item 1\n2. Item 2</p>"
+      expect_markdown_transformation(source, output)
+    end
+
+    it 'changes quotes to smartquotes' do
+      source = "some 'quoted' word"
+      output = "<p>some &lsquo;quoted&rsquo; word</p>"
+      expect_markdown_transformation(source, output)
+    end
+
+    it 'allows html-blocks and parses in between, but not inside.' do
+      source = "<p class='foo'>*bar*</p>\n\n# title\n\n<ul><li>hi</li></ul>"
+      output = "<p class='foo'>*bar*</p>\n\n<h1>title</h1>\n\n<ul><li>hi</li></ul>"
       expect_markdown_transformation(source, output)
     end
 
@@ -43,7 +55,13 @@ module Quby
 * **90º flexie met volledige supinatie**<br><br>
   *<span style=\"color:#FF0000\">LET OP:<br> Bij twijfel of revalidant elevatie en retractie uit kan voeren mag je dit afzonderlijk meten. Revalidant moet hiervoor wel een deel van de beweging kunnen maken.</span>*"
 
-      output = "<p><em>Uitvoering</em><br />\n  <strong>Instrueer de revalidant om de paretische arm naast het hoofd te brengen in de flexiesynergie dat wil zeggen:</strong></p>\n\n<ul>\n  <li><strong>90º abductie</strong></li>\n  <li><strong>volledige exorotatie van de schouder</strong></li>\n  <li><strong>90º flexie met volledige supinatie</strong><br /><br />\n<em><span style=\"color:#FF0000\">LET OP:<br /> Bij twijfel of revalidant elevatie en retractie uit kan voeren mag je dit afzonderlijk meten. Revalidant moet hiervoor wel een deel van de beweging kunnen maken.</span></em></li>\n</ul>"
+      output = "<p><em>Uitvoering</em><br>\n  " \
+               "<strong>Instrueer de revalidant om de paretische arm naast het hoofd te brengen in de flexiesynergie dat wil zeggen:</strong></p>\n\n" \
+               "<ul>\n<li><strong>90º abductie</strong></li>\n" \
+               "<li><strong>volledige exorotatie van de schouder</strong></li>\n" \
+               "<li><strong>90º flexie met volledige supinatie</strong><br><br>\n" \
+               "<em><span style=\"color:#FF0000\">LET OP:<br> Bij twijfel of revalidant elevatie en retractie uit kan voeren mag je dit afzonderlijk meten. Revalidant moet hiervoor wel een deel van de beweging kunnen maken.</span></em></li>\n" \
+               "</ul>"
 
       expect_markdown_transformation(source, output)
     end

@@ -4,6 +4,8 @@ module Quby
   module Questionnaires
     module Entities
       class QuestionOption
+        MARKDOWN_ATTRIBUTES = %w(description).freeze
+
         attr_reader :key
         attr_reader :value
         attr_reader :description

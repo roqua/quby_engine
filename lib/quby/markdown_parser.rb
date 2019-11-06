@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'quby/answers/services/text_transformation'
-require 'kramdown'
+require 'redcarpet'
 
 module Quby
   class MarkdownParser
@@ -12,12 +12,22 @@ module Quby
     end
 
     def to_html
-      html = ::Kramdown::Document.new(@source, entity_output: :numeric).to_html.chomp
-      transform_special_text(html)
+      rc_html = parser.render(@source).strip
+      transform_special_text(rc_html)
     end
 
     def html_safe
       to_html.html_safe
     end
+
+    private
+
+    def parser
+      @@parser ||= Redcarpet::Markdown.new(HTMLWithPants.new)
+    end
+  end
+
+  class HTMLWithPants < Redcarpet::Render::HTML
+    include Redcarpet::Render::SmartyPants
   end
 end

@@ -4,8 +4,7 @@
 .description-and-fields
   .description
     - unless question.description.blank?
-      :markdown
-        #{question.description.html_safe}
+      = Quby::MarkdownParser.new(question.description).html_safe
   .fields{:id => question.html_id}
     %select{:name => "answer[#{question.key}]", :onchange => "$(\"#answer_#{question.key}_\"+this.value).trigger(\"click\")", data: {"field-key" => question.key}}
       -question.options.each do |opt|
