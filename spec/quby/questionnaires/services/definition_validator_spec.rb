@@ -7,7 +7,7 @@ module Quby::Questionnaires::Services
     let(:questionnaire) { Quby::Questionnaires::DSL.build('test', 'title "Test"') }
 
     def make_definition(definition = 'title "Test"')
-      Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: definition)
+      Quby::Questionnaires::Entities::Definition.new(key: 'test', sourcecode: definition, path: 'fake definition test')
     end
 
     describe "fields#answer_keys and fields#input_keys need to be symbols" do

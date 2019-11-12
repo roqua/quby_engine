@@ -22,9 +22,10 @@ module Quby
 
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
-          definition = File.read(questionnaire_path(key))
+          path = questionnaire_path(key)
+          definition = File.read(path)
           timestamp  = timestamp(key)
-          entity(key, definition, timestamp)
+          entity(key, definition, timestamp, path)
         end
 
         def exists?(key)
