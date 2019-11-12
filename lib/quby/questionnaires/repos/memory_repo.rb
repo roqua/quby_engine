@@ -22,7 +22,7 @@ module Quby
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
           record = records.fetch(key)
-          entity(key, record.fetch(:definition), record.fetch(:last_update))
+          entity(key, record.fetch(:definition), record.fetch(:last_update), "memoryrepo #{key}")
         end
 
         def exists?(key)

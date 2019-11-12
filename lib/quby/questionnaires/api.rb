@@ -30,7 +30,7 @@ module Quby
       end
 
       def validate(key, sourcecode)
-        definition = Entities::Definition.new(key: key, sourcecode: sourcecode)
+        definition = Entities::Definition.new(key: key, sourcecode: sourcecode, path: "validating '#{key}'")
         definition.valid?
         definition
       end

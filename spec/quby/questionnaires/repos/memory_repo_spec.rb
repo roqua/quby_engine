@@ -5,7 +5,9 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Repos
   describe MemoryRepo do
-    it_behaves_like 'a valid backend for the questionnaires api'
+    it_behaves_like 'a valid backend for the questionnaires api' do
+      let(:repo) { MemoryRepo.new('simple' => File.read('./spec/fixtures/simple.rb')) }
+    end
 
     it_behaves_like 'a questionnaire repository' do
       let(:repo) { MemoryRepo.new }

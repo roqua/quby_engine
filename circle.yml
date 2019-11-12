@@ -1,11 +1,11 @@
 machine:
   ruby:
-    version: 2.3.1
+    version: 2.5.7
 dependencies:
   override:
     - "echo 'ruby-2.3.1' > .ruby-version"
     - "bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --clean"
-    - "bundle check --path=../vendor/bundle --gemfile='gemfiles/rails50.gemfile' || bundle install --path=../vendor/bundle --gemfile='gemfiles/rails50.gemfile'"
+    - "bundle check --path=../vendor/bundle --gemfile='gemfiles/rails52.gemfile' || bundle install --path=../vendor/bundle --gemfile='gemfiles/rails52.gemfile'"
 test:
   override:
     - script/appraisal_ci_parallel.rb bundle exec rspec spec:

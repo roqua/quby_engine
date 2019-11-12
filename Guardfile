@@ -1,5 +1,5 @@
 rspec_options = {
-  cmd: 'bundle exec appraisal rails50 rspec',
+  cmd: 'bundle exec appraisal rails52 rspec',
   failed_mode: :none,
   all_after_pass: false,
   all_on_start: false
