@@ -46,6 +46,12 @@ module Quby
       expect_markdown_transformation(source, output)
     end
 
+    it 'does not add emphasis within words' do
+      source = "a word_with_underscores a word with _emphasis_"
+      output = "<p>a word_with_underscores a word with <em>emphasis</em></p>"
+      expect_markdown_transformation(source, output)
+    end
+
     it 'handles complex lists' do
       source = "*Uitvoering*<br>
   **Instrueer de revalidant om de paretische arm naast het hoofd te brengen in de flexiesynergie dat wil zeggen:**

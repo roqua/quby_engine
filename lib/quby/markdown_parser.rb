@@ -7,6 +7,10 @@ module Quby
   class MarkdownParser
     include Quby::TextTransformation
 
+    EXTENTIONS = {
+      no_intra_emphasis: true
+    }.freeze
+
     def initialize(source)
       @source = source || ""
     end
@@ -23,7 +27,7 @@ module Quby
     private
 
     def parser
-      @@parser ||= Redcarpet::Markdown.new(HTMLWithPants.new)
+      @@parser ||= Redcarpet::Markdown.new(HTMLWithPants.new, EXTENTIONS)
     end
   end
 
