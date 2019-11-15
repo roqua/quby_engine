@@ -58,7 +58,7 @@ module Quby::Answers::Services
 
       it 'sets the started_at and completed_at' do
         started_at = Time.new(2014, 2, 4, 5, 6, 7)
-        expect(answer).to receive(:mark_completed).with(started_at)
+        expect(answer).to receive(:mark_completed).with(started_at: started_at)
         updates_answers.update("rendered_at" => started_at.to_i.to_s)
       end
 

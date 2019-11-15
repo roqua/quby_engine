@@ -174,7 +174,7 @@ module Quby
           Quby.questionnaires.find(questionnaire_key)
         end
 
-        def mark_completed(start_time)
+        def mark_completed(start_time:)
           if completed? || @aborted
             self.started_at = start_time if started_at.blank?
             self.completed_at = Time.now if completed_at.blank?
