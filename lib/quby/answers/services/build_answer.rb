@@ -33,6 +33,7 @@ module Quby
             completion:           given_attributes.fetch(:completion,           {}),
             started_at:           given_attributes.fetch(:started_at, nil),
             completed_at:         given_attributes.fetch(:completed_at,         nil),
+            entered_at:           given_attributes.fetch(:entered_at,           nil),
             flags:                calculate_flags,
             textvars:             calculate_textvars,
             value:                calculate_value

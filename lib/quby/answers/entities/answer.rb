@@ -52,8 +52,15 @@ module Quby
         # @return [Time]
         attr_accessor :started_at
 
+        # The observation time of the response, the date at which the information in the response was collected
+        # This is used to calculate the age of the respondent at the time of filling out for example
         # @return [Time]
         attr_accessor :completed_at
+
+        # The time at which the response was entered into the system,
+        # not necessarily the same as the observation time, which is stored in completed_at
+        # @return [Time]
+        attr_accessor :entered_at
 
         # @return [Outcome]
         attr_accessor :outcome
@@ -87,7 +94,7 @@ module Quby
           token: nil, active: true, test: false, created_at: nil, updated_at: nil,
           started_at: nil, completed_at: nil, outcome: nil, outcome_generated_at: nil,
           scores: nil, actions: nil, completion: nil, dsl_last_update: nil, import_notes: nil,
-          flags: nil, textvars: nil)
+          flags: nil, textvars: nil, entered_at: nil)
 
           self._id = _id
           self.questionnaire_id = questionnaire_id
@@ -103,6 +110,7 @@ module Quby
           self.updated_at = updated_at
           self.started_at = started_at
           self.completed_at = completed_at
+          self.entered_at = entered_at
           self.outcome_generated_at = outcome_generated_at
           self.scores = scores || {}
           self.actions = actions || {}
@@ -141,6 +149,7 @@ module Quby
             updated_at: updated_at,
             started_at: started_at,
             completed_at: completed_at,
+            entered_at: entered_at,
             outcome_generated_at: outcome_generated_at,
             scores: scores,
             actions: actions,
@@ -169,6 +178,7 @@ module Quby
           if completed? || @aborted
             self.started_at = start_time if started_at.blank?
             self.completed_at = Time.now if completed_at.blank?
+            self.entered_at = Time.now if entered_at.blank?
           end
         end
 

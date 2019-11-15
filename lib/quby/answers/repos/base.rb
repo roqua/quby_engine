@@ -45,6 +45,7 @@ module Quby
           record.value                = answer.value.stringify_keys
           record.started_at           = answer.started_at
           record.completed_at         = answer.completed_at
+          record.entered_at           = answer.entered_at
           record.outcome_generated_at = answer.outcome_generated_at
           record.scores               = answer.scores.stringify_keys
           record.actions              = answer.actions.stringify_keys
