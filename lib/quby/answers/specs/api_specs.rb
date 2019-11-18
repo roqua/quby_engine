@@ -25,9 +25,9 @@ if defined?(RSpec)
     end
 
     it 'supports finding all answers completed after some date' do
-      answer.completed_at = 3.days.ago
+      answer.observation_time = 3.days.ago
       repo.update! answer
-      recent_answer     = api.create! 'simple', completed_at: 1.day.ago
+      recent_answer     = api.create! 'simple', observation_time: 1.day.ago
       incomplete_answer = api.create! 'simple'
       answer_ids = [answer, recent_answer, incomplete_answer].map(&:id).sort
       expect(api.find_completed_after(2.days.ago, answer_ids).map(&:id).sort).to eq([recent_answer.id])

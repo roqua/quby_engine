@@ -56,7 +56,7 @@ module Quby::Answers::Services
         updates_answers.update
       end
 
-      it 'sets the started_at and completed_at' do
+      it 'calls mark_completed with the started_at time' do
         started_at = Time.new(2014, 2, 4, 5, 6, 7)
         expect(answer).to receive(:mark_completed).with(started_at: started_at)
         updates_answers.update("rendered_at" => started_at.to_i.to_s)
@@ -80,9 +80,9 @@ module Quby::Answers::Services
       end
     end
 
-    describe 'using completed_at in calculations' do
-      # age calculation in scores requires completed_at to be set, so ensure completed_at is set before calculation
-      it 'sets completed_at before assigning OutcomeCalculation.new(answer).calculate' do
+    describe 'using observation_time as a timestamp in calculations' do
+      # age calculation in scores requires observation_time to be set through the mark_completed method
+      it 'sets observation_time before assigning OutcomeCalculation.new(answer).calculate' do
         expect(answer).to receive(:mark_completed).ordered
         expect(answer).to receive(:outcome=).ordered
         updates_answers.update('v_1' => 'a1')

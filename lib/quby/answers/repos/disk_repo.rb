@@ -19,7 +19,7 @@ module Quby
 
         def find_completed_after(time, answer_ids)
           records = storage.map { |filename| load_file(filename) }.select do |record|
-            answer_ids.include?(record._id) && record.completed_at.present? && record.completed_at > time
+            answer_ids.include?(record._id) && record.observation_time.present? && record.observation_time > time
           end
           records.map { |record| entity(record) }
         end

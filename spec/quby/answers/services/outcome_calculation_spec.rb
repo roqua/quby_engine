@@ -50,9 +50,9 @@ module Quby::Answers::Services
     end
 
     describe '#calculate' do
-      it 'passes in the regular values and completed_at to the score calculator' do
+      it 'passes in the regular values and observation_time to the score calculator' do
         allow(answer).to receive(:value_by_regular_values).and_return({v_2: 2, v_1: 1})
-        allow(answer).to receive(:completed_at).and_return('completed_at')
+        allow(answer).to receive(:observation_time).and_return('observation_time')
         received_values, received_timestamp, received_patient_attrs = nil
 
         expect(ScoreCalculator).to receive(:calculate).exactly(3).times do |args|
@@ -64,7 +64,7 @@ module Quby::Answers::Services
         OutcomeCalculation.new(answer).calculate
 
         expect(received_values.to_a).to eq([[:v_2, 2], [:v_1, 1]])
-        expect(received_timestamp).to eq('completed_at')
+        expect(received_timestamp).to eq('observation_time')
         expect(received_patient_attrs).to eq({ })
       end
 
@@ -195,14 +195,14 @@ module Quby::Answers::Services
     describe '#value_by_regular_values' do
       it 'orders the regular values according to the questionnaire\'s question order' do
         allow(answer).to receive(:value_by_regular_values).and_return({ 'v_2' => 2, 'v_1' => 1 })
-        allow(answer).to receive(:completed_at).and_return('completed_at')
+        allow(answer).to receive(:observation_time).and_return('observation_time')
         expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({'v_1' => 1, 'v_2' => 2}.to_a)
       end
 
       # given that the only known question order is ['v_1', 'v_2', 'v_3']
       it 'sorts unknown question keys to the end of the regular values hash' do
         allow(answer).to receive(:value_by_regular_values).and_return({ 'v_2' => 2, 'v_5' => 5, 'v_4' => 4, 'v_3' => 3, 'v_1' => 1 })
-        allow(answer).to receive(:completed_at).and_return('completed_at')
+        allow(answer).to receive(:observation_time).and_return('observation_time')
         expect(OutcomeCalculation.new(answer).send(:value_by_regular_values).to_a).to eq({'v_1' => 1, 'v_2' => 2,
                                                                                           'v_3' => 3, 'v_5' => 5,
                                                                                           'v_4' => 4

@@ -44,7 +44,7 @@ module Quby
           record.import_notes         = answer.import_notes.stringify_keys
           record.value                = answer.value.stringify_keys
           record.started_at           = answer.started_at
-          record.completed_at         = answer.completed_at
+          record.observation_time     = answer.observation_time
           record.entered_at           = answer.entered_at
           record.outcome_generated_at = answer.outcome_generated_at
           record.scores               = answer.scores.stringify_keys

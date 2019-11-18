@@ -24,7 +24,7 @@ module Quby
             begin
               result = ScoreCalculator.calculate(questionnaire: answer.questionnaire,
                                                  values: value_by_regular_values,
-                                                 timestamp: completed_at,
+                                                 timestamp: observation_time,
                                                  patient_attrs: patient&.slice("birthyear", "gender"),
                                                  respondent_attrs: patient&.slice("respondent_type"),
                                                  &calculation.calculation)
@@ -80,8 +80,8 @@ module Quby
           end.to_h
         end
 
-        def completed_at
-          answer.completed_at
+        def observation_time
+          answer.observation_time
         end
 
         def patient

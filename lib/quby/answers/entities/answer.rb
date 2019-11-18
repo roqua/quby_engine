@@ -53,12 +53,14 @@ module Quby
         attr_accessor :started_at
 
         # The observation time of the response, the date at which the information in the response was collected
+        # Either set automatically to the current time by mark_completed, or as an earlier time passed answer creation
+        # `nil` value means there is no preset observation time and it will be set to Time.now on calling mark_completed
         # This is used to calculate the age of the respondent at the time of filling out
         # @return [Time]
-        attr_accessor :completed_at
+        attr_accessor :observation_time
 
         # The time at which the response was entered into the system,
-        # not necessarily the same as the observation time, which is stored in completed_at
+        # not necessarily the same as the observation time
         # @return [Time]
         attr_accessor :entered_at
 
@@ -92,9 +94,9 @@ module Quby
         def initialize(_id: nil, questionnaire_id: nil, questionnaire_key: nil,
           raw_params: nil, value: nil, patient_id: nil, patient: nil,
           token: nil, active: true, test: false, created_at: nil, updated_at: nil,
-          started_at: nil, completed_at: nil, outcome: nil, outcome_generated_at: nil,
+          started_at: nil, outcome: nil, outcome_generated_at: nil,
           scores: nil, actions: nil, completion: nil, dsl_last_update: nil, import_notes: nil,
-          flags: nil, textvars: nil, entered_at: nil)
+          flags: nil, textvars: nil, entered_at: nil, observation_time: nil)
 
           self._id = _id
           self.questionnaire_id = questionnaire_id
@@ -109,7 +111,7 @@ module Quby
           self.created_at = created_at
           self.updated_at = updated_at
           self.started_at = started_at
-          self.completed_at = completed_at
+          self.observation_time = observation_time
           self.entered_at = entered_at
           self.outcome_generated_at = outcome_generated_at
           self.scores = scores || {}
@@ -148,7 +150,7 @@ module Quby
             created_at: created_at,
             updated_at: updated_at,
             started_at: started_at,
-            completed_at: completed_at,
+            observation_time: observation_time,
             entered_at: entered_at,
             outcome_generated_at: outcome_generated_at,
             scores: scores,
@@ -177,8 +179,8 @@ module Quby
         def mark_completed(start_time:)
           if completed? || @aborted
             self.started_at = start_time if started_at.blank?
-            self.completed_at = Time.now if completed_at.blank?
             self.entered_at = Time.now if entered_at.blank?
+            self.observation_time = Time.now if observation_time.blank?
           end
         end
 

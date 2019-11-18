@@ -17,7 +17,7 @@ if defined?(RSpec)
         active:               true,
         test:                 false,
         started_at:           Time.local(2014, 1, 2, 3, 4, 0),
-        completed_at:         Time.local(2014, 1, 2, 3, 4, 5),
+        observation_time:     Time.local(2014, 1, 2, 3, 4, 5),
         outcome_generated_at: Time.local(2014, 1, 2, 3, 6, 7),
         scores:               {tot: {label: 'Totaalscore', value: 20}},
         actions:              {attention: [:v_1], alarm: []},
@@ -72,7 +72,7 @@ if defined?(RSpec)
         answer.active               = attributes[:active]
         answer.test                 = attributes[:test]
         answer.started_at           = attributes[:started_at]
-        answer.completed_at         = attributes[:completed_at]
+        answer.observation_time     = attributes[:observation_time]
         answer.outcome_generated_at = attributes[:outcome_generated_at]
         answer.scores               = attributes[:scores]
         answer.actions              = attributes[:actions]
@@ -103,9 +103,9 @@ if defined?(RSpec)
     describe 'retrieving all records' do
       it 'finds records updated since some time' do
         answer1 = api.create!('simple')
-        answer2 = api.create!('simple', completed_at: 4.days.ago)
-        answer3 = api.create!('simple', completed_at: 1.days.ago)
-        answer4 = api.create!('simple', completed_at: 1.days.ago)
+        answer2 = api.create!('simple', observation_time: 4.days.ago)
+        answer3 = api.create!('simple', observation_time: 1.days.ago)
+        answer4 = api.create!('simple', observation_time: 1.days.ago)
 
         results = repo.find_completed_after(2.days.ago, [answer1.id, answer2.id, answer3.id]).to_a
         expect(results.map(&:id)).to eq([answer3.id])
@@ -121,7 +121,7 @@ if defined?(RSpec)
       expect(record.active).to               eq(true)
       expect(record.test).to                 eq(false)
       expect(record.started_at).to           eq(attributes[:started_at])
-      expect(record.completed_at).to         eq(attributes[:completed_at])
+      expect(record.observation_time).to     eq(attributes[:observation_time])
       expect(record.outcome_generated_at).to eq(attributes[:outcome_generated_at])
       expect(record.scores).to               eq(stringified(attributes[:scores]))
       expect(record.actions).to              eq(stringified(attributes[:actions]))

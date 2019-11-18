@@ -143,12 +143,12 @@ module Quby::Answers::Entities
       let(:answer) { Quby.answers.create!('foo') }
       let(:time)   { Time.gm(2011, 11, 5, 11, 24, 00) }
 
-      it "should record the time when answer is completed and entered into the system" do
+      it "should record the time when answer is completed (observed) and entered into the system" do
         Timecop.freeze(time) do
           answer.q1 = "Foo"
           answer.mark_completed(started_at: Time.now)
         end
-        expect(answer.completed_at).to eq time
+        expect(answer.observation_time).to eq time
         expect(answer.entered_at).to eq time
       end
 
@@ -157,12 +157,14 @@ module Quby::Answers::Entities
           answer.aborted = true
           answer.mark_completed(started_at: Time.now)
         end
-        expect(answer.completed_at).to eq time
+        expect(answer.observation_time).to eq time
+        expect(answer.entered_at).to eq time
       end
 
-      it "should not set completed_at for incomplete answers, even if it is called" do
+      it "should not set observation_time or entered_at for incomplete answers, even if it is called" do
         answer.mark_completed(started_at: Time.now)
-        expect(answer.completed_at).to_not be
+        expect(answer.observation_time).to_not be
+        expect(answer.entered_at).to_not be
       end
 
       it "should not change when answer was previously completed" do
@@ -172,7 +174,8 @@ module Quby::Answers::Entities
         end
         answer.q1 = "Bar"
         answer.mark_completed(started_at: Time.now)
-        expect(answer.completed_at).to eq time
+        expect(answer.observation_time).to eq time
+        expect(answer.entered_at).to eq time
       end
     end
   end
