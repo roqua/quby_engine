@@ -53,7 +53,7 @@ module Quby
         attr_accessor :started_at
 
         # The observation time of the response, the date at which the information in the response was collected
-        # This is used to calculate the age of the respondent at the time of filling out for example
+        # This is used to calculate the age of the respondent at the time of filling out
         # @return [Time]
         attr_accessor :completed_at
 

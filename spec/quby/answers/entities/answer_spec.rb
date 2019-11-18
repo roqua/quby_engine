@@ -143,12 +143,13 @@ module Quby::Answers::Entities
       let(:answer) { Quby.answers.create!('foo') }
       let(:time)   { Time.gm(2011, 11, 5, 11, 24, 00) }
 
-      it "should record the time when answer is completed" do
+      it "should record the time when answer is completed and entered into the system" do
         Timecop.freeze(time) do
           answer.q1 = "Foo"
           answer.mark_completed(started_at: Time.now)
         end
         expect(answer.completed_at).to eq time
+        expect(answer.entered_at).to eq time
       end
 
       it "should record the time when answer is aborted" do
