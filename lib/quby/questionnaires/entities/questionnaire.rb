@@ -398,9 +398,7 @@ module Quby
         end
 
         def validations
-          questions = fields.question_hash.values
-
-          questions.flat_map do |question|
+          @validations ||= fields.question_hash.values.flat_map do |question|
             question.validations.map do |validation|
               case validation[:type]
               when :answer_group_minimum, :answer_group_maximum
@@ -413,9 +411,7 @@ module Quby
         end
 
         def visibility_rules
-          questions = fields.question_hash.values
-
-          questions.flat_map do |question|
+          @visibility_rules ||= fields.question_hash.values.flat_map do |question|
             VisibilityRule.from(question)
           end
         end
