@@ -5,6 +5,7 @@ require 'quby/settings'
 require 'quby/questionnaires/entities/flag'
 require 'quby/questionnaires/entities/textvar'
 require 'quby/questionnaires/entities/validation'
+require 'quby/questionnaires/entities/visibility_rule'
 
 require 'action_view'
 include ActionView::Helpers::SanitizeHelper
@@ -415,37 +416,8 @@ module Quby
           questions = fields.question_hash.values
 
           questions.flat_map do |question|
-            case question.type
-            when :radio, :scale, :select
-              question.options.flat_map do |option|
-                option.shows_questions.map do |shows_question|
-                  {
-                    if: {type: :equal, fieldKey: question.key, value: option.key},
-                    then: {type: :show_question, fieldKey: shows_question}
-                  }
-                end + option.hides_questions.map do |hides_question|
-                  {
-                    if: {type: :equal, fieldKey: question.key, value: option.key},
-                    then: {type: :hide_question, fieldKey: hides_question}
-                  }
-                end
-              end
-            when :checkbox
-              question.options.flat_map do |option|
-                option.shows_questions.map do |shows_question|
-                  {
-                    if: {type: :includes, fieldKey: question.key, value: option.key},
-                    then: {type: :show_question, fieldKey: shows_question}
-                  }
-                end + option.hides_questions.map do |hides_question|
-                  {
-                    if: {type: :equal, fieldKey: question.key, value: option.key},
-                    then: {type: :hide_question, fieldKey: hides_question}
-                  }
-                end
-              end
-            end
-          end.select(&:present?)
+            VisibilityRule.from(question)
+          end
         end
 
         private

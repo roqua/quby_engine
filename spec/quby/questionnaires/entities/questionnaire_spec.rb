@@ -504,5 +504,34 @@ module Quby::Questionnaires::Entities
         ])
       end
     end
+
+    describe 'visibility_rules' do
+      it 'has rules for showing' do
+        questionnaire = Quby::Questionnaires::DSL.build("test") do
+          question :v_1, type: :radio do
+            option :a1, value: 1, description: "x", shows_questions: [:v_2]
+            option :a2, value: 2, description: "y", hides_questions: [:v_3]
+          end
+
+          question :v_2, type: :string, default_invisible: true
+          question :v_3, type: :string
+        end
+
+        expect(questionnaire.visibility_rules.as_json).to match_array([
+          {
+            condition: {field_key: :v_1, type: :equal, value: :a1},
+            action: {type: :show_question, field_key: :v_2}
+          },
+          {
+            condition: {field_key: :v_1, type: :equal, value: :a2},
+            action: {type: :hide_question, field_key: :v_3}
+          },
+          {
+            condition: {field_key: :v_2, type: :always},
+            action: {type: :hide_question, field_key: :v_2}
+          }
+        ])
+      end
+    end
   end
 end
