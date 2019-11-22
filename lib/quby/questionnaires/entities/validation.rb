@@ -2,14 +2,20 @@ module Quby
   module Questionnaires
     module Entities
       class Validation
+        attr_reader :config
+
         def initialize(config)
           @config = config
         end
 
+        def type
+          config[:type]
+        end
+
         def as_json
-          case @config[:type]
+          case type
           when :regexp
-            valc = @config.clone
+            valc = config.clone
             valc[:matcher] = valc[:matcher].source.to_s
 
             # Replace single backslashes with two backslashes
@@ -17,7 +23,7 @@ module Quby
 
             valc
           else
-            @config
+            config
           end
         end
       end

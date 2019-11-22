@@ -396,19 +396,6 @@ module Quby
           outcome_tables << OutcomeTable.new(**outcome_table_options, questionnaire: self)
         end
 
-        private
-
-        def validate_depends_on_flag(textvar_key, textvar_options)
-          if textvar_options[:depends_on_flag].present? && !flags.key?(textvar_options[:depends_on_flag])
-            fail(ArgumentError,
-                 "Textvar '#{textvar_key}' depends on nonexistent flag '#{textvar_options[:depends_on_flag]}'")
-          end
-        end
-
-        def validate_textvar_keys_unique(textvar_key)
-          fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
-        end
-
         def validations
           questions = fields.question_hash.values
 
@@ -421,9 +408,9 @@ module Quby
                 Validation.new(validation.merge(field_key: question.key))
               end
             end
-          end.uniq
+          end.uniq(&:config)
         end
-      
+
         def visibility_rules
           questions = fields.question_hash.values
 
@@ -459,6 +446,19 @@ module Quby
               end
             end
           end.select(&:present?)
+        end
+
+        private
+
+        def validate_depends_on_flag(textvar_key, textvar_options)
+          if textvar_options[:depends_on_flag].present? && !flags.key?(textvar_options[:depends_on_flag])
+            fail(ArgumentError,
+                 "Textvar '#{textvar_key}' depends on nonexistent flag '#{textvar_options[:depends_on_flag]}'")
+          end
+        end
+
+        def validate_textvar_keys_unique(textvar_key)
+          fail(ArgumentError, "Textvar '#{textvar_key}' already defined") if textvars.key?(textvar_key)
         end
       end
     end

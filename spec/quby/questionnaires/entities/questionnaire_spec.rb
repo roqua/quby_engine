@@ -472,5 +472,37 @@ module Quby::Questionnaires::Entities
         expect(table.questionnaire).to eq(questionnaire)
       end
     end
+
+    describe 'validations' do
+      it 'has validations from all the questions' do
+        questionnaire = Quby::Questionnaires::DSL.build("test") do
+          question :v_1, type: :string, required: true
+          question :v_2, type: :float, required: true do
+            validates_minimum 5
+            validates_maximum 10
+          end
+        end
+
+        expect(questionnaire.validations.as_json).to match_array([
+          {field_key: :v_1, type: :requires_answer, explanation: nil},
+          {field_key: :v_2, type: :requires_answer, explanation: nil},
+          # a float type automatically adds a validation that the data entered must be parseable as a float
+          {field_key: :v_2, type: :valid_float, explanation: nil},
+          {field_key: :v_2, type: :minimum, subtype: :number, value: 5},
+          {field_key: :v_2, type: :maximum, subtype: :number, value: 10}
+        ])
+      end
+
+      it 'adds a single validation for groups' do
+        questionnaire = Quby::Questionnaires::DSL.build("test") do
+          question :v_1, type: :string, question_group: "g1", group_minimum_answered: 1
+          question :v_2, type: :string, question_group: "g1", group_minimum_answered: 1
+        end
+
+        expect(questionnaire.validations.as_json).to match_array([
+          {field_keys: [:v_1, :v_2], type: :answer_group_minimum, group: "g1", value: 1, explanation: nil}
+        ])
+      end
+    end
   end
 end
