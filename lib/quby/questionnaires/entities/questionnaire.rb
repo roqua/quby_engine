@@ -411,9 +411,7 @@ module Quby
         end
 
         def visibility_rules
-          @visibility_rules ||= fields.question_hash.values.flat_map do |question|
-            VisibilityRule.from(question)
-          end
+          @visibility_rules ||= fields.question_hash.values.flat_map { |question| VisibilityRule.from(question) } + flags.flat_map { |key, flag| VisibilityRule.from_flag(flag) }
         end
 
         private
