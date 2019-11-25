@@ -232,15 +232,15 @@ module Quby
             type: type,
             unit: unit,
             hidden: hidden?,
-            display_modes: display_modes,
-            default_invisible: default_invisible,
+            displayModes: display_modes,
+            defaultInvisible: default_invisible,
             viewSelector: view_selector,
             parentKey: parent&.key,
             parentOptionKey: parent_option_key,
             deselectable: deselectable,
             presentation: presentation,
             as: as,
-            question_group: question_group
+            questionGroup: question_group
           )
         end
 

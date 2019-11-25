@@ -61,7 +61,7 @@ module Quby
 
           def as_json(options = {})
             component_keys = components.each_with_object({}) do |component, hash|
-              hash["#{component}_key"] = send("#{component}_key")
+              hash["#{component}Key"] = send("#{component}_key")
             end
             super.merge(components: components).merge(component_keys)
           end

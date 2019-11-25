@@ -180,14 +180,14 @@ module Quby
             key: key,
             title: title,
             description: description,
-            outcome_description: outcome_description,
-            short_description: short_description,
+            outcomeDescription: outcome_description,
+            shortDescription: short_description,
             panels: panels,
             fields: fields,
             flags: flags,
             textvars: textvars,
             validations: validations,
-            visibility_rules: visibility_rules
+            visibilityRules: visibility_rules
           }
         end
 

@@ -54,12 +54,12 @@ module Quby
             value: value,
             description: description,
             questions: questions,
-            inner_title: inner_title,
-            hides_questions: hides_questions,
-            shows_questions: shows_questions,
+            innerTitle: inner_title,
+            hidesQuestions: hides_questions,
+            showsQuestions: shows_questions,
             hidden: hidden,
             placeholder: placeholder,
-            view_id: view_id
+            viewId: view_id
           }
         end
 

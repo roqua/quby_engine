@@ -24,7 +24,7 @@ module Quby
             valc
           else
             config
-          end
+          end.deep_transform_keys{ |key| key.to_s.camelize(:lower) }
         end
       end
     end
