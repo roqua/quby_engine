@@ -45,9 +45,9 @@ feature 'Hiding and showing questions' do
     scenario 'by clicking a select option that hides a question', js: true do
       answer = visit_new_answer_for(questionnaire)
       choose "answer_v_7_a2"
-      select "hide 2", from: "answer[v_4]"
+      select "hide P2", from: "answer[v_4]"
       select "show 2,4,5,6,7,8", from: "answer[v_4]"
-      select "hide 2", from: "answer[v_4]"
+      select "hide P2", from: "answer[v_4]"
       expect(page).to have_selector("#item_v_7.hide")
 
       goto_second_page
@@ -84,7 +84,7 @@ feature 'Hiding and showing questions' do
       # if i then edit the answer such that the question is now hidden, it should
       # should be correctly wiped upon saving the answer
       visit_new_answer_for(questionnaire, "paged", answer)
-      select "hide 2", from: "answer[v_4]"
+      select "hide P2", from: "answer[v_4]"
       goto_second_page and goto_third_page and save_form
       expect(Quby.answers.reload(answer).value).to eq(answer_value("v_4" => "a2"))
     end
@@ -226,7 +226,7 @@ feature 'Hiding and showing questions' do
     scenario 'by clicking a select option that shows a question', js: true do
       answer = visit_new_answer_for(questionnaire)
       select "show 2,4,5,6,7,8", from: "answer[v_4]"
-      select "hide 2", from: "answer[v_4]"
+      select "hide P2", from: "answer[v_4]"
       select "show 2,4,5,6,7,8", from: "answer[v_4]"
 
       # Test that fields get shown
