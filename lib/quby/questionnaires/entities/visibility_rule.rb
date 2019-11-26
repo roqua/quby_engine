@@ -14,17 +14,17 @@ module Quby
             case question.type
             when :radio, :scale, :select
               question.options.each do |option|
-                rules += rules_for_option(option, type: :equal)
+                rules += rules_for_option(question, option, type: :equal)
               end
             when :check_box
               question.options.each do |option|
-                rules += rules_for_option(option, type: :contains)
+                rules += rules_for_option(question, option, type: :contains)
               end
             end
           end
         end
 
-        def self.rules_for_option(option, type:)
+        def self.rules_for_option(question, option, type:)
           [].tap do |rules|
             option.shows_questions.map do |shows_question|
               rules << new(condition: { type: type, field_key: question.key, value: option.key },
