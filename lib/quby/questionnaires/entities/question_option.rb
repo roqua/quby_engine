@@ -52,7 +52,7 @@ module Quby
           {
             key: key,
             value: value,
-            description: description,
+            description: Quby::MarkdownParser.new(description).to_html,
             questions: questions,
             innerTitle: inner_title,
             hidesQuestions: hides_questions,

@@ -227,8 +227,8 @@ module Quby
           # rubocop:disable SymbolName
           super.merge(
             key: key,
-            title: title,
-            description: description,
+            title: Quby::MarkdownParser.new(title).to_html,
+            description: Quby::MarkdownParser.new(description).to_html,
             type: type,
             unit: unit,
             hidden: hidden?,
