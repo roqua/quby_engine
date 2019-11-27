@@ -15,10 +15,10 @@ class Quby.Logic.InitQuestions
     _.each optionAttributes, (attrs) =>
       option = new Quby.Models.QuestionOption
         key: attrs.key
-        showsQuestionsKeys: attrs.shows_questions
-        hidesQuestionsKeys: attrs.hides_questions
-        startChosen: attrs.start_chosen
-      element = @initializeOptionViewElement attrs.view_id
+        showsQuestionsKeys: attrs.showsQuestions
+        hidesQuestionsKeys: attrs.hidesQuestions
+        startChosen: attrs.startChosen
+      element = @initializeOptionViewElement attrs.viewId
       new Quby.Views.QuestionOptionView(model: option, el: element)
       options.add option
     options
@@ -35,7 +35,7 @@ class Quby.Logic.InitQuestions
       viewSelector: question.viewSelector
       options: options
       type: question.type
-      defaultInvisible: question.default_invisible
+      defaultInvisible: question.defaultInvisible
       parentQuestion: parentQuestion
       parentOption: parentOption
       deselectable: question.deselectable
