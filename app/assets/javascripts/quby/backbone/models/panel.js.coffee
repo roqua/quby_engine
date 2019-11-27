@@ -3,7 +3,7 @@ class Quby.Models.Panel extends Backbone.Model
     questions: new Quby.Collections.Questions
     view: new Quby.Views.PanelView(model: @)
     panelId: null
-    initShowsHidesCalled: false
+    initedShowsHidesCalled: false
   initialize: ->
     panelId = @get('panelId')
     viewSelector = "##{panelId}"
