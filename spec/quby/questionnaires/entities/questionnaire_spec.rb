@@ -484,12 +484,12 @@ module Quby::Questionnaires::Entities
         end
 
         expect(questionnaire.validations.as_json).to match_array([
-          {field_key: :v_1, type: :requires_answer, explanation: nil},
-          {field_key: :v_2, type: :requires_answer, explanation: nil},
+          {"fieldKey" => :v_1, "type" => :requires_answer, "explanation" => nil},
+          {"fieldKey" => :v_2, "type" => :requires_answer, "explanation" => nil},
           # a float type automatically adds a validation that the data entered must be parseable as a float
-          {field_key: :v_2, type: :valid_float, explanation: nil},
-          {field_key: :v_2, type: :minimum, subtype: :number, value: 5},
-          {field_key: :v_2, type: :maximum, subtype: :number, value: 10}
+          {"fieldKey" => :v_2, "type" => :valid_float, "explanation" => nil},
+          {"fieldKey" => :v_2, "type" => :minimum, "subtype" => :number, "value" => 5},
+          {"fieldKey" => :v_2, "type" => :maximum, "subtype" => :number, "value" => 10}
         ])
       end
 
@@ -500,7 +500,7 @@ module Quby::Questionnaires::Entities
         end
 
         expect(questionnaire.validations.as_json).to match_array([
-          {field_keys: [:v_1, :v_2], type: :answer_group_minimum, group: "g1", value: 1, explanation: nil}
+          {"fieldKeys" => [:v_1, :v_2], "type" => :answer_group_minimum, "group" => "g1", "value" => 1, "explanation" => nil}
         ])
       end
     end
@@ -519,16 +519,16 @@ module Quby::Questionnaires::Entities
 
         expect(questionnaire.visibility_rules.as_json).to match_array([
           {
-            condition: {field_key: :v_1, type: :equal, value: :a1},
-            action: {type: :show_question, field_key: :v_2}
+            condition: {"fieldKey" => :v_1, "type" => :equal, "value" => :a1},
+            action: {"type" => :show_question, "fieldKey" => :v_2}
           },
           {
-            condition: {field_key: :v_1, type: :equal, value: :a2},
-            action: {type: :hide_question, field_key: :v_3}
+            condition: {"fieldKey" => :v_1, "type" => :equal, "value" => :a2},
+            action: {"type" => :hide_question, "fieldKey" => :v_3}
           },
           {
-            condition: {field_key: :v_2, type: :always},
-            action: {type: :hide_question, field_key: :v_2}
+            condition: {"fieldKey" => :v_2, "type" => :always},
+            action: {"type" => :hide_question, "fieldKey" => :v_2}
           }
         ])
       end

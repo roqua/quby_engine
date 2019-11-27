@@ -14,11 +14,11 @@ module Quby
             case question.type
             when :radio, :scale, :select
               question.options.each do |option|
-                rules += rules_for_option(question, option, type: :equal)
+                rules.concat rules_for_option(question, option, type: :equal)
               end
             when :check_box
               question.options.each do |option|
-                rules += rules_for_option(question, option, type: :contains)
+                rules.concat rules_for_option(question, option, type: :contains)
               end
             end
           end
