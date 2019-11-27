@@ -20,9 +20,8 @@ panel do
     option :a0, :value => 0, :description => "--- Selecteer ---", :placeholder => true
     option :a1, :value => 1, :description => "show 2,4,5,6,7,8",
            :shows_questions => [:v_7, :v_9, :v_10, :v_11, :v_12, :v_13]
-    option :a2, :value => 2, :description => "hide P2", :hides_questions => [:v_7]
+    option :a2, :value => 2, :description => "hide 2", :hides_questions => [:v_7]
     option :a3, :value => 3, :description => "licht"
-    option :a4, :value => 4, :description => "hide P1", hides_questions: [:v_6]
   end
   question :v_5, :type => :check_box do
     title "P0"
