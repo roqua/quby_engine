@@ -26,12 +26,12 @@ module Quby
 
         def self.rules_for_option(question, option, type:)
           [].tap do |rules|
-            option.shows_questions.map do |shows_question|
+            option.shows_questions.each do |shows_question|
               rules << new(condition: { type: type, field_key: question.key, value: option.key },
                            action: { type: :show_question, field_key: shows_question })
             end
 
-            option.hides_questions.map do |hides_question|
+            option.hides_questions.each do |hides_question|
               rules << new(condition: { type: type, field_key: question.key, value: option.key },
                            action: { type: :hide_question, field_key: hides_question })
             end
@@ -42,11 +42,11 @@ module Quby
           condition = { type: "flag_equal", flag_key: flag.key, value: flag.trigger_on }
 
           [].tap do |rules|
-            flag.shows_questions.map do |question_key|
+            flag.shows_questions.each do |question_key|
               rules << VisibilityRule.new(condition: condition, action: { type: "show_question", field_key: question_key })
             end
 
-            flag.hides_questions.map do |question_key|
+            flag.hides_questions.each do |question_key|
               rules << VisibilityRule.new(condition: condition, action: { type: "hide_question", field_key: question_key })
             end
           end
