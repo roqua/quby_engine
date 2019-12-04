@@ -29,6 +29,10 @@ module Quby
           super().merge(text: text)
         end
 
+        def html
+          options[:html_content] || text
+        end
+
         def text
           @text ||= Quby::MarkdownParser.new(str).to_html
         end

@@ -50,7 +50,7 @@ module Quby
           items.map do |item|
             case item
             when Text
-              { type: 'markdown', markdown: item.text }
+              { type: 'html', html: item.html }
             when Question
               next if item.table # things inside a table are added to the table, AND ALSO to the panel. skip them.
               { type: 'question', key: item.key }
