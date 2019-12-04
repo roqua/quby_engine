@@ -20,6 +20,7 @@ module Quby
           end
           super(options)
           @str = str
+          @html_content = options[:html_content]
           @display_in = options[:display_in] || [:paged]
           @col_span = options[:col_span] || 1
           @row_span = options[:row_span] || 1
@@ -27,6 +28,10 @@ module Quby
 
         def as_json(options = {})
           super().merge(text: text)
+        end
+
+        def html
+          @html_content || text
         end
 
         def text

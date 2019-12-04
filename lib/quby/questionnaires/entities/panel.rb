@@ -19,7 +19,7 @@ module Quby
         end
 
         def as_json(options = {})
-          super.merge(title: title, items: items)
+          super.merge(title: title, index: index, items: json_items)
         end
 
         def index
@@ -44,6 +44,20 @@ module Quby
           else
             nil
           end
+        end
+
+        def json_items
+          items.map do |item|
+            case item
+            when Text
+              { type: 'html', html: item.html }
+            when Question
+              next if item.table # things inside a table are added to the table, AND ALSO to the panel. skip them.
+              { type: 'question', key: item.key }
+            when Table
+              { type: "table" }
+            end
+          end.compact
         end
 
         def validations

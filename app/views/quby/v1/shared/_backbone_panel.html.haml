@@ -4,9 +4,9 @@
   - question_hash = question.as_json
   - question_hash[:options]&.map do |option|
     - if question.type == :check_box
-      - option[:start_chosen] = (answer.send(question.key)[option[:key].to_s] == 1)
+      - option[:startChosen] = (answer.send(question.key)[option[:key].to_s] == 1)
     - else
-      - option[:start_chosen] = (answer.send(question.key).to_s == option[:key].to_s)
+      - option[:startChosen] = (answer.send(question.key).to_s == option[:key].to_s)
   - questions << question_hash
 
 :javascript
