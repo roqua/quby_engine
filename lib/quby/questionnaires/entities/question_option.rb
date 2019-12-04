@@ -52,14 +52,14 @@ module Quby
           {
             key: key,
             value: value,
-            description: description,
+            description: Quby::MarkdownParser.new(description).to_html,
             questions: questions,
-            inner_title: inner_title,
-            hides_questions: hides_questions,
-            shows_questions: shows_questions,
+            innerTitle: inner_title,
+            hidesQuestions: hides_questions,
+            showsQuestions: shows_questions,
             hidden: hidden,
             placeholder: placeholder,
-            view_id: view_id
+            viewId: view_id
           }
         end
 

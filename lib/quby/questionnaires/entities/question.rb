@@ -227,18 +227,20 @@ module Quby
           # rubocop:disable SymbolName
           super.merge(
             key: key,
-            title: title,
-            description: description,
+            title: Quby::MarkdownParser.new(title).to_html,
+            description: Quby::MarkdownParser.new(description).to_html,
             type: type,
-            validations: validations,
             unit: unit,
             hidden: hidden?,
-            display_modes: display_modes,
-            default_invisible: default_invisible,
+            displayModes: display_modes,
+            defaultInvisible: default_invisible,
             viewSelector: view_selector,
             parentKey: parent&.key,
             parentOptionKey: parent_option_key,
-            deselectable: deselectable
+            deselectable: deselectable,
+            presentation: presentation,
+            as: as,
+            questionGroup: question_group
           )
         end
 
