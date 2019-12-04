@@ -7,7 +7,7 @@ module Quby
             # Transform "default invisible" into just being hidden by itself,
             # since any other question showing it will take precedence anyway.
             if question.default_invisible
-              rules << new(c2ondition: { type: :always, field_key: question.key },
+              rules << new(condition: { type: :always, field_key: question.key },
                            action: { type: :hide_question, field_key: question.key })
             end
 
