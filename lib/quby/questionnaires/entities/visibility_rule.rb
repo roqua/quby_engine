@@ -39,7 +39,7 @@ module Quby
         end
 
         def self.from_flag(flag)
-          condition = { type: "flag_equal", flagKey: flag.key, value: flag.trigger_on }
+          condition = { type: "flag_equal", flag_key: flag.key, value: flag.trigger_on }
 
           [].tap do |rules|
             flag.shows_questions.map do |question_key|
