@@ -20,6 +20,7 @@ module Quby
           end
           super(options)
           @str = str
+          @html_content = options[:html_content]
           @display_in = options[:display_in] || [:paged]
           @col_span = options[:col_span] || 1
           @row_span = options[:row_span] || 1
@@ -30,7 +31,7 @@ module Quby
         end
 
         def html
-          options[:html_content] || text
+          @html_content || text
         end
 
         def text
