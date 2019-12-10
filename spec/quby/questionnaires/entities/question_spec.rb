@@ -41,14 +41,13 @@ module Quby::Questionnaires::Entities
 
     let(:valid_question_options) { {type: :string} }
     subject(:question) { Question.new(:v_1, valid_question_options) }
-    describe '#require_symbol_key' do
-      it 'raises on construction if key cannot be converted to a symbol' do
-        expect do
-          Quby::Questionnaires::DSL.build("test2") do
-            question 2, type: :radio
-          end
-        end.to raise_exception('Question has an irregular question key (2), please use symbols or strings')
+
+    it 'validates the key to be a symbol' do
+      questionnaire = Quby::Questionnaires::DSL.build("test2") do
+          question "key", type: :radio
       end
+      expect(questionnaire.questions.first.valid?).to eq false
+      expect(questionnaire.questions.first.errors.full_messages).to eq ["Key Is not of type Symbol"]
     end
 
     describe 'sbg_key' do

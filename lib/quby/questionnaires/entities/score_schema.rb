@@ -19,7 +19,7 @@ module Quby
         attr_accessor :sub_score_schemas
 
         validates :key, :label, :sub_score_schemas, presence: true
-        validates :sub_score_schemas, array_attribute_valid: true
+        validates :sub_score_schemas, 'quby/array_attribute_valid': true
 
         def initialize(attributes)
           super(attributes)

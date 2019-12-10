@@ -1,4 +1,4 @@
-class AttributeValidValidator < ActiveModel::EachValidator
+class Quby::AttributeValidValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
     if value.respond_to?(:valid?)

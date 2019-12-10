@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AttributeValidValidator do
+describe Quby::AttributeValidValidator do
   class self::Invalid
     include ActiveModel::Model
     attr_accessor :required
@@ -13,8 +13,8 @@ describe AttributeValidValidator do
     include ActiveModel::Model
 
     attr_accessor :test1, :test2
-    validates :test1, attribute_valid: true
-    validates :test2, attribute_valid: true
+    validates :test1, 'quby/attribute_valid': true
+    validates :test2, 'quby/attribute_valid': true
   end
 
   let(:test_class) do
