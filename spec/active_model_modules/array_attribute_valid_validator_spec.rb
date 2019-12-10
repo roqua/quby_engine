@@ -13,7 +13,7 @@ describe Quby::ArrayAttributeValidValidator do
     include ActiveModel::Model
 
     attr_accessor :test1
-    validates :test1, array_attribute_valid: true
+    validates :test1, 'quby/array_attribute_valid': true
   end
 
   let(:test_class) do

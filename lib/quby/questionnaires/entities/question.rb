@@ -12,7 +12,7 @@ module Quby
 
         # Standard attributes
         attr_accessor :key
-        validates :key, 'quby/type': {is_a: Symbol}, presence: true
+        validates :key, presence: true, 'quby/type': {is_a: Symbol}
         attr_accessor :sbg_key
         attr_accessor :questionnaire
         attr_accessor :title
