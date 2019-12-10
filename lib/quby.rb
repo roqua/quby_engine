@@ -1,14 +1,9 @@
-autoload :ArrayAttributeValidValidator, 'active_model_modules/array_attribute_valid_validator'
-autoload :AttributeValidValidator, 'active_model_modules/attribute_valid_validator'
 require 'rails-i18n'
-require 'quby/settings'
-require 'quby/questionnaires'
-require 'quby/questionnaires/repos/disk_repo'
-require 'quby/answers'
-require 'quby/answers/repos/memory_repo'
-require "quby/engine"
 
 module Quby
+  autoload :ArrayAttributeValidValidator, 'active_model_modules/array_attribute_valid_validator'
+  autoload :AttributeValidValidator, 'active_model_modules/attribute_valid_validator'
+  autoload :TypeValidator, 'active_model_modules/type_validator'
   class BaseError < StandardError; end
   class InvalidAuthorizationError < BaseError; end
   class MissingAuthorizationError < BaseError; end
@@ -81,3 +76,8 @@ module Quby
     end
   end
 end
+
+require 'quby/settings'
+require 'quby/questionnaires'
+require 'quby/answers'
+require "quby/engine"
