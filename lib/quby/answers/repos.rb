@@ -3,11 +3,11 @@
 module Quby
   module Answers
     module Repos
-      AnswerNotFound = Class.new(StandardError)
+      autoload :Base, 'quby/answers/repos/base'
+      autoload :MemoryRepo, 'quby/answers/repos/memory_repo'
+      autoload :DiskRepo, 'quby/answers/repos/disk_repo'
+
+      class AnswerNotFound < StandardError; end
     end
   end
 end
-
-require 'quby/answers/repos/base'
-require 'quby/answers/repos/memory_repo'
-require 'quby/answers/repos/disk_repo'

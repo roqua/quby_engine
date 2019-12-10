@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ArrayAttributeValidValidator do
+describe Quby::ArrayAttributeValidValidator do
   class self::Invalid
     include ActiveModel::Model
     attr_accessor :required
