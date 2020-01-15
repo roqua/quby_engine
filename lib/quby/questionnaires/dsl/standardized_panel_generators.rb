@@ -15,7 +15,7 @@ module Quby
         def end_panel
           panel do
             text "*Bedankt voor het invullen van deze vragenlijst.*<br>
-  * U kunt uw antwoorden afdrukken door op de knop &#39;Print Antwoorden&#39; te klikken.<br>
+  * U kunt uw antwoorden downloaden door op de knop &#39;Download als PDF&#39; te klikken. Dit bestand is ook geschikt om af te drukken.<br>
   * Sla de antwoorden op door op de &#39;Klaar&#39;-knop onderaan te klikken. Daarna kunt u uw antwoorden niet meer wijzigen."
           end
         end
@@ -23,7 +23,7 @@ module Quby
         def informal_end_panel
           panel do
             text "*Bedankt voor het invullen van deze vragenlijst.*<br>
-  * Je kan je antwoorden afdrukken door op de knop &#39;Print Antwoorden&#39; te klikken.<br>
+  * Je kan je antwoorden downloaden door op de knop &#39;Download als PDF&#39; te klikken. Dit bestand is ook geschikt om af te drukken.<br>
   * Sla de antwoorden op door op de &#39;Klaar&#39;-knop onderaan te klikken. Daarna kun je je antwoorden niet meer wijzigen."
           end
         end
