@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../repos'
 require 'ostruct'
 
 module Quby

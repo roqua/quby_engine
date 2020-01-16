@@ -4,6 +4,8 @@ require 'active_model'
 require 'quby/settings'
 require 'quby/questionnaires/entities/flag'
 require 'quby/questionnaires/entities/textvar'
+require 'quby/questionnaires/entities/validation'
+require 'quby/questionnaires/entities/visibility_rule'
 
 require 'action_view'
 include ActionView::Helpers::SanitizeHelper
@@ -178,11 +180,14 @@ module Quby
             key: key,
             title: title,
             description: description,
-            outcome_description: outcome_description,
-            short_description: short_description,
+            outcomeDescription: outcome_description,
+            shortDescription: short_description,
             panels: panels,
+            fields: fields,
             flags: flags,
-            textvars: textvars
+            textvars: textvars,
+            validations: validations,
+            visibilityRules: visibility_rules
           }
         end
 
@@ -390,6 +395,24 @@ module Quby
 
         def add_outcome_table(outcome_table_options)
           outcome_tables << OutcomeTable.new(**outcome_table_options, questionnaire: self)
+        end
+
+        def validations
+          @validations ||= fields.question_hash.values.flat_map do |question|
+            question.validations.map do |validation|
+              case validation[:type]
+              when :answer_group_minimum, :answer_group_maximum
+                Validation.new(validation.merge(field_keys: questions.select {|q| q.question_group == validation[:group]}.map(&:key)))
+              else
+                Validation.new(validation.merge(field_key: question.key))
+              end
+            end
+          end.uniq(&:config)
+        end
+
+        def visibility_rules
+          @visibility_rules ||= fields.question_hash.values.flat_map { |question| VisibilityRule.from(question) } \
+                              + flags.values.flat_map { |flag| VisibilityRule.from_flag(flag) }
         end
 
         private

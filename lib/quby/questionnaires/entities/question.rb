@@ -12,6 +12,7 @@ module Quby
 
         # Standard attributes
         attr_accessor :key
+        validates :key, presence: true, 'quby/type': {is_a: Symbol}
         attr_accessor :sbg_key
         attr_accessor :questionnaire
         attr_accessor :title
@@ -129,7 +130,7 @@ module Quby
           @options = []
           @allow_duplicate_option_values = options[:allow_duplicate_option_values]
           @questionnaire = options[:questionnaire]
-          @key = require_symbol_key(key)
+          @key = key
           @sbg_key = options[:sbg_key]
           @type = options[:type]
           @as = options[:as]
@@ -227,18 +228,20 @@ module Quby
           # rubocop:disable SymbolName
           super.merge(
             key: key,
-            title: title,
-            description: description,
+            title: Quby::MarkdownParser.new(title).to_html,
+            description: Quby::MarkdownParser.new(description).to_html,
             type: type,
-            validations: validations,
             unit: unit,
             hidden: hidden?,
-            display_modes: display_modes,
-            default_invisible: default_invisible,
+            displayModes: display_modes,
+            defaultInvisible: default_invisible,
             viewSelector: view_selector,
             parentKey: parent&.key,
             parentOptionKey: parent_option_key,
-            deselectable: deselectable
+            deselectable: deselectable,
+            presentation: presentation,
+            as: as,
+            questionGroup: question_group
           )
         end
 
@@ -338,14 +341,6 @@ module Quby
             "(#{[range_min, "value", range_max].compact.join(" &lt;= ")})"
           else
             ""
-          end
-        end
-
-        def require_symbol_key(key)
-          if key.respond_to? :to_sym
-            key.to_sym
-          else
-            raise "Question has an irregular question key (#{key.inspect}), please use symbols or strings"
           end
         end
 

@@ -88,6 +88,10 @@ module Quby
           variable_description(key)
         end
 
+        def as_json
+          question_hash
+        end
+
         private
 
         # warning, will contain a result even if option/answer key clashes exist for a given key

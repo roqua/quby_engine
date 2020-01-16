@@ -1,4 +1,4 @@
-class ArrayAttributeValidValidator < ActiveModel::EachValidator
+class Quby::ArrayAttributeValidValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     value&.each&.with_index do |element, index|
       if !element.respond_to?(:valid?)

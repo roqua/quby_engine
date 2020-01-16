@@ -2,18 +2,18 @@ describe "Quby.Logic.InitQuestions", ->
   beforeEach ->
     @optionAttributes = [
       "key": "a1"
-      "hides_questions": []
-      "shows_questions": [
+      "hidesQuestions": []
+      "showsQuestions": [
         "v_7"
       ]
-      "start_chosen": true
-      "view_id": "v_4_a1"
+      "startChosen": true
+      "viewId": "v_4_a1"
     ]
 
     @questionAttributes =  [
       "key": "v_4"
       "type": "select"
-      "default_invisible": false
+      "defaultInvisible": false
       "viewSelector": "#item_v_4"
       "parentKey": null
       "parentOptionKey": null
@@ -21,14 +21,14 @@ describe "Quby.Logic.InitQuestions", ->
     ,
       "key": "v_5"
       "type": "string"
-      "default_invisible": false
+      "defaultInvisible": false
       "viewSelector": "#item_v_5"
       "parentKey": "v_4"
       "parentOptionKey": "a1"
     ,
       "key": "v_7"
       "type": "radio"
-      "default_invisible": false,
+      "defaultInvisible": false,
       "viewSelector": "#item_v_7"
       "parentKey": null
       "parentOptionKey": null
