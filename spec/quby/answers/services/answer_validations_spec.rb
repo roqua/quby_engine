@@ -423,3 +423,38 @@ module Quby::Answers::Services
     end
   end
 end
+
+describe 'depends_on select question with placeholder option' do
+  let(:value) do
+    {"v_1a" => "a0", "v_1b" => ""}
+  end
+  let(:answer) do
+    Quby::Answers::Entities::Answer.new(questionnaire_key: questionnaire.key, value: value).tap(&:enhance_by_dsl)
+  end
+  let(:questionnaire) { inject_questionnaire('depends', definition) }
+  let(:definition) do
+    <<~DEF
+      title 'test'
+      panel do
+        question :v_1a, type: :select, required: true do
+          context_free_title "Kies"
+          option :a0, description: "-------------", placeholder: true
+          option :a1, value: 1, description: "A"
+          option :a2, value: 2, description: "B"
+        end
+        question :v_1b, type: :string, required: true, depends_on: [:v_1a] do
+          context_free_title "Tekst"
+        end
+      end
+    DEF
+  end
+
+  before do
+    answer.extend Quby::Answers::Services::AnswerValidations
+  end
+
+  it 'properly validates' do
+    answer.validate_answers
+    expect(answer.errors).to be_empty
+  end
+end
