@@ -77,7 +77,8 @@ module Quby
             if selected_option
               process_option_hiding(selected_option)
               process_option_showing(selected_option)
-              @depends_on_lookup[selected_option.input_key] = true
+              # placeholder options of select boxes should count as unanswered for depends_on relations
+              @depends_on_lookup[selected_option.input_key] = !selected_option.placeholder
             end
           end
         end
