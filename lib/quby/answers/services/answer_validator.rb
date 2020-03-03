@@ -18,8 +18,6 @@ module Quby
 
         # rubocop:disable CyclomaticComplexity, Metrics/MethodLength
         def validate
-          return if answer.aborted
-
           questionnaire.questions.each do |question|
             next unless question
             next if question.hidden?
@@ -79,6 +77,7 @@ module Quby
         # rubocop:enable CyclomaticComplexity, Metrics/MethodLength
 
         def validate_required(question, validation, value)
+          return if @answer.aborted
           valid = case question.type
                   when :date
                     required_keys = question.required_components.map do |key|
