@@ -413,7 +413,7 @@ DEPENDENCIES
   simplecov (~> 0.9.0)
   stackprof
   susy (~> 2.2.12)
-  teaspoon
+  teaspoon (~> 1.1.5)
   teaspoon-jasmine
   test-unit
   therubyracer
