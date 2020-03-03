@@ -31,6 +31,7 @@ en:
     valid_date:
       valid_date_year: "Enter a valid year in the format YYYY, for example 2015."
       valid_date_month_year: "Enter a valid date in the format MM-YYYY, for example 08-2015."
+      valid_date_day_hour_minute_month_year: "Enter a valid date in the format DD-MM-YYYY hh:mm, for example 12-08-2015 13:05."
       valid_date_day_month_year: "Enter a valid date in the format DD-MM-YYYY, for example 12-08-2015."
       valid_date_hour_minute: "Enter a valid time in the format hh:mm, for example 13:05."
     too_many_checked: "You chose too many options"
