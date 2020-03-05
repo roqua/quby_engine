@@ -82,7 +82,7 @@ feature 'Trying to fill out an invalid answer', js: true do
 
       fill_in 'answer_v1', with: 'abc'
       click_on 'Later afmaken'
-      expect(page).to have_content("Er ging iets fout bij het opslaan van de antwoorden.")
+      expect(page).to have_content("Uw antwoord moet een getal zijn (gebruik een punt voor decimale getallen, geen komma).")
     end
   end
 
