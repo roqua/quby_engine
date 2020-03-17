@@ -54,19 +54,36 @@ feature 'Trying to fill out an invalid answer', js: true do
     filling_in(within: "#item_v1", answering: "answer_v1", with: 'OHAI', should_show: '.error.valid_float')
   end
 
-  scenario 'clientside validations are not run when aborting' do
-    questionnaire = inject_questionnaire("test", <<-END)
-      abortable
-      question :v1, type: :float, required: true do
-        title "Moet beantwoord worden"
-      end; end_panel
-    END
+  context 'clientside validations when aborting' do
+    scenario 'skips require_answer validation' do
+      questionnaire = inject_questionnaire("test", <<-END)
+        abortable
+        question :v1, type: :float, required: true do
+          title "Moet beantwoord worden"
+        end; end_panel
+      END
 
-    visit_new_answer_for(questionnaire)
+      visit_new_answer_for(questionnaire)
 
-    fill_in 'answer_v1', with: 'INVALID'
-    click_on 'Later afmaken'
-    expect(page).to have_content("Uw antwoorden zijn opgeslagen")
+      fill_in 'answer_v1', with: ''
+      click_on 'Later afmaken'
+      expect(page).to have_content("Uw antwoorden zijn opgeslagen")
+    end
+
+    scenario 'does not skip other validations' do
+      questionnaire = inject_questionnaire("test", <<-END)
+        abortable
+        question :v1, type: :float, required: true do
+          title "Moet beantwoord worden"
+        end; end_panel
+      END
+
+      visit_new_answer_for(questionnaire)
+
+      fill_in 'answer_v1', with: 'abc'
+      click_on 'Later afmaken'
+      expect(page).to have_content("Uw antwoord moet een getal zijn (gebruik een punt voor decimale getallen, geen komma).")
+    end
   end
 
   scenario 'clientside validations are run when submitting' do
