@@ -18,7 +18,7 @@ module Quby::Answers::Services
             option :a2, value: 2, description: 'Rainbows'
           end
           question :v_string, type: :string
-          question :v_string2, type: :string
+          question :v_string2, type: :string, required: true
         end
         end_panel
       END
@@ -59,6 +59,24 @@ module Quby::Answers::Services
       end
       it 'returns false if a string question is not answered' do
         expect(validator.depends_on_key_answered(:v_string2)).to be_falsey
+      end
+    end
+
+    describe '#validate' do
+      it 'sets validation errors on the answer' do
+        validator.validate
+        expect(answer.errors).to_not be_empty
+      end
+
+      context 'when answer is aborted' do
+        before do
+          allow(answer).to receive(:aborted).and_return(true)
+        end
+
+        it 'skips the validate_required validation' do
+          validator.validate
+          expect(answer.errors).to be_empty
+        end
       end
     end
   end
