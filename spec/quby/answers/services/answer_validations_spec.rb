@@ -418,6 +418,7 @@ module Quby::Answers::Services
         end
 
         it 'skips requires_answer validations' do
+          expect(answer.errors.messages.values.flatten).not_to be_empty
           expect(answer.errors.messages.values.flatten.pluck(:valtype)).to_not include(:requires_answer)
         end
       end
