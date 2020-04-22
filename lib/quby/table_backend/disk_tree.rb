@@ -18,10 +18,19 @@ require 'csv'
 # Use minfinity or infinity to create infinite ranges.
 module Quby::TableBackend
   class DiskTree
-    def initialize(key)
-      path = self.class.disk_table_root.join(key + '.csv')
 
-      @data = CSV.read(path, col_sep: ';', skip_blanks: true)
+    def self.from_file(key)
+      self.validate_key(key)
+      DiskTree.new(retrieve_from_file(key))
+    end
+
+    def self.from_git(key)
+      self.validate_key(key)
+      DiskTree.new(retrieve_from_git(key))
+    end
+
+    def initialize(data)
+      @data = data
       @headers = @data.shift
       @compare = @data.shift
     end
@@ -32,11 +41,6 @@ module Quby::TableBackend
     def lookup(parameters)
       validate_parameters(parameters)
       lookup_score(parameters)
-    end
-
-    def self.disk_table_root
-      fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
-      Pathname.new(Quby.lookup_table_path)
     end
 
     private
@@ -122,6 +126,30 @@ module Quby::TableBackend
       when 'minfinity' then -Float::INFINITY
       else Float(value)
       end
+    end
+
+    def self.retrieve_from_file(key)
+      path = self.disk_table_root.join(key + '.csv')
+
+      CSV.read(path, col_sep: ';', skip_blanks: true)
+    end
+
+    # retrieves csv contents from questionnaire qubyadmin branches
+    # assumes Quby.lookup_table_path points to a questionnaire git repo (like on qubyadmin)
+    def self.retrieve_from_git(key)
+      csv_string = Dir.chdir(self.disk_table_root) do
+        `git show qubyadmin-#{key}:#{disk_table_root.join(key)}.csv`
+      end
+      CSV.new(csv_string, col_sep: ';', skip_blanks: true).read
+    end
+
+    def self.disk_table_root
+      fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
+      Pathname.new(Quby.lookup_table_path)
+    end
+
+    def self.validate_key(key)
+      raise 'invalid key' unless key =~ /\A[a-z][a-z_0-9]{1,9}\z/
     end
   end
 end

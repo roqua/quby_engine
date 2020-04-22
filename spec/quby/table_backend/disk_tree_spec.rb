@@ -1,22 +1,35 @@
 require 'spec_helper'
 
 describe Quby::TableBackend::DiskTree do
-  let(:tree) { described_class.new('test_tree/test') }
+  let(:tree) { described_class.from_file('test') }
   let(:fixture_root) { Rails.root.join('..', 'fixtures', 'lookup_tables').to_s }
   before do
     allow(Quby).to receive(:lookup_table_path).and_return(fixture_root)
   end
 
-  describe '#initialize' do
-    let(:expected_path) { Pathname.new(fixture_root).join('test_tree') }
-
+  describe '.from_file' do
     it 'reads the csv file' do
       expect(CSV).to receive(:read).and_call_original
       tree
     end
 
     it 'fails when csv file is not found' do
-      expect { described_class.new('test_tree/non_existing') }.to raise_error(Errno::ENOENT)
+      expect { described_class.from_file('not_there') }.to raise_error(Errno::ENOENT)
+    end
+  end
+
+  describe '.from_git' do
+    let(:tree) { described_class.from_git('test') }
+
+    # simulating a git repo on CI is a bit complicated, but you can comment out the next 2 lines to test
+    # in development, assuming the quby_engine repo has a questionnaire repo sibling
+
+    # let(:fixture_root) { Rails.root.join('..', '..', '..', 'questionnaires', 'lookup_tables').to_s }
+    # it 'reads the csv file' { expect(tree.send(:tree)).to be_a(Hash) }
+
+    it 'uses git show to retrieve the file from git' do
+      expect(described_class).to receive(:`).with("git show qubyadmin-test:#{fixture_root}/test.csv").and_return('')
+      tree
     end
   end
 
@@ -26,7 +39,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     context 'invalid csv data' do
-      let(:tree) { described_class.new('test_tree/invalid_range')}
+      let(:tree) { described_class.from_file('bad_range')}
       it 'fails when csv data contains a range between two equal values' do
         expect { tree.send(:tree) }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
       end
@@ -87,7 +100,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     describe 'definition containing range with float values' do
-      let(:tree) { described_class.new('test_tree/float_test') }
+      let(:tree) { described_class.from_file('float_test') }
 
       it 'returns the correct scores' do
         params = {age: 10, raw: 15.8, scale: 'Inhibitie', gender: 'male'}
@@ -99,7 +112,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     describe 'definition containing float values' do
-      let(:tree) { described_class.new('test_tree/test2') }
+      let(:tree) { described_class.from_file('test2') }
 
       it 'returns the correct scores when using integers in lookup path' do
         params = {scale: 'Inhibitie', raw: 17}
