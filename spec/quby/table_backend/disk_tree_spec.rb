@@ -28,7 +28,7 @@ describe Quby::TableBackend::DiskTree do
     # it 'reads the csv file' { expect(tree.send(:tree)).to be_a(Hash) }
 
     it 'uses git show to retrieve the file from git' do
-      expect(described_class).to receive(:`).with("git show qubyadmin-test:#{fixture_root}/test.csv").and_return('')
+      expect(described_class).to receive(:`).with("git show qubyadmin-test:lookup_tables/test.csv").and_return('')
       tree
     end
   end

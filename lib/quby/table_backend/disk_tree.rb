@@ -137,7 +137,7 @@ module Quby::TableBackend
     # assumes Quby.lookup_table_path points to a questionnaire git repo (like on qubyadmin)
     def self.retrieve_from_git(key)
       csv_string = Dir.chdir(self.disk_table_root) do
-        `git show qubyadmin-#{key}:#{disk_table_root.join(key)}.csv`
+        `git show qubyadmin-#{key}:lookup_tables/#{key}.csv`
       end
       CSV.new(csv_string, col_sep: ';', skip_blanks: true).read
     end
