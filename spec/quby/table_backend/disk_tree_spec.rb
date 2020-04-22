@@ -110,6 +110,19 @@ describe Quby::TableBackend::DiskTree do
         params = {scale: 'Inhibitie', raw: 17.0}
         expect(tree.lookup(params)).to eq(71)
       end
+
+      it 'returns nil and notifies AppSignal when a lookup fails' do
+        expect(Roqua::Support::Errors).to receive(:report).exactly(3).times
+      
+        params = {scale: 'Inhibitie', raw: 25.0} # out of range
+        expect(tree.lookup(params)).to eq(nil)
+      
+        params = {scale: 'Inhibitie', raw: 'bogus'} # non-float value
+        expect(tree.lookup(params)).to eq(nil)
+      
+        params = {scale: 'Inhibitie', raw: nil} # nil value
+        expect(tree.lookup(params)).to eq(nil)
+      end
     end
 
     describe 'parameter validation' do
