@@ -130,7 +130,6 @@ module Quby::TableBackend
 
     def self.retrieve_from_file(key)
       path = self.disk_table_root.join(key + '.csv')
-
       CSV.read(path, col_sep: ';', skip_blanks: true)
     end
 
