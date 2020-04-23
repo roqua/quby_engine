@@ -112,15 +112,12 @@ describe Quby::TableBackend::DiskTree do
       end
 
       it 'returns nil and notifies AppSignal when a lookup fails' do
-        expect(Roqua::Support::Errors).to receive(:report).exactly(3).times
+        expect(Roqua::Support::Errors).to receive(:report).exactly(2).times
       
         params = {scale: 'Inhibitie', raw: 25.0} # out of range
         expect(tree.lookup(params)).to eq(nil)
       
         params = {scale: 'Inhibitie', raw: 'bogus'} # non-float value
-        expect(tree.lookup(params)).to eq(nil)
-      
-        params = {scale: 'Inhibitie', raw: nil} # nil value
         expect(tree.lookup(params)).to eq(nil)
       end
     end
@@ -139,6 +136,11 @@ describe Quby::TableBackend::DiskTree do
       it 'raises when extra keys are given' do
         params = {age: 10, scale: 'Inhibitie', gender: 'male', raw: 25, foo: :bar}
         expect { tree.lookup(params) }.to raise_error(RuntimeError, 'Incompatible score parameters found')
+      end
+
+      it 'raises when a nil value is given' do
+        params = {age: 10.2, raw: nil, scale: 'Inhibitie', gender: 'male'}
+        expect { tree.lookup(params) }.to raise_error(RuntimeError, 'Empty score parameter value found')
       end
     end
   end

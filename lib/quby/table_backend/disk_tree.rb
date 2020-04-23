@@ -85,6 +85,9 @@ module Quby::TableBackend
       if (@headers - ['norm']).sort != parameters.keys.map(&:to_s).sort
         fail 'Incompatible score parameters found'
       end
+      if parameters.values.any?(&:nil?)
+        fail 'Empty score parameter value found'
+      end
     end
 
     # Reduce the tree (a hash) to a normscore by looking up the correct values/ranges
