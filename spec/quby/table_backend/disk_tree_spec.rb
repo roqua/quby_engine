@@ -2,21 +2,7 @@ require 'spec_helper'
 
 describe Quby::TableBackend::DiskTree do
   let(:tree) { described_class.from_file('test') }
-  let(:fixture_root) { Rails.root.join('..', 'fixtures', 'lookup_tables').to_s }
-  before do
-    allow(Quby).to receive(:lookup_table_path).and_return(fixture_root)
-  end
 
-  describe '.from_file' do
-    it 'reads the csv file' do
-      expect(CSV).to receive(:read).and_call_original
-      tree
-    end
-
-    it 'fails when csv file is not found' do
-      expect { described_class.from_file('not_there') }.to raise_error(Errno::ENOENT)
-    end
-  end
 
   describe '.from_git' do
     let(:tree) { described_class.from_git('test') }

@@ -37,16 +37,16 @@ module Quby
       @questionnaires_api = nil
     end
 
+    def csv_repo=(repo)
+      @csv_repo = repo
+    end
+
+    def csv_repo
+      @csv_repo  || fail("Quby does not have its answer repo (Quby.csv_repo) configured.")
+    end
+
     def fixtures_path
       File.expand_path File.join('..', '..', 'spec', 'fixtures'), __FILE__
-    end
-
-    def lookup_table_path
-      @lookup_table_path
-    end
-
-    def lookup_table_path=(new_path)
-      @lookup_table_path = new_path
     end
 
     # ==================================================================================================================
@@ -80,4 +80,5 @@ end
 require 'quby/settings'
 require 'quby/questionnaires'
 require 'quby/answers'
-require "quby/engine"
+require 'quby/engine'
+require 'quby/csv_repo'

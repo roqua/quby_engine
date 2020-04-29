@@ -8,20 +8,15 @@ module Quby
 
     def initialize(key)
       @key = key
-      # fetch csvs from the questionnaire git repo backing when running in qubyamdin
-      if self.class.parent_application == "QubyAdmin"
-        @backing = Quby::TableBackend::DiskTree.from_git(key)
-      else # use file backing when running in roqua or test/ci
-        @backing = Quby::TableBackend::DiskTree.from_file(key)
-      end
+      @backing = Quby::TableBackend::DiskTree.new(data)
     end
 
     def lookup(parameters)
       @backing.lookup(parameters)
     end
 
-    def self.parent_application
-      Rails.application.class.parent.name
+    def data
+      Quby.csv_repo.retrieve(key)
     end
   end
 end
