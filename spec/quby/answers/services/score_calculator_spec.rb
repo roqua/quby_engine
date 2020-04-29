@@ -485,6 +485,7 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       before do
+        allow(Quby.csv_repo).to receive(:retrieve)
         allow(Quby::TableBackend::DiskTree).to receive(:new).and_return(double.as_null_object)
       end
 
