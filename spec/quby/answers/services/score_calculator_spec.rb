@@ -485,7 +485,7 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
 
       before do
-        allow(Quby::TableBackend::DiskTree).to receive(:from_file).and_return(double.as_null_object)
+        allow(Quby::TableBackend::DiskTree).to receive(:new).and_return(double.as_null_object)
       end
 
       it 'instantiates a new Quby::Answers::Entities::LookupTable if the table_hash cache does not know the key' do

@@ -1,23 +1,9 @@
 require 'spec_helper'
 
 describe Quby::TableBackend::DiskTree do
-  let(:tree) { described_class.from_file('test') }
-
-
-  describe '.from_git' do
-    let(:tree) { described_class.from_git('test') }
-
-    # simulating a git repo on CI is a bit complicated, but you can comment out the next 2 lines to test
-    # in development, assuming the quby_engine repo has a questionnaire repo sibling
-
-    # let(:fixture_root) { Rails.root.join('..', '..', '..', 'questionnaires', 'lookup_tables').to_s }
-    # it 'reads the csv file' { expect(tree.send(:tree)).to be_a(Hash) }
-
-    it 'uses git show to retrieve the file from git' do
-      expect(described_class).to receive(:`).with("git show qubyadmin-test:lookup_tables/test.csv").and_return('')
-      tree
-    end
-  end
+  let(:csv_key) { 'test' }
+  let(:data) { Quby.csv_repo.retrieve(csv_key) }
+  let(:tree) { described_class.new(data) }
 
   describe '#tree' do
     it 'returns a hash' do
@@ -25,7 +11,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     context 'invalid csv data' do
-      let(:tree) { described_class.from_file('bad_range')}
+      let(:csv_key) { 'bad_range' }
       it 'fails when csv data contains a range between two equal values' do
         expect { tree.send(:tree) }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
       end
@@ -86,7 +72,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     describe 'definition containing range with float values' do
-      let(:tree) { described_class.from_file('float_test') }
+      let(:csv_key) { 'float_test' }
 
       it 'returns the correct scores' do
         params = {age: 10, raw: 15.8, scale: 'Inhibitie', gender: 'male'}
@@ -98,7 +84,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     describe 'definition containing float values' do
-      let(:tree) { described_class.from_file('test2') }
+      let(:csv_key) { 'test2' }
 
       it 'returns the correct scores when using integers in lookup path' do
         params = {scale: 'Inhibitie', raw: 17}
