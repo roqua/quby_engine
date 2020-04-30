@@ -42,7 +42,7 @@ module Quby
     end
 
     def csv_repo
-      @csv_repo  || fail("Quby does not have its answer repo (Quby.csv_repo) configured.")
+      @csv_repo  || fail("Quby does not have its csv repo (Quby.csv_repo) configured.")
     end
 
     def fixtures_path
