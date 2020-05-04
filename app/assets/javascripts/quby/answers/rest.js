@@ -71,8 +71,10 @@ function correctAllNothingCheckboxes(checked, allKey, nothingKey){
         el = $('#answer_'+allKey)[0];
     }
     if (el) {
-        $(el).prop('checked', false);
-        handleDisableCheckboxSubQuestions(el);
+        // uncheck the (un)check_all checkbox. Uses a trigger('click') so hiding/showing is handled
+        if($(el).prop('checked')){
+            $(el).trigger('click');
+        }
     }
 }
 
