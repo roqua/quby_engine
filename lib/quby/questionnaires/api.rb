@@ -45,7 +45,7 @@ module Quby
 
       def fresh?(key)
         return false unless @cache.key?(key)
-        @cache[key][:timestamp].to_i == @repo.timestamp(key).to_i
+        @cache[key][:timestamp] == @repo.timestamp(key)
       end
     end
   end
