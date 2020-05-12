@@ -162,6 +162,7 @@ module Quby
 
         # Faux belongs_to :questionnaire
         def questionnaire
+          # puts caller[0..10].join("\n"), "\n------"
           Quby.questionnaires.find(questionnaire_key)
         end
 

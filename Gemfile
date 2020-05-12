@@ -39,7 +39,7 @@ group :test, :development do
   gem 'guard-rubocop',       '~> 1.0'
   gem 'capybara',            '>= 2.8.1'
   gem 'capybara-screenshot', '~> 0.3.14'
-  gem 'poltergeist'
+  gem 'selenium-webdriver',  '~> 3.14'
   gem 'timecop'
   gem 'fakefs', '0.9.1', require: false
   gem 'pry-coolline'
