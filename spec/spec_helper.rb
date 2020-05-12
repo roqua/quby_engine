@@ -60,6 +60,7 @@ Capybara.javascript_driver = :selenium_chrome_headless
 Capybara::Screenshot.register_driver(:selenium_chrome_headless) do |driver, path|
   driver.browser.save_screenshot(path)
 end
+Capybara.server = :webrick
 
 # This needs to happen once before the :each block so that spec/features/display_modes_spec.rb
 # can iterate over all fixtures and add specs for each of them.
