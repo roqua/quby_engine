@@ -17,6 +17,7 @@ feature 'textvar replacement', js: true do
     expect(page).to have_content 'Probleemmiddel: init'
 
     fill_in 'answer[v_00]', with: 'new'
+    find('body').click # blur input
     expect(page).to have_content 'Probleemmiddel: new'
   end
 
