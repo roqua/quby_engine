@@ -269,7 +269,7 @@ module Quby
     # This is done instead of configuring I18n.locale to allow for example
     # English questionnaires within a Dutch RoQua.
     def translate(key, options = {})
-      I18n.t(key, options.merge(locale: @answer.questionnaire.language))
+      I18n.t(key, options.merge(locale: @questionnaire.language))
     end
     helper_method :translate
 
