@@ -35,20 +35,32 @@ require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
-require 'capybara/poltergeist'
 require 'timecop'
 require 'fakefs/safe'
 require 'launchy'
+require 'selenium-webdriver'
 
 # Load up shared examples
 require 'quby/answers/specs'
 require 'quby/questionnaires/specs'
 
 Capybara.default_selector = :css
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, inspector: true, timeout: 120)
+Capybara.register_driver :selenium_chrome_headless do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless')
+  options.add_argument('--disable-gpu')
+  options.add_argument('--no-sandbox')
+
+  Capybara::Selenium::Driver.new(app,
+                                 browser: :chrome,
+                                 options: options
+  )
 end
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :selenium_chrome_headless
+Capybara::Screenshot.register_driver(:selenium_chrome_headless) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+Capybara.server = :webrick
 
 # This needs to happen once before the :each block so that spec/features/display_modes_spec.rb
 # can iterate over all fixtures and add specs for each of them.

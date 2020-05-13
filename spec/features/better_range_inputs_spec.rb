@@ -52,7 +52,7 @@ feature 'Displaying a input of type range', js: true do
 
     # tap the slider should change the value
     pos = page.evaluate_script("$('#answer_v1+.noUi-target .noUi-base').position()")
-    page.driver.click(pos['left'] + 100, pos['top'] + 5)
+    page.driver.browser.action.move_by(pos['left'] + 100, pos['top'] + 5).click.perform
     expect(slider_value.to_i).to be < 40
     expect(slider_value.to_i).to be > 10
     expect(input.value).to eq slider_value
