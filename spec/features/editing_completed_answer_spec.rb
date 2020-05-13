@@ -22,7 +22,7 @@ feature 'Editing a completed answer' do
 
     answer = create_new_answer_for(questionnaire, 'v_1' => 'a2')
     visit_new_answer_for(questionnaire, 'paged', answer)
-    expect(find('#answer_v_1_a2')[:checked]).to be_truthy
+    expect(find('#answer_v_1_a2')).to be_checked
 
     # make sure subquestions of selected answers are enabled
     expect(find('#answer_v_1_a2_val')[:disabled]).to be_falsey
