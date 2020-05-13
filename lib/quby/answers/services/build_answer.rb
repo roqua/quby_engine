@@ -21,6 +21,7 @@ module Quby
         def attributes
           {
             questionnaire_key:    questionnaire.key,
+            questionnaire:        @questionnaire,
             token:                SecureRandom.hex(8),
             dsl_last_update:      questionnaire.last_update,
             raw_params:           given_attributes.fetch(:raw_params,           {}),

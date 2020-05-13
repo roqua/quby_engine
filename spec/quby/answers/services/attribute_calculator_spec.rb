@@ -13,7 +13,8 @@ describe Quby::Answers::Services::AttributeCalculator do
       question :v_2, type: :string, title: "Q2"
     END
 
-    calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something"))
+    calculator = described_class.new(questionnaire, make_answer(questionnaire,
+                                                                value: {"v_1_a1" => 1, "v_2" => "something"}))
     expect(calculator.hidden).to eq [:v_2]
   end
 
@@ -27,7 +28,8 @@ describe Quby::Answers::Services::AttributeCalculator do
       question :v_2, type: :string, title: "Q2", default_invisible: true
     END
 
-    calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something"))
+    calculator = described_class.new(questionnaire, make_answer(questionnaire,
+                                                                value: {"v_1_a1" => 1, "v_2" => "something"}))
     expect(calculator.shown).to eq [:v_2]
     expect(calculator.hidden).to eq []
   end
@@ -39,7 +41,8 @@ describe Quby::Answers::Services::AttributeCalculator do
       question :v_2, type: :string, title: "Q2"
     END
 
-    calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something",
+    calculator = described_class.new(questionnaire, make_answer(questionnaire,
+                                                                value: {"v_1_a1" => 1, "v_2" => "something"},
                                                                 flags: {test_test1: true}))
     expect(calculator.hidden).to eq [:v_1]
   end
@@ -53,7 +56,8 @@ describe Quby::Answers::Services::AttributeCalculator do
       question :v_2, type: :string, title: "Q2"
     END
 
-    calculator = described_class.new(questionnaire, make_answer("v_1" => 'a1', "v_2" => "something",
+    calculator = described_class.new(questionnaire, make_answer(questionnaire,
+                                                                value: {"v_1" => 'a1', "v_2" => "something"},
                                                                 flags: {test_test1: true}))
     expect(calculator.hidden).to eq []
     expect(calculator.shown).to eq [:v_2]
@@ -68,7 +72,8 @@ describe Quby::Answers::Services::AttributeCalculator do
       question :v_2, type: :string, title: "Q2"
     END
 
-    calculator = described_class.new(questionnaire, make_answer("v_1" => 'a1', "v_2" => "something",
+    calculator = described_class.new(questionnaire, make_answer(questionnaire,
+                                                                value: {"v_1" => 'a1', "v_2" => "something"},
                                                                 flags: {test_test1: true}))
     expect(calculator.hidden).to eq []
     expect(calculator.shown).to eq [:v_2]
@@ -81,13 +86,14 @@ describe Quby::Answers::Services::AttributeCalculator do
       question :v_2, type: :string, title: "Q2"
     END
 
-    calculator = described_class.new(questionnaire, make_answer("v_1_a1" => 1, "v_2" => "something",
+    calculator = described_class.new(questionnaire, make_answer(questionnaire,
+                                                                value: {"v_1_a1" => 1, "v_2" => "something"},
                                                                 flags: {test_test1: true}))
     expect(calculator.shown).to eq [:v_1]
     expect(calculator.hidden).to eq []
   end
 
-  def make_answer(value = {}, flags: {})
-    Quby::Answers::Entities::Answer.new(questionnaire_key: 'test', value: value, flags: flags).tap(&:enhance_by_dsl)
+  def make_answer(questionnaire, value: {}, flags: {})
+    Quby::Answers::Services::BuildAnswer.new(questionnaire, value: value, flags: flags).build.enhance_by_dsl
   end
 end

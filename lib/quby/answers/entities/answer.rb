@@ -20,6 +20,9 @@ module Quby
         # @return [String]
         attr_accessor :questionnaire_key
 
+        # @return [Quby::Questionnaires::Entities::Questionnaire]
+        attr_accessor :questionnaire
+
         # The raw form data (for recovery purposes)
         # @return [Hash]
         attr_accessor :raw_params
@@ -83,7 +86,7 @@ module Quby
         attr_accessor :extra_failed_validations
 
         def initialize(_id: nil, questionnaire_id: nil, questionnaire_key: nil,
-          raw_params: nil, value: nil, patient_id: nil, patient: nil,
+          questionnaire: nil, raw_params: nil, value: nil, patient_id: nil, patient: nil,
           token: nil, active: true, test: false, created_at: nil, updated_at: nil,
           started_at: nil, completed_at: nil, outcome: nil, outcome_generated_at: nil,
           scores: nil, actions: nil, completion: nil, dsl_last_update: nil, import_notes: nil,
@@ -92,6 +95,7 @@ module Quby
           self._id = _id
           self.questionnaire_id = questionnaire_id
           self.questionnaire_key = questionnaire_key
+          self.questionnaire  = questionnaire
           self.raw_params = raw_params || {}
           self.value = value || {}
           self.patient_id = patient_id
@@ -158,11 +162,6 @@ module Quby
 
         def valid?
           errors.empty?
-        end
-
-        # Faux belongs_to :questionnaire
-        def questionnaire
-          Quby.questionnaires.find(questionnaire_key)
         end
 
         def mark_completed(start_time)
