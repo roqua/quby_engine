@@ -37,9 +37,9 @@ group :test, :development do
   gem 'guard-teaspoon',      '~> 0.8'
   gem 'guard-spork',         '~> 2.1'
   gem 'guard-rubocop',       '~> 1.0'
-  gem 'capybara',            '>= 2.8.1'
-  gem 'capybara-screenshot', '~> 0.3.14'
-  gem 'poltergeist'
+  gem 'capybara',            '~> 3.0'
+  gem 'capybara-screenshot', '~> 1.0'
+  gem 'selenium-webdriver',  '~> 3.14'
   gem 'timecop'
   gem 'fakefs', '0.9.1', require: false
   gem 'pry-coolline'
