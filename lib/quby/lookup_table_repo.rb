@@ -13,6 +13,7 @@ module Quby
       def initialize(disk_table_root)
         @disk_table_root = Pathname.new(disk_table_root)
       end
+
       def retrieve(key)
         Quby::LookupTableRepo.validate_key(key)
         path = disk_table_root.join(key + '.csv')
