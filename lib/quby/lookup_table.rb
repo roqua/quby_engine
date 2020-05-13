@@ -16,7 +16,7 @@ module Quby
     end
 
     def data
-      Quby.csv_repo.retrieve(key)
+      Quby.lookup_table_repo.retrieve(key)
     end
   end
 end

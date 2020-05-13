@@ -37,12 +37,12 @@ module Quby
       @questionnaires_api = nil
     end
 
-    def csv_repo=(repo)
-      @csv_repo = repo
+    def lookup_table_repo=(repo)
+      @lookup_table_repo = repo
     end
 
-    def csv_repo
-      @csv_repo  || fail("Quby does not have its answer repo (Quby.csv_repo) configured.")
+    def lookup_table_repo
+      @lookup_table_repo  || fail("Quby does not have its lookup table repo (Quby.lookup_table_repo) configured.")
     end
 
     def fixtures_path
@@ -81,4 +81,4 @@ require 'quby/settings'
 require 'quby/questionnaires'
 require 'quby/answers'
 require 'quby/engine'
-require 'quby/csv_repo'
+require 'quby/lookup_table_repo'

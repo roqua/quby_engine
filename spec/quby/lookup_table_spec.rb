@@ -26,9 +26,9 @@ module Quby
     end
 
     describe '#data' do
-      it 'calls Quby.csv_repo.retrieve(table.key)' do
+      it 'calls Quby.lookup_table_repo.retrieve(table.key)' do
         table
-        expect(Quby.csv_repo).to receive(:retrieve).with(table.key)
+        expect(Quby.lookup_table_repo).to receive(:retrieve).with(table.key)
         table.data
       end
     end
