@@ -95,7 +95,7 @@ module Quby
           self._id = _id
           self.questionnaire_id = questionnaire_id
           self.questionnaire_key = questionnaire_key
-          self.questionnaire  = questionnaire
+          self.questionnaire  = questionnaire || Quby.questionnaires.find(questionnaire_key)
           self.raw_params = raw_params || {}
           self.value = value || {}
           self.patient_id = patient_id

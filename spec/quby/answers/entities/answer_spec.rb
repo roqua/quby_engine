@@ -23,28 +23,28 @@ module Quby::Answers::Entities
 
     describe 'initialization of hashes ' do
       it 'initializes value as an empty hash when given nothing' do
-        expect(Answer.new.value).to eq({})
+        expect(Answer.new(questionnaire: questionnaire).value).to eq({})
       end
 
       it 'initializes value as an empty hash when given explicit nils' do
-        expect(Answer.new(value: nil).value).to eq({})
+        expect(Answer.new(questionnaire: questionnaire, value: nil).value).to eq({})
       end
 
       it 'initializes value as given' do
-        expect(Answer.new(value: {a: 1, b: 2}).value).to eq({a: 1, b: 2})
+        expect(Answer.new(questionnaire: questionnaire, value: {a: 1, b: 2}).value).to eq({a: 1, b: 2})
       end
     end
 
     describe '#value_by_values' do
       it 'returns an empty hash when value is nil' do
-        expect(Answer.new.value_by_values).to eq({})
+        expect(Answer.new(questionnaire: questionnaire).value_by_values).to eq({})
       end
     end
 
     describe '#value_by_regular_values' do
       describe 'for empty answer' do
         it 'returns an empty hash' do
-          expect(Answer.new.value_by_regular_values).to eq({})
+          expect(Answer.new(questionnaire: questionnaire).value_by_regular_values).to eq({})
         end
       end
 
@@ -75,22 +75,22 @@ module Quby::Answers::Entities
         end
 
         it 'converts value\'s to the option\'s value :radio, :scale & :select questions' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q1: :a1, q2: :a2, q3: :a1}).value_by_regular_values)
+          expect(Answer.new(questionnaire: questionnaire, value: {q1: :a1, q2: :a2, q3: :a1}).value_by_regular_values)
             .to eq({q1: 0, q2: 3, q3: 4})
         end
 
         it 'converts values of float and integer questions to floats and integers' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q4: "1.2", q5: "3.4"}).value_by_regular_values)
+          expect(Answer.new(questionnaire: questionnaire, value: {q4: "1.2", q5: "3.4"}).value_by_regular_values)
             .to eq({q4: 1.2, q5: 3})
         end
 
         it 'does not touch other question types values, such as of :open' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q6: "antwoord"}).value_by_regular_values)
+          expect(Answer.new(questionnaire: questionnaire, value: {q6: "antwoord"}).value_by_regular_values)
             .to eq({q6: "antwoord"})
         end
 
         it 'does not touch values of questions that are not in the questionnaire anymore' do
-          expect(Answer.new(questionnaire_key: 'foo', value: {q22: "val", q5: "3.4"}).value_by_regular_values)
+          expect(Answer.new(questionnaire: questionnaire, value: {q22: "val", q5: "3.4"}).value_by_regular_values)
             .to eq({q5: 3, q22: "val"})
         end
       end

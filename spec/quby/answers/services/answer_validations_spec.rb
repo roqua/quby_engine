@@ -119,8 +119,10 @@ module Quby::Answers::Services
       }
     end
 
+    let(:questionnaire) {Quby.questionnaires.find('all_validations')}
+
     let(:answer) do
-      Quby::Answers::Entities::Answer.new(questionnaire_key: 'all_validations', value: value).tap(&:enhance_by_dsl)
+      Quby::Answers::Services::BuildAnswer.new(questionnaire, value: value).build.tap(&:enhance_by_dsl)
     end
 
     before do
@@ -431,7 +433,7 @@ describe 'depends_on select question with placeholder option' do
     {"v_1a" => "a0", "v_1b" => ""}
   end
   let(:answer) do
-    Quby::Answers::Entities::Answer.new(questionnaire_key: questionnaire.key, value: value).tap(&:enhance_by_dsl)
+    Quby::Answers::Services::BuildAnswer.new(questionnaire, value: value).build.tap(&:enhance_by_dsl)
   end
   let(:questionnaire) { inject_questionnaire('depends', definition) }
   let(:definition) do

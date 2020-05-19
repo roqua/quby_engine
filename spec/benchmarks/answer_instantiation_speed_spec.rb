@@ -30,11 +30,11 @@ describe 'Benchmark making answer entities', benchmark: true do
     RubyProf.pause if RubyProf.running?
     questionnaire.questions
     expect(questionnaire.key).to eq('test')
-    Quby::Answers::Entities::Answer.new(questionnaire_key: questionnaire.key, questionnaire: questionnaire).enhance_by_dsl
+    Quby::Answers::Services::BuildAnswer.new(questionnaire, {}).enhance_by_dsl
     RubyProf.resume if RubyProf.running?
 
     sample_count.times do
-      Quby::Answers::Entities::Answer.new(questionnaire_key: questionnaire.key, questionnaire: questionnaire).enhance_by_dsl
+      Quby::Answers::Services::BuildAnswer.new(questionnaire, {}).enhance_by_dsl
     end
   end
 end
