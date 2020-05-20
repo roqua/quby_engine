@@ -101,6 +101,14 @@ module Quby
           @questionnaire.tags = tags
         end
 
+        def outcome_regeneration_requested_at(timestamp)
+          @questionnaire.outcome_regeneration_requested_at = timestamp
+        end
+
+        def deactivate_answers_requested_at(timestamp)
+          @questionnaire.deactivate_answers_requested_at = timestamp
+        end
+
         def enable_previous_questionnaire_button
           @questionnaire.enable_previous_questionnaire_button = true
         end
