@@ -7,6 +7,7 @@ require 'quby/questionnaires/dsl/score_builder'
 require 'quby/questionnaires/dsl/charting/line_chart_builder'
 require 'quby/questionnaires/dsl/charting/radar_chart_builder'
 require 'quby/questionnaires/dsl/charting/bar_chart_builder'
+require 'quby/questionnaires/dsl/charting/overview_chart_builder'
 
 require_relative 'standardized_panel_generators'
 
@@ -188,6 +189,12 @@ module Quby
 
         def completion(options = {}, &block)
           variable(:completion, options.reverse_merge(completion: true), &block)
+        end
+
+        def overview_chart(*args, &block)
+          raise "Cannot define more than one overview chart" if @questionnaire.charts.overview.present?
+          builder = OverviewChartBuilder.new(@questionnaire, *args)
+          @questionnaire.charts.overview = builder.build(&block)
         end
 
         def line_chart(*args, &block)
