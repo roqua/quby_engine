@@ -75,6 +75,8 @@ module Quby
         attr_accessor :language
         attr_accessor :respondent_types
         attr_reader :tags # tags= is manually defined below
+        attr_accessor :outcome_regeneration_requested_at
+        attr_accessor :deactivate_answers_requested_at
         attr_accessor :check_key_clashes
         # If false, we don't check html for validity (for mate1 and mate1_pre)
         attr_accessor :validate_html

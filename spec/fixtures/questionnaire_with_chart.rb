@@ -20,6 +20,11 @@ score :total, :label => 'Total', schema: [{key: :value, export_key: :tot, label:
   {value: sum(values('v_1', 'v_2', 'v_3')) / 3.0}
 end
 
+overview_chart do
+  subscore :value
+  y_max 100
+end
+
 line_chart :tot do
   range 0..100
   plot :total

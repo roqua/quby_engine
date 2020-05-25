@@ -16,4 +16,10 @@ feature 'Defining charts in a questionnaire' do
     expect(plottable_labels).to eq(["Total", "Label 1", "Title 2", "Title 3"])
   end
 
+  it 'has an overview' do
+    expect(questionnaire_with_chart.charts.overview).to be_present
+    expect(questionnaire_with_chart.charts.overview.y_max).to eq(100)
+    expect(questionnaire_with_chart.charts.overview.subscore).to eq(:value)
+  end
+
 end

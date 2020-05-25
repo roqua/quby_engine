@@ -11,6 +11,14 @@ module Quby
             @charts = []
           end
 
+          def overview
+            @overview_chart
+          end
+
+          def overview=(chart)
+            @overview_chart = chart
+          end
+
           def add(chart)
             fail "Duplicate chart: #{chart.key} already exists!" if find(chart.key)
             @charts << chart

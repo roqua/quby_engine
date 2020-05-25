@@ -33,6 +33,18 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.sbg_key).to eq('foo')
     end
 
+    it 'can request outcome regeneration' do
+      timestamp = Time.local(2020, 5, 12, 4, 28, 19)
+      dsl { outcome_regeneration_requested_at timestamp }
+      expect(questionnaire.outcome_regeneration_requested_at).to eq(timestamp)
+    end
+
+    it 'can request answers to be deactivated' do
+      timestamp = Time.local(2020, 5, 12, 4, 28, 19)
+      dsl { deactivate_answers_requested_at timestamp }
+      expect(questionnaire.deactivate_answers_requested_at).to eq(timestamp)
+    end
+
     describe 'roqua keys' do
       it 'defaults to key' do
         dsl {}
