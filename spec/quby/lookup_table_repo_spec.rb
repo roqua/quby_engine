@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Quby::LookupTableRepo::Disk do
-  subject {Quby.lookup_table_repo}
+  subject { Quby.lookup_table_repo }
 
   it 'Quby.lookup_table_repo is a disk repo by default' do
     expect(subject).to be_an_instance_of(described_class)
