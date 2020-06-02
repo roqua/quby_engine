@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Quby::TableBackend::RangeTree do
   let(:csv_key) { 'test' }
   let(:data) { Quby.lookup_table_repo.retrieve(csv_key) }
-  let(:tree) { described_class.new(data) }
+  let(:tree) { described_class.new(data.shift, data.shift, data) }
 
   describe '#tree' do
     it 'returns a hash' do

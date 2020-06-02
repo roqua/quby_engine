@@ -9,9 +9,12 @@ module Quby
 
     describe '#initialize' do
       it 'calls data to initialize the disktree' do
-        data_double = double()
+        headers = double
+        compare = double
+        data = double
+        data_double = [headers, compare, data]
         expect_any_instance_of(described_class).to receive(:data).and_return(data_double)
-        expect(Quby::TableBackend::RangeTree).to receive(:new).with(data_double).and_return(fake_backing)
+        expect(Quby::TableBackend::RangeTree).to receive(:new).with(headers, compare, data).and_return(fake_backing)
         table
       end
     end

@@ -1,11 +1,18 @@
 # frozen_string_literal: true
 
-# Create a lookup tree from a csv file that converts raw scores
-# to normalized scores.
-# The csv file must have two header rows, one with the column
-# names and one with the lookup types (string, float or range).
-# The last column of the first header row must be called 'norm' and
-# must have the 'float' type (in the second header row).
+# Create a value lookup tree from a headers array, a compare (type) array and a data array of arrays.
+# The #lookup method will try to find the data row where each of the comparison columns matches
+# the given parameters and return the value from the norm column.
+#
+# #initialize params:
+# headers: An array of column names
+# compare: An array of lookup types (string, float or range) for each column
+# data: An array of arrays containing the rows describing the mapping from the
+#   different lookup columns to the `norm` value.
+#
+# The last column of the headers must be called 'norm' and
+# must have the 'float' type (in compare array).
+#
 # String and float types are used to make an exact match.
 # A range is always a range between two floats where the range is between
 # the low value (inclusive) and the high value (exclusive),
@@ -15,10 +22,10 @@
 # Use minfinity or infinity to create infinite ranges.
 module Quby::TableBackend
   class RangeTree
-    def initialize(data)
+    def initialize(headers, compare, data)
       @data = data
-      @headers = @data.shift
-      @compare = @data.shift
+      @headers = headers
+      @compare = compare
     end
 
     # Given a parameters hash that contains a value or range for every
