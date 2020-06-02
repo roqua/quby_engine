@@ -11,10 +11,11 @@ module Quby
     end
 
     def backing
+      return @backing if @backing.present?
       all_data = data
       headers = all_data.shift
       compare = all_data.shift
-      @backing ||= Quby::TableBackend::RangeTree.new(headers, compare, all_data)
+      @backing = Quby::TableBackend::RangeTree.new(headers, compare, all_data)
     end
 
     def lookup(parameters)
