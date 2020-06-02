@@ -8,7 +8,7 @@ module Quby
 
     def initialize(key)
       @key = key
-      @backing = Quby::TableBackend::DiskTree.new(data)
+      @backing = Quby::TableBackend::RangeTree.new(data)
     end
 
     def lookup(parameters)

@@ -14,7 +14,7 @@
 # The low and high values of a range cannot be equal.
 # Use minfinity or infinity to create infinite ranges.
 module Quby::TableBackend
-  class DiskTree
+  class RangeTree
     def initialize(data)
       @data = data
       @headers = @data.shift

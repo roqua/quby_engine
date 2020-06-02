@@ -486,7 +486,7 @@ module Quby::Answers::Services
 
       before do
         allow(Quby.lookup_table_repo).to receive(:retrieve)
-        allow(Quby::TableBackend::DiskTree).to receive(:new).and_return(double.as_null_object)
+        allow(Quby::TableBackend::RangeTree).to receive(:new).and_return(double.as_null_object)
       end
 
       it 'instantiates a new Quby::Answers::Entities::LookupTable if the table_hash cache does not know the key' do

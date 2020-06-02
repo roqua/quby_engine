@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Quby::TableBackend::DiskTree do
+describe Quby::TableBackend::RangeTree do
   let(:csv_key) { 'test' }
   let(:data) { Quby.lookup_table_repo.retrieve(csv_key) }
   let(:tree) { described_class.new(data) }

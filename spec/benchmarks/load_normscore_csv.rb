@@ -12,7 +12,7 @@ feature 'Load normscore csv file', benchmark: true do
   it 'builds a tree' do
     data = Quby.lookup_table_repo.retrieve('test')
     10.times do
-      Quby::TableBackend::DiskTree.new(data).send :tree
+      Quby::TableBackend::RangeTree.new(data).send :tree
     end
   end
 end

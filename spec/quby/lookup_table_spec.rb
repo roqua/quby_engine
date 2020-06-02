@@ -11,14 +11,14 @@ module Quby
       it 'calls data to initialize the disktree' do
         data_double = double()
         expect_any_instance_of(described_class).to receive(:data).and_return(data_double)
-        expect(Quby::TableBackend::DiskTree).to receive(:new).with(data_double).and_return(fake_backing)
+        expect(Quby::TableBackend::RangeTree).to receive(:new).with(data_double).and_return(fake_backing)
         table
       end
     end
 
     describe '#lookup' do
       it 'passes lookup calls on to the backing' do
-        expect(Quby::TableBackend::DiskTree).to receive(:new).and_return(fake_backing)
+        expect(Quby::TableBackend::RangeTree).to receive(:new).and_return(fake_backing)
         parameters = {a: 1}
         expect(table.instance_variable_get(:@backing)).to receive(:lookup).with(parameters)
         table.lookup(parameters)
