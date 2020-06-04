@@ -5,26 +5,25 @@ require 'spec_helper'
 module Quby
   describe LookupTable do
     let(:table) { described_class.new('test') }
-    let(:fake_backing) { double.as_null_object }
-
-    describe '#initialize' do
-      it 'calls data to initialize the disktree' do
-        headers = double
-        compare = double
-        data = double
-        data_double = [headers, compare, data]
-        expect_any_instance_of(described_class).to receive(:data).and_return(data_double)
-        expect(Quby::TableBackend::RangeTree).to receive(:new).with(headers, compare, data).and_return(fake_backing)
-        table
-      end
-    end
+    let(:fake_backing) { double(:"present?" => true).as_null_object }
 
     describe '#lookup' do
       it 'passes lookup calls on to the backing' do
         expect(Quby::TableBackend::RangeTree).to receive(:new).and_return(fake_backing)
         parameters = {a: 1}
-        expect(table.instance_variable_get(:@backing)).to receive(:lookup).with(parameters)
+        expect(table.backing).to receive(:lookup).with(parameters)
         table.lookup(parameters)
+      end
+
+      it 'initializes the disktree lazily' do
+        headers = double
+        compare = double
+        data = double
+        data_double = [headers, compare, data]
+        table
+        expect_any_instance_of(described_class).to receive(:data).and_return(data_double)
+        expect(Quby::TableBackend::RangeTree).to receive(:new).with(headers, compare, [data]).and_return(fake_backing)
+        table.lookup(some: :thing)
       end
     end
 
