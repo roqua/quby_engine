@@ -1,2 +1,2 @@
 %span.panel-action-link
-  = link_to "Bulk-weergave", url_for(display_mode: 'bulk'), class: 'btn'
+  = link_to "Bulk-weergave", url_for(params.permit!.merge(display_mode: 'bulk')), class: 'btn'
