@@ -5,15 +5,14 @@ require 'spec_helper'
 feature 'Load normscore csv file', benchmark: true do
   it 'loads a csv file' do
     10.times do
-      Quby.lookup_table_path = Rails.root.join('..', 'fixtures', 'lookup_tables').to_s
-      Quby::TableBackend::DiskTree.new('test_tree/test')
+      Quby.lookup_table_repo.retrieve('test')
     end
   end
 
   it 'builds a tree' do
+    data = Quby.lookup_table_repo.retrieve('test')
     10.times do
-      Quby.lookup_table_path = Rails.root.join('..', 'fixtures', 'lookup_tables').to_s
-      Quby::TableBackend::DiskTree.new('test_tree/test').tree
+      Quby::TableBackend::RangeTree.new(data).send :tree
     end
   end
 end
