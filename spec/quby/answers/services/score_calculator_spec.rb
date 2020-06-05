@@ -483,26 +483,27 @@ module Quby::Answers::Services
 
     describe '#table_lookup' do
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
+      let(:table_double) { double.as_null_object }
 
       before do
-        allow(Quby::LookupTable.backend_class).to receive(:new).and_return(double.as_null_object)
+        expect(Quby::LookupTable).to receive(:new).and_return(table_double)
       end
 
       it 'instantiates a new Quby::Answers::Entities::LookupTable if the table_hash cache does not know the key' do
         expect(calculator.send :table_hash).to be_empty
         calculator.table_lookup :test_table, score: 1
-        expect(calculator.send(:table_hash)[:test_table]).to be_a(Quby::LookupTable)
+        expect(calculator.send(:table_hash)[:test_table]).to be(table_double)
       end
 
-      it 'uses the already instantiated lookuptable if there is a cache hit' do
+      it 'uses the memoized lookuptable if there is a cache hit' do
         calculator.table_lookup :test_table, score: 1
-        expect(calculator.send(:table_hash)[:test_table]).to receive(:lookup)
+        expect(table_double).to receive(:lookup)
         calculator.table_lookup :test_table, score: 1
       end
 
       it 'looks up the given parameters on the given table' do
         parameters = {score: 1}
-        expect_any_instance_of(Quby::LookupTable).to receive(:lookup).with parameters
+        expect(table_double).to receive(:lookup).with parameters
         calculator.table_lookup :test_table, parameters
       end
     end

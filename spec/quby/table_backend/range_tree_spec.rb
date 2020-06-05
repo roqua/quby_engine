@@ -1,24 +1,9 @@
 require 'spec_helper'
 
-describe Quby::TableBackend::DiskTree do
-  let(:tree) { described_class.new('test_tree/test') }
-  let(:fixture_root) { Rails.root.join('..', 'fixtures', 'lookup_tables').to_s }
-  before do
-    allow(Quby).to receive(:lookup_table_path).and_return(fixture_root)
-  end
-
-  describe '#initialize' do
-    let(:expected_path) { Pathname.new(fixture_root).join('test_tree') }
-
-    it 'reads the csv file' do
-      expect(CSV).to receive(:read).and_call_original
-      tree
-    end
-
-    it 'fails when csv file is not found' do
-      expect { described_class.new('test_tree/non_existing') }.to raise_error(Errno::ENOENT)
-    end
-  end
+describe Quby::TableBackend::RangeTree do
+  let(:csv_key) { 'test' }
+  let(:data) { Quby.lookup_table_repo.retrieve(csv_key) }
+  let(:tree) { described_class.new(data.shift, data.shift, data) }
 
   describe '#tree' do
     it 'returns a hash' do
@@ -26,7 +11,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     context 'invalid csv data' do
-      let(:tree) { described_class.new('test_tree/invalid_range')}
+      let(:csv_key) { 'bad_range' }
       it 'fails when csv data contains a range between two equal values' do
         expect { tree.send(:tree) }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
       end
@@ -87,7 +72,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     describe 'definition containing range with float values' do
-      let(:tree) { described_class.new('test_tree/float_test') }
+      let(:csv_key) { 'float_test' }
 
       it 'returns the correct scores' do
         params = {age: 10, raw: 15.8, scale: 'Inhibitie', gender: 'male'}
@@ -99,7 +84,7 @@ describe Quby::TableBackend::DiskTree do
     end
 
     describe 'definition containing float values' do
-      let(:tree) { described_class.new('test_tree/test2') }
+      let(:csv_key) { 'test2' }
 
       it 'returns the correct scores when using integers in lookup path' do
         params = {scale: 'Inhibitie', raw: 17}
