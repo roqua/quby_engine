@@ -4,7 +4,7 @@ require 'csv'
 module Quby
   module LookupTableRepo
     def self.validate_key(key)
-      raise 'invalid key' unless key =~ /\A[a-z][a-z_0-9]{1,9}\z/
+      raise 'invalid key' unless key =~ /\A[a-z][a-z_0-9]{1,50}\z/
     end
 
     class Disk
