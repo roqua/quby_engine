@@ -287,7 +287,7 @@ module Quby
         end
 
         def validate_html(html, key = nil)
-          fragment = Nokogiri::HTML.fragment(html)
+          fragment = Nokogiri::HTML5.fragment(html)
           return unless fragment.errors.present?
 
           fail "#{key || html} contains invalid html: #{fragment.errors.map(&:to_s).join(', ')}."
