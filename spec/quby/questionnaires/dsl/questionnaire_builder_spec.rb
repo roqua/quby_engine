@@ -442,7 +442,8 @@ module Quby::Questionnaires::DSL
         item = questionnaire.panels.first.items.first
         expect(item.raw_content).to \
           eq("<video width=\"100%\" controls><source src=\"https://www.example.com/video.mp4\" type=\"video/mp4\">\
-<source src=\"https://www.example.com/video.webm\" type=\"video/webm\"></video>")
+<source src=\"https://www.example.com/video.webm\" type=\"video/webm\">\
+Helaas kan je browser dit filmpje niet afspelen. Probeer een andere browser te gebruiken.</video>")
       end
     end
 

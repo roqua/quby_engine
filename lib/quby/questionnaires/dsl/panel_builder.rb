@@ -45,7 +45,7 @@ module Quby
             raise 'unknown video url file extension' unless %w[mp4 webm].include?(type)
             "<source src=\"#{url}\" type=\"video/#{type}\">"
           end.join
-          video_html = "<video width=\"100%\" controls>#{sources}</video>"
+          video_html = "<video width=\"100%\" controls>#{sources}#{I18n.t('video_not_supported')}</video>"
           @panel.items << Entities::Text.new('', raw_content: video_html)
         end
 

@@ -45,6 +45,7 @@ de:
       other: "Sie müssen mindestens %{minimum_checked_value} Möglichkeiten auswählen."
     answer_group_minimum: "Beantworten Sie mindestens %{value} von diesen Fragen"
     answer_group_maximum: "Beantworten Sie höchstens %{value} von diesen Fragen"
+  video_not_supported: Ihr Browser unterstützt die Wiedergabe dieses Videos nicht. Bitte versuchen Sie es mit einem anderen Browser.
   DD: TT
   MM: MM
   YYYY: JJJJ
