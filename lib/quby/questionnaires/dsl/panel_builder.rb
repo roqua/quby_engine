@@ -36,6 +36,19 @@ module Quby
           @panel.items << Entities::Text.new('', raw_content: value.to_s)
         end
 
+        def video(*urls)
+          sources = urls.map do |url|
+            # assume the file extension is the video format
+            # otherwise, the host's declared mime type is used to figure out compatibility
+            # which is usually wrong
+            type = url.match(/[^\.]*\z/)&.[](0)
+            raise 'unknown video url file extension' unless %w[mp4 webm].include?(type)
+            "<source src=\"#{url}\" type=\"video/#{type}\">"
+          end.join
+          video_html = "<video width=\"100%\" controls>#{sources}</video>"
+          @panel.items << Entities::Text.new('', raw_content: video_html)
+        end
+
         def default_question_options(options = {})
           @default_question_options = @default_question_options.merge(options)
         end

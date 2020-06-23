@@ -432,6 +432,20 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#video' do
+      it 'makes a text item with a html 5 video player for the given video source urls' do
+        dsl do
+          panel do
+            video 'https://www.example.com/video.mp4', 'https://www.example.com/video.webm'
+          end
+        end
+        item = questionnaire.panels.first.items.first
+        expect(item.raw_content).to \
+          eq("<video width=\"100%\" controls><source src=\"https://www.example.com/video.mp4\" type=\"video/mp4\">\
+<source src=\"https://www.example.com/video.webm\" type=\"video/webm\"></video>")
+      end
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end
