@@ -765,7 +765,7 @@ module Quby::Questionnaires::Services
           end
         END
         expect(definition.valid?).to be false
-        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+        expect(definition.errors.full_messages.first).to include('That tag isn\'t allowed here')
       end
 
       it 'allows video elements' do
@@ -786,7 +786,7 @@ module Quby::Questionnaires::Services
           end
         END
         expect(definition.valid?).to be false
-        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+        expect(definition.errors.full_messages.first).to include('That tag isn\'t allowed here')
       end
     end
   end

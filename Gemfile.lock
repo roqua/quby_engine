@@ -402,6 +402,7 @@ DEPENDENCIES
   i18n
   jquery-ui-rails (~> 3.0.1)
   launchy
+  nokogumbo
   pry
   pry-coolline
   quby!
