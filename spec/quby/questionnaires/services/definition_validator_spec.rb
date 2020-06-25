@@ -732,7 +732,7 @@ module Quby::Questionnaires::Services
           question :v_1, type: :string, title: 'a <b> tag'
         END
         expect(definition.valid?).to be false
-        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+        expect(definition.errors.full_messages.first).to include('That tag isn\'t allowed here')
       end
 
       it 'validates question description' do
@@ -741,7 +741,7 @@ module Quby::Questionnaires::Services
           question :v_1, type: :string, title: 'fine', description: 'a <b> tag'
         END
         expect(definition.valid?).to be false
-        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+        expect(definition.errors.full_messages.first).to include('That tag isn\'t allowed here')
       end
 
       it 'validates option description' do
@@ -752,7 +752,7 @@ module Quby::Questionnaires::Services
           end
         END
         expect(definition.valid?).to be false
-        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+        expect(definition.errors.full_messages.first).to include('That tag isn\'t allowed here')
       end
     end
 
@@ -765,7 +765,17 @@ module Quby::Questionnaires::Services
           end
         END
         expect(definition.valid?).to be false
-        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+        expect(definition.errors.full_messages.first).to include('That tag isn\'t allowed here')
+      end
+
+      it 'allows video elements' do
+        definition = make_definition(<<-END)
+          title "Test"
+          panel do
+            html "A <video></video> tag"
+          end
+        END
+        expect(definition.valid?).to be true
       end
 
       it 'validates items with raw_content' do
@@ -776,7 +786,7 @@ module Quby::Questionnaires::Services
           end
         END
         expect(definition.valid?).to be false
-        expect(definition.errors.full_messages.first).to include('Opening and ending tag mismatch')
+        expect(definition.errors.full_messages.first).to include('That tag isn\'t allowed here')
       end
     end
   end

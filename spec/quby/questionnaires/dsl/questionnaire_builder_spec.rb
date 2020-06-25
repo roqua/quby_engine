@@ -432,6 +432,20 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#video' do
+      it 'passes arguments to a video tag call, and puts the result in a text item' do
+        expect_any_instance_of(PanelBuilder).to receive(:video_tag).with('https://example.com/video.mp4', looping: true).and_return 'foo'
+
+        dsl do
+          panel do
+            video 'https://example.com/video.mp4', looping: true
+          end
+        end
+        expect(questionnaire.panels.first.items.first.raw_content).to eq('foo')
+      end
+
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end
