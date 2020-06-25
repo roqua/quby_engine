@@ -36,9 +36,9 @@ module Quby
             width: '100%',
             preload: 'none',
             poster: poster,
-            loop: loop ? 'true' : nil,
-            autoplay: autoplay ? true : nil,
-            muted: autoplay ? true : nil,
+            loop: loop,
+            autoplay: autoplay,
+            muted: autoplay,
             controls: '' do |tag|
               sources.map { |url, ext| tag.source src: url, type: "video/#{ext}" }
                 .append(I18n.t('video_not_supported'))
