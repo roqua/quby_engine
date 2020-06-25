@@ -36,26 +36,8 @@ module Quby
           @panel.items << Entities::Text.new('', raw_content: value.to_s)
         end
 
-        def video(*urls, poster: nil, autoplay: false, loop: false)
-          sources = urls.map do |url|
-            # assume the file extension is the video format
-            # otherwise, the host's declared mime type is used to figure out compatibility
-            # which is usually wrong
-            type = url.match(/[^\.]*\z/)&.[](0)
-            raise 'unknown video url file extension' unless %w[mp4 webm].include?(type)
-            "<source src=\"#{url}\" type=\"video/#{type}\">"
-          end.join
-
-          poster_att = if poster
-                         "poster=\"#{poster}\" "
-                       end
-          loop_att = if loop
-                       'loop="true" '
-                     end
-          autoplay_att = if autoplay
-                           'autoplay="true" muted="true" '
-                         end
-          video_html = "<video width=\"100%\" preload=\"none\" #{poster_att}#{loop_att}#{autoplay_att}controls>#{sources} #{I18n.t('video_not_supported')}</video>"
+        def video(*urls, **options)
+          video_html = video_tag *urls, **options
           @panel.items << Entities::Text.new('', raw_content: video_html)
         end
 

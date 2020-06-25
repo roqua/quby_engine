@@ -433,51 +433,17 @@ module Quby::Questionnaires::DSL
     end
 
     describe '#video' do
-      it 'makes a text item with a html 5 video player for the given video source urls' do
+      it 'passes arguments to a video tag call, and puts the result in a text item' do
+        expect_any_instance_of(PanelBuilder).to receive(:video_tag).with('https://example.com/video.mp4', looping: true).and_return 'foo'
+
         dsl do
           panel do
-            video 'https://www.example.com/video.mp4', 'https://www.example.com/video.webm'
+            video 'https://example.com/video.mp4', looping: true
           end
         end
-        item = questionnaire.panels.first.items.first
-        expect(item.raw_content).to \
-          eq("<video width=\"100%\" preload=\"none\" controls><source src=\"https://www.example.com/video.mp4\" type=\"video/mp4\">\
-<source src=\"https://www.example.com/video.webm\" type=\"video/webm\"> \
-Helaas kan je browser dit filmpje niet afspelen. Probeer een andere browser te gebruiken.</video>")
+        expect(questionnaire.panels.first.items.first.raw_content).to eq('foo')
       end
 
-      it 'can add a autoplay attribute (with muted added to allow chrome autoplay)' do
-        dsl do
-          panel do
-            video 'https://www.example.com/video.mp4', autoplay: true
-          end
-        end
-        item = questionnaire.panels.first.items.first
-        expect(item.raw_content).to \
-          include('<video width="100%" preload="none" autoplay="true" muted="true" controls>')
-      end
-
-      it 'can add a loop attribute' do
-        dsl do
-          panel do
-            video 'https://www.example.com/video.mp4', loop: true
-          end
-        end
-        item = questionnaire.panels.first.items.first
-        expect(item.raw_content).to \
-          include('<video width="100%" preload="none" loop="true" controls>')
-      end
-
-      it 'can add a poster url' do
-        dsl do
-          panel do
-            video 'https://www.example.com/video.mp4', poster: 'https://www.example.com/poster.jpg'
-          end
-        end
-        item = questionnaire.panels.first.items.first
-        expect(item.raw_content).to \
-          include('<video width="100%" preload="none" poster="https://www.example.com/poster.jpg" controls>')
-      end
     end
 
     def dsl(&block)
