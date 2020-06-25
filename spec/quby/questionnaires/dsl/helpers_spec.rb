@@ -55,21 +55,21 @@ Helaas kan je browser dit filmpje niet afspelen. Probeer een andere browser te g
         html = builder.video_tag 'https://www.example.com/video.mp4', autoplay: true
 
         expect(html).to \
-          include('<video width="100%" preload="none" autoplay="true" muted="true" controls=\"controls\">')
+          include('<video width="100%" preload="none" autoplay="autoplay" muted="muted" controls="controls">')
       end
 
       it 'can add a loop attribute' do
         html = builder.video_tag 'https://www.example.com/video.mp4', loop: true
 
         expect(html).to \
-          include('<video width="100%" preload="none" loop="true" controls=\"controls\">')
+          include('<video width="100%" preload="none" loop="loop" controls="controls">')
       end
 
       it 'can add a poster url' do
         html = builder.video_tag 'https://www.example.com/video.mp4', poster: 'https://www.example.com/poster.jpg'
 
         expect(html).to \
-          include('<video width="100%" preload="none" poster="https://www.example.com/poster.jpg" controls=\"controls\">')
+          include('<video width="100%" preload="none" poster="https://www.example.com/poster.jpg" controls="controls">')
       end
     end
 
