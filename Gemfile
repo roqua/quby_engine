@@ -17,6 +17,8 @@ gem 'jquery-ui-rails', '~> 3.0.1'
 gem 'susy', '~> 2.2.12'
 gem 'compass-rails'
 
+gem 'nokogumbo'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

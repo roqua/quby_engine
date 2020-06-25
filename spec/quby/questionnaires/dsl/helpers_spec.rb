@@ -41,6 +41,38 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe 'video_tag' do
+      it 'makes a text item with a html 5 video player for the given video source urls' do
+        html = builder.video_tag 'https://www.example.com/video.mp4', 'https://www.example.com/video.webm'
+
+        expect(html).to \
+          eq("<video width=\"100%\" preload=\"none\" controls=\"controls\"><source src=\"https://www.example.com/video.mp4\" type=\"video/mp4\">\
+<source src=\"https://www.example.com/video.webm\" type=\"video/webm\">\
+Helaas kan je browser dit filmpje niet afspelen. Probeer een andere browser te gebruiken.</video>")
+      end
+
+      it 'can add a autoplay attribute (with muted added to allow chrome autoplay)' do
+        html = builder.video_tag 'https://www.example.com/video.mp4', autoplay: true
+
+        expect(html).to \
+          include('<video width="100%" preload="none" autoplay="autoplay" muted="muted" controls="controls">')
+      end
+
+      it 'can add a loop attribute' do
+        html = builder.video_tag 'https://www.example.com/video.mp4', loop: true
+
+        expect(html).to \
+          include('<video width="100%" preload="none" loop="loop" controls="controls">')
+      end
+
+      it 'can add a poster url' do
+        html = builder.video_tag 'https://www.example.com/video.mp4', poster: 'https://www.example.com/poster.jpg'
+
+        expect(html).to \
+          include('<video width="100%" preload="none" poster="https://www.example.com/poster.jpg" controls="controls">')
+      end
+    end
+
     def dsl(&block)
       builder.instance_eval(&block)
     end

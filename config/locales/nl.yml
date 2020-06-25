@@ -44,6 +44,7 @@ nl:
       other: "U moet minstens %{minimum_checked_value} opties kiezen."
     answer_group_minimum: "Beantwoord minstens %{value} van deze vragen"
     answer_group_maximum: "Beantwoord hoogstens %{value} van deze vragen"
+  video_not_supported: Helaas kan je browser dit filmpje niet afspelen. Probeer een andere browser te gebruiken.
   DD: DD
   MM: MM
   YYYY: JJJJ

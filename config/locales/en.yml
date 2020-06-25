@@ -44,6 +44,7 @@ en:
       other: "Choose at least %{minimum_checked_value} options."
     answer_group_minimum: "Answer at least %{value} of these questions"
     answer_group_maximum: "Answer up to %{value} of these questions"
+  video_not_supported: Your browser does not support playing this video. Try using a different browser.
   DD: DD
   MM: MM
   YYYY: YYYY
