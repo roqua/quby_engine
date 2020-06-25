@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'nokogumbo'
 require 'active_model'
 require 'quby/questionnaires/entities/questionnaire'
 
