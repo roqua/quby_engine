@@ -31,6 +31,7 @@ nl:
     valid_date:
       valid_date_year: "Vul een geldig jaar in met formaat JJJJ, bijvoorbeeld 2015."
       valid_date_month_year: "Vul een geldige datum in met formaat MM-JJJJ, bijvoorbeeld 08-2015."
+      valid_date_day_hour_minute_month_year: "Vul een geldige datum in met formaat DD-MM-JJJJ uu:mm, bijvoorbeeld 13-08-2015 13:05."
       valid_date_day_month_year: "Vul een geldige datum in met formaat DD-MM-JJJJ, bijvoorbeeld 13-08-2015."
       valid_date_hour_minute: "Vul een geldige tijd in met formaat uu:mm, bijvoorbeeld 13:05"
     too_many_checked: "U heeft te veel opties gekozen."
@@ -43,6 +44,7 @@ nl:
       other: "U moet minstens %{minimum_checked_value} opties kiezen."
     answer_group_minimum: "Beantwoord minstens %{value} van deze vragen"
     answer_group_maximum: "Beantwoord hoogstens %{value} van deze vragen"
+  video_not_supported: Helaas kan je browser dit filmpje niet afspelen. Probeer een andere browser te gebruiken.
   DD: DD
   MM: MM
   YYYY: JJJJ

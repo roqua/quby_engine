@@ -36,6 +36,11 @@ module Quby
           @panel.items << Entities::Text.new('', raw_content: value.to_s)
         end
 
+        def video(*urls, **options)
+          video_html = video_tag *urls, **options
+          @panel.items << Entities::Text.new('', raw_content: video_html)
+        end
+
         def default_question_options(options = {})
           @default_question_options = @default_question_options.merge(options)
         end

@@ -32,6 +32,7 @@ de:
     valid_date:
       valid_date_year: "Geben Sie ein gültiges Jahr nach dem Format JJJJ an, zum Beispiel 2015."
       valid_date_month_year: "Geben Sie ein gültiges Datum nach dem Format MM-JJJJ an, zum Beispiel 08-2015."
+      valid_date_day_hour_minute_month_year: "Geben Sie ein gültiges Datum nach dem Format TT-MM-JJJJ ss:mm an, zum Beispiel 13-08-2015 13:05."
       valid_date_day_month_year: "Geben Sie ein gültiges Datum nach dem Format TT-MM-JJJJ an, zum Beispiel 13-08-2015."
       valid_date_hour_minute: "Geben Sie eine gültige Tageszeit nach dem Format ss:mm an, zum Beispiel 13:05"
     too_many_checked: "Sie haben zu viele Möglichkeiten ausgewählt."
@@ -44,6 +45,7 @@ de:
       other: "Sie müssen mindestens %{minimum_checked_value} Möglichkeiten auswählen."
     answer_group_minimum: "Beantworten Sie mindestens %{value} von diesen Fragen"
     answer_group_maximum: "Beantworten Sie höchstens %{value} von diesen Fragen"
+  video_not_supported: Ihr Browser unterstützt die Wiedergabe dieses Videos nicht. Bitte versuchen Sie es mit einem anderen Browser.
   DD: TT
   MM: MM
   YYYY: JJJJ

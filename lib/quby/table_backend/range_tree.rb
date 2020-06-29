@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
-require 'pathname'
-require 'csv'
-
-# Create a lookup tree from a csv file that converts raw scores
-# to normalized scores.
-# The csv file must have two header rows, one with the column
-# names and one with the lookup types (string, float or range).
-# The last column of the first header row must be called 'norm' and
-# must have the 'float' type (in the second header row).
+# Create a value lookup tree from a headers array, a compare (type) array and a data array of arrays.
+# The #lookup method will try to find the data row where each of the comparison columns matches
+# the given parameters and return the value from the norm column.
+#
+# #initialize params:
+# headers: An array of column names
+# compare: An array of lookup types (string, float or range) for each column
+# data: An array of arrays containing the rows describing the mapping from the
+#   different lookup columns to the `norm` value.
+#
+# The last column of the headers must be called 'norm' and
+# must have the 'float' type (in compare array).
+#
 # String and float types are used to make an exact match.
 # A range is always a range between two floats where the range is between
 # the low value (inclusive) and the high value (exclusive),
@@ -17,13 +21,11 @@ require 'csv'
 # The low and high values of a range cannot be equal.
 # Use minfinity or infinity to create infinite ranges.
 module Quby::TableBackend
-  class DiskTree
-    def initialize(key)
-      path = self.class.disk_table_root.join(key + '.csv')
-
-      @data = CSV.read(path, col_sep: ';', skip_blanks: true)
-      @headers = @data.shift
-      @compare = @data.shift
+  class RangeTree
+    def initialize(headers, compare, data)
+      @data = data
+      @headers = headers
+      @compare = compare
     end
 
     # Given a parameters hash that contains a value or range for every
@@ -32,11 +34,6 @@ module Quby::TableBackend
     def lookup(parameters)
       validate_parameters(parameters)
       lookup_score(parameters)
-    end
-
-    def self.disk_table_root
-      fail 'Quby.lookup_table_path not configured' if Quby.lookup_table_path.blank?
-      Pathname.new(Quby.lookup_table_path)
     end
 
     private

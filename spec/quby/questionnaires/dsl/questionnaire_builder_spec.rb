@@ -33,6 +33,18 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.sbg_key).to eq('foo')
     end
 
+    it 'can request outcome regeneration' do
+      timestamp = Time.local(2020, 5, 12, 4, 28, 19)
+      dsl { outcome_regeneration_requested_at timestamp }
+      expect(questionnaire.outcome_regeneration_requested_at).to eq(timestamp)
+    end
+
+    it 'can request answers to be deactivated' do
+      timestamp = Time.local(2020, 5, 12, 4, 28, 19)
+      dsl { deactivate_answers_requested_at timestamp }
+      expect(questionnaire.deactivate_answers_requested_at).to eq(timestamp)
+    end
+
     describe 'roqua keys' do
       it 'defaults to key' do
         dsl {}
@@ -418,6 +430,20 @@ module Quby::Questionnaires::DSL
           outcome_table score_keys: [:a], subscore_keys: [:b]
         end
       end
+    end
+
+    describe '#video' do
+      it 'passes arguments to a video tag call, and puts the result in a text item' do
+        expect_any_instance_of(PanelBuilder).to receive(:video_tag).with('https://example.com/video.mp4', looping: true).and_return 'foo'
+
+        dsl do
+          panel do
+            video 'https://example.com/video.mp4', looping: true
+          end
+        end
+        expect(questionnaire.panels.first.items.first.raw_content).to eq('foo')
+      end
+
     end
 
     def dsl(&block)
