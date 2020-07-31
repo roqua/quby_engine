@@ -323,6 +323,18 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#do_not_check_score_keys_consistency' do
+      it 'sets check_score_keys_consistency flag to false' do
+        dsl do
+          do_not_check_score_keys_consistency
+        end
+        expect(questionnaire.check_score_keys_consistency).to eq false
+      end
+      it 'flag is true on the questionnaire if not altered' do
+        expect(questionnaire.check_score_keys_consistency).to eq true
+      end
+    end
+
     describe '#custom_method' do
       context 'valid definition' do
         before do

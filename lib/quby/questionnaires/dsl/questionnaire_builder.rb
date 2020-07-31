@@ -41,6 +41,10 @@ module Quby
           @questionnaire.check_key_clashes = false
         end
 
+        def do_not_check_score_keys_consistency
+          @questionnaire.check_score_keys_consistency = false
+        end
+
         def do_not_validate_html
           @questionnaire.validate_html = false
         end

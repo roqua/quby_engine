@@ -50,6 +50,7 @@ module Quby
           @validate_html = true
           @score_schemas = {}.with_indifferent_access
           @outcome_tables = []
+          @check_score_keys_consistency = true
         end
 
         attr_accessor :key
@@ -77,7 +78,10 @@ module Quby
         attr_reader :tags # tags= is manually defined below
         attr_accessor :outcome_regeneration_requested_at
         attr_accessor :deactivate_answers_requested_at
+        # whether to check for clashes between question input keys (HTML form keys)
         attr_accessor :check_key_clashes
+        # whether to check consistency of score subkeys during seed generation
+        attr_accessor :check_score_keys_consistency
         # If false, we don't check html for validity (for mate1 and mate1_pre)
         attr_accessor :validate_html
 
