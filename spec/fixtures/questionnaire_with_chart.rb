@@ -31,4 +31,6 @@ line_chart :tot do
   plot :v_1, label: 'Label 1'
   plot :v_2
   plot :v_3
+  plotband 30, 50, :yellow
+  plotband 50, 80, :red
 end
