@@ -1,4 +1,5 @@
 require 'rails-i18n'
+require_relative './quby/version'
 
 module Quby
   autoload :ArrayAttributeValidValidator, 'active_model_modules/array_attribute_valid_validator'
