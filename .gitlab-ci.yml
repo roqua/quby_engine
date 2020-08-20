@@ -29,7 +29,6 @@ rails_60_ruby_25:
   script:
     - cat gemfiles/rails60.gemfile.lock
     - bundle exec appraisal rails60 rspec
-    - bundle exec appraisal rails60 teaspoon
 
 dependency_scanning:
   image: registry.roqua.nl/roqua/dependency_scanning
