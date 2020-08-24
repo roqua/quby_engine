@@ -58,9 +58,9 @@ module Quby
           attr_accessor :tick_interval
 
           # @return [Array]
-          attr_accessor :plot_bands
+          attr_accessor :plotbands
 
-          def initialize(key, title: nil, plottables: nil, y_categories: nil, y_range_categories: nil, chart_type: nil, y_range: nil, tick_interval: nil, plot_bands: nil)
+          def initialize(key, title: nil, plottables: nil, y_categories: nil, y_range_categories: nil, chart_type: nil, y_range: nil, tick_interval: nil, plotbands: nil)
             self.key = key.to_sym
             self.title = title
             self.plottables = plottables || []
@@ -69,7 +69,7 @@ module Quby
             self.chart_type = chart_type
             self.y_range = y_range
             self.tick_interval = tick_interval
-            self.plot_bands = plot_bands || []
+            self.plotbands = plotbands || []
           end
 
           def type

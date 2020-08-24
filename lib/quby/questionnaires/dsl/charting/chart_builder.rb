@@ -42,7 +42,7 @@ module Quby
         end
 
         def plotband(from, to, color)
-          @chart.plot_bands << {from: from, to: to, color: color}
+          @chart.plotbands << {from: from, to: to, color: color}
         end
 
         def plot(key, options = {})

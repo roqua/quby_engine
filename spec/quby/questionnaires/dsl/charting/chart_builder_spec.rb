@@ -64,12 +64,12 @@ module Quby::Questionnaires::DSL
     end
 
     describe '#plotband' do
-      it 'can set plot_bands' do
+      it 'can set plotbands' do
         plotbands =
           dsl do
             plotband 2, 5, :yellow
             plotband 5, 8, :red
-          end.plot_bands
+          end.plotbands
   
         expect(plotbands).to eq [
           {from: 2, to: 5, color: :yellow},

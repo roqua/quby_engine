@@ -22,9 +22,9 @@ feature 'Defining charts in a questionnaire' do
     expect(questionnaire_with_chart.charts.overview.subscore).to eq(:value)
   end
 
-  it 'supports plot_bands' do
-    plot_bands = questionnaire_with_chart.charts.first.plot_bands
-    expect(plot_bands).to eq([
+  it 'supports plotbands' do
+    plotbands = questionnaire_with_chart.charts.first.plotbands
+    expect(plotbands).to eq([
       {from: 30, to: 50, color: :yellow},
       {from: 50, to: 80, color: :red}
     ])
