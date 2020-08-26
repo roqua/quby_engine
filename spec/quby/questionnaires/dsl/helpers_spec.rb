@@ -9,7 +9,7 @@ module Quby::Questionnaires::DSL
 
     # this helper has some extra tests to check that helpers are included everywhere
     describe '.image_tag' do
-      let(:expected_html) { "<p><img alt=\"Happy face\" src=\"/assets/quby/happy-face.png\" /></p>" }
+      let(:expected_html) { %r{<p><img alt=\"Happy face\" src=\"/assets/quby/happy-face.*.png\" /></p>} }
 
       it 'builds image tags outside of panels' do
         dsl { text image_tag('quby/happy-face.png') }
@@ -29,7 +29,7 @@ module Quby::Questionnaires::DSL
       it 'builds image tags inside of questions' do
         # this one is different because markdown/maruku transforms double quotes into single quotes
         # and question descriptions are not passed through markdown/maruku
-        expected_html = %r{<img .*?src="/assets/quby/happy-face.png"}
+        expected_html = %r{<img .*?src="/assets/quby/happy-face.*.png"}
         dsl do
           panel do
             question :v_1, type: :radio do

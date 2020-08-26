@@ -24,6 +24,12 @@ rails_52_ruby_25:
     - bundle exec appraisal rails52 rspec
     - bundle exec appraisal rails52 teaspoon
 
+rails_60_ruby_25:
+  <<: *ruby_25
+  script:
+    - cat gemfiles/rails60.gemfile.lock
+    - bundle exec appraisal rails60 rspec
+
 dependency_scanning:
   image: registry.roqua.nl/roqua/dependency_scanning
   variables:
