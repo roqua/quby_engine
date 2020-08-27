@@ -1,3 +1,11 @@
+# 3.2.1
+
+* Added Rails 6 compatibility
+
+# 3.2.0
+
+* Released to rubygems.org
+
 # 3.0.0
 
 * Changed normscore lookup to use a tree that is built from a single csv file.
