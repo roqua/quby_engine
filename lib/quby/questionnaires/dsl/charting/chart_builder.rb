@@ -41,6 +41,10 @@ module Quby
           @chart.y_range_categories = RangeCategories.new(*y_range_categories).as_range_hash
         end
 
+        def plotband(from, to, color)
+          @chart.plotbands << {from: from, to: to, color: color}
+        end
+
         def plot(key, options = {})
           unless plottable = @questionnaire.find_plottable(key)
             fail "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"

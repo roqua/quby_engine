@@ -17,6 +17,11 @@ module Quby::Questionnaires::DSL
     before { ChartBuilder.set_chart_class(chart_class) }
     let(:chart_builder) { ChartBuilder.new questionnaire, 'chart_key' }
 
+    def dsl(key = :test, options = {}, &block)
+      builder = ChartBuilder.new(questionnaire, key, options)
+      builder.build(&block)
+    end
+
     describe '#plot' do
       it 'fetches a plottable by key from the questionnaire' do
         expect(questionnaire).to receive(:find_plottable).with(plottable_key)
@@ -55,6 +60,21 @@ module Quby::Questionnaires::DSL
         categories = %w(Bad Great Best)
         chart_builder.y_categories categories
         expect(chart_builder.build { }.y_categories).to eq(categories)
+      end
+    end
+
+    describe '#plotband' do
+      it 'can set plotbands' do
+        plotbands =
+          dsl do
+            plotband 2, 5, :yellow
+            plotband 5, 8, :red
+          end.plotbands
+  
+        expect(plotbands).to eq [
+          {from: 2, to: 5, color: :yellow},
+          {from: 5, to: 8, color: :red}
+        ]
       end
     end
 
