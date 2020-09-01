@@ -1,39 +1,55 @@
 # frozen_string_literal: true
 
-# Create a value lookup tree from a headers array, a compare (type) array and a data array of arrays.
-# The #lookup method will try to find the data row where each of the comparison columns matches
-# the given parameters and return the value from the norm column.
+# A lookup tree to find values by multiple arguments.
 #
-# #initialize params:
-# headers: An array of column names
-# compare: An array of lookup types (string, float or range) for each column
-# data: An array of arrays containing the rows describing the mapping from the
-#   different lookup columns to the `norm` value.
+# Example tree:
+# Inhibitie:
+#   male:
+#     10...11:
+#       -Infinity...10: 39
+#       10...20: 42
+#     11...12:
+#       -Infinity...10: 40
+#       10...20: : 43
+#   female:
+#     10...11: 38
+#     ...
 #
-# The last column of the headers must be called 'norm' and
-# must have the 'float' type (in compare array).
+# with levels:
+# ['scale', 'gender', 'age', 'raw', 'norm']
 #
-# String and float types are used to make an exact match.
-# A range is always a range between two floats where the range is between
-# the low value (inclusive) and the high value (exclusive),
-# written as 4:5 (low:high). These boundaries can be given as floats or
-# integers, but internally they are always treated as a floats.
-# The low and high values of a range cannot be equal.
-# Use minfinity or infinity to create infinite ranges.
+# will allow a lookup like:
+# lookup({age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'})` => 39
+#
+# Can be created by reading a csv file with a on each line a path through the tree.
 module Quby::TableBackend
   class RangeTree
+    # @param tree [Hash<>] hash of hashes leading from parameter values/ranges to a result.
+    # @params levels [Array<String>] the argument name for each level of the tree.
     def initialize(levels:, tree:)
       @levels = levels
       @tree = tree
     end
 
+    # load csv data into a tree.
+    # String and float types are used to make an exact match.
+    # A range is always a range between two floats where the range is between
+    # the low value (inclusive) and the high value (exclusive),
+    # written as 4:5 (low:high). These boundaries can be given as floats or
+    # integers, but internally they are always treated as a floats.
+    # The low and high values of a range cannot be equal.
+    # Use minfinity or infinity to create infinite ranges.
+    #
+    # @params levels [Array<String>] An array of column names
+    # @param compare [Array<String>]An array of lookup types (string, float or range) for each column
+    # @param data [Array<Array<>>] The rows describing a path through the tree.
     def self.from_csv(levels:, compare:, data:)
       new(levels: levels, tree: tree(levels, compare, data))
     end
 
 
     # Given a parameters hash that contains a value or range for every
-    # header, find and return the normscore.
+    # level in the tree, find and return the normscore.
     # ie. `lookup({age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'})` => 39
     def lookup(parameters)
       validate_parameters(parameters)
@@ -43,20 +59,6 @@ module Quby::TableBackend
     private
 
     # Build a lookup tree (hash) from the csv input data.
-    # Starting with the first column, it returns a hash with entries
-    # for every value in the column. The value for such an entry
-    # is a hash with all entries for the next column, etc. Example:
-    # Inhibitie:
-    #   male:
-    #     10...11:
-    #       -Infinity...10: 39
-    #       10...20: 42
-    #     11...12:
-    #       -Infinity...10: 40
-    #       10...20: : 43
-    #   female:
-    #     10...11: 38
-    #     ...
     def self.tree(levels, compare, data)
       data.each_with_object({}) do |row, tree|
         add_to_tree(tree, row, levels, compare)
