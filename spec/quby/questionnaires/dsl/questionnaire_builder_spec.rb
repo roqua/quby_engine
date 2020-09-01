@@ -415,7 +415,7 @@ module Quby::Questionnaires::DSL
             }
         end
 
-        expect(questionnaire.table_lookups[:interpretations].lookup(score: 26)).to eq 'high'
+        expect(questionnaire.lookup_tables[:interpretations].lookup(score: 26)).to eq 'high'
       end
     end
 
