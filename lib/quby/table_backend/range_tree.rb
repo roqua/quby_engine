@@ -22,11 +22,15 @@
 # Use minfinity or infinity to create infinite ranges.
 module Quby::TableBackend
   class RangeTree
-    def initialize(headers, compare, data)
-      @data = data
-      @headers = headers
-      @compare = compare
+    def initialize(levels:, tree:)
+      @levels = levels
+      @tree = tree
     end
+
+    def self.from_csv(levels:, compare:, data:)
+      new(levels: levels, tree: tree(levels, compare, data))
+    end
+
 
     # Given a parameters hash that contains a value or range for every
     # header, find and return the normscore.
@@ -45,80 +49,82 @@ module Quby::TableBackend
     # Inhibitie:
     #   male:
     #     10...11:
-    #       -Infinity...10:
-    #         39: 39
-    #       10...20:
-    #         42: 42
+    #       -Infinity...10: 39
+    #       10...20: 42
     #     11...12:
-    #       -Infinity...10:
-    #         40: 40
-    #       10...20:
-    #         43: 43
+    #       -Infinity...10: 40
+    #       10...20: : 43
     #   female:
-    #     10...11:
-    #       etc. etc. etc.
-    def tree
-      @tree ||= @data.each_with_object({}) do |row, current_node|
-        row.each_with_index do |v, idx|
-          key =
-            case @compare[idx]
-            when 'string' then v.to_s
-            when 'float' then parse_float(v)
-            when 'range' then create_range(v)
+    #     10...11: 38
+    #     ...
+    def self.tree(levels, compare, data)
+      data.each_with_object({}) do |row, tree|
+        add_to_tree(tree, row, levels, compare)
+      end
+    end
+
+    def self.add_to_tree(tree, (value, *path), (level, *levels), (compare, *compares))
+      key = case compare
+            when 'string' then value.to_s
+            when 'float' then parse_float(value)
+            when 'range' then create_range(value)
             end
 
-          if @headers[idx] == 'norm'
-            current_node[key] = key
-          else
-            current_node[key] ||= {}
-          end
-          current_node = current_node[key]
-        end
+      if levels.empty?
+        return key
+      end
+
+      tree.merge! key => add_to_tree(tree[key] || {}, path, levels, compares)
+    end
+
+    def self.create_range(value)
+      min, max = value.split(':').map { |val| parse_float(val) }
+      fail 'Cannot create range between two equal values' if min == max
+      (min...max)
+    end
+
+    def self.parse_float(value)
+      case value
+      when 'infinity'  then Float::INFINITY
+      when 'minfinity' then -Float::INFINITY
+      else Float(value)
       end
     end
 
     # All parameters must be present to do a lookup but the order does not matter.
     def validate_parameters(parameters)
-      if (@headers - ['norm']).sort != parameters.keys.map(&:to_s).sort
+      if @levels[0...-1].sort != parameters.keys.map(&:to_s).sort
         fail 'Incompatible score parameters found'
       end
     end
 
     # Reduce the tree (a hash) to a normscore by looking up the correct values/ranges
-    # for each column in @headers.
+    # for each column in @levels.
     # Returns a single normscore when found.
     # Returns nil and reports to AppSignal when normscore could not be found.
     def lookup_score(parameters)
-      (@headers - ['norm']).each_with_index.reduce(tree) do |acc, (header, idx)|
-        case @compare[idx]
-        when 'string'
-          acc[parameters[header.to_sym].to_s]
-        when 'float'
-          acc[parameters[header.to_sym].to_f]
-        when 'range'
-          acc.select { |k, _v| k.cover?(parameters[header.to_sym].to_f) }.values.first
+      @levels[0...-1].reduce(@tree) do |node, level|
+        value = parameters[level.to_sym]
+        # binding.pry
+        case node.first.first # all keys for one level are the same type.
+        when String
+          node[value.to_s]
+        when Symbol
+          node[value]
+        when Float
+          node[value.to_f]
+        when Integer
+          node[value]
+        when Enumerable
+          node.find { |k, _v| k.include? value }.last
         end
-      end.values.first # normscore is a hash with a single element, get the value.
+      end
     rescue StandardError => exception
       # Normscore could not be found for the given parameters.
       if defined? Roqua::Support::Errors
         Roqua::Support::Errors.report(exception, parameters: parameters)
       end
       nil
-    end
-
-    def create_range(value)
-      min, max = value.split(':').map { |val| parse_float(val) }
-      fail 'Cannot create range between two equal values' if min == max
-      (min...max)
-    end
-
-    def parse_float(value)
-      case value
-      when 'infinity'  then Float::INFINITY
-      when 'minfinity' then -Float::INFINITY
-      else Float(value)
-      end
     end
   end
 end

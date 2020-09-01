@@ -3,17 +3,13 @@ require 'spec_helper'
 describe Quby::TableBackend::RangeTree do
   let(:csv_key) { 'test' }
   let(:data) { Quby.lookup_table_repo.retrieve(csv_key) }
-  let(:tree) { described_class.new(data.shift, data.shift, data) }
+  let(:tree) { described_class.from_csv(levels: data.shift, compare: data.shift, data: data) }
 
-  describe '#tree' do
-    it 'returns a hash' do
-      expect(tree.send(:tree)).to be_a(Hash)
-    end
-
+  describe '#from_csv' do
     context 'invalid csv data' do
       let(:csv_key) { 'bad_range' }
       it 'fails when csv data contains a range between two equal values' do
-        expect { tree.send(:tree) }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
+        expect { tree }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
       end
     end
   end

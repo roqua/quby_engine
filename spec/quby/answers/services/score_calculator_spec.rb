@@ -486,13 +486,13 @@ module Quby::Answers::Services
       let(:table_double) { double.as_null_object }
 
       before do
-        expect(Quby::LookupTable).to receive(:new).and_return(table_double)
+        allow(Quby::LookupTable).to receive(:new).and_return(table_double)
       end
 
       it 'instantiates a new Quby::Answers::Entities::LookupTable if the table_hash cache does not know the key' do
-        expect(calculator.send :table_hash).to be_empty
+        expect(questionnaire.lookup_tables).to be_empty
         calculator.table_lookup :test_table, score: 1
-        expect(calculator.send(:table_hash)[:test_table]).to be(table_double)
+        expect(questionnaire.lookup_tables[:test_table]).to be(table_double)
       end
 
       it 'uses the memoized lookuptable if there is a cache hit' do
@@ -505,6 +505,27 @@ module Quby::Answers::Services
         parameters = {score: 1}
         expect(table_double).to receive(:lookup).with parameters
         calculator.table_lookup :test_table, parameters
+      end
+
+      context 'with add_lookup_tree inside dsl' do
+        let(:questionnaire) do
+          inject_questionnaire "test", <<-END
+            add_lookup_tree :interpretations,
+              levels: ['score', 'interpretation'],
+              tree: {
+                0..24 => 'low',
+                25..50 => 'high'
+              }
+
+            score :test do
+              {value: table_lookup(:interpretations, score: 26)}
+            end
+          END
+        end
+
+        it 'can use table_lookup inside scores' do
+          expect(calculator.score(:test)).to eq(value: 'high')
+        end
       end
     end
 
