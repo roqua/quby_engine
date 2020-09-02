@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quby (3.2.1)
+    quby (3.2.2)
       addressable
       browser
       coffee-rails
