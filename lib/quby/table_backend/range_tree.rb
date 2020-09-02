@@ -2,6 +2,8 @@
 
 # A lookup tree to find values by multiple arguments.
 #
+# Created by LookupTable from a csv file or by add_lookup_tree from dsl.
+#
 # Example tree:
 # Inhibitie:
 #   male:
@@ -20,8 +22,6 @@
 #
 # will allow a lookup like:
 # lookup({age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'})` => 39
-#
-# Can be created by reading a csv file with a on each line a path through the tree.
 module Quby::TableBackend
   class RangeTree
     # @param tree [Hash<>] hash of hashes leading from parameter values/ranges to a result.
@@ -32,6 +32,7 @@ module Quby::TableBackend
     end
 
     # load csv data into a tree.
+    # each row is a path through the tree.
     # String and float types are used to make an exact match.
     # A range is always a range between two floats where the range is between
     # the low value (inclusive) and the high value (exclusive),
