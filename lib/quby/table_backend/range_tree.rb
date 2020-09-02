@@ -45,7 +45,10 @@ module Quby::TableBackend
     # @param compare [Array<String>]An array of lookup types (string, float or range) for each column
     # @param data [Array<Array<>>] The rows describing a path through the tree.
     def self.from_csv(levels:, compare:, data:)
-      new(levels: levels, tree: tree(levels, compare, data))
+      tree = data.each_with_object({}) do |row, tree|
+        add_to_tree(tree, row, levels, compare)
+      end
+      new(levels: levels, tree: tree)
     end
 
 
@@ -58,13 +61,6 @@ module Quby::TableBackend
     end
 
     private
-
-    # Build a lookup tree (hash) from the csv input data.
-    def self.tree(levels, compare, data)
-      data.each_with_object({}) do |row, tree|
-        add_to_tree(tree, row, levels, compare)
-      end
-    end
 
     def self.add_to_tree(tree, (value, *path), (level, *levels), (compare, *compares))
       key = case compare
