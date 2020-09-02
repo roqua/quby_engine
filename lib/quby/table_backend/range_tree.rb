@@ -22,6 +22,11 @@
 #
 # will allow a lookup like:
 # lookup({age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'})` => 39
+#
+# Keys in the tree will be matched by hash lookup of the parameter value with the following exeptions:
+# floats: can be found by integer as well
+# strings: can be found by symbol as well.
+# enumerables: will find the first key for which `include?(param)` returns true.
 module Quby::TableBackend
   class RangeTree
     # @param tree [Hash<>] hash of hashes leading from parameter values/ranges to a result.

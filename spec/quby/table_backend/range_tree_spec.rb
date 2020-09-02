@@ -93,6 +93,14 @@ describe Quby::TableBackend::RangeTree do
       end
     end
 
+    describe 'array keys in tree' do
+      let(:tree) { described_class.new levels: ['value', 'res'], tree: {[1,5] => 6}}
+
+      it 'returns the correct result if the array includes the value' do
+        expect(tree.lookup(value: 5)).to eq 6
+      end
+    end
+
     describe 'parameter validation' do
       it 'raises when parameter keys do not match header keys' do
         params = {foo: :bar}
