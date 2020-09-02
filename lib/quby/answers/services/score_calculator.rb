@@ -231,10 +231,9 @@ module Quby
         end
 
         def table_lookup(table_key, parameters)
-          table_hash[table_key] ||= Quby::LookupTable.new table_key
-          table = table_hash[table_key]
-
-          table.lookup(parameters)
+          @questionnaire.lookup_tables[table_key] ||= Quby::LookupTable.new table_key
+          @questionnaire.lookup_tables[table_key] \
+                        .lookup(parameters)
         end
 
         # Public: Ensure given question_keys have answers. Strings with nothing but whitespace are

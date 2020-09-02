@@ -404,6 +404,21 @@ module Quby::Questionnaires::DSL
       end
     end
 
+    describe '#add_lookup_tree' do
+      it 'can add a lookup tree' do
+        dsl do
+          add_lookup_tree :interpretations,
+            levels: ['score', 'interpretation'],
+            tree: {
+              0..24 => 'low',
+              25..50 => 'high'
+            }
+        end
+
+        expect(questionnaire.lookup_tables[:interpretations].lookup(score: 26)).to eq 'high'
+      end
+    end
+
     describe '#score' do
       it 'requires scores to have a label' do
         dsl do

@@ -3,17 +3,13 @@ require 'spec_helper'
 describe Quby::TableBackend::RangeTree do
   let(:csv_key) { 'test' }
   let(:data) { Quby.lookup_table_repo.retrieve(csv_key) }
-  let(:tree) { described_class.new(data.shift, data.shift, data) }
+  let(:tree) { described_class.from_csv(levels: data.shift, compare: data.shift, data: data) }
 
-  describe '#tree' do
-    it 'returns a hash' do
-      expect(tree.send(:tree)).to be_a(Hash)
-    end
-
+  describe '#from_csv' do
     context 'invalid csv data' do
       let(:csv_key) { 'bad_range' }
       it 'fails when csv data contains a range between two equal values' do
-        expect { tree.send(:tree) }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
+        expect { tree }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
       end
     end
   end
@@ -94,6 +90,14 @@ describe Quby::TableBackend::RangeTree do
       it 'returns the correct scores when using floats in lookup path' do
         params = {scale: 'Inhibitie', raw: 17.0}
         expect(tree.lookup(params)).to eq(71)
+      end
+    end
+
+    describe 'array keys in tree' do
+      let(:tree) { described_class.new levels: ['value', 'res'], tree: {[1,5] => 6}}
+
+      it 'returns the correct result if the array includes the value' do
+        expect(tree.lookup(value: 5)).to eq 6
       end
     end
 

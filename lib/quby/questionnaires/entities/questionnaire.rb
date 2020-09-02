@@ -51,6 +51,7 @@ module Quby
           @score_schemas = {}.with_indifferent_access
           @outcome_tables = []
           @check_score_keys_consistency = true
+          @lookup_tables = {}
         end
 
         attr_accessor :key
@@ -96,6 +97,7 @@ module Quby
 
         attr_accessor :outcome_tables
         attr_accessor :score_schemas
+        attr_accessor :lookup_tables
 
         delegate :question_hash, :input_keys, :answer_keys, :expand_input_keys, to: :fields
 

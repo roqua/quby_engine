@@ -15,7 +15,7 @@ module Quby
       all_data = data
       headers = all_data.shift
       compare = all_data.shift
-      @backing = Quby::TableBackend::RangeTree.new(headers, compare, all_data)
+      @backing = Quby::TableBackend::RangeTree.from_csv(levels: headers, compare: compare, data: all_data)
     end
 
     def lookup(parameters)

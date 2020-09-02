@@ -9,7 +9,7 @@ module Quby
 
     describe '#lookup' do
       it 'passes lookup calls on to the backing' do
-        expect(Quby::TableBackend::RangeTree).to receive(:new).and_return(fake_backing)
+        expect(Quby::TableBackend::RangeTree).to receive(:from_csv).and_return(fake_backing)
         parameters = {a: 1}
         expect(table.backing).to receive(:lookup).with(parameters)
         table.lookup(parameters)
@@ -22,7 +22,7 @@ module Quby
         data_double = [headers, compare, data]
         table
         expect_any_instance_of(described_class).to receive(:data).and_return(data_double)
-        expect(Quby::TableBackend::RangeTree).to receive(:new).with(headers, compare, [data]).and_return(fake_backing)
+        expect(Quby::TableBackend::RangeTree).to receive(:from_csv).with(levels: headers, compare: compare, data:[data]).and_return(fake_backing)
         table.lookup(some: :thing)
       end
     end
