@@ -1,3 +1,7 @@
+# 3.2.2
+
+* Added add_lookup_tree method to create a range_tree from within the dsl.
+
 # 3.2.1
 
 * Added Rails 6 compatibility
