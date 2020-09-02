@@ -110,15 +110,13 @@ module Quby::TableBackend
         # binding.pry
         case node.first.first # all keys for one level are the same type.
         when String
-          node[value.to_s]
-        when Symbol
-          node[value]
+          node[value.to_s] # from csv it's always a string, but should also allow symbol param.
         when Float
-          node[value.to_f]
-        when Integer
-          node[value]
+          node[value.to_f] # from csv it's always a float, but should also allow int param.
         when Enumerable
           node.find { |k, _v| k.include? value }.last
+        else
+          node[value]
         end
       end
     rescue StandardError => exception
