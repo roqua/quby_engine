@@ -39,6 +39,14 @@ module Quby
         def referenced_values
           score_hash[:referenced_values]
         end
+
+        def error
+          if score_hash.has_key?(:exception)
+            score_hash.slice(:backtrace, :exception)
+          else
+            nil
+          end
+        end
       end
     end
   end
