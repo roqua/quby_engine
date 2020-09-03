@@ -269,6 +269,13 @@ module Quby
           outcome.scores
         end
 
+        def score_objects
+          scores.map do |score_key, score_hash|
+            Score.new score_schema: questionnaire.score_schemas[score_key],
+                      score_hash: score_hash
+          end
+        end
+
         def actions
           outcome.actions
         end
