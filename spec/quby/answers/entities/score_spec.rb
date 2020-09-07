@@ -30,25 +30,25 @@ module Quby::Answers::Entities
       expect(subject.referenced_values).to eq(["v_1"])
     end
 
-    describe '#sub_scores' do
-      let(:sub_score) { subject.sub_scores.first }
+    describe '#subscores' do
+      let(:subscore) { subject.subscores.first }
       it 'exposes subscore schema fields' do
-        expect(sub_score.key).to eq(:value)
-        expect(sub_score.export_key).to eq(:tes)
-        expect(sub_score.label).to eq('Waarde')
+        expect(subscore.key).to eq(:value)
+        expect(subscore.export_key).to eq(:tes)
+        expect(subscore.label).to eq('Waarde')
       end
 
       it 'exposes subscore values' do
-        expect(sub_score.value).to eq(10)
-        expect(subject.sub_scores.last.value).to eq('Matig')
+        expect(subscore.value).to eq(10)
+        expect(subject.subscores.last.value).to eq('Matig')
       end
     end
 
     describe 'when the score has missing values' do
       let(:v_1_value) { nil }
       it 'exposes nil as the value for each subscore, and leaves schema information alone' do
-        expect(subject.sub_scores.last.value).to eq(nil)
-        expect(subject.sub_scores.first.export_key).to eq(:tes)
+        expect(subject.subscores.last.value).to eq(nil)
+        expect(subject.subscores.first.export_key).to eq(:tes)
         expect(subject.key).to eq(:test)
       end
 
@@ -56,8 +56,8 @@ module Quby::Answers::Entities
         # second score will error on nil
         subject { answer.score_objects.last }
         it 'exposes nil as the value for each subscore, and leaves schema information alone' do
-          expect(subject.sub_scores.first.value).to eq(nil)
-          expect(subject.sub_scores.first.export_key).to eq(:tes2)
+          expect(subject.subscores.first.value).to eq(nil)
+          expect(subject.subscores.first.export_key).to eq(:tes2)
           expect(subject.key).to eq(:test2)
         end
 

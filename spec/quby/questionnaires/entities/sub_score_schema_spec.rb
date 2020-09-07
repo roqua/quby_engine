@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 module Quby::Questionnaires::Entities
-  describe SubScoreSchema do
+  describe SubscoreSchema do
     let(:key) { :totaal }
     let(:export_key) { :tot }
     let(:options) { {key: key, export_key: export_key, label: 'Somscore'} }
-    subject { SubScoreSchema.new options }
+    subject { SubscoreSchema.new options }
 
     it 'is valid' do
       expect(subject).to be_valid

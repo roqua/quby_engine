@@ -6,7 +6,7 @@ require 'quby/questionnaires/entities/question_option'
 require 'quby/questionnaires/entities/item'
 require 'quby/questionnaires/entities/score_calculation'
 
-require 'quby/questionnaires/entities/sub_score_schema'
+require 'quby/questionnaires/entities/subscore_schema'
 require 'quby/questionnaires/entities/score_schema'
 
 require 'quby/questionnaires/entities/fields'
