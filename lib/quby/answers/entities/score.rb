@@ -32,10 +32,6 @@ module Quby
           end
         end
 
-        def value
-          score_hash[:value]
-        end
-
         def referenced_values
           score_hash[:referenced_values]
         end
