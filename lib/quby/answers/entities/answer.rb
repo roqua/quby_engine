@@ -271,9 +271,10 @@ module Quby
 
         def score_objects
           scores.map do |score_key, score_hash|
-            Score.new score_schema: questionnaire.score_schemas[score_key],
-                      score_hash: score_hash
-          end
+            score = Score.new score_schema: questionnaire.score_schemas[score_key],
+                              score_hash: score_hash
+            [score_key, score]
+          end.to_h
         end
 
         def actions

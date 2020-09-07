@@ -187,8 +187,8 @@ module Quby::Answers::Entities
       end
 
       it 'returns score objects for all scores in the answer as an array' do
-        expect(answer.score_objects.first.key).to eq(:test)
-        expect(answer.score_objects.last.key).to eq(:test2)
+        expect(answer.score_objects.first.last.key).to eq(:test)
+        expect(answer.score_objects.to_a.last.last.key).to eq(:test2)
       end
     end
   end

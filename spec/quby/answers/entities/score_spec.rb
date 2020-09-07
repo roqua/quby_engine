@@ -19,7 +19,7 @@ module Quby::Answers::Entities
       Quby.answers.reload(answer)
     end
 
-    subject { answer.score_objects.first }
+    subject { answer.score_objects.first.last }
 
     it 'exposes score schema fields' do
       expect(subject.key).to eq(:test)
@@ -55,7 +55,7 @@ module Quby::Answers::Entities
 
       describe 'when the score has an exception' do
         # second score will error on nil
-        subject { answer.score_objects.last }
+        subject { answer.score_objects.to_a.last.last }
         it 'exposes nil as the value for each subscore, and leaves schema information alone' do
           expect(subject.subscores.first.value).to eq(nil)
           expect(subject.subscores.first.export_key).to eq(:tes2)
