@@ -5,8 +5,6 @@ module Quby
       # It also splits up the different subscores into Subscore objects.
 
       class Score
-        include ActiveModel::Model
-
         attr_accessor :score_schema
         attr_accessor :score_hash
         attr_accessor :subscores
@@ -18,10 +16,9 @@ module Quby
         # An array of SubscoreSchemas describing each key that can be returned in the result hash of a score.
         delegate :subscore_schemas, to: :score_schema
 
-        validates :score_hash, :score_schema, presence: true
-
-        def initialize(attributes)
-          super(attributes)
+        def initialize(score_schema:, score_hash:)
+          self.score_schema = score_schema
+          self.score_hash = score_hash
           initialize_subscores
         end
 

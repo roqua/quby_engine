@@ -35,6 +35,7 @@ module Quby::Answers::Entities
       it 'exposes subscore schema fields' do
         expect(subscore.key).to eq(:value)
         expect(subscore.export_key).to eq(:tes)
+        expect(subscore.only_for_export).to eq(nil)
         expect(subscore.label).to eq('Waarde')
       end
 

@@ -4,8 +4,6 @@ module Quby
       # Subscore instances describe the subscore keys of answer#scores using score schema information.
 
       class Subscore
-        include ActiveModel::Model
-
         attr_accessor :subschema
         attr_accessor :score_hash
 
@@ -19,7 +17,10 @@ module Quby
         # Whether this score will only be exported through oru/api/data exports, but not shown in interfaces
         delegate :only_for_export, to: :subschema
 
-        validates :subschema, :score_hash, presence: true
+        def initialize(subschema:, score_hash:)
+          self.subschema = subschema
+          self.score_hash = score_hash
+        end
 
         def value
           score_hash[key]
