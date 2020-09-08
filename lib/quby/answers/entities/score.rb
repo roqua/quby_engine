@@ -6,6 +6,7 @@ module Quby
 
       class Score
         attr_accessor :score_schema
+        attr_accessor :subscores
 
         # The key of the corresponding score in the questionnaire definition
         delegate :key, to: :score_schema
@@ -13,6 +14,8 @@ module Quby
         delegate :label, to: :score_schema
         # An array of SubscoreSchemas describing each key that can be returned in the result hash of a score.
         delegate :subscore_schemas, to: :score_schema
+        # access subscores through []
+        delegate :[], to: :subscores
 
         def initialize(score_schema:, score_hash:)
           self.score_schema = score_schema
@@ -21,7 +24,7 @@ module Quby
         end
 
         def initialize_subscores
-          @subscores = subscore_schemas.map do |subschema|
+          self.subscores = subscore_schemas.map do |subschema|
             [subschema.key, Entities::Subscore.new(subschema: subschema, score_hash: @score_hash)]
           end.to_h.with_indifferent_access
         end
@@ -36,10 +39,6 @@ module Quby
           else
             nil
           end
-        end
-
-        def [](key)
-          @subscores[key]
         end
       end
     end
