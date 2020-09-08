@@ -2,12 +2,10 @@ module Quby
   module Answers
     module Entities
       # Score instances enhance answer#scores hash results with score schema information.
-      # It also splits up the different subscores into Subscore objects.
+      # It also presents the subscores as Subscore objects.
 
       class Score
         attr_accessor :score_schema
-        attr_accessor :score_hash
-        attr_accessor :subscores
 
         # The key of the corresponding score in the questionnaire definition
         delegate :key, to: :score_schema
@@ -18,27 +16,30 @@ module Quby
 
         def initialize(score_schema:, score_hash:)
           self.score_schema = score_schema
-          self.score_hash = score_hash
+          @score_hash = score_hash
           initialize_subscores
         end
 
         def initialize_subscores
-          self.subscores = subscore_schemas.map do |subschema|
-            Entities::Subscore.new subschema: subschema,
-                                   score_hash: score_hash
-          end
+          @subscores = subscore_schemas.map do |subschema|
+            [subschema.key, Entities::Subscore.new(subschema: subschema, score_hash: @score_hash)]
+          end.to_h.with_indifferent_access
         end
 
         def referenced_values
-          score_hash[:referenced_values]
+          @score_hash[:referenced_values]
         end
 
         def error
-          if score_hash.has_key?(:exception)
-            score_hash.slice(:backtrace, :exception)
+          if @score_hash.has_key?(:exception)
+            @score_hash.slice(:backtrace, :exception)
           else
             nil
           end
+        end
+
+        def [](key)
+          @subscores[key]
         end
       end
     end

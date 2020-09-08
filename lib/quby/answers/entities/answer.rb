@@ -274,7 +274,7 @@ module Quby
             score = Score.new score_schema: questionnaire.score_schemas[score_key],
                               score_hash: score_hash
             [score_key, score]
-          end.to_h
+          end.to_h.with_indifferent_access
         end
 
         def actions

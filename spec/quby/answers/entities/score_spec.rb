@@ -19,7 +19,8 @@ module Quby::Answers::Entities
       Quby.answers.reload(answer)
     end
 
-    subject { answer.score_objects.first.last }
+    # it works with indifferent access
+    subject { answer.score_objects['test'] }
 
     it 'exposes score schema fields' do
       expect(subject.key).to eq(:test)
@@ -30,8 +31,8 @@ module Quby::Answers::Entities
       expect(subject.referenced_values).to eq(["v_1"])
     end
 
-    describe '#subscores' do
-      let(:subscore) { subject.subscores.first }
+    describe '#[] to access subscores' do
+      let(:subscore) { subject[:value] }
       it 'exposes subscore schema fields' do
         expect(subscore.key).to eq(:value)
         expect(subscore.export_key).to eq(:tes)
@@ -39,26 +40,26 @@ module Quby::Answers::Entities
         expect(subscore.label).to eq('Waarde')
       end
 
-      it 'exposes subscore values' do
+      it 'exposes subscore values, with indifferent access' do
         expect(subscore.value).to eq(10)
-        expect(subject.subscores.last.value).to eq('Matig')
+        expect(subject['interpretation'].value).to eq('Matig')
       end
     end
 
     describe 'when the score has missing values' do
       let(:v_1_value) { nil }
       it 'exposes nil as the value for each subscore, and leaves schema information alone' do
-        expect(subject.subscores.last.value).to eq(nil)
-        expect(subject.subscores.first.export_key).to eq(:tes)
+        expect(subject[:interpretation].value).to eq(nil)
+        expect(subject[:value].export_key).to eq(:tes)
         expect(subject.key).to eq(:test)
       end
 
       describe 'when the score has an exception' do
         # second score will error on nil
-        subject { answer.score_objects.to_a.last.last }
+        subject { answer.score_objects[:test2] }
         it 'exposes nil as the value for each subscore, and leaves schema information alone' do
-          expect(subject.subscores.first.value).to eq(nil)
-          expect(subject.subscores.first.export_key).to eq(:tes2)
+          expect(subject[:value].value).to eq(nil)
+          expect(subject[:value].export_key).to eq(:tes2)
           expect(subject.key).to eq(:test2)
         end
 

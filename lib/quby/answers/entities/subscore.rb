@@ -5,7 +5,6 @@ module Quby
 
       class Subscore
         attr_accessor :subschema
-        attr_accessor :score_hash
 
         # The key this subscore has in the hash returned by the score
         delegate :key, to: :subschema
@@ -19,11 +18,11 @@ module Quby
 
         def initialize(subschema:, score_hash:)
           self.subschema = subschema
-          self.score_hash = score_hash
+          @score_hash = score_hash
         end
 
         def value
-          score_hash[key]
+          @score_hash[key]
         end
       end
     end
