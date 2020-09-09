@@ -15,23 +15,23 @@ module Quby
         attr_accessor :key
         # A label describing the general purpose of the score
         attr_accessor :label
-        # An array of SubScoreSchemas describing each key that can be returned in the result hash of a score.
-        attr_accessor :sub_score_schemas
+        # An array of SubscoreSchemas describing each key that can be returned in the result hash of a score.
+        attr_accessor :subscore_schemas
 
-        validates :key, :label, :sub_score_schemas, presence: true
-        validates :sub_score_schemas, 'quby/array_attribute_valid': true
+        validates :key, :label, :subscore_schemas, presence: true
+        validates :subscore_schemas, 'quby/array_attribute_valid': true
 
         def initialize(attributes)
           super(attributes)
-          initialize_sub_score_schemas
+          initialize_subscore_schemas
         end
 
-        def initialize_sub_score_schemas
-          self.sub_score_schemas = sub_score_schemas&.map { |suboptions| Entities::SubScoreSchema.new suboptions }
+        def initialize_subscore_schemas
+          self.subscore_schemas = subscore_schemas&.map { |suboptions| Entities::SubscoreSchema.new suboptions }
         end
 
         def export_key_labels
-          sub_score_schemas.map { |schema| [schema.export_key, schema.label] }.to_h.with_indifferent_access
+          subscore_schemas.map { |schema| [schema.export_key, schema.label] }.to_h.with_indifferent_access
         end
       end
     end

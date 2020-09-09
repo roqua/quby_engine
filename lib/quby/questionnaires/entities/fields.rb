@@ -108,7 +108,7 @@ module Quby
         def score_descriptions
           @score_variable_descriptions ||=
             @questionnaire.score_schemas.values.map do |score_schema|
-              score_schema.sub_score_schemas.map do |subschema|
+              score_schema.subscore_schemas.map do |subschema|
                 [subschema.export_key, "#{score_schema.label} #{subschema.label}"]
               end
             end.flatten(1).to_h.with_indifferent_access

@@ -20,7 +20,7 @@ module Quby
           (score_keys - questionnaire.score_schemas.values.map(&:key)).each do |missing_key|
             errors.add :score_keys, "#{missing_key.inspect} not found in score schemas"
           end
-          existing_subscore_keys = questionnaire.score_schemas.values.flat_map(&:sub_score_schemas).map(&:key)
+          existing_subscore_keys = questionnaire.score_schemas.values.flat_map(&:subscore_schemas).map(&:key)
           (subscore_keys - existing_subscore_keys).each do |missing_key|
             errors.add :subscore_keys, "#{missing_key.inspect} not found in subscore schemas"
           end
