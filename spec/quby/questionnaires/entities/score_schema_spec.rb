@@ -2,8 +2,8 @@ require 'spec_helper'
 
 module Quby::Questionnaires::Entities
   describe ScoreSchema do
-    let(:sub_options) { {key: :value, export_key: :tot, label: 'Somscore'} }
-    let(:schema_options) { {key: :totaal, label: 'Totaalscore', sub_score_schemas: [sub_options]} }
+    let(:suboptions) { {key: :value, export_key: :tot, label: 'Somscore'} }
+    let(:schema_options) { {key: :totaal, label: 'Totaalscore', subscore_schemas: [suboptions]} }
     subject { ScoreSchema.new schema_options }
 
     it 'is valid' do
@@ -11,7 +11,7 @@ module Quby::Questionnaires::Entities
     end
 
     it 'initializes sub score schemas from the provided hash' do
-      expect(subject.sub_score_schemas.first).to be_a(SubScoreSchema)
+      expect(subject.subscore_schemas.first).to be_a(SubscoreSchema)
     end
 
     describe '#export_key_labels' do
@@ -34,16 +34,16 @@ module Quby::Questionnaires::Entities
       it 'sets helpful error messages' do
         subject.validate
         messages = subject.errors.full_messages
-        expect(messages).to eq(["Label moet opgegeven zijn", "Sub score schemas moet opgegeven zijn"])
+        expect(messages).to eq(["Label moet opgegeven zijn", "Subscore schemas moet opgegeven zijn"])
       end
     end
 
     describe 'when the subscoreschema is invalid' do
-      let(:sub_options) { {key: :value} }
+      let(:suboptions) { {key: :value} }
       it 'sets helpful error messages' do
         subject.validate
         expect(subject.errors.full_messages).to \
-          eq(["Sub score schemas element #0 Label moet opgegeven zijn, Export key moet opgegeven zijn, \
+          eq(["Subscore schemas element #0 Label moet opgegeven zijn, Export key moet opgegeven zijn, \
 Export key is not a symbol"])
       end
     end

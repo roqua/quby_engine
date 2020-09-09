@@ -1,9 +1,9 @@
 module Quby
   module Questionnaires
     module Entities
-      # SubScoreSchema instances describe each key that could be returned in a score result hash
+      # SubscoreSchema instances describe each key that could be returned in a score result hash
 
-      class SubScoreSchema
+      class SubscoreSchema
         include ActiveModel::Model
 
         # The key this subscore has in the hash returned by the score
