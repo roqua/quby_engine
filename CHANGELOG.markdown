@@ -1,3 +1,8 @@
+# 4.0.0
+
+* Added Answer#score_objects which exposes answer scores as Score and Subscore objects enriched with score schema information.
+* BREAKING CHANGES: Renamed SubScoreSchema to SubscoreSchema. Renamed ScoreSchema#sub_score_schemas to #subscore_schemas.
+
 # 3.2.2
 
 * Added add_lookup_tree method to create a range_tree from within the dsl.
