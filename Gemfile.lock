@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quby (4.0.0)
+    quby (4.0.1)
       addressable
       browser
       coffee-rails
@@ -80,7 +80,7 @@ GEM
       rack
     arel (9.0.0)
     ast (2.4.0)
-    browser (4.2.0)
+    browser (5.0.0)
     builder (3.2.4)
     capybara (3.32.1)
       addressable
@@ -217,7 +217,7 @@ GEM
     naught (1.1.0)
     nenv (0.3.0)
     netrc (0.11.0)
-    nio4r (2.5.2)
+    nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
     nokogumbo (2.0.2)

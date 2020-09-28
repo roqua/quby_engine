@@ -1,3 +1,7 @@
+# 4.0.1
+
+* Fix some options description html breaking table views.
+
 # 4.0.0
 
 * Added Answer#score_objects which exposes answer scores as Score and Subscore objects enriched with score schema information.
