@@ -9,6 +9,7 @@ module Quby
         attr_reader :key
         attr_reader :value
         attr_reader :description
+        attr_reader :context_free_description
         attr_reader :questions
         attr_reader :inner_title
         attr_reader :hides_questions
@@ -26,6 +27,7 @@ module Quby
           @question    = question
           @value       = options[:value]
           @description = options[:description]
+          @context_free_description = options[:context_free_description]
           @questions   = []
           @inner_title = options[:inner_title]
           @hides_questions = options[:hides_questions] || []
@@ -48,11 +50,16 @@ module Quby
           false
         end
 
+        def context_free_description
+          @context_free_description || @description
+        end
+
         def as_json(options = {})
           {
             key: key,
             value: value,
             description: Quby::MarkdownParser.new(description).to_html,
+            context_free_description: Quby::MarkdownParser.new(context_free_description).to_html,
             questions: questions,
             innerTitle: inner_title,
             hidesQuestions: hides_questions,

@@ -21,8 +21,8 @@ module Quby::Questionnaires::Entities
 
         question :checkb, type: :check_box do
           title "Checkbox vraag"
-          option :sixone
-          option :sixtwo
+          option :sixone, description: "61", context_free_description: "six one"
+          option :sixtwo, description: '62'
         end
       end
     end
@@ -48,6 +48,18 @@ module Quby::Questionnaires::Entities
       it 'returns <question_key>_<option_key> for radio questions' do
         option = questionnaire.question_hash[:one].options.first
         expect(option.input_key).to eq :one_a1
+      end
+    end
+
+    describe '#context_free_description' do
+      it 'uses given value' do
+        option = questionnaire.question_hash[:checkb].options[0]
+        expect(option.context_free_description).to eq('six one')
+      end
+
+      it 'uses description as fallback' do
+        option = questionnaire.question_hash[:checkb].options[1]
+        expect(option.context_free_description).to eq('62')
       end
     end
 
