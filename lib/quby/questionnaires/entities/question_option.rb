@@ -9,7 +9,6 @@ module Quby
         attr_reader :key
         attr_reader :value
         attr_reader :description
-        attr_reader :context_free_description
         attr_reader :questions
         attr_reader :inner_title
         attr_reader :hides_questions
