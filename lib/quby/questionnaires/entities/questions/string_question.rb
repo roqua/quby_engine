@@ -5,12 +5,8 @@ module Quby
     module Entities
       module Questions
         class StringQuestion < Question
-          def size
-            @size || 30
-          end
-          
           def as_json(options = {})
-            super.merge(autocomplete: @autocomplete)
+            super.merge(autocomplete: @autocomplete, size: @size || 30)
           end
         end
       end
