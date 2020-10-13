@@ -9,5 +9,5 @@
     - cls = [question.type]
     - cls << "subinput"  if subquestion
     - cls << question.as if question.as
-    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => (question.size || 30), data: {"field-key" => question.key}
+    = text_field :answer, question.key, :autocomplete => question.autocomplete, :class => cls, :disabled => (disabled ? "" : nil), :size => question.size, data: {"field-key" => question.key}
     %span.unit= raw question.unit
