@@ -5,6 +5,9 @@ module Quby
     module Entities
       module Questions
         class FloatQuestion < Question
+          def size
+            @size || 30
+          end
         end
       end
     end

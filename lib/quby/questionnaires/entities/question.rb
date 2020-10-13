@@ -232,6 +232,7 @@ module Quby
             description: Quby::MarkdownParser.new(description).to_html,
             type: type,
             unit: unit,
+            size: size,
             hidden: hidden?,
             displayModes: display_modes,
             defaultInvisible: default_invisible,

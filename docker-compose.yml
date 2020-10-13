@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  test:
+    build:
+      context: .
+    command: bash
+    volumes:
+      - ./:/app
+      - gems:/usr/local/bundle
+
+volumes:
+  gems:
