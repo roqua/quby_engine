@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  test:
+    image: registry.roqua.nl/roqua/docker-base-images:ruby-2.5
+    command: bash
+    volumes:
+      - ./:/app
+
+volumes:
+  node_modules:
+  gems:
