@@ -146,7 +146,7 @@ module Quby
         end
 
         def add_lookup_tree(key, levels:, tree:)
-          @questionnaire.lookup_tables[key] = Quby::TableBackend::RangeTree.new(levels: levels, tree: tree)
+          @questionnaire.lookup_tables[key] = {levels: levels, tree: tree}
         end
 
         def default_question_options(options = {})

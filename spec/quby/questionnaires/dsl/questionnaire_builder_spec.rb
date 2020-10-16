@@ -22,12 +22,6 @@ module Quby::Questionnaires::DSL
       expect(questionnaire.outcome_description).to eq('Outcome description')
     end
 
-    it 'can disable checking key clashes' do
-      expect(questionnaire.check_key_clashes).to eq(true)
-      dsl { do_not_check_key_clashes }
-      expect(questionnaire.check_key_clashes).to eq(false)
-    end
-
     it 'set sbg_key' do
       dsl { sbg_key 'foo' }
       expect(questionnaire.sbg_key).to eq('foo')

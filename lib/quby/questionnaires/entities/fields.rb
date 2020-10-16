@@ -66,6 +66,10 @@ module Quby
         # adds the question.input_keys If a given key is an option-input-key it adds the given key. Raises an error
         # if a key is not defined.
         def expand_input_keys(keys)
+          puts keys.inspect
+          puts question_hash.keys.inspect
+          puts input_keys.inspect
+
           keys.reduce([]) do |ikeys, key|
             if question_hash.key?(key)
               ikeys += question_hash[key].input_keys

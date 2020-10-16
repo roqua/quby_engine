@@ -11,21 +11,6 @@ module Quby
         def type
           config[:type]
         end
-
-        def as_json(options)
-          case type
-          when :regexp
-            valc = config.clone
-            valc[:matcher] = valc[:matcher].source.to_s
-
-            # Replace single backslashes with two backslashes
-            valc[:matcher].gsub!("\\", "\\\\")
-
-            valc
-          else
-            config
-          end.deep_transform_keys{ |key| key.to_s.camelize(:lower) }
-        end
       end
     end
   end

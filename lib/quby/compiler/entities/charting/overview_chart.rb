@@ -11,7 +11,10 @@ module Quby
           # @return Integer
           attr_accessor :y_max
 
-          def initialize
+          def initialize(key, subscore: nil, y_max: nil, **kwargs)
+            super(key, **kwargs)
+            self.subscore = subscore
+            self.y_max = y_max
           end
         end
       end
