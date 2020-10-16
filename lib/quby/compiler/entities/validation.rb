@@ -12,7 +12,7 @@ module Quby
           config[:type]
         end
 
-        def as_json
+        def as_json(options)
           case type
           when :regexp
             valc = config.clone
