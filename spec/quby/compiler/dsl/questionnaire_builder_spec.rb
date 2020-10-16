@@ -406,16 +406,19 @@ module Quby::Compiler::DSL
 
     describe '#add_lookup_tree' do
       it 'can add a lookup tree' do
+        lookup_options = {
+          levels: ['score', 'interpretation'],
+          tree: {
+            0..24 => 'low',
+            25..50 => 'high'
+          }
+        }
+
         dsl do
-          add_lookup_tree :interpretations,
-            levels: ['score', 'interpretation'],
-            tree: {
-              0..24 => 'low',
-              25..50 => 'high'
-            }
+          add_lookup_tree :interpretations, lookup_options
         end
 
-        expect(questionnaire.lookup_tables[:interpretations].lookup(score: 26)).to eq 'high'
+        expect(questionnaire.lookup_tables[:interpretations]).to eq(lookup_options)
       end
     end
 

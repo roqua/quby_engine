@@ -444,6 +444,7 @@ module Quby::Questionnaires::Entities
       end
 
       it 'does not validate presense of score schemas by default' do
+        Quby::Settings.require_score_schemas = false
         expect(score_missing_schema_quest.errors.full_messages).to be_blank
       end
 
