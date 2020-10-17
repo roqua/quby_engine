@@ -13,7 +13,7 @@ module Quby::Questionnaires
         definition = Quby::Questionnaires::Entities::Definition.new(key: 'test',
                                                                     sourcecode: 'raise("problem")',
                                                                     path: 'spec/fixtures/raising.rb')
-        expected_backtrace = include(end_with("spec/fixtures/raising.rb:1:in `block in build_from_definition'"))
+        expected_backtrace = include(end_with("spec/fixtures/raising.rb:1:in `block in build'"))
         expect { described_class.build_from_definition(definition) }.to \
           raise_exception(having_attributes(backtrace: expected_backtrace))
       end

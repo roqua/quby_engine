@@ -27,9 +27,32 @@ module Quby
             self.clinically_relevant_change = clinically_relevant_change
           end
 
+          def baseline
+            @baseline_proc ||= make_baseline_proc
+          end
+
           def tonality=(value)
             fail "Invalid tonality: #{value}" unless [:higher_is_better, :lower_is_better].include?(value)
             @tonality = value
+          end
+
+          private
+
+          def make_baseline_proc
+            return unless @baseline
+
+            case value
+            when Hash
+              ->(age, gender) {
+                age_match = value.find { |age_range, _v| age && age_range === age }
+                hash_by_gender = (age_match&.last || value.stringify_keys["default"])
+
+                gender_match = hash_by_gender.find {|gender_key, _v| gender && gender_key.to_s == gender.to_s }
+                gender_match&.last || hash_by_gender.stringify_keys['default']
+              }
+            else
+              @chart.baseline = ->(age, gender) { value }
+            end
           end
         end
       end

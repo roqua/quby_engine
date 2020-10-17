@@ -15,10 +15,10 @@ module Quby
         end
       end
 
-      def self.build(key, sourcecode = nil, timestamp: nil, &block)
+      def self.build(key, sourcecode = nil, path: nil, timestamp: nil, &block)
         Entities::Questionnaire.new(key, last_update: timestamp).tap do |questionnaire|
           builder = QuestionnaireBuilder.new(questionnaire)
-          builder.instance_eval(sourcecode, key) if sourcecode
+          builder.instance_eval(sourcecode, path || key) if sourcecode
           builder.instance_eval(&block) if block
           questionnaire.callback_after_dsl_enhance_on_questions
         end

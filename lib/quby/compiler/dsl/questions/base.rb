@@ -46,6 +46,7 @@ module Quby
             @question.default_position = value
           end
 
+          # TODO not referenced in definitions?
           def validates_presence_of_answer(options = {})
             @question.validations ||= []
             @question.validations << {type: :requires_answer}.reverse_merge(options)

@@ -140,7 +140,7 @@ module Quby
           @description = options[:description]
           @display_modes = options[:display_modes]
           @presentation = options[:presentation]
-          @validations = []
+          @validations = options[:validations] || []
           @parent = options[:parent]
           @hidden = options[:hidden]
           @table = options[:table]
@@ -169,16 +169,6 @@ module Quby
           @input_data = {}
           @input_data[:value_tooltip] = true if options[:value_tooltip]
 
-          # Require subquestions of required questions by default
-          options[:required] = true if @parent&.validations&.first&.fetch(:type, nil) == :requires_answer
-          @validations << {type: :requires_answer, explanation: options[:error_explanation]} if options[:required]
-
-          if @type == :float
-            @validations << {type: :valid_float, explanation: options[:error_explanation]}
-          elsif @type == :integer
-            @validations << {type: :valid_integer, explanation: options[:error_explanation]}
-          end
-
           if options[:minimum] and (@type == :integer || @type == :float)
             fail "deprecated" # pretty sure this is not used anywhere
           end
@@ -186,17 +176,6 @@ module Quby
             fail "deprecated" # pretty sure this is not used anywhere
           end
           @default_position = options[:default_position]
-
-          if @question_group
-            if @group_minimum_answered
-              @validations << {type: :answer_group_minimum, group: @question_group, value: @group_minimum_answered,
-                               explanation: options[:error_explanation]}
-            end
-            if @group_maximum_answered
-              @validations << {type: :answer_group_maximum, group: @question_group, value: @group_maximum_answered,
-                               explanation: options[:error_explanation]}
-            end
-          end
         end
         # rubocop:enable CyclomaticComplexity, Metrics/MethodLength
 

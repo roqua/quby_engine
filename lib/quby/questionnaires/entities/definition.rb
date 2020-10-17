@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'active_model'
-require 'quby/questionnaires/services/definition_validator'
 
 module Quby
   module Questionnaires
@@ -18,8 +17,6 @@ module Quby
           @sourcecode = sourcecode
           @timestamp = timestamp
         end
-
-        validates_with Services::DefinitionValidator
       end
     end
   end

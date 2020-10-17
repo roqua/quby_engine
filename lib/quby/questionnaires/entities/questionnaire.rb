@@ -137,9 +137,6 @@ module Quby
         end
 
         def callback_after_dsl_enhance_on_questions
-          question_hash.each_value do |q|
-            q.run_callbacks :after_dsl_enhance
-          end
           ensure_scores_have_schemas if Quby::Settings.require_score_schemas
         end
 

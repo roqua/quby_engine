@@ -1,27 +1,18 @@
 # frozen_string_literal: true
 
-require 'quby/questionnaires/dsl/base'
-require 'quby/questionnaires/dsl/helpers'
-require 'quby/questionnaires/dsl/questionnaire_builder'
-
 module Quby
   module Questionnaires
     module DSL
       def self.build_from_definition(definition)
-        Entities::Questionnaire.new(definition.key, last_update: definition.timestamp).tap do |questionnaire|
-          builder = QuestionnaireBuilder.new(questionnaire)
-          builder.instance_eval(definition.sourcecode, definition.path) if definition.sourcecode
-          questionnaire.callback_after_dsl_enhance_on_questions
-        end
+        compiled = Quby::Compiler.compile(definition.key, definition.sourcecode, path: definition.path)
+        data = JSON.parse(compiled["outputs"]["quby_frontend_v1"].to_json)
+        Deserializer.from_json(data).tap(&:callback_after_dsl_enhance_on_questions)
       end
 
       def self.build(key, sourcecode = nil, timestamp: nil, &block)
-        Entities::Questionnaire.new(key, last_update: timestamp).tap do |questionnaire|
-          builder = QuestionnaireBuilder.new(questionnaire)
-          builder.instance_eval(sourcecode, key) if sourcecode
-          builder.instance_eval(&block) if block
-          questionnaire.callback_after_dsl_enhance_on_questions
-        end
+        compiled = Quby::Compiler.compile(key, sourcecode, &block)
+        data = JSON.parse(compiled["outputs"]["quby_frontend_v1"].to_json)
+        Deserializer.from_json(data).tap(&:callback_after_dsl_enhance_on_questions)
       end
     end
   end

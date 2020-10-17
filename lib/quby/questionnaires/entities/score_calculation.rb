@@ -10,8 +10,8 @@ module Quby
           @key = key
           @label = options[:label]
           @sbg_key = options[:sbg_key]
-          @options = options
-          @calculation = block
+          @options = options[:options] || options # TODO remove `|| options`
+          @calculation = block || options[:sourcecode]
         end
 
         def score

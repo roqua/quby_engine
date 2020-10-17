@@ -489,8 +489,8 @@ module Quby::Questionnaires::Entities
           {"fieldKey" => :v_2, "type" => :requires_answer, "explanation" => nil},
           # a float type automatically adds a validation that the data entered must be parseable as a float
           {"fieldKey" => :v_2, "type" => :valid_float, "explanation" => nil},
-          {"fieldKey" => :v_2, "type" => :minimum, "subtype" => :number, "value" => 5},
-          {"fieldKey" => :v_2, "type" => :maximum, "subtype" => :number, "value" => 10}
+          {"fieldKey" => :v_2, "type" => :minimum, "subtype" => :number, "value" => 5, "explanation" => nil},
+          {"fieldKey" => :v_2, "type" => :maximum, "subtype" => :number, "value" => 10, "explanation" => nil}
         ])
       end
 

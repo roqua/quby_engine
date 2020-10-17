@@ -82,8 +82,8 @@ module Quby::Questionnaires::Entities
     end
 
     describe '#description_for_variable' do
-      let(:definition) do
-        %q~
+      let(:questionnaire) do
+        Quby::Questionnaires::DSL.build("test") do
           flag key: :flagtest, description_true: 'it true', description_false: 'it false', description: 'it described'
           textvar key: :textvartest, description: 'tv description'
           question :v_1, type: :radio, title: 'select a few'
@@ -105,7 +105,7 @@ module Quby::Questionnaires::Entities
           score_schema :tot, 'Total', [{key: :value, export_key: 'tot', label: 'Score'},
                                        {key: :interpretation, export_key: 'tot_i', label: 'Interpretation'}]
 
-        ~
+        end
       end
 
       it 'returns question context free titles if the variable is a question' do

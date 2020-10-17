@@ -274,6 +274,7 @@ module Quby
         end
 
         def default_position
+          return unless as == :slider
           half = (type == :float) ? 2.0 : 2
           @default_position || ((minimum + maximum) / half if minimum && maximum)
         end

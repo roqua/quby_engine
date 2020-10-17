@@ -32,14 +32,6 @@ module Quby
               component_key = options[:"#{component}_key"] || "#{key}_#{COMPONENT_KEYS[component]}"
               instance_variable_set("@#{component}_key", component_key.to_sym)
             end
-
-            add_date_validation(options[:error_explanation])
-          end
-
-          def add_date_validation(explanation)
-            @validations << {type: :valid_date,
-                             subtype: :"valid_date_#{components.sort.join('_')}",
-                             explanation: explanation}
           end
 
           def claimed_keys

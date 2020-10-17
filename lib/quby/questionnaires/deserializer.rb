@@ -14,12 +14,24 @@ module Quby
           questionnaire.license = json.fetch("license").try(:to_sym)
           questionnaire.licensor = json.fetch("licensor")
           questionnaire.language = json.fetch("language").try(:to_sym)
-          questionnaire.flags = json.fetch("flags").symbolize_keys.transform_values { |attrs| build_flag(attrs) }
+
+          questionnaire.flags = json.fetch("flags").with_indifferent_access.transform_values do |attrs| 
+            build_flag(attrs)
+          end
+
+          questionnaire.textvars = json.fetch("textvars").with_indifferent_access.transform_values do |attrs|
+            build_textvar(attrs)
+          end
+
           questionnaire.lookup_tables = YAML.load(json.fetch("lookup_tables")).transform_values do |attrs|
             Quby::TableBackend::RangeTree.new(levels: attrs[:levels], tree: attrs[:tree])
           end
 
-          questionnaire.score_schemas = json.fetch("score_schemas").symbolize_keys.transform_values do |schema|
+          questionnaire.score_calculations = json.fetch("score_calculations").with_indifferent_access.transform_values do |attrs|
+            build_score_calculation(attrs)
+          end
+
+          questionnaire.score_schemas = json.fetch("score_schemas").with_indifferent_access.transform_values do |schema|
             build_score_schema(schema)
           end
 
@@ -84,6 +96,7 @@ module Quby
         attributes = {
           questionnaire: questionnaire,
           parent: parent,
+          type: item_json.fetch("question_type").to_sym,
           title: item_json.fetch("title"),
           context_free_title: item_json.fetch("context_free_title"),
           description: item_json.fetch("description"),
@@ -91,6 +104,7 @@ module Quby
           hidden: item_json.fetch("hidden"),
           depends_on: item_json.fetch("depends_on")&.map(&:to_sym),
           default_position: item_json.fetch("default_position"),
+          validations: item_json.fetch("validations").map {|attrs| build_question_validation(attrs)},
 
           # only selectable via options passed in DSL, not via DSL methods
           # many apply only to certain types of questions
@@ -116,7 +130,7 @@ module Quby
         }
 
         case item_json.fetch("question_type")
-        when "checkbox"
+        when "check_box"
           Entities::Questions::CheckboxQuestion.new(key, attributes.merge(
             check_all_option: item_json.fetch("check_all_option")&.to_sym,
             uncheck_all_option: item_json.fetch("uncheck_all_option")&.to_sym,
@@ -131,13 +145,13 @@ module Quby
           Entities::Questions::DateQuestion.new(key, attributes.merge(
             components: item_json.fetch("components").map(&:to_sym),
             required_components: item_json.fetch("components").map(&:to_sym),
-            year_key: item_json.fetch("year_key").to_sym,
-            month_key: item_json.fetch("month_key").to_sym,
-            day_key: item_json.fetch("day_key").to_sym,
-            hour_key: item_json.fetch("hour_key").to_sym,
-            minute_key: item_json.fetch("minute_key").to_sym,
+            year_key: item_json.fetch("year_key")&.to_sym,
+            month_key: item_json.fetch("month_key")&.to_sym,
+            day_key: item_json.fetch("day_key")&.to_sym,
+            hour_key: item_json.fetch("hour_key")&.to_sym,
+            minute_key: item_json.fetch("minute_key")&.to_sym,
           ))
-        when "deprecated"
+        when "deprecated", "hidden"
           Entities::Questions::DeprecatedQuestion.new(key, attributes).tap do |question|
             item_json.fetch("options").each do |option_json|
               question.options << build_option(questionnaire, question, option_json)
@@ -155,7 +169,7 @@ module Quby
             unit: item_json.fetch("unit"),
             size: item_json.fetch("size"),
           ))
-        when "radio"
+        when "radio", "scale"
           Entities::Questions::RadioQuestion.new(key, attributes).tap do |question|
             item_json.fetch("options").each do |option_json|
               question.options << build_option(questionnaire, question, option_json)
@@ -172,7 +186,7 @@ module Quby
             unit: item_json.fetch("unit"),
             size: item_json.fetch("size"),
           ))
-        when "text"
+        when "textarea"
           Entities::Questions::TextQuestion.new(key, attributes.merge(
             lines: item_json.fetch("lines"),
           ))
@@ -182,13 +196,13 @@ module Quby
       end
 
       def self.build_option(questionnaire, question, option_json)
-        option = Entities::QuestionOption.new(option_json.fetch("key").to_sym, question,
+        option = Entities::QuestionOption.new(option_json.fetch("key")&.to_sym, question,
           value: option_json.fetch("value"),
           description: option_json.fetch("description"),
           context_free_description: option_json.fetch("context_free_description"),
           inner_title: option_json.fetch("inner_title"),
-          hides_questions: option_json.fetch("hides_questions"),
-          shows_questions: option_json.fetch("shows_questions"),
+          hides_questions: option_json.fetch("hides_questions").map(&:to_sym),
+          shows_questions: option_json.fetch("shows_questions").map(&:to_sym),
           hidden: option_json.fetch("hidden"),
           placeholder: option_json.fetch("placeholder"),
         )
@@ -200,6 +214,59 @@ module Quby
         end
 
         option
+      end
+
+      def self.build_question_validation(attrs)
+        base_validation = {
+          type: attrs.fetch("type").to_sym,
+          explanation: attrs["explanation"] # not always specified for min/max validation
+        }
+
+        case attrs.fetch("type")
+        when "requires_answer"
+          base_validation
+        when "answer_group_minimum", "answer_group_maximum"
+          base_validation.merge(
+            group: attrs.fetch("group"), # TODO: sometimes a symbol, sometimes a string in the original, but I hope it doesn't matter
+            value: attrs.fetch("value")
+          )
+        when "valid_integer", "valid_float"
+          base_validation
+        when "valid_date"
+          base_validation.merge(
+            subtype: attrs.fetch("subtype").to_sym
+          )
+        when "minimum", "maximum"
+          base_validation.merge(
+            value: attrs.fetch("value"),
+            subtype: attrs.fetch("subtype").to_sym,
+          )
+        when "too_many_checked"
+          base_validation.merge(
+            uncheck_all_key: attrs.fetch("uncheck_all_key").to_sym
+          )
+        when "maximum_checked_allowed"
+          base_validation.merge(
+            maximum_checked_value: attrs.fetch("maximum_checked_value")
+          )
+        when "regexp"
+          base_validation.merge(
+            matcher: Regexp.new(attrs.fetch("matcher"))
+          )
+        when "not_all_checked"
+          base_validation.merge(
+            check_all_key: attrs.fetch("check_all_key").to_sym
+          )
+        end
+      end
+
+      def self.build_score_calculation(attrs)
+        Entities::ScoreCalculation.new(attrs.fetch("key").to_sym,
+          label: attrs.fetch("label"),
+          sbg_key: attrs.fetch("sbg_key"),
+          options: attrs.fetch("options").symbolize_keys,
+          sourcecode: attrs.fetch("sourcecode"),
+        )
       end
 
       def self.build_flag(attrs)
@@ -214,6 +281,15 @@ module Quby
           hides_questions: attrs.fetch("hides_questions").map(&:to_sym),
           depends_on: attrs.fetch("depends_on"),                              # TODO: emperically determined to be a string in DSL, is that right?
           default_in_interface: attrs.fetch("default_in_interface"),
+        )
+      end
+
+      def self.build_textvar(attrs)
+        Entities::Textvar.new(
+          key: attrs.fetch("key").to_sym,
+          description: attrs.fetch("description"),
+          default: attrs.fetch("default"),
+          depends_on_flag: attrs.fetch("depends_on_flag")&.to_sym
         )
       end
 
@@ -239,7 +315,7 @@ module Quby
           Quby::Questionnaires::Entities::Charting::LineChart.new(chart_json.fetch("key").to_sym,
             y_label: chart_json.fetch("y_label"),
             tonality: chart_json.fetch("tonality").to_sym,
-            baseline: "TODO", # can be Ruby block of code
+            baseline: YAML.load(chart_json.fetch("baseline")),
             clinically_relevant_change: chart_json.fetch("clinically_relevant_change"),
             **base_args
           )

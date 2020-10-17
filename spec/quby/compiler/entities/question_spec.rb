@@ -144,21 +144,21 @@ module Quby::Compiler::Entities
 
     describe '#default_position' do
       it 'defaults to halfway between minimum and maximum' do
-        question = Questions::IntegerQuestion.new(:v_1, type: :integer)
+        question = Questions::IntegerQuestion.new(:v_1, type: :integer, as: :slider)
         question.validations << {type: :minimum, value: 1, subtype: :number}
         question.validations << {type: :maximum, value: 5, subtype: :number}
         expect(question.default_position).to eq 3
       end
 
       it 'overrides the default if set' do
-        question = Questions::IntegerQuestion.new(:v_1, type: :integer, default_position: 4)
+        question = Questions::IntegerQuestion.new(:v_1, type: :integer, as: :slider, default_position: 4)
         question.validations << {type: :minimum, value: 1, subtype: :number}
         question.validations << {type: :maximum, value: 5, subtype: :number}
         expect(question.default_position).to eq 4
       end
 
       it 'allows explicit nil value' do
-        question = Questions::IntegerQuestion.new(:v_1, type: :integer, default_position: :hidden)
+        question = Questions::IntegerQuestion.new(:v_1, type: :integer, as: :slider, default_position: :hidden)
         question.validations << {type: :minimum, value: 1, subtype: :number}
         question.validations << {type: :maximum, value: 5, subtype: :number}
         expect(question.default_position).to eq :hidden

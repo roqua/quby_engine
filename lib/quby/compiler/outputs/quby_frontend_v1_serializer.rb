@@ -16,8 +16,6 @@ module Quby
               key: panel.key,
               title: panel.title,
               items: panel.items.map do |item|
-                next if item.respond_to?(:table) && item.table # things inside a table are added to the table, AND ALSO to the panel. skip them.
-
                 case item
                 when Quby::Compiler::Entities::Text
                   {
@@ -41,6 +39,7 @@ module Quby
         def question_as_json(question)
           base_options = {
             type: 'question',
+            question_type: question.type,
             key: question.key,
             title: question.title,
             context_free_title: question.context_free_title,
@@ -74,7 +73,6 @@ module Quby
           case question
           when Quby::Compiler::Entities::Questions::CheckboxQuestion
             base_options.merge(
-              question_type: 'checkbox',
               options: question.options.map { |option| option_as_json(option) },
               check_all_option: question.check_all_option,
               uncheck_all_option: question.uncheck_all_option,
@@ -83,7 +81,6 @@ module Quby
             )
           when Quby::Compiler::Entities::Questions::DateQuestion
             base_options.merge(
-              question_type: 'date',
               components: question.components,
               required_components: question.required_components,
               year_key: question.year_key,
@@ -94,48 +91,42 @@ module Quby
             )
           when Quby::Compiler::Entities::Questions::DeprecatedQuestion
             base_options.merge(
-              question_type: 'deprecated',
               options: question.options.map { |option| option_as_json(option) }
             )
           when Quby::Compiler::Entities::Questions::FloatQuestion
             base_options.merge(
-              question_type: 'float',
               labels: question.labels,
               unit: question.unit,
               size: question.size,
             )
           when Quby::Compiler::Entities::Questions::IntegerQuestion
             base_options.merge(
-              question_type: 'integer',
               labels: question.labels,
               unit: question.unit,
               size: question.size,
             )
           when Quby::Compiler::Entities::Questions::RadioQuestion
             base_options.merge(
-              question_type: 'radio',
               options: question.options.map { |option| option_as_json(option) }
             )
           when Quby::Compiler::Entities::Questions::SelectQuestion
             base_options.merge(
-              question_type: 'select',
               options: question.options.map { |option| option_as_json(option) }
             )
           when Quby::Compiler::Entities::Questions::StringQuestion
             base_options.merge(
-              question_type: 'string',
               unit: question.unit,
               size: question.size,
             )
           when Quby::Compiler::Entities::Questions::TextQuestion
             base_options.merge(
-              question_type: 'text',
               lines: question.lines
             )
           end
         end
 
         def validation_as_json(validation)
+          return validation
           case validation[:type]
           when :not_all_checked, :too_many_checked, :maximum_checked_allowed, :minimum_checked_required
             # skip
@@ -164,7 +155,8 @@ module Quby
               label: score_calculation.label,
               sbg_key: score_calculation.sbg_key,
               options: score_calculation.options,
-              sourcecode: score_calculation.calculation.to_proc.source
+              sourcecode: ""
+              # sourcecode: score_calculation.calculation&.to_proc&.source
             }
 
           end
@@ -256,16 +248,14 @@ module Quby
           end
         end
 
-        def validations
-          questionnaire.validations.map do |validation|
-            case validation.type
-            when :regexp
-              validation.config.clone.tap do |conf|
-                conf[:matcher] = conf[:matcher].source.to_s
-              end
-            else
-              validation.config
-            end
+        def textvars
+          questionnaire.textvars.transform_values do |textvar|
+            {
+              key: textvar.key,
+              description: textvar.description,
+              default: textvar.default,
+              depends_on_flag: textvar.depends_on_flag,
+            }
           end
         end
 
@@ -302,10 +292,10 @@ module Quby
             panels: panels,
             flags: questionnaire.flags,
             textvars: questionnaire.textvars,
-            validations: validations,
             score_calculations: score_calculations,
             score_schemas: score_schemas,
             flags: flags,
+            textvars: textvars,
             lookup_tables: lookup_tables,
 
             # belong to roqua domain, but for now they're here too:

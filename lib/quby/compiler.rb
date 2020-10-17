@@ -6,8 +6,8 @@ require 'quby/compiler/outputs'
 
 module Quby
   module Compiler
-    def self.compile(key, sourcecode, &block)
-      entity = DSL.build(key, sourcecode, &block)
+    def self.compile(key, sourcecode, path: nil, &block)
+      entity = DSL.build(key, sourcecode, path: path, &block)
 
       {
         outputs: {

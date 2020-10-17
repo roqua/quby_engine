@@ -9,6 +9,7 @@ module Quby
       class Text < Item
         attr_reader :str
         attr_accessor :display_in
+        attr_accessor :html_content
 
         # In case of being displayed inside a table, amount of columns/rows to span
         attr_accessor :col_span
