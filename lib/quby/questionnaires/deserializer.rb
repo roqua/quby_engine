@@ -176,7 +176,7 @@ module Quby
             end
           end
         when "select"
-          Entities::Questions::RadioQuestion.new(key, attributes).tap do |question|
+          Entities::Questions::SelectQuestion.new(key, attributes).tap do |question|
             item_json.fetch("options").each do |option_json|
               question.options << build_option(questionnaire, question, option_json)
             end
@@ -208,7 +208,7 @@ module Quby
         )
 
         option_json.fetch("questions").each do |question_json|
-          subquestion = build_question(questionnaire, question_json)
+          subquestion = build_question(questionnaire, question_json, parent: question)
           questionnaire.register_question(subquestion)
           option.questions << subquestion
         end
@@ -245,6 +245,10 @@ module Quby
           base_validation.merge(
             uncheck_all_key: attrs.fetch("uncheck_all_key").to_sym
           )
+        when "minimum_checked_required"
+          base_validation.merge(
+            minimum_checked_value: attrs.fetch("minimum_checked_value")
+          )
         when "maximum_checked_allowed"
           base_validation.merge(
             maximum_checked_value: attrs.fetch("maximum_checked_value")
@@ -257,6 +261,8 @@ module Quby
           base_validation.merge(
             check_all_key: attrs.fetch("check_all_key").to_sym
           )
+        else
+          raise "Unknown validation type: #{attrs.inspect}"
         end
       end
 

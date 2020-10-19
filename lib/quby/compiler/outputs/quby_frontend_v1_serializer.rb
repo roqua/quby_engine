@@ -155,8 +155,7 @@ module Quby
               label: score_calculation.label,
               sbg_key: score_calculation.sbg_key,
               options: score_calculation.options,
-              sourcecode: ""
-              # sourcecode: score_calculation.calculation&.to_proc&.source
+              sourcecode: score_calculation.calculation&.to_proc&.source
             }
 
           end
