@@ -18,7 +18,7 @@ module Quby
           block
         end
 
-        def self.alart(*args, &block)
+        def self.alert(*args, &block)
           block
         end
 

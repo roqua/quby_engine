@@ -15,25 +15,38 @@ module Quby
             {
               key: panel.key,
               title: panel.title,
-              items: panel.items.map do |item|
-                case item
-                when Quby::Compiler::Entities::Text
-                  {
-                    type: 'text',
-                    str: item.str,
-                    html_content: item.html_content,
-                    display_in: item.display_in,
-                    col_span: item.col_span,
-                    row_span: item.row_span,
-                  }
-                when Quby::Compiler::Entities::Question
-                  question_as_json(item)
-                when Quby::Compiler::Entities::Table
-                  { type: "table" }
-                end.merge(raw_content: item.raw_content, switch_cycle: item.switch_cycle)
-              end
+              items: panel.items.reject { |item| item.respond_to?(:table) && item.table }.map { |item| item_as_json(item) }
             }
           end
+        end
+
+        def item_as_json(item)
+          case item
+          when Quby::Compiler::Entities::Text
+            {
+              type: 'text',
+              str: item.str,
+              html_content: item.html_content,
+              display_in: item.display_in,
+              col_span: item.col_span,
+              row_span: item.row_span,
+            }
+          when Quby::Compiler::Entities::Question
+            question_as_json(item)
+          when Quby::Compiler::Entities::Table
+            table_as_json(item)
+          end.merge(raw_content: item.raw_content, switch_cycle: item.switch_cycle)
+        end
+
+        def table_as_json(table)
+          {
+            type: 'table',
+            columns: table.columns,
+            title: table.title,
+            description: table.description,
+            show_option_desc: table.show_option_desc,
+            items: table.items.map { |item| item_as_json(item) }
+          }
         end
 
         def question_as_json(question)
@@ -122,14 +135,35 @@ module Quby
             base_options.merge(
               lines: question.lines
             )
+          else
+            raise "Unknown item type"
           end
         end
 
         def validation_as_json(validation)
-          return validation
           case validation[:type]
-          when :not_all_checked, :too_many_checked, :maximum_checked_allowed, :minimum_checked_required
-            # skip
+          when :requires_answer
+            validation.slice(:type, :explanation)
+          when :answer_group_minimum, :answer_group_maximum
+            validation.slice(:type, :explanation, :group, :value)
+          when :valid_integer, :valid_float
+            validation.slice(:type, :explanation)
+          when :valid_date
+            validation.slice(:type, :explanation, :subtype).merge(value_type: validation[:value].class.to_s)
+          when :minimum, :maximum
+            validation.slice(:type, :explanation, :value, :subtype).merge(value_type: validation[:value].class.to_s)
+          when :too_many_checked
+            validation.slice(:type, :explanation, :uncheck_all_key)
+          when :minimum_checked_required
+            validation.slice(:type, :explanation, :minimum_checked_value)
+          when :maximum_checked_allowed
+            validation.slice(:type, :explanation, :maximum_checked_value)
+          when :regexp
+            validation.slice(:type, :explanation, :matcher)
+          when :not_all_checked
+            validation.slice(:type, :explanation, :check_all_key)
+          else
+            raise "Unknown validation type: #{validation.inspect}"
           end
         end
 
@@ -179,55 +213,61 @@ module Quby
         end
 
         def charts
-          questionnaire.charts.map do |chart|
-            case chart
-            when Quby::Compiler::Entities::Charting::BarChart
-              {
-                plotlines: chart.plotlines.map do |plotline|
-                  {
-                    value: plotline[:value],
-                    color: plotline[:color],
-                    width: plotline[:width],
-                    zIndex: plotline[:zIndex]
-                  }
-                end
-              }
-            when Quby::Compiler::Entities::Charting::LineChart
-              {
-                y_label: chart.y_label,
-                tonality: chart.tonality,
-                baseline: "TODO", # can be Ruby block of code
-                clinically_relevant_change: chart.clinically_relevant_change,
-              }
-            when Quby::Compiler::Entities::Charting::OverviewChart
-              {
-                subscore: chart.subscore,
-                y_max: chart.y_max,
-              }
-            when Quby::Compiler::Entities::Charting::RadarChart
-              {
-                plotlines: chart.plotlines.map do |plotline|
-                  {
-                    value: plotline[:value],
-                    color: plotline[:color],
-                    width: plotline[:width],
-                    zIndex: plotline[:zIndex]
-                  }
-                end
-              }
-            end.merge(
-              key: chart.key,
-              type: chart.type,
-              title: chart.title,
-              plottables: chart.plottables,
-              y_categories: chart.y_categories,
-              y_range_categories: chart.y_range_categories,
-              chart_type: chart.chart_type,
-              y_range: chart.y_range,
-              tick_interval: chart.tick_interval,
-              plotbands: chart.plotbands
-            )
-          end
+          {
+            overview: questionnaire.charts.overview && {
+              subscore: questionnaire.charts.overview.subscore,
+              y_max: questionnaire.charts.overview.y_max,
+            },
+            others: questionnaire.charts.map do |chart|
+              case chart
+              when Quby::Compiler::Entities::Charting::BarChart
+                {
+                  plotlines: chart.plotlines.map do |plotline|
+                    {
+                      value: plotline[:value],
+                      color: plotline[:color],
+                      width: plotline[:width],
+                      zIndex: plotline[:zIndex]
+                    }
+                  end
+                }
+              when Quby::Compiler::Entities::Charting::LineChart
+                {
+                  y_label: chart.y_label,
+                  tonality: chart.tonality,
+                  baseline: "TODO", # can be Ruby block of code
+                  clinically_relevant_change: chart.clinically_relevant_change,
+                }
+              when Quby::Compiler::Entities::Charting::OverviewChart
+                {
+                  subscore: chart.subscore,
+                  y_max: chart.y_max,
+                }
+              when Quby::Compiler::Entities::Charting::RadarChart
+                {
+                  plotlines: chart.plotlines.map do |plotline|
+                    {
+                      value: plotline[:value],
+                      color: plotline[:color],
+                      width: plotline[:width],
+                      zIndex: plotline[:zIndex]
+                    }
+                  end
+                }
+              end.merge(
+                key: chart.key,
+                type: chart.type,
+                title: chart.title,
+                plottables: chart.plottables,
+                y_categories: chart.y_categories,
+                y_range_categories: chart.y_range_categories,
+                chart_type: chart.chart_type,
+                y_range: chart.y_range,
+                tick_interval: chart.tick_interval,
+                plotbands: chart.plotbands
+              )
+            end
+          }
         end
 
         def flags
@@ -284,13 +324,20 @@ module Quby
             outcome_description: questionnaire.outcome_description,
             short_description: questionnaire.short_description,
             abortable: questionnaire.abortable,
+            enable_previous_questionnaire_button: questionnaire.enable_previous_questionnaire_button,
+            default_answer_value: questionnaire.default_answer_value,
+            leave_page_alert: questionnaire.leave_page_alert,
             allow_hotkeys: questionnaire.allow_hotkeys,
             license: questionnaire.license,
             licensor: questionnaire.licensor,
             language: questionnaire.language,
+            renderer_version: questionnaire.renderer_version,
+            last_update: questionnaire.last_update,
+            last_author: questionnaire.last_author,
+            extra_css: questionnaire.extra_css,
+            allow_switch_to_bulk: questionnaire.allow_switch_to_bulk,
+
             panels: panels,
-            flags: questionnaire.flags,
-            textvars: questionnaire.textvars,
             score_calculations: score_calculations,
             score_schemas: score_schemas,
             flags: flags,

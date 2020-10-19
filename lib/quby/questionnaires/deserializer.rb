@@ -10,12 +10,20 @@ module Quby
           questionnaire.outcome_description = json.fetch("outcome_description")
           questionnaire.short_description = json.fetch("short_description")
           questionnaire.abortable = json.fetch("abortable")
+          questionnaire.enable_previous_questionnaire_button = json.fetch("enable_previous_questionnaire_button")
+          questionnaire.default_answer_value = json.fetch("default_answer_value")
+          questionnaire.leave_page_alert = json.fetch("leave_page_alert")
           questionnaire.allow_hotkeys = json.fetch("allow_hotkeys")
           questionnaire.license = json.fetch("license").try(:to_sym)
           questionnaire.licensor = json.fetch("licensor")
           questionnaire.language = json.fetch("language").try(:to_sym)
+          questionnaire.renderer_version = json.fetch("renderer_version")
+          questionnaire.last_update = json.fetch("last_update")
+          questionnaire.last_author = json.fetch("last_author")
+          questionnaire.extra_css = json.fetch("extra_css")
+          questionnaire.allow_switch_to_bulk = json.fetch("allow_switch_to_bulk")
 
-          questionnaire.flags = json.fetch("flags").with_indifferent_access.transform_values do |attrs| 
+          questionnaire.flags = json.fetch("flags").with_indifferent_access.transform_values do |attrs|
             build_flag(attrs)
           end
 
@@ -48,7 +56,14 @@ module Quby
           questionnaire.respondent_types = json.fetch("respondent_types").map(&:to_sym)
           questionnaire.tags = json.fetch("tags")
 
-          json.fetch("charts").each do |chart_json|
+          if overview_json = json.fetch("charts").fetch("overview")
+            questionnaire.charts.overview = Quby::Questionnaires::Entities::Charting::OverviewChart.new(
+              subscore: overview_json.fetch("subscore").to_sym,
+              y_max: overview_json.fetch("y_max"),
+            )
+          end
+
+          json.fetch("charts").fetch("others").each do |chart_json|
             questionnaire.add_chart(build_chart(questionnaire, chart_json))
           end
 
@@ -67,31 +82,60 @@ module Quby
         )
 
         panel_json.fetch("items").each do |item_json|
-          panel.items << load_item(questionnaire, item_json)
+          panel.items << load_item(questionnaire, item_json, panel: panel)
         end
 
         questionnaire.add_panel(panel)
       end
 
-      def self.load_item(questionnaire, item_json)
+      def self.load_item(questionnaire, item_json, panel: nil)
         case item_json.fetch("type")
         when "text"
-          Entities::Text.new(item_json.fetch("str"), {
-            html_content: item_json.fetch("html_content"),
-            display_in: item_json.fetch("display_in").map(&:to_sym),
-            col_span: item_json.fetch("col_span"),
-            row_span: item_json.fetch("row_span"),
-            raw_content: item_json.fetch("raw_content"),
-            switch_cycle: item_json.fetch("switch_cycle")
-          })
+          build_text(item_json)
         when "question"
           question = build_question(questionnaire, item_json)
           questionnaire.register_question(question)
           question
+        when "table"
+          table = Entities::Table.new(
+            title: item_json.fetch("title"),
+            description: item_json.fetch("description"),
+            columns: item_json.fetch("columns"),
+            show_option_desc: item_json.fetch("show_option_desc"),
+          )
+
+          item_json.fetch("items").each do |table_item_json|
+            case table_item_json.fetch("type")
+            when "text"
+              table.items << build_text(table_item_json)
+            when "question"
+              question = build_question(questionnaire, table_item_json, table: table)
+              questionnaire.register_question(question)
+              table.items << question
+              panel.items << question
+            else
+              raise "Unknown table item: #{table_item_json}"
+            end
+          end
+
+          table
+        else
+          raise "Unknown item: #{item_json}"
         end
       end
 
-      def self.build_question(questionnaire, item_json, parent: nil)
+      def self.build_text(item_json)
+        Entities::Text.new(item_json.fetch("str"), {
+          html_content: item_json.fetch("html_content"),
+          display_in: item_json.fetch("display_in").map(&:to_sym),
+          col_span: item_json.fetch("col_span"),
+          row_span: item_json.fetch("row_span"),
+          raw_content: item_json.fetch("raw_content"),
+          switch_cycle: item_json.fetch("switch_cycle")
+        })
+      end
+
+      def self.build_question(questionnaire, item_json, parent: nil, table: nil)
         key = item_json.fetch("key").to_sym
         attributes = {
           questionnaire: questionnaire,
@@ -105,6 +149,7 @@ module Quby
           depends_on: item_json.fetch("depends_on")&.map(&:to_sym),
           default_position: item_json.fetch("default_position"),
           validations: item_json.fetch("validations").map {|attrs| build_question_validation(attrs)},
+          table: table,
 
           # only selectable via options passed in DSL, not via DSL methods
           # many apply only to certain types of questions
@@ -237,8 +282,19 @@ module Quby
             subtype: attrs.fetch("subtype").to_sym
           )
         when "minimum", "maximum"
+          value = case attrs.fetch("value_type")
+          when "Date"
+            Date.parse(attrs.fetch("value"))
+          when "DateTime"
+            DateTime.parse(attrs.fetch("value"))
+          when "Time", "ActiveSuport::TimeWithZone"
+            Time.zone.parse(attrs.fetch("value"))
+          else
+            attrs.fetch("value")
+          end
+
           base_validation.merge(
-            value: attrs.fetch("value"),
+            value: value,
             subtype: attrs.fetch("subtype").to_sym,
           )
         when "too_many_checked"
@@ -302,13 +358,27 @@ module Quby
       def self.build_chart(questionnaire, chart_json)
         base_args = {
           title: chart_json.fetch("title"),
-          plottables: chart_json.fetch("plottables"),
+          plottables: chart_json.fetch("plottables").map do |plottable_json|
+            Quby::Questionnaires::Entities::Charting::Plottable.new(
+              plottable_json.fetch("key").to_sym,
+              label: plottable_json.fetch("label"),
+              plotted_key: plottable_json.fetch("plotted_key").to_sym,
+              global: plottable_json.fetch("global"),
+              questionnaire_key: plottable_json.fetch("questionnaire_key")
+            )
+          end,
           y_categories: chart_json.fetch("y_categories"),
           y_range_categories: chart_json.fetch("y_range_categories"),
           chart_type: chart_json.fetch("chart_type"),
           y_range: chart_json.fetch("y_range"),
           tick_interval: chart_json.fetch("tick_interval"),
-          plotbands: chart_json.fetch("plotbands"),
+          plotbands: chart_json.fetch("plotbands").map do |plotband_json|
+            {
+              color: plotband_json.fetch("color").to_sym,
+              from: plotband_json.fetch("from"),
+              to: plotband_json.fetch("to")
+            }
+          end,
         }
 
         case chart_json.fetch("type")
@@ -323,12 +393,6 @@ module Quby
             tonality: chart_json.fetch("tonality").to_sym,
             baseline: YAML.load(chart_json.fetch("baseline")),
             clinically_relevant_change: chart_json.fetch("clinically_relevant_change"),
-            **base_args
-          )
-        when "overview_chart"
-          Quby::Questionnaires::Entities::Charting::BarChart.new(chart_json.fetch("key").to_sym,
-            subscore: chart_json.fetch("subscore").to_sym,
-            y_max: chart_json.fetch("y_max"),
             **base_args
           )
         when "radar_chart"
