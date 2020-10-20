@@ -45,6 +45,10 @@ module Quby
           @chart.plotbands << {from: from, to: to, color: color}
         end
 
+        def plotline(value, color)
+          @chart.plotlines << {value: value, color: color}
+        end
+
         def plot(key, options = {})
           unless plottable = @questionnaire.find_plottable(key)
             fail "Questionnaire #{@questionnaire.key} chart #{@chart.key} references unknown score or question #{key}"

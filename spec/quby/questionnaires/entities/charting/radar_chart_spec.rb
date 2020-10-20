@@ -12,8 +12,8 @@ module Quby::Questionnaires::Entities
       end
 
       it 'can set plotlines' do
-        chart = RadarChart.new(:tot, plotlines: [{value: 40, color: :red, width: 1, zIndex: 3}])
-        expect(chart.plotlines).to eq([{value: 40, color: :red, width: 1, zIndex: 3}])
+        chart = RadarChart.new(:tot, plotlines: [{value: 40, color: :red}])
+        expect(chart.plotlines).to eq([{value: 40, color: :red}])
       end
     end
   end

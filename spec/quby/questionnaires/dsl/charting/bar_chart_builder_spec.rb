@@ -33,8 +33,8 @@ module Quby::Questionnaires::DSL
         end.plotlines
 
       expect(plotlines).to eq [
-        {value: 40, color: :orange, width: 1, zIndex: 3},
-        {value: 60, color: :red, width: 1, zIndex: 3}
+        {value: 40, color: :orange},
+        {value: 60, color: :red}
       ]
     end
   end

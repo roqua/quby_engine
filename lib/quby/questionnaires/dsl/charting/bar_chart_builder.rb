@@ -8,10 +8,6 @@ module Quby
     module DSL
       class BarChartBuilder < ChartBuilder
         set_chart_class(Entities::Charting::BarChart)
-
-        def plotline(value, color)
-          @chart.plotlines << {value: value, color: color, width: 1, zIndex: 3}
-        end
       end
     end
   end
