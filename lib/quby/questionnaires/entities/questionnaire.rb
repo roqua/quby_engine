@@ -139,9 +139,6 @@ module Quby
           end
         end
 
-        def callback_after_dsl_enhance_on_questions
-        end
-
         def validate_questions
           question_hash.each_value do |q|
             unless q.valid?
