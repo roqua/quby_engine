@@ -24,18 +24,5 @@ module Quby::Questionnaires::DSL
     it 'sets y-axis tick interval' do
       expect(dsl { tick_interval 1 }.tick_interval).to eq 1
     end
-
-    it 'sets plotlines' do
-      plotlines =
-        dsl do
-          plotline 40, :orange
-          plotline 60, :red
-        end.plotlines
-
-      expect(plotlines).to eq [
-        {value: 40, color: :orange},
-        {value: 60, color: :red}
-      ]
-    end
   end
 end

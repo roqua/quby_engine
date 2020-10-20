@@ -20,19 +20,6 @@ module Quby::Questionnaires::DSL
       expect(dsl { tick_interval 1 }.tick_interval).to eq 1
     end
 
-    it 'sets plotlines' do
-      plotlines =
-        dsl {
-          plotline 40, :orange
-          plotline 60, :red
-        }.plotlines
-
-      expect(plotlines).to eq [
-        {value: 40, color: :orange},
-        {value: 60, color: :red}
-      ]
-    end
-
     def dsl(key = :test, options = {}, &block)
       builder = RadarChartBuilder.new(questionnaire, key, options)
       builder.build(&block)

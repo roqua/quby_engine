@@ -10,11 +10,6 @@ module Quby::Questionnaires::Entities
       it 'has a type' do
         expect(RadarChart.new(:tot).type).to eq 'radar_chart'
       end
-
-      it 'can set plotlines' do
-        chart = RadarChart.new(:tot, plotlines: [{value: 40, color: :red}])
-        expect(chart.plotlines).to eq([{value: 40, color: :red}])
-      end
     end
   end
 end

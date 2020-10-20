@@ -7,14 +7,8 @@ module Quby::Questionnaires::Entities
     describe BarChart do
       it_behaves_like Chart
 
-      it 'can set plotlines' do
-        chart = BarChart.new(:tot, plotlines: [{value: 40, color: :red}])
-        expect(chart.plotlines).to eq([{value: 40, color: :red}])
-      end
-
-      it 'can set plotbands' do
-        chart = BarChart.new(:tot, plotbands: [{from: 40, to: 60, color: :red}])
-        expect(chart.plotbands).to eq([{from: 40, to: 60, color: :red}])
+      it 'has a type' do
+        expect(BarChart.new(:tot).type).to eq 'bar_chart'
       end
     end
   end
