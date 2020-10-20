@@ -73,7 +73,7 @@ module Quby
             deselectable: question.deselectable,
             disallow_bulk: question.disallow_bulk,
             score_header: question.score_header,
-            sets_textvar: question.sets_textvar.try { lstrip("#{question.questionnaire.key}_") },
+            sets_textvar: question.sets_textvar,
             default_invisible: question.default_invisible,
             question_group: question.question_group,
             group_minimum_answered: question.group_minimum_answered,

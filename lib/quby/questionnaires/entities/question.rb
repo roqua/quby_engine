@@ -8,8 +8,6 @@ module Quby
       class Question < Item
         MARKDOWN_ATTRIBUTES = %w(description title).freeze
 
-        set_callback :after_dsl_enhance, :expand_depends_on_input_keys
-
         # Standard attributes
         attr_accessor :key
         validates :key, presence: true, 'quby/type': {is_a: Symbol}
@@ -150,12 +148,12 @@ module Quby
           @deselectable = (options[:deselectable].nil? || options[:deselectable])
           @disallow_bulk = options[:disallow_bulk]
           @score_header = options[:score_header] || :none
-          @sets_textvar = "#{questionnaire.key}_#{options[:sets_textvar]}" if options[:sets_textvar]
+          @sets_textvar = options[:sets_textvar]
           @unit = options[:unit]
           @lines = options[:lines] || 6
           @cols = options[:cols] || 40
           @default_invisible = options[:default_invisible] || false
-          @labels ||= []
+          @labels = options[:labels] || []
 
           @col_span = options[:col_span] || 1
           @row_span = options[:row_span] || 1
@@ -191,12 +189,11 @@ module Quby
           @context_free_title || @title
         end
 
-        def expand_depends_on_input_keys
-          return unless @depends_on
-          @depends_on = questionnaire.expand_input_keys(@depends_on)
-          @extra_data[:"depends-on"] = @depends_on.to_json
-        rescue => e
-          raise e.class, "Question #{key} depends_on contains an error: #{e.message}"
+        def extra_data
+          @extra_data.merge(
+            :"depends-on" => @depends_on.to_json,
+            :placeholder => @options.find { |option| option.placeholder }&.key
+          )
         end
 
         def col_span

@@ -432,31 +432,6 @@ module Quby::Questionnaires::Entities
       end
     end
 
-    describe '#ensure_scores_have_schemas' do
-      let(:score_missing_schema_quest) do
-        Quby::Questionnaires::DSL.build("test") do
-          question :v_1, type: :date, title: 'vraag'
-
-          score(:key, label: 'score') { {value: 'oh no'} }
-          score(:key2, label: 'score2', schema: [{key: :value, label: 'Score', export_key: :key2}]) { {value: 'oh'} }
-          score(:key3, label: 'score3') { {value: 'oh no'} }
-        end
-      end
-
-      it 'does not validate presense of score schemas by default' do
-        Quby::Settings.require_score_schemas = false
-        expect(score_missing_schema_quest.errors.full_messages).to be_blank
-      end
-
-      describe 'if quby settings require_score_schemas is true' do
-        before { Quby::Settings.require_score_schemas = true }
-        it 'validates every score has a score schema' do
-          expect(score_missing_schema_quest.errors.full_messages).to eq(["Score key is missing a score schema",
-                                                                         "Score key3 is missing a score schema"])
-        end
-      end
-    end
-
     describe '#add_outcome_table' do
       let(:questionnaire) do
         Quby::Questionnaires::DSL.build("test") do

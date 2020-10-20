@@ -4,7 +4,7 @@ module Quby
       # This symbolizes various things. Do not run on arbitrary JSON.
       def self.from_json(json)
         # TODO: last_update
-        Entities::Questionnaire.new(json.fetch("key")).tap do |questionnaire|
+        Entities::Questionnaire.new(json.fetch("key"), json).tap do |questionnaire|
           questionnaire.title = json.fetch("title")
           questionnaire.description = json.fetch("description")
           questionnaire.outcome_description = json.fetch("outcome_description")
@@ -163,7 +163,7 @@ module Quby
           deselectable: item_json.fetch("deselectable"),
           disallow_bulk: item_json.fetch("disallow_bulk"),
           score_header: item_json.fetch("score_header").to_sym,
-          sets_textvar: item_json.fetch("sets_textvar").try { lstrip("#{questionnaire.key}_") },
+          sets_textvar: item_json.fetch("sets_textvar"),
           default_invisible: item_json.fetch("default_invisible"),
           question_group: item_json.fetch("question_group"), # sometimes string, sometimes a symbol in the DSL. Just have to hope this works
           group_minimum_answered: item_json.fetch("group_minimum_answered"),
@@ -189,7 +189,7 @@ module Quby
         when "date"
           Entities::Questions::DateQuestion.new(key, attributes.merge(
             components: item_json.fetch("components").map(&:to_sym),
-            required_components: item_json.fetch("components").map(&:to_sym),
+            required_components: item_json.fetch("required_components").map(&:to_sym),
             year_key: item_json.fetch("year_key")&.to_sym,
             month_key: item_json.fetch("month_key")&.to_sym,
             day_key: item_json.fetch("day_key")&.to_sym,
