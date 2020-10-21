@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    quby (4.0.1)
+    quby (4.0.2)
       addressable
       browser
       coffee-rails
@@ -80,7 +80,7 @@ GEM
       rack
     arel (9.0.0)
     ast (2.4.0)
-    browser (5.0.0)
+    browser (5.1.0)
     builder (3.2.4)
     capybara (3.32.1)
       addressable
@@ -166,7 +166,7 @@ GEM
     guard-teaspoon (0.8.0)
       guard (~> 2.2)
       teaspoon (>= 0.8.0)
-    haml (5.1.2)
+    haml (5.2.0)
       temple (>= 0.8.0)
       tilt
     httmultiparty (0.3.16)
