@@ -1,3 +1,9 @@
+# Upcoming
+
+# 4.0.2
+
+* Added option context_free_description
+
 # 4.0.1
 
 * Fix some options description html breaking table views.
