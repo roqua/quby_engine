@@ -154,6 +154,7 @@ module Quby
           @cols = options[:cols] || 40
           @default_invisible = options[:default_invisible] || false
           @labels = options[:labels] || []
+          @size = options[:size]
 
           @col_span = options[:col_span] || 1
           @row_span = options[:row_span] || 1
@@ -190,10 +191,10 @@ module Quby
         end
 
         def extra_data
-          @extra_data.merge(
-            :"depends-on" => @depends_on.to_json,
-            :placeholder => @options.find { |option| option.placeholder }&.key
-          )
+          result = @extra_data
+          result = result.merge(:"depends-on" => @depends_on.to_json) if @depends_on
+          result = result.merge(:placeholder => @options.find { |option| option.placeholder }&.key)
+          result
         end
 
         def col_span
