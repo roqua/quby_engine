@@ -14,6 +14,10 @@ module Quby
         data = JSON.parse(compiled["outputs"]["quby_frontend_v1"].to_json)
         Deserializer.from_json(data)
       end
+
+      def self.from_json(hash)
+        Deserializer.from_json(hash)
+      end
     end
   end
 end

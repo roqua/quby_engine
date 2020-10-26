@@ -79,7 +79,6 @@ module Quby
 end
 
 require 'quby/settings'
-require 'quby/compiler'
 require 'quby/questionnaires'
 require 'quby/answers'
 require 'quby/engine'

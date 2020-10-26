@@ -1,1 +1,0 @@
-require 'quby/compiler/outputs/quby_frontend_v1_serializer'
