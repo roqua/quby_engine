@@ -101,6 +101,13 @@ describe Quby::TableBackend::RangeTree do
       end
     end
 
+    describe 'array leaves' do
+      it 'returns the leaf fully' do
+        tree = described_class.new levels: ['key', 'leaf'], tree: {a: [1, 2, 3], b: [9, 8, 7]}
+        expect(tree.lookup(key: :a)).to eq([1, 2, 3])
+      end
+    end
+
     describe 'parameter validation' do
       it 'raises when parameter keys do not match header keys' do
         params = {foo: :bar}
