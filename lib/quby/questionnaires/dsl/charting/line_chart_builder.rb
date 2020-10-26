@@ -22,7 +22,12 @@ module Quby
             fail ArgumentError, "Must give either value or a block"
           end
 
-          if value
+          if value && value.is_a?(Hash)
+            @chart.baseline = ->(age, gender) {
+              gender_lookup = value.find { |age_match, _v| age_match === age }.last.stringify_keys
+              gender_lookup[gender.to_s] || gender_lookup['default']
+            }
+          else
             @chart.baseline = ->(age, gender) { value }
           end
 
