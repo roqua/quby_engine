@@ -31,6 +31,7 @@ end
 require 'rspec/rails'
 require 'rails-controller-testing'
 
+require 'quby/compiler'
 require 'roqua/support/request_logger'
 require 'capybara/rspec'
 require 'capybara-screenshot'

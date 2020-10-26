@@ -6,6 +6,7 @@ module Quby
       autoload :Base, 'quby/questionnaires/repos/base'
       autoload :MemoryRepo, 'quby/questionnaires/repos/memory_repo'
       autoload :DiskRepo, 'quby/questionnaires/repos/disk_repo'
+      autoload :BundleDiskRepo, 'quby/questionnaires/repos/bundle_disk_repo'
 
       QuestionnaireNotFound = Class.new(StandardError)
       DuplicateQuestionnaire = Class.new(StandardError)

@@ -39,7 +39,11 @@ module Quby
 
       def build_from_definition(definition)
         ActiveSupport::Notifications.instrument('quby.questionaire.build') do
-          DSL.build_from_definition(definition)
+          if definition.json
+            DSL.from_json(definition.json)
+          else
+            DSL.build_from_definition(definition)
+          end
         end
       end
 

@@ -9,12 +9,13 @@ module Quby
         extend  ActiveModel::Naming
         include ActiveModel::Validations
 
-        attr_accessor :key, :sourcecode, :timestamp, :path
+        attr_accessor :key, :sourcecode, :json, :timestamp, :path
 
-        def initialize(key:, path:, sourcecode: "", timestamp: nil)
+        def initialize(key:, path:, sourcecode: "", json: nil, timestamp: nil)
           @path = path
           @key = key
           @sourcecode = sourcecode
+          @json = json
           @timestamp = timestamp
         end
       end
