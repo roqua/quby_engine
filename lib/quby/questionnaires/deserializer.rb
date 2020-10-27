@@ -82,7 +82,7 @@ module Quby
         )
 
         panel_json.fetch("items").each do |item_json|
-          panel.items << load_item(questionnaire, item_json, panel: panel)
+          load_item(questionnaire, item_json, panel: panel)
         end
 
         questionnaire.add_panel(panel)
@@ -91,11 +91,11 @@ module Quby
       def self.load_item(questionnaire, item_json, panel: nil)
         case item_json.fetch("type")
         when "text"
-          build_text(item_json)
+          panel.items << build_text(item_json)
         when "question"
           question = build_question(questionnaire, item_json)
           questionnaire.register_question(question)
-          question
+          panel.items << question
         when "table"
           table = Entities::Table.new(
             title: item_json.fetch("title"),
@@ -103,6 +103,7 @@ module Quby
             columns: item_json.fetch("columns"),
             show_option_desc: item_json.fetch("show_option_desc"),
           )
+          panel.items << table
 
           item_json.fetch("items").each do |table_item_json|
             case table_item_json.fetch("type")
@@ -117,8 +118,6 @@ module Quby
               raise "Unknown table item: #{table_item_json}"
             end
           end
-
-          table
         else
           raise "Unknown item: #{item_json}"
         end
@@ -150,6 +149,8 @@ module Quby
           default_position: item_json.fetch("default_position"),
           validations: item_json.fetch("validations").map {|attrs| build_question_validation(attrs)},
           table: table,
+          col_span: item_json.fetch("col_span"),
+          row_span: item_json.fetch("row_span"),
 
           # only selectable via options passed in DSL, not via DSL methods
           # many apply only to certain types of questions
