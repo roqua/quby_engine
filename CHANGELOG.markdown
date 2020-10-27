@@ -1,5 +1,10 @@
 # Upcoming
 
+# 4.0.3
+
+* Baselines can now be given as lookup-esque table
+* [DEPRECATED] Baselines given as Ruby block are deprecated and going to be removed in 5.0
+
 # 4.0.2
 
 * Added option context_free_description
