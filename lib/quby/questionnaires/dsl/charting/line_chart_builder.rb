@@ -27,7 +27,7 @@ module Quby
               gender_lookup = value.find { |age_match, _v| age_match === age }.last.stringify_keys
               gender_lookup[gender.to_s] || gender_lookup['default']
             }
-          else
+          elsif value
             @chart.baseline = ->(age, gender) { value }
           end
 
