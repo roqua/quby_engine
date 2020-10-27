@@ -17,6 +17,8 @@ module Quby
           @chart.tonality = value
         end
 
+        # value - Number or a hash `{from_age..to_age => {female: 5, default: 4}, ..}`
+        # block - deprecated.
         def baseline(value = nil, &block)
           unless value.nil? ^ block.nil?
             fail ArgumentError, "Must give either value or a block"
