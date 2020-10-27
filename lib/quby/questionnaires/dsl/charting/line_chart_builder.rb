@@ -26,8 +26,11 @@ module Quby
 
           if value && value.is_a?(Hash)
             @chart.baseline = ->(age, gender) {
-              gender_lookup = value.find { |age_match, _v| age_match === age }.last.stringify_keys
-              gender_lookup[gender.to_s] || gender_lookup['default']
+              age_match = value.find { |age_range, _v| age && age_range === age }
+              hash_by_gender = (age_match&.last || value.stringify_keys["default"])
+
+              gender_match = hash_by_gender.find {|gender_key, _v| gender && gender_key.to_s == gender.to_s }
+              gender_match&.last || hash_by_gender.stringify_keys['default']
             }
           elsif value
             @chart.baseline = ->(age, gender) { value }
