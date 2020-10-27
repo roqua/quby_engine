@@ -32,6 +32,14 @@ module Quby::Questionnaires::DSL
       expect(dsl { baseline 5 }.baseline.call(1, :male)).to eq 5.0
     end
 
+    it 'sets baseline by hash', :aggregate_failures do
+      chart = dsl { baseline({(0..1000) => {female: 5, default: 3}, default: {female: 1, default: 2}}) }
+      expect(chart.baseline.call(1, :female)).to eq(5)
+      expect(chart.baseline.call(1, :two_spirit)).to eq(3)
+      expect(chart.baseline.call(5000, nil)).to eq(2)
+      expect(chart.baseline.call(nil, :female)).to eq(1)
+    end
+
     it 'sets baseline to proc' do
       expect(dsl { baseline { |age, gender| age } }.baseline.call(5, :male)).to eq(5.0)
       expect { dsl { baseline { |age| age } } }.to raise_error(ArgumentError, /must take two arguments/)
