@@ -1,6 +1,6 @@
 GIT
   remote: https://gitlab.roqua.nl/roqua/quby-compiler
-  revision: 2b91e9f493b375480e475cc91e03573d11989fbe
+  revision: 12cdb5250a9310753a4f0b93b71d5594c402e7f0
   branch: main
   specs:
     quby-compiler (0.1.0)
