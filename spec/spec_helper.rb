@@ -94,6 +94,5 @@ RSpec.configure do |config|
   config.before(:each) do
     Quby.questionnaire_repo = Quby::Questionnaires::Repos::DiskRepo.new(Quby.fixtures_path)
     Quby.answer_repo = Quby::Answers::Repos::MemoryRepo.new
-    Quby.lookup_table_repo = Quby::LookupTableRepo::Disk.new(Rails.root.join('..', 'fixtures', 'lookup_tables'))
   end
 end

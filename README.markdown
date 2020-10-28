@@ -27,7 +27,6 @@ and where it can store its answers.
 ```ruby
 Quby.questionnaire_repo      = Quby::Questionnaires::Repos::DiskRepo.new(Rails.root.join("db/questionnaires/definitions"))
 Quby.answer_repo             = Quby::Answers::Repos::MongoidRepo.new
-Quby.lookup_table_repo       = Quby::LookupTableRepo::Disk.new(Rails.root.join("db/questionnaires/lookup_tables"))
 Quby::Settings.shared_secret = ENV["QUBY_SHARED_SECRET"]
 ```
 

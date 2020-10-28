@@ -2,8 +2,6 @@
 
 # A lookup tree to find values by multiple arguments.
 #
-# Created by LookupTable from a csv file or by add_lookup_tree from dsl.
-#
 # Example tree:
 # Inhibitie:
 #   male:
@@ -36,27 +34,6 @@ module Quby::TableBackend
       @tree = tree
     end
 
-    # load csv data into a tree.
-    # each row is a path through the tree.
-    # String and float types are used to make an exact match.
-    # A range is always a range between two floats where the range is between
-    # the low value (inclusive) and the high value (exclusive),
-    # written as 4:5 (low:high). These boundaries can be given as floats or
-    # integers, but internally they are always treated as a floats.
-    # The low and high values of a range cannot be equal.
-    # Use minfinity or infinity to create infinite ranges.
-    #
-    # @params levels [Array<String>] An array of column names
-    # @param compare [Array<String>]An array of lookup types (string, float or range) for each column
-    # @param data [Array<Array<>>] The rows describing a path through the tree.
-    def self.from_csv(levels:, compare:, data:)
-      tree = data.each_with_object({}) do |row, tree|
-        add_to_tree(tree, row, levels, compare)
-      end
-      new(levels: levels, tree: tree)
-    end
-
-
     # Given a parameters hash that contains a value or range for every
     # level in the tree, find and return the normscore.
     # ie. `lookup({age: 10, raw: 5, scale: 'Inhibitie', gender: 'male'})` => 39
@@ -66,34 +43,6 @@ module Quby::TableBackend
     end
 
     private
-
-    def self.add_to_tree(tree, (value, *path), (level, *levels), (compare, *compares))
-      key = case compare
-            when 'string' then value.to_s
-            when 'float' then parse_float(value)
-            when 'range' then create_range(value)
-            end
-
-      if levels.empty?
-        return key
-      end
-
-      tree.merge! key => add_to_tree(tree[key] || {}, path, levels, compares)
-    end
-
-    def self.create_range(value)
-      min, max = value.split(':').map { |val| parse_float(val) }
-      fail 'Cannot create range between two equal values' if min == max
-      (min...max)
-    end
-
-    def self.parse_float(value)
-      case value
-      when 'infinity'  then Float::INFINITY
-      when 'minfinity' then -Float::INFINITY
-      else Float(value)
-      end
-    end
 
     # All parameters must be present to do a lookup but the order does not matter.
     def validate_parameters(parameters)
