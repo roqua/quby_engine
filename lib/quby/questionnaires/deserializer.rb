@@ -18,7 +18,7 @@ module Quby
           questionnaire.licensor = json.fetch("licensor")
           questionnaire.language = json.fetch("language").try(:to_sym)
           questionnaire.renderer_version = json.fetch("renderer_version")
-          questionnaire.last_update = json.fetch("last_update")
+          questionnaire.last_update = Time.zone.parse(json.fetch("last_update"))
           questionnaire.last_author = json.fetch("last_author")
           questionnaire.extra_css = json.fetch("extra_css")
           questionnaire.allow_switch_to_bulk = json.fetch("allow_switch_to_bulk")
@@ -371,7 +371,7 @@ module Quby
           y_categories: chart_json.fetch("y_categories"),
           y_range_categories: chart_json.fetch("y_range_categories"),
           chart_type: chart_json.fetch("chart_type"),
-          y_range: chart_json.fetch("y_range"),
+          y_range: deserialize_range(chart_json.fetch("y_range")),
           tick_interval: chart_json.fetch("tick_interval"),
           plotbands: chart_json.fetch("plotbands").map do |plotband_json|
             {
@@ -428,6 +428,11 @@ module Quby
           name: attributes.fetch("name"),
           default_collapsed: attributes.fetch("default_collapsed"),
         )
+      end
+
+      def self.deserialize_range(range_attributes)
+        return unless range_attributes
+        Range.new(range_attributes.fetch("begin"), range_attributes.fetch("end"), range_attributes.fetch("exclude_end"))
       end
     end
   end
