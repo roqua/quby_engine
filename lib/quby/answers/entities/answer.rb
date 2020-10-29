@@ -82,7 +82,7 @@ module Quby
         attr_accessor :extra_question_values
         attr_accessor :extra_failed_validations
 
-        def initialize(_id: nil, questionnaire_id: nil, questionnaire_key: nil,
+        def initialize(_id: nil, questionnaire_id: nil, questionnaire_key: nil, questionnaire: nil,
           raw_params: nil, value: nil, patient_id: nil, patient: nil,
           token: nil, active: true, test: false, created_at: nil, updated_at: nil,
           started_at: nil, completed_at: nil, outcome: nil, outcome_generated_at: nil,
@@ -111,6 +111,8 @@ module Quby
           self.import_notes = import_notes || {}
           self.flags = flags
           self.textvars = textvars
+
+          @questionnaire = questionnaire
         end
 
         def id
@@ -162,7 +164,7 @@ module Quby
 
         # Faux belongs_to :questionnaire
         def questionnaire
-          Quby.questionnaires.find(questionnaire_key)
+          @questionnaire ||= Quby.questionnaires.find(questionnaire_key)
         end
 
         def mark_completed(start_time)
