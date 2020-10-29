@@ -1,5 +1,8 @@
 # Upcoming
 
+* Questionnaires can now load from pre-compiled JSON.
+* Quby.lookup_table_repo removed.
+
 # 4.0.3
 
 * Baselines can now be given as lookup-esque table
