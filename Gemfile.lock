@@ -1,6 +1,6 @@
 GIT
   remote: https://gitlab.roqua.nl/roqua/quby-compiler
-  revision: ab6337b1fdfd1bf888bea144a607c587d6c60476
+  revision: 5ba192432abbce71d9c2e8a537fe440fcc602372
   branch: main
   specs:
     quby-compiler (0.1.0)
@@ -15,7 +15,7 @@ GIT
 PATH
   remote: .
   specs:
-    quby (5.0.0.pre3)
+    quby (5.0.0.pre4)
       addressable
       browser
       coffee-rails
