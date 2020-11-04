@@ -65,6 +65,10 @@ module Quby
           @questionnaire.short_description = description
         end
 
+        def version(key, notes)
+          # nothing, for forward compatibility with v5 (quby-compiler)
+        end
+
         def sbg_key(sbg_key)
           @questionnaire.sbg_key = sbg_key
         end
@@ -143,6 +147,10 @@ module Quby
             fail 'Custom method trying to override existing method'
           end
           @custom_methods[key] = block
+        end
+
+        def import_lookup_tree(key)
+          # nothing, for forwards compatibility with v5 (quby-compiler)
         end
 
         def add_lookup_tree(key, levels:, tree:)
