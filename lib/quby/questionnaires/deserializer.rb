@@ -64,7 +64,6 @@ module Quby
               y_max: overview_json.fetch("y_max"),
             )
           end
-          end
 
           json.fetch("charts").fetch("others").each do |chart_json|
             questionnaire.add_chart(build_chart(questionnaire, chart_json))
