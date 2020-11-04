@@ -23,7 +23,7 @@ module Quby
         def find(key)
           fail(QuestionnaireNotFound, key) unless exists?(key)
           json = read(key)
-          timestamp = Time.zone.parse(read(key)["last_update"])
+          timestamp = Time.zone.parse(json["last_update"])
           Entities::Definition.new(key: key, path: questionnaire_path(key), json: json, timestamp: timestamp)
         end
 
