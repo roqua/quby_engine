@@ -16,7 +16,7 @@ module Quby
           questionnaire.default_answer_value = json.fetch("default_answer_value")
           questionnaire.leave_page_alert = json.fetch("leave_page_alert")
           questionnaire.allow_hotkeys = json.fetch("allow_hotkeys")
-          questionnaire.license = json.fetch("license").try(:to_sym)
+          questionnaire.license = json.fetch("license")&.to_sym
           questionnaire.licensor = json.fetch("licensor")
           questionnaire.language = json.fetch("language").try(:to_sym)
           questionnaire.renderer_version = json.fetch("renderer_version")
