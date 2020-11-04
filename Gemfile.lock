@@ -1,7 +1,21 @@
+GIT
+  remote: https://gitlab.roqua.nl/roqua/quby-compiler
+  revision: dac53d6c0efeb71cd5bb060fce3c83aa457db916
+  branch: main
+  specs:
+    quby-compiler (0.1.0)
+      actionview (>= 5.0)
+      activemodel (>= 5.0)
+      activesupport (>= 5.0)
+      method_source
+      nokogiri (>= 1.8)
+      nokogumbo
+      redcarpet (~> 3.5)
+
 PATH
   remote: .
   specs:
-    quby (4.0.3)
+    quby (5.0.0.pre4)
       addressable
       browser
       coffee-rails
@@ -195,7 +209,7 @@ GEM
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.6.0)
+    loofah (2.7.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
@@ -210,7 +224,7 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.14.1)
+    minitest (5.14.2)
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -399,6 +413,7 @@ DEPENDENCIES
   launchy
   pry
   quby!
+  quby-compiler!
   rails-controller-testing
   roqua-support
   rspec (>= 3)

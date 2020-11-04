@@ -24,30 +24,6 @@ module Quby
             @uncheck_all_option       = options[:uncheck_all_option]
             @maximum_checked_allowed  = options[:maximum_checked_allowed]
             @minimum_checked_required = options[:minimum_checked_required]
-
-            if @check_all_option
-              @validations << {type: :not_all_checked,
-                               check_all_key: @check_all_option,
-                               explanation: options[:error_explanation]}
-            end
-
-            if @uncheck_all_option
-              @validations << {type: :too_many_checked,
-                               uncheck_all_key: @uncheck_all_option,
-                               explanation: options[:error_explanation]}
-            end
-
-            if @maximum_checked_allowed
-              @validations << {type: :maximum_checked_allowed,
-                               maximum_checked_value: @maximum_checked_allowed,
-                               explanation: options[:error_explanation]}
-            end
-
-            if @minimum_checked_required
-              @validations << {type: :minimum_checked_required,
-                               minimum_checked_value: @minimum_checked_required,
-                               explanation: options[:error_explanation]}
-            end
           end
 
           def variable_descriptions

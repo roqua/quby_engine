@@ -42,14 +42,6 @@ module Quby::Questionnaires::Entities
     let(:valid_question_options) { {type: :string} }
     subject(:question) { Question.new(:v_1, valid_question_options) }
 
-    it 'validates the key to be a symbol' do
-      questionnaire = Quby::Questionnaires::DSL.build("test2") do
-          question "key", type: :radio
-      end
-      expect(questionnaire.questions.first.valid?).to eq false
-      expect(questionnaire.questions.first.errors.full_messages).to eq ["Key Is not of type Symbol"]
-    end
-
     describe 'sbg_key' do
       it 'can be set by options hash' do
         expect(questionnaire.question_hash[:date].sbg_key).to eq 'foo'

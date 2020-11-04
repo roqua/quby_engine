@@ -64,4 +64,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara-screenshot', '= 0.3.14'
   s.add_development_dependency "codeclimate-test-reporter", '0.6.0'
   s.add_development_dependency 'simplecov', '~> 0.9.0'
+  s.add_development_dependency 'quby-compiler'
 end

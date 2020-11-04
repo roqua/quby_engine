@@ -8,8 +8,6 @@ module Quby
       class Question < Item
         MARKDOWN_ATTRIBUTES = %w(description title).freeze
 
-        set_callback :after_dsl_enhance, :expand_depends_on_input_keys
-
         # Standard attributes
         attr_accessor :key
         validates :key, presence: true, 'quby/type': {is_a: Symbol}
@@ -140,7 +138,7 @@ module Quby
           @description = options[:description]
           @display_modes = options[:display_modes]
           @presentation = options[:presentation]
-          @validations = []
+          @validations = options[:validations] || []
           @parent = options[:parent]
           @hidden = options[:hidden]
           @table = options[:table]
@@ -150,12 +148,13 @@ module Quby
           @deselectable = (options[:deselectable].nil? || options[:deselectable])
           @disallow_bulk = options[:disallow_bulk]
           @score_header = options[:score_header] || :none
-          @sets_textvar = "#{questionnaire.key}_#{options[:sets_textvar]}" if options[:sets_textvar]
+          @sets_textvar = options[:sets_textvar]
           @unit = options[:unit]
           @lines = options[:lines] || 6
           @cols = options[:cols] || 40
           @default_invisible = options[:default_invisible] || false
-          @labels ||= []
+          @labels = options[:labels] || []
+          @size = options[:size]
 
           @col_span = options[:col_span] || 1
           @row_span = options[:row_span] || 1
@@ -169,16 +168,6 @@ module Quby
           @input_data = {}
           @input_data[:value_tooltip] = true if options[:value_tooltip]
 
-          # Require subquestions of required questions by default
-          options[:required] = true if @parent&.validations&.first&.fetch(:type, nil) == :requires_answer
-          @validations << {type: :requires_answer, explanation: options[:error_explanation]} if options[:required]
-
-          if @type == :float
-            @validations << {type: :valid_float, explanation: options[:error_explanation]}
-          elsif @type == :integer
-            @validations << {type: :valid_integer, explanation: options[:error_explanation]}
-          end
-
           if options[:minimum] and (@type == :integer || @type == :float)
             fail "deprecated" # pretty sure this is not used anywhere
           end
@@ -186,17 +175,6 @@ module Quby
             fail "deprecated" # pretty sure this is not used anywhere
           end
           @default_position = options[:default_position]
-
-          if @question_group
-            if @group_minimum_answered
-              @validations << {type: :answer_group_minimum, group: @question_group, value: @group_minimum_answered,
-                               explanation: options[:error_explanation]}
-            end
-            if @group_maximum_answered
-              @validations << {type: :answer_group_maximum, group: @question_group, value: @group_maximum_answered,
-                               explanation: options[:error_explanation]}
-            end
-          end
         end
         # rubocop:enable CyclomaticComplexity, Metrics/MethodLength
 
@@ -212,12 +190,11 @@ module Quby
           @context_free_title || @title
         end
 
-        def expand_depends_on_input_keys
-          return unless @depends_on
-          @depends_on = questionnaire.expand_input_keys(@depends_on)
-          @extra_data[:"depends-on"] = @depends_on.to_json
-        rescue => e
-          raise e.class, "Question #{key} depends_on contains an error: #{e.message}"
+        def extra_data
+          result = @extra_data
+          result = result.merge(:"depends-on" => @depends_on.to_json) if @depends_on
+          result = result.merge(:placeholder => @options.find { |option| option.placeholder }&.key)
+          result
         end
 
         def col_span

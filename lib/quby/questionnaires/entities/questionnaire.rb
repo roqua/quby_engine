@@ -29,8 +29,9 @@ module Quby
 
         RESPONDENT_TYPES = %i( profess patient parent second_parent teacher caregiver )
 
-        def initialize(key, last_update: Time.now)
+        def initialize(key, attributes = {}, last_update: Time.now)
           @key = key
+          @attributes = attributes
           @sbg_domains = []
           @last_update = Time.at(last_update.to_i)
           @score_calculations = {}.with_indifferent_access
@@ -53,6 +54,8 @@ module Quby
           @check_score_keys_consistency = true
           @lookup_tables = {}
         end
+
+        attr_reader :attributes
 
         attr_accessor :key
         attr_accessor :title
@@ -133,20 +136,6 @@ module Quby
 
           if question.sets_textvar && !textvars.key?(question.sets_textvar)
             fail "Undefined textvar: #{question.sets_textvar}"
-          end
-        end
-
-        def callback_after_dsl_enhance_on_questions
-          question_hash.each_value do |q|
-            q.run_callbacks :after_dsl_enhance
-          end
-          ensure_scores_have_schemas if Quby::Settings.require_score_schemas
-        end
-
-        def ensure_scores_have_schemas
-          missing_schemas = scores.map(&:key).map(&:to_s) - score_schemas.keys
-          missing_schemas.each do |key|
-            errors.add "Score #{key}", 'is missing a score schema'
           end
         end
 

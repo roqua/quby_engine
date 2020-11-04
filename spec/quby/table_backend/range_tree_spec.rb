@@ -1,17 +1,22 @@
 require 'spec_helper'
 
 describe Quby::TableBackend::RangeTree do
-  let(:csv_key) { 'test' }
-  let(:data) { Quby.lookup_table_repo.retrieve(csv_key) }
-  let(:tree) { described_class.from_csv(levels: data.shift, compare: data.shift, data: data) }
-
-  describe '#from_csv' do
-    context 'invalid csv data' do
-      let(:csv_key) { 'bad_range' }
-      it 'fails when csv data contains a range between two equal values' do
-        expect { tree }.to raise_error(RuntimeError, 'Cannot create range between two equal values')
-      end
-    end
+  let(:tree) do
+    described_class.new(
+      levels: ["scale", "gender", "age", "raw", "norm"],
+      tree: {
+        "Inhibitie" => {
+          "male" => {
+            (10.0...11.0) => {
+              (-Float::INFINITY...10.0) => 39.0,
+              (10.0...20.0) => 42.0,
+              (20.0...30.0) => 71.0,
+              (30.0...Float::INFINITY) => 75.0
+            }
+          }
+        }
+      }
+    )
   end
 
   describe '#lookup' do
@@ -68,7 +73,23 @@ describe Quby::TableBackend::RangeTree do
     end
 
     describe 'definition containing range with float values' do
-      let(:csv_key) { 'float_test' }
+      let(:tree) do
+        described_class.new(
+          levels: ["scale", "gender", "age", "raw", "norm"],
+          tree: {
+            "Inhibitie" => {
+              "male" => {
+                (10.0...11.0) => {
+                  (-Float::INFINITY...10.5) => 39.0,
+                  (10.5...20.1) => 42.0,
+                  (20.1...30.7) => 71.0,
+                  (30.7...Float::INFINITY) => 75.0
+                }
+              }
+            }
+          }
+        )
+      end
 
       it 'returns the correct scores' do
         params = {age: 10, raw: 15.8, scale: 'Inhibitie', gender: 'male'}
@@ -80,7 +101,12 @@ describe Quby::TableBackend::RangeTree do
     end
 
     describe 'definition containing float values' do
-      let(:csv_key) { 'test2' }
+      let(:tree) do
+        described_class.new(
+          levels: ["scale", "raw", "norm"],
+          tree: {"Inhibitie" => {15.0=>39.0, 16.0=>42.0, 17.0=>71.0, 18.0=>75.0}}
+        )
+      end
 
       it 'returns the correct scores when using integers in lookup path' do
         params = {scale: 'Inhibitie', raw: 17}
@@ -98,6 +124,13 @@ describe Quby::TableBackend::RangeTree do
 
       it 'returns the correct result if the array includes the value' do
         expect(tree.lookup(value: 5)).to eq 6
+      end
+    end
+
+    describe 'array leaves' do
+      it 'returns the leaf fully' do
+        tree = described_class.new levels: ['key', 'leaf'], tree: {a: [1, 2, 3], b: [9, 8, 7]}
+        expect(tree.lookup(key: :a)).to eq([1, 2, 3])
       end
     end
 

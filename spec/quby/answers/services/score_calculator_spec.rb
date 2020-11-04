@@ -485,26 +485,16 @@ module Quby::Answers::Services
       let(:calculator) { ScoreCalculator.new(questionnaire: questionnaire, values: {}, timestamp: timestamp) }
       let(:table_double) { double.as_null_object }
 
-      before do
-        allow(Quby::LookupTable).to receive(:new).and_return(table_double)
-      end
-
-      it 'instantiates a new Quby::Answers::Entities::LookupTable if the table_hash cache does not know the key' do
+      it 'raises an error if lookup table cannot be found' do
         expect(questionnaire.lookup_tables).to be_empty
-        calculator.table_lookup :test_table, score: 1
-        expect(questionnaire.lookup_tables[:test_table]).to be(table_double)
-      end
-
-      it 'uses the memoized lookuptable if there is a cache hit' do
-        calculator.table_lookup :test_table, score: 1
-        expect(table_double).to receive(:lookup)
-        calculator.table_lookup :test_table, score: 1
+        expect { calculator.table_lookup :test_table, score: 1 }.to raise_error(KeyError)
       end
 
       it 'looks up the given parameters on the given table' do
+        questionnaire.lookup_tables[:test_table] = table_double
         parameters = {score: 1}
-        expect(table_double).to receive(:lookup).with parameters
         calculator.table_lookup :test_table, parameters
+        expect(table_double).to have_received(:lookup).with parameters
       end
 
       context 'with add_lookup_tree inside dsl' do

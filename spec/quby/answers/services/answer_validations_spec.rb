@@ -148,14 +148,14 @@ module Quby::Answers::Services
     describe '#question_groups' do
       it 'sets the @question_groups attribute to a hash of the question groups' do
         expect(answer.question_groups).to eq({
-          group1: [:v_answer_group_under_minimum, :v_answer_group_under_minimum1],
-          group2: [:v_answer_group_over_minimum, :v_answer_group_over_minimum1],
-          group3: [:v_answer_group_under_maximum, :v_answer_group_under_maximum1],
-          group4: [:v_answer_group_over_maximum, :v_answer_group_over_maximum1],
-          cgroup1: [:v_check_answer_group_under_minimum, :v_check_answer_group_under_minimum1],
-          cgroup2: [:v_check_answer_group_over_minimum, :v_check_answer_group_over_minimum1],
-          cgroup3: [:v_check_answer_group_under_maximum, :v_check_answer_group_under_maximum1],
-          cgroup4: [:v_check_answer_group_over_maximum, :v_check_answer_group_over_maximum1]
+          "group1" => [:v_answer_group_under_minimum, :v_answer_group_under_minimum1],
+          "group2" => [:v_answer_group_over_minimum, :v_answer_group_over_minimum1],
+          "group3" => [:v_answer_group_under_maximum, :v_answer_group_under_maximum1],
+          "group4" => [:v_answer_group_over_maximum, :v_answer_group_over_maximum1],
+          "cgroup1" => [:v_check_answer_group_under_minimum, :v_check_answer_group_under_minimum1],
+          "cgroup2" => [:v_check_answer_group_over_minimum, :v_check_answer_group_over_minimum1],
+          "cgroup3" => [:v_check_answer_group_under_maximum, :v_check_answer_group_under_maximum1],
+          "cgroup4" => [:v_check_answer_group_over_maximum, :v_check_answer_group_over_maximum1]
         })
       end
     end

@@ -13,6 +13,7 @@ require 'quby/questionnaires/entities/fields'
 
 require 'quby/questionnaires/entities/charting/charts'
 require 'quby/questionnaires/entities/charting/chart'
+require 'quby/questionnaires/entities/charting/overview_chart'
 require 'quby/questionnaires/entities/charting/line_chart'
 require 'quby/questionnaires/entities/charting/bar_chart'
 require 'quby/questionnaires/entities/charting/radar_chart'
