@@ -58,11 +58,12 @@ module Quby
           questionnaire.respondent_types = json.fetch("respondent_types").map(&:to_sym)
           questionnaire.tags = json.fetch("tags")
 
-          if overview_json = json.fetch("charts").fetch("overview")
+          json.fetch("charts").fetch("overview")&.tap |overview_json|
             questionnaire.charts.overview = Quby::Questionnaires::Entities::Charting::OverviewChart.new(
               subscore: overview_json.fetch("subscore").to_sym,
               y_max: overview_json.fetch("y_max"),
             )
+          end
           end
 
           json.fetch("charts").fetch("others").each do |chart_json|
