@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Quby
-  VERSION = "4.0.3"
+  VERSION = "5.0.0.pre4"
 end

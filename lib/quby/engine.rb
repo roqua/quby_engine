@@ -15,7 +15,6 @@ require 'jquery-ui-rails'
 require 'compass-blueprint'
 
 require 'susy'
-require 'quby/lookup_table'
 require 'quby/range_categories'
 require 'quby/pdf_renderer'
 

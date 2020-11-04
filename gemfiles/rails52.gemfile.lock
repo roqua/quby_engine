@@ -1,7 +1,21 @@
+GIT
+  remote: https://gitlab.roqua.nl/roqua/quby-compiler
+  revision: 5ba192432abbce71d9c2e8a537fe440fcc602372
+  branch: main
+  specs:
+    quby-compiler (0.1.0)
+      actionview (>= 5.0)
+      activemodel (>= 5.0)
+      activesupport (>= 5.0)
+      method_source
+      nokogiri (>= 1.8)
+      nokogumbo
+      redcarpet (~> 3.5)
+
 PATH
   remote: ..
   specs:
-    quby (4.0.3)
+    quby (5.0.0.pre4)
       addressable
       browser
       coffee-rails
@@ -403,6 +417,7 @@ DEPENDENCIES
   launchy
   pry
   quby!
+  quby-compiler!
   rails (~> 5.2.0)
   rails-controller-testing
   roqua-support

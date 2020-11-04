@@ -38,14 +38,6 @@ module Quby
       @questionnaires_api = nil
     end
 
-    def lookup_table_repo=(repo)
-      @lookup_table_repo = repo
-    end
-
-    def lookup_table_repo
-      @lookup_table_repo  || fail("Quby does not have its lookup table repo (Quby.lookup_table_repo) configured.")
-    end
-
     def fixtures_path
       File.expand_path File.join('..', '..', 'spec', 'fixtures'), __FILE__
     end
@@ -79,7 +71,7 @@ module Quby
 end
 
 require 'quby/settings'
+require 'quby/table_backend/range_tree'
 require 'quby/questionnaires'
 require 'quby/answers'
 require 'quby/engine'
-require 'quby/lookup_table_repo'
