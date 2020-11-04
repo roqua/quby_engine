@@ -53,7 +53,7 @@ module Quby
           questionnaire.roqua_keys = json.fetch("roqua_keys")
           questionnaire.sbg_key = json.fetch("sbg_key")
           questionnaire.sbg_domains = json.fetch("sbg_domains").map(&:symbolize_keys)
-          questionnaire.outcome_regeneration_requested_at = json.fetch("outcome_regeneration_requested_at").try { |str| Time.zone.parse(str) }
+          questionnaire.outcome_regeneration_requested_at = json.fetch("outcome_regeneration_requested_at")&.yield_self { |str| Time.zone.parse(str) }
           questionnaire.deactivate_answers_requested_at = json.fetch("deactivate_answers_requested_at").try { |str| Time.zone.parse(str) }
           questionnaire.respondent_types = json.fetch("respondent_types").map(&:to_sym)
           questionnaire.tags = json.fetch("tags")
