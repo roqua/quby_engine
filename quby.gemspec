@@ -45,6 +45,8 @@ Gem::Specification.new do |s|
   s.add_dependency "i18n", "~> 0.6"
   s.add_dependency "rest-client", "~> 2.0.2"
 
+  s.add_dependency "dry-struct"
+
   s.add_dependency "jquery-rails", ">= 2.2.2"
   s.add_dependency "jquery-ui-rails", "~> 3.0"
 
