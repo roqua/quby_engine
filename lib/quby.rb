@@ -5,6 +5,8 @@ module Quby
   autoload :ArrayAttributeValidValidator, 'active_model_modules/array_attribute_valid_validator'
   autoload :AttributeValidValidator, 'active_model_modules/attribute_valid_validator'
   autoload :TypeValidator, 'active_model_modules/type_validator'
+  autoload :Types, 'quby/types'
+
   class BaseError < StandardError; end
   class InvalidAuthorizationError < BaseError; end
   class MissingAuthorizationError < BaseError; end

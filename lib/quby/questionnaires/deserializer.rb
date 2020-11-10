@@ -350,12 +350,7 @@ module Quby
       end
 
       def self.build_textvar(attrs)
-        Entities::Textvar.new(
-          key: attrs.fetch("key").to_sym,
-          description: attrs.fetch("description"),
-          default: attrs.fetch("default"),
-          depends_on_flag: attrs.fetch("depends_on_flag")&.to_sym
-        )
+        Entities::Textvar.new(attrs)
       end
 
       def self.build_chart(questionnaire, chart_json)
