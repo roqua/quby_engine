@@ -7,13 +7,7 @@ module Quby
     module Entities
       module Charting
         class BarChart < Chart
-          # @return [Array]
-          attr_accessor :plotlines
-
-          def initialize(key, plotlines: nil, **kwargs)
-            super(key, **kwargs)
-            self.plotlines = plotlines || []
-          end
+          attribute? :plotlines, Types::Array.of(Types::Plotline).default { [] }
         end
       end
     end

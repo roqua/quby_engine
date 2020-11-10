@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
+require 'dry-struct'
+require_relative './plottable'
+
 module Quby
   module Questionnaires
     module Entities
       module Charting
-        class Chart
-          # @return [Symbol]
-          attr_accessor :key
+        class Chart < Dry::Struct
+          transform_keys(&:to_sym)
 
-          # @return [String]
-          attr_accessor :title
-
-          # @return [Array]
-          attr_accessor :plottables
+          attribute :key, Types::Coercible::Symbol
+          attribute? :title, Types::String.optional
+          attribute? :plottables, Types::Array.of(Plottable)
 
           # If y_categories are defined, plottable values should correspond to
           # values from this array and the graph will be plotted with
@@ -25,7 +25,7 @@ module Quby
           # NB: only implemented for bar charts on the roqua side
           #
           # @return [Array]
-          attr_accessor :y_categories
+          attribute? :y_categories, Types::Array.of(Types::String).optional
 
           # If y_range_categories are defined, plottable values should fall in
           # the ranges that compose the keys of this hash. The chart will label
@@ -46,42 +46,19 @@ module Quby
           # format. Only implemented for line charts on the RoQua side.
           #
           # @return [Hash<Range, String>]
-          attr_accessor :y_range_categories
+          attribute? :y_range_categories, Types::Hash.map(Types::Range, Types::String).optional
 
-          # @return [Symbol]
-          attr_accessor :chart_type
+          attribute? :chart_type, Types::Coercible::Symbol.optional
+          attribute? :y_range, Types::Range.optional
+          attribute? :tick_interval, Types::Float.optional
+          attribute :plotbands, Types::Array.of(Types::Plotband).default { [] }
 
-          # @return [Range]
-          attr_accessor :y_range
-
-          # @return [Float]
-          attr_accessor :tick_interval
-
-          # @return [Array]
-          attr_accessor :plotbands
-
-          def initialize(key, title: nil, plottables: nil, y_categories: nil, y_range_categories: nil, chart_type: nil, y_range: nil, tick_interval: nil, plotbands: nil)
-            self.key = key.to_sym
-            self.title = title
-            self.plottables = plottables || []
-            self.y_categories = y_categories
-            self.y_range_categories = y_range_categories
-            self.chart_type = chart_type
-            self.y_range = y_range
-            self.tick_interval = tick_interval
-            self.plotbands = plotbands || []
+          def y_range
+            attributes[:y_range] || default_y_range
           end
 
           def type
             self.class.name.to_s.demodulize.underscore
-          end
-
-          def y_range
-            @y_range || @y_range = default_y_range
-          end
-
-          def chart_type=(value)
-            @chart_type = value&.to_sym
           end
 
           def default_y_range

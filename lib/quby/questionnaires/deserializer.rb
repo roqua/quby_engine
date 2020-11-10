@@ -60,6 +60,7 @@ module Quby
 
           json.fetch("charts").fetch("overview")&.tap do |overview_json|
             questionnaire.charts.overview = Quby::Questionnaires::Entities::Charting::OverviewChart.new(
+              key: :overview,
               subscore: overview_json.fetch("subscore").to_sym,
               y_max: overview_json.fetch("y_max"),
             )
@@ -354,50 +355,13 @@ module Quby
       end
 
       def self.build_chart(questionnaire, chart_json)
-        base_args = {
-          title: chart_json.fetch("title"),
-          plottables: chart_json.fetch("plottables").map do |plottable_json|
-            Quby::Questionnaires::Entities::Charting::Plottable.new(
-              plottable_json.fetch("key").to_sym,
-              label: plottable_json.fetch("label"),
-              plotted_key: plottable_json.fetch("plotted_key").to_sym,
-              global: plottable_json.fetch("global"),
-              questionnaire_key: plottable_json.fetch("questionnaire_key")
-            )
-          end,
-          y_categories: chart_json.fetch("y_categories"),
-          y_range_categories: chart_json.fetch("y_range_categories"),
-          chart_type: chart_json.fetch("chart_type"),
-          y_range: deserialize_range(chart_json.fetch("y_range")),
-          tick_interval: chart_json.fetch("tick_interval"),
-          plotbands: chart_json.fetch("plotbands").map do |plotband_json|
-            {
-              color: plotband_json.fetch("color").to_sym,
-              from: plotband_json.fetch("from"),
-              to: plotband_json.fetch("to")
-            }
-          end,
-        }
-
         case chart_json.fetch("type")
         when "bar_chart"
-          Quby::Questionnaires::Entities::Charting::BarChart.new(chart_json.fetch("key").to_sym,
-            plotlines: chart_json.fetch("plotlines"),
-            **base_args
-          )
+          Quby::Questionnaires::Entities::Charting::BarChart.new(chart_json)
         when "line_chart"
-          Quby::Questionnaires::Entities::Charting::LineChart.new(chart_json.fetch("key").to_sym,
-            y_label: chart_json.fetch("y_label"),
-            tonality: chart_json.fetch("tonality").to_sym,
-            baseline: YAML.load(chart_json.fetch("baseline")),
-            clinically_relevant_change: chart_json.fetch("clinically_relevant_change"),
-            **base_args
-          )
+          Quby::Questionnaires::Entities::Charting::LineChart.new(chart_json)
         when "radar_chart"
-          Quby::Questionnaires::Entities::Charting::BarChart.new(chart_json.fetch("key").to_sym,
-            plotlines: chart_json.fetch("plotlines"),
-            **base_args
-          )
+          Quby::Questionnaires::Entities::Charting::BarChart.new(chart_json)
         end
       end
 

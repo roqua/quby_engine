@@ -7,45 +7,34 @@ module Quby
     module Entities
       module Charting
         class LineChart < Chart
-          # @return [String]
-          attr_accessor :y_label
+          BaselineLookup = Types::Hash.map(
+            Types::Range | Types::Coercible::Symbol, # age
+            Types::Hash.map(
+              Types::Gender,
+              Types::Number
+            )
+          )
 
-          # @return [Symbol]
-          attr_accessor :tonality
+          attribute? :tonality, Types::Coercible::Symbol.default(:lower_is_better).enum(:higher_is_better, :lower_is_better)
+          attribute? :y_label, Types::String.optional
+          attribute? :baseline, BaselineLookup.optional
 
-          # @return [Proc]
-          attr_accessor :baseline
-
-          # @return [Float]
-          attr_accessor :clinically_relevant_change
-
-          def initialize(key, y_label: nil, tonality: :lower_is_better, baseline: nil, clinically_relevant_change: nil, **kwargs)
-            super(key, **kwargs)
-            self.y_label = y_label
-            self.tonality = tonality
-            self.baseline = baseline
-            self.clinically_relevant_change = clinically_relevant_change
-          end
+          attribute? :clinically_relevant_change, Types::Float.optional
 
           def baseline
             @baseline_proc ||= make_baseline_proc
           end
 
-          def tonality=(value)
-            fail "Invalid tonality: #{value}" unless [:higher_is_better, :lower_is_better].include?(value)
-            @tonality = value
-          end
-
           private
 
           def make_baseline_proc
-            return unless @baseline
+            return unless attributes[:baseline]
 
-            case @baseline
+            case attributes[:baseline]
             when Hash
               ->(age, gender) {
-                age_match = @baseline.find { |age_range, _v| age && age_range === age }
-                hash_by_gender = (age_match&.last || @baseline.stringify_keys["default"])
+                age_match = attributes[:baseline].find { |age_range, _v| age && age_range === age }
+                hash_by_gender = (age_match&.last || attributes[:baseline].stringify_keys["default"])
 
                 gender_match = hash_by_gender.find {|gender_key, _v| gender && gender_key.to_s == gender.to_s }
                 gender_match&.last || hash_by_gender.stringify_keys['default']
