@@ -12,15 +12,8 @@ module Quby
         attribute? :default, Types::String.optional
         attribute? :depends_on_flag, Types::Coercible::Symbol.optional
 
-        # # rubocop:disable ParameterLists
-        # def initialize(key:, description:, default: nil, depends_on_flag: nil)
-        #   default = "{{#{key}}}" unless default
-        #   super(key, description, default, depends_on_flag)
-        # end
-        # # rubocop:enable ParameterLists
-
         def default
-          super || "{{#{key}}}"
+          attributes[:default] || "{{#{key}}}"
         end
 
         def to_codebook(_options = {})
