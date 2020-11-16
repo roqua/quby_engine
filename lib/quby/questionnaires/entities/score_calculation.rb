@@ -22,7 +22,7 @@ module Quby
           block
         end
 
-        def completion(*args, &block)
+        def self.completion(*args, &block)
           block
         end
       end
