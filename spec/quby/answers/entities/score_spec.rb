@@ -22,6 +22,10 @@ module Quby::Answers::Entities
     # it works with indifferent access
     subject { answer.score_objects['test'] }
 
+    it 'has working completion' do
+      expect(answer.outcome.completion).to eq("value" => 1.0)
+    end
+
     it 'exposes score schema fields' do
       expect(subject.key).to eq(:test)
       expect(subject.label).to eq('Testscore')
