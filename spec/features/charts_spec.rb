@@ -29,4 +29,11 @@ feature 'Defining charts in a questionnaire' do
       {from: 50, to: 80, color: :red}
     ])
   end
+
+  it 'supports plotlines' do
+    plotlines = questionnaire_with_chart.charts.first.plotlines
+    expect(plotlines).to eq([
+      {value: 20, color: :green}
+    ])
+  end
 end

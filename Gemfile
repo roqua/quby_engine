@@ -52,5 +52,6 @@ group :test, :development do
 
   gem 'rspec-rails'
   gem 'rspec-core'
-  gem 'quby-compiler', git: 'https://gitlab.roqua.nl/roqua/quby-compiler', branch: 'main', require: false
+  # gem 'quby-compiler', git: 'https://gitlab.roqua.nl/roqua/quby-compiler', branch: 'main', require: false
+  gem 'quby-compiler', path: '../quby-compiler', require: false
 end

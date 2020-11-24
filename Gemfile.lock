@@ -1,7 +1,5 @@
-GIT
-  remote: https://gitlab.roqua.nl/roqua/quby-compiler
-  revision: dac53d6c0efeb71cd5bb060fce3c83aa457db916
-  branch: main
+PATH
+  remote: ../quby-compiler
   specs:
     quby-compiler (0.1.0)
       actionview (>= 5.0)
@@ -11,6 +9,7 @@ GIT
       nokogiri (>= 1.8)
       nokogumbo
       redcarpet (~> 3.5)
+      roqua-support
 
 PATH
   remote: .

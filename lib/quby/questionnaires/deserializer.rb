@@ -377,17 +377,17 @@ module Quby
           tick_interval: chart_json.fetch("tick_interval"),
           plotbands: chart_json.fetch("plotbands").map do |plotband_json|
             {
-              color: plotband_json.fetch("color").to_sym,
+              color: plotband_json.fetch("color"),
               from: plotband_json.fetch("from"),
               to: plotband_json.fetch("to")
             }
           end,
+          plotlines: chart_json.fetch("plotlines")
         }
 
         case chart_json.fetch("type")
         when "bar_chart"
           Quby::Questionnaires::Entities::Charting::BarChart.new(chart_json.fetch("key").to_sym,
-            plotlines: chart_json.fetch("plotlines"),
             **base_args
           )
         when "line_chart"
@@ -399,8 +399,7 @@ module Quby
             **base_args
           )
         when "radar_chart"
-          Quby::Questionnaires::Entities::Charting::BarChart.new(chart_json.fetch("key").to_sym,
-            plotlines: chart_json.fetch("plotlines"),
+          Quby::Questionnaires::Entities::Charting::RadarChart.new(chart_json.fetch("key").to_sym,
             **base_args
           )
         end
