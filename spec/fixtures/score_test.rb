@@ -15,3 +15,7 @@ score :test2, label: 'Testscore 2',
   {value: values_with_nils(:v_1).first + 5,
    interpretation: 'Miniem'}
 end
+
+completion do
+   values_with_nils(:v_1).compact.size / 1.0
+end

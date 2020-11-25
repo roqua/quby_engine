@@ -1,7 +1,8 @@
-# Upcoming
+# 5.0.0
 
 * Questionnaires can now load from pre-compiled JSON.
 * Quby.lookup_table_repo removed.
+* New score_schema subscore DSL
 
 # 4.0.3
 
