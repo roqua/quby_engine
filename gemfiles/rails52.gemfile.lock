@@ -17,7 +17,7 @@ GIT
 PATH
   remote: ..
   specs:
-    quby (5.0.0.pre4)
+    quby (5.0.0)
       addressable
       browser
       coffee-rails
