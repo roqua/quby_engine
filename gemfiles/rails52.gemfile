@@ -24,6 +24,7 @@ end
 group :test, :development do
   gem "guard-rspec", ">= 4.2"
   gem "guard-teaspoon", "~> 0.8"
+  gem 'teaspoon', "1.1.5" # 1.2 is broken for this gemfile, but fine for rails60 gemfile
   gem "guard-spork", "~> 2.1"
   gem "guard-rubocop", "~> 1.0"
   gem "capybara", "~> 3.0"
