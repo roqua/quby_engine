@@ -1,6 +1,6 @@
 GIT
   remote: https://gitlab.roqua.nl/roqua/quby-compiler
-  revision: aed246d8f9efd3b5745c15ed5b9824abd1c35044
+  revision: 779821621ab3c3e91358cef1ecd9a9d26a5a3492
   branch: main
   specs:
     quby-compiler (0.1.1)
@@ -66,7 +66,7 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    active_interaction (3.7.1)
+    active_interaction (3.8.3)
       activemodel (>= 4, < 7)
     activejob (5.2.3)
       activesupport (= 5.2.3)
@@ -92,7 +92,7 @@ GEM
       bundler
       rake
       thor (>= 0.14.0)
-    appsignal (2.9.16)
+    appsignal (2.10.12)
       rack
     arel (9.0.0)
     ast (2.4.0)
@@ -176,7 +176,7 @@ GEM
       dry-equalizer (~> 0.3)
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
-    erubi (1.9.0)
+    erubi (1.10.0)
     execjs (2.7.0)
     fakefs (0.9.1)
     ffi (1.11.1)
@@ -264,7 +264,7 @@ GEM
     nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
-    nokogumbo (2.0.2)
+    nokogumbo (2.0.3)
       nokogiri (~> 1.8, >= 1.8.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -326,10 +326,10 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    roqua-support (0.3.2)
+    roqua-support (0.3.5)
       active_interaction (~> 3.0)
-      activesupport (>= 3.2, < 6)
-      appsignal (~> 2.9.8)
+      activesupport (>= 5.1, < 6.1)
+      appsignal (>= 2.9, < 2.11)
       naught (~> 1.0)
       with_advisory_lock (~> 3.2)
     rspec (3.9.0)
@@ -403,7 +403,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.1)
-    tzinfo (1.2.7)
+    tzinfo (1.2.8)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
