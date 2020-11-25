@@ -102,8 +102,8 @@ module Quby::Questionnaires::Entities
             {value: 2, interpretation: 'Very high'}
           end
 
-          score_schema :tot, 'Total', [{key: :value, export_key: 'tot', label: 'Score'},
-                                       {key: :interpretation, export_key: 'tot_i', label: 'Interpretation'}]
+          score_schema :tot, 'Total', [{key: :value, export_key: :tot, label: 'Score'},
+                                       {key: :interpretation, export_key: :tot_i, label: 'Interpretation'}]
 
         end
       end
