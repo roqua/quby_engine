@@ -382,7 +382,12 @@ module Quby
               to: plotband_json.fetch("to")
             }
           end,
-          plotlines: chart_json.fetch("plotlines")
+          plotlines: chart_json.fetch("plotlines").map do |plotline_json|
+            {
+              color: plotline_json.fetch("color"),
+              value: plotline_json.fetch("value")
+            }
+          end
         }
 
         case chart_json.fetch("type")
