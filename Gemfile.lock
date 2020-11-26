@@ -1,6 +1,6 @@
 GIT
   remote: https://gitlab.roqua.nl/roqua/quby-compiler
-  revision: 779821621ab3c3e91358cef1ecd9a9d26a5a3492
+  revision: 8c7413b7b65cf7a2dd70b945882cf888db25b059
   branch: main
   specs:
     quby-compiler (0.1.1)
@@ -17,7 +17,7 @@ GIT
 PATH
   remote: .
   specs:
-    quby (5.0.1)
+    quby (5.0.2)
       addressable
       browser
       coffee-rails
@@ -239,7 +239,7 @@ GEM
     listen (3.3.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.7.0)
+    loofah (2.8.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
