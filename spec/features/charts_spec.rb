@@ -25,8 +25,15 @@ feature 'Defining charts in a questionnaire' do
   it 'supports plotbands' do
     plotbands = questionnaire_with_chart.charts.first.plotbands
     expect(plotbands).to eq([
-      {from: 30, to: 50, color: :yellow},
-      {from: 50, to: 80, color: :red}
+      {from: 30, to: 50, color: "yellow"},
+      {from: 50, to: 80, color: "red"}
+    ])
+  end
+
+  it 'supports plotlines' do
+    plotlines = questionnaire_with_chart.charts.first.plotlines
+    expect(plotlines).to eq([
+      {value: 20, color: "green"}
     ])
   end
 end

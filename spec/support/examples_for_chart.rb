@@ -29,4 +29,14 @@ shared_examples_for Quby::Questionnaires::Entities::Charting::Chart do
   it 'defaults y_range_categories to nil' do
     expect(described_class.new('test').y_range_categories).to eq(nil)
   end
+
+  it 'can set plotlines' do
+    chart = described_class.new(:tot, plotlines: [{value: 40, color: :red}])
+    expect(chart.plotlines).to eq([{value: 40, color: :red}])
+  end
+
+  it 'can set plotbands' do
+    chart = described_class.new(:tot, plotbands: [{from: 40, to: 60, color: :red}])
+    expect(chart.plotbands).to eq([{from: 40, to: 60, color: :red}])
+  end
 end

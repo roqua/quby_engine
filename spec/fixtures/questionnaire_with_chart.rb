@@ -33,4 +33,5 @@ line_chart :tot do
   plot :v_3
   plotband 30, 50, :yellow
   plotband 50, 80, :red
+  plotline 20, :green
 end
