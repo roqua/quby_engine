@@ -153,6 +153,7 @@ module Quby
           table: table,
           col_span: item_json.fetch("col_span"),
           row_span: item_json.fetch("row_span"),
+          raw_content: item_json.fetch("raw_content", nil),
 
           # only selectable via options passed in DSL, not via DSL methods
           # many apply only to certain types of questions
