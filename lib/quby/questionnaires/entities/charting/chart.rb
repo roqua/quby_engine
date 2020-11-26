@@ -60,7 +60,10 @@ module Quby
           # @return [Array]
           attr_accessor :plotbands
 
-          def initialize(key, title: nil, plottables: nil, y_categories: nil, y_range_categories: nil, chart_type: nil, y_range: nil, tick_interval: nil, plotbands: nil)
+          # @return [Array]
+          attr_accessor :plotlines
+
+          def initialize(key, title: nil, plottables: nil, y_categories: nil, y_range_categories: nil, chart_type: nil, y_range: nil, tick_interval: nil, plotbands: nil, plotlines: nil)
             self.key = key.to_sym
             self.title = title
             self.plottables = plottables || []
@@ -70,6 +73,7 @@ module Quby
             self.y_range = y_range
             self.tick_interval = tick_interval
             self.plotbands = plotbands || []
+            self.plotlines = plotlines || []
           end
 
           def type

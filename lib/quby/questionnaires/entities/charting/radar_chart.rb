@@ -7,12 +7,8 @@ module Quby
     module Entities
       module Charting
         class RadarChart < Chart
-          # @return [Array]
-          attr_accessor :plotlines
-
-          def initialize(key, plotlines: nil, **kwargs)
+          def initialize(key, **kwargs)
             super(key, **kwargs)
-            self.plotlines = plotlines || []
           end
         end
       end
