@@ -77,7 +77,7 @@ module ClientSideValidationHelpers
 
   def expect_saved_value(question_key, expected_value)
     unless @have_clicked_save
-      click_on "Klaar"
+      click_on "Opslaan"
       expect(page).to have_content("Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.")
       @have_clicked_save = true
     end

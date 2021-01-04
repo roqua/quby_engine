@@ -86,7 +86,7 @@ module Quby
       visit_new_answer_for(questionnaire, "single_page")
 
       # Show warning first
-      click_on('Klaar')
+      click_on('Opslaan')
       expect(page).to have_content("Deze vragenlijst is nog niet volledig ingevuld")
 
       # But allow to skip validation and save

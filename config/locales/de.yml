@@ -7,7 +7,7 @@ de:
   next: Weiter
   abort: Später zu Ende ausfüllen
   previous_questionnaire: Vorheriger Fragebogen
-  done: Fertig
+  done: Speichern
   print_answers: Antworten drucken
   download_answers_pdf: Als PDF herunterladen
   pdf_download_failed_message: Beim Vorbereiten des Downloads ist ein Fehler aufgetreten.
@@ -17,7 +17,7 @@ de:
     save_anyway: Trotzdem speichern
   thanks_for_filling_out: Vielen Dank für das Ausfüllen dieses Fragebogens. Ihre Antworten sind gespeichert.
   ios_download_instruction: "Eine neue Browser-Tab wird geöffnet, in der der Download gestartet wird.\n\nSpeichern Sie die Datei in Books/iBooks. Kehren Sie dann mit der Knopf '< Safari' oben links zum Browser zurück.
-\n\nDenn, im Browser gehen Sie mit dem Zurück-Knopf '<' zurück und drücken Sie auf 'Fertig' um die Fragebogen zu speichern."
+\n\nDenn, im Browser gehen Sie mit dem Zurück-Knopf '<' zurück und drücken Sie auf 'Speichern' um die Fragebogen zu speichern."
   validations:
     maximum:
       date: "Das Datum muss an oder vor dem %{friendly_date} liegen."
