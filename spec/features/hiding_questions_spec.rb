@@ -363,7 +363,7 @@ feature 'Hiding and showing questions' do
   end
 
   def save_form
-    click_on "Klaar"
+    click_on "Opslaan"
     expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
