@@ -40,7 +40,7 @@ feature 'Completing a questionnaire' do
     click_on "nextButton3"
     expect(find("#panel4")).to be_visible
 
-    click_on "Klaar"
+    click_on "Opslaan"
     expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
@@ -54,7 +54,7 @@ feature 'Completing a questionnaire' do
     click_on "nextButton0"
 
     expect(page).to have_selector('#panel1.current')
-    click_on "Klaar"
+    click_on "Opslaan"
 
     expect(page).to have_content 'answer_complete!'
     expect(page.current_path).to eq '/after_answer_complete'
@@ -74,7 +74,7 @@ feature 'Completing a questionnaire' do
     click_on "nextButton0"
     expect(page).to have_selector('#panel1.current')
     allow_server_side_validation_error(always: true)
-    click_on "Klaar"
+    click_on "Opslaan"
 
     # the validation error is displayed on the page
     expect(page).to have_selector('.error.requires_answer')
@@ -85,7 +85,7 @@ feature 'Completing a questionnaire' do
 
     click_on "nextButton0"
     expect(page).to have_selector('#panel1.current')
-    click_on "Klaar"
+    click_on "Opslaan"
 
     # and a second attempt can be made
     expect(page).to have_content("Uw antwoorden zijn opgeslagen")
@@ -103,14 +103,14 @@ feature 'Completing a questionnaire' do
   #   page.should have_selector('#panel1.current')
   #   original_action = page.evaluate_script('$("form.test").attr("action")')
   #   page.execute_script('$("form.test").attr("action", "http://inexistant.domain")')
-  #   click_on "Klaar"
+  #   click_on "Opslaan"
 
   #   # an error message is displayed on the page
   #   page.should have_content('Er ging iets fout bij het opslaan van de antwoorden')
 
   #   # and a second attempt can be made to save the data
   #   page.execute_script("$('form.test').attr('action', '#{original_action}')")
-  #   click_on "Klaar"
+  #   click_on "Opslaan"
   #   page.should have_content("Uw antwoorden zijn opgeslagen")
   # end
 
@@ -127,14 +127,14 @@ feature 'Completing a questionnaire' do
     within("#item_v_12") { choose "answer_v_12_a4" }
     within("#item_v_13") { choose "answer_v_13_a1" }
 
-    click_on "Klaar"
+    click_on "Opslaan"
     expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end
 
   scenario 'by not filling in answers, but asking to save regardless', js: true do
     visit_new_answer_for(questionnaire, "bulk")
 
-    click_on "Klaar"
+    click_on "Opslaan"
     click_on "Toch opslaan"
     expect(page).to have_content("Uw antwoorden zijn opgeslagen")
   end

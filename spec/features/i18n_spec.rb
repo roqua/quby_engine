@@ -10,13 +10,13 @@ feature 'Validation messages' do
     scenario 'when no language is specified it defaults to dutch' do
       visit_new_answer_for(questionnaire_without_language_setting)
 
-      expect_done_button_text 'Klaar'
+      expect_done_button_text 'Opslaan'
     end
 
     scenario 'when "language: :en" is specified it renders the page in English' do
       visit_new_answer_for(english_questionnaire)
 
-      expect_done_button_text 'Done'
+      expect_done_button_text 'Save'
     end
 
     def expect_done_button_text(text)
