@@ -7,7 +7,7 @@ en:
   next: Next
   abort: Save for later
   previous_questionnaire: Previous questionnaire
-  done: Save
+  done: Done
   print_answers: Print answers
   download_answers_pdf: Download as PDF
   pdf_download_failed_message: An error occurred preparing the download.
@@ -16,7 +16,7 @@ en:
     explanation: "If you decide to save the questionnaire anyway, it could be that scale scores can't be calculated because we don't have all the required answers. You may complete the questionnaire below."
     save_anyway: Save anyway
   thanks_for_filling_out: Thank you for filling out the questionnaire.
-  ios_download_instruction: "Your download will open in a new tab.\n\nSave the file in Books/iBooks. Return to the browser using the '< Safari' button in the top left.\n\nBack in the browser, press the back '<' button and press 'Save' to complete your questionnaire."
+  ios_download_instruction: "Your download will open in a new tab.\n\nSave the file in Books/iBooks. Return to the browser using the '< Safari' button in the top left.\n\nBack in the browser, press the back '<' button and press 'Done' to complete your questionnaire."
   validations:
     maximum:
       date: "Entered date must be on or before %{friendly_date}."
