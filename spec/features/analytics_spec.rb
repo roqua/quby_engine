@@ -17,7 +17,7 @@ feature 'Analytics' do
 
       Timecop.freeze(time_completed) do
         choose "answer_v_1_a1"
-        click_on "Opslaan"
+        click_on "Klaar"
         expect(page).to have_content("Uw antwoorden zijn opgeslagen")
       end
 
