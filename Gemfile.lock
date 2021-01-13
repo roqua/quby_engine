@@ -1,6 +1,6 @@
 GIT
   remote: https://gitlab.roqua.nl/roqua/quby-compiler
-  revision: 4cf8ae580a3d780d9f19f5b1afe8637119268852
+  revision: f9fd7832c930576d21cfe958484382cbd6b2946b
   branch: main
   specs:
     quby-compiler (0.1.1)
@@ -252,7 +252,7 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
-    minitest (5.14.2)
+    minitest (5.14.3)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -260,7 +260,7 @@ GEM
     nenv (0.3.0)
     netrc (0.11.0)
     nio4r (2.5.4)
-    nokogiri (1.11.0)
+    nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     nokogumbo (2.0.4)

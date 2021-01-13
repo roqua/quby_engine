@@ -7,7 +7,7 @@ nl:
   next: Verder
   abort: Later afmaken
   previous_questionnaire: Vorige vragenlijst
-  done: Opslaan
+  done: Klaar
   print_answers: Print antwoorden
   download_answers_pdf: Download als PDF
   pdf_download_failed_message: Het aanmaken van de download is helaas mislukt.
@@ -16,7 +16,7 @@ nl:
     explanation: Als u de vragenlijst toch opslaat, kan het zijn dat er geen schaalscores berekend worden omdat hiervoor onvoldoende informatie voorhanden is. U kunt uw antwoorden hieronder alsnog aanvullen. Vragen die nog niet volledig zijn beantwoord, worden rood gemarkeerd.
     save_anyway: Toch opslaan
   thanks_for_filling_out: Bedankt voor het invullen van deze vragenlijst. Uw antwoorden zijn opgeslagen.
-  ios_download_instruction: "Er opent een nieuw tabblad waarop de download wordt gestart.\n\nSla het bestand op in Boeken/iBooks. Keer dan terug naar de browser met de knop '< Safari' geheel linksboven.\n\nGa in de browser terug met de terug knop '<' en druk op 'Opslaan' om je invulling vast te leggen."
+  ios_download_instruction: "Er opent een nieuw tabblad waarop de download wordt gestart.\n\nSla het bestand op in Boeken/iBooks. Keer dan terug naar de browser met de knop '< Safari' geheel linksboven.\n\nGa in de browser terug met de terug knop '<' en druk op 'Klaar' om je invulling vast te leggen."
   validations:
     maximum:
       date: "De datum moet op of voor de dag %{friendly_date} liggen."
