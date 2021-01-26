@@ -391,6 +391,7 @@ shared_examples 'group_minimum_answered' do
     expect_error_on 'v_integer', 'answer_group_minimum'
     expect_error_on 'v_float', 'answer_group_minimum'
     expect_error_on 'v_date', 'answer_group_minimum'
+    expect_error_on 'v_slider', 'answer_group_minimum'
   end
 end
 
