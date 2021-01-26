@@ -15,6 +15,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    find('#item_v_slider .noUi-handle').click
     run_validations
     expect_no_errors
     expect_saved_value 'v_radio', 'a1'
@@ -27,6 +28,7 @@ shared_examples 'group_minimum_answered_tests' do
     expect_saved_value 'v_date_year', "2013"
     expect_saved_value 'v_date_month', "12"
     expect_saved_value 'v_date_day', "10"
+    expect_saved_value 'v_slider', '11'
   end
 
   it 'is not valid when radio question is not filled' do
@@ -166,7 +168,7 @@ shared_examples 'group_minimum_answered' do
   context 'minimum number of given answers in a group' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END
-        n = 8
+        n = 9
 
         panel do
           question :v_radio, type: :radio, question_group: :group1, group_minimum_answered: n do
@@ -209,6 +211,11 @@ shared_examples 'group_minimum_answered' do
           question :v_date, type: :date, question_group: :group1, group_minimum_answered: n,
                             year_key: :v_date_year, month_key: :v_date_month, day_key: :v_date_day do
             title "Enter a date"
+          end
+
+          question :v_slider, type: :float, as: :slider, size: 20, default_position: :hidden,
+                              question_group: :group1, group_minimum_answered: n do
+            title "Slider"
           end
         end; end_panel
       END
