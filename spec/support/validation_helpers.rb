@@ -45,7 +45,7 @@ module ClientSideValidationHelpers
   end
 
   # sets it half-way
-  def set_slider_value(question_key)
+  def set_slider_value(question_key, _value)
     find("#item_#{question_key} .noUi-base", visible: false).click
   end
 
