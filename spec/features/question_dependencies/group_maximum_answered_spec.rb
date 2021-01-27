@@ -482,6 +482,13 @@ shared_examples 'group_maximum_answered' do
             option :a1, value: 1, description: "Select Option 1"
             option :a2, value: 2, description: "Select Option 2"
           end
+
+          question :v_slider, type: :float, as: :slider, size: 20, default_position: :hidden,
+                              default_invisible: true,
+                              question_group: :grp1, group_maximum_answered: n do
+            title "Slider"
+            validates_in_range 0..100
+          end
         end; end_panel
       END
     end
