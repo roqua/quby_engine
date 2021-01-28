@@ -334,13 +334,15 @@ module Quby::Questionnaires::Entities
                                                  description_true: 'Test flag',
                                                  description_false: 'Test flag uit',
                                                  shows_questions: [:v_1],
-                                                 hides_questions: []),
+                                                 hides_questions: [],
+                                                 depends_on: []),
                                             'test_test2' => Quby::Questionnaires::Entities::Flag.new(
                                                 key: :test_test2,
                                                 description_true: 'Test flag 2',
                                                 description_false: 'Test flag 2 uit',
                                                 shows_questions: [],
-                                                hides_questions: [:v_2]) })
+                                                hides_questions: [:v_2],
+                                                depends_on: []) })
       end
     end
 
