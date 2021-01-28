@@ -44,6 +44,11 @@ module ClientSideValidationHelpers
     end
   end
 
+  # sets it half-way
+  def set_slider_value(question_key, _value)
+    find("#item_#{question_key} .noUi-base", visible: false).click
+  end
+
   def run_validations
     within '#panel0.current' do
       click_on 'Verder'
@@ -115,6 +120,10 @@ module ServerSideValidationHelpers
 
   def select_select_option(question_key, option_key)
     answer_to_submit[question_key] = option_key
+  end
+
+  def set_slider_value(question_key, value)
+    answer_to_submit[question_key] = value
   end
 
   def run_validations

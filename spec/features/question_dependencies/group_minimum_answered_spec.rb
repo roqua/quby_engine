@@ -15,6 +15,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_no_errors
     expect_saved_value 'v_radio', 'a1'
@@ -27,6 +28,7 @@ shared_examples 'group_minimum_answered_tests' do
     expect_saved_value 'v_date_year', "2013"
     expect_saved_value 'v_date_month', "12"
     expect_saved_value 'v_date_day', "10"
+    # expect_saved_value 'v_slider', '50' # occasional client side rounding issue :S
   end
 
   it 'is not valid when radio question is not filled' do
@@ -41,6 +43,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -57,6 +60,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -73,6 +77,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -89,6 +94,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -105,6 +111,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -121,6 +128,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -137,6 +145,7 @@ shared_examples 'group_minimum_answered_tests' do
     fill_in_question('v_date_year',  '2013')
     fill_in_question('v_date_month', '12')
     fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -153,6 +162,24 @@ shared_examples 'group_minimum_answered_tests' do
     # fill_in_question('v_date_year',  '2013')
     # fill_in_question('v_date_month', '12')
     # fill_in_question('v_date_day',   '10')
+    set_slider_value('v_slider', '50')
+    run_validations
+    expect_errors_on_group
+  end
+
+  it 'is not valid when slider question is not filled' do
+    select_radio_option 'v_radio', 'a1'
+    select_radio_option 'v_scale', 'a1'
+    select_select_option 'v_select', 'a1'
+    check_option 'v_ck_a1'
+    uncheck_option 'v_ck_a2'
+    fill_in_question 'v_string', 'kittens!'
+    fill_in_question 'v_integer', '37'
+    fill_in_question 'v_float', '4.2'
+    fill_in_question('v_date_year',  '2013')
+    fill_in_question('v_date_month', '12')
+    fill_in_question('v_date_day',   '10')
+    # set_slider_value('v_slider', '50')
     run_validations
     expect_errors_on_group
   end
@@ -166,7 +193,7 @@ shared_examples 'group_minimum_answered' do
   context 'minimum number of given answers in a group' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END
-        n = 8
+        n = 9
 
         panel do
           question :v_radio, type: :radio, question_group: :group1, group_minimum_answered: n do
@@ -210,6 +237,12 @@ shared_examples 'group_minimum_answered' do
                             year_key: :v_date_year, month_key: :v_date_month, day_key: :v_date_day do
             title "Enter a date"
           end
+
+          question :v_slider, type: :float, as: :slider, size: 20, default_position: :hidden,
+                              question_group: :group1, group_minimum_answered: n do
+            title "Slider"
+            validates_in_range 0..100
+          end
         end; end_panel
       END
     end
@@ -220,7 +253,7 @@ shared_examples 'group_minimum_answered' do
   context 'table-based minimum number of given answers in a group' do
     let(:questionnaire) do
       inject_questionnaire 'test', <<-END
-      n = 8
+      n = 9
 
       panel do
         table columns: 20 do
@@ -265,6 +298,12 @@ shared_examples 'group_minimum_answered' do
                             year_key: :v_date_year, month_key: :v_date_month, day_key: :v_date_day do
             title "Enter a date"
           end
+        end
+
+        question :v_slider, type: :float, as: :slider, size: 20, default_position: :hidden,
+                            question_group: :group1, group_minimum_answered: n do
+          title "Slider"
+          validates_in_range 0..100
         end
       end
       end_panel
@@ -352,6 +391,7 @@ shared_examples 'group_minimum_answered' do
     expect_error_on 'v_integer', 'answer_group_minimum'
     expect_error_on 'v_float', 'answer_group_minimum'
     expect_error_on 'v_date', 'answer_group_minimum'
+    expect_error_on 'v_slider', 'answer_group_minimum'
   end
 end
 
