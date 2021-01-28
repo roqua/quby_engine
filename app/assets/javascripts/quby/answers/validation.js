@@ -309,7 +309,9 @@
     var hidden = 0;
 
     for(var i = 0; i < groupItems.length; i++){
-      var inputs = $(groupItems[i]).find("input, textarea, select").not(":disabled, :hidden");
+      var inputs = $(groupItems[i]).find("input, textarea, select").not(":disabled, :hidden")
+              .add($(groupItems[i]).find("input.made-slider:hidden")); // slider inputs
+
       if (inputs.length == 0) {
         hidden++;
       } else {
