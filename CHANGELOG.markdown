@@ -1,3 +1,7 @@
+# 5.0.4
+
+* Fixed sliders not working correctly with group minimum/maximum answered validations 
+
 # 5.0.0
 
 * Questionnaires can now load from pre-compiled JSON.
