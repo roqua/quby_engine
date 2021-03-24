@@ -13,7 +13,6 @@ gem 'roqua-support'
 
 gem 'i18n'
 
-gem 'jquery-ui-rails', '~> 3.0.1'
 gem 'susy', '~> 2.2.12'
 gem 'compass-rails'
 
@@ -24,17 +23,13 @@ group :assets do
   gem 'uglifier'
 end
 
-platforms :ruby, :jruby do
-  gem 'therubyracer'
-end
-
 group :test do
   gem 'rails-controller-testing'
 end
 
 group :test, :development do
   gem 'guard-rspec',         '>= 4.2'
-  gem 'guard-teaspoon',      '~> 0.8'
+  gem 'guard-teaspoon'
   gem 'guard-spork',         '~> 2.1'
   gem 'guard-rubocop',       '~> 1.0'
   gem 'capybara',            '~> 3.0'

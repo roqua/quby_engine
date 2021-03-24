@@ -25,7 +25,7 @@ feature 'Editing a completed answer' do
     expect(find('#answer_v_1_a2')).to be_checked
 
     # make sure subquestions of selected answers are enabled
-    expect(find('#answer_v_1_a2_val')[:disabled]).to be_falsey
-    expect(find('#answer_v_1_a1_val')[:disabled]).to be_truthy
+    expect(find('#answer_v_1_a2_val')[:disabled]).to eq 'false'
+    expect(find('#answer_v_1_a1_val')[:disabled]).to eq 'true'
   end
 end

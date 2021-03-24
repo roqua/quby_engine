@@ -5,9 +5,25 @@ services:
     build:
       context: .
     command: bash
+    environment:
+      SELENIUM_HOST: selenium
+      SELENIUM_PORT: 4444
+      TEST_APP_PORT: 3000
+      RAILS_ENV: test
+      TEASPOON_RAILS_ENV: test
+    expose:
+    - 3000
+    depends_on:
+    - selenium
     volumes:
-      - ./:/app
-      - gems:/usr/local/bundle
+    - ./:/app
 
-volumes:
-  gems:
+  selenium:
+    image: selenium/standalone-chrome
+    shm_size: '2gb'
+    expose:
+    - 4444
+    logging: # Disable spamming irrelevant messages from this container
+      driver: none
+    environment:
+      TZ: "Europe/Amsterdam"

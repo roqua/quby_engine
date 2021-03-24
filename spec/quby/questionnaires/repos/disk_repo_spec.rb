@@ -13,7 +13,9 @@ module Quby::Questionnaires::Repos
     end
 
     context 'when integrated' do
-      it_behaves_like 'a valid backend for the questionnaires api'
+      it_behaves_like 'a valid backend for the questionnaires api' do
+        let(:repo) { DiskRepo.new('./spec/fixtures') }
+      end
     end
 
     context 'in isolation' do

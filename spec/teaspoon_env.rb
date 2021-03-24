@@ -18,9 +18,8 @@ unless defined? Rails
   require 'jquery-ui-rails'
   require 'combustion'
   Combustion.path = 'spec/internal'
-
   require 'quby'
-  require 'teaspoon'
+  require 'selenium-webdriver'
   require 'teaspoon-jasmine'
 
   if Rails.env.test? || Rails.env.development?
@@ -44,6 +43,37 @@ Teaspoon.configure do |config|
   # This determines where the Teaspoon routes will be mounted. Changing this to "/jasmine" would allow you to browse to
   # http://localhost:3000/jasmine to run your specs.
   config.mount_at = "/teaspoon"
+
+  config.driver = :selenium
+
+
+  chrome_options = Selenium::WebDriver::Chrome::Options.new(args: ['headless', 'disable-gpu'])
+  desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chrome_options: chrome_options
+  )
+  options = if ENV['SELENIUM_HOST'].present?
+    docker_ip = `hostname -i`.strip
+    config.server_host = docker_ip
+    config.server_port = ENV['TEST_APP_PORT']
+    http_client = Selenium::WebDriver::Remote::Http::Default.new(read_timeout: 20)
+    {
+      client_driver: :remote,
+      selenium_options: {
+        url: "http://#{ENV['SELENIUM_HOST']}:#{ENV['SELENIUM_PORT']}/wd/hub",
+        http_client: http_client,
+        desired_capabilities: desired_capabilities
+      }
+    }
+  else
+    {
+      client_driver: :chrome,
+      selenium_options: {
+        desired_capabilities: desired_capabilities
+      }
+    }
+  end
+
+  config.driver_options = options
 
   # This defaults to Rails.root if left nil. If you're testing an engine using a dummy application it can be useful to
   # set this to your engines root.. E.g. `Teaspoon::Engine.root`
