@@ -45,13 +45,22 @@ To generate PDF files, the html_to_pdf docker container must be running and an e
 ENV['HTML_TO_PDF_URL']      = 'http://127.0.0.1:7768'
 ```
 
+## Docker
+
+```bash
+docker-compose build
+docker-compose run test appraisal install # generate lockfiles in mounted local gemfiles. alernatively remove volume.
+docker-compose run --rm test bundle exec appraisal rails60 rspec
+docker-compose run --rm test bundle exec appraisal rails60 teaspoon -r spec/teaspoon_env.rb
+```
+
 ## Testing
 
 When testing with guard or teaspoon, choose the Rails version you want to use and set the teaspoon environment:
 
 ```ruby
-bundle exec appraisal rails52 bundle # install dependencies for Rails 5.2
-TEASPOON_RAILS_ENV=test bundle exec appraisal rails52 guard
+bundle exec appraisal rails60 bundle # install dependencies for Rails 6.0
+TEASPOON_RAILS_ENV=test bundle exec appraisal rails60 guard
 ```
 
 ## Contributing to Quby

@@ -11,9 +11,16 @@ variables:
 
 .ruby_25: &ruby_25
   <<: *ruby_before_script
-  image: registry.roqua.nl/roqua/docker-base-images:ruby-2.5
+  image: registry.roqua.nl/roqua/docker-base-images:ruby-2.6-builder
+  variables:
+    SELENIUM_HOST: gitlab-selenium-server
+    SELENIUM_PORT: 4444
+    TEST_APP_PORT: 3000
+  services:
+    - name: selenium/standalone-chrome
+      alias: gitlab-selenium-server
   cache:
-    key: ruby_25
+    key: ruby_25c
     paths:
       - .gems
 
@@ -22,13 +29,13 @@ rails_52_ruby_25:
   script:
     - cat gemfiles/rails52.gemfile.lock
     - bundle exec appraisal rails52 rspec
-    - bundle exec appraisal rails52 teaspoon
 
-rails_60_ruby_25:
+rails_60_ruby_25: 
   <<: *ruby_25
   script:
     - cat gemfiles/rails60.gemfile.lock
     - bundle exec appraisal rails60 rspec
+    - bundle exec appraisal rails60 teaspoon -r spec/teaspoon_env.rb
 
 dependency_scanning:
   image: registry.roqua.nl/roqua/dependency_scanning

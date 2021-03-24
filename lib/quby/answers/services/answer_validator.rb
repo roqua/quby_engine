@@ -126,6 +126,11 @@ module Quby
         end
 
         def validate_regexp(question, validation, value)
+          # We have decided not to allow bypassing this validation when
+          # aborted, since whatever is using this data further on is likely not
+          # built to take into account values that do not conform to the given
+          # format.
+
           return if value.blank?
           match = validation[:matcher].match(value)
           unless match && match[0] == value
@@ -134,6 +139,11 @@ module Quby
         end
 
         def validate_minimum(question, validation, value)
+          # We have decided not to allow bypassing this validation when
+          # aborted, since whatever is using this data further on is likely not
+          # built to take into account values outside the intended range. (e.g.
+          # BMI calculation)
+
           return if value.blank? || (question.type == :date && value.values.all?(&:empty?))
           converted_answer_value = convert_answer_value(question, value)
           if converted_answer_value < validation[:value]
@@ -142,7 +152,13 @@ module Quby
         end
 
         def validate_maximum(question, validation, value)
+          # We have decided not to allow bypassing this validation when
+          # aborted, since whatever is using this data further on is likely not
+          # built to take into account values outside the intended range. (e.g.
+          # BMI calculation)
+
           return if value.blank? || (question.type == :date && value.values.all?(&:blank?))
+
           converted_answer_value = convert_answer_value(question, value)
           if converted_answer_value > validation[:value]
             answer.send(:add_error, question, validation[:type], validation[:message] || "Exceeds maximum")
@@ -150,12 +166,24 @@ module Quby
         end
 
         def validate_too_many_checked(question, validation, value)
+          # We have decided not to allow bypassing this validation when
+          # aborted, since it's possible to make a decision about which fields
+          # to keep and which ones to blank. If you want to do anything at all
+          # with this completion, you'll need to decide that at some point
+          # anyway, so we think it's best to do that as early as possible.
+
           if answer.send(question.uncheck_all_option) == 1 and value.values.reduce(:+) > 1
             answer.send(:add_error, question, :too_many_checked, validation[:message] || "Invalid combination of options.")
           end
         end
 
         def validate_not_all_checked(question, validation, value)
+          # We have decided not to allow bypassing this validation when
+          # aborted, since it's possible to make a decision about which fields
+          # to keep and which ones to blank. If you want to do anything at all
+          # with this completion, you'll need to decide that at some point
+          # anyway, so we think it's best to do that as early as possible.
+
           if answer.send(question.check_all_option) == 1 and
               value.values.reduce(:+) < value.length - (question.uncheck_all_option ? 1 : 0)
             answer.send(:add_error, question, :not_all_checked, validation[:message] || "Invalid combination of options.")
@@ -163,18 +191,28 @@ module Quby
         end
 
         def validate_maximum_checked_allowed(question, validation, value)
+          # We have decided not to allow bypassing this validation when
+          # aborted, since it's possible to make a decision about which fields
+          # to keep and which ones to blank. If you want to do anything at all
+          # with this completion, you'll need to decide that at some point
+          # anyway, so we think it's best to do that as early as possible.
+
           if value.values.reduce(:+) > question.maximum_checked_allowed.to_i
             answer.send(:add_error, question, :maximum_checked_allowed, validation[:message] || "Too many options checked.")
           end
         end
 
         def validate_minimum_checked_required(question, validation, value)
+          return if @answer.aborted
+
           if value.values.reduce(:+) < question.minimum_checked_required.to_i
             answer.send(:add_error, question, :minimum_checked_required, validation[:message] || "Not enough options checked.")
           end
         end
 
         def validate_answer_group_minimum(question, validation, value)
+          return if @answer.aborted
+
           answered = answer.send(:calc_answered, answer.question_groups[validation[:group]])
           if answered < validation[:value]
             answer.send(:add_error, question, :answer_group_minimum,
@@ -183,6 +221,12 @@ module Quby
         end
 
         def validate_answer_group_maximum(question, validation, value)
+          # We have decided not to allow bypassing this validation when
+          # aborted, since it's possible to make a decision about which fields
+          # to keep and which ones to blank. If you want to do anything at all
+          # with this completion, you'll need to decide that at some point
+          # anyway, so we think it's best to do that as early as possible.
+
           answered = answer.send(:calc_answered, answer.question_groups[validation[:group]])
           if answered > validation[:value]
             answer.send(:add_error, question, :answer_group_maximum,

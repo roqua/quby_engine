@@ -46,16 +46,27 @@ require 'quby/answers/specs'
 require 'quby/questionnaires/specs'
 
 Capybara.default_selector = :css
+if ENV['SELENIUM_HOST'].present? && ENV['TEST_APP_PORT'].present?
+  # we live in docker-compose,
+  # dependencies can't easily link back to main service by using service name as hostname,
+  # so we find our ip.
+  docker_ip = `hostname -i`.strip
+  Capybara.app_host = "http://#{docker_ip}" #:#{ENV['TEST_APP_PORT']}"
+  Capybara.server_host = '0.0.0.0'
+  Capybara.server_port = ENV['TEST_APP_PORT']
+  selenium_url = "http://#{ENV['SELENIUM_HOST']}:#{ENV['SELENIUM_PORT']}/wd/hub"
+end
+Capybara.always_include_port = true
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument('--headless')
   options.add_argument('--disable-gpu')
   options.add_argument('--no-sandbox')
 
-  Capybara::Selenium::Driver.new(app,
+  Capybara::Selenium::Driver.new app,
                                  browser: :chrome,
+                                 url: selenium_url,
                                  options: options
-  )
 end
 Capybara.javascript_driver = :selenium_chrome_headless
 Capybara::Screenshot.register_driver(:selenium_chrome_headless) do |driver, path|
