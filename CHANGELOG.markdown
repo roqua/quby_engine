@@ -1,3 +1,7 @@
+# 5.0.5
+
+* Fixed that abortable answer could not skip some "required-like" validations (min group answered)
+
 # 5.0.4
 
 * Fixed sliders not working correctly with group minimum/maximum answered validations 
