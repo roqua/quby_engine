@@ -11,7 +11,7 @@ variables:
 
 .ruby_25: &ruby_25
   <<: *ruby_before_script
-  image: registry.roqua.nl/roqua/docker-base-images:ruby-2.6-builder
+  image: registry.roqua.nl/roqua/docker-base-images:ruby-2.7-builder
   variables:
     SELENIUM_HOST: gitlab-selenium-server
     SELENIUM_PORT: 4444

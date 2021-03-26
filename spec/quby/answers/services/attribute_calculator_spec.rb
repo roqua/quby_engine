@@ -87,7 +87,7 @@ describe Quby::Answers::Services::AttributeCalculator do
     expect(calculator.hidden).to eq []
   end
 
-  def make_answer(value = {}, flags: {})
+  def make_answer(flags: {}, **value)
     Quby::Answers::Entities::Answer.new(questionnaire_key: 'test', value: value, flags: flags).tap(&:enhance_by_dsl)
   end
 end

@@ -13,7 +13,7 @@ module Quby
         end
 
         def build
-          Quby::Answers::Entities::Answer.new(attributes)
+          Quby::Answers::Entities::Answer.new(**attributes)
         end
 
         private

@@ -61,7 +61,7 @@ module Quby
         end
 
         def entity(record)
-          entity_class.new(record.to_h).tap(&:enhance_by_dsl)
+          entity_class.new(**record.to_h).tap(&:enhance_by_dsl)
         end
       end
     end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-def create_new_answer_for(questionnaire, answer_value = {}, flags: {}, textvars: {})
+def create_new_answer_for(questionnaire, flags: {}, textvars: {}, **answer_value)
   allow_any_instance_of(Quby::AnswersController).to receive(:verify_hmac).and_return(true)
   allow_any_instance_of(Quby::AnswersController).to receive(:verify_token).and_return(true)
   Quby.answers.create!(questionnaire.key, value: answer_value, flags: flags, textvars: textvars)
