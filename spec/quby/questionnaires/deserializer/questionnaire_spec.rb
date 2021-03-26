@@ -86,7 +86,7 @@ describe Quby::Questionnaires::Deserializer do
   end
 
   it 'does not accept invalid sbg_domains options' do
-    expect { dsl { sbg_domain '02', foo: 'bar' } }.to raise_exception(ArgumentError, "missing keyword: outcome")
+    expect { dsl { sbg_domain '02', foo: 'bar' } }.to raise_exception(ArgumentError, "missing keyword: :outcome")
   end
 
   it 'can be abortable' do

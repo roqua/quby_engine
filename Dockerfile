@@ -1,4 +1,4 @@
-FROM registry.roqua.nl/roqua/docker-base-images:ruby-2.6-builder AS base
+FROM registry.roqua.nl/roqua/docker-base-images:ruby-2.7-builder AS base
 
 ENV GEM_HOME="/usr/local/bundle"
 ENV PATH $GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH

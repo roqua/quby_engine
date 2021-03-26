@@ -18,14 +18,17 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.required_ruby_version = '>= 2.0'
-  s.add_dependency "rails", ">= 4.2", '< 6.1'
+  s.add_dependency "actionpack", ">= 4.2", "< 6.1"
+  s.add_dependency "activerecord", ">= 4.2", "< 6.1"
+  s.add_dependency "railties", ">= 4.2", "< 6.1"
+  s.add_dependency "sprockets-rails", ">= 2.0.0"
   s.add_dependency 'rails-i18n'
 
   s.add_dependency 'nokogiri', '>= 1.8'
   s.add_dependency 'nokogumbo'
 
   # External (web-)services
-  s.add_dependency "opencpu",       '~> 0.12.0'
+  s.add_dependency "opencpu",       '~> 0.13.0'
 
   # Views
   s.add_dependency 'coffee-rails'

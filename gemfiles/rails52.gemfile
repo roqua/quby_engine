@@ -7,9 +7,11 @@ gem "roqua-support"
 gem "i18n"
 gem "susy", "~> 2.2.12"
 gem "compass-rails"
-gem "rails", "~> 5.2.0"
+gem "actionpack", "~> 5.2.0"
+gem "activerecord", "~> 5.2.0"
+gem "railties", "~> 5.2.0"
 gem "sprockets-rails", "~> 2.3.3"
-gem "jquery-rails", "~> 4.2.2"
+gem "jquery-rails", "~> 4.2"
 
 group :assets do
   gem "coffee-rails"

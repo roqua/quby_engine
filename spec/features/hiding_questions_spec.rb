@@ -66,7 +66,7 @@ feature 'Hiding and showing questions' do
     end
 
     scenario 'by visiting an answer with a flag that hides a question set to true', js: true do
-      answer = create_new_answer_for(questionnaire, {}, flags: {question_hiding_hides_flag: true})
+      answer = create_new_answer_for(questionnaire, flags: {question_hiding_hides_flag: true})
       visit_new_answer_for(questionnaire, "paged", answer)
       expect(page).to have_selector("#item_v_7.hide", visible: false)
     end
@@ -250,7 +250,7 @@ feature 'Hiding and showing questions' do
     end
 
     scenario 'by visiting an answer with a flag that shows a question set to true', js: true do
-      answer = create_new_answer_for(questionnaire, {}, flags: {question_hiding_shows_flag: true})
+      answer = create_new_answer_for(questionnaire, flags: {question_hiding_shows_flag: true})
       visit_new_answer_for(questionnaire, "paged", answer)
       goto_second_page
       expect(page).to have_selector("[data-for=v_9].show", count: 8)

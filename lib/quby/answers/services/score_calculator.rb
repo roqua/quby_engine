@@ -12,7 +12,8 @@ module Quby
         class MissingAnswerValues < StandardError
           attr_reader :questionnaire_key, :values, :missing
 
-          def initialize(questionnaire_key:, values:, missing:)
+          def initialize(msg = nil, questionnaire_key:, values:, missing:)
+            super(msg)
             @questionnaire_key = questionnaire_key
             @values = values
             @missing = missing
@@ -21,8 +22,8 @@ module Quby
 
         # Evaluates block within the context of a new calculator
         # instance. All instance methods are accessible.
-        def self.calculate(*args, &block)
-          instance = new(*args)
+        def self.calculate(**kwargs, &block)
+          instance = new(**kwargs)
           result = instance.instance_eval(&block)
           result = result.merge(referenced_values: instance.referenced_values) if result.respond_to?(:merge)
           result
@@ -246,9 +247,10 @@ module Quby
           unanswered_keys = keys.select { |key| missing_value?(@values[key], missing_values: missing_values) }
 
           if unanswered_keys.size > keys.size - minimum_present
-            fail MissingAnswerValues, questionnaire_key: @questionnaire.key,
-                                      values: @values,
-                                      missing: unanswered_keys
+            raise MissingAnswerValues.new \
+                    questionnaire_key: @questionnaire.key,
+                    values: @values,
+                    missing: unanswered_keys
           end
         end
 

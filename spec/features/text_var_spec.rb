@@ -59,14 +59,14 @@ feature 'textvar replacement', js: true do
       end
     END
 
-    answer = create_new_answer_for(questionnaire, {}, textvars: {test_thing: 'car'})
+    answer = create_new_answer_for(questionnaire, textvars: {test_thing: 'car'})
     visit_new_answer_for(questionnaire, 'paged', answer)
     # sets the variable in the any markdown enabled text.
     expect(page).to have_content 'Yo dawg I herd you like cars so we put a car in your car'
     # sets the value of input with sets_textvar to the textvar if given.
     expect(page).to have_selector("#answer_v_1[value='car']")
 
-    answer = create_new_answer_for(questionnaire, {'v_1' => 'new_value'}, textvars: {test_thing: 'car'})
+    answer = create_new_answer_for(questionnaire, 'v_1' => 'new_value', textvars: {test_thing: 'car'})
     visit_new_answer_for(questionnaire, 'paged', answer)
     # does not overwrite the input with set_textvar, if a value is present
     expect(page).to have_selector("#answer_v_1[value='new_value']")
@@ -84,7 +84,7 @@ feature 'textvar replacement', js: true do
       end
     END
 
-    answer = create_new_answer_for(questionnaire, {}, textvars: {test_thing: 'car'})
+    answer = create_new_answer_for(questionnaire, textvars: {test_thing: 'car'})
     visit_new_answer_for(questionnaire, 'paged', answer)
 
     expect(page).to have_content 'car not'
