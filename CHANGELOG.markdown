@@ -1,3 +1,9 @@
+# 5.1.0
+
+Only support ruby 2.7 and up.
+Only specify needed rails dependencies.
+Fix kwargs warnings
+
 # 5.0.5
 
 * Fixed that abortable answer could not skip some "required-like" validations (min group answered)
