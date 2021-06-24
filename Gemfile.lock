@@ -1,9 +1,9 @@
 GIT
   remote: https://gitlab.roqua.nl/roqua/quby-compiler
-  revision: f5c9742b421c7c28972d2ea6b21842ef71cae297
+  revision: 896e1b7ed95029bc2f033c8596e9bae9eaae7a8e
   branch: main
   specs:
-    quby-compiler (0.3.2)
+    quby-compiler (0.3.5)
       actionview (>= 5.0)
       activemodel (>= 5.0)
       activesupport (>= 5.0)
