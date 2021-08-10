@@ -1,3 +1,7 @@
+# 5.1.1
+
+* Update to quby-compiler 0.3.6
+
 # 5.1.0
 
 Only support ruby 2.7 and up.
