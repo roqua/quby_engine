@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.required_ruby_version = '>= 2.7'
-  s.add_dependency "actionpack", ">= 4.2", "< 6.1"
+  s.add_dependency "actionpack", ">= 4.2", "< 7.1"
   s.add_dependency "activerecord", ">= 4.2", "< 6.1"
   s.add_dependency "railties", ">= 4.2", "< 6.1"
   s.add_dependency "sprockets-rails", ">= 2.0.0"
