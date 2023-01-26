@@ -49,7 +49,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rest-client", "~> 2.0.2"
 
   s.add_dependency "jquery-rails", ">= 4.2.2"
-  s.add_dependency "jquery-ui-rails", "~> 4.2.1"
+  s.add_dependency "jquery-ui-rails", ">= 4.2.1", "< 6.1.0"
 
   s.add_development_dependency 'combustion',  '~> 1.0'
   s.add_development_dependency 'rspec',       '>= 3'
